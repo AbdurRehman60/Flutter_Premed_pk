@@ -12,33 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: MyHomePage(),
+      home: components(),
     );
   }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  //     gradient: LinearGradient(colors: [
-                  //   PreMedColorTheme().primaryColorBlue,
-                  //   PreMedColorTheme().primaryColorRed200
-                  // ])),
-
-                  gradient: PreMedColorTheme().primaryGradient),
-            ),
-            Container(
-              child: CustomButton(
-                  buttonText: "Click me",
-                  onPressed: () {
-                    print('Button Clicked');
-                  }),
-            )
-          ],
-        ),
-      );
 }
