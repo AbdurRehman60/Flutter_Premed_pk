@@ -88,21 +88,21 @@ class CustomTextField extends StatelessWidget {
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-            color: PreMedColorTheme().primaryColorRed200,
+            color: PreMedColorTheme().standardblack,
           ),
         ),
         enabledBorder: enabledBorder ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: PreMedColorTheme().primaryColorRed500,
+                color: PreMedColorTheme().standardblack,
               ),
             ),
         focusedBorder: focusedBorder ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: PreMedColorTheme().primaryColorRed,
+                color: PreMedColorTheme().standardblack,
               ),
             ),
         errorBorder: errorBorder ??
@@ -121,7 +121,7 @@ class CustomTextField extends StatelessWidget {
         hintStyle: hintStyle ??
             PreMedTextTheme()
                 .body
-                .copyWith(color: PreMedColorTheme().primaryColorRed200),
+                .copyWith(color: PreMedColorTheme().neutral400),
         isDense: isDense,
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
@@ -133,7 +133,7 @@ class CustomTextField extends StatelessWidget {
             ? labelStyle ?? PreMedTextTheme().body
             : PreMedTextTheme()
                 .body
-                .copyWith(color: PreMedColorTheme().primaryColorRed200),
+                .copyWith(color: PreMedColorTheme().neutral400),
         alignLabelWithHint: alignLabelWithText,
       ),
       onTap: onTap,
