@@ -41,6 +41,12 @@ class PreMedTextTheme {
         fontSize: 18.0,
         fontWeight: FontWeights.semiBold,
       );
+  TextStyle get small => _baseTextStyle.copyWith(
+      fontSize: 16.0,
+      fontWeight: FontWeights.regular,
+      color: PreMedColorTheme().neutral400
+      // color: PreMedColorTheme().standardwhite
+      );
 }
 
 extension FontWeights on FontWeight {
