@@ -120,7 +120,7 @@ class CustomTextField extends StatelessWidget {
         hintText: hintText,
         hintStyle: hintStyle ??
             PreMedTextTheme()
-                .body
+                .subtext
                 .copyWith(color: PreMedColorTheme().neutral400),
         isDense: isDense,
         suffixIcon: suffixIcon,
@@ -130,9 +130,9 @@ class CustomTextField extends StatelessWidget {
         suffixIconConstraints: suffixIconConstraints,
         labelText: labelText,
         labelStyle: enabled
-            ? labelStyle ?? PreMedTextTheme().body
+            ? labelStyle ?? PreMedTextTheme().subtext
             : PreMedTextTheme()
-                .body
+                .subtext
                 .copyWith(color: PreMedColorTheme().neutral400),
         alignLabelWithHint: alignLabelWithText,
       ),

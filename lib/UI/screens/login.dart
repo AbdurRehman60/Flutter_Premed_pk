@@ -1,7 +1,7 @@
 import 'package:premedpk_mobile_app/export.dart';
 
-class loginpage extends StatelessWidget {
-  const loginpage({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +82,7 @@ class loginpage extends StatelessWidget {
                   child: CustomButton(
                       buttonText: "Login",
                       onPressed: () {
+                        // ignore: avoid_print
                         print('Button Clicked');
                       }),
                 ),

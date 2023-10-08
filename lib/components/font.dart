@@ -23,9 +23,9 @@ class PreMedTextTheme {
       );
 
   TextStyle get heading3 => _baseTextStyle.copyWith(
-        fontSize: 28.0,
-        fontWeight: FontWeights.semiBold,
-      );
+      fontSize: 28.0,
+      fontWeight: FontWeights.semiBold,
+      color: PreMedColorTheme().standardwhite);
 
   TextStyle get title => _baseTextStyle.copyWith(
         fontSize: 24.0,
