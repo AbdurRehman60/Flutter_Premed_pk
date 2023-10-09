@@ -7,4 +7,4 @@ export 'package:premedpk_mobile_app/constants/sized_boxes.dart';
 export 'package:premedpk_mobile_app/UI/Widgets/custom_button.dart';
 export 'package:premedpk_mobile_app/UI/Widgets/custom_textfield.dart';
 export 'package:premedpk_mobile_app/components.dart';
-export 'package:premedpk_mobile_app/UI/screens/login.dart';
+export 'package:premedpk_mobile_app/UI/screens/Login/login.dart';

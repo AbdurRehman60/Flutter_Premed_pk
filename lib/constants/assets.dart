@@ -1,4 +1,4 @@
 class PremedAssets {
   PremedAssets._();
-  static String premedLogo = 'assets/PreMedLogo.png';
+  static String PrMedLogo = 'assets/PreMedLogo.png';
 }
