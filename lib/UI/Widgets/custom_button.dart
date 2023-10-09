@@ -34,7 +34,7 @@ class CustomButton extends StatelessWidget {
                 : () {},
             style: ElevatedButton.styleFrom(
               backgroundColor: isActive
-                  ? PreMedColorTheme().standardwhite
+                  ? PreMedColorTheme().white
                   : PreMedColorTheme().primaryColorRed,
               side: BorderSide(
                   width: 1.0,
@@ -46,10 +46,10 @@ class CustomButton extends StatelessWidget {
               buttonText,
               style: isActive
                   ? PreMedTextTheme()
-                      .title
+                      .heading5
                       .copyWith(color: PreMedColorTheme().primaryColorRed)
                   : PreMedTextTheme()
-                      .title
+                      .heading5
                       .copyWith(color: PreMedColorTheme().primaryColorRed),
             ),
           )
@@ -74,15 +74,16 @@ class CustomButton extends StatelessWidget {
                         size: iconSize,
                         color: isOutlined
                             ? PreMedColorTheme().primaryColorRed
-                            : PreMedColorTheme().standardwhite,
+                            : PreMedColorTheme().white,
                       ),
                       SizedBoxes.horizontalMicro,
                       Text(
                         buttonText,
                         style: isActive
-                            ? PreMedTextTheme().title.copyWith(
-                                color: PreMedColorTheme().standardwhite)
-                            : PreMedTextTheme().title.copyWith(
+                            ? PreMedTextTheme()
+                                .heading5
+                                .copyWith(color: PreMedColorTheme().white)
+                            : PreMedTextTheme().heading5.copyWith(
                                 color: PreMedColorTheme().primaryColorRed),
                       ),
                     ],
@@ -91,9 +92,9 @@ class CustomButton extends StatelessWidget {
                     buttonText,
                     style: isActive
                         ? PreMedTextTheme()
-                            .title
-                            .copyWith(color: PreMedColorTheme().standardwhite)
-                        : PreMedTextTheme().title.copyWith(
+                            .heading5
+                            .copyWith(color: PreMedColorTheme().white)
+                        : PreMedTextTheme().heading5.copyWith(
                             color: PreMedColorTheme().primaryColorRed),
                   ),
           );

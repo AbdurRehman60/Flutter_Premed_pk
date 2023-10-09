@@ -88,21 +88,21 @@ class CustomTextField extends StatelessWidget {
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-            color: PreMedColorTheme().standardblack,
+            color: PreMedColorTheme().black,
           ),
         ),
         enabledBorder: enabledBorder ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: PreMedColorTheme().standardblack,
+                color: PreMedColorTheme().black,
               ),
             ),
         focusedBorder: focusedBorder ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: PreMedColorTheme().standardblack,
+                color: PreMedColorTheme().black,
               ),
             ),
         errorBorder: errorBorder ??
@@ -142,7 +142,7 @@ class CustomTextField extends StatelessWidget {
       controller: _controller,
       onChanged: onChanged,
       validator: validator,
-      style: contentStyle ?? PreMedTextTheme().title.copyWith(height: 1.5),
+      style: contentStyle ?? PreMedTextTheme().body.copyWith(height: 1.5),
       maxLines: maxLines,
       minLines: minLines,
     );

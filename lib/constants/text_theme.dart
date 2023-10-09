@@ -1,4 +1,5 @@
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/constants/color_theme.dart';
 
 class PreMedTextTheme {
   PreMedTextTheme({
@@ -7,12 +8,12 @@ class PreMedTextTheme {
             fontFamily: fontFamily,
             fontWeight: FontWeights.regular,
             height: 1.2,
-            color: PreMedColorTheme().standardblack);
+            color: PreMedColorTheme().black);
 
   final String fontFamily;
   final TextStyle _baseTextStyle;
 
-  TextStyle get heading => _baseTextStyle.copyWith(
+  TextStyle get heading1 => _baseTextStyle.copyWith(
         fontSize: 36.0,
         fontWeight: FontWeights.semiBold,
       );
@@ -23,12 +24,22 @@ class PreMedTextTheme {
       );
 
   TextStyle get heading3 => _baseTextStyle.copyWith(
-      fontSize: 28.0,
-      fontWeight: FontWeights.semiBold,
-      color: PreMedColorTheme().standardwhite);
+        fontSize: 28.0,
+        fontWeight: FontWeights.semiBold,
+      );
 
-  TextStyle get title => _baseTextStyle.copyWith(
+  TextStyle get heading4 => _baseTextStyle.copyWith(
         fontSize: 24.0,
+        fontWeight: FontWeights.semiBold,
+      );
+
+  TextStyle get heading5 => _baseTextStyle.copyWith(
+        fontSize: 20.0,
+        fontWeight: FontWeights.semiBold,
+      );
+
+  TextStyle get heading6 => _baseTextStyle.copyWith(
+        fontSize: 18.0,
         fontWeight: FontWeights.semiBold,
       );
 
@@ -38,15 +49,16 @@ class PreMedTextTheme {
       );
 
   TextStyle get subtext => _baseTextStyle.copyWith(
-        fontSize: 18.0,
-        fontWeight: FontWeights.semiBold,
+        fontSize: 16.0,
+        fontWeight: FontWeights.medium,
       );
-  TextStyle get small => _baseTextStyle.copyWith(
-      fontSize: 16.0,
-      fontWeight: FontWeights.regular,
-      color: PreMedColorTheme().neutral400
-      // color: PreMedColorTheme().standardwhite
-      );
+
+  // TextStyle get small => _baseTextStyle.copyWith(
+  //     fontSize: 16.0,
+  //     fontWeight: FontWeights.regular,
+  //     color: PreMedColorTheme().neutral400
+  //     // color: PreMedColorTheme().standardwhite
+  //     );
 }
 
 extension FontWeights on FontWeight {
