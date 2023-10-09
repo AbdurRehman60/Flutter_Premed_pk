@@ -33,7 +33,7 @@ class ComponentScreen extends StatelessWidget {
                 ),
                 SizedBoxes.verticalBig,
                 Container(
-                  height: 40,
+                  height: 45,
                   width: MediaQuery.sizeOf(context).width,
                   decoration:
                       BoxDecoration(color: PreMedColorTheme().primaryColorRed),
@@ -52,7 +52,7 @@ class ComponentScreen extends StatelessWidget {
                 ),
                 SizedBoxes.verticalMicro,
                 Container(
-                  height: 40,
+                  height: 45,
                   width: MediaQuery.sizeOf(context).width,
                   decoration:
                       BoxDecoration(color: PreMedColorTheme().primaryColorBlue),
@@ -70,7 +70,7 @@ class ComponentScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: 40,
+                  height: 45,
                   width: MediaQuery.sizeOf(context).width,
                   decoration: BoxDecoration(
                       gradient: PreMedColorTheme().primaryRedGradient),
