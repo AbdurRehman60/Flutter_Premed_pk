@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
                   child: Text(
                     'Welcome Back,',
                     textAlign: TextAlign.center,
-                    style: PreMedTextTheme().heading,
+                    style: PreMedTextTheme().heading1,
                     // selectionColor: PreMedColorTheme().standardwhite,
                   ),
                 ),
@@ -49,7 +49,7 @@ class LoginPage extends StatelessWidget {
                   child: Text(
                     'Ready to persue you medical Dreams?',
                     textAlign: TextAlign.center,
-                    style: PreMedTextTheme().small,
+                    style: PreMedTextTheme().heading6,
                   ),
                 ),
                 Padding(
@@ -57,7 +57,7 @@ class LoginPage extends StatelessWidget {
                   child: Text(
                     'Sign in to continue your journey',
                     textAlign: TextAlign.left,
-                    style: PreMedTextTheme().small,
+                    style: PreMedTextTheme().heading6,
                   ),
                 ),
                 SizedBoxes.verticalBig,
@@ -89,7 +89,7 @@ class LoginPage extends StatelessWidget {
                 SizedBoxes.verticalLarge,
                 Text(
                   'I forgot my password.',
-                  style: PreMedTextTheme().small,
+                  style: PreMedTextTheme().heading6,
                 ),
                 SizedBoxes.verticalLarge,
                 Row(
