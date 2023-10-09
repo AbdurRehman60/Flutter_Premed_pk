@@ -142,7 +142,7 @@ class CustomTextField extends StatelessWidget {
       controller: _controller,
       onChanged: onChanged,
       validator: validator,
-      style: contentStyle ?? PreMedTextTheme().body.copyWith(height: 1.5),
+      style: contentStyle ?? PreMedTextTheme().body,
       maxLines: maxLines,
       minLines: minLines,
     );
