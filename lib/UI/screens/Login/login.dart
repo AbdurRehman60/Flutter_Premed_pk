@@ -1,5 +1,6 @@
 // import 'package:flutter/material.dart';
 // import 'package:pre_med_app/export.dart';
+import 'package:premedpk_mobile_app/constants/Google_Button.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -19,7 +20,7 @@ class LoginScreen extends StatelessWidget {
             children: [
               Align(
                   alignment: Alignment.topLeft,
-                  child: Image.asset(PremedAssets.PrMedLogo)),
+                  child: Image.asset('assets/images/PreMedLogo.png')),
               SizedBoxes.verticalBig,
               Text(
                 'Welcome Back!',
@@ -59,15 +60,15 @@ class LoginScreen extends StatelessWidget {
                   }),
               SizedBoxes.verticalBig,
 
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Divider(
-                    color: PreMedColorTheme().black,
-                    thickness: 5,
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisSize: MainAxisSize.min,
+              //   children: [
+              //     Divider(
+              //       color: PreMedColorTheme().black,
+              //       thickness: 5,
+              //     ),
+              //   ],
+              // ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
               //   children: [
@@ -83,7 +84,12 @@ class LoginScreen extends StatelessWidget {
               //   ],
               // ),
               SizedBoxes.verticalLarge,
-              // GoogleSignin(),
+              // Row(
+              //   children: [
+              //     GoogleSignin(),
+              //   ],
+              // ),// to do later
+              //g GoogleSignin(),
             ],
           ),
         ),
