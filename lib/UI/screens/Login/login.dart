@@ -43,12 +43,14 @@ class LoginScreen extends StatelessWidget {
                     .copyWith(color: PreMedColorTheme().neutral500),
               ),
               SizedBoxes.verticalBig,
-              const CustomTextField(
+              CustomTextField(
+                onPressed: () {},
                 labelText: 'Email',
                 hintText: 'John.doe@gmail.com',
               ),
               SizedBoxes.verticalBig,
-              const CustomTextField(
+              CustomTextField(
+                  onPressed: () {},
                   labelText: "Password",
                   hintText: "PASSWORD",
                   obscureText: true),

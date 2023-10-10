@@ -47,7 +47,7 @@ class CustomButton extends StatelessWidget {
               style: isActive
                   ? PreMedTextTheme()
                       .heading5
-                      .copyWith(color: PreMedColorTheme().primaryColorRed)
+                      .copyWith(color: PreMedColorTheme().black)
                   : PreMedTextTheme()
                       .heading5
                       .copyWith(color: PreMedColorTheme().primaryColorRed),

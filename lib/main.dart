@@ -1,21 +1,23 @@
-// import 'package:premedpk_mobile_app/UI/screens/Signup/Signup.dart';
-// import 'package:premedpk_mobile_app/UI/screens/onboarding/On_Boarding.dart';
-import 'package:premedpk_mobile_app/UI/screens/onboarding/ON_Boarding1.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/constants/premed_theme.dart';
+
+import 'export.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  PreMedTheme _PreMedTheme = PreMedTheme();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: OnBoarding1(),
+      debugShowCheckedModeBanner: false,
+      theme: _PreMedTheme.data,
+      home: RequiredOnboarding(),
     );
   }
 }

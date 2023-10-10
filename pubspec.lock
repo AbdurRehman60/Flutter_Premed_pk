@@ -81,6 +81,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  country_code_picker:
+    dependency: "direct main"
+    description:
+      name: country_code_picker
+      sha256: "92818885f0e47486539f80463b66f649970506a91dd3c0731ca3ba5308324a4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
+  country_picker:
+    dependency: "direct main"
+    description:
+      name: country_picker
+      sha256: e440350c2f6397955499d5a647cc90599ba3048651c6858370483f55c346b525
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.21"
   crypto:
     dependency: transitive
     description:
@@ -105,6 +121,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  drop_down_list:
+    dependency: "direct main"
+    description:
+      name: drop_down_list
+      sha256: ffb54a1464d8c051f9ec7be6c5e86a4bd59297fe8a93f2942a91a96197d0abc2
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -184,6 +208,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.5"
+  intl_phone_field:
+    dependency: "direct main"
+    description:
+      name: intl_phone_field
+      sha256: "73819d3dfcb68d2c85663606f6842597c3ddf6688ac777f051b17814fe767bbf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
   intl_utils:
     dependency: "direct main"
     description:
@@ -341,6 +373,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
+  universal_io:
+    dependency: transitive
+    description:
+      name: universal_io
+      sha256: "1722b2dcc462b4b2f3ee7d188dad008b6eb4c40bbd03a3de451d82c78bba9aad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.2"
   vector_math:
     dependency: transitive
     description:

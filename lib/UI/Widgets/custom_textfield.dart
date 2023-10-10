@@ -37,6 +37,7 @@ class CustomTextField extends StatelessWidget {
     this.enabled = true,
     this.validator,
     this.cursorColor,
+    required Null Function() onPressed,
   })  : _controller = controller,
         super(key: key);
 
@@ -142,7 +143,7 @@ class CustomTextField extends StatelessWidget {
       controller: _controller,
       onChanged: onChanged,
       validator: validator,
-      style: contentStyle ?? PreMedTextTheme().body,
+      style: contentStyle ?? PreMedTextTheme().subtext,
       maxLines: maxLines,
       minLines: minLines,
     );

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
+import 'package:premedpk_mobile_app/utils/Data/country_code_data.dart';
+import 'package:premedpk_mobile_app/utils/Data/school_data.dart';
 
 class ComponentScreen extends StatelessWidget {
   const ComponentScreen({super.key});
@@ -16,17 +19,17 @@ class ComponentScreen extends StatelessWidget {
               children: [
                 CustomButton(
                   buttonText: "Filled Button",
-                  onPressed: onPressed,
+                  onPressed: () {},
                 ),
                 SizedBoxes.verticalBig,
                 CustomButton(
                     buttonText: "Outlined Button",
-                    onPressed: onPressed,
+                    onPressed: () {},
                     isOutlined: true),
                 SizedBoxes.verticalBig,
                 CustomButton(
                   buttonText: "Icon Button",
-                  onPressed: onPressed,
+                  onPressed: () {},
                   isIconButton: true,
                   icon: Icons.abc,
                   iconSize: 40,
@@ -88,19 +91,47 @@ class ComponentScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBoxes.verticalBig,
-                const CustomTextField(
-                  labelText: 'E-mail*',
-                  hintText: 'john.doe@gmail.com*',
+                CustomTextField(
+                  onPressed: () {
+                    print('Hello');
+                  },
+                  hintText: 'email',
+                  labelText: 'John.doe@gmail.com',
                 ),
+                SizedBoxes.verticalLarge,
+                // CountryCodePickerWidget(),
+                SchoolDropdownList(
+                    items: schools_data,
+                    selectedItem: schools_data[0],
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        print(newValue);
+                      }
+                    }),
+                CityDropdownList(
+                    items: cities_data,
+                    selectedItem: cities_data[0],
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        print(newValue);
+                      }
+                    }),
+                SizedBoxes.verticalLarge,
+                CountryCode(
+                    items: countryPhoneCodes,
+                    selectedItem: countryPhoneCodes[0],
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        print(newValue);
+                      }
+                    })
+                // const CountryCodePickerWidget(),
+                // CountryCodePickerWidget()
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  onPressed() {
-    print('object');
   }
 }

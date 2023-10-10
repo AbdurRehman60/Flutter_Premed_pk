@@ -38,29 +38,34 @@ class SignUpScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBoxes.verticalBig,
-                const CustomTextField(
+                CustomTextField(
+                  onPressed: () {},
                   hintText: 'Full name',
                   labelText: 'John Doe',
                 ),
                 SizedBoxes.verticalMedium,
-                const CustomTextField(
+                CustomTextField(
+                  onPressed: () {},
                   hintText: 'Email',
                   labelText: 'John.Doe@gmail.com',
                 ),
                 SizedBoxes.verticalMedium,
-                const CustomTextField(
+                CustomTextField(
+                  onPressed: () {},
                   hintText: 'Password*',
                   labelText: 'Enter Password',
                   obscureText: true,
                 ),
                 SizedBoxes.verticalMedium,
-                const CustomTextField(
+                CustomTextField(
+                  onPressed: () {},
                   hintText: 'Confirm Password',
                   labelText: 'Confirm Password',
                   obscureText: true,
                 ),
                 SizedBoxes.verticalMedium,
-                const CustomTextField(
+                CustomTextField(
+                  onPressed: () {},
                   hintText: 'Referral Code (optional)',
                   labelText: 'Enter Referral Code if you have any',
                 ),
