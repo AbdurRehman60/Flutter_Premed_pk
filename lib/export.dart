@@ -10,6 +10,7 @@ export 'package:premedpk_mobile_app/components.dart';
 export 'package:premedpk_mobile_app/UI/screens/Login/login.dart';
 export 'package:premedpk_mobile_app/UI/screens/Signup/Signup.dart';
 export 'package:premedpk_mobile_app/UI/screens/onboarding/On_Boarding.dart';
-export 'package:premedpk_mobile_app/UI/Widgets/check_box.dart';
+// export 'package:premedpk_mobile_app/UI/Widgets/check_box.dart';
 export 'package:premedpk_mobile_app/UI/Widgets/countrycode.dart';
 export 'package:premedpk_mobile_app/UI/Widgets/bullet_buttons.dart';
+export 'package:premedpk_mobile_app/UI/screens/onboarding/ON_Boarding1.dart';

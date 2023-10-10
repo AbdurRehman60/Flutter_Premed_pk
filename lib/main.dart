@@ -1,5 +1,6 @@
-import 'package:premedpk_mobile_app/UI/screens/Signup/Signup.dart';
-import 'package:premedpk_mobile_app/UI/screens/onboarding/On_Boarding.dart';
+// import 'package:premedpk_mobile_app/UI/screens/Signup/Signup.dart';
+// import 'package:premedpk_mobile_app/UI/screens/onboarding/On_Boarding.dart';
+import 'package:premedpk_mobile_app/UI/screens/onboarding/ON_Boarding1.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: OnBoarding(),
+      home: OnBoarding1(),
     );
   }
 }
