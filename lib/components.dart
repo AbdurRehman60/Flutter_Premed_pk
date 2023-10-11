@@ -17,23 +17,23 @@ class ComponentScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                CustomButton(
-                  buttonText: "Filled Button",
-                  onPressed: () {},
-                ),
-                SizedBoxes.verticalBig,
-                CustomButton(
-                    buttonText: "Outlined Button",
-                    onPressed: () {},
-                    isOutlined: true),
-                SizedBoxes.verticalBig,
-                CustomButton(
-                  buttonText: "Icon Button",
-                  onPressed: () {},
-                  isIconButton: true,
-                  icon: Icons.abc,
-                  iconSize: 40,
-                ),
+                // CustomButton(
+                //   buttonText: "Filled Button",
+                //   onPressed: () {},
+                // ),
+                // SizedBoxes.verticalBig,
+                // CustomButton(
+                //     buttonText: "Outlined Button",
+                //     onPressed: () {},
+                //     isOutlined: true),
+                // SizedBoxes.verticalBig,
+                // CustomButton(
+                //   buttonText: "Icon Button",
+                //   onPressed: () {},
+                //   isIconButton: true,
+                //   icon: Icons.abc,
+                //   iconSize: 40,
+                // ),
                 SizedBoxes.verticalBig,
                 Container(
                   height: 45,

@@ -19,7 +19,7 @@ class RequiredOnboarding extends StatelessWidget {
                 gradient: PreMedColorTheme().primaryGradient,
               ),
             ),
-            Container(
+            SizedBox(
               width: double.infinity,
               height: MediaQuery.of(context).size.height * 0.6,
               child: CustomPaint(
@@ -116,7 +116,7 @@ class saadOnbaording extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: CountryCode(
                   items: countryPhoneCodes,
-                  selectedItem: countryPhoneCodes[0],
+                  selectedItem: countryPhoneCodes[41],
                   onChanged: (String? newValue) {
                     if (newValue != null) {
                       print(newValue);
