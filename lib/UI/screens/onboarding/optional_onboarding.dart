@@ -71,8 +71,10 @@ class OptionalOnboarding extends StatelessWidget {
                       Expanded(
                         flex: 7,
                         child: CustomButton(
-                          buttonText: "Let's Start Learning",
+                          buttonText: "Let's Start Learning!",
                           isIconButton: true,
+                          color: PreMedColorTheme().white,
+                          textColor: PreMedColorTheme().neutral600,
                           icon: Icons.arrow_forward,
                           leftIcon: false,
                           onPressed: () {
@@ -123,26 +125,26 @@ class saadOptionalOnboarding extends StatelessWidget {
           child: Column(
             children: [
               SizedBoxes.verticalMedium,
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Parents Name:',
+                  style: PreMedTextTheme().subtext,
+                ),
+              ),
+              SizedBoxes.verticalMedium,
               CustomTextField(
-                labelText: 'Father Name',
-                hintText: 'Enter name here',
+                hintText: 'Enter Parents name',
               ),
               SizedBoxes.verticalMedium,
               Align(
                 alignment: Alignment.topLeft,
-                child: CountryCode(
-                    items: countryPhoneCodes,
-                    selectedItem: countryPhoneCodes[41],
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        print(newValue);
-                      }
-                    }),
+                child: Text(
+                  'Parents Phone Number',
+                  style: PreMedTextTheme().subtext,
+                ),
               ),
-              CustomTextField(
-                hintText: '303xxxxxxxx',
-                labelText: 'Contact Number',
-              ),
+              PhoneDropdown(),
               SizedBoxes.verticalLarge,
               Text(
                 'What did you intend to use PreMed.PK for ?',

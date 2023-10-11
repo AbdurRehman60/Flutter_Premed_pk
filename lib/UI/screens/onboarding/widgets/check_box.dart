@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/constants/color_theme.dart';
 
 class ChecBox extends StatefulWidget {
   const ChecBox({super.key});
@@ -20,7 +21,7 @@ class _ChecBoxState extends State<ChecBox> {
           scale: checkBoxSize / 24.0, // 24.0 is the default size
           child: Checkbox(
             value: isChecked,
-            activeColor: const Color(0xFFEC5863),
+            activeColor: PreMedColorTheme().primaryColorRed,
             onChanged: (newBool) {
               setState(() {
                 isChecked = newBool;

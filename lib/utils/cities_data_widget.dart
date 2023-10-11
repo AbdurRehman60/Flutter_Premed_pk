@@ -19,9 +19,9 @@ class CityDropdownList extends StatelessWidget {
       getImmediateSuggestions: true,
       textFieldConfiguration: TextFieldConfiguration(
         decoration: InputDecoration(
-          labelText: 'Search for a city',
+          labelText: 'Enter your City',
           border: OutlineInputBorder(),
-          prefixIcon: Icon(Icons.search),
+          // prefixIcon: Icon(Icons.search),
         ),
       ),
       suggestionsCallback: (pattern) {

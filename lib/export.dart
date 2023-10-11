@@ -15,5 +15,3 @@ export 'package:premedpk_mobile_app/UI/screens/onboarding/optional_onboarding.da
 export 'package:premedpk_mobile_app/utils/country_code_picker.dart';
 export 'package:premedpk_mobile_app/utils/school_data_widget.dart';
 export 'package:premedpk_mobile_app/utils/cities_data_widget.dart';
-// export 'package:premedpk_mobile_app/widgets/globalwidgets/check_box.dart';
-// export 'package:premedpk_mobile_app/widgets/globalwidgets/radio_button.dart';

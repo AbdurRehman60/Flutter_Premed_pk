@@ -17,31 +17,25 @@ class _RadioButtonsState extends State<RadioButtons> {
   String currentOption = options[0];
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start, // Align content to the left
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment:
-              CrossAxisAlignment.start, // Align text to the left
-          children: options.map((option) {
-            return Row(
-              children: [
-                Radio(
-                  value: option,
-                  groupValue: currentOption,
-                  onChanged: (value) {
-                    setState(() {
-                      currentOption = value.toString();
-                    });
-                  },
-                ),
-                Text(option),
-              ],
-            );
-          }).toList(),
-        ),
-      ],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start, // Align text to the left
+      children: options.map((option) {
+        return Row(
+          children: [
+            Radio(
+              value: option,
+              groupValue: currentOption,
+              onChanged: (value) {
+                setState(() {
+                  currentOption = value.toString();
+                });
+              },
+            ),
+            Text(option),
+          ],
+        );
+      }).toList(),
     );
   }
 }

@@ -19,9 +19,9 @@ class SchoolDropdownList extends StatelessWidget {
       getImmediateSuggestions: true,
       textFieldConfiguration: TextFieldConfiguration(
         decoration: InputDecoration(
-          labelText: 'Select Or Search your School',
+          labelText: 'Enter your School',
           border: OutlineInputBorder(),
-          prefixIcon: Icon(Icons.search),
+          // prefixIcon: Icon(Icons.search),
         ),
       ),
       suggestionsCallback: (pattern) {

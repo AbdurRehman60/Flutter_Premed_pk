@@ -1,3 +1,4 @@
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/ui/screens/onboarding/widgets/curve_painter.dart';
 import 'package:premedpk_mobile_app/ui/screens/onboarding/widgets/radio_button.dart';
@@ -103,32 +104,7 @@ class saadOnbaording extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Contact Number',
-                textAlign: TextAlign.start,
-                style: PreMedTextTheme().subtext,
-                // textAlign: TextAlign.start,
-              ),
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: CountryCode(
-                  items: countryPhoneCodes,
-                  selectedItem: countryPhoneCodes[41],
-                  onChanged: (String? newValue) {
-                    if (newValue != null) {
-                      print(newValue);
-                    }
-                  }),
-            ),
-            const CustomTextField(
-              hintText: 'Contact Number',
-            ),
-            // CountryCodePickerWidget(), widget causing some issues
-            // SizedBoxes.verticalTiny,
-
+            PhoneDropdown(),
             SizedBoxes.verticalLarge,
             Align(
               alignment: Alignment.topLeft,

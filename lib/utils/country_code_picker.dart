@@ -1,31 +1,20 @@
 import 'package:flutter/material.dart';
-// Import the school data
-import 'package:premedpk_mobile_app/utils/Data/school_data.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
-class CountryCode extends StatelessWidget {
-  final List<String> items;
-  final String selectedItem;
-  final void Function(String?)? onChanged;
-
-  const CountryCode({
-    super.key,
-    required this.items,
-    required this.selectedItem,
-    required this.onChanged,
-  });
+class PhoneDropdown extends StatelessWidget {
+  const PhoneDropdown({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      isExpanded: false,
-      value: selectedItem,
-      onChanged: onChanged,
-      items: items.map((String item) {
-        return DropdownMenuItem<String>(
-          value: item,
-          child: Text(item),
-        );
-      }).toList(),
+    return IntlPhoneField(
+      initialCountryCode: 'PK',
+      // focusNode: focusNode,
+      decoration: InputDecoration(
+        labelText: 'Phone Number',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(),
+        ),
+      ),
     );
   }
 }
