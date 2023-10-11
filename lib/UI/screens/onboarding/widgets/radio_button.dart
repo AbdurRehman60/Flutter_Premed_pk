@@ -17,42 +17,30 @@ class _RadioButtonsState extends State<RadioButtons> {
   String currentOption = options[0];
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start, // Align content to the left
       children: [
-        ListTile(
-          title: Text('FSc 1st Year/AS Level'),
-          leading: Radio(
-            value: options[0],
-            groupValue: currentOption,
-            onChanged: (value) {
-              setState(() {
-                currentOption = value.toString();
-              });
-            },
-          ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment:
+              CrossAxisAlignment.start, // Align text to the left
+          children: options.map((option) {
+            return Row(
+              children: [
+                Radio(
+                  value: option,
+                  groupValue: currentOption,
+                  onChanged: (value) {
+                    setState(() {
+                      currentOption = value.toString();
+                    });
+                  },
+                ),
+                Text(option),
+              ],
+            );
+          }).toList(),
         ),
-        ListTile(
-          title: Text('FSc 2nd Year/A2 Level'),
-          leading: Radio(
-              value: options[1],
-              groupValue: currentOption,
-              onChanged: (value) {
-                setState(() {
-                  currentOption = value.toString();
-                });
-              }),
-        ),
-        ListTile(
-          title: Text('Have given MDCAT & improving'),
-          leading: Radio(
-              value: options[2],
-              groupValue: currentOption,
-              onChanged: (value) {
-                setState(() {
-                  currentOption = value.toString();
-                });
-              }),
-        )
       ],
     );
   }

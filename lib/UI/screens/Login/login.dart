@@ -9,9 +9,36 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
+        body: SafeArea(
+      child: SingleChildScrollView(
+        child: Column(children: [
+          Container(
+            height: 400,
+            width: MediaQuery.sizeOf(context).width,
+            decoration: BoxDecoration(
+              gradient: PreMedColorTheme().primaryGradient,
+            ),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                'Sign Up to get Province',
+                textAlign: TextAlign.center,
+                style: PreMedTextTheme()
+                    .heading3
+                    .copyWith(color: PreMedColorTheme().white),
+              ),
+              Text(
+                'wise Chapter guides for FREE!',
+                textAlign: TextAlign.center,
+                style: PreMedTextTheme()
+                    .heading3
+                    .copyWith(color: PreMedColorTheme().white),
+              ),
+              SizedBoxes.verticalBig,
+              Image.asset('assets/images/Books.png'),
+            ]),
+          ),
+          Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,9 +93,9 @@ class LoginScreen extends StatelessWidget {
               ],
             ),
           ),
-        ),
+        ]),
       ),
-    );
+    ));
   }
 
   onLoginPressed() {}

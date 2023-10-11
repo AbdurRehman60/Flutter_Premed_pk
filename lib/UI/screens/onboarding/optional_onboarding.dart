@@ -98,10 +98,16 @@ class OptionalOnboarding extends StatelessWidget {
   }
 }
 
+List<String> options = [
+  'Yes',
+  'No',
+];
+
 class saadOptionalOnboarding extends StatelessWidget {
-  const saadOptionalOnboarding({super.key});
+  saadOptionalOnboarding({super.key});
 
   @override
+  String currentOption = options[0];
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -113,84 +119,81 @@ class saadOptionalOnboarding extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Parents Name',
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              SizedBoxes.verticalMedium,
+              CustomTextField(
+                labelText: 'Father Name',
+                hintText: 'Enter name here',
+              ),
+              SizedBoxes.verticalMedium,
+              Align(
+                alignment: Alignment.topLeft,
+                child: CountryCode(
+                    items: countryPhoneCodes,
+                    selectedItem: countryPhoneCodes[41],
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        print(newValue);
+                      }
+                    }),
+              ),
+              CustomTextField(
+                hintText: '303xxxxxxxx',
+                labelText: 'Contact Number',
+              ),
+              SizedBoxes.verticalLarge,
+              Text(
+                'What did you intend to use PreMed.PK for ?',
                 style: PreMedTextTheme().heading6,
               ),
-            ),
-            SizedBoxes.verticalMedium,
-            CustomTextField(
-              hintText: 'Enter name here',
-            ),
-            SizedBoxes.verticalMedium,
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Parents Number',
-                style: PreMedTextTheme().heading6,
+              SizedBoxes.verticalMedium,
+              Row(
+                children: [
+                  ChecBox(),
+                  Text('MDCAT'),
+                  SizedBoxes.horizontalMicro,
+                  ChecBox(),
+                  Text('AKU'),
+                  SizedBoxes.horizontalMedium,
+                  ChecBox(),
+                  Text('NUMS')
+                ],
               ),
-            ),
-            SizedBoxes.verticalMedium,
-            Align(
-              alignment: Alignment.topLeft,
-              child: CountryCode(
-                  items: countryPhoneCodes,
-                  selectedItem: countryPhoneCodes[41],
-                  onChanged: (String? newValue) {
-                    if (newValue != null) {
-                      print(newValue);
-                    }
-                  }),
-            ),
-            CustomTextField(
-              hintText: 'Contact Number',
-            ),
-            SizedBoxes.verticalLarge,
-            Align(
+              SizedBoxes.verticalMedium,
+              Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'What did you intend to use PreMed.PK for ?',
+                  'Have you joined any academy?',
                   style: PreMedTextTheme().heading6,
-                )),
-            SizedBoxes.verticalMedium,
-            Row(
-              children: [
-                ChecBox(),
-                Text('NUMS'),
-                SizedBoxes.horizontalMedium,
-                ChecBox(),
-                Text('AKU'),
-                SizedBoxes.horizontalMedium,
-                ChecBox(),
-                Text('MDCAT')
-              ],
-            ),
-            SizedBoxes.verticalMedium,
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Have you joined any academy?',
-                style: PreMedTextTheme().heading6,
+                ),
               ),
-            ),
-            SizedBoxes.verticalLarge,
-            Row(
-              children: [
-                ChecBox(),
-                Text('Yes'),
-                SizedBoxes.horizontalMedium,
-                ChecBox(),
-                Text('No')
-              ],
-            ),
-          ],
-        ),
-      ),
+              SizedBoxes.verticalLarge,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment
+                    .start, // Align content to the left // Align text to the left
+                children: options.map((option) {
+                  return Row(
+                    children: [
+                      Radio(
+                        value: option,
+                        groupValue: currentOption,
+                        onChanged: (value) {
+                          setState(() {
+                            currentOption = value.toString();
+                          });
+                        },
+                      ),
+                      Text(option),
+                    ],
+                  );
+                }).toList(),
+              ),
+            ],
+          )),
     );
   }
+
+  void setState(Null Function() param0) {}
 }
