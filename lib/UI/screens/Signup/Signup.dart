@@ -1,5 +1,7 @@
 // ignore: file_names
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/ui/widgets/google_login_button.dart';
+import 'package:premedpk_mobile_app/ui/widgets/or_divider.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -8,69 +10,64 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Align(
-                    alignment: Alignment.topLeft,
-                    child: Image.asset('assets/images/PreMedLogo.png')),
-                Text(
-                  'Start Your path to becoming a Doctor',
-                  style: PreMedTextTheme()
-                      .heading4
-                      .copyWith(color: PreMedColorTheme().black),
+                  alignment: Alignment.topLeft,
+                  child: Image.asset(PremedAssets.PrMedLogo),
                 ),
-                // signup with google button to be added once finished
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Divider(
-                      color: PreMedColorTheme().black,
-                      thickness: 2,
-                    ),
-                    const Text('OR'),
-                    Divider(
-                      color: PreMedColorTheme().black,
-                      thickness: 2,
-                    )
-                  ],
+                Text(
+                  'Start Your path to',
+                  style: PreMedTextTheme().heading4.copyWith(
+                        color: PreMedColorTheme().neutral600,
+                      ),
+                ),
+                Text(
+                  'becoming a Doctor',
+                  style: PreMedTextTheme().heading4.copyWith(
+                        color: PreMedColorTheme().neutral600,
+                      ),
                 ),
                 SizedBoxes.verticalBig,
-                CustomTextField(
-                  onPressed: () {},
+                const GoogleLogin(),
+                SizedBoxes.verticalBig,
+                const OrDivider(),
+                SizedBoxes.verticalBig,
+                const CustomTextField(
                   hintText: 'Full name',
                   labelText: 'John Doe',
                 ),
                 SizedBoxes.verticalMedium,
-                CustomTextField(
-                  onPressed: () {},
+                const CustomTextField(
                   hintText: 'Email',
                   labelText: 'John.Doe@gmail.com',
                 ),
                 SizedBoxes.verticalMedium,
-                CustomTextField(
-                  onPressed: () {},
+                const CustomTextField(
                   hintText: 'Password*',
                   labelText: 'Enter Password',
                   obscureText: true,
                 ),
                 SizedBoxes.verticalMedium,
-                CustomTextField(
-                  onPressed: () {},
+                const CustomTextField(
                   hintText: 'Confirm Password',
                   labelText: 'Confirm Password',
                   obscureText: true,
                 ),
                 SizedBoxes.verticalMedium,
-                CustomTextField(
-                  onPressed: () {},
+                const CustomTextField(
                   hintText: 'Referral Code (optional)',
                   labelText: 'Enter Referral Code if you have any',
                 ),
-                SizedBoxes.verticalMedium,
-                CustomButton(buttonText: 'Sign Up', onPressed: () {}),
+                SizedBoxes.verticalBig,
+                CustomButton(
+                  buttonText: 'Sign Up',
+                  onPressed: () {},
+                ),
                 SizedBoxes.verticalMedium,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -91,9 +88,11 @@ class SignUpScreen extends StatelessWidget {
                 SizedBoxes.verticalBig,
                 Text(
                   'By continuing, you agree to Premed.pk’s Terms of Use and Privacy Policy.',
-                  style: PreMedTextTheme()
-                      .subtext
-                      .copyWith(color: PreMedColorTheme().neutral500),
+                  style: PreMedTextTheme().subtext.copyWith(
+                        color: PreMedColorTheme().neutral500,
+                        height: 1.5,
+                      ),
+                  textAlign: TextAlign.center,
                 )
               ],
             ),

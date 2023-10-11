@@ -1,4 +1,4 @@
-import 'package:premedpk_mobile_app/export.dart';
+import '../../export.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
@@ -37,7 +37,6 @@ class CustomTextField extends StatelessWidget {
     this.enabled = true,
     this.validator,
     this.cursorColor,
-    required Null Function() onPressed,
   })  : _controller = controller,
         super(key: key);
 
@@ -89,14 +88,14 @@ class CustomTextField extends StatelessWidget {
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-            color: PreMedColorTheme().black,
+            color: PreMedColorTheme().neutral200,
           ),
         ),
         enabledBorder: enabledBorder ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
-                color: PreMedColorTheme().black,
+                color: PreMedColorTheme().neutral600,
               ),
             ),
         focusedBorder: focusedBorder ??

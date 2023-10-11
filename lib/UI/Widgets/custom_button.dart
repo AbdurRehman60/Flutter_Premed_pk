@@ -11,6 +11,7 @@ class CustomButton extends StatelessWidget {
     this.isIconButton = false,
     this.icon = Icons.abc,
     this.iconSize = 24.0,
+    this.leftIcon = true,
   }) : super(key: key);
 
   String buttonText;
@@ -21,10 +22,11 @@ class CustomButton extends StatelessWidget {
   final bool isIconButton;
   final IconData icon;
   final double iconSize;
+  final bool leftIcon;
 
   @override
   Widget build(BuildContext context) {
-    buttonSize = Size(MediaQuery.of(context).size.width * 1, 60);
+    buttonSize = Size(MediaQuery.of(context).size.width * 1, 54);
     return isOutlined
         ? TextButton(
             onPressed: isActive
@@ -42,16 +44,50 @@ class CustomButton extends StatelessWidget {
                   color: PreMedColorTheme().primaryColorRed),
               minimumSize: buttonSize,
             ),
-            child: Text(
-              buttonText,
-              style: isActive
-                  ? PreMedTextTheme()
-                      .heading5
-                      .copyWith(color: PreMedColorTheme().black)
-                  : PreMedTextTheme()
-                      .heading5
-                      .copyWith(color: PreMedColorTheme().primaryColorRed),
-            ),
+            child: isIconButton
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      leftIcon
+                          ? Icon(
+                              icon,
+                              size: iconSize,
+                              color: isOutlined
+                                  ? PreMedColorTheme().primaryColorRed
+                                  : PreMedColorTheme().white,
+                            )
+                          : const SizedBox(),
+                      leftIcon ? SizedBoxes.horizontalMicro : const SizedBox(),
+                      Text(
+                        buttonText,
+                        style: isActive
+                            ? PreMedTextTheme()
+                                .heading5
+                                .copyWith(color: PreMedColorTheme().white)
+                            : PreMedTextTheme().heading5.copyWith(
+                                color: PreMedColorTheme().primaryColorRed),
+                      ),
+                      leftIcon ? const SizedBox() : SizedBoxes.horizontalMicro,
+                      leftIcon
+                          ? const SizedBox()
+                          : Icon(
+                              icon,
+                              size: iconSize,
+                              color: isOutlined
+                                  ? PreMedColorTheme().neutral800
+                                  : PreMedColorTheme().white,
+                            ),
+                    ],
+                  )
+                : Text(
+                    buttonText,
+                    style: isActive
+                        ? PreMedTextTheme()
+                            .heading5
+                            .copyWith(color: PreMedColorTheme().white)
+                        : PreMedTextTheme().heading5.copyWith(
+                            color: PreMedColorTheme().primaryColorRed),
+                  ),
           )
         : TextButton(
             onPressed: isActive
@@ -69,14 +105,16 @@ class CustomButton extends StatelessWidget {
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        icon,
-                        size: iconSize,
-                        color: isOutlined
-                            ? PreMedColorTheme().primaryColorRed
-                            : PreMedColorTheme().white,
-                      ),
-                      SizedBoxes.horizontalMicro,
+                      leftIcon
+                          ? Icon(
+                              icon,
+                              size: iconSize,
+                              color: isOutlined
+                                  ? PreMedColorTheme().primaryColorRed
+                                  : PreMedColorTheme().white,
+                            )
+                          : const SizedBox(),
+                      leftIcon ? SizedBoxes.horizontalMicro : const SizedBox(),
                       Text(
                         buttonText,
                         style: isActive
@@ -86,6 +124,16 @@ class CustomButton extends StatelessWidget {
                             : PreMedTextTheme().heading5.copyWith(
                                 color: PreMedColorTheme().primaryColorRed),
                       ),
+                      leftIcon ? const SizedBox() : SizedBoxes.horizontalMicro,
+                      leftIcon
+                          ? const SizedBox()
+                          : Icon(
+                              icon,
+                              size: iconSize,
+                              color: isOutlined
+                                  ? PreMedColorTheme().primaryColorRed
+                                  : PreMedColorTheme().white,
+                            ),
                     ],
                   )
                 : Text(

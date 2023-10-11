@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/ui/screens/onboarding/widgets/check_box.dart';
 import 'package:premedpk_mobile_app/utils/Data/country_code_data.dart';
 
 class OptionalOnboarding extends StatelessWidget {
@@ -15,6 +16,7 @@ class OptionalOnboarding extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.start,
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBoxes.verticalBig,
             Text(
               'You are Almost there!',
               style: PreMedTextTheme()
@@ -38,7 +40,6 @@ class OptionalOnboarding extends StatelessWidget {
             ),
             SizedBoxes.verticalMedium,
             CustomTextField(
-              onPressed: () {},
               hintText: 'Enter name here',
             ),
             SizedBoxes.verticalMedium,
@@ -61,7 +62,9 @@ class OptionalOnboarding extends StatelessWidget {
                     }
                   }),
             ),
-            CustomTextField(hintText: 'Contact Number', onPressed: () {}),
+            CustomTextField(
+              hintText: 'Contact Number',
+            ),
             SizedBoxes.verticalLarge,
             Align(
                 alignment: Alignment.topLeft,
@@ -100,24 +103,48 @@ class OptionalOnboarding extends StatelessWidget {
                 Text('No')
               ],
             ),
-            SizedBoxes.horizontalMicro,
-            CustomButton(
-              buttonText: '<- Back',
-              onPressed: () {
-                Navigator.pop(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const OptionalOnboarding(),
-                    ));
-              },
-              isOutlined: true,
+            SizedBoxes.verticalBig,
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: CustomButton(
+                    buttonText: '',
+                    isOutlined: true,
+                    isIconButton: true,
+                    icon: Icons.arrow_back,
+                    leftIcon: false,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RequiredOnboarding(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBoxes.horizontalMedium,
+                Expanded(
+                  flex: 7,
+                  child: CustomButton(
+                    buttonText: "Let's Start Learning",
+                    isIconButton: true,
+                    icon: Icons.arrow_forward,
+                    leftIcon: false,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const OptionalOnboarding(),
+                        ),
+                      );
+                    },
+                  ),
+                )
+              ],
             ),
-            SizedBoxes.verticalLarge,
-            CustomButton(
-              buttonText: 'Lets Start Learning! ->',
-              onPressed: () {},
-              isOutlined: true,
-            )
           ],
         ),
       ),

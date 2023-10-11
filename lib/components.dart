@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/custom_button.dart';
+import 'package:premedpk_mobile_app/UI/widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
 import 'package:premedpk_mobile_app/utils/Data/country_code_data.dart';
@@ -92,9 +92,6 @@ class ComponentScreen extends StatelessWidget {
                 ),
                 SizedBoxes.verticalBig,
                 CustomTextField(
-                  onPressed: () {
-                    print('Hello');
-                  },
                   hintText: 'email',
                   labelText: 'John.doe@gmail.com',
                 ),
