@@ -1,6 +1,7 @@
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/optional_checkbox.dart';
+import 'package:premedpk_mobile_app/UI/animation/animation.dart';
 import 'package:premedpk_mobile_app/constants/premed_theme.dart';
-
+import 'package:premedpk_mobile_app/UI/animation/animation.dart';
 import 'export.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: _PreMedTheme.data,
-      home: OptionalCheckBox(),
+      home: AnimationScreen(),
     );
   }
 }
