@@ -12,6 +12,8 @@ class CustomButton extends StatelessWidget {
     this.icon = Icons.abc,
     this.iconSize = 24.0,
     this.leftIcon = true,
+    this.color,
+    this.textColor,
   }) : super(key: key);
 
   String buttonText;
@@ -23,6 +25,8 @@ class CustomButton extends StatelessWidget {
   final IconData icon;
   final double iconSize;
   final bool leftIcon;
+  final Color? color;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +57,9 @@ class CustomButton extends StatelessWidget {
                               icon,
                               size: iconSize,
                               color: isOutlined
-                                  ? PreMedColorTheme().primaryColorRed
-                                  : PreMedColorTheme().white,
+                                  ? textColor ??
+                                      PreMedColorTheme().primaryColorRed
+                                  : textColor ?? PreMedColorTheme().white,
                             )
                           : const SizedBox(),
                       leftIcon ? SizedBoxes.horizontalMicro : const SizedBox(),
@@ -74,8 +79,8 @@ class CustomButton extends StatelessWidget {
                               icon,
                               size: iconSize,
                               color: isOutlined
-                                  ? PreMedColorTheme().neutral800
-                                  : PreMedColorTheme().white,
+                                  ? textColor ?? PreMedColorTheme().neutral800
+                                  : textColor ?? PreMedColorTheme().white,
                             ),
                     ],
                   )
@@ -97,8 +102,8 @@ class CustomButton extends StatelessWidget {
                 : () {},
             style: ElevatedButton.styleFrom(
               backgroundColor: isActive
-                  ? PreMedColorTheme().primaryColorRed
-                  : PreMedColorTheme().primaryColorRed,
+                  ? color ?? PreMedColorTheme().primaryColorRed
+                  : PreMedColorTheme().neutral700,
               minimumSize: buttonSize,
             ),
             child: isIconButton
@@ -110,19 +115,20 @@ class CustomButton extends StatelessWidget {
                               icon,
                               size: iconSize,
                               color: isOutlined
-                                  ? PreMedColorTheme().primaryColorRed
-                                  : PreMedColorTheme().white,
+                                  ? textColor ??
+                                      PreMedColorTheme().primaryColorRed
+                                  : textColor ?? PreMedColorTheme().white,
                             )
                           : const SizedBox(),
                       leftIcon ? SizedBoxes.horizontalMicro : const SizedBox(),
                       Text(
                         buttonText,
                         style: isActive
-                            ? PreMedTextTheme()
-                                .heading5
-                                .copyWith(color: PreMedColorTheme().white)
+                            ? PreMedTextTheme().heading5.copyWith(
+                                color: textColor ?? PreMedColorTheme().white)
                             : PreMedTextTheme().heading5.copyWith(
-                                color: PreMedColorTheme().primaryColorRed),
+                                color: textColor ??
+                                    PreMedColorTheme().primaryColorRed),
                       ),
                       leftIcon ? const SizedBox() : SizedBoxes.horizontalMicro,
                       leftIcon
@@ -131,8 +137,9 @@ class CustomButton extends StatelessWidget {
                               icon,
                               size: iconSize,
                               color: isOutlined
-                                  ? PreMedColorTheme().primaryColorRed
-                                  : PreMedColorTheme().white,
+                                  ? textColor ??
+                                      PreMedColorTheme().primaryColorRed
+                                  : textColor ?? PreMedColorTheme().white,
                             ),
                     ],
                   )
