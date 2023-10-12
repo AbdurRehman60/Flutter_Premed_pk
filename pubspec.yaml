@@ -46,6 +46,7 @@ dependencies:
   country_pickers: ^2.0.0
   country_icons: ^2.0.2
   lottie: ^2.6.0
+  persistent_bottom_nav_bar: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +78,7 @@ flutter:
     - assets/images/PreMedLogo.png
     - assets/images/Books.png
     - animations/1.json
+    - assets/images/eshome.png
   fonts:
     - family: Inter
       fonts:
