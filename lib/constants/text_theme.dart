@@ -8,7 +8,7 @@ class PreMedTextTheme {
             fontFamily: fontFamily,
             fontWeight: FontWeights.regular,
             height: 1.2,
-            color: PreMedColorTheme().black);
+            color: PreMedColorTheme().neutral900);
 
   final String fontFamily;
   final TextStyle _baseTextStyle;
@@ -44,8 +44,8 @@ class PreMedTextTheme {
       );
 
   TextStyle get body => _baseTextStyle.copyWith(
-        fontSize: 28.0,
-        fontWeight: FontWeights.semiBold,
+        fontSize: 16.0,
+        fontWeight: FontWeights.bold,
       );
 
   TextStyle get subtext => _baseTextStyle.copyWith(

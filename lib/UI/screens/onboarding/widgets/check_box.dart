@@ -1,36 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 
-class ChecBox extends StatefulWidget {
-  const ChecBox({super.key});
+class CustomCheckBox extends StatefulWidget {
+  const CustomCheckBox({Key? key});
 
   @override
-  State<ChecBox> createState() => _ChecBoxState();
+  State<CustomCheckBox> createState() => _CustomCheckBoxState();
 }
 
-class _ChecBoxState extends State<ChecBox> {
-  bool? isChecked = false;
-  double checkBoxSize = 20.0; // Adjust the size as needed
+class _CustomCheckBoxState extends State<CustomCheckBox> {
+  bool isChecked = false;
+  double checkBoxSize = 18.0; // Adjust the size as needed
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start, // Align content to the left
-      children: [
-        Transform.scale(
-          scale: checkBoxSize / 24.0, // 24.0 is the default size
-          child: Checkbox(
-            value: isChecked,
-            activeColor: PreMedColorTheme().primaryColorRed,
-            onChanged: (newBool) {
-              setState(() {
-                isChecked = newBool;
-              });
-            },
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isChecked = !isChecked;
+        });
+      },
+      child: Container(
+        width: checkBoxSize,
+        height: checkBoxSize,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(2.0), // 2px border radius
+          border: Border.all(
+            color: isChecked
+                ? PreMedColorTheme().primaryColorRed // Checked border color
+                : PreMedColorTheme().neutral500, // Unchecked border color
+            width: 0.5, // Border width
           ),
+          color: isChecked
+              ? PreMedColorTheme().primaryColorRed // Checked background color
+              : PreMedColorTheme().white, // Unchecked background color
         ),
-        // You can add additional content here if needed
-      ],
+        child: isChecked
+            ? Icon(
+                Icons.check,
+                size: checkBoxSize * 0.8,
+                color: PreMedColorTheme().white, // Checkmark color
+              )
+            : null,
+      ),
     );
   }
 }

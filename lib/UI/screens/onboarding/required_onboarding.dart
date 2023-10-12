@@ -1,5 +1,5 @@
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/optional_checkbox.dart';
+import 'package:premedpk_mobile_app/UI/screens/Onboarding/widgets/optional_checkbox.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/ui/screens/onboarding/widgets/curve_painter.dart';
 import 'package:premedpk_mobile_app/ui/screens/onboarding/widgets/radio_button.dart';
@@ -57,7 +57,7 @@ class RequiredOnboarding extends StatelessWidget {
                         ),
                       ),
                       SizedBoxes.verticalExtraGargangua,
-                      const saadOnbaording(),
+                      const RequiredOnboardingForm(),
                       SizedBoxes.verticalBig,
                       CustomButton(
                         buttonText: 'Next',
@@ -87,8 +87,8 @@ class RequiredOnboarding extends StatelessWidget {
   }
 }
 
-class saadOnbaording extends StatelessWidget {
-  const saadOnbaording({super.key});
+class RequiredOnboardingForm extends StatelessWidget {
+  const RequiredOnboardingForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,8 +106,9 @@ class saadOnbaording extends StatelessWidget {
         child: Column(
           children: [
             PhoneDropdown(),
-            SizedBoxes.verticalLarge,
-            // OptionalCheckBox(),
+            SizedBoxes.verticalMedium,
+            PhoneFieldWithCheckbox(),
+
             Align(
               alignment: Alignment.topLeft,
               child: Text(
@@ -116,6 +117,7 @@ class saadOnbaording extends StatelessWidget {
               ),
             ),
             SizedBoxes.verticalTiny,
+            // CustomTextField(),
             CityDropdownList(
                 items: cities_data,
                 selectedItem: cities_data[0],
@@ -147,10 +149,10 @@ class saadOnbaording extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Text(
                 'Which year are you in?',
-                style: PreMedTextTheme().subtext,
+                style: PreMedTextTheme().body,
               ),
             ),
-            SizedBoxes.verticalLarge,
+            SizedBoxes.verticalMicro,
             const RadioButtons(),
           ],
         ),

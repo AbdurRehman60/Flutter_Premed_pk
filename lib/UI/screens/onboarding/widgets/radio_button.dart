@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/export.dart';
 
 class RadioButtons extends StatefulWidget {
-  const RadioButtons({super.key});
+  const RadioButtons({Key? key});
 
   @override
   State<RadioButtons> createState() => _RadioButtonsState();
@@ -19,7 +20,7 @@ class _RadioButtonsState extends State<RadioButtons> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start, // Align text to the left
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: options.map((option) {
         return Row(
           children: [
@@ -31,8 +32,15 @@ class _RadioButtonsState extends State<RadioButtons> {
                   currentOption = value.toString();
                 });
               },
+              visualDensity: VisualDensity.compact,
+              activeColor: PreMedColorTheme().primaryColorRed,
             ),
-            Text(option),
+            Flexible(
+              child: Text(
+                option,
+                style: PreMedTextTheme().subtext,
+              ),
+            ),
           ],
         );
       }).toList(),

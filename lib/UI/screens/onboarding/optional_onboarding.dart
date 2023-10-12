@@ -1,7 +1,6 @@
-import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/curve_painter.dart';
+import 'package:premedpk_mobile_app/UI/screens/Onboarding/widgets/check_box.dart';
+import 'package:premedpk_mobile_app/UI/screens/Onboarding/widgets/curve_painter.dart';
 import 'package:premedpk_mobile_app/export.dart';
-import 'package:premedpk_mobile_app/ui/screens/onboarding/widgets/check_box.dart';
-import 'package:premedpk_mobile_app/utils/Data/country_code_data.dart';
 
 class OptionalOnboarding extends StatelessWidget {
   const OptionalOnboarding({super.key});
@@ -35,15 +34,15 @@ class OptionalOnboarding extends StatelessWidget {
                         .heading3
                         .copyWith(color: PreMedColorTheme().primaryColorRed),
                   ),
-                  SizedBoxes.verticalMicro,
+                  SizedBoxes.verticalTiny,
                   Text(
                     'Complete the Final Form and Get Started',
                     style: PreMedTextTheme()
                         .subtext
                         .copyWith(color: PreMedColorTheme().neutral500),
                   ),
-                  SizedBoxes.verticalLarge,
-                  saadOptionalOnboarding(),
+                  SizedBoxes.verticalExtraGargangua,
+                  OptionalOnboardingForm(),
                   SizedBoxes.verticalGargangua,
                   Row(
                     mainAxisSize: MainAxisSize.max,
@@ -105,8 +104,8 @@ List<String> options = [
   'No',
 ];
 
-class saadOptionalOnboarding extends StatelessWidget {
-  saadOptionalOnboarding({super.key});
+class OptionalOnboardingForm extends StatelessWidget {
+  OptionalOnboardingForm({super.key});
 
   @override
   String currentOption = options[0];
@@ -121,7 +120,7 @@ class saadOptionalOnboarding extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
               SizedBoxes.verticalMedium,
@@ -133,7 +132,7 @@ class saadOptionalOnboarding extends StatelessWidget {
                 ),
               ),
               SizedBoxes.verticalMedium,
-              CustomTextField(
+              const CustomTextField(
                 hintText: 'Enter Parents name',
               ),
               SizedBoxes.verticalMedium,
@@ -144,6 +143,7 @@ class saadOptionalOnboarding extends StatelessWidget {
                   style: PreMedTextTheme().subtext,
                 ),
               ),
+              SizedBoxes.verticalMedium,
               PhoneDropdown(),
               SizedBoxes.verticalLarge,
               Text(
@@ -152,15 +152,22 @@ class saadOptionalOnboarding extends StatelessWidget {
               ),
               SizedBoxes.verticalMedium,
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ChecBox(),
-                  Text('MDCAT'),
-                  SizedBoxes.horizontalMicro,
-                  ChecBox(),
-                  Text('AKU'),
-                  SizedBoxes.horizontalMedium,
-                  ChecBox(),
-                  Text('NUMS')
+                  const CustomCheckBox(),
+                  SizedBoxes.horizontalTiny,
+                  Text(
+                    'MDCAT',
+                    style: PreMedTextTheme().subtext,
+                  ),
+                  SizedBoxes.horizontalBig,
+                  const CustomCheckBox(),
+                  SizedBoxes.horizontalTiny,
+                  Text('AKU', style: PreMedTextTheme().subtext),
+                  SizedBoxes.horizontalBig,
+                  const CustomCheckBox(),
+                  SizedBoxes.horizontalTiny,
+                  Text('NUMS', style: PreMedTextTheme().subtext)
                 ],
               ),
               SizedBoxes.verticalMedium,
@@ -186,8 +193,13 @@ class saadOptionalOnboarding extends StatelessWidget {
                             currentOption = value.toString();
                           });
                         },
+                        activeColor: PreMedColorTheme().primaryColorRed,
+                        visualDensity: VisualDensity.compact,
                       ),
-                      Text(option),
+                      Text(
+                        option,
+                        style: PreMedTextTheme().subtext,
+                      ),
                     ],
                   );
                 }).toList(),

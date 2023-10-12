@@ -4,24 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
-class AnimationScreen extends StatefulWidget {
-  const AnimationScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<AnimationScreen> createState() => _AnimationScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _AnimationScreenState extends State<AnimationScreen> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
     // Add a delay of 4 seconds and then navigate to the login page
-    Future.delayed(Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                Login()), // Replace 'LoginPage' with the actual login page
+          builder: (context) => const Login(),
+        ),
       );
     });
   }
@@ -37,7 +37,7 @@ class _AnimationScreenState extends State<AnimationScreen> {
             children: [
               Lottie.asset(
                 'animations/${index + 1}.json',
-                height: 300,
+                height: 200,
                 fit: BoxFit.cover,
                 repeat: true,
               ),
