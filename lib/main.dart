@@ -5,6 +5,7 @@ import 'package:premedpk_mobile_app/constants/premed_theme.dart';
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/spalsh_screen.dart';
 import 'export.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/bottom_navbar.dart';
+import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/camera_widget.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: _PreMedTheme.data,
-        home: EsHome());
+        home: CameraApp());
   }
 }
 

@@ -16,3 +16,5 @@ export 'package:premedpk_mobile_app/utils/school_data_widget.dart';
 export 'package:premedpk_mobile_app/utils/cities_data_widget.dart';
 export 'package:premedpk_mobile_app/UI/screens/Expert_Solution/es_home.dart';
 export 'package:premedpk_mobile_app/UI/screens/Expert_Solution/bottom_navbar.dart';
+export 'package:premedpk_mobile_app/UI/screens/Expert_Solution/expert_solution.dart';
+// export 'package:premedpk_mobile_app/UI/screens/Expert_Solution/camera_widget.dart';

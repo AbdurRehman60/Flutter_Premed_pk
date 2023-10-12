@@ -69,7 +69,7 @@ class CustomButton extends StatelessWidget {
                             ? PreMedTextTheme()
                                 .heading5
                                 .copyWith(color: PreMedColorTheme().white)
-                            : PreMedTextTheme().heading5.copyWith(
+                            : PreMedTextTheme().heading6.copyWith(
                                 color: PreMedColorTheme().primaryColorRed),
                       ),
                       leftIcon ? const SizedBox() : SizedBoxes.horizontalMicro,
@@ -88,9 +88,9 @@ class CustomButton extends StatelessWidget {
                     buttonText,
                     style: isActive
                         ? PreMedTextTheme()
-                            .heading5
+                            .heading6
                             .copyWith(color: PreMedColorTheme().white)
-                        : PreMedTextTheme().heading5.copyWith(
+                        : PreMedTextTheme().heading6.copyWith(
                             color: PreMedColorTheme().primaryColorRed),
                   ),
           )
@@ -124,9 +124,9 @@ class CustomButton extends StatelessWidget {
                       Text(
                         buttonText,
                         style: isActive
-                            ? PreMedTextTheme().heading5.copyWith(
+                            ? PreMedTextTheme().heading6.copyWith(
                                 color: textColor ?? PreMedColorTheme().white)
-                            : PreMedTextTheme().heading5.copyWith(
+                            : PreMedTextTheme().heading6.copyWith(
                                 color: textColor ??
                                     PreMedColorTheme().primaryColorRed),
                       ),
@@ -147,9 +147,9 @@ class CustomButton extends StatelessWidget {
                     buttonText,
                     style: isActive
                         ? PreMedTextTheme()
-                            .heading5
+                            .heading6
                             .copyWith(color: PreMedColorTheme().white)
-                        : PreMedTextTheme().heading5.copyWith(
+                        : PreMedTextTheme().heading6.copyWith(
                             color: PreMedColorTheme().primaryColorRed),
                   ),
           );

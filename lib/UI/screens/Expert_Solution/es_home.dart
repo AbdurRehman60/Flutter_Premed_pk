@@ -50,7 +50,7 @@ class EsHome extends StatelessWidget {
                           .copyWith(color: PreMedColorTheme().white),
                     ),
                     SizedBoxes.verticalBig,
-                    Expanded(child: CustomTabBar())
+                    Flexible(child: CustomTabBar())
                   ],
                 ),
               ),
