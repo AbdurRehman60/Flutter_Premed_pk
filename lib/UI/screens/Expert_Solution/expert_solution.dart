@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/display_image_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/local_image_display.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/or_divider.dart';
 import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
@@ -26,39 +27,48 @@ class ExpertSolution extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
+            Row(
+              children: [
+                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+                SizedBoxes.horizontalExtraGargangua,
+                SizedBoxes.horizontalExtraGargangua,
+                Text(
+                  'Ask an Expert',
+                  style: PreMedTextTheme().heading6,
+                ),
+              ],
+            ),
             SingleChildScrollView(
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {}, icon: Icon(Icons.arrow_back)),
-                      SizedBoxes.horizontalExtraGargangua,
-                      SizedBoxes.horizontalExtraGargangua,
-                      Text(
-                        'Ask an Expert',
-                        style: PreMedTextTheme().heading6,
-                      ),
-                    ],
-                  ),
                   Padding(
                     padding: EdgeInsets.all(16),
                     child: Column(
                       children: [
                         SizedBoxes.verticalMedium,
+                        Container(
+                            height: 300,
+                            // height: MediaQuery.sizeOf(context).height,
+                            width: MediaQuery.sizeOf(context).width,
+                            decoration: ShapeDecoration(
+                              color: PreMedColorTheme().neutral300,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                            ),
+                            child: LocalImageDisplay()),
                         const OrDivider(),
                         SizedBoxes.verticalMedium,
                         CustomButton(
                             buttonText: 'Open Camera to take Pictures',
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CameraScreen(
-                                    camera: camera,
-                                  ),
-                                ),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       // builder: (context) => CameraScreen(
+                              //       //   cameras: [camera],
+                              //       // ),
+                              //       ),
+                              // );
                             }),
                         SizedBoxes.verticalLarge,
                         Text(
