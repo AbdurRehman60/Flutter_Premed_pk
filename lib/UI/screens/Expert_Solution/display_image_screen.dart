@@ -1,25 +1,36 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
 class DisplayImageScreen extends StatelessWidget {
-  final String imagePath;
-
-  DisplayImageScreen({Key? key, required this.imagePath}) : super(key: key);
+  final File image;
+  DisplayImageScreen({
+    Key? key,
+    required this.image,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.arrow_back),
-            color: PreMedColorTheme().white,
-          )
+        title: Text('Crop Picture'),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Image.file(image),
+          ),
+          CustomButton(
+              buttonText: 'capture again',
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                      builder: (context) => ExpertSolution(image: image)),
+                );
+              })
         ],
       ),
-      body: Image.file(File(imagePath)),
     );
   }
 }

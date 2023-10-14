@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/display_image_screen.dart';
@@ -17,10 +19,11 @@ import '../../../constants/premed_theme.dart';
 // }
 
 class ExpertSolution extends StatelessWidget {
-  // const ExpertSolution({super.key});
-  final CameraDescription camera;
-
-  const ExpertSolution({required this.camera});
+  final File? image;
+  const ExpertSolution({
+    Key? key,
+    this.image,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,20 +58,22 @@ class ExpertSolution extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16)),
                             ),
-                            child: LocalImageDisplay()),
+                            child: image != null
+                                ? Expanded(
+                                    child: Image.file(image!),
+                                  )
+                                : LocalImageDisplay()),
                         const OrDivider(),
                         SizedBoxes.verticalMedium,
                         CustomButton(
                             buttonText: 'Open Camera to take Pictures',
                             onPressed: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       // builder: (context) => CameraScreen(
-                              //       //   cameras: [camera],
-                              //       // ),
-                              //       ),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CameraScreen(),
+                                ),
+                              );
                             }),
                         SizedBoxes.verticalLarge,
                         Text(
