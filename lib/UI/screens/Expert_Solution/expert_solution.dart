@@ -36,21 +36,12 @@ class ExpertSolution extends StatelessWidget {
               .subtext
               .copyWith(color: PreMedColorTheme().black),
         ),
-        // leading: IconButton(
-        //   color: PreMedColorTheme().black,
-        //   icon: const Icon(Icons.arrow_back),
-        //   onPressed: () {
-        //     MaterialPageRoute(
-        //       builder: (context) => EsHome(),
-        //     );
-        //   },
-        // ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   SizedBoxes.verticalMedium,
@@ -87,7 +78,7 @@ class ExpertSolution extends StatelessWidget {
                     style: PreMedTextTheme().subtext,
                   ),
                   SizedBoxes.verticalMedium,
-                  CustomTextField(
+                  const CustomTextField(
                     maxLines: 6,
                     hintText: 'Enter questions here',
                   ),

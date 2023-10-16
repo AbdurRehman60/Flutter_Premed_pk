@@ -35,8 +35,8 @@ class _LocalImageDisplayState extends State<LocalImageDisplay> {
         Expanded(
           flex: 1,
           child: CustomButton(
-            color: PreMedColorTheme().primaryColorBlue200,
-            textColor: PreMedColorTheme().neutral700,
+            color: PreMedColorTheme().primaryColorBlue100,
+            textColor: PreMedColorTheme().primaryColorBlue800,
             isActive: true,
             iconSize: 0,
             isIconButton: true,

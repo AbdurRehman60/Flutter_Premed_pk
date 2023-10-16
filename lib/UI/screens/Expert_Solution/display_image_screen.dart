@@ -6,7 +6,7 @@ import 'package:premedpk_mobile_app/export.dart';
 class DisplayImageScreen extends StatelessWidget {
   final File image;
 
-  DisplayImageScreen({
+  const DisplayImageScreen({
     Key? key,
     required this.image,
   }) : super(key: key);
@@ -19,7 +19,7 @@ class DisplayImageScreen extends StatelessWidget {
         backgroundColor: PreMedColorTheme().white,
         leading: IconButton(
           color: PreMedColorTheme().black,
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // Handle the back button as needed
             Navigator.of(context).pop();
@@ -36,7 +36,7 @@ class DisplayImageScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Expanded(
               child: Image.file(image),
             ),
@@ -51,7 +51,7 @@ class DisplayImageScreen extends StatelessWidget {
                     builder: (context) => CameraScreen(),
                   ));
                 },
-                icon: Icon(Icons.cancel),
+                icon: const Icon(Icons.cancel),
                 iconSize: 42,
                 alignment: Alignment.bottomLeft,
                 color: PreMedColorTheme().primaryColorRed,
@@ -80,7 +80,7 @@ class DisplayImageScreen extends StatelessWidget {
                     ),
                   );
                 },
-                icon: Icon(Icons.check),
+                icon: const Icon(Icons.check),
                 iconSize: 42,
                 color: PreMedColorTheme().primaryColorRed,
               )

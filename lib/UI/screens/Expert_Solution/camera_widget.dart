@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/crop.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/display_image_screen.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/main.dart';
@@ -412,8 +413,7 @@ class _CameraScreenState extends State<CameraScreen>
                                         // Navigate to the new screen with the captured image
                                         Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                DisplayImageScreen(
+                                            builder: (context) => CropImage(
                                               image: imageFile,
                                             ),
                                           ),
