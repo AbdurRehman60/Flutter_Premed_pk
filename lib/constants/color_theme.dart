@@ -6,6 +6,8 @@ class PreMedColorTheme {
   Color get primaryColorRed => const Color(0xFFEC5863);
   Color get primaryColorRed300 => const Color(0xFFF07982);
   Color get primaryColorRed200 => const Color(0xFFF49BA1);
+  Color get primaryColorRed100 => const Color(0xFFFFE8E9);
+  Color get primaryColorRed800 => const Color(0xFF2F1214);
 
   //now list of primary blue colors
   Color get primaryColorBlue600 => const Color(0xFF567099);
@@ -13,6 +15,8 @@ class PreMedColorTheme {
   Color get primaryColorBlue => const Color(0xFF8FB9FF);
   Color get primaryColorBlue300 => const Color(0xFFA6C8FF);
   Color get primaryColorBlue200 => const Color(0xFFBCD6FF);
+  Color get primaryColorBlue100 => const Color(0xFFE9F1FF);
+  Color get primaryColorBlue800 => const Color(0xFF1D2533);
 
   //normal color list
   Color get white => const Color(0xFFFFFFFF);

@@ -44,13 +44,21 @@ class PreMedTextTheme {
       );
 
   TextStyle get body => _baseTextStyle.copyWith(
-        fontSize: 16.0,
-        fontWeight: FontWeights.bold,
+        fontSize: 14.0,
+        fontWeight: FontWeights.regular,
       );
 
   TextStyle get subtext => _baseTextStyle.copyWith(
         fontSize: 16.0,
         fontWeight: FontWeights.medium,
+      );
+  TextStyle get headline => _baseTextStyle.copyWith(
+        fontSize: 14.0,
+        fontWeight: FontWeights.bold,
+      );
+  TextStyle get small => _baseTextStyle.copyWith(
+        fontSize: 11.0,
+        fontWeight: FontWeights.regular,
       );
 
   // TextStyle get small => _baseTextStyle.copyWith(
