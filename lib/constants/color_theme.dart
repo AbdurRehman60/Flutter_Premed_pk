@@ -32,7 +32,7 @@ class PreMedColorTheme {
 
   //Gradient colors
   LinearGradient get primaryGradient => LinearGradient(
-        colors: [primaryColorRed, primaryColorBlue],
+        colors: [primaryColorBlue, primaryColorRed],
       );
   LinearGradient get primaryRedGradient => LinearGradient(
         colors: [primaryColorRed, primaryColorRed500],

@@ -28,7 +28,7 @@ class ExpertSolution extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: PreMedColorTheme().white,
+        backgroundColor: PreMedColorTheme().primaryColorRed,
         centerTitle: true,
         title: Text(
           'Ask an Expert',
@@ -36,15 +36,15 @@ class ExpertSolution extends StatelessWidget {
               .subtext
               .copyWith(color: PreMedColorTheme().black),
         ),
-        leading: IconButton(
-          color: PreMedColorTheme().black,
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            MaterialPageRoute(
-              builder: (context) => EsHome(),
-            );
-          },
-        ),
+        // leading: IconButton(
+        //   color: PreMedColorTheme().black,
+        //   icon: const Icon(Icons.arrow_back),
+        //   onPressed: () {
+        //     MaterialPageRoute(
+        //       builder: (context) => EsHome(),
+        //     );
+        //   },
+        // ),
       ),
       body: SingleChildScrollView(
         child: Column(

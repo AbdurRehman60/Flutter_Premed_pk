@@ -2,33 +2,34 @@ import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/tab_bar.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
 class EsHome extends StatelessWidget {
-  EsHome({super.key});
+  const EsHome({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
+        body: Column(
           children: [
-            Column(
-              children: [
-                Container(
-                  height: 220,
-                  width: MediaQuery.sizeOf(context).width,
-                  decoration: ShapeDecoration(
-                      gradient: PreMedColorTheme().primaryGradient1,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(16),
-                              bottomRight: Radius.circular(16)))),
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
+            Container(
+              height: 232,
+              width: MediaQuery.sizeOf(context).width,
+              decoration: ShapeDecoration(
+                  gradient: PreMedColorTheme().primaryGradient,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(16),
+                          bottomRight: Radius.circular(16)))),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset('assets/images/eshome.png'),
+                            Image.asset(PremedAssets.EsIcon),
                             SizedBoxes.horizontalMedium,
                             Text(
                               'Expert Solution',
@@ -40,64 +41,58 @@ class EsHome extends StatelessWidget {
                         ),
                         SizedBoxes.verticalBig,
                         Text(
-                          'Get top-notch video solution answers to your',
+                          'Get top-notch video solution answers to your MDCAT questions from top-merit experts',
                           style: PreMedTextTheme()
                               .subtext
                               .copyWith(color: PreMedColorTheme().white),
-                        ),
-                        Text(
-                          'MDCAT questions from top-merit experts',
-                          style: PreMedTextTheme()
-                              .subtext
-                              .copyWith(color: PreMedColorTheme().white),
+                          textAlign: TextAlign.center,
                         ),
                         SizedBoxes.verticalBig,
-                        Flexible(child: CustomTabBar())
                       ],
                     ),
                   ),
-                ),
-                Container(
-                  height: 480,
-                  width: MediaQuery.sizeOf(context).width,
-                  color: PreMedColorTheme().white,
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: FloatingActionButton(
-                            mini: true,
-                            isExtended: true,
-                            backgroundColor: PreMedColorTheme().primaryColorRed,
-                            foregroundColor: PreMedColorTheme().white,
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ExpertSolution(),
-                                ),
-                              );
-                            },
-                            tooltip: 'Move to next screen',
-                            child: Icon(
-                              size: 35,
-                              Icons.add,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                  CustomTabBar()
+                ],
+              ),
             ),
-            BottomNavigator(),
+            // Container(
+            //   height: 480,
+            //   width: MediaQuery.sizeOf(context).width,
+            //   color: PreMedColorTheme().white,
+            //   child: Padding(
+            //     padding: EdgeInsets.all(16),
+            //     child: Column(
+            //       mainAxisAlignment: MainAxisAlignment.end,
+            //       children: [
+            //         Align(
+            //           alignment: Alignment.bottomRight,
+            //           child:
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
-      ),
-    );
+        floatingActionButton: FloatingActionButton(
+          // mini: true,
+          isExtended: true,
+          backgroundColor: PreMedColorTheme().primaryColorRed,
+          foregroundColor: PreMedColorTheme().white,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ExpertSolution(),
+              ),
+            );
+          },
+          tooltip: 'Expert Solution',
+          child: const Icon(
+            size: 35,
+            Icons.add,
+          ),
+        ));
   }
 }

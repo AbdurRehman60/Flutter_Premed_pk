@@ -21,8 +21,8 @@ class _CropImageScreenState extends State<CropImageScreen> {
     if (tempImage != null) {
       final croppedImage = img.copyCrop(
         tempImage,
-        x: 100,
-        y: 100,
+        x: 200,
+        y: 200,
         width: 400,
         height: 300,
       );

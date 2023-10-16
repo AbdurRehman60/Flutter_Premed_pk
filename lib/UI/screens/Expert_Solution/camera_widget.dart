@@ -410,7 +410,7 @@ class _CameraScreenState extends State<CameraScreen>
                                         Navigator.of(context).pop();
 
                                         // Navigate to the new screen with the captured image
-                                        Navigator.of(context).push(
+                                        Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 DisplayImageScreen(

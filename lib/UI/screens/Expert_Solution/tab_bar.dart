@@ -10,8 +10,7 @@ class CustomTabBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Container(
-            decoration:
-                BoxDecoration(gradient: PreMedColorTheme().primaryGradient1),
+            decoration: BoxDecoration(color: Colors.transparent),
             child: TabBar(
               indicatorColor: PreMedColorTheme().white,
               tabs: [
