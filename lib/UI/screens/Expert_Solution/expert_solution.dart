@@ -27,105 +27,107 @@ class ExpertSolution extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
+      appBar: AppBar(
+        backgroundColor: PreMedColorTheme().white,
+        centerTitle: true,
+        title: Text(
+          'Ask an Expert',
+          style: PreMedTextTheme()
+              .subtext
+              .copyWith(color: PreMedColorTheme().black),
+        ),
+        leading: IconButton(
+          color: PreMedColorTheme().black,
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            MaterialPageRoute(
+              builder: (context) => EsHome(),
+            );
+          },
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            Row(
-              children: [
-                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
-                SizedBoxes.horizontalExtraGargangua,
-                SizedBoxes.horizontalExtraGargangua,
-                Text(
-                  'Ask an Expert',
-                  style: PreMedTextTheme().heading6,
-                ),
-              ],
-            ),
-            SingleChildScrollView(
+            Padding(
+              padding: EdgeInsets.all(16),
               child: Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        SizedBoxes.verticalMedium,
-                        Container(
-                            height: 300,
-                            // height: MediaQuery.sizeOf(context).height,
-                            width: MediaQuery.sizeOf(context).width,
-                            decoration: ShapeDecoration(
-                              color: PreMedColorTheme().neutral300,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16)),
-                            ),
-                            child: image != null
-                                ? Expanded(
-                                    child: Image.file(image!),
-                                  )
-                                : LocalImageDisplay()),
-                        const OrDivider(),
-                        SizedBoxes.verticalMedium,
-                        CustomButton(
-                            buttonText: 'Open Camera to take Pictures',
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CameraScreen(),
-                                ),
-                              );
-                            }),
-                        SizedBoxes.verticalLarge,
-                        Text(
-                          'What problems are you facing in the uploaded question above? *',
-                          style: PreMedTextTheme().subtext,
-                        ),
-                        SizedBoxes.verticalMedium,
-                        CustomTextField(
-                          maxLines: 6,
-                          hintText: 'Enter questions here',
-                        ),
-                        SizedBoxes.verticalMedium,
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Select Resource',
-                            style: PreMedTextTheme().subtext,
+                  SizedBoxes.verticalMedium,
+                  Container(
+                      height: 200,
+                      // height: MediaQuery.sizeOf(context).height,
+                      width: MediaQuery.sizeOf(context).width,
+                      decoration: ShapeDecoration(
+                        color: PreMedColorTheme().white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                      ),
+                      child: image != null
+                          ? Expanded(
+                              child: Image.file(image!),
+                            )
+                          : LocalImageDisplay()),
+                  SizedBoxes.verticalMedium,
+                  const OrDivider(),
+                  SizedBoxes.verticalMedium,
+                  CustomButton(
+                      buttonText: 'Open Camera & Take Photo',
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CameraScreen(),
                           ),
-                        ),
-                        ResourceList(),
-                        // ResourceList(),
-                        SizedBoxes.verticalMedium,
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'What subject is the question related to?',
-                            style: PreMedTextTheme().subtext,
-                          ),
-                        ),
-                        SizedBoxes.verticalMedium,
-                        SubjectList(),
-                        // SubjectList(),
-                        SizedBoxes.verticalMedium,
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Select Topic',
-                            style: PreMedTextTheme().subtext,
-                          ),
-                        ),
-                        SizedBoxes.verticalMedium,
-                        TopicList(),
-                        SizedBoxes.verticalLarge,
-                        CustomButton(buttonText: 'Submit', onPressed: () {}),
-                        SizedBoxes.verticalMicro,
-                      ],
+                        );
+                      }),
+                  SizedBoxes.verticalLarge,
+                  Text(
+                    'What problems are you facing in the uploaded question above? *',
+                    style: PreMedTextTheme().subtext,
+                  ),
+                  SizedBoxes.verticalMedium,
+                  CustomTextField(
+                    maxLines: 6,
+                    hintText: 'Enter questions here',
+                  ),
+                  SizedBoxes.verticalMedium,
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Select Resource',
+                      style: PreMedTextTheme().subtext,
                     ),
                   ),
+                  ResourceList(),
+                  // ResourceList(),
+                  SizedBoxes.verticalMedium,
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'What subject is the question related to?',
+                      style: PreMedTextTheme().subtext,
+                    ),
+                  ),
+                  SizedBoxes.verticalMedium,
+                  SubjectList(),
+                  // SubjectList(),
+                  SizedBoxes.verticalMedium,
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Select Topic',
+                      style: PreMedTextTheme().subtext,
+                    ),
+                  ),
+                  SizedBoxes.verticalMedium,
+                  TopicList(),
+                  SizedBoxes.verticalLarge,
+                  CustomButton(buttonText: 'Submit', onPressed: () {}),
+                  SizedBoxes.verticalMicro,
                 ],
               ),
             ),
-            BottomNavigator()
           ],
         ),
       ),

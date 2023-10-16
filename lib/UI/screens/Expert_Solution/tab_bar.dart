@@ -6,33 +6,35 @@ class CustomTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.red.withOpacity(0.1),
-          flexibleSpace: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TabBar(tabs: [
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            decoration:
+                BoxDecoration(gradient: PreMedColorTheme().primaryGradient1),
+            child: TabBar(
+              indicatorColor: PreMedColorTheme().white,
+              tabs: [
                 Tab(
                   child: Text(
-                    'Solved Question',
+                    'Solved Questions',
                     style: PreMedTextTheme()
                         .subtext
-                        .copyWith(color: PreMedColorTheme().black),
+                        .copyWith(color: PreMedColorTheme().white),
                   ),
                 ),
                 Tab(
                   child: Text(
-                    'Pending Question',
+                    'Pending Questions',
                     style: PreMedTextTheme()
                         .subtext
-                        .copyWith(color: PreMedColorTheme().black),
+                        .copyWith(color: PreMedColorTheme().white),
                   ),
                 ),
-              ])
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

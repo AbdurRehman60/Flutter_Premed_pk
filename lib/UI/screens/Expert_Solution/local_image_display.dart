@@ -29,14 +29,14 @@ class _LocalImageDisplayState extends State<LocalImageDisplay> {
           Image.file(
             _image!,
             fit: BoxFit.fill,
-            width: double.infinity,
-            height: double.infinity,
+            width: 322,
+            height: 200,
           ),
         Expanded(
-          flex: 2,
+          flex: 1,
           child: CustomButton(
-            color: PreMedColorTheme().white,
-            textColor: PreMedColorTheme().neutral400,
+            color: PreMedColorTheme().primaryColorBlue200,
+            textColor: PreMedColorTheme().neutral700,
             isActive: true,
             iconSize: 0,
             isIconButton: true,
