@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/widgets/es_list_card.dart';
-import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
 class ExpertSolutionHome extends StatelessWidget {
@@ -21,7 +19,6 @@ class ExpertSolutionHome extends StatelessWidget {
                     NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
                   centerTitle: true,
-
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -43,13 +40,14 @@ class ExpertSolutionHome extends StatelessWidget {
                     // This is the title in the app bar.
                     background: Container(
                       decoration: ShapeDecoration(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                            ),
-                          ),
-                          gradient: PreMedColorTheme().primaryGradient),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                          ), // Set the rounded border radius
+                        ),
+                        gradient: PreMedColorTheme().primaryGradient,
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(20),
                         child: Column(
