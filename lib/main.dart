@@ -30,23 +30,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: _PreMedTheme.data,
-      // home: const CardList(
-      //   mainText:
-      //       'Identify the sentence with the incorrect use of apostrophe from the following sentences and tell the ans',
-      //   tags: [
-      //     {"tagName": "Tag1", "isResource": true},
-      //     {"tagName": "Tag2", "isResource": true},
-      //     {"tagName": "tag3", "isResource": false},
-      //     {"tagName": "tag1234567891011121", "isResource": false},
-      //     {"tagName": "tag3", "isResource": false},
-      //     {"tagName": "tag3", "isResource": false},
-      //     {"tagName": "tag3", "isResource": false},
-      //     {"tagName": "tag3", "isResource": false},
-      //     {"tagName": "tag3", "isResource": false},
-      //   ],
-      //   subtext:
-      //       'I cant understand the questiona nd the options provided. Please help me my paper is in 3 days. I need to Complete this mock.',
-      // ));
       home: const ExpertSolutionHome(),
     );
   }

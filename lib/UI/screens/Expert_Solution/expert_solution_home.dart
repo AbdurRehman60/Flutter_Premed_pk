@@ -18,21 +18,14 @@ class ExpertSolutionHome extends StatelessWidget {
                 handle:
                     NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
-                  centerTitle: true,
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(PremedAssets.EsIcon),
-                      SizedBoxes.horizontalLarge,
-                      Text(
-                        'Expert Solution',
-                        style: PreMedTextTheme()
-                            .heading6
-                            .copyWith(color: PreMedColorTheme().white),
-                      ),
-                    ],
-                  ),
                   // This is the title in the app bar.
+                  toolbarHeight: 10,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20.0),
+                      bottomRight: Radius.circular(20.0),
+                    ),
+                  ),
                   pinned: true,
                   expandedHeight: 160.0,
                   forceElevated: innerBoxIsScrolled,
@@ -40,7 +33,7 @@ class ExpertSolutionHome extends StatelessWidget {
                     // This is the title in the app bar.
                     background: Container(
                       decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20),
@@ -53,19 +46,55 @@ class ExpertSolutionHome extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(PremedAssets.EsIcon),
+                                SizedBoxes.horizontalLarge,
+                                Text(
+                                  'Expert Solution',
+                                  style: PreMedTextTheme().heading5.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: PreMedColorTheme().white),
+                                ),
+                              ],
+                            ),
                             SizedBoxes.verticalLarge,
                             Text(
-                                'Get top-notch video solution answers to your MDCAT questions from top-merit experts 🙌🏻',
-                                style: PreMedTextTheme()
-                                    .body
-                                    .copyWith(color: PreMedColorTheme().white))
+                              'Get top-notch video solution answers to your MDCAT questions from top-merit experts 🙌🏻',
+                              style: PreMedTextTheme()
+                                  .body
+                                  .copyWith(color: PreMedColorTheme().white),
+                              textAlign: TextAlign.center,
+                            )
                           ],
                         ),
                       ),
                     ),
                   ),
-                  bottom: TabBar(
-                    tabs: tabs.map((String name) => Tab(text: name)).toList(),
+                  bottom: PreferredSize(
+                    preferredSize: const Size.fromHeight(50.0),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(16.0),
+                          bottomRight: Radius.circular(16.0),
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(16.0),
+                          bottomRight: Radius.circular(16.0),
+                        ),
+                        child: TabBar(
+                          indicatorColor: PreMedColorTheme().white,
+                          indicatorWeight: 3.0,
+                          tabs: tabs
+                              .map((String name) => Tab(text: name))
+                              .toList(),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -73,79 +102,56 @@ class ExpertSolutionHome extends StatelessWidget {
           },
           body: TabBarView(
             children: tabs.map((String name) {
-              return SafeArea(
-                top: false,
-                bottom: false,
-                child: Builder(
-                  builder: (BuildContext context) {
-                    return CustomScrollView(
-                      key: PageStorageKey<String>(name),
-                      slivers: <Widget>[
-                        SliverOverlapInjector(
-                          handle:
-                              NestedScrollView.sliverOverlapAbsorberHandleFor(
-                                  context),
-                        ),
-                        SliverPadding(
-                          padding: const EdgeInsets.all(8.0),
-                          sliver: SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              (BuildContext context, int index) {
-                                return Column(
-                                  children: <Widget>[
-                                    const CardList(
-                                      mainText:
-                                          'Identify the sentence with the incorrect use of apostrophe from the following sentences and tell the answer',
-                                      tags: [
-                                        {"tagName": "Tag1", "isResource": true},
-                                        {"tagName": "Tag2", "isResource": true},
-                                        {
-                                          "tagName": "tag3",
-                                          "isResource": false
-                                        },
-                                        {
-                                          "tagName": "tag1234567891011121",
-                                          "isResource": false
-                                        },
-                                        {
-                                          "tagName": "tag3",
-                                          "isResource": false
-                                        },
-                                        {
-                                          "tagName": "tag3",
-                                          "isResource": false
-                                        },
-                                        {
-                                          "tagName": "tag3",
-                                          "isResource": false
-                                        },
-                                        {
-                                          "tagName": "tag3",
-                                          "isResource": false
-                                        },
-                                        {
-                                          "tagName": "tag3",
-                                          "isResource": false
-                                        },
-                                      ],
-                                      subtext:
-                                          'I can\'t understand the question and the options provided. Please help me; my paper is in 3 days. I need to complete this mock.',
-                                    ),
-                                    Divider(
-                                      thickness: 1,
-                                      color: PreMedColorTheme().neutral300,
-                                    ),
-                                  ],
-                                );
-                              },
-                              childCount: 30, // You can adjust this value.
-                            ),
+              return Builder(
+                builder: (BuildContext context) {
+                  return CustomScrollView(
+                    key: PageStorageKey<String>(name),
+                    slivers: <Widget>[
+                      SliverOverlapInjector(
+                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                            context),
+                      ),
+                      SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                              return Column(
+                                children: <Widget>[
+                                  const CardList(
+                                    mainText:
+                                        'Identify the sentence with the incorrect use of apostrophe from the following sentences and tell the answer',
+                                    tags: [
+                                      {"tagName": "Tag1", "isResource": true},
+                                      {"tagName": "Tag2", "isResource": true},
+                                      {"tagName": "tag3", "isResource": false},
+                                      {
+                                        "tagName": "tag1234567891011121",
+                                        "isResource": false
+                                      },
+                                      {"tagName": "tag3", "isResource": false},
+                                      {"tagName": "tag3", "isResource": false},
+                                      {"tagName": "tag3", "isResource": false},
+                                      {"tagName": "tag3", "isResource": false},
+                                      {"tagName": "tag3", "isResource": false},
+                                    ],
+                                    subtext:
+                                        'I can\'t understand the question and the options provided. Please help me; my paper is in 3 days. I need to complete this mock.',
+                                  ),
+                                  Divider(
+                                    thickness: 1,
+                                    color: PreMedColorTheme().neutral300,
+                                  ),
+                                ],
+                              );
+                            },
+                            childCount: 30, // You can adjust this value.
                           ),
                         ),
-                      ],
-                    );
-                  },
-                ),
+                      ),
+                    ],
+                  );
+                },
               );
             }).toList(),
           ),

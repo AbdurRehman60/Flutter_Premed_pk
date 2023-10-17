@@ -19,6 +19,7 @@ class PreMedTheme {
         appBarTheme: appBarTheme,
         scaffoldBackgroundColor: Colors.white,
         textButtonTheme: textButtonThemeData,
+        tabBarTheme: tabBarTheme,
       );
 
   ColorScheme get colorScheme => const ColorScheme.light().copyWith(
@@ -41,7 +42,7 @@ class PreMedTheme {
       );
 
   AppBarTheme get appBarTheme => AppBarTheme(
-        backgroundColor: Colors.transparent,
+        backgroundColor: _ColorTheme.primaryColorRed,
         foregroundColor: _ColorTheme.white,
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Color.fromARGB(20, 0, 0, 0),
@@ -50,5 +51,21 @@ class PreMedTheme {
           systemNavigationBarDividerColor: Colors.transparent,
         ),
         elevation: 0,
+      );
+
+  TabBarTheme get tabBarTheme => TabBarTheme(
+        labelColor:
+            PreMedColorTheme().white, // Color for the selected tab label
+        unselectedLabelColor: Colors.black54, // Color for unselected tab labels
+        labelStyle: PreMedTextTheme().body.copyWith(
+              fontWeight: FontWeights.bold,
+            ), // Style for selected tab label
+        unselectedLabelStyle: PreMedTextTheme().body.copyWith(
+              fontWeight: FontWeights.medium,
+            ),
+        indicatorColor: PreMedColorTheme().white,
+        dividerColor: Colors.white,
+
+        // Style for unselected tab labels
       );
 }
