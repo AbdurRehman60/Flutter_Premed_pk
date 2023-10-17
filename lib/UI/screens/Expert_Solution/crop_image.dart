@@ -58,18 +58,18 @@ class _CropImageScreenState extends State<CropImageScreen> {
               },
               child: Text('Crop Image'),
             ),
-            CustomButton(
-              buttonText: 'Continue',
-              onPressed: () {
-                if (_imageFile != null) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => ExpertSolution(image: _imageFile!),
-                    ),
-                  );
-                }
-              },
-            )
+            // CustomButton(
+            //   buttonText: 'Continue',
+            //   onPressed: () {
+            //     if (_imageFile != null) {
+            //       Navigator.of(context).pushReplacement(
+            //         MaterialPageRoute(
+            //           builder: (context) => ExpertSolution(image: _imageFile!),
+            //         ),
+            //       );
+            //     }
+            //   },
+            // )
           ],
         ),
       ),

@@ -28,6 +28,10 @@ class ExpertSolution extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(
+          Icons.arrow_back,
+          color: PreMedColorTheme().black,
+        ),
         backgroundColor: PreMedColorTheme().primaryColorRed,
         centerTitle: true,
         title: Text(

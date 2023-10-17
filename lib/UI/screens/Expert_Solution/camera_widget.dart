@@ -413,7 +413,8 @@ class _CameraScreenState extends State<CameraScreen>
                                         // Navigate to the new screen with the captured image
                                         Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
-                                            builder: (context) => CropImage(
+                                            builder: (context) =>
+                                                DisplayImageScreen(
                                               image: imageFile,
                                             ),
                                           ),

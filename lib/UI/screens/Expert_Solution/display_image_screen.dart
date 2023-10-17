@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/camera_widget.dart';
+import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/crop.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/crop_image.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
@@ -63,9 +64,8 @@ class DisplayImageScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) => CropImageScreen(),
-                        settings: RouteSettings(
-                          arguments: image, // Pass the image as an argument
+                        builder: (context) => CropImage(
+                          image: image,
                         ),
                       ),
                     );

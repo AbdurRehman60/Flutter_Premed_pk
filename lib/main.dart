@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/es_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/widgets/custom_appbar.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/widgets/es_list_card.dart';
 import 'package:premedpk_mobile_app/constants/premed_theme.dart';
 import 'export.dart';
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
       //   subtext:
       //       'I cant understand the questiona nd the options provided. Please help me my paper is in 3 days. I need to Complete this mock.',
       // ));
-      home: ExpertSolution(),
+      home: EsHome(),
     );
   }
 }
