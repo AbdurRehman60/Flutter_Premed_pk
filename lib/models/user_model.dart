@@ -154,21 +154,139 @@ class User {
 }
 
 class BundlesPurchased {
-  List<dynamic> tags;
+  List<BundleItem> bundleItems;
+  List<String> tags;
 
   BundlesPurchased({
+    required this.bundleItems,
     required this.tags,
   });
 
   factory BundlesPurchased.fromJson(Map<String, dynamic> responseData) {
+    final List<BundleItem> bundleItems = List<BundleItem>.from(
+      responseData.values.map((value) => BundleItem.fromJson(value)),
+    );
+
+    final List<String> tags = List<String>.from(responseData['tags'] ?? []);
+
     return BundlesPurchased(
-      tags: List<dynamic>.from(responseData['tags'] ?? []),
+      bundleItems: bundleItems,
+      tags: tags,
     );
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['tags'] = tags;
+
+    for (int i = 0; i < bundleItems.length; i++) {
+      _data[i.toString()] = bundleItems[i].toJson();
+    }
+
+    return _data;
+  }
+}
+
+class BundleItem {
+  BundleDetails bundleDetails;
+  String bundleId;
+  String purchaseDate;
+  String expiryDate;
+
+  BundleItem({
+    required this.bundleDetails,
+    required this.bundleId,
+    required this.purchaseDate,
+    required this.expiryDate,
+  });
+
+  factory BundleItem.fromJson(Map<String, dynamic> responseData) {
+    return BundleItem(
+      bundleDetails: BundleDetails.fromJson(responseData['bundleDetails']),
+      bundleId: responseData['bundleId'],
+      purchaseDate: responseData['PurchaseDate'],
+      expiryDate: responseData['ExpiryDate'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['bundleDetails'] = bundleDetails.toJson();
+    _data['bundleId'] = bundleId;
+    _data['PurchaseDate'] = purchaseDate;
+    _data['ExpiryDate'] = expiryDate;
+    return _data;
+  }
+}
+
+class BundleDetails {
+  String id;
+  List<String> bundlePoints;
+  List<String> includedTags;
+  bool isPublished;
+  String bundleName;
+  double bundlePrice;
+  double discountPercentage;
+  String bundleDescription;
+  String bundleIcon;
+  double bundleDiscount;
+  String createdAt;
+  String updatedAt;
+  int v;
+  int position;
+
+  BundleDetails({
+    required this.id,
+    required this.bundlePoints,
+    required this.includedTags,
+    required this.isPublished,
+    required this.bundleName,
+    required this.bundlePrice,
+    required this.discountPercentage,
+    required this.bundleDescription,
+    required this.bundleIcon,
+    required this.bundleDiscount,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.v,
+    required this.position,
+  });
+
+  factory BundleDetails.fromJson(Map<String, dynamic> responseData) {
+    return BundleDetails(
+      id: responseData['_id'],
+      bundlePoints: List<String>.from(responseData['BundlePoints'] ?? []),
+      includedTags: List<String>.from(responseData['IncludedTags'] ?? []),
+      isPublished: responseData['isPublished'],
+      bundleName: responseData['BundleName'],
+      bundlePrice: responseData['BundlePrice'],
+      discountPercentage: responseData['discountPercentage'],
+      bundleDescription: responseData['BundleDescription'],
+      bundleIcon: responseData['BundleIcon'],
+      bundleDiscount: responseData['BundleDiscount'],
+      createdAt: responseData['createdAt'],
+      updatedAt: responseData['updatedAt'],
+      v: responseData['__v'],
+      position: responseData['Position'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['_id'] = id;
+    _data['BundlePoints'] = bundlePoints;
+    _data['IncludedTags'] = includedTags;
+    _data['isPublished'] = isPublished;
+    _data['BundleName'] = bundleName;
+    _data['BundlePrice'] = bundlePrice;
+    _data['discountPercentage'] = discountPercentage;
+    _data['BundleDescription'] = bundleDescription;
+    _data['BundleIcon'] = bundleIcon;
+    _data['BundleDiscount'] = bundleDiscount;
+    _data['createdAt'] = createdAt;
+    _data['updatedAt'] = updatedAt;
+    _data['__v'] = v;
+    _data['Position'] = position;
     return _data;
   }
 }
