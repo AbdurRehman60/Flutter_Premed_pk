@@ -45,8 +45,7 @@ class _LoginFormState extends State<LoginForm> {
             } else {
               showError(context, response);
             }
-            print(
-                'Status Code: ${response['statusCode']}'); // Add this line to print status code
+            // Add this line to print status code
           },
         );
       }
@@ -94,7 +93,7 @@ class _LoginFormState extends State<LoginForm> {
                 CustomTextField(
                   controller: emailController,
                   labelText: 'Email',
-                  hintText: 'John.doe@gmail.com',
+                  hintText: 'Enter your email',
                   validator: (value) =>
                       validateEmail(value), // Use the email validator
                 ),
@@ -102,8 +101,8 @@ class _LoginFormState extends State<LoginForm> {
                 CustomTextField(
                   controller: passwordController,
                   labelText: "Password",
-                  hintText: "PASSWORD",
-                  obscureText: false,
+                  hintText: "Enter your password",
+                  obscureText: true,
                   validator: (value) =>
                       validatePassword(value), // Use the password validator
                 ),

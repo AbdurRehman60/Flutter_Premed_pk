@@ -79,15 +79,16 @@ class ExpertSolution extends StatelessWidget {
                   const OrDivider(),
                   SizedBoxes.verticalMedium,
                   CustomButton(
-                      buttonText: 'Open Camera & Take Photo',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CameraScreen(),
-                          ),
-                        );
-                      }),
+                    buttonText: 'Open Camera & Take Photo',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CameraScreen(),
+                        ),
+                      );
+                    },
+                  ),
                   SizedBoxes.verticalLarge,
                   Text(
                     'What problems are you facing in the uploaded question above? *',

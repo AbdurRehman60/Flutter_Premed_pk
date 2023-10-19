@@ -19,7 +19,7 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   // MyApp({super.key});
-  PreMedTheme _PreMedTheme = PreMedTheme();
+  final PreMedTheme _PreMedTheme = PreMedTheme();
 
   MyApp();
   // This widget is the root of your application.

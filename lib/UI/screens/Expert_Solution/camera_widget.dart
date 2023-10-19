@@ -382,9 +382,8 @@ class _CameraScreenState extends State<CameraScreen>
                                         context: context,
                                         barrierDismissible:
                                             false, // Prevents users from dismissing the dialog
-                                        builder: (context) => Center(
-                                          child:
-                                              const CircularProgressIndicator(),
+                                        builder: (context) => const Center(
+                                          child: CircularProgressIndicator(),
                                         ),
                                       );
                                       try {
@@ -445,29 +444,40 @@ class _CameraScreenState extends State<CameraScreen>
                       ),
                     ],
                   )
-                : const Center(
-                    child: Text(
-                      'LOADING',
-                      style: TextStyle(color: Colors.white),
+                : Center(
+                    child: Column(
+                      children: [
+                        const CircularProgressIndicator(),
+                        Text(
+                          'LOADING',
+                          style: PreMedTextTheme()
+                              .heading4
+                              .copyWith(fontWeight: FontWeight.normal),
+                        ),
+                      ],
                     ),
                   )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Row(),
-                  const Text(
-                    'Permission denied',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
+            : Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Permission denied',
+                      style: PreMedTextTheme()
+                          .heading4
+                          .copyWith(fontWeight: FontWeight.normal),
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  CustomButton(
-                    buttonText: 'Give permission',
-                    onPressed: getPermissionStatus(),
-                  ),
-                ],
+                    SizedBoxes.verticalMedium,
+                    CustomButton(
+                      buttonText: 'Give permission',
+                      onPressed: () {
+                        getPermissionStatus();
+                      },
+                    ),
+                  ],
+                ),
               ),
       ),
     );

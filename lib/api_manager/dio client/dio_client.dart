@@ -15,21 +15,21 @@ class DioClient {
   final Dio _dio = Dio(options);
 
   DioClient() {
-    _dio.interceptors.add(
-      InterceptorsWrapper(
-        onResponse: (response, handler) async {
-          if (response.data["header"]["errorCode"] == 401 &&
-              await SecureStorage()
-                  .secStorage
-                  .containsKey(key: 'refreshToken')) {
-            if (await refreshToken()) {
-              return handler.resolve(await _retry(response.requestOptions));
-            }
-          }
-          return handler.next(response);
-        },
-      ),
-    );
+    // _dio.interceptors.add(
+    //   InterceptorsWrapper(
+    //     onResponse: (response, handler) async {
+    //       if (response.data["header"]["errorCode"] == 401 &&
+    //           await SecureStorage()
+    //               .secStorage
+    //               .containsKey(key: 'refreshToken')) {
+    //         if (await refreshToken()) {
+    //           return handler.resolve(await _retry(response.requestOptions));
+    //         }
+    //       }
+    //       return handler.next(response);
+    //     },
+    //   ),
+    // );
   }
 
   Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
