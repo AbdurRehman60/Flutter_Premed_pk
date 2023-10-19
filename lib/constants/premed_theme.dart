@@ -20,6 +20,7 @@ class PreMedTheme {
         scaffoldBackgroundColor: Colors.white,
         textButtonTheme: textButtonThemeData,
         tabBarTheme: tabBarTheme,
+        useMaterial3: true,
       );
 
   ColorScheme get colorScheme => const ColorScheme.light().copyWith(
