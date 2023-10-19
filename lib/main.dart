@@ -1,4 +1,6 @@
 import 'package:camera/camera.dart';
+import 'package:premedpk_mobile_app/repository/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'export.dart';
 
@@ -23,11 +25,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: _PreMedTheme.data,
-      home: const SplashScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: _PreMedTheme.data,
+        home: const LoginScreen(),
+      ),
     );
   }
 }

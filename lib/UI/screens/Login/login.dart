@@ -38,68 +38,7 @@ class LoginScreen extends StatelessWidget {
               Image.asset('assets/images/Books.png'),
             ]),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Image.asset(PremedAssets.PrMedLogo),
-                ),
-                SizedBoxes.verticalBig,
-                Text(
-                  'Welcome Back!',
-                  textAlign: TextAlign.left,
-                  style: PreMedTextTheme()
-                      .heading2
-                      .copyWith(color: PreMedColorTheme().neutral800),
-                ),
-                SizedBoxes.verticalMedium,
-                Text(
-                  'Ready Pursue Your Medical Dreams?',
-                  textAlign: TextAlign.left,
-                  style: PreMedTextTheme()
-                      .subtext
-                      .copyWith(color: PreMedColorTheme().neutral500),
-                ),
-                Text(
-                  'Sign in to Continue Your Journey.',
-                  textAlign: TextAlign.left,
-                  style: PreMedTextTheme()
-                      .subtext
-                      .copyWith(color: PreMedColorTheme().neutral500),
-                ),
-                SizedBoxes.verticalExtraGargangua,
-                const CustomTextField(
-                  labelText: 'Email',
-                  hintText: 'John.doe@gmail.com',
-                ),
-                SizedBoxes.verticalMedium,
-                const CustomTextField(
-                    labelText: "Password",
-                    hintText: "PASSWORD",
-                    obscureText: true),
-                SizedBoxes.verticalBig,
-                CustomButton(
-                  buttonText: 'Login',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignUpScreen(),
-                      ),
-                    );
-                  },
-                ),
-                SizedBoxes.verticalBig,
-                const OrDivider(),
-                SizedBoxes.verticalLarge,
-                const GoogleLogin(),
-              ],
-            ),
-          ),
+          const LoginForm(),
         ]),
       ),
     ));

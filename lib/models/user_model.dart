@@ -75,7 +75,7 @@ class User {
     return User(
       status: responseData['status'],
       isLoggedin: responseData['isloggedin'],
-      userName: responseData['username'],
+      userName: responseData['email'],
       fullName: responseData['fullname'],
       phoneNumber: responseData['phonenumber'],
       city: responseData['city'],
@@ -116,7 +116,7 @@ class User {
     final _data = <String, dynamic>{};
     _data['status'] = status;
     _data['isloggedin'] = isLoggedin;
-    _data['username'] = userName;
+    _data['email'] = userName;
     _data['fullname'] = fullName;
     _data['phonenumber'] = phoneNumber;
     _data['city'] = city;

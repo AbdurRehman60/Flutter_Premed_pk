@@ -1,7 +1,4 @@
-// ignore: file_names
 import 'package:premedpk_mobile_app/export.dart';
-import 'package:premedpk_mobile_app/ui/widgets/google_login_button.dart';
-import 'package:premedpk_mobile_app/ui/widgets/or_divider.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
