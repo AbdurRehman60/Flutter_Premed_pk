@@ -6,14 +6,14 @@ class UserPreferences {
   Future<bool> saveUser(User user) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setString('dsrID', user.dsrID);
-    prefs.setString('name', user.name);
-    prefs.setString('mobileNumber', user.mobileNumber);
+    // prefs.setString('dsrID', user.dsrID);
+    // prefs.setString('name', user.name);
+    // prefs.setString('mobileNumber', user.mobileNumber);
 
-    prefs.setInt('userRoleID', user.userRole.userRoleId);
-    prefs.setString('userRole', user.userRole.userRole);
+    // prefs.setInt('userRoleID', user.userRole.userRoleId);
+    // prefs.setString('userRole', user.userRole.userRole);
 
-    prefs.setString('accessToken', user.accessToken);
+    // prefs.setString('accessToken', user.accessToken);
     // prefs.setString('refreshToken', user.refreshToken);
 
     return prefs.commit();
@@ -58,83 +58,83 @@ class UserPreferences {
     return result;
   }
 
-  Future<User> getUser() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  // Future<User> getUser() async {
+  // final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String dsrID = prefs.getString("dsrID") ?? '';
-    String name = prefs.getString("name") ?? '';
-    String mobileNumber = prefs.getString("mobileNumber") ?? '';
-    String accessToken = prefs.getString("accessToken") ?? '';
+  // String dsrID = prefs.getString("dsrID") ?? '';
+  // String name = prefs.getString("name") ?? '';
+  // String mobileNumber = prefs.getString("mobileNumber") ?? '';
+  // String accessToken = prefs.getString("accessToken") ?? '';
 
-    String userRole = prefs.getString("userRole") ?? '';
-    int userRoleID = prefs.getInt("userRoleID") ?? -1;
+  // String userRole = prefs.getString("userRole") ?? '';
+  // int userRoleID = prefs.getInt("userRoleID") ?? -1;
 
-    return User(
-      dsrID: dsrID,
-      name: name,
-      mobileNumber: mobileNumber,
-      accessToken: accessToken,
-      userRole: UserRole(userRole: userRole, userRoleId: userRoleID),
-    );
-  }
-
-  Future<bool> getPJPStatus() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool status = prefs.getBool("pjpFetched") ?? false;
-    return status;
-  }
-
-  void removeUser() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    prefs.remove('dsrID');
-    prefs.remove('name');
-    prefs.remove('mobileNumber');
-    prefs.remove('accessToken');
-    prefs.remove('userRole');
-    prefs.remove('accessToken');
-    prefs.remove('userRoleID');
-    prefs.remove('attendanceID');
-    deleteSystemStartTime();
-  }
-
-  Future<String> getToken() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString("accessToken") ?? '';
-    return token;
-  }
-
-  Future<void> updateToken(String newToken) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String accessToken = prefs.getString("accessToken") ?? '';
-    // print('Old access token ${prefs.getString("accessToken") ?? ''}');
-
-    prefs.setString('accessToken', newToken);
-    prefs.reload();
-    // print('new access token ${prefs.getString("accessToken") ?? ''}');
-  }
-
-  Future<void> saveSystemStartTime(DateTime startTime) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print('setting starttime in SP');
-    prefs.setString(
-      'startTime',
-      formatDateTime(startTime),
-    );
-
-    // print('object + ${formatDateTime(startTime)}');
-  }
-
-  Future<void> deleteSystemStartTime() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('startTime');
-  }
-
-  Future<void> deletePJPDetails() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('startTime');
-    prefs.setBool('attendanceMarked', false);
-    prefs.setBool('pjpFetched', false);
-  }
+  // return User(
+  // dsrID: dsrID,
+  // name: name,
+  // mobileNumber: mobileNumber,
+  // accessToken: accessToken,
+  // userRole: UserRole(userRole: userRole, userRoleId: userRoleID),
+  // );
 }
+
+Future<bool> getPJPStatus() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool status = prefs.getBool("pjpFetched") ?? false;
+  return status;
+}
+
+void removeUser() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  prefs.remove('dsrID');
+  prefs.remove('name');
+  prefs.remove('mobileNumber');
+  prefs.remove('accessToken');
+  prefs.remove('userRole');
+  prefs.remove('accessToken');
+  prefs.remove('userRoleID');
+  prefs.remove('attendanceID');
+  deleteSystemStartTime();
+}
+
+Future<String> getToken() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  String token = prefs.getString("accessToken") ?? '';
+  return token;
+}
+
+Future<void> updateToken(String newToken) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  String accessToken = prefs.getString("accessToken") ?? '';
+  // print('Old access token ${prefs.getString("accessToken") ?? ''}');
+
+  prefs.setString('accessToken', newToken);
+  prefs.reload();
+  // print('new access token ${prefs.getString("accessToken") ?? ''}');
+}
+
+// Future<void> saveSystemStartTime(DateTime startTime) async {
+// final SharedPreferences prefs = await SharedPreferences.getInstance();
+// print('setting starttime in SP');
+// prefs.setString(
+// 'startTime',
+// formatDateTime(startTime),
+// );
+
+// print('object + ${formatDateTime(startTime)}');
+// }
+
+Future<void> deleteSystemStartTime() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove('startTime');
+}
+
+Future<void> deletePJPDetails() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.remove('startTime');
+  prefs.setBool('attendanceMarked', false);
+  prefs.setBool('pjpFetched', false);
+}
+// }

@@ -74,14 +74,14 @@ class DioClient {
       newAccessToken = responseData['body']['accessToken'];
       newRefreshToken = responseData['body']['refreshToken'];
 
-      await UserPreferences().updateToken(newAccessToken);
+      // await UserPreferences().updateToken(newAccessToken);
       await SecureStorage().saveRefreshToken(newRefreshToken);
 
       return true;
     } else {
       // refresh token is wrong
       // await UserPreferences().updateToken('');
-      UserPreferences().removeUser();
+      // UserPreferences().removeUser();
 
       await SecureStorage().removeRefreshToken();
       return false;

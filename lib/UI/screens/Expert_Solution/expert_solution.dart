@@ -28,16 +28,28 @@ class ExpertSolution extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(
-          Icons.arrow_back,
-          color: PreMedColorTheme().black,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: PreMedColorTheme().black,
+          ),
+          onPressed: () {
+            Navigator.pop(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const RequiredOnboarding(),
+              ),
+            );
+            // Add your onPressed function here
+            // This function will be called when the back arrow icon button is pressed
+          },
         ),
-        backgroundColor: PreMedColorTheme().primaryColorRed,
+        backgroundColor: PreMedColorTheme().white,
         centerTitle: true,
         title: Text(
           'Ask an Expert',
           style: PreMedTextTheme()
-              .subtext
+              .heading7
               .copyWith(color: PreMedColorTheme().black),
         ),
       ),

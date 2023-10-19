@@ -1,8 +1,5 @@
 import 'package:camera/camera.dart';
 
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/expert_solution_home.dart';
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/widgets/es_list_card.dart';
-import 'package:premedpk_mobile_app/constants/premed_theme.dart';
 import 'export.dart';
 
 List<CameraDescription> cameras = [];
@@ -30,7 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: _PreMedTheme.data,
-      home: const ExpertSolutionHome(),
+      home: const SplashScreen(),
     );
   }
 }

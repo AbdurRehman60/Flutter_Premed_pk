@@ -84,7 +84,14 @@ class LoginScreen extends StatelessWidget {
                 SizedBoxes.verticalBig,
                 CustomButton(
                   buttonText: 'Login',
-                  onPressed: onLoginPressed,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignUpScreen(),
+                      ),
+                    );
+                  },
                 ),
                 SizedBoxes.verticalBig,
                 const OrDivider(),

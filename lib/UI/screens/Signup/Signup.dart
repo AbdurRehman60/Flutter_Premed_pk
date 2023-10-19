@@ -66,7 +66,14 @@ class SignUpScreen extends StatelessWidget {
                 SizedBoxes.verticalBig,
                 CustomButton(
                   buttonText: 'Sign Up',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ExpertSolutionHome(),
+                      ),
+                    );
+                  },
                 ),
                 SizedBoxes.verticalMedium,
                 Row(

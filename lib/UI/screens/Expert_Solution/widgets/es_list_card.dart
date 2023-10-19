@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/constants/color_theme.dart';
-import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
 class CardList extends StatelessWidget {
@@ -31,17 +28,15 @@ class CardList extends StatelessWidget {
             maxLines: 2,
           ),
           SizedBoxes.verticalMedium,
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Wrap(
-              spacing: 3,
-              children: tags
-                  .map((tag) => TagsRow(
-                        tagName: tag['tagName'],
-                        isResource: tag['isResource'],
-                      ))
-                  .toList(),
-            ),
+          Wrap(
+            runSpacing: 8,
+            spacing: 4,
+            children: tags
+                .map((tag) => TagsRow(
+                      tagName: tag['tagName'],
+                      isResource: tag['isResource'],
+                    ))
+                .toList(),
           ),
           SizedBoxes.verticalMedium,
           Text(
@@ -73,7 +68,7 @@ class TagsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: isResource
             ? PreMedColorTheme().primaryColorRed100

@@ -70,7 +70,7 @@ class RequiredOnboarding extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const OptionalOnboarding(),
+                              builder: (context) => const ExpertSolutionHome(),
                             ),
                           );
                         },
