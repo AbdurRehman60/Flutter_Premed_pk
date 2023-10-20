@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:premedpk_mobile_app/repository/auth_provider.dart';
+import 'package:premedpk_mobile_app/repository/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'export.dart';
@@ -14,29 +15,32 @@ Future<void> main() async {
   } on CameraException catch (e) {
     print('Error in fetching the cameras: $e');
   }
-  runApp(MyApp());
+  runApp(MyApp(cameras));
 }
 
 class MyApp extends StatelessWidget {
-  // MyApp({super.key});
   final PreMedTheme _PreMedTheme = PreMedTheme();
 
-  MyApp();
-  // This widget is the root of your application.
+  MyApp(this.cameras);
+
+  final List<CameraDescription> cameras;
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider(cameras, context)),
+        ChangeNotifierProvider(create: (_) => UserProvider(cameras)),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: _PreMedTheme.data,
-        home: const LoginScreen(),
+        home: const SplashScreen(),
       ),
     );
   }
 }
+
 
 //test
