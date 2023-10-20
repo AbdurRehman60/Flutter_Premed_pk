@@ -5,7 +5,7 @@ class Endpoints {
 
   // base url
   // static const String baseUrl = "http://192.168.10.9";
-  static const String baseUrl = "http://192.168.100.117";
+  static const String baseUrl = "http://192.168.10.6";
 
   //specific URLs
   static const String serverURL = "${baseUrl}:${serverPort}";
@@ -17,6 +17,7 @@ class Endpoints {
   static const Duration connectionTimeout = Duration(milliseconds: 5000);
   static const String login = '/login';
   static const String logout = '/auth/logout';
+  static const String getLoggedInUser = '/LoggedInUser';
   static const String checkNetwork = '/attendance/checkNetwork';
   static const String markAttendance = '/attendance/checkin';
   static const String newAccessToken = '/auth/tokens';
