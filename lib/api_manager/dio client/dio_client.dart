@@ -1,4 +1,6 @@
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:premedpk_mobile_app/utils/secure_storage.dart';
 import 'package:premedpk_mobile_app/utils/shared_prefrences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,8 +15,11 @@ class DioClient {
   );
 
   final Dio _dio = Dio(options);
-
+  final cookieJar = CookieJar();
   DioClient() {
+    _dio.interceptors.add(
+      CookieManager(cookieJar),
+    );
     // _dio.interceptors.add(
     //   InterceptorsWrapper(
     //     onResponse: (response, handler) async {

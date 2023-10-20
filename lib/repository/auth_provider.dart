@@ -42,9 +42,12 @@ class AuthProvider extends ChangeNotifier {
         data: loginData,
       );
       if (response.statusCode == 200) {
+        final cookies = response.headers.map['set-cookie'];
+        print("Cookie,$cookies");
+
         // final Map<String, dynamic> responseData =
         //     Map<String, dynamic>.from(response.data);
-
+        print('login suvvess');
         result = {
           'status': true,
           'message': 'Successful',
@@ -68,6 +71,43 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
+  Future<Map<String, dynamic>> getLoggedInUser() async {
+    var result;
+
+    try {
+      final response = await _client.get(
+        Endpoints.getLoggedInUser,
+      );
+      print(response);
+      result = {
+        'status': true,
+        'message': 'Successful',
+      };
+      // if (response.statusCode == 200) {
+      //   print(response);
+
+      //   result = {
+      //     'status': true,
+      //     'message': 'Successful',
+      //   };
+      // } else {
+      //   //returning  results
+      //   result = {
+      //     'status': false,
+      //     'message': json.decode(response.data),
+      //   };
+      // }
+    } on DioException catch (e) {
+      _loggedInStatus = Status.NotLoggedIn;
+      notify();
+      // print('error + $e.message');
+      result = {
+        'status': false,
+        'message': e.message,
+      };
+    }
+    return result;
+  }
   // Future<Map<String, dynamic>> logout() async {
   //   var result;
 

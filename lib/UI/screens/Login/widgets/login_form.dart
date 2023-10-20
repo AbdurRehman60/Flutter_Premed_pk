@@ -36,12 +36,12 @@ class _LoginFormState extends State<LoginForm> {
 
               // Provider.of<UserProvider>(context, listen: false).setUser(user);
 
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SignUpScreen(),
-                ),
-              );
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const SignUpScreen(),
+              //   ),
+              // );
             } else {
               showError(context, response);
             }

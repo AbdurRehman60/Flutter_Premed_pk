@@ -1,12 +1,31 @@
+import 'package:premedpk_mobile_app/UI/widgets/error_dialogue.dart';
+import 'package:provider/provider.dart';
+
 import '../../export.dart';
+import '../../repository/auth_provider.dart';
 
 class GoogleLogin extends StatelessWidget {
   const GoogleLogin({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider auth = Provider.of<AuthProvider>(context);
+    onLoginPressed() {
+      print('object');
+      final Future<Map<String, dynamic>> response1 = auth.getLoggedInUser();
+      response1.then(
+        (response) {
+          if (response['status']) {
+            showError(context, response);
+          } else {
+            showError(context, response);
+          }
+        },
+      );
+    }
+
     return GestureDetector(
-      onTap: () {},
+      onTap: onLoginPressed,
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
