@@ -2,21 +2,23 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
-import 'package:premedpk_mobile_app/utils/secure_storage.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../api_manager/dio client/dio_client.dart';
 import '../api_manager/dio client/endpoints.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
 // ignore: constant_identifier_names
-enum Status { NotLoggedIn, LoggedIn, Authenticating, LoggedOut }
+enum Status {
+  NotLoggedIn,
+  LoggedIn,
+  Authenticating,
+  LoggedOut,
+}
 
 class AuthProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
 
   Status _loggedInStatus = Status.NotLoggedIn;
+  Status _SignUpStatus = Status.Authenticating;
 
   Status get loggedInStatus => _loggedInStatus;
 
@@ -47,7 +49,7 @@ class AuthProvider extends ChangeNotifier {
 
         // final Map<String, dynamic> responseData =
         //     Map<String, dynamic>.from(response.data);
-        print('login suvvess');
+        print('login success');
         result = {
           'status': true,
           'message': 'Successful',
@@ -97,6 +99,49 @@ class AuthProvider extends ChangeNotifier {
       //     'message': json.decode(response.data),
       //   };
       // }
+    } on DioException catch (e) {
+      _loggedInStatus = Status.NotLoggedIn;
+      notify();
+      // print('error + $e.message');
+      result = {
+        'status': false,
+        'message': e.message,
+      };
+    }
+    return result;
+  }
+
+  Future<Map<String, dynamic>> signup(
+      String email, String password, String fullName) async {
+    var result;
+    final Map<String, dynamic> signupData = {
+      "fullname": fullName,
+      "username": email,
+      "password": password,
+    };
+    _SignUpStatus = Status.Authenticating;
+    notify();
+
+    try {
+      Response response = await _client.post(
+        Endpoints.signup,
+        data: signupData,
+      );
+      if (response.statusCode == 200) {
+        // final Map<String, dynamic> responseData =
+        //     Map<String, dynamic>.from(response.data);
+        print('signup success');
+        result = {
+          'sucess': true,
+          'status': 'Account Created Successfully',
+        };
+      } else {
+        _SignUpStatus = Status.Authenticating;
+        notify();
+
+        //returning  results
+        result = {'status': false, 'message': json.decode(response.data)};
+      }
     } on DioException catch (e) {
       _loggedInStatus = Status.NotLoggedIn;
       notify();

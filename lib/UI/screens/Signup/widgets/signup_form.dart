@@ -1,120 +1,149 @@
+import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/error_dialogue.dart';
+import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
 import 'package:premedpk_mobile_app/repository/auth_provider.dart';
 import 'package:premedpk_mobile_app/repository/user_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'package:premedpk_mobile_app/export.dart';
-
-class LoginForm extends StatefulWidget {
-  const LoginForm({
+class SignupForm extends StatefulWidget {
+  const SignupForm({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<SignupForm> createState() => _SignupFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _SignupFormState extends State<SignupForm> {
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     AuthProvider auth = Provider.of<AuthProvider>(context);
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+    TextEditingController fullnameController = TextEditingController();
 
-    onLoginPressed() {
+    void onSignupPressed() {
       final form = _formKey.currentState!;
       if (form.validate()) {
-        final Future<Map<String, dynamic>> response =
-            auth.login(emailController.text, passwordController.text);
-
-        response.then(
-          (response) {
-            if (response['status']) {
-              // User user = response['user'];
-
-              // Provider.of<UserProvider>(context, listen: false).setUser(user);
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SignUpScreen(),
-                ),
-              );
-            } else {
-              showError(context, response);
-            }
-            // Add this line to print status code
-          },
+        Future<Map<String, dynamic>> response = auth.signup(
+          emailController.text,
+          passwordController.text,
+          fullnameController.text,
         );
+
+        response.then((response) {
+          if (response['status']) {
+            User user = response['user'];
+
+            Provider.of<UserProvider>(context, listen: false).setUser(user);
+
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ExpertSolutionHome(),
+              ),
+            );
+          } else {
+            showError(context, response);
+          }
+        });
       }
     }
 
     return Form(
       key: _formKey,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Column(
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Align(
                   alignment: Alignment.topLeft,
                   child: Image.asset(PremedAssets.PrMedLogo),
                 ),
-                SizedBoxes.verticalBig,
                 Text(
-                  'Welcome Back!',
-                  textAlign: TextAlign.left,
-                  style: PreMedTextTheme()
-                      .heading2
-                      .copyWith(color: PreMedColorTheme().neutral800),
-                ),
-                SizedBoxes.verticalMedium,
-                Text(
-                  'Ready to Pursue Your Medical Dreams?',
-                  textAlign: TextAlign.left,
-                  style: PreMedTextTheme()
-                      .subtext
-                      .copyWith(color: PreMedColorTheme().neutral500),
+                  'Start Your path to',
+                  style: PreMedTextTheme().heading4.copyWith(
+                        color: PreMedColorTheme().neutral600,
+                      ),
                 ),
                 Text(
-                  'Sign in to Continue Your Journey.',
-                  textAlign: TextAlign.left,
-                  style: PreMedTextTheme()
-                      .subtext
-                      .copyWith(color: PreMedColorTheme().neutral500),
-                ),
-                SizedBoxes.verticalExtraGargangua,
-                CustomTextField(
-                  controller: emailController,
-                  labelText: 'Email',
-                  hintText: 'Enter your email',
-                  validator: (value) =>
-                      validateEmail(value), // Use the email validator
-                ),
-                SizedBoxes.verticalMedium,
-                CustomTextField(
-                  controller: passwordController,
-                  labelText: "Password",
-                  hintText: "Enter your password",
-                  obscureText: true,
-                  validator: (value) =>
-                      validatePassword(value), // Use the password validator
+                  'becoming a Doctor',
+                  style: PreMedTextTheme().heading4.copyWith(
+                        color: PreMedColorTheme().neutral600,
+                      ),
                 ),
                 SizedBoxes.verticalBig,
-                CustomButton(buttonText: 'Login', onPressed: onLoginPressed),
+                const GoogleLogin(),
                 SizedBoxes.verticalBig,
                 const OrDivider(),
-                SizedBoxes.verticalLarge,
-                const GoogleLogin(),
+                SizedBoxes.verticalBig,
+                CustomTextField(
+                  hintText: 'Full name',
+                  labelText: 'John Doe',
+                ),
+                SizedBoxes.verticalMedium,
+                CustomTextField(
+                  hintText: 'Email',
+                  labelText: 'John.Doe@gmail.com',
+                  validator: (value) => validateEmail(value),
+                ),
+                SizedBoxes.verticalMedium,
+                CustomTextField(
+                  hintText: 'Password*',
+                  labelText: 'Enter Password',
+                  obscureText: true,
+                ),
+                SizedBoxes.verticalMedium,
+                CustomTextField(
+                  hintText: 'Confirm Password',
+                  labelText: 'Confirm Password',
+                  obscureText: true,
+                ),
+                SizedBoxes.verticalMedium,
+                CustomTextField(
+                  hintText: 'Referral Code (optional)',
+                  labelText: 'Enter Referral Code if you have any',
+                ),
+                SizedBoxes.verticalBig,
+                CustomButton(
+                  buttonText: 'Sign Up',
+                  onPressed: onSignupPressed,
+                ),
+                SizedBoxes.verticalMedium,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Already have an account?',
+                      style: PreMedTextTheme().subtext,
+                    ),
+                    SizedBoxes.horizontalMicro,
+                    Text(
+                      'Login',
+                      style: PreMedTextTheme()
+                          .subtext
+                          .copyWith(color: PreMedColorTheme().primaryColorRed),
+                    ),
+                  ],
+                ),
+                SizedBoxes.verticalBig,
+                Text(
+                  'By continuing, you agree to Premed.pk’s Terms of Use and Privacy Policy.',
+                  style: PreMedTextTheme().subtext.copyWith(
+                        color: PreMedColorTheme().neutral500,
+                        height: 1.5,
+                      ),
+                  textAlign: TextAlign.center,
+                )
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
