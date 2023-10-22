@@ -4,8 +4,8 @@ class Endpoints {
   static const String serverPort = "4002";
 
   // base url
-  // static const String baseUrl = "http://192.168.10.9";
-  static const String baseUrl = "http://192.168.100.117";
+  static const String baseUrl = "http://192.168.10.6";
+  // static const String baseUrl = "http://192.168.100.117";
 
   //specific URLs
   static const String serverURL = "${baseUrl}:${serverPort}";

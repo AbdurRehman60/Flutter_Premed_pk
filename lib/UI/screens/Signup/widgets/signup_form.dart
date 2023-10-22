@@ -19,9 +19,10 @@ class _SignupFormState extends State<SignupForm> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmpasswordController = TextEditingController();
-  TextEditingController fullnameController = TextEditingController();
-  // TextEditingController referralCodeController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController confirmEmailController = TextEditingController();
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController referralCodeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,26 +34,28 @@ class _SignupFormState extends State<SignupForm> {
         Future<Map<String, dynamic>> response = auth.signup(
           emailController.text,
           passwordController.text,
-          fullnameController.text,
-          // referralCodeController.text,
+          fullNameController.text,
+          referralCodeController.text,
         );
 
-        response.then((response) {
-          if (response['status']) {
-            User user = response['user'];
+        response.then(
+          (response) {
+            if (response['status']) {
+              // User user = response['user'];
 
-            Provider.of<UserProvider>(context, listen: false).setUser(user);
+              // Provider.of<UserProvider>(context, listen: false).setUser(user);
 
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ExpertSolutionHome(),
-              ),
-            );
-          } else {
-            showError(context, response);
-          }
-        });
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ExpertSolutionHome(),
+                ),
+              );
+            } else {
+              showError(context, response);
+            }
+          },
+        );
       }
     }
 
@@ -65,7 +68,6 @@ class _SignupFormState extends State<SignupForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ... Your other widgets ...
                 Align(
                   alignment: Alignment.topLeft,
                   child: Image.asset(PremedAssets.PrMedLogo),
@@ -73,13 +75,13 @@ class _SignupFormState extends State<SignupForm> {
                 Text(
                   'Start Your path to',
                   style: PreMedTextTheme().heading4.copyWith(
-                        color: PreMedColorTheme().neutral600,
+                        color: PreMedColorTheme().neutral900,
                       ),
                 ),
                 Text(
                   'becoming a Doctor',
                   style: PreMedTextTheme().heading4.copyWith(
-                        color: PreMedColorTheme().neutral600,
+                        color: PreMedColorTheme().neutral900,
                       ),
                 ),
                 SizedBoxes.verticalBig,
@@ -88,42 +90,48 @@ class _SignupFormState extends State<SignupForm> {
                 const OrDivider(),
                 SizedBoxes.verticalBig,
                 CustomTextField(
-                  controller: fullnameController,
-                  hintText: 'Full name',
-                  labelText: 'John Doe',
+                  controller: fullNameController,
+                  hintText: 'Enter your full name',
+                  labelText: 'Full Name',
                   validator: validateFullname,
                 ),
                 SizedBoxes.verticalMedium,
                 CustomTextField(
                   controller: emailController,
-                  hintText: 'Email',
-                  labelText: 'John.Doe@gmail.com',
+                  hintText: 'Enter your email',
+                  labelText: 'Email',
                   validator: (value) => validateEmail(value),
                 ),
                 SizedBoxes.verticalMedium,
                 CustomTextField(
+                  controller: confirmEmailController,
+                  hintText: 'Re-enter your email',
+                  labelText: 'Confirm Email',
+                  validator: (value) => validateConfirmEmail(value),
+                ),
+                SizedBoxes.verticalMedium,
+                CustomTextField(
                   controller: passwordController,
-                  hintText: 'Password*',
-                  labelText: 'Enter Password',
+                  hintText: 'Enter your password',
+                  labelText: 'Password',
                   obscureText: true,
                   validator: validatePassword,
                 ),
                 SizedBoxes.verticalMedium,
                 CustomTextField(
-                  controller: confirmpasswordController,
-                  hintText: 'Confirm Password',
+                  controller: confirmPasswordController,
+                  hintText: 'Re-enter your password',
                   labelText: 'Confirm Password',
                   obscureText: true,
                   validator: validatePassword,
                 ),
                 SizedBoxes.verticalMedium,
                 CustomTextField(
-                  labelText: 'Referral Code',
+                  labelText: 'Referral Code (Optional)',
                   hintText: 'Enter Referral code',
-                  validator: validateReferralCode,
+                  controller: referralCodeController,
                 ),
                 SizedBoxes.verticalMedium,
-
                 CustomButton(
                   buttonText: 'Sign Up',
                   onPressed: onSignupPressed,
@@ -163,7 +171,6 @@ class _SignupFormState extends State<SignupForm> {
                       ),
                   textAlign: TextAlign.center,
                 )
-                // ... Your other widgets ...
               ],
             ),
           ),
@@ -173,8 +180,12 @@ class _SignupFormState extends State<SignupForm> {
   }
 
   String? validateFullname(String? value) {
-    if (value == null || value.isEmpty) {
+    if ((value == null || value.isEmpty)) {
       return 'Full name is required';
+    } else if (value.length < 3) {
+      return 'Incorrect name length';
+    } else if (value.contains(RegExp(r'[0-9]'))) {
+      return 'Full name should not contain numbers';
     }
     return null;
   }
@@ -182,8 +193,19 @@ class _SignupFormState extends State<SignupForm> {
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email is required';
-    } else if (!value.contains('@')) {
+    } else if (!value.contains('@') || !value.contains('com')) {
       return 'Invalid email format';
+    }
+    return null;
+  }
+
+  String? validateConfirmEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Confirm Email is required';
+    } else if (!value.contains('@') || !value.contains('com')) {
+      return 'Invalid email format';
+    } else if (emailController.text != value) {
+      return "Emails don't match";
     }
     return null;
   }
@@ -191,19 +213,10 @@ class _SignupFormState extends State<SignupForm> {
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Password is required';
-    } else if (value.length < 6) {
-      return 'Password must be at least 6 characters long';
+    } else if (value.length < 8) {
+      return 'Password must be at least 8 characters long';
     } else if (value != passwordController.text) {
       return 'Passwords do not match';
-    }
-    return null;
-  }
-
-  String? validateReferralCode(String? value) {
-    if (value == null || value.isEmpty) {
-      return null;
-    } else if (value.contains(RegExp(r'\d'))) {
-      return "Please enter a valid referral code";
     }
     return null;
   }

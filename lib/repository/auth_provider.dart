@@ -44,16 +44,20 @@ class AuthProvider extends ChangeNotifier {
         data: loginData,
       );
       if (response.statusCode == 200) {
-        final cookies = response.headers.map['set-cookie'];
-        print("Cookie,$cookies");
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
 
-        // final Map<String, dynamic> responseData =
-        //     Map<String, dynamic>.from(response.data);
-        print('login success');
-        result = {
-          'status': true,
-          'message': 'Successful',
-        };
+        if (responseData["success"]) {
+          result = {
+            'status': responseData["success"],
+            'message': responseData["status"],
+          };
+        } else {
+          result = {
+            'status': responseData["success"],
+            'message': responseData["status"],
+          };
+        }
       } else {
         _loggedInStatus = Status.NotLoggedIn;
         notify();
@@ -115,14 +119,17 @@ class AuthProvider extends ChangeNotifier {
     String email,
     String password,
     String fullName,
+    String? referralCode,
   ) async {
     var result;
     final Map<String, dynamic> signupData = {
       "fullname": fullName,
       "username": email,
       "password": password,
-      // "referral": referral,
     };
+    if (referralCode != null && referralCode.isNotEmpty) {
+      signupData["referralCode"] = referralCode;
+    }
     _SignUpStatus = Status.Authenticating;
     notify();
 
@@ -132,19 +139,27 @@ class AuthProvider extends ChangeNotifier {
         data: signupData,
       );
       if (response.statusCode == 200) {
-        // final Map<String, dynamic> responseData =
-        //     Map<String, dynamic>.from(response.data);
-        print('signup success');
-        result = {
-          'sucess': true,
-          'status': 'Account Created Successfully',
-        };
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+        if (responseData["responseData"] == "success") {
+          result = {
+            'status': responseData["success"],
+            'message': responseData["status"],
+          };
+        } else {
+          result = {
+            'status': responseData["success"],
+            'message': responseData["status"],
+          };
+        }
       } else {
         _SignUpStatus = Status.Authenticating;
         notify();
-
         //returning  results
-        result = {'status': false, 'message': json.decode(response.data)};
+        result = {
+          'status': false,
+          'message': json.decode(response.data),
+        };
       }
     } on DioException catch (e) {
       _loggedInStatus = Status.NotLoggedIn;
@@ -157,6 +172,7 @@ class AuthProvider extends ChangeNotifier {
     }
     return result;
   }
+
   // Future<Map<String, dynamic>> logout() async {
   //   var result;
 
