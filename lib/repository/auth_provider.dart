@@ -112,12 +112,16 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> signup(
-      String email, String password, String fullName) async {
+    String email,
+    String password,
+    String fullName,
+  ) async {
     var result;
     final Map<String, dynamic> signupData = {
       "fullname": fullName,
       "username": email,
       "password": password,
+      // "referral": referral,
     };
     _SignUpStatus = Status.Authenticating;
     notify();

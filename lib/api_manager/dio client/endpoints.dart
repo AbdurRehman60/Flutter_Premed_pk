@@ -17,7 +17,7 @@ class Endpoints {
   static const Duration connectionTimeout = Duration(milliseconds: 5000);
   static const String login = '/login';
   static const String logout = '/auth/logout';
-  static const String signup = '/signup';
+  static const String signup = '/api/auth/signup';
   static const String getLoggedInUser = '/LoggedInUser';
   static const String checkNetwork = '/attendance/checkNetwork';
   static const String markAttendance = '/attendance/checkin';
