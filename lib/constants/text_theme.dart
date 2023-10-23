@@ -58,7 +58,7 @@ class PreMedTextTheme {
       );
   TextStyle get headline => _baseTextStyle.copyWith(
         fontSize: 14.0,
-        fontWeight: FontWeights.bold,
+        fontWeight: FontWeights.semiBold,
       );
   TextStyle get small => _baseTextStyle.copyWith(
         fontSize: 11.0,

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/display_image_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/display_image_screen.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
 class CropImage extends StatefulWidget {

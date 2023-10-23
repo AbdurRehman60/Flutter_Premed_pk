@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/camera_widget.dart';
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/crop.dart';
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/crop_image.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/crop.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/crop_image.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
 class DisplayImageScreen extends StatelessWidget {

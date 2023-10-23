@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/camera_widget.dart';
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/display_image_screen.dart';
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/local_image_display.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/display_image_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/local_image_display.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/or_divider.dart';
 import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';

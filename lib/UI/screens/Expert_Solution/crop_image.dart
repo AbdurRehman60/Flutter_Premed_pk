@@ -4,7 +4,7 @@ import 'package:image/image.dart' as img;
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/custom_button.dart';
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/expert_solution.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution.dart';
 
 class CropImageScreen extends StatefulWidget {
   @override
