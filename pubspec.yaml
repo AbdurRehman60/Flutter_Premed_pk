@@ -95,6 +95,7 @@ flutter:
     - assets/images/Books.png
     - animations/1.json
     - assets/images/eshome.png
+    - assets/images/google.png
   fonts:
     - family: Inter
       fonts:

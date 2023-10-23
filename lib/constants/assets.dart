@@ -4,4 +4,5 @@ class PremedAssets {
   PremedAssets._();
   static String PrMedLogo = 'assets/images/PreMedLogo.png';
   static String EsIcon = 'assets/images/eshome.png';
+  static String GoogleLogo = 'assets/images/google.png';
 }

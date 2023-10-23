@@ -41,7 +41,7 @@ class GoogleLogin extends StatelessWidget {
           children: <Widget>[
             Image.asset(
               PremedAssets
-                  .PrMedLogo, // Replace with the path to your Google logo image
+                  .GoogleLogo, // Replace with the path to your Google logo image
               height: 24.0,
               width: 24.0,
             ),
