@@ -3,21 +3,21 @@ class Note {
   final bool isGuide;
   final String title;
   final String subject;
-  final String? province;
+  final String province;
   final String notesURL;
   final String coverImageURL;
   final List<NoteDemarcation> demarcations;
   final int pages;
   final int position;
-  final String createdAt;
-  final String updatedAt;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Note({
     required this.id,
     required this.isGuide,
     required this.title,
     required this.subject,
-    this.province,
+    required this.province,
     required this.notesURL,
     required this.coverImageURL,
     required this.demarcations,
@@ -28,8 +28,7 @@ class Note {
   });
 
   factory Note.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> demarcationsJson = json['demarcations'];
-    final List<NoteDemarcation> demarcations = demarcationsJson
+    List<NoteDemarcation> demarcations = (json['demarcations'] as List)
         .map((demarcationJson) => NoteDemarcation.fromJson(demarcationJson))
         .toList();
 
@@ -44,8 +43,8 @@ class Note {
       demarcations: demarcations,
       pages: json['pages'],
       position: json['position'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
 }

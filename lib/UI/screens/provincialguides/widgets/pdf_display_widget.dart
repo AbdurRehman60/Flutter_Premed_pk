@@ -1,46 +1,37 @@
-import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/models/notes_model.dart';
 
 class PdfDisplay extends StatelessWidget {
-  final String imageUrl;
-  final String title;
-  final int pages;
+  final Note note;
 
   PdfDisplay({
-    required this.imageUrl,
-    required this.title,
-    required this.pages,
+    required this.note,
   });
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: 10, // You only have one item per grid cell
+      itemCount: 10, // You only have one item to display
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 2,
         crossAxisSpacing: 3,
-        mainAxisExtent: 300, // Number of columns in the grid
+        mainAxisExtent:
+            300, // Adjust the number of columns in the grid as needed
       ),
-      // shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
-        return PDFTile(imageUrl: imageUrl, title: title, pages: pages);
+        return PDFTile(note: note);
       },
     );
   }
 }
 
 class PDFTile extends StatelessWidget {
-  const PDFTile({
-    super.key,
-    required this.imageUrl,
-    required this.title,
-    required this.pages,
-  });
+  final Note note;
 
-  final String imageUrl;
-  final String title;
-  final int pages;
+  PDFTile({
+    required this.note,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,27 +42,34 @@ class PDFTile extends StatelessWidget {
         children: [
           Expanded(
             child: Image.network(
-              imageUrl,
+              note.coverImageURL,
               height: 200,
               width: 142,
               fit: BoxFit.contain,
             ),
           ),
-          SizedBoxes.verticalMedium,
+          SizedBox(
+            height: 10,
+          ),
           Text(
-            title,
+            note.title,
             style: PreMedTextTheme().headline,
             textAlign: TextAlign.center,
           ),
-          SizedBoxes.verticalMicro,
+          SizedBox(
+            height: 5,
+          ),
           Text(
-            '$pages Pages',
+            '${note.pages} Pages',
             textAlign: TextAlign.center,
             style: PreMedTextTheme().small.copyWith(
                   color: PreMedColorTheme().neutral400,
                 ),
           ),
-          SizedBoxes.verticalLarge
+          // You can display other properties of the Note object as needed
+          SizedBox(
+            height: 20,
+          )
         ],
       ),
     );

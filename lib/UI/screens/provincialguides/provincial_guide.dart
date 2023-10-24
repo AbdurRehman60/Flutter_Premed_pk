@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/widgets/pdf_display_widget.dart';
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/models/notes_model.dart';
+import 'package:premedpk_mobile_app/utils/Data/notesdata.dart';
 
 class ProvincialGuides extends StatelessWidget {
   const ProvincialGuides({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Note selectedNote = notesData[1];
     return DefaultTabController(
       length: 5,
       child: Scaffold(
@@ -48,36 +51,7 @@ class ProvincialGuides extends StatelessWidget {
           child: TabBarView(
             children: [
               // Content for 'All' tab
-              PdfDisplay(
-                imageUrl:
-                    'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
-                title: 'Biology and its major fields of specialization',
-                pages: 7,
-              ),
-              PdfDisplay(
-                imageUrl:
-                    'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
-                title: 'Biology and its major fields of specialization',
-                pages: 7,
-              ),
-              PdfDisplay(
-                imageUrl:
-                    'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
-                title: 'Biology and its major fields of specialization',
-                pages: 7,
-              ),
-              PdfDisplay(
-                imageUrl:
-                    'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
-                title: 'Biology and its major fields of specialization',
-                pages: 7,
-              ),
-              PdfDisplay(
-                imageUrl:
-                    'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
-                title: 'Biology and its major fields of specialization',
-                pages: 7,
-              ),
+              PdfDisplay(note: selectedNote)
             ],
           ),
         ),
