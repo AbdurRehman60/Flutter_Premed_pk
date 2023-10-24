@@ -10,11 +10,14 @@ class PdfScreen extends StatefulWidget {
 }
 
 class _PdfViewState extends State<PdfScreen> {
-  String b = 'http://africau.edu/images/default/sample.pdf';
-  String s1 = 'http://africau.edu/images/default/sample.pdf';
-  String s2 = 'http://africau.edu/images/default/sample.pdf';
+  String b =
+      'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/f16f2eff-0dbb-4ebc-bc66-b88f3a2dcfdf.pdf';
+  String s1 =
+      'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/6c7a7004-e10e-4e21-b9bb-1808daa39080.pdf';
+  String s2 =
+      'https://premedpk-cdn.sgp1.cdn.digitaloceanspaces.com/Notes/Enzymes%20(5)-compressed_compressed%20(1).pdf';
   int currentPage = 0;
-  int maxPage = 10; // Change this to the maximum page count in your PDF
+  int maxPage = 100; // Change this to the maximum page count in your PDF
   late PDFViewController pdfController;
 
   @override
@@ -29,7 +32,7 @@ class _PdfViewState extends State<PdfScreen> {
               onTap: () async {
                 p.url = b;
                 Navigator.of(context).pop();
-                currentPage = 1;
+                currentPage = 0;
                 pdfController.setPage(currentPage);
               },
               title: Text("Sample 0"),
@@ -38,7 +41,7 @@ class _PdfViewState extends State<PdfScreen> {
               onTap: () async {
                 p.url = s1;
                 Navigator.of(context).pop();
-                currentPage = 1;
+                currentPage = 0;
                 pdfController.setPage(currentPage);
               },
               title: Text("Sample 1"),
@@ -47,7 +50,7 @@ class _PdfViewState extends State<PdfScreen> {
               onTap: () async {
                 p.url = s2;
                 Navigator.of(context).pop();
-                currentPage = 1;
+                currentPage = 0;
                 pdfController.setPage(currentPage);
               },
               title: const Text("Sample 2"),
