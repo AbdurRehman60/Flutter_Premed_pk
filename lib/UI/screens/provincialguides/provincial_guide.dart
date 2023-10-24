@@ -51,7 +51,11 @@ class ProvincialGuides extends StatelessWidget {
           child: TabBarView(
             children: [
               // Content for 'All' tab
-              PdfDisplay(note: selectedNote)
+              PdfDisplay(note: selectedNote),
+              PdfDisplay(note: selectedNote),
+              PdfDisplay(note: selectedNote),
+              PdfDisplay(note: selectedNote),
+              PdfDisplay(note: selectedNote),
             ],
           ),
         ),
