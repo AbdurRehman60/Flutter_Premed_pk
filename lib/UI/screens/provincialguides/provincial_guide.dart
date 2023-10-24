@@ -43,40 +43,43 @@ class ProvincialGuides extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
-          children: [
-            // Content for 'All' tab
-            PdfDisplay(
-              imageUrl:
-                  'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
-              title: 'Biology and its major fields of specialization',
-              pages: 7,
-            ),
-            PdfDisplay(
-              imageUrl:
-                  'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
-              title: 'Biology and its major fields of specialization',
-              pages: 7,
-            ),
-            PdfDisplay(
-              imageUrl:
-                  'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
-              title: 'Biology and its major fields of specialization',
-              pages: 7,
-            ),
-            PdfDisplay(
-              imageUrl:
-                  'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
-              title: 'Biology and its major fields of specialization',
-              pages: 7,
-            ),
-            PdfDisplay(
-              imageUrl:
-                  'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
-              title: 'Biology and its major fields of specialization',
-              pages: 7,
-            ),
-          ],
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: TabBarView(
+            children: [
+              // Content for 'All' tab
+              PdfDisplay(
+                imageUrl:
+                    'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
+                title: 'Biology and its major fields of specialization',
+                pages: 7,
+              ),
+              PdfDisplay(
+                imageUrl:
+                    'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
+                title: 'Biology and its major fields of specialization',
+                pages: 7,
+              ),
+              PdfDisplay(
+                imageUrl:
+                    'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
+                title: 'Biology and its major fields of specialization',
+                pages: 7,
+              ),
+              PdfDisplay(
+                imageUrl:
+                    'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
+                title: 'Biology and its major fields of specialization',
+                pages: 7,
+              ),
+              PdfDisplay(
+                imageUrl:
+                    'https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png',
+                title: 'Biology and its major fields of specialization',
+                pages: 7,
+              ),
+            ],
+          ),
         ),
       ),
     );
