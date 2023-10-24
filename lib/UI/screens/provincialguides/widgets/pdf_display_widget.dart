@@ -2,25 +2,25 @@ import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
 
 class PdfDisplay extends StatelessWidget {
-  final Note note;
+  final List<Note> notes;
 
   PdfDisplay({
-    required this.note,
+    required this.notes,
   });
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: 10, // You only have one item to display
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      itemCount: notes.length, // You only have one item to display
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 2,
         crossAxisSpacing: 3,
         mainAxisExtent:
-            300, // Adjust the number of columns in the grid as needed
+            290, // Adjust the number of columns in the grid as needed
       ),
       itemBuilder: (BuildContext context, int index) {
-        return PDFTile(note: note);
+        return PDFTile(note: notes[index]);
       },
     );
   }
@@ -29,49 +29,38 @@ class PdfDisplay extends StatelessWidget {
 class PDFTile extends StatelessWidget {
   final Note note;
 
-  PDFTile({
+  const PDFTile({
+    super.key,
     required this.note,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Image.network(
-              note.coverImageURL,
-              height: 200,
-              width: 142,
-              fit: BoxFit.contain,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            note.title,
-            style: PreMedTextTheme().headline,
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            '${note.pages} Pages',
-            textAlign: TextAlign.center,
-            style: PreMedTextTheme().small.copyWith(
-                  color: PreMedColorTheme().neutral400,
-                ),
-          ),
-          // You can display other properties of the Note object as needed
-          SizedBox(
-            height: 20,
-          )
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Image.network(
+          note.coverImageURL,
+          height: 200,
+          width: 142,
+          fit: BoxFit.contain,
+        ),
+        SizedBoxes.verticalMedium,
+        Text(
+          note.title,
+          style: PreMedTextTheme().headline,
+          textAlign: TextAlign.center,
+        ),
+        SizedBoxes.verticalMicro,
+        Text(
+          '${note.pages} Pages',
+          textAlign: TextAlign.center,
+          style: PreMedTextTheme()
+              .small
+              .copyWith(color: PreMedColorTheme().neutral400, fontSize: 14),
+        ),
+      ],
     );
   }
 }

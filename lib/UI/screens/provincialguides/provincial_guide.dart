@@ -9,7 +9,6 @@ class ProvincialGuides extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Note selectedNote = notesData[1];
     return DefaultTabController(
       length: 5,
       child: Scaffold(
@@ -35,7 +34,7 @@ class ProvincialGuides extends StatelessWidget {
               )
             ],
           ),
-          bottom: TabBar(
+          bottom: const TabBar(
             isScrollable: true, // Make tabs scrollable
             tabs: [
               Tab(text: 'All'),
@@ -47,12 +46,9 @@ class ProvincialGuides extends StatelessWidget {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
           child: TabBarView(
-            children: [
-              // Content for 'All' tab
-              PdfDisplay(note: selectedNote)
-            ],
+            children: [PdfDisplay(notes: notesData)],
           ),
         ),
       ),
