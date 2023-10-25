@@ -17,7 +17,7 @@ class CustomButton extends StatelessWidget {
   }) : super(key: key);
 
   String buttonText;
-  final Function onPressed;
+  final Function()? onPressed;
   Size buttonSize = const Size(0, 0);
   final bool isActive;
   final bool isOutlined;
@@ -33,11 +33,7 @@ class CustomButton extends StatelessWidget {
     buttonSize = Size(MediaQuery.of(context).size.width * 1, 54);
     return isOutlined
         ? TextButton(
-            onPressed: isActive
-                ? () {
-                    onPressed();
-                  }
-                : () {},
+            onPressed: isActive ? onPressed ?? () {} : null,
             style: ElevatedButton.styleFrom(
               backgroundColor: isActive
                   ? PreMedColorTheme().white
@@ -95,11 +91,7 @@ class CustomButton extends StatelessWidget {
                   ),
           )
         : TextButton(
-            onPressed: isActive
-                ? () {
-                    onPressed();
-                  }
-                : () {},
+            onPressed: isActive ? onPressed ?? () {} : null,
             style: ElevatedButton.styleFrom(
               backgroundColor: isActive
                   ? color ?? PreMedColorTheme().primaryColorRed

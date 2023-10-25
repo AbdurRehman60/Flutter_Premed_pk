@@ -17,10 +17,10 @@ class PdfScreen extends StatefulWidget {
 }
 
 class _PdfViewState extends State<PdfScreen> {
-  int currentPage = 1;
-  int maxPage = 0; // Change this to the maximum page count in your PDF
+  int currentPage = 0;
+  int maxPage = 100; // Change this to the maximum page count in your PDF
   PDFViewController? pdfController;
-  Completer<PDFViewController> _pdfViewController =
+  final Completer<PDFViewController> _pdfViewController =
       Completer<PDFViewController>();
   @override
   Widget build(BuildContext context) {
@@ -29,44 +29,55 @@ class _PdfViewState extends State<PdfScreen> {
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().white,
         iconTheme: IconThemeData(color: PreMedColorTheme().primaryColorRed),
-        title: Text(
-          widget.note.title,
-          style: PreMedTextTheme().subtext,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 275,
+                  child: Text(
+                    widget.note.title,
+                    style: PreMedTextTheme().subtext,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                ),
+              ],
+            ),
+            // Add an empty container as a placeholder
+            IconButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          for (int i = 0;
+                              i < widget.note.demarcations.length;
+                              i++)
+                            ListTile(
+                              onTap: () async {
+                                Navigator.of(context).pop();
+                                currentPage = widget.note.demarcations[i].page;
+                                pdfController!.setPage(currentPage);
+                              },
+                              title: Text(widget.note.demarcations[i].name),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              icon: const Icon(Icons.menu),
+            )
+          ],
         ),
       ),
-      // drawer: Drawer(
-      //   child: ListView(
-      //     children: <Widget>[
-      //       ListTile(
-      //         onTap: () async {
-      //           p.url = b;
-      //           Navigator.of(context).pop();
-      //           currentPage = 0;
-      //           pdfController!.setPage(currentPage);
-      //         },
-      //         title: Text("Sample 0"),
-      //       ),
-      //       ListTile(
-      //         onTap: () async {
-      //           p.url = s1;
-      //           Navigator.of(context).pop();
-      //           currentPage = 0;
-      //           pdfController!.setPage(currentPage);
-      //         },
-      //         title: Text("Sample 1"),
-      //       ),
-      //       ListTile(
-      //         onTap: () async {
-      //           p.url = s2;
-      //           Navigator.of(context).pop();
-      //           currentPage = 0;
-      //           pdfController!.setPage(currentPage);
-      //         },
-      //         title: const Text("Sample 2"),
-      //       ),
-      //     ],
-      //   ),
-      // ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: PDF(
@@ -90,42 +101,55 @@ class _PdfViewState extends State<PdfScreen> {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
-              onPressed: currentPage > 0
-                  ? () {
-                      setState(() {
-                        currentPage--;
-                        pdfController?.setPage(currentPage);
-                      });
-                    }
-                  : null,
-              style: ElevatedButton.styleFrom(
-                surfaceTintColor: PreMedColorTheme().white,
-                disabledBackgroundColor: PreMedColorTheme().white,
-                backgroundColor: PreMedColorTheme().white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-              ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.arrow_back_ios,
-                    size: 15,
-                  ),
-                  Text(
-                    "Previous",
-                    style: PreMedTextTheme()
-                        .subtext
-                        .copyWith(color: PreMedColorTheme().neutral500),
-                  ),
-                ],
-              ),
-            ),
+            // ElevatedButton(
+            //   onPressed: currentPage > 0
+            //       ? () {
+            //           setState(() {
+            //             currentPage--;
+            //             pdfController?.setPage(currentPage);
+            //           });
+            //         }
+            //       : null,
+            //   style: ElevatedButton.styleFrom(
+            //     surfaceTintColor: PreMedColorTheme().white,
+            //     disabledBackgroundColor: PreMedColorTheme().white,
+            //     backgroundColor: PreMedColorTheme().white,
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(5.0),
+            //     ),
+            //   ),
+            //   child: Row(
+            //     children: [
+            //       const Icon(
+            //         Icons.arrow_back_ios,
+            //         size: 15,
+            //       ),
+            //       Text(
+            //         "Previous",
+            //         style: PreMedTextTheme()
+            //             .subtext
+            //             .copyWith(color: PreMedColorTheme().neutral500),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            SizedBox(
+                height: 40,
+                width: 120,
+                child: CustomButton(
+                    textColor: PreMedColorTheme().neutral500,
+                    color: PreMedColorTheme().white,
+                    isOutlined: false,
+                    isIconButton: true,
+                    leftIcon: true,
+                    iconSize: 15,
+                    icon: Icons.arrow_back_ios,
+                    buttonText: 'Previous',
+                    onPressed: () {})),
             Row(
               children: [
                 Container(
@@ -159,37 +183,19 @@ class _PdfViewState extends State<PdfScreen> {
                 ),
               ],
             ),
-            ElevatedButton(
-              onPressed: currentPage < maxPage
-                  ? () {
-                      setState(() {
-                        currentPage++;
-                        pdfController?.setPage(currentPage);
-                      });
-                    }
-                  : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: PreMedColorTheme().primaryColorRed,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    "Next",
-                    style: PreMedTextTheme()
-                        .subtext
-                        .copyWith(color: PreMedColorTheme().white),
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: PreMedColorTheme().white,
-                    size: 15,
-                  ),
-                ],
-              ),
-            ),
+            SizedBox(
+                height: 40,
+                width: 120,
+                child: CustomButton(
+                    textColor: PreMedColorTheme().white,
+                    color: PreMedColorTheme().primaryColorRed,
+                    isOutlined: false,
+                    isIconButton: true,
+                    leftIcon: false,
+                    iconSize: 15,
+                    icon: Icons.arrow_forward_ios,
+                    buttonText: 'Next',
+                    onPressed: () {}))
           ],
         ),
       ),

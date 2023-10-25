@@ -49,11 +49,11 @@ class ProvincialGuides extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
           child: TabBarView(
             children: [
-              PdfDisplay(notes: notesData),
-              PdfDisplay(notes: notesData),
-              PdfDisplay(notes: notesData),
-              PdfDisplay(notes: notesData),
-              PdfDisplay(notes: notesData),
+              PdfDisplay(notes: notesData), // Pass your notes data here
+              PdfDisplay(notes: notesData), // Pass your notes data here
+              PdfDisplay(notes: notesData), // Pass your notes data here
+              PdfDisplay(notes: notesData), // Pass your notes data here
+              PdfDisplay(notes: notesData), // Pass your notes data here
             ],
           ),
         ),
