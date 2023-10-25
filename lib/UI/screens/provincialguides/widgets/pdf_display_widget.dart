@@ -10,19 +10,23 @@ class PdfDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      itemCount: notes.length, // You only have one item to display
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 2,
-        crossAxisSpacing: 3,
-        mainAxisExtent:
-            290, // Adjust the number of columns in the grid as needed
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        return PDFTile(note: notes[index]);
-      },
-    );
+    return notes.isNotEmpty
+        ? GridView.builder(
+            itemCount: notes.length, // You only have one item to display
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 2,
+              crossAxisSpacing: 3,
+              mainAxisExtent:
+                  290, // Adjust the number of columns in the grid as needed
+            ),
+            itemBuilder: (BuildContext context, int index) {
+              return PDFTile(note: notes[index]);
+            },
+          )
+        : const Center(
+            child: Text('Coming Soon'),
+          );
   }
 }
 

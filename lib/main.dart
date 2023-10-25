@@ -19,7 +19,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // MyApp({super.key});
   final PreMedTheme _PreMedTheme = PreMedTheme();
 
   MyApp();
@@ -34,29 +33,8 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: _PreMedTheme.data,
-        home: ProvincialGuides(),
+        home: const ProvincialGuides(),
       ),
     );
   }
 }
-// class MyApp extends StatelessWidget {
-//   final PreMedTheme _PreMedTheme = PreMedTheme();
-
-//   MyApp();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
-//         ChangeNotifierProvider<PdfUrlProvider>(create: (_) => PdfUrlProvider()),
-//       ],
-//       child: MaterialApp(
-//         title: 'Flutter Demo',
-//         debugShowCheckedModeBanner: false,
-//         theme: _PreMedTheme.data,
-//         home: PdfScreen(),
-//       ),
-//     );
-//   }
-// }

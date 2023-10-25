@@ -17,9 +17,19 @@ List<Note> notesData = [
         name: "Introduction to Biology and Some Major Fields of Specialization",
         page: 2,
       ),
+      NoteDemarcation(
+        id: "64df3a6ca3cd2104bce4377a",
+        name: "Topic 3",
+        page: 3,
+      ),
+      NoteDemarcation(
+        id: "64df3a6ca3cd2104bce4377a",
+        name: "Topic 4",
+        page: 4,
+      ),
       // Add more demarcations here...
     ],
-    pages: 7,
+    pages: 71,
     position: 283,
     createdAt: DateTime.parse("2023-08-18T09:31:24.385Z"),
     updatedAt: DateTime.parse("2023-08-18T09:31:24.385Z"),
@@ -65,7 +75,7 @@ List<Note> notesData = [
       ),
       // Add more demarcations here...
     ],
-    pages: 7,
+    pages: 12,
     position: 283,
     createdAt: DateTime.parse("2023-08-18T09:31:24.385Z"),
     updatedAt: DateTime.parse("2023-08-18T09:31:24.385Z"),

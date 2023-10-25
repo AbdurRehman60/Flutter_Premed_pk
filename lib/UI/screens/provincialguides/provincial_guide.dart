@@ -49,11 +49,26 @@ class ProvincialGuides extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
           child: TabBarView(
             children: [
-              PdfDisplay(notes: notesData), // Pass your notes data here
-              PdfDisplay(notes: notesData), // Pass your notes data here
-              PdfDisplay(notes: notesData), // Pass your notes data here
-              PdfDisplay(notes: notesData), // Pass your notes data here
-              PdfDisplay(notes: notesData), // Pass your notes data here
+              PdfDisplay(notes: notesData),
+              PdfDisplay(
+                notes: notesData
+                    .where((note) => note.province == 'Sindh')
+                    .toList(),
+              ),
+              PdfDisplay(
+                notes: notesData
+                    .where((note) => note.province == 'Punjab')
+                    .toList(),
+              ),
+              PdfDisplay(
+                notes: notesData
+                    .where((note) => note.province == 'Balochistan')
+                    .toList(),
+              ),
+              PdfDisplay(
+                notes:
+                    notesData.where((note) => note.province == 'KPK').toList(),
+              ),
             ],
           ),
         ),
