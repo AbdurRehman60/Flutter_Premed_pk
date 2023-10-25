@@ -18,23 +18,47 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
+// class MyApp extends StatelessWidget {
+//   // MyApp({super.key});
+//   final PreMedTheme _PreMedTheme = PreMedTheme();
+
+//   MyApp();
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(create: (_) => AuthProvider()),
+//       ],
+//       child: MaterialApp(
+//           title: 'Flutter Demo',
+//           debugShowCheckedModeBanner: false,
+//           theme: _PreMedTheme.data,
+//           home: ChangeNotifierProvider<PdfUrlProvider>(
+//             create: (_) => PdfUrlProvider(),
+//             child: PdfScreen(),
+//           )),
+//     );
+//   }
+// }
 class MyApp extends StatelessWidget {
-  // MyApp({super.key});
   final PreMedTheme _PreMedTheme = PreMedTheme();
 
   MyApp();
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<PdfUrlProvider>(create: (_) => PdfUrlProvider()),
       ],
       child: MaterialApp(
-          title: 'Flutter Demo',
-          debugShowCheckedModeBanner: false,
-          theme: _PreMedTheme.data,
-          home: ProvincialGuides()),
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: _PreMedTheme.data,
+        home: PdfScreen(),
+      ),
     );
   }
 }
