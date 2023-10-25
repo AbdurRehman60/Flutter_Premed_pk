@@ -36,31 +36,43 @@ class PDFTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Image.network(
-          note.coverImageURL,
-          height: 200,
-          width: 142,
-          fit: BoxFit.contain,
+    void onTileClick() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PdfScreen(note: note),
         ),
-        SizedBoxes.verticalMedium,
-        Text(
-          note.title,
-          style: PreMedTextTheme().headline,
-          textAlign: TextAlign.center,
-        ),
-        SizedBoxes.verticalMicro,
-        Text(
-          '${note.pages} Pages',
-          textAlign: TextAlign.center,
-          style: PreMedTextTheme()
-              .small
-              .copyWith(color: PreMedColorTheme().neutral400, fontSize: 14),
-        ),
-      ],
+      );
+    }
+
+    return InkWell(
+      onTap: onTileClick,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.network(
+            note.coverImageURL,
+            height: 200,
+            width: 142,
+            fit: BoxFit.contain,
+          ),
+          SizedBoxes.verticalMedium,
+          Text(
+            note.title,
+            style: PreMedTextTheme().headline,
+            textAlign: TextAlign.center,
+          ),
+          SizedBoxes.verticalMicro,
+          Text(
+            '${note.pages} Pages',
+            textAlign: TextAlign.center,
+            style: PreMedTextTheme()
+                .small
+                .copyWith(color: PreMedColorTheme().neutral400, fontSize: 14),
+          ),
+        ],
+      ),
     );
   }
 }

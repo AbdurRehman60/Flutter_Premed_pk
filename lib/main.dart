@@ -18,47 +18,45 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-// class MyApp extends StatelessWidget {
-//   // MyApp({super.key});
-//   final PreMedTheme _PreMedTheme = PreMedTheme();
-
-//   MyApp();
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider(create: (_) => AuthProvider()),
-//       ],
-//       child: MaterialApp(
-//           title: 'Flutter Demo',
-//           debugShowCheckedModeBanner: false,
-//           theme: _PreMedTheme.data,
-//           home: ChangeNotifierProvider<PdfUrlProvider>(
-//             create: (_) => PdfUrlProvider(),
-//             child: PdfScreen(),
-//           )),
-//     );
-//   }
-// }
 class MyApp extends StatelessWidget {
+  // MyApp({super.key});
   final PreMedTheme _PreMedTheme = PreMedTheme();
 
   MyApp();
-
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
-        ChangeNotifierProvider<PdfUrlProvider>(create: (_) => PdfUrlProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: _PreMedTheme.data,
-        home: PdfScreen(),
+        home: ProvincialGuides(),
       ),
     );
   }
 }
+// class MyApp extends StatelessWidget {
+//   final PreMedTheme _PreMedTheme = PreMedTheme();
+
+//   MyApp();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+//         ChangeNotifierProvider<PdfUrlProvider>(create: (_) => PdfUrlProvider()),
+//       ],
+//       child: MaterialApp(
+//         title: 'Flutter Demo',
+//         debugShowCheckedModeBanner: false,
+//         theme: _PreMedTheme.data,
+//         home: PdfScreen(),
+//       ),
+//     );
+//   }
+// }

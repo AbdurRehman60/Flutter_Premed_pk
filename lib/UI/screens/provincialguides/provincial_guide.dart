@@ -35,7 +35,6 @@ class ProvincialGuides extends StatelessWidget {
             ],
           ),
           bottom: const TabBar(
-          bottom: const TabBar(
             isScrollable: true, // Make tabs scrollable
             tabs: [
               Tab(text: 'All'),
@@ -47,7 +46,6 @@ class ProvincialGuides extends StatelessWidget {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
           padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
           child: TabBarView(
             children: [

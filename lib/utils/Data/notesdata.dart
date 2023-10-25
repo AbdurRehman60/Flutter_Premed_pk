@@ -31,7 +31,7 @@ List<Note> notesData = [
     subject: "Biology",
     province: "Punjab",
     notesURL:
-        "https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/f16f2eff-0dbb-4ebc-bc66-b88f3a2dcfdf.pdf",
+        "https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/67b407f0-0944-450f-bcff-91815c927ed5.pdf",
     coverImageURL:
         "https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png",
     demarcations: [
@@ -54,7 +54,7 @@ List<Note> notesData = [
     subject: "Biology",
     province: "Punjab",
     notesURL:
-        "https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/f16f2eff-0dbb-4ebc-bc66-b88f3a2dcfdf.pdf",
+        "https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/de9436f8-b8fd-49bf-9fda-da643ff14bb8.pdf",
     coverImageURL:
         "https://premedpk-cdn.sgp1.digitaloceanspaces.com/Notes/baacf2f1-114f-4a3a-ba7b-76e90f424fcf.png",
     demarcations: [
