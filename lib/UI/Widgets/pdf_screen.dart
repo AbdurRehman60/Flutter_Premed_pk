@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
-
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
 
