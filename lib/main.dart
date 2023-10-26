@@ -1,6 +1,4 @@
 import 'package:camera/camera.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_display_widget.dart';
-import 'package:premedpk_mobile_app/UI/test.dart';
 import 'package:premedpk_mobile_app/repository/auth_provider.dart';
 import 'package:premedpk_mobile_app/repository/notes_provider.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +33,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: _PreMedTheme.data,
-        home: const ProvincialGuides(),
+        home: const RevisionNotes(),
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/error_dialogue.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_display_widget.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/repository/notes_provider.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +11,7 @@ class TestScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     NotesProvider guidesProvider = Provider.of<NotesProvider>(context);
     onpressed() {
-      final Future<Map<String, dynamic>> response =
-          guidesProvider.fetchGuides();
+      final Future<Map<String, dynamic>> response = guidesProvider.fetchNotes();
 
       response.then(
         (response) {

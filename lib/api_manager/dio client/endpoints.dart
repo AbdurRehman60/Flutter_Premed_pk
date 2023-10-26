@@ -20,4 +20,5 @@ class Endpoints {
   static const String signup = '/api/auth/signup';
   static const String getLoggedInUser = '/LoggedInUser';
   static const String guides = '/api/notes/allguides';
+  static const String revisionNotes = '/api/notes/allguides';
 }
