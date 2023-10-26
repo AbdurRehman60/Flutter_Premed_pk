@@ -1,15 +1,11 @@
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
 
-import '../empty_state.dart';
-
-class PdfDisplay extends StatelessWidget {
+class SearchDisplay extends StatelessWidget {
   final List<Note> notes;
-  final bool isSearch;
 
-  PdfDisplay({
+  SearchDisplay({
     required this.notes,
-    this.isSearch = false,
   });
 
   @override
@@ -25,31 +21,48 @@ class PdfDisplay extends StatelessWidget {
               290, // Adjust the number of columns in the grid as needed
         ),
         itemBuilder: (BuildContext context, int index) {
-          return PDFTile(note: notes[index]);
+          return SearchTile(note: notes[index]);
         },
       );
     } else {
-      if (isSearch) {
-        return EmptyState(
-          displayImage: PremedAssets.SearchemptyState,
-          title: 'No results found',
-          body: 'Try adjusting your search to find what you are looking for',
-        );
-      } else {
-        return EmptyState(
-          displayImage: PremedAssets.Notfoundemptystate,
-          title: 'COMMING SOON',
-          body: "We're working on adding new notes and guides.",
-        );
-      }
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(PremedAssets.SearchemptyState),
+            SizedBoxes.verticalTiny,
+            Text(
+              'NO RESULTS FOUND',
+              style: PreMedTextTheme().subtext1.copyWith(
+                  color: PreMedColorTheme().primaryColorRed,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.36),
+            ),
+            SizedBoxes.verticalTiny,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 64),
+              child: Text(
+                "Try adjusting your search to find what you are looking for",
+                textAlign: TextAlign.center,
+                style: PreMedTextTheme().small.copyWith(
+                    color: PreMedColorTheme().neutral600,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    height: 0),
+              ),
+            )
+          ],
+        ),
+      );
     }
   }
 }
 
-class PDFTile extends StatelessWidget {
+class SearchTile extends StatelessWidget {
   final Note note;
 
-  const PDFTile({
+  const SearchTile({
     super.key,
     required this.note,
   });

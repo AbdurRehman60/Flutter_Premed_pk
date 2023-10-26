@@ -29,3 +29,7 @@ export 'package:premedpk_mobile_app/UI/screens/login/widgets/login_form.dart';
 export 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guide.dart';
 export 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_screen.dart';
 export 'package:premedpk_mobile_app/UI/screens/RevisionNotes/revision_notes.dart';
+export 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/search_display.dart';
+export 'package:premedpk_mobile_app/export.dart';
+export 'package:premedpk_mobile_app/models/notes_model.dart';
+export 'package:premedpk_mobile_app/utils/Data/notesdata.dart';

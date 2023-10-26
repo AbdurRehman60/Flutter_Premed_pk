@@ -98,6 +98,9 @@ flutter:
     - assets/images/eshome.png
     - assets/images/google.png
     - assets/images/notfoundemptystate.png
+    - assets/images/searchemptystate.png
+    - assets/images/provisionalnotes.png
+    - assets/images/revisionnotes.png
   fonts:
     - family: Inter
       fonts:

@@ -6,4 +6,7 @@ class PremedAssets {
   static String EsIcon = 'assets/images/eshome.png';
   static String GoogleLogo = 'assets/images/google.png';
   static String Notfoundemptystate = 'assets/images/notfoundemptystate.png';
+  static String SearchemptyState = 'assets/images/searchemptystate.png';
+  static String ProvisionalGuides = 'assets/images/provisionalnotes.png';
+  static String RevisionNotes = 'assets/images/revisionnotes.png';
 }

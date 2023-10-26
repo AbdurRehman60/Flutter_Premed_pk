@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_display_widget.dart';
+import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_search.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/utils/Data/notesdata.dart';
 
@@ -16,7 +17,14 @@ class RevisionNotes extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image.asset(PremedAssets.EsIcon),
+                  SizedBox(
+                    height: 32,
+                    width: 32,
+                    child: Image.asset(
+                      PremedAssets.RevisionNotes,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                   SizedBoxes.horizontalMedium,
                   Text(
                     'Revision Notes',
@@ -26,9 +34,16 @@ class RevisionNotes extends StatelessWidget {
                   ),
                 ],
               ),
-              const Icon(
-                Icons.search,
-                color: Colors.white,
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PdfSearch(),
+                    ),
+                  );
+                },
               )
             ],
           ),

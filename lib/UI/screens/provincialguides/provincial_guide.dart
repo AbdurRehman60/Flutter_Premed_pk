@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_display_widget.dart';
+import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_search.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
 import 'package:premedpk_mobile_app/utils/Data/notesdata.dart';
@@ -18,7 +19,11 @@ class ProvincialGuides extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image.asset(PremedAssets.EsIcon),
+                  SizedBox(
+                    width: 32,
+                    height: 32,
+                    child: Image.asset(PremedAssets.ProvisionalGuides),
+                  ),
                   SizedBoxes.horizontalMedium,
                   Text(
                     'Provincial Guides',
@@ -28,9 +33,16 @@ class ProvincialGuides extends StatelessWidget {
                   ),
                 ],
               ),
-              const Icon(
-                Icons.search,
-                color: Colors.white,
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PdfSearch(),
+                    ),
+                  );
+                },
               )
             ],
           ),
