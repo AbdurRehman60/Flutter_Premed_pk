@@ -97,6 +97,7 @@ flutter:
     - animations/1.json
     - assets/images/eshome.png
     - assets/images/google.png
+    - assets/images/notfoundemptystate.png
   fonts:
     - family: Inter
       fonts:

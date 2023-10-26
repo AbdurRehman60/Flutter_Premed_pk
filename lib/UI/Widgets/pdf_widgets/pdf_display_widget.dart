@@ -10,23 +10,52 @@ class PdfDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return notes.isNotEmpty
-        ? GridView.builder(
-            itemCount: notes.length, // You only have one item to display
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 2,
-              crossAxisSpacing: 3,
-              mainAxisExtent:
-                  290, // Adjust the number of columns in the grid as needed
+    if (notes.isNotEmpty) {
+      return GridView.builder(
+        itemCount: notes.length, // You only have one item to display
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 2,
+          crossAxisSpacing: 3,
+          mainAxisExtent:
+              290, // Adjust the number of columns in the grid as needed
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          return PDFTile(note: notes[index]);
+        },
+      );
+    } else {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(PremedAssets.Notfoundemptystate),
+            SizedBoxes.verticalTiny,
+            Text(
+              'COMMING SOON!',
+              style: PreMedTextTheme().subtext1.copyWith(
+                  color: PreMedColorTheme().primaryColorRed,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.36),
             ),
-            itemBuilder: (BuildContext context, int index) {
-              return PDFTile(note: notes[index]);
-            },
-          )
-        : const Center(
-            child: Text('Coming Soon'),
-          );
+            SizedBoxes.verticalTiny,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 64),
+              child: Text(
+                "We're working on adding new notes and guides.",
+                textAlign: TextAlign.center,
+                style: PreMedTextTheme().small.copyWith(
+                    color: PreMedColorTheme().neutral600,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    height: 0),
+              ),
+            )
+          ],
+        ),
+      );
+    }
   }
 }
 
