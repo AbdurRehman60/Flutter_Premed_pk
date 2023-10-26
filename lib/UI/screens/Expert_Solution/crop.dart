@@ -1,13 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/display_image_screen.dart';
-import 'package:premedpk_mobile_app/export.dart';
 
 class CropImage extends StatefulWidget {
   final File image;
-  const CropImage({super.key, required this.image});
+
+  const CropImage({Key? key, required this.image}) : super(key: key);
 
   @override
   State<CropImage> createState() => _CropImageState();
@@ -15,6 +14,13 @@ class CropImage extends StatefulWidget {
 
 class _CropImageState extends State<CropImage> {
   CroppedFile? _croppedFile;
+
+  @override
+  void initState() {
+    super.initState();
+    // Automatically start cropping the image when the widget is created
+    _cropImage(widget.image);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,45 +40,8 @@ class _CropImageState extends State<CropImage> {
                 ),
                 child: _croppedFile != null
                     ? Image.file(File(_croppedFile!.path))
-                    : Image.file(widget.image),
+                    : CircularProgressIndicator(), // Display a loading indicator while cropping
               ),
-            ),
-            SizedBoxes.verticalMedium,
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FloatingActionButton(
-                  onPressed: () {
-                    _clear();
-                  },
-                  backgroundColor: PreMedColorTheme().primaryColorBlue,
-                  tooltip: 'Delete',
-                  child: const Icon(Icons.delete),
-                ),
-                if (_croppedFile == null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 32.0),
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        _cropImage().then((_) {
-                          // Navigate to DisplayImage after cropping
-                          if (_croppedFile != null) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => DisplayImageScreen(
-                                  image: File(_croppedFile!.path),
-                                ),
-                              ),
-                            );
-                          }
-                        });
-                      },
-                      backgroundColor: PreMedColorTheme().primaryColorRed,
-                      tooltip: 'Crop',
-                      child: const Icon(Icons.crop),
-                    ),
-                  )
-              ],
             ),
           ],
         ),
@@ -80,41 +49,40 @@ class _CropImageState extends State<CropImage> {
     );
   }
 
-  Future<void> _cropImage() async {
+  Future<void> _cropImage(File image) async {
     try {
       final croppedFile = await ImageCropper().cropImage(
-        sourcePath: widget.image.path,
+        sourcePath: image.path,
         compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
         uiSettings: [
           AndroidUiSettings(
             toolbarTitle: 'Cropper',
-            toolbarColor: PreMedColorTheme().primaryColorRed,
-            toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false,
+            // Configure other settings as needed.
           ),
           IOSUiSettings(
             title: 'Cropper',
+            // Configure other settings as needed.
           ),
-          WebUiSettings(
-            context: context,
-            presentStyle: CropperPresentStyle.dialog,
-            boundary: const CroppieBoundary(
-              width: 520,
-              height: 520,
-            ),
-          ),
+          // WebUiSettings for web platform.
         ],
       );
       if (croppedFile != null) {
-        setState(() {
-          _croppedFile = croppedFile;
-        });
+        _navigateToDisplayImageScreen(croppedFile);
       }
     } catch (e) {
       print('Error cropping image: $e');
     }
+  }
+
+  void _navigateToDisplayImageScreen(CroppedFile croppedFile) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => DisplayImageScreen(
+          image: File(croppedFile.path),
+        ),
+      ),
+    );
   }
 
   void _clear() {
