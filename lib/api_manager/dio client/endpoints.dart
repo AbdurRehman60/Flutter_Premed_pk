@@ -4,7 +4,7 @@ class Endpoints {
   static const String serverPort = "4002";
 
   // base url
-  static const String baseUrl = "http://192.168.10.6";
+  static const String baseUrl = "http://193.168.90.184";
   // static const String baseUrl = "http://192.168.100.117";
 
   //specific URLs
@@ -19,9 +19,5 @@ class Endpoints {
   static const String logout = '/auth/logout';
   static const String signup = '/api/auth/signup';
   static const String getLoggedInUser = '/LoggedInUser';
-  static const String checkNetwork = '/attendance/checkNetwork';
-  static const String markAttendance = '/attendance/checkin';
-  static const String newAccessToken = '/auth/tokens';
-  static const String fetchPJP = '/pjp/fetchpjp';
-  static const String submitPJP = '/pjp/submitpjp';
+  static const String guides = '/api/notes/allguides';
 }

@@ -1,7 +1,8 @@
 import 'package:camera/camera.dart';
-import 'package:premedpk_mobile_app/UI/screens/provincialguides/widgets/pdf_display_widget.dart';
+import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_display_widget.dart';
 import 'package:premedpk_mobile_app/UI/test.dart';
 import 'package:premedpk_mobile_app/repository/auth_provider.dart';
+import 'package:premedpk_mobile_app/repository/notes_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'export.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => NotesProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

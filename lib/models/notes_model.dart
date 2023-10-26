@@ -6,8 +6,8 @@ class Note {
   final String province;
   final String notesURL;
   final String coverImageURL;
-  final List<NoteDemarcation> demarcations;
-  final int pages;
+  final List<NoteDemarcation>? demarcations;
+  final int? pages;
   final int position;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -20,17 +20,22 @@ class Note {
     required this.province,
     required this.notesURL,
     required this.coverImageURL,
-    required this.demarcations,
-    required this.pages,
+    this.demarcations,
+    this.pages,
     required this.position,
     required this.createdAt,
     required this.updatedAt,
   });
 
   factory Note.fromJson(Map<String, dynamic> json) {
-    List<NoteDemarcation> demarcations = (json['demarcations'] as List)
-        .map((demarcationJson) => NoteDemarcation.fromJson(demarcationJson))
-        .toList();
+    print(json);
+    List<NoteDemarcation> demarcations = [];
+
+    if (json['demarcations'] != null) {
+      demarcations = (json['demarcations'] as List)
+          .map((demarcationJson) => NoteDemarcation.fromJson(demarcationJson))
+          .toList();
+    }
 
     return Note(
       id: json['_id'],

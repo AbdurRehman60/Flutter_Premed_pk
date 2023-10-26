@@ -59,7 +59,7 @@ class _PdfViewState extends State<PdfScreen> {
                 SizedBoxes.vertical2Px,
                 Expanded(
                   child: ListView.builder(
-                    itemCount: widget.note.demarcations.length,
+                    itemCount: widget.note.demarcations?.length,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
                         onTap: () async {
@@ -68,7 +68,7 @@ class _PdfViewState extends State<PdfScreen> {
                           _pdfViewController.future.then(
                             (controller) {
                               int pageNumber =
-                                  widget.note.demarcations[index].page;
+                                  widget.note.demarcations![index].page;
 
                               if (pageNumber >= 0 && pageNumber < maxPage) {
                                 controller.setPage(pageNumber - 1);
@@ -79,15 +79,15 @@ class _PdfViewState extends State<PdfScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            widget.note.demarcations[index].name,
+                            widget.note.demarcations![index].name,
                             style: PreMedTextTheme().body.copyWith(
                                 fontSize: 16,
                                 fontWeight: currentPage ==
-                                        widget.note.demarcations[index].page
+                                        widget.note.demarcations![index].page
                                     ? FontWeight.bold
                                     : FontWeight.normal,
                                 color: currentPage ==
-                                        widget.note.demarcations[index].page
+                                        widget.note.demarcations![index].page
                                     ? PreMedColorTheme().primaryColorRed
                                     : PreMedColorTheme().neutral900),
                           ),

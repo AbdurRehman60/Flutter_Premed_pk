@@ -58,40 +58,40 @@ class DioClient {
     return r;
   }
 
-  Future<bool> refreshToken() async {
-    String newAccessToken;
-    String newRefreshToken;
-    final refreshToken = await SecureStorage().getRefreshToken();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String dsrID = prefs.getString("dsrID") ?? '';
+  // Future<bool> refreshToken() async {
+  //   String newAccessToken;
+  //   String newRefreshToken;
+  //   final refreshToken = await SecureStorage().getRefreshToken();
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String dsrID = prefs.getString("dsrID") ?? '';
 
-    final Map<String, dynamic> refreshTokenData = {
-      "User_ID": dsrID,
-      "refreshToken": refreshToken,
-    };
+  //   final Map<String, dynamic> refreshTokenData = {
+  //     "User_ID": dsrID,
+  //     "refreshToken": refreshToken,
+  //   };
 
-    final response =
-        await _dio.post(Endpoints.newAccessToken, data: refreshTokenData);
+  //   final response =
+  //       await _dio.post(Endpoints.newAccessToken, data: refreshTokenData);
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData =
-          Map<String, dynamic>.from(response.data);
-      newAccessToken = responseData['body']['accessToken'];
-      newRefreshToken = responseData['body']['refreshToken'];
+  //   if (response.statusCode == 200) {
+  //     final Map<String, dynamic> responseData =
+  //         Map<String, dynamic>.from(response.data);
+  //     newAccessToken = responseData['body']['accessToken'];
+  //     newRefreshToken = responseData['body']['refreshToken'];
 
-      // await UserPreferences().updateToken(newAccessToken);
-      await SecureStorage().saveRefreshToken(newRefreshToken);
+  //     // await UserPreferences().updateToken(newAccessToken);
+  //     await SecureStorage().saveRefreshToken(newRefreshToken);
 
-      return true;
-    } else {
-      // refresh token is wrong
-      // await UserPreferences().updateToken('');
-      // UserPreferences().removeUser();
+  //     return true;
+  //   } else {
+  //     // refresh token is wrong
+  //     // await UserPreferences().updateToken('');
+  //     // UserPreferences().removeUser();
 
-      await SecureStorage().removeRefreshToken();
-      return false;
-    }
-  }
+  //     await SecureStorage().removeRefreshToken();
+  //     return false;
+  //   }
+  // }
 
   Future<dynamic> get(
     String uri, {

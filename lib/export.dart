@@ -27,4 +27,4 @@ export 'package:premedpk_mobile_app/UI/Widgets/google_login_button.dart';
 export 'package:premedpk_mobile_app/UI/Widgets/or_divider.dart';
 export 'package:premedpk_mobile_app/UI/screens/login/widgets/login_form.dart';
 export 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guide.dart';
-export 'package:premedpk_mobile_app/UI/Widgets/pdf_screen.dart';
+export 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_screen.dart';
