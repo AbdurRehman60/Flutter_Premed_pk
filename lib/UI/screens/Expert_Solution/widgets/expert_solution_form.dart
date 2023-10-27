@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/error_dialogue.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/local_image_display.dart';
+import 'package:premedpk_mobile_app/UI/widgets/custom_dropdown.dart';
 import 'package:provider/provider.dart';
 
 import 'package:premedpk_mobile_app/export.dart';
@@ -128,15 +129,6 @@ class ExpertSolutionForm extends StatelessWidget {
                   const SizedBox(
                     height: 16.0,
                   ),
-                  const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Select Resource',
-                      style: TextStyle(
-                        fontSize: 16, // Adjust as needed
-                      ),
-                    ),
-                  ),
                   ResourceList(),
                   const SizedBox(
                     height: 16.0,
@@ -193,36 +185,46 @@ class ResourceList extends StatefulWidget {
 }
 
 class _ResourceListState extends State<ResourceList> {
-  String Resourcevalue = '--Select Resource--';
+  String? Resourcevalue;
 
   @override
   Widget build(BuildContext context) {
     final List<String> dropdownItems = [
-      '--Select Resource--',
       'MDCAT Past Papers',
       'NUMS Past Papers',
       'Olevels',
       'AS level',
       'A2 level',
       'FSC First Year',
-      'FSC Secondd Year',
+      'FSC Second Year',
       'Others'
     ];
 
-    return DropdownButton<String>(
-      isExpanded: true,
-      value: Resourcevalue,
-      items: dropdownItems.map((String item) {
-        return DropdownMenuItem<String>(
-          value: item,
-          child: Text(item),
-        );
-      }).toList(),
-      onChanged: (String? newValue) {
-        setState(() {
-          Resourcevalue = newValue!;
-        });
-      },
+    return Column(
+      children: [
+        const Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            'Select Resource',
+            style: TextStyle(
+              fontSize: 16, // Adjust as needed
+            ),
+          ),
+        ),
+        SizedBoxes.verticalTiny,
+        CustomDropDown(
+          hintText: '--Select Resource--',
+          options: dropdownItems
+              .map((String value) =>
+                  CustomDropDownOption(value: value, displayOption: value))
+              .toList(),
+          onChanged: (String? newValue) {
+            setState(() {
+              Resourcevalue = newValue!;
+            });
+          },
+        )
+      ],
     );
   }
 }

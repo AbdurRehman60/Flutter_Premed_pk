@@ -26,7 +26,7 @@ class ExpertSolution extends StatelessWidget {
         ),
         backgroundColor: Colors.white, // Customize as needed
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Ask an Expert',
           style: TextStyle(
             fontSize: 18, // Adjust as needed
