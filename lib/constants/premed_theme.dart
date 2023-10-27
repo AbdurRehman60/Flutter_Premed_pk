@@ -28,6 +28,7 @@ class PreMedTheme {
         secondary: _ColorTheme.primaryColorBlue,
         background: _ColorTheme.black,
         surface: _ColorTheme.white,
+        surfaceTint: _ColorTheme.neutral100,
       );
 
   TextButtonThemeData get textButtonThemeData => TextButtonThemeData(
