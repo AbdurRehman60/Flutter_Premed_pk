@@ -163,7 +163,7 @@ class ExpertSolutionHome extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const ExpertSolution(),
+                builder: (context) => ExpertSolution(),
               ),
             );
           },
