@@ -7,6 +7,8 @@ import 'package:premedpk_mobile_app/utils/validators.dart';
 import 'package:provider/provider.dart';
 
 class CustomResourceDropDown extends StatefulWidget {
+  const CustomResourceDropDown({super.key});
+
   @override
   _CustomResourceDropdownState createState() => _CustomResourceDropdownState();
 }
@@ -104,5 +106,6 @@ class _CustomResourceDropdownState extends State<CustomResourceDropDown> {
     if (value == null) {
       return 'Please choose an option.';
     }
+    return null;
   }
 }

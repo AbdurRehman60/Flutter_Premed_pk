@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
 import 'package:premedpk_mobile_app/utils/base64_convertor.dart';
 
 enum Status {
@@ -46,9 +47,15 @@ class AskAnExpertProvider extends ChangeNotifier {
 
   File? _uploadedImage;
   File? get uploadedImage => _uploadedImage;
-
   set uploadedImage(File? value) {
     _uploadedImage = value;
+    notify();
+  }
+
+  List<Doubt> _solvedDoubts = <Doubt>[];
+  List<Doubt> get solvedDoubts => _solvedDoubts;
+  set solvedDoubts(List<Doubt> value) {
+    _solvedDoubts = value;
     notify();
   }
 
@@ -121,6 +128,51 @@ class AskAnExpertProvider extends ChangeNotifier {
       result = {
         'status': false,
         'message': e.response?.data['message'],
+      };
+    }
+    return result;
+  }
+
+  Future<Map<String, dynamic>> getDoubts({
+    required String email,
+  }) async {
+    var result;
+
+    _doubtUploadStatus = Status.Sending;
+
+    notify();
+    try {
+      Response response = await _client.post(
+        Endpoints.UserSolved,
+        data: {"username": email},
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+
+        for (var data in responseData['QuestionsDetails']) {
+          Doubt doubt = Doubt.fromJson(data);
+          solvedDoubts.add(doubt);
+        }
+
+        result = {
+          'status': true,
+          'message': "Fetched Succesfully!",
+        };
+      } else {
+        _doubtUploadStatus = Status.Error;
+        notify();
+
+        // Returning results
+        result = {'status': false, 'message': 'Request failed'};
+      }
+    } on DioError catch (e) {
+      _doubtUploadStatus = Status.Init;
+      notify();
+      result = {
+        'status': false,
+        'message': e.message,
       };
     }
     return result;

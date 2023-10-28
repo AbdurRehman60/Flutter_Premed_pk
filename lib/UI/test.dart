@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/error_dialogue.dart';
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/repository/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/repository/notes_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -9,9 +10,11 @@ class TestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NotesProvider guidesProvider = Provider.of<NotesProvider>(context);
+    AskAnExpertProvider guidesProvider =
+        Provider.of<AskAnExpertProvider>(context);
     onpressed() {
-      final Future<Map<String, dynamic>> response = guidesProvider.fetchNotes();
+      final Future<Map<String, dynamic>> response =
+          guidesProvider.getDoubts(email: "ddd@gmail.com");
 
       response.then(
         (response) {
@@ -20,10 +23,10 @@ class TestScreen extends StatelessWidget {
 
             // Provider.of<UserProvider>(context, listen: false).setUser(user);
 
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const SignUpScreen(),
+                builder: (context) => const ExpertSolutionHome(),
               ),
             );
           } else {

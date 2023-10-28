@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/widgets/doubt_view_list.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/repository/expert_solution_provider.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,8 @@ class ExpertSolutionHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final askAnExpertProvider = Provider.of<AskAnExpertProvider>(context);
+
     final List<String> tabs = <String>['Solved Questions', 'Pending Questions'];
     return DefaultTabController(
       length: tabs.length, // This is the number of tabs.
@@ -104,59 +107,16 @@ class ExpertSolutionHome extends StatelessWidget {
             ];
           },
           body: TabBarView(
-            children: tabs.map((String name) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return CustomScrollView(
-                    key: PageStorageKey<String>(name),
-                    slivers: <Widget>[
-                      SliverOverlapInjector(
-                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                            context),
-                      ),
-                      SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                        sliver: SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                              return Column(
-                                children: <Widget>[
-                                  const CardList(
-                                    mainText:
-                                        'Identify the sentence with the incorrect use of apostrophe from the following sentences and tell the answer',
-                                    tags: [
-                                      {"tagName": "Tag1", "isResource": true},
-                                      {"tagName": "Tag2", "isResource": true},
-                                      {"tagName": "tag3", "isResource": false},
-                                      {
-                                        "tagName": "tag1234567891011121",
-                                        "isResource": false
-                                      },
-                                      {"tagName": "tag3", "isResource": false},
-                                      {"tagName": "tag3", "isResource": false},
-                                      {"tagName": "tag3", "isResource": false},
-                                      {"tagName": "tag3", "isResource": false},
-                                      {"tagName": "tag3", "isResource": false},
-                                    ],
-                                    subtext:
-                                        'I can\'t understand the question and the options provided. Please help me; my paper is in 3 days. I need to complete this mock.',
-                                  ),
-                                  Divider(
-                                    thickness: 1,
-                                    color: PreMedColorTheme().neutral300,
-                                  ),
-                                ],
-                              );
-                            },
-                            childCount: 30, // You can adjust this value.
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              );
-            }).toList(),
+            children: [
+              DoubtListView(
+                  doubtList: askAnExpertProvider.solvedDoubts
+                      .where((doubt) => doubt.solvedStatus == 'Solved')
+                      .toList()),
+              DoubtListView(
+                  doubtList: askAnExpertProvider.solvedDoubts
+                      .where((doubt) => doubt.solvedStatus != 'Solved')
+                      .toList()),
+            ],
           ),
         ),
         floatingActionButton: FloatingActionButton(

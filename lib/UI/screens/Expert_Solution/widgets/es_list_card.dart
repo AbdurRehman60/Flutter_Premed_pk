@@ -1,86 +1,76 @@
+import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/widgets/tags_row.dart';
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
 
-class CardList extends StatelessWidget {
-  final String mainText;
-  final List<Map<String, dynamic>> tags;
-  final String subtext;
-  const CardList({
+class DoubtCard extends StatelessWidget {
+  final Doubt doubt;
+  const DoubtCard({
     Key? key,
-    required this.mainText,
-    required this.subtext,
-    required this.tags,
+    required this.doubt,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // SizedBoxes.verticalMedium,
-          Text(
-            mainText,
-            style: PreMedTextTheme().headline,
-            // Text styling here...maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-          ),
-          SizedBoxes.verticalMedium,
-          Wrap(
-            runSpacing: 8,
-            spacing: 4,
-            children: tags
-                .map((tag) => TagsRow(
-                      tagName: tag['tagName'],
-                      isResource: tag['isResource'],
-                    ))
-                .toList(),
-          ),
-          SizedBoxes.verticalMedium,
-          Text(
-            subtext,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: PreMedTextTheme()
-                .body
-                .copyWith(color: PreMedColorTheme().neutral500),
-          ),
-          // Divider(
-          //   thickness: 1,
-          //   color: PreMedColorTheme().neutral500,
-          // )
-        ],
-      ),
-    );
-  }
-}
+    List<Map<String, dynamic>> tags = [
+      {"tagName": doubt.resource, "isResource": true},
+      {"tagName": doubt.subject, "isResource": false},
+      doubt.topic != null ? {"tagName": doubt.topic, "isResource": false} : {},
+    ];
 
-class TagsRow extends StatelessWidget {
-  const TagsRow({
-    super.key,
-    required this.tagName,
-    required this.isResource,
-  });
-  final String tagName;
-  final bool isResource;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: isResource
-            ? PreMedColorTheme().primaryColorRed100
-            : PreMedColorTheme().primaryColorBlue100,
-        borderRadius: BorderRadius.circular(16),
+    // , doubt.subject, doubt.topic!
+    return InkWell(
+      onLongPress: () {
+        showModalBottomSheet(
+          context: context,
+          backgroundColor: PreMedColorTheme().white,
+          elevation: 0,
+          clipBehavior: Clip.hardEdge,
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.4,
+          ),
+          builder: (context) {
+            return Column(
+              children: [
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(child: Text('data'))),
+              ],
+            );
+          },
+        );
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // SizedBoxes.verticalMedium,
+              Text(
+                doubt.description,
+                style: PreMedTextTheme().headline,
+                // Text styling here...maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
+              SizedBoxes.verticalMedium,
+              Wrap(
+                runSpacing: 8,
+                spacing: 4,
+                children: tags
+                    .map((tag) => TagsRow(
+                          tagName: tag['tagName'],
+                          isResource: tag['isResource'],
+                        ))
+                    .toList(),
+              ),
+              SizedBoxes.verticalMedium,
+            ],
+          ),
+        ),
       ),
-      child: Text(tagName,
-          style: PreMedTextTheme().small.copyWith(
-                color: isResource
-                    ? PreMedColorTheme().primaryColorRed800
-                    : PreMedColorTheme().primaryColorBlue800,
-              )),
     );
   }
 }

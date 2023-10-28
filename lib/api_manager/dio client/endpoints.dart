@@ -22,4 +22,7 @@ class Endpoints {
   static const String guides = '/api/notes/allguides';
   static const String revisionNotes = '/api/notes/allguides';
   static const String DoubtUpload = '/DoubtUpload';
+  static const String UserSolved = '/UserSolved';
+  static const String UserPending = '/UserPending';
+  static const String UserSubmitted = '/UserSubmitted';
 }

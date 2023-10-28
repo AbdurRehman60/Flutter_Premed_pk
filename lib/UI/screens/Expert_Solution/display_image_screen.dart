@@ -54,7 +54,8 @@ class DisplayImageScreen extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     askAnExpertProvider.uploadedImage = image;
-                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   icon: const Icon(Icons.check),
                   iconSize: 42,

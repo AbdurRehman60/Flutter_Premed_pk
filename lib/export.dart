@@ -14,13 +14,12 @@ export 'package:premedpk_mobile_app/UI/screens/Onboarding/optional_onboarding.da
 export 'package:premedpk_mobile_app/utils/country_code_picker.dart';
 export 'package:premedpk_mobile_app/utils/school_data_widget.dart';
 export 'package:premedpk_mobile_app/utils/cities_data_widget.dart';
-// export 'package:premedpk_mobile_app/UI/screens/Expert_Solution/es_home.dart';
+
 export 'package:premedpk_mobile_app/UI/screens/expert_solution/bottom_navbar.dart';
 export 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution.dart';
-// export 'package:premedpk_mobile_app/UI/screens/Expert_Solution/camera_widget.dart';
 
 export 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution_home.dart';
-export 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/es_list_card.dart';
+
 export 'package:premedpk_mobile_app/UI/screens/splash_screen/spalsh_screen.dart';
 export 'package:premedpk_mobile_app/constants/premed_theme.dart';
 export 'package:premedpk_mobile_app/UI/Widgets/google_login_button.dart';
