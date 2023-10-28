@@ -35,20 +35,23 @@ class AskAnExpertProvider extends ChangeNotifier {
   }) async {
     var result;
     final Map<String, dynamic> askanexpertData = {
-      "username": username,
+      "username": "ddd@gmail.com",
       "description": description,
       "subject": subject,
       "topic": topic,
       "resource": resource,
       "testImage": testImage,
     };
+
     _doubtUploadStatus = Status.Sending;
+    print('Hello');
     notify();
     try {
       Response response = await _client.post(
-        Endpoints.askanexpert, // Updated endpoint
+        Endpoints.DoubtUpload, // Update to match your API endpoint
         data: askanexpertData,
       );
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
@@ -56,13 +59,12 @@ class AskAnExpertProvider extends ChangeNotifier {
         if (responseData["success"]) {
           result = {
             'status': true,
-            'message': 'Question requested successfully',
+            'message': responseData["message"],
           };
         } else {
           result = {
             'status': false,
-            'message':
-                responseData["message"], // Check the actual response field
+            'message': responseData["message"],
           };
         }
       } else {
@@ -70,7 +72,7 @@ class AskAnExpertProvider extends ChangeNotifier {
         notify();
 
         // Returning results
-        result = {'status': false, 'message': json.decode(response.data)};
+        result = {'status': false, 'message': 'Request failed'};
       }
     } on DioError catch (e) {
       _doubtUploadStatus = Status.Init;
