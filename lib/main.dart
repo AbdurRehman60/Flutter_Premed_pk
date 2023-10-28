@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'export.dart';
 
 List<CameraDescription> cameras = [];
+
 Future<void> main() async {
   // Fetch the available cameras before initializing the app.
   try {
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: _PreMedTheme.data,
-        home: ExpertSolution(),
+        home: ExpertSolutionHome(),
       ),
     );
   }

@@ -3,19 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/error_dialogue.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/local_image_display.dart';
-import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/custom_dropdown.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/dropdown_form.dart';
+import 'package:premedpk_mobile_app/UI/widgets/success_snackbar.dart';
+import 'package:premedpk_mobile_app/repository/expert_solution_provider.dart';
+import 'package:premedpk_mobile_app/utils/validators.dart';
 import 'package:provider/provider.dart';
 
 import 'package:premedpk_mobile_app/export.dart';
 
-import '../../../../repository/expert_solution_provider.dart';
-
 class ExpertSolutionForm extends StatelessWidget {
-  final File? image;
-
   ExpertSolutionForm({
     Key? key,
-    this.image,
   }) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
@@ -24,38 +22,32 @@ class ExpertSolutionForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final askAnExpertProvider = Provider.of<AskAnExpertProvider>(context);
 
-    TextEditingController emailController = TextEditingController();
     TextEditingController descriptionController = TextEditingController();
 
     void onSubmitPressed() {
-      final form = _formKey.currentState;
-      if (form!.validate()) {
-        final Map<String, dynamic> askAnExpertData = {
-          'username': emailController.text,
-          'description': descriptionController.text,
-          // 'subject': SubjectList,
-          // 'topic': TopicList,
-          // 'resource': ResourceList,
-          'testImage': image,
-        };
-
+      final form = _formKey.currentState!;
+      if (askAnExpertProvider.uploadedImage == null) {
+        showError(context, {"message": "Please upload an Image"});
+        return;
+      }
+      if (form.validate()) {
         final Future<Map<String, dynamic>> response =
-            askAnExpertProvider.askanexpert(
-          username: askAnExpertData['username'],
-          description: askAnExpertData['description'],
-          subject: askAnExpertData['subject'],
-          topic: askAnExpertData['topic'],
-          resource: askAnExpertData['resource'],
-          testImage: askAnExpertData['testImage'],
+            askAnExpertProvider.uploadDoubt(
+          email: "ddd@gmail.com",
+          description: descriptionController.text,
+          subject: askAnExpertProvider.selectedSubject,
+          topic: askAnExpertProvider.selectedTopic,
+          resource: askAnExpertProvider.selectedResource,
+          testImage: askAnExpertProvider.uploadedImage!,
         );
 
         response.then((response) {
           if (response['status']) {
-            Navigator.pushReplacement(
+            showSnackbar(
               context,
-              MaterialPageRoute(
-                builder: (context) => const ExpertSolutionHome(),
-              ),
+              response['message'],
+              SnackbarType.SUCCESS,
+              navigate: true,
             );
           } else {
             showError(context, response);
@@ -73,31 +65,26 @@ class ExpertSolutionForm extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 16.0,
-                  ),
                   Container(
                     height: 200,
                     width: double.infinity,
                     decoration: ShapeDecoration(
-                      color: Colors.white, // Customize as needed
+                      color: PreMedColorTheme()
+                          .primaryColorBlue100, // Customize as needed
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: image != null
-                        ? Expanded(
-                            child: Image.file(image!),
+                    child: askAnExpertProvider.uploadedImage != null
+                        ? Image.file(
+                            askAnExpertProvider.uploadedImage!,
+                            fit: BoxFit.fitHeight,
                           )
                         : LocalImageDisplay(), // Implement LocalImageDisplay
                   ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
+                  SizedBoxes.verticalLarge,
                   const OrDivider(),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
+                  SizedBoxes.verticalLarge,
                   CustomButton(
                     buttonText: 'Open Camera & Take Photo',
                     onPressed: () {
@@ -109,33 +96,27 @@ class ExpertSolutionForm extends StatelessWidget {
                       );
                     },
                   ),
-                  const SizedBox(
-                    height: 32.0,
-                  ),
+                  SizedBoxes.verticalBig,
+                  CustomResourceDropDown(),
+                  SizedBoxes.verticalBig,
                   const Text(
-                    'What problems are you facing in the uploaded question above? *',
+                    'What problems are you facing in the uploaded question above?',
                     style: TextStyle(
                       fontSize: 16, // Adjust as needed
                     ),
                   ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
+                  SizedBoxes.verticalTiny,
                   CustomTextField(
                     controller: descriptionController,
                     maxLines: 6,
                     hintText: 'Enter questions here',
+                    validator: (value) =>
+                        validateIsNotEmpty(value, "Description"),
                   ),
-                  SizedBoxes.verticalExtraGargangua,
-                  CustomResourceDropDown(),
-                  // SubjectList(),
                   SizedBoxes.verticalBig,
                   CustomButton(
                     buttonText: 'Submit',
                     onPressed: onSubmitPressed,
-                  ),
-                  const SizedBox(
-                    height: 8.0,
                   ),
                 ],
               ),

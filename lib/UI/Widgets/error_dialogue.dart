@@ -1,7 +1,10 @@
 import 'package:premedpk_mobile_app/export.dart';
 
-void showError(BuildContext context, Map<String, dynamic> response) {
-  if (Navigator.canPop(context)) {
+void showError(BuildContext context, Map<String, dynamic> response,
+    {bool? navigate}) {
+  bool shouldNavigate = navigate ?? false;
+
+  if (shouldNavigate && Navigator.canPop(context)) {
     Navigator.of(context).pop();
   }
   showDialog(

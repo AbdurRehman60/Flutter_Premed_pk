@@ -4,11 +4,8 @@ import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/expert_so
 import 'package:premedpk_mobile_app/export.dart';
 
 class ExpertSolution extends StatelessWidget {
-  final File? image;
-
   ExpertSolution({
     Key? key,
-    this.image,
   }) : super(key: key);
 
   @override
@@ -34,7 +31,7 @@ class ExpertSolution extends StatelessWidget {
           ),
         ),
       ),
-      body: ExpertSolutionForm(image: image),
+      body: ExpertSolutionForm(),
     );
   }
 }

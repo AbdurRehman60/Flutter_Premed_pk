@@ -1,14 +1,9 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter/services.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:premedpk_mobile_app/UI/screens/expert_solution/crop.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/display_image_screen.dart';
 import 'package:premedpk_mobile_app/export.dart';
-import 'package:premedpk_mobile_app/main.dart';
 import 'package:video_player/video_player.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -410,7 +405,7 @@ class _CameraScreenState extends State<CameraScreen>
                                         Navigator.of(context).pop();
 
                                         // Navigate to the new screen with the captured image
-                                        Navigator.of(context).pushReplacement(
+                                        Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 DisplayImageScreen(
@@ -446,8 +441,11 @@ class _CameraScreenState extends State<CameraScreen>
                   )
                 : Center(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const CircularProgressIndicator(),
+                        SizedBoxes.verticalBig,
                         Text(
                           'LOADING',
                           style: PreMedTextTheme()

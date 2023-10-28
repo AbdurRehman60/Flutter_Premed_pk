@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/repository/expert_solution_provider.dart';
+import 'package:provider/provider.dart';
 
 class LocalImageDisplay extends StatefulWidget {
   @override
@@ -9,28 +11,43 @@ class LocalImageDisplay extends StatefulWidget {
 
 class _LocalImageDisplayState extends State<LocalImageDisplay> {
   File? _image;
-
-  Future<void> _pickImage() async {
-    final imagePicker = ImagePicker();
-    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      setState(() {
-        _image = File(pickedFile.path);
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final askAnExpertProvider = Provider.of<AskAnExpertProvider>(context);
+
+    Future<void> _pickImage() async {
+      final imagePicker = ImagePicker();
+      final pickedFile =
+          await imagePicker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        askAnExpertProvider.uploadedImage = File(pickedFile.path);
+        setState(() {
+          _image = File(pickedFile.path);
+        });
+      }
+    }
+
     return Column(
       children: <Widget>[
         if (_image != null)
-          Image.file(
-            _image!,
-            fit: BoxFit.fill,
-            width: 322,
+          Container(
             height: 200,
+            width: double.infinity,
+            decoration: ShapeDecoration(
+              color:
+                  PreMedColorTheme().primaryColorBlue100, // Customize as needed
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: Image.file(
+              _image!,
+              fit: BoxFit.fitHeight,
+              width: 322,
+              height: 200,
+            ),
+            // Implement LocalImageDisplay
           ),
         Expanded(
           flex: 1,

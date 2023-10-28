@@ -1,4 +1,6 @@
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/repository/expert_solution_provider.dart';
+import 'package:provider/provider.dart';
 
 class ExpertSolutionHome extends StatelessWidget {
   const ExpertSolutionHome({Key? key});
@@ -160,6 +162,9 @@ class ExpertSolutionHome extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           backgroundColor: PreMedColorTheme().primaryColorRed,
           onPressed: () {
+            final askAnExpertProvider =
+                Provider.of<AskAnExpertProvider>(context, listen: false);
+            askAnExpertProvider.resetState();
             Navigator.push(
               context,
               MaterialPageRoute(

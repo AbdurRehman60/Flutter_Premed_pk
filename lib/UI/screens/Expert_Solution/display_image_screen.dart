@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/crop.dart';
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/repository/expert_solution_provider.dart';
+import 'package:provider/provider.dart';
 
 class DisplayImageScreen extends StatelessWidget {
   final File image;
@@ -15,6 +17,8 @@ class DisplayImageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final askAnExpertProvider = Provider.of<AskAnExpertProvider>(context);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -31,9 +35,7 @@ class DisplayImageScreen extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CameraScreen(),
-                    ));
+                    Navigator.of(context).pop();
                   },
                   icon: const Icon(Icons.cancel),
                   iconSize: 42,
@@ -51,11 +53,8 @@ class DisplayImageScreen extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => ExpertSolution(image: image),
-                      ),
-                    );
+                    askAnExpertProvider.uploadedImage = image;
+                    Navigator.of(context).popUntil((route) => route.isFirst);
                   },
                   icon: const Icon(Icons.check),
                   iconSize: 42,

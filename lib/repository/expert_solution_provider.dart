@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/utils/base64_convertor.dart';
 
 enum Status {
   Init,
@@ -21,46 +23,85 @@ class AskAnExpertProvider extends ChangeNotifier {
     _doubtUploadStatus = value;
   }
 
+  String _selectedResource = '';
+  String get selectedResource => _selectedResource;
+  set selectedResource(String value) {
+    _selectedResource = value;
+    notify();
+  }
+
+  String _selectedSubject = '';
+  String get selectedSubject => _selectedSubject;
+  set selectedSubject(String value) {
+    _selectedSubject = value;
+    notify();
+  }
+
+  String _selectedTopic = '';
+  String get selectedTopic => _selectedTopic;
+  set selectedTopic(String value) {
+    _selectedTopic = value;
+    notify();
+  }
+
+  File? _uploadedImage;
+  File? get uploadedImage => _uploadedImage;
+
+  set uploadedImage(File? value) {
+    _uploadedImage = value;
+    notify();
+  }
+
   notify() {
     notifyListeners();
   }
 
-  Future<Map<String, dynamic>> askanexpert({
-    required String username,
+  void resetState() {
+    _doubtUploadStatus = Status.Init;
+    _selectedResource = '';
+    _selectedSubject = '';
+    _selectedTopic = '';
+    _uploadedImage = null;
+
+    notify();
+  }
+
+  Future<Map<String, dynamic>> uploadDoubt({
+    required String email,
     required String description,
     required String subject,
     required String topic,
     required String resource,
-    required String testImage,
+    required File testImage,
   }) async {
     var result;
-    final Map<String, dynamic> askanexpertData = {
-      "username": "ddd@gmail.com",
+    final Map<String, dynamic> askAnExpertData = {
+      "username": email,
       "description": description,
       "subject": subject,
       "topic": topic,
       "resource": resource,
-      "testImage": testImage,
+      "testImage": await imageToDataUri(testImage, "image/jpeg"),
     };
 
     _doubtUploadStatus = Status.Sending;
-    print('Hello');
+
     notify();
     try {
       Response response = await _client.post(
         Endpoints.DoubtUpload, // Update to match your API endpoint
-        data: askanexpertData,
+        data: askAnExpertData,
       );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
-
         if (responseData["success"]) {
           result = {
             'status': true,
             'message': responseData["message"],
           };
+          resetState();
         } else {
           result = {
             'status': false,
@@ -79,7 +120,7 @@ class AskAnExpertProvider extends ChangeNotifier {
       notify();
       result = {
         'status': false,
-        'message': e.message,
+        'message': e.response?.data['message'],
       };
     }
     return result;

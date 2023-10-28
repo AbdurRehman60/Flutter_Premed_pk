@@ -44,85 +44,60 @@ class CustomDropDown<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<T>(
-      constraints: BoxConstraints(
-        minWidth: double.infinity,
-        maxWidth: double.infinity * 0.5,
-        minHeight: 100,
-        maxHeight: MediaQuery.of(context).size.height * 0.7,
+    return DropdownButtonFormField<T>(
+      isExpanded: true,
+      dropdownColor: PreMedColorTheme().white,
+      borderRadius: BorderRadius.circular(8),
+      icon: Icon(
+        Icons.expand_more,
+        color: PreMedColorTheme().neutral900,
       ),
-      shadowColor: PreMedColorTheme().neutral900,
-      color: PreMedColorTheme().white,
-      itemBuilder: (BuildContext context) {
-        return options.map((option) {
-          return PopupMenuItem<T>(
+      items: options.map((option) {
+        return DropdownMenuItem(
             value: option.value,
-            child: Container(
-              width: double.infinity,
-              child: Text(
-                option.displayOption,
-                overflow: TextOverflow.ellipsis,
-                style: PreMedTextTheme().subtext,
-              ),
-            ),
-          );
-        }).toList();
-      },
-      child: DropdownButtonFormField<T>(
-        isExpanded: true,
-        dropdownColor: PreMedColorTheme().white,
-        borderRadius: BorderRadius.circular(8),
-        icon: Icon(
-          Icons.expand_more,
-          color: PreMedColorTheme().neutral900,
+            child: Text(
+              option.displayOption,
+              overflow: TextOverflow.ellipsis,
+            ));
+      }).toList(),
+      // items: [],
+      decoration: InputDecoration(
+        filled: filled,
+        fillColor: fillColor,
+        suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            color: PreMedColorTheme().neutral400,
+          ),
         ),
-        // items: options.map((option) {
-        //   return DropdownMenuItem(
-        //       value: option.value,
-        //       child: Text(
-        //         option.displayOption,
-        //         overflow: TextOverflow.ellipsis,
-        //       ));
-        // }).toList(),
-        items: [],
-        decoration: InputDecoration(
-          filled: filled,
-          fillColor: fillColor,
-          suffixIcon: suffixIcon,
-          prefixIcon: prefixIcon,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: PreMedColorTheme().neutral400,
-            ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            color: PreMedColorTheme().neutral900,
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: PreMedColorTheme().neutral900,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: Colors.red),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: Colors.red),
-          ),
-          isDense: isDense,
-          contentPadding:
-              contentPadding ?? const EdgeInsets.fromLTRB(16, 16, 16, 16),
-          errorText: errorText,
-          errorStyle: errorStyle,
-          hintText: hintText,
-          hintStyle: hintStyle ?? PreMedTextTheme().subtext,
         ),
-        style: style ?? PreMedTextTheme().subtext,
-        value: value,
-        onChanged: onChanged,
-        validator: validator,
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.red),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Colors.red),
+        ),
+        isDense: isDense,
+        contentPadding:
+            contentPadding ?? const EdgeInsets.fromLTRB(16, 16, 16, 16),
+        errorText: errorText,
+        errorStyle: errorStyle,
+        hintText: hintText,
+        hintStyle: hintStyle ?? PreMedTextTheme().subtext,
       ),
+      style: style ?? PreMedTextTheme().subtext,
+      value: value,
+      onChanged: onChanged,
+      validator: validator,
     );
   }
 }
@@ -136,3 +111,28 @@ class CustomDropDownOption<T> {
     required this.displayOption,
   });
 }
+// PopupMenuButton<T>(
+//       constraints: BoxConstraints(
+//         minWidth: double.infinity,
+//         maxWidth: double.infinity * 0.5,
+//         minHeight: 100,
+//         maxHeight: MediaQuery.of(context).size.height * 0.7,
+//       ),
+//       shadowColor: PreMedColorTheme().neutral900,
+//       color: PreMedColorTheme().white,
+//       itemBuilder: (BuildContext context) {
+//         return options.map((option) {
+//           return PopupMenuItem<T>(
+//             value: option.value,
+//             child: Container(
+//               width: double.infinity,
+//               child: Text(
+//                 option.displayOption,
+//                 overflow: TextOverflow.ellipsis,
+//                 style: PreMedTextTheme().subtext,
+//               ),
+//             ),
+//           );
+//         }).toList();
+//       },
+//       child: 
