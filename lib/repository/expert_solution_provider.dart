@@ -133,9 +133,7 @@ class AskAnExpertProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> getDoubts({
-    required String email,
-  }) async {
+  Future<Map<String, dynamic>> getDoubts({required String email}) async {
     var result;
 
     _doubtUploadStatus = Status.Sending;
@@ -155,10 +153,10 @@ class AskAnExpertProvider extends ChangeNotifier {
           Doubt doubt = Doubt.fromJson(data);
           solvedDoubts.add(doubt);
         }
-
+        print(responseData);
         result = {
           'status': true,
-          'message': "Fetched Succesfully!",
+          'message': "Fetched Successfully!",
         };
       } else {
         _doubtUploadStatus = Status.Error;

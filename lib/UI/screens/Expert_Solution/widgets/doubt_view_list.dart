@@ -41,7 +41,22 @@ class DoubtListView extends StatelessWidget {
             },
           )
         : Center(
-            child: Text('No Questions'),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(PremedAssets.Notfoundemptystate),
+                SizedBoxes.verticalTiny,
+                Text(
+                  'NO PENDING QUESTIONS',
+                  style: PreMedTextTheme().subtext1.copyWith(
+                      color: PreMedColorTheme().primaryColorRed,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.36),
+                ),
+                SizedBoxes.verticalTiny,
+              ],
+            ),
           );
   }
 }
