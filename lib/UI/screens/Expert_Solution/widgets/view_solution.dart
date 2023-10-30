@@ -10,6 +10,15 @@ class ViewSolution extends StatelessWidget {
     required this.doubt,
   }) : super(key: key);
 
+  void _showReviewModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return ReviewModal();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> tags = [
@@ -97,10 +106,79 @@ class ViewSolution extends StatelessWidget {
                 ),
               ),
               SizedBoxes.verticalExtraGargangua,
-              CustomButton(buttonText: 'Add a Feedback', onPressed: () {})
+              CustomButton(
+                buttonText: 'Add a Feedback',
+                onPressed: () {
+                  _showReviewModal(context);
+                },
+              )
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ReviewModal extends StatefulWidget {
+  @override
+  _ReviewModalState createState() => _ReviewModalState();
+}
+
+class _ReviewModalState extends State<ReviewModal> {
+  int selectedRating = 0;
+
+  void _setRating(int rating) {
+    setState(() {
+      selectedRating = rating;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Add a Feedback',
+            style: PreMedTextTheme().subtext,
+          ),
+          SizedBoxes.verticalMedium,
+          Text(
+            'How well did you understand?',
+            style: PreMedTextTheme()
+                .body
+                .copyWith(color: PreMedColorTheme().neutral400),
+          ),
+          SizedBoxes.verticalMedium,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: List.generate(5, (index) {
+              final starNumber = index + 1;
+              return InkWell(
+                onTap: () {
+                  _setRating(starNumber);
+                },
+                child: Icon(
+                  Icons.star,
+                  size: 40,
+                  color:
+                      starNumber <= selectedRating ? Colors.amber : Colors.grey,
+                ),
+              );
+            }),
+          ),
+          SizedBoxes.verticalMedium,
+          CustomButton(
+              buttonText: 'Submit',
+              onPressed: () {
+                Navigator.of(context).pop();
+              })
+        ],
       ),
     );
   }
