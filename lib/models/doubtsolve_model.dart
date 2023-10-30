@@ -6,6 +6,7 @@ class Doubt {
   final String? topic;
   final String resource;
   final String videoLink;
+  final String imgURL;
   final String expertUsername;
   final bool rated;
   final bool disputed;
@@ -21,6 +22,7 @@ class Doubt {
     required this.subject,
     required this.resource,
     this.topic,
+    required this.imgURL,
     required this.videoLink,
     required this.expertUsername,
     required this.rated,
@@ -40,6 +42,7 @@ class Doubt {
       subject: json['subject'],
       topic: json['topic'] ?? '',
       resource: json['resource'],
+      imgURL: json['img'] ?? '',
       videoLink: json['videoLink'],
       expertUsername: json['expertUsername'],
       rated: json['rated'],

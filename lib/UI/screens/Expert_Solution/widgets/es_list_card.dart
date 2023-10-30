@@ -156,7 +156,7 @@ class DoubtCard extends StatelessWidget {
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

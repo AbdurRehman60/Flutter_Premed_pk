@@ -17,26 +17,24 @@ class DoubtListView extends StatelessWidget {
         ? ListView.builder(
             itemCount: doubtList.length,
             itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    index == 0
-                        ? const SizedBox(
-                            height: 140,
-                          )
-                        : const SizedBox(),
-                    DoubtCard(
-                      doubt: doubtList[index],
-                    ),
-                    Divider(
-                      thickness: 1,
-                      color: PreMedColorTheme().neutral300,
-                    ),
-                  ],
-                ),
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  index == 0
+                      ? const SizedBox(
+                          height: 140,
+                        )
+                      : const SizedBox(),
+                  DoubtCard(
+                    doubt: doubtList[index],
+                  ),
+                  Divider(
+                    height: 0,
+                    thickness: 1,
+                    color: PreMedColorTheme().neutral300,
+                  ),
+                ],
               );
             },
           )
