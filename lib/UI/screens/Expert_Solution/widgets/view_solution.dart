@@ -28,7 +28,6 @@ class ViewSolution extends StatelessWidget {
       {"tagName": doubt.subject, "isResource": false},
       doubt.topic != null ? {"tagName": doubt.topic, "isResource": false} : {},
     ];
-    print("😂: ${doubt.videoLink}");
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -90,9 +89,8 @@ class ViewSolution extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.w600),
                   ),
                   SizedBoxes.verticalMedium,
-                  const VideoPlayerView(
-                    url:
-                        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
+                  VideoPlayerView(
+                    url: doubt.videoLink,
                     dataSourceType: DataSourceType.network,
                   )
                 ],

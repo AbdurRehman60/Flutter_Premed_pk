@@ -34,7 +34,6 @@ class Doubt {
   });
 
   factory Doubt.fromJson(Map<String, dynamic> json) {
-    print('json');
     return Doubt(
       id: json['_id'],
       username: json['username'],

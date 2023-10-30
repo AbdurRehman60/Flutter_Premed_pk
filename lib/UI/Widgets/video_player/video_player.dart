@@ -28,13 +28,14 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
   void initState() {
     super.initState();
 
+    print("😂: ${Uri.parse(widget.url)}");
     switch (widget.dataSourceType) {
       case DataSourceType.asset:
         _videoPlayerController = VideoPlayerController.asset(widget.url);
         break;
       case DataSourceType.network:
-        _videoPlayerController =
-            VideoPlayerController.networkUrl(Uri.parse(widget.url));
+        _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(
+            "https://premedpk-cdn.sgp1.cdn.digitaloceanspaces.com/Videos/015455df-7fc0-4da1-8e2b-23017382ad3e.mp4"));
         break;
       case DataSourceType.file:
         _videoPlayerController = VideoPlayerController.file(File(widget.url));
