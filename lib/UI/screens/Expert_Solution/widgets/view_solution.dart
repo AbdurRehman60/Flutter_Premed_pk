@@ -89,9 +89,8 @@ class ViewSolution extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.w600),
                   ),
                   SizedBoxes.verticalMedium,
-                  VideoPlayerView(
+                  VideoScreen(
                     url: doubt.videoLink,
-                    dataSourceType: DataSourceType.network,
                   )
                 ],
               ),

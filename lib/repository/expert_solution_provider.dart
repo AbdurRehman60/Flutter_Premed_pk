@@ -153,7 +153,7 @@ class AskAnExpertProvider extends ChangeNotifier {
           Doubt doubt = Doubt.fromJson(data);
           solvedDoubts.add(doubt);
         }
-
+        print(responseData);
         result = {
           'status': true,
           'message': "Fetched Successfully!",
