@@ -105,7 +105,7 @@ class RequiredOnboardingForm extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            PhoneDropdown(),
+            // PhoneDropdown(),
             SizedBoxes.verticalMedium,
             PhoneFieldWithCheckbox(),
 

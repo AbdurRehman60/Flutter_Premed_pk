@@ -21,7 +21,7 @@ class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {
       children: <Widget>[
         Row(
           children: [
-            const CustomCheckBox(),
+            // const CustomCheckBox(),
             SizedBoxes.horizontalLarge,
             Flexible(
               child: Text(
@@ -32,7 +32,7 @@ class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {
           ],
         ),
         SizedBoxes.verticalBig,
-        const PhoneDropdown()
+        // const PhoneDropdown()
       ],
     );
   }

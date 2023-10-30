@@ -26,6 +26,36 @@ class AuthProvider extends ChangeNotifier {
     _loggedInStatus = value;
   }
 
+  String _parentContactNumber = '';
+  String get parentContactNumber => _parentContactNumber;
+  set parentContactNumber(String value) {
+    _parentContactNumber = value;
+    notify();
+  }
+
+  String _academyJoined = 'Yes';
+  String get academyJoined => _academyJoined;
+  set academyJoined(String value) {
+    _academyJoined = value;
+    notify();
+  }
+
+  String _parentFullName = '';
+  String get parentFullName => _parentFullName;
+  set parentFullName(String value) {
+    _parentFullName = value;
+    notifyListeners();
+  }
+
+  List<String> _intendFor = [];
+
+  List<String> get intendFor => _intendFor;
+
+  set intendFor(List<String> value) {
+    _intendFor = value;
+    notifyListeners();
+  }
+
   notify() {
     notifyListeners();
   }
@@ -170,6 +200,41 @@ class AuthProvider extends ChangeNotifier {
         'message': e.message,
       };
     }
+    return result;
+  }
+
+  Future<Map<String, dynamic>> postOptionalOnboarding(
+      Map<String, dynamic> optionalOnboardingData) async {
+    var result;
+
+    // try {
+    //   Response response = await _client.post(
+    //     Endpoints.OptionalOnboarding,
+    //     data: request,
+    //   );
+
+    //   if (response.statusCode == 200) {
+    //     final Map<String, dynamic> responseData =
+    //         Map<String, dynamic>.from(response.data);
+
+    //     result = {
+    //       'status': responseData["success"],
+    //       'message': responseData["status"],
+    //     };
+    //     print(responseData);
+    //   } else {
+    //     result = {
+    //       'status': false,
+    //       'message': json.decode(response.data),
+    //     };
+    //   }
+    // } on DioException catch (e) {
+    //   result = {
+    //     'status': false,
+    //     'message': e.message,
+    //   };
+    // }
+    print(optionalOnboardingData);
     return result;
   }
 

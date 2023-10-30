@@ -11,7 +11,7 @@ export 'package:premedpk_mobile_app/UI/screens/login/login.dart';
 export 'package:premedpk_mobile_app/UI/screens/Signup/signup.dart';
 export 'package:premedpk_mobile_app/UI/screens/Onboarding/required_onboarding.dart';
 export 'package:premedpk_mobile_app/UI/screens/Onboarding/optional_onboarding.dart';
-export 'package:premedpk_mobile_app/utils/country_code_picker.dart';
+export 'package:premedpk_mobile_app/utils/phone_dropdown.dart';
 export 'package:premedpk_mobile_app/utils/school_data_widget.dart';
 export 'package:premedpk_mobile_app/utils/cities_data_widget.dart';
 
