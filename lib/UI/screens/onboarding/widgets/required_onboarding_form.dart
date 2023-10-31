@@ -25,10 +25,6 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
       auth.phoneNumber = phoneNumber.completeNumber;
     }
 
-    void onWhatsappNumberSelected(PhoneNumber phoneNumber) {
-      auth.whatsappNumber = phoneNumber.completeNumber;
-    }
-
     void handleOptionSelected(String selectedOption) {
       print("Selected option: $selectedOption");
     }

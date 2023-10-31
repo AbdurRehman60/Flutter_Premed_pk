@@ -20,12 +20,20 @@ class PhoneFieldWithCheckbox extends StatefulWidget {
 class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {
   bool isPhoneFieldEnabled = false;
 
-  TextEditingController WhatsappNumberController = TextEditingController();
+  TextEditingController whatsappNumberController = TextEditingController();
 
   void togglePhoneField(bool value) {
     setState(() {
       isPhoneFieldEnabled = !value;
+      if (!isPhoneFieldEnabled) {
+        resetPhoneField();
+      }
     });
+  }
+
+  void resetPhoneField() {
+    // Clear the phone number and reset the phone field
+    whatsappNumberController.clear();
   }
 
   @override
@@ -51,8 +59,7 @@ class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {
         ),
         SizedBoxes.verticalBig,
         Visibility(
-          visible:
-              isPhoneFieldEnabled, // Show the phone field if isPhoneFieldEnabled is true
+          visible: isPhoneFieldEnabled,
           child:
               PhoneDropdown(onPhoneNumberSelected: (PhoneNumber phoneNumber) {
             auth.whatsappNumber = phoneNumber.completeNumber;
