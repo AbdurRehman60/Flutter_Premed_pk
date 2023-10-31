@@ -27,7 +27,9 @@ class _VideoScreenState extends State<VideoScreen> {
   void startPlay() async {
     await player.setOption(FijkOption.hostCategory, "request-screen-on", 1);
     await player.setOption(FijkOption.hostCategory, "request-audio-focus", 1);
-    await player.setDataSource(widget.url, autoPlay: true).catchError((e) {
+    await player
+        .setDataSource(widget.url, autoPlay: false, showCover: true)
+        .catchError((e) {
       print("setDataSource error: $e");
     });
   }
@@ -38,18 +40,18 @@ class _VideoScreenState extends State<VideoScreen> {
       aspectRatio: 16 / 9,
       child: FijkView(
         player: player,
-        // panelBuilder: fijkPanel2Builder(snapShot: true),
+        panelBuilder: fijkPanel2Builder(snapShot: true),
         fsFit: FijkFit.fill,
         // panelBuilder: simplestUI,
-        panelBuilder: (FijkPlayer player, FijkData data, BuildContext context,
-            Size viewSize, Rect texturePos) {
-          return CustomFijkPanel(
-              player: player,
-              data: data,
-              buildContext: context,
-              viewSize: viewSize,
-              texturePos: texturePos);
-        },
+        // panelBuilder: (FijkPlayer player, FijkData data, BuildContext context,
+        //     Size viewSize, Rect texturePos) {
+        //   return CustomFijkPanel(
+        //       player: player,
+        //       data: data,
+        //       buildContext: context,
+        //       viewSize: viewSize,
+        //       texturePos: texturePos);
+        // },
       ),
     );
   }
