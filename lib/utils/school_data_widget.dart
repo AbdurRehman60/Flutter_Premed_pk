@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:premedpk_mobile_app/export.dart';
 
 class SchoolDropdownList extends StatelessWidget {
   final List<String> items;
@@ -17,7 +18,7 @@ class SchoolDropdownList extends StatelessWidget {
   Widget build(BuildContext context) {
     return TypeAheadField<String>(
       getImmediateSuggestions: true,
-      textFieldConfiguration: TextFieldConfiguration(
+      textFieldConfiguration: const TextFieldConfiguration(
         decoration: InputDecoration(
           labelText: 'Enter your School',
           border: OutlineInputBorder(),
@@ -30,15 +31,20 @@ class SchoolDropdownList extends StatelessWidget {
       },
       itemBuilder: (context, itemData) {
         return ListTile(
-          title: Text(itemData),
+          title: Text(
+            itemData,
+            style: PreMedTextTheme()
+                .subtext
+                .copyWith(color: PreMedColorTheme().white),
+          ),
         );
       },
       onSuggestionSelected: (itemData) {
         onChanged(itemData);
       },
       noItemsFoundBuilder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
+        return const Padding(
+          padding: EdgeInsets.all(8.0),
           child: Text('No schools found.'),
         );
       },

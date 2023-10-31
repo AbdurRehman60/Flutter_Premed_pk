@@ -1,11 +1,6 @@
-import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:premedpk_mobile_app/UI/screens/Onboarding/widgets/optional_checkbox.dart';
+import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/required_onboarding_form.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/ui/screens/onboarding/widgets/curve_painter.dart';
-import 'package:premedpk_mobile_app/ui/screens/onboarding/widgets/radio_button.dart';
-import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
-import 'package:premedpk_mobile_app/utils/Data/country_code_data.dart';
-import 'package:premedpk_mobile_app/utils/Data/school_data.dart';
 
 class RequiredOnboarding extends StatelessWidget {
   const RequiredOnboarding({super.key});
@@ -57,24 +52,7 @@ class RequiredOnboarding extends StatelessWidget {
                         ),
                       ),
                       SizedBoxes.verticalExtraGargangua,
-                      const RequiredOnboardingForm(),
-                      SizedBoxes.verticalBig,
-                      CustomButton(
-                        buttonText: 'Next',
-                        isIconButton: true,
-                        icon: Icons.arrow_forward,
-                        leftIcon: false,
-                        color: PreMedColorTheme().white,
-                        textColor: PreMedColorTheme().neutral600,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ExpertSolutionHome(),
-                            ),
-                          );
-                        },
-                      )
+                      RequiredOnboardingForm(),
                     ],
                   ),
                 ),
@@ -87,78 +65,6 @@ class RequiredOnboarding extends StatelessWidget {
   }
 }
 
-class RequiredOnboardingForm extends StatelessWidget {
-  const RequiredOnboardingForm({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: PreMedColorTheme().white,
-        border: Border.all(
-          color: PreMedColorTheme().neutral300,
-          width: 1,
-        ),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            // PhoneDropdown(),
-            SizedBoxes.verticalMedium,
-            PhoneFieldWithCheckbox(),
-
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'City',
-                style: PreMedTextTheme().subtext,
-              ),
-            ),
-            SizedBoxes.verticalTiny,
-            // CustomTextField(),
-            CityDropdownList(
-                items: cities_data,
-                selectedItem: cities_data[0],
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    print(newValue);
-                  }
-                }),
-            SizedBoxes.verticalLarge,
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'School Name',
-                textAlign: TextAlign.start,
-                style: PreMedTextTheme().subtext,
-              ),
-            ),
-            SizedBoxes.verticalLarge,
-            SchoolDropdownList(
-                items: schools_data,
-                selectedItem: schools_data[0],
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    print(newValue);
-                  }
-                }),
-            SizedBoxes.verticalLarge,
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'Which year are you in?',
-                style: PreMedTextTheme().body,
-              ),
-            ),
-            SizedBoxes.verticalMicro,
-            const RadioButtons(),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 //test

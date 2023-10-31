@@ -56,6 +56,42 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+//required on boarding data from here
+  String _phoneNumber = '';
+  String get phoneNumber => _phoneNumber;
+  set phoneNumber(String value) {
+    _phoneNumber = value;
+    notify();
+  }
+
+  String _whatsappNumber = '';
+  String get whatsappNumber => _whatsappNumber;
+  set whatsappNumber(String value) {
+    _whatsappNumber = value;
+    notify();
+  }
+
+  String _intendedYear = '';
+  String get intendedYear => _intendedYear;
+  set intendedYear(String value) {
+    _intendedYear = value;
+    notify();
+  }
+
+  String _City = '';
+  String get City => _City;
+  void setCity(String value) {
+    _City = value;
+    notify();
+  }
+
+  String _School = '';
+  String get School => _School;
+  void setSchool(String value) {
+    _School = value;
+    notify();
+  }
+
   notify() {
     notifyListeners();
   }
@@ -235,6 +271,41 @@ class AuthProvider extends ChangeNotifier {
     //   };
     // }
     print(optionalOnboardingData);
+    return result;
+  }
+
+  Future<Map<String, dynamic>> RequiredOnboarding(
+      Map<String, dynamic> requiredOnboardingData) async {
+    var result;
+
+    // try {
+    //   Response response = await _client.post(
+    //     Endpoints.OptionalOnboarding,
+    //     data: request,
+    //   );
+
+    //   if (response.statusCode == 200) {
+    //     final Map<String, dynamic> responseData =
+    //         Map<String, dynamic>.from(response.data);
+
+    //     result = {
+    //       'status': responseData["success"],
+    //       'message': responseData["status"],
+    //     };
+    //     print(responseData);
+    //   } else {
+    //     result = {
+    //       'status': false,
+    //       'message': json.decode(response.data),
+    //     };
+    //   }
+    // } on DioException catch (e) {
+    //   result = {
+    //     'status': false,
+    //     'message': e.message,
+    //   };
+    // }
+    print(requiredOnboardingData);
     return result;
   }
 

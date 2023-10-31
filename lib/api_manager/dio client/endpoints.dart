@@ -19,6 +19,7 @@ class Endpoints {
   static const String logout = '/auth/logout';
   static const String signup = '/api/auth/signup';
   static const String OptionalOnboarding = '/api/auth/optional-onboarding';
+  static const String RequiredOnboarding = '/api/auth/required-onboarding';
   static const String getLoggedInUser = '/LoggedInUser';
   static const String guides = '/api/notes/allguides';
   static const String revisionNotes = '/api/notes/allguides';
