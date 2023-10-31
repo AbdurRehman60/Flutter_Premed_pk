@@ -1,7 +1,5 @@
 import 'package:premedpk_mobile_app/UI/Widgets/error_dialogue.dart';
-import 'package:premedpk_mobile_app/models/user_model.dart';
 import 'package:premedpk_mobile_app/repository/auth_provider.dart';
-import 'package:premedpk_mobile_app/repository/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:premedpk_mobile_app/export.dart';
