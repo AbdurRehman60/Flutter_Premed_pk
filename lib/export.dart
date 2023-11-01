@@ -32,3 +32,6 @@ export 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/search_display.dart';
 export 'package:premedpk_mobile_app/export.dart';
 export 'package:premedpk_mobile_app/models/notes_model.dart';
 export 'package:premedpk_mobile_app/utils/Data/notesdata.dart';
+export 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
+export 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_screen.dart';
+export 'package:premedpk_mobile_app/models/flashcard_model.dart';
