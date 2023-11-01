@@ -26,7 +26,7 @@ class PreMedTheme {
   ColorScheme get colorScheme => const ColorScheme.light().copyWith(
         primary: _ColorTheme.primaryColorRed,
         secondary: _ColorTheme.primaryColorBlue,
-        background: _ColorTheme.black,
+        background: _ColorTheme.white,
         surface: _ColorTheme.white,
         surfaceTint: _ColorTheme.neutral100,
       );

@@ -83,54 +83,54 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
                   SizedBoxes.verticalMedium,
                   PhoneDropdown(
                     onPhoneNumberSelected: onPhoneNumberSelected,
+                    hintText: "Enter your parent's phone number",
                   ),
                   SizedBoxes.verticalLarge,
                   Text(
                     'What did you intend to use PreMed.PK for ?',
-                    style: PreMedTextTheme().heading6,
+                    style: PreMedTextTheme().subtext,
                   ),
                   SizedBoxes.verticalMedium,
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      CustomCheckBox(
-                        initialValue: mdcatChecked,
-                        onChanged: (value) {
-                          setState(() {
-                            mdcatChecked = value;
-                            updateIntendFor();
-                          });
-                        },
+                      Flexible(
+                        child: CustomCheckBox(
+                          label: "MDCAT",
+                          initialValue: mdcatChecked,
+                          onChanged: (value) {
+                            setState(() {
+                              mdcatChecked = value;
+                              updateIntendFor();
+                            });
+                          },
+                        ),
                       ),
-                      SizedBoxes.horizontalTiny,
-                      Text(
-                        'MDCAT',
-                        style: PreMedTextTheme().subtext,
+                      Flexible(
+                        child: CustomCheckBox(
+                          label: "AKU",
+                          initialValue: akuChecked,
+                          onChanged: (value) {
+                            setState(() {
+                              akuChecked = value;
+                              updateIntendFor();
+                            });
+                          },
+                        ),
                       ),
-                      SizedBoxes.horizontalBig,
-                      CustomCheckBox(
-                        initialValue: akuChecked,
-                        onChanged: (value) {
-                          setState(() {
-                            akuChecked = value;
-                            updateIntendFor();
-                          });
-                        },
+                      Flexible(
+                        child: CustomCheckBox(
+                          label: "NUMS",
+                          initialValue: numsChecked,
+                          onChanged: (value) {
+                            setState(() {
+                              numsChecked = value;
+                              updateIntendFor();
+                            });
+                          },
+                        ),
                       ),
-                      SizedBoxes.horizontalTiny,
-                      Text('AKU', style: PreMedTextTheme().subtext),
-                      SizedBoxes.horizontalBig,
-                      CustomCheckBox(
-                        initialValue: numsChecked,
-                        onChanged: (value) {
-                          setState(() {
-                            numsChecked = value;
-                            updateIntendFor();
-                          });
-                        },
-                      ),
-                      SizedBoxes.horizontalTiny,
-                      Text('NUMS', style: PreMedTextTheme().subtext)
                     ],
                   ),
                   SizedBoxes.verticalMedium,
@@ -138,7 +138,7 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Have you joined any academy?',
-                      style: PreMedTextTheme().heading6,
+                      style: PreMedTextTheme().subtext,
                     ),
                   ),
                   SizedBoxes.verticalLarge,

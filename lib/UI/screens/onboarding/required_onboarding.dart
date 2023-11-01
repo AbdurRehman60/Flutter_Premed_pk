@@ -52,7 +52,7 @@ class RequiredOnboarding extends StatelessWidget {
                         ),
                       ),
                       SizedBoxes.verticalExtraGargangua,
-                      RequiredOnboardingForm(),
+                      const RequiredOnboardingForm(),
                     ],
                   ),
                 ),

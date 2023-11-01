@@ -71,7 +71,7 @@ class AuthProvider extends ChangeNotifier {
     notify();
   }
 
-  String _intendedYear = '';
+  String _intendedYear = 'FSc 1st Year/AS Level';
   String get intendedYear => _intendedYear;
   set intendedYear(String value) {
     _intendedYear = value;
@@ -274,10 +274,12 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> RequiredOnboarding(
-      Map<String, dynamic> requiredOnboardingData) async {
+  Future<Map<String, dynamic>> requiredOnboarding() async {
     var result;
-
+    result = {
+      'status': false,
+      'message': "dwd",
+    };
     // try {
     //   Response response = await _client.post(
     //     Endpoints.OptionalOnboarding,
@@ -305,7 +307,7 @@ class AuthProvider extends ChangeNotifier {
     //     'message': e.message,
     //   };
     // }
-    print(requiredOnboardingData);
+
     return result;
   }
 

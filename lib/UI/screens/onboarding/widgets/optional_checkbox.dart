@@ -42,28 +42,20 @@ class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        Row(
-          children: [
-            CustomCheckBox(
-              initialValue: true, // By default, it is checked
-              onChanged: togglePhoneField, // Toggle phone field visibility
-            ),
-            SizedBoxes.horizontalLarge,
-            Flexible(
-              child: Text(
-                'Is this number available on WhatsApp?',
-                style: PreMedTextTheme().subtext,
-              ),
-            ),
-          ],
+        CustomCheckBox(
+          label: "Is this number available on WhatsApp?",
+          initialValue: true, // By default, it is checked
+          onChanged: togglePhoneField, // Toggle phone field visibility
         ),
         SizedBoxes.verticalBig,
         Visibility(
           visible: isPhoneFieldEnabled,
-          child:
-              PhoneDropdown(onPhoneNumberSelected: (PhoneNumber phoneNumber) {
-            auth.whatsappNumber = phoneNumber.completeNumber;
-          }),
+          child: PhoneDropdown(
+            onPhoneNumberSelected: (PhoneNumber phoneNumber) {
+              auth.whatsappNumber = phoneNumber.completeNumber;
+            },
+            hintText: 'Enter your WhatsApp Number',
+          ),
         )
       ],
     );

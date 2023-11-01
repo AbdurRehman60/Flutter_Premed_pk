@@ -1,11 +1,11 @@
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/optional_checkbox.dart';
+import 'package:premedpk_mobile_app/UI/widgets/error_dialogue.dart';
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/repository/auth_provider.dart';
 import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
 import 'package:premedpk_mobile_app/utils/Data/school_data.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../repository/auth_provider.dart';
 
 class RequiredOnboardingForm extends StatefulWidget {
   const RequiredOnboardingForm({super.key});
@@ -15,18 +15,14 @@ class RequiredOnboardingForm extends StatefulWidget {
 }
 
 class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
+  String error = "";
+  bool hasErrors = false;
   @override
-  final _formKey = GlobalKey<FormState>();
-
   Widget build(BuildContext context) {
     AuthProvider auth = Provider.of<AuthProvider>(context);
 
     void onPhoneNumberSelected(PhoneNumber phoneNumber) {
       auth.phoneNumber = phoneNumber.completeNumber;
-    }
-
-    void handleOptionSelected(String selectedOption) {
-      print("Selected option: $selectedOption");
     }
 
     void onCitySelected(String? selectedCity) {
@@ -37,85 +33,127 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
       auth.setSchool(selectedSchool);
     }
 
-    void onNextPressed() {
-      print("phonenumber:${auth.phoneNumber}");
-      print("city:${auth.City}");
-      print("School:${auth.School}");
-      print("WhichYear: ${auth.intendedYear}");
-      print("whatsappNumber: ${auth.whatsappNumber}");
+    bool validateInput() {
+      error = '';
+      hasErrors = false;
+
+      if (auth.phoneNumber.isEmpty) {
+        print('object');
+        setState(() {
+          error = 'Phone number cannot be empty.';
+          hasErrors = true;
+        });
+      }
+
+      return !hasErrors;
     }
 
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: PreMedColorTheme().white,
-              border: Border.all(
-                color: PreMedColorTheme().neutral300,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(8.0),
+    void onNextPressed() {
+      if (validateInput()) {
+        final Future<Map<String, dynamic>> response = auth.requiredOnboarding();
+
+        response.then(
+          (response) {
+            if (response['status']) {
+              // User user = response['user'];
+
+              // Provider.of<UserProvider>(context, listen: false).setUser(user);
+
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const SignUpScreen(),
+              //   ),
+              // );
+            } else {
+              showError(context, response);
+            }
+            // Add this line to print status code
+          },
+        );
+      }
+    }
+
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: PreMedColorTheme().white,
+            border: Border.all(
+              color: PreMedColorTheme().neutral300,
+              width: 1,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                children: [
-                  PhoneDropdown(
-                    onPhoneNumberSelected: onPhoneNumberSelected,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Phone Number',
+                    style: PreMedTextTheme().subtext,
                   ),
-                  SizedBoxes.verticalMedium,
-                  PhoneFieldWithCheckbox(
-                    onWhatsAppNumberSelected: (whatsappNumber) {
-                      auth.whatsappNumber = whatsappNumber;
-                    },
-                  ),
+                ),
+                SizedBoxes.verticalTiny,
 
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'City',
-                      style: PreMedTextTheme().subtext,
-                    ),
-                  ),
-                  SizedBoxes.verticalTiny,
-                  // CustomTextField(),
-                  CityDropdownList(
-                    items: cities_data,
-                    selectedItem: cities_data[0],
-                    onChanged: onCitySelected,
-                  ),
+                PhoneDropdown(
+                  onPhoneNumberSelected: onPhoneNumberSelected,
+                  hintText: "Enter Your Phone Number",
+                ),
+                SizedBoxes.verticalMedium,
+                PhoneFieldWithCheckbox(
+                  onWhatsAppNumberSelected: (whatsappNumber) {
+                    auth.whatsappNumber = whatsappNumber;
+                  },
+                ),
 
-                  SizedBoxes.verticalLarge,
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'School Name',
-                      textAlign: TextAlign.start,
-                      style: PreMedTextTheme().subtext,
-                    ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'City',
+                    style: PreMedTextTheme().subtext,
                   ),
-                  SizedBoxes.verticalLarge,
-                  SchoolDropdownList(
-                    items: schools_data,
-                    selectedItem: schools_data[0],
-                    onChanged: onSchoolSelected, // Pass the callback function
-                  ),
+                ),
+                SizedBoxes.verticalTiny,
+                // CustomTextField(),
+                CityDropdownList(
+                  items: cities_data,
+                  selectedItem: auth.City,
+                  onChanged: onCitySelected,
+                ),
 
-                  SizedBoxes.verticalLarge,
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Which year are you in?',
-                      style: PreMedTextTheme().body,
-                    ),
+                SizedBoxes.verticalLarge,
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'School Name',
+                    textAlign: TextAlign.start,
+                    style: PreMedTextTheme().subtext,
                   ),
-                  SizedBoxes.verticalMicro,
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: options.map((option) {
+                ),
+                SizedBoxes.verticalLarge,
+                SchoolDropdownList(
+                  items: schools_data,
+                  selectedItem: schools_data[0],
+                  onChanged: onSchoolSelected, // Pass the callback function
+                ),
+
+                SizedBoxes.verticalLarge,
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Which year are you in?',
+                    style: PreMedTextTheme().body,
+                  ),
+                ),
+                SizedBoxes.verticalMicro,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: options.map(
+                    (option) {
                       return Row(
                         children: [
                           Radio(
@@ -135,24 +173,35 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
                           ),
                         ],
                       );
-                    }).toList(),
-                  )
-                ],
-              ),
+                    },
+                  ).toList(),
+                ),
+                SizedBoxes.verticalMedium,
+                hasErrors
+                    ? Text(
+                        error,
+                        textAlign: TextAlign.center,
+                        style: PreMedTextTheme().subtext1.copyWith(
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      )
+                    : const SizedBox(),
+              ],
             ),
           ),
-          SizedBoxes.verticalBig,
-          CustomButton(
-            buttonText: 'Next',
-            isIconButton: true,
-            icon: Icons.arrow_forward,
-            leftIcon: false,
-            color: PreMedColorTheme().white,
-            textColor: PreMedColorTheme().neutral600,
-            onPressed: onNextPressed,
-          )
-        ],
-      ),
+        ),
+        SizedBoxes.verticalBig,
+        CustomButton(
+          buttonText: 'Next',
+          isIconButton: true,
+          icon: Icons.arrow_forward,
+          leftIcon: false,
+          color: PreMedColorTheme().white,
+          textColor: PreMedColorTheme().neutral600,
+          onPressed: onNextPressed,
+        )
+      ],
     );
   }
 }

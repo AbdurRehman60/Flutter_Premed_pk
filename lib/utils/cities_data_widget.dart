@@ -1,7 +1,7 @@
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
-class CityDropdownList extends StatelessWidget {
+class CityDropdownList extends StatefulWidget {
   final List<String> items;
   final String selectedItem;
   final void Function(String?) onChanged;
@@ -14,32 +14,66 @@ class CityDropdownList extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<CityDropdownList> createState() => _CityDropdownListState();
+}
+
+class _CityDropdownListState extends State<CityDropdownList> {
+  TextEditingController _typeAheadController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
     return TypeAheadField<String?>(
       getImmediateSuggestions: true,
-      textFieldConfiguration: const TextFieldConfiguration(
+      textFieldConfiguration: TextFieldConfiguration(
+        controller: _typeAheadController,
         decoration: InputDecoration(
-          labelText: 'Enter your City',
-          border: OutlineInputBorder(),
+          hintText: 'Enter your City',
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(
+              color: PreMedColorTheme().neutral400,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(
+              color: PreMedColorTheme().neutral900,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: Colors.red),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: Colors.red),
+          ),
+          contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+          hintStyle: PreMedTextTheme().subtext,
         ),
       ),
       suggestionsCallback: (pattern) {
-        return items
-            .where((item) => item.toLowerCase().contains(pattern.toLowerCase()))
+        return widget.items
+            .where(
+              (item) => item.toLowerCase().contains(
+                    pattern.toLowerCase(),
+                  ),
+            )
             .toList();
       },
       itemBuilder: (context, String? itemData) {
         return ListTile(
           title: Text(
             itemData ?? '',
-            style: PreMedTextTheme()
-                .subtext
-                .copyWith(color: PreMedColorTheme().white),
+            style: PreMedTextTheme().subtext,
           ),
         );
       },
       onSuggestionSelected: (String? itemData) {
-        onChanged(itemData); // Call the provided onChanged callback
+        setState(() {
+          _typeAheadController.text = itemData!;
+        });
+        widget.onChanged(itemData); // Call the provided onChanged callback
       },
       noItemsFoundBuilder: (context) {
         return const Padding(
