@@ -66,6 +66,10 @@ dependencies:
   flutter_cached_pdfview: ^0.4.2
   chewie: ^1.7.1
   video_player_android: ^2.4.10
+  flutter_html: ^3.0.0-beta.2
+  animated_widgets: ^1.1.0
+  animated_flip_card: ^1.0.2
+  flip_card: ^0.7.0
 
 dev_dependencies:
   flutter_test:

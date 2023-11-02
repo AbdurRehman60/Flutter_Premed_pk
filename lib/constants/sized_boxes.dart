@@ -14,6 +14,7 @@ class SizedBoxes {
   static SizedBox verticalExtraGargangua = const SizedBox(height: 40);
 
   //Horizontal sized boxes
+  static SizedBox horizontal2Px = const SizedBox(width: 2);
   static SizedBox horizontalMicro = const SizedBox(width: 4);
   static SizedBox horizontalTiny = const SizedBox(width: 8);
   static SizedBox horizontalMedium = const SizedBox(width: 14);

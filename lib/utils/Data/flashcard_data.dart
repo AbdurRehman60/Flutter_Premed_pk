@@ -58,4 +58,115 @@ List<FlashcardModel> sampleFlashcards = [
     createdAt: DateTime.parse("2023-08-14T18:09:32.399Z"),
     updatedAt: DateTime.parse("2023-08-14T18:09:32.399Z"),
   ),
+  FlashcardModel(
+    id: "64da6df137d0eb48ed31c3c6",
+    userName: "example@gmail.com",
+    questionID: "623f53744e349164500da0be",
+    questionText:
+        "<p>Animal Kingdom</p>\n<p>Fact 1: All cats are mammals.</p>\n<p>Fact 2: Some mammals are herbivores.</p>\n<p>Fact 3: Tigers are cats.</p>\n<p>If the above three statements are facts, which of the following statement is a fact?</p>\n<p>I. All tigers are herbivores.</p>\n<p>II. All cats are herbivores.</p>\n<p>III. Some cats are herbivores.</p>\n",
+    correctOption: "C",
+    correctOptionText: "<p>III only</p>\n",
+    explanationText:
+        "<p>Fact 1 states that all cats are mammals, but it doesn't imply that all mammals are cats, so option II is not a fact. Fact 3 mentions that tigers are cats, but we cannot directly conclude their diet, making option I not a fact. Since Fact 2 states that some mammals are herbivores, we can infer that some cats are herbivores, making option III a fact.</p>\n",
+    tags: ["Sample Flashcards", "Biology", "Animal Kingdom"],
+    createdAt: DateTime.parse("2023-08-14T18:09:45.822Z"),
+    updatedAt: DateTime.parse("2023-08-14T18:09:45.822Z"),
+  ),
+  FlashcardModel(
+    id: "64da6dfb37d0eb48ed31d7ea",
+    userName: "example@gmail.com",
+    questionID: "62419c3d3dd137da7bf6b64",
+    questionText:
+        "<p>History Facts</p>\n<p>Fact 1: The French Revolution began in 1789.</p>\n<p>Fact 2: The American Revolution ended in 1783.</p>\n<p>Fact 3: The Russian Revolution began in 1917.</p>\n<p>Which of the following statement is a fact?</p>\n<p>I. The American Revolution began in 1789.</p>\n<p>II. The French Revolution ended in 1783.</p>\n<p>III. The Russian Revolution ended in 1917.</p>\n",
+    correctOption: "C",
+    correctOptionText: "<p>III only</p>\n",
+    explanationText:
+        "<p>Fact 1 and Fact 3 provide historical dates that are factual. However, Fact 2 is incorrect as the American Revolution ended in 1783. Therefore, option I and option II are not facts. The Russian Revolution did begin in 1917, so option III is a fact.</p>\n",
+    tags: ["Sample Flashcards", "History", "Historical Facts"],
+    createdAt: DateTime.parse("2023-08-14T18:10:15.046Z"),
+    updatedAt: DateTime.parse("2023-08-14T18:10:15.046Z"),
+  ),
+  FlashcardModel(
+    id: "64da6dfe37d0eb48ed31e0d8",
+    userName: "example@gmail.com",
+    questionID: "6241a18b3dd137da7bf6c23",
+    questionText:
+        "<p>Geography Quiz</p>\n<p>What is the capital of Australia?</p>\n",
+    correctOption: "C",
+    correctOptionText: "<p>Canberra</p>\n",
+    explanationText: "<p>The capital of Australia is Canberra.</p>\n",
+    tags: ["Sample Flashcards", "Geography", "Capitals"],
+    createdAt: DateTime.parse("2023-08-14T18:10:35.218Z"),
+    updatedAt: DateTime.parse("2023-08-14T18:10:35.218Z"),
+  ),
+  FlashcardModel(
+    id: "64da6e0137d0eb48ed31e65b",
+    userName: "example@gmail.com",
+    questionID: "6241a4763dd137da7bf6cf02",
+    questionText:
+        "<p>Literature Trivia</p>\n<p>Who wrote the play 'Romeo and Juliet'?</p>\n",
+    correctOption: "B",
+    correctOptionText: "<p>William Shakespeare</p>\n",
+    explanationText:
+        "<p>'Romeo and Juliet' is a famous play written by William Shakespeare.</p>\n",
+    tags: ["Sample Flashcards", "Literature", "Playwrights"],
+    createdAt: DateTime.parse("2023-08-14T18:10:53.397Z"),
+    updatedAt: DateTime.parse("2023-08-14T18:10:53.397Z"),
+  ),
+  FlashcardModel(
+    id: "64da6e0237d0eb48ed31eb0d",
+    userName: "example@gmail.com",
+    questionID: "6241a5c03dd137da7bf6d2e2",
+    questionText:
+        "<p>Science Facts</p>\n<p>Fact 1: Water boils at 100°C (212°F) at sea level.</p>\n<p>Fact 2: Oxygen is necessary for combustion.</p>\n<p>Fact 3: Gold is a good conductor of electricity.</p>\n<p>Which of the following statement is a fact?</p>\n<p>I. Water boils at 50°C (122°F) at sea level.</p>\n<p>II. Combustion does not require oxygen.</p>\n<p>III. Gold is a poor conductor of electricity.</p>\n",
+    correctOption: "A",
+    correctOptionText: "<p>None of the above</p>\n",
+    explanationText:
+        "<p>All three facts are scientifically accurate. Therefore, none of the given statements are facts.</p>\n",
+    tags: ["Sample Flashcards", "Science", "Scientific Facts"],
+    createdAt: DateTime.parse("2023-08-14T18:11:12.624Z"),
+    updatedAt: DateTime.parse("2023-08-14T18:11:12.624Z"),
+  ),
+  FlashcardModel(
+    id: "64da6e0337d0eb48ed31f000",
+    userName: "example@gmail.com",
+    questionID: "6241a6f53dd137da7bf6d61b",
+    questionText:
+        "<p>Movie Trivia</p>\n<p>Which actor played the character 'Harry Potter' in the movie series?</p>\n",
+    correctOption: "B",
+    correctOptionText: "<p>Daniel Radcliffe</p>\n",
+    explanationText:
+        "<p>The character 'Harry Potter' in the movie series was portrayed by actor Daniel Radcliffe.</p>\n",
+    tags: ["Sample Flashcards", "Movies", "Actors"],
+    createdAt: DateTime.parse("2023-08-14T18:11:30.816Z"),
+    updatedAt: DateTime.parse("2023-08-14T18:11:30.816Z"),
+  ),
+  FlashcardModel(
+    id: "64da6e0437d0eb48ed31f4f6",
+    userName: "example@gmail.com",
+    questionID: "6241a8543dd137da7bf6dbd2",
+    questionText:
+        "<p>Space Exploration</p>\n<p>Which planet is known as the 'Red Planet'?</p>\n",
+    correctOption: "C",
+    correctOptionText: "<p>Mars</p>\n",
+    explanationText:
+        "<p>Mars is often referred to as the 'Red Planet' due to its reddish appearance caused by iron oxide (rust) on its surface.</p>\n",
+    tags: ["Sample Flashcards", "Astronomy", "Planets"],
+    createdAt: DateTime.parse("2023-08-14T18:11:49.978Z"),
+    updatedAt: DateTime.parse("2023-08-14T18:11:49.978Z"),
+  ),
+  FlashcardModel(
+    id: "64da6e0537d0eb48ed31f9d1",
+    userName: "example@gmail.com",
+    questionID: "6241a9803dd137da7bf6e175",
+    questionText:
+        "<p>General Knowledge</p>\n<p>What is the largest mammal in the world?</p>\n",
+    correctOption: "B",
+    correctOptionText: "<p>Blue Whale</p>\n",
+    explanationText:
+        "<p>The blue whale is the largest mammal in the world, and it is also the largest animal to have ever existed on Earth.</p>\n",
+    tags: ["Sample Flashcards", "Animals", "Mammals"],
+    createdAt: DateTime.parse("2023-08-14T18:12:08.150Z"),
+    updatedAt: DateTime.parse("2023-08-14T18:12:08.150Z"),
+  ),
 ];

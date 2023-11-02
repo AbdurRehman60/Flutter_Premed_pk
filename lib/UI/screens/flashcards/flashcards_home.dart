@@ -1,93 +1,131 @@
+import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_card.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/utils/Data/flashcard_data.dart';
 
 class FlashCards extends StatefulWidget {
-  const FlashCards({super.key});
+  const FlashCards({Key? key}) : super(key: key);
 
   @override
-  State<FlashCards> createState() => _FlashCardsState();
+  _FlashCardsState createState() => _FlashCardsState();
 }
 
 class _FlashCardsState extends State<FlashCards> {
-  late PageController FlashcardController;
+  PageController FlashcardController = PageController();
   int currentIndex = 0;
+
+  void goToPreviousCard() {
+    if (currentIndex > 0) {
+      FlashcardController.animateToPage(
+        currentIndex - 1,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
+  }
+
+  void goToNextCard() {
+    if (currentIndex < sampleFlashcards.length - 1) {
+      FlashcardController.animateToPage(
+        currentIndex + 1,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
+  }
+
   @override
   void initState() {
-    setState(() {
-      super.initState();
-      FlashcardController = PageController(
-        initialPage: currentIndex,
-        viewportFraction: 0.8,
-      );
+    super.initState();
+    FlashcardController = PageController(initialPage: currentIndex);
+    FlashcardController.addListener(() {
+      setState(() {
+        currentIndex = FlashcardController.page?.toInt() ?? 0;
+      });
     });
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     FlashcardController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: PreMedColorTheme().black,
+          ),
+        ),
+        title: Text(
+          'Flash Cards',
+          style: PreMedTextTheme().heading7.copyWith(
+                color: PreMedColorTheme().black,
+              ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.menu_rounded,
+              color: PreMedColorTheme().black,
+            ),
+          ),
+        ],
+      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 40),
+        padding: const EdgeInsets.symmetric(
+          vertical: 50,
+        ),
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: Center(
-                child: Text(
-                  'Flashcards',
-                  style: PreMedTextTheme().subtext.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-              ),
-            ),
-            AspectRatio(
-              aspectRatio: 0.85,
+            Expanded(
               child: PageView.builder(
                 itemCount: sampleFlashcards.length,
-                physics: const ClampingScrollPhysics(),
                 controller: FlashcardController,
                 itemBuilder: (context, index) {
-                  return carouselView(index);
+                  return FlashcardCard(flashcard: sampleFlashcards[index]);
                 },
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 160,
+                    child: CustomButton(
+                      color: PreMedColorTheme().white,
+                      isIconButton: true,
+                      iconSize: 0,
+                      onPressed: goToPreviousCard,
+                      buttonText: 'Previous',
+                      textColor: PreMedColorTheme().neutral500,
+                    ),
+                  ),
+                  SizedBoxes.horizontalTiny,
+                  SizedBox(
+                    width: 160,
+                    child: CustomButton(
+                      onPressed: goToNextCard,
+                      buttonText: 'Next',
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget carouselView(int index) {
-    return carouselCard(
-      sampleFlashcards[index],
-    );
-  }
-
-  Widget carouselCard(FlashcardModel data) {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: Text(
-            data.questionText,
-            style: PreMedTextTheme().body,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            data.correctOptionText,
-            style: PreMedTextTheme().body,
-          ),
-        ),
-      ],
     );
   }
 }
