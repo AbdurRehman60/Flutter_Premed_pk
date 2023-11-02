@@ -11,46 +11,6 @@ class FlashCards extends StatefulWidget {
 }
 
 class _FlashCardsState extends State<FlashCards> {
-  PageController FlashcardController = PageController();
-  int currentIndex = 0;
-
-  void goToPreviousCard() {
-    if (currentIndex > 0) {
-      FlashcardController.animateToPage(
-        currentIndex - 1,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.ease,
-      );
-    }
-  }
-
-  void goToNextCard() {
-    if (currentIndex < sampleFlashcards.length - 1) {
-      FlashcardController.animateToPage(
-        currentIndex + 1,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.ease,
-      );
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    FlashcardController = PageController(initialPage: currentIndex);
-    FlashcardController.addListener(() {
-      setState(() {
-        currentIndex = FlashcardController.page?.toInt() ?? 0;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    FlashcardController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,29 +48,6 @@ class _FlashCardsState extends State<FlashCards> {
           Expanded(
               child: FlashcardCaarouselView(flashcardList: sampleFlashcards)),
           SizedBoxes.verticalBig,
-          // Padding(
-          //   padding: const EdgeInsets.all(16.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       Expanded(
-          //         child: CustomButton(
-          //           isOutlined: true,
-          //           onPressed: goToPreviousCard,
-          //           buttonText: 'Previous',
-          //           textColor: PreMedColorTheme().neutral500,
-          //         ),
-          //       ),
-          //       SizedBoxes.horizontalTiny,
-          //       Expanded(
-          //         child: CustomButton(
-          //           onPressed: goToNextCard,
-          //           buttonText: 'Next',
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );

@@ -8,6 +8,7 @@ import 'package:premedpk_mobile_app/utils/Data/flashcard_data.dart';
 
 class FlashcardCaarouselView extends StatefulWidget {
   final List<FlashcardModel> flashcardList;
+
   const FlashcardCaarouselView({
     super.key,
     required this.flashcardList,
@@ -20,15 +21,11 @@ class FlashcardCaarouselView extends StatefulWidget {
 class _FlashcardCaarouselViewState extends State<FlashcardCaarouselView> {
   PageController? FlashcardController;
   int currentIndex = 0;
+
   @override
   void initState() {
-    setState(() {
-      super.initState();
-      FlashcardController = PageController(
-        initialPage: currentIndex,
-        viewportFraction: 0.9,
-      );
-    });
+    super.initState();
+    FlashcardController = PageController(initialPage: currentIndex);
     FlashcardController?.addListener(() {
       setState(() {
         currentIndex = FlashcardController?.page?.toInt() ?? 0;
@@ -39,8 +36,8 @@ class _FlashcardCaarouselViewState extends State<FlashcardCaarouselView> {
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     FlashcardController?.dispose();
+    super.dispose();
   }
 
   void goToPreviousCard() {
@@ -91,7 +88,7 @@ class _FlashcardCaarouselViewState extends State<FlashcardCaarouselView> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(left: 64, right: 64),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -103,7 +100,7 @@ class _FlashcardCaarouselViewState extends State<FlashcardCaarouselView> {
                   textColor: PreMedColorTheme().neutral500,
                 ),
               ),
-              SizedBoxes.horizontalTiny,
+              SizedBoxes.horizontalMedium,
               Expanded(
                 child: CustomButton(
                   onPressed: goToNextCard,
