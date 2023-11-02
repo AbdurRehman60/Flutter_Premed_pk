@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_card.dart';
+import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_carousel_view.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/utils/Data/flashcard_data.dart';
 
@@ -81,50 +82,36 @@ class _FlashCardsState extends State<FlashCards> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 50,
-        ),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: PageView.builder(
-                itemCount: sampleFlashcards.length,
-                controller: FlashcardController,
-                itemBuilder: (context, index) {
-                  return FlashcardCard(flashcard: sampleFlashcards[index]);
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 160,
-                    child: CustomButton(
-                      color: PreMedColorTheme().white,
-                      isIconButton: true,
-                      iconSize: 0,
-                      onPressed: goToPreviousCard,
-                      buttonText: 'Previous',
-                      textColor: PreMedColorTheme().neutral500,
-                    ),
-                  ),
-                  SizedBoxes.horizontalTiny,
-                  SizedBox(
-                    width: 160,
-                    child: CustomButton(
-                      onPressed: goToNextCard,
-                      buttonText: 'Next',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+              child: FlashcardCaarouselView(flashcardList: sampleFlashcards)),
+          SizedBoxes.verticalBig,
+          // Padding(
+          //   padding: const EdgeInsets.all(16.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       Expanded(
+          //         child: CustomButton(
+          //           isOutlined: true,
+          //           onPressed: goToPreviousCard,
+          //           buttonText: 'Previous',
+          //           textColor: PreMedColorTheme().neutral500,
+          //         ),
+          //       ),
+          //       SizedBoxes.horizontalTiny,
+          //       Expanded(
+          //         child: CustomButton(
+          //           onPressed: goToNextCard,
+          //           buttonText: 'Next',
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+        ],
       ),
     );
   }

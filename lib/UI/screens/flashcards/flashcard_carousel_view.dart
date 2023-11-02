@@ -29,6 +29,11 @@ class _FlashcardCaarouselViewState extends State<FlashcardCaarouselView> {
         viewportFraction: 0.9,
       );
     });
+    FlashcardController?.addListener(() {
+      setState(() {
+        currentIndex = FlashcardController?.page?.toInt() ?? 0;
+      });
+    });
   }
 
   @override
@@ -38,32 +43,77 @@ class _FlashcardCaarouselViewState extends State<FlashcardCaarouselView> {
     FlashcardController?.dispose();
   }
 
+  void goToPreviousCard() {
+    if (currentIndex > 0) {
+      FlashcardController?.animateToPage(
+        currentIndex - 1,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
+  }
+
+  void goToNextCard() {
+    if (currentIndex < sampleFlashcards.length - 1) {
+      FlashcardController?.animateToPage(
+        currentIndex + 1,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-        itemCount: sampleFlashcards.length,
-        physics: const ClampingScrollPhysics(),
-        controller: FlashcardController,
-        itemBuilder: (context, index) {
-          return AnimatedBuilder(
-            animation: FlashcardController!,
-            builder: (context, child) {
-              double value = 0.0;
-              if (FlashcardController!.position.haveDimensions) {
-                value = index.toDouble() - (FlashcardController!.page ?? 0);
-                value = (value * 0.03).clamp(-1, 1);
-              }
-              return Transform.rotate(
-                angle: pi * value,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal:
-                          20.0), // Adjust the horizontal margin as needed
-                  child: FlashcardCard(flashcard: sampleFlashcards[index]),
-                ),
+    return Column(
+      children: [
+        Expanded(
+          child: PageView.builder(
+            itemCount: sampleFlashcards.length,
+            physics: const ClampingScrollPhysics(),
+            controller: FlashcardController,
+            itemBuilder: (context, index) {
+              return AnimatedBuilder(
+                animation: FlashcardController!,
+                builder: (context, child) {
+                  double value = 0.0;
+                  if (FlashcardController!.position.haveDimensions) {
+                    value = index.toDouble() - (FlashcardController!.page ?? 0);
+                    value = (value * 0.03).clamp(-1, 1);
+                  }
+                  return Transform.rotate(
+                    angle: pi * value,
+                    child: FlashcardCard(flashcard: sampleFlashcards[index]),
+                  );
+                },
               );
             },
-          );
-        });
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: CustomButton(
+                  isOutlined: true,
+                  onPressed: goToPreviousCard,
+                  buttonText: 'Previous',
+                  textColor: PreMedColorTheme().neutral500,
+                ),
+              ),
+              SizedBoxes.horizontalTiny,
+              Expanded(
+                child: CustomButton(
+                  onPressed: goToNextCard,
+                  buttonText: 'Next',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

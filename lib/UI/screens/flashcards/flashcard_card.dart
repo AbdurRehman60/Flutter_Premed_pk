@@ -27,11 +27,14 @@ class _FlashcardCardState extends State<FlashcardCard> {
           isFlipped = !isFlipped;
         });
       },
-      child: FlipCard(
-        direction: FlipDirection.VERTICAL, // Set the flip direction
-        flipOnTouch: true, // Set to true if you want the card to flip on tap
-        front: buildFrontContent(),
-        back: buildBackContent(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+        child: FlipCard(
+          direction: FlipDirection.VERTICAL, // Set the flip direction
+          flipOnTouch: true, // Set to true if you want the card to flip on tap
+          front: buildFrontContent(),
+          back: buildBackContent(),
+        ),
       ),
     );
   }
