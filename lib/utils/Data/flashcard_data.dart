@@ -5,6 +5,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6db437d0eb48ed31845d",
     userName: "ddd@gmail.com",
     questionID: "61042c5fc24fddf89ac6b806",
+    subject: 'Biology',
     questionText:
         "<p>In the following question, a statement is given followed by four inferences. You have to decide which of the given Inferences can definitely be drawn from the given statement. Indicate your answer.</p>\n<p>Statement:</p>\n<p>Most dresses in that shop are expensive.</p>\n<p>Inferences:</p>\n<p>I. Some dresses in that shop are expensive.</p>\n<p>II. There are cheap dresses also in that shop.</p>\n<p>III. Handloom dresses in that shop are cheap.</p>\n<p>IV. There are no cheap dresses available in that shop.</p>\n",
     correctOption: "B",
@@ -20,6 +21,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6dbe37d0eb48ed3189f2",
     userName: "ddd@gmail.com",
     questionID: "6119009b6943bb9424ee8ede",
+    subject: 'Chemistry',
     questionText:
         "<p>Children are in pursuit of a dog whose leash has broken. James is directly behind the dog. Ruby is behind James. Rachel is behind Ruby. Max is ahead of the dog walking down the street in the opposite direction. As the children and dog pass, Max turns around and joins the pursuit. He runs in behind Ruby. James runs faster and is alongside the dog on the left. Ruby runs faster and is alongside the dog on the right. Which child is directly behind the dog?</p>\n",
     correctOption: "D",
@@ -34,6 +36,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6dd937d0eb48ed31a3fd",
     userName: "ddd@gmail.com",
     questionID: "621fc8381f15d9034f57d0ff",
+    subject: 'Physics',
     questionText:
         "<p>Fact Checking</p>\n<p>Fact 1: All drink mixes are beverages</p>\n<p>Fact 2: All beverages are drinkable</p>\n<p>Fact 3: All beverages are red</p>\n<p>If the above three statements are facts then which of the following statement will also be a fact?</p>\n<p>I. Some drink mixes are red</p>\n<p>II. All beverages are drink mixes.</p>\n<p>Ill. All red drink mixes are drinkable</p>\n",
     correctOption: "C",
@@ -48,6 +51,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6ddc37d0eb48ed31ac34",
     userName: "ddd@gmail.com",
     questionID: "6220793f1f15d9034f57d27d",
+    subject: 'Mathematics Reasoning',
     questionText:
         "<p>Fact 1: Ayesha said Hamza and I both have cats</p>\n<p>Fact 2: Hamza said I don't have a cat</p>\n<p>Fact 3: Ayesha always tells the truth but hamza sometimes lies.</p>\n<p>If the above three statements are facts then which of the following statement will also be a fact&nbsp;</p>\n<p>I.Ayesha has a cat&nbsp;</p>\n<p>II. Hamza has a cat&nbsp;</p>\n<p>Ill. Hamza is lying&nbsp;</p>\n<p>IV. All the statements are the facts&nbsp;</p>\n",
     correctOption: "D",
@@ -62,6 +66,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6df137d0eb48ed31c3c6",
     userName: "example@gmail.com",
     questionID: "623f53744e349164500da0be",
+    subject: 'Science Reasoning',
     questionText:
         "<p>Animal Kingdom</p>\n<p>Fact 1: All cats are mammals.</p>\n<p>Fact 2: Some mammals are herbivores.</p>\n<p>Fact 3: Tigers are cats.</p>\n<p>If the above three statements are facts, which of the following statement is a fact?</p>\n<p>I. All tigers are herbivores.</p>\n<p>II. All cats are herbivores.</p>\n<p>III. Some cats are herbivores.</p>\n",
     correctOption: "C",
@@ -76,6 +81,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6dfb37d0eb48ed31d7ea",
     userName: "example@gmail.com",
     questionID: "62419c3d3dd137da7bf6b64",
+    subject: 'Biology',
     questionText:
         "<p>History Facts</p>\n<p>Fact 1: The French Revolution began in 1789.</p>\n<p>Fact 2: The American Revolution ended in 1783.</p>\n<p>Fact 3: The Russian Revolution began in 1917.</p>\n<p>Which of the following statement is a fact?</p>\n<p>I. The American Revolution began in 1789.</p>\n<p>II. The French Revolution ended in 1783.</p>\n<p>III. The Russian Revolution ended in 1917.</p>\n",
     correctOption: "C",
@@ -90,6 +96,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6dfe37d0eb48ed31e0d8",
     userName: "example@gmail.com",
     questionID: "6241a18b3dd137da7bf6c23",
+    subject: 'Biology',
     questionText:
         "<p>Geography Quiz</p>\n<p>What is the capital of Australia?</p>\n",
     correctOption: "C",
@@ -103,6 +110,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6e0137d0eb48ed31e65b",
     userName: "example@gmail.com",
     questionID: "6241a4763dd137da7bf6cf02",
+    subject: 'Chemistry',
     questionText:
         "<p>Literature Trivia</p>\n<p>Who wrote the play 'Romeo and Juliet'?</p>\n",
     correctOption: "B",
@@ -117,6 +125,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6e0237d0eb48ed31eb0d",
     userName: "example@gmail.com",
     questionID: "6241a5c03dd137da7bf6d2e2",
+    subject: 'Physics',
     questionText:
         "<p>Science Facts</p>\n<p>Fact 1: Water boils at 100°C (212°F) at sea level.</p>\n<p>Fact 2: Oxygen is necessary for combustion.</p>\n<p>Fact 3: Gold is a good conductor of electricity.</p>\n<p>Which of the following statement is a fact?</p>\n<p>I. Water boils at 50°C (122°F) at sea level.</p>\n<p>II. Combustion does not require oxygen.</p>\n<p>III. Gold is a poor conductor of electricity.</p>\n",
     correctOption: "A",
@@ -131,6 +140,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6e0337d0eb48ed31f000",
     userName: "example@gmail.com",
     questionID: "6241a6f53dd137da7bf6d61b",
+    subject: 'Mathematics Reasoning',
     questionText:
         "<p>Movie Trivia</p>\n<p>Which actor played the character 'Harry Potter' in the movie series?</p>\n",
     correctOption: "B",
@@ -145,6 +155,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6e0437d0eb48ed31f4f6",
     userName: "example@gmail.com",
     questionID: "6241a8543dd137da7bf6dbd2",
+    subject: 'Science Reasoning',
     questionText:
         "<p>Space Exploration</p>\n<p>Which planet is known as the 'Red Planet'?</p>\n",
     correctOption: "C",
@@ -159,6 +170,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6e0537d0eb48ed31f9d1",
     userName: "example@gmail.com",
     questionID: "6241a9803dd137da7bf6e175",
+    subject: 'Biology',
     questionText:
         "<p>General Knowledge</p>\n<p>What is the largest mammal in the world?</p>\n",
     correctOption: "B",

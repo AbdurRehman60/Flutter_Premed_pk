@@ -5,6 +5,7 @@ import 'package:premedpk_mobile_app/repository/notes_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'export.dart';
+import 'repository/flashcard_provider.dart';
 
 List<CameraDescription> cameras = [];
 
@@ -31,12 +32,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => NotesProvider()),
         ChangeNotifierProvider(create: (_) => AskAnExpertProvider()),
+        ChangeNotifierProvider(create: (_) => FlashcardDataProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: _PreMedTheme.data,
-        home: FlashCards(),
+        home: FlashcardScreen(),
       ),
     );
   }

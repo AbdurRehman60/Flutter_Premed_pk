@@ -107,6 +107,11 @@ flutter:
     - assets/images/searchemptystate.png
     - assets/images/provisionalnotes.png
     - assets/images/revisionnotes.png
+    - assets/images/biology.png
+    - assets/images/chemistry.png
+    - assets/images/maths.png
+    - assets/images/physics.png
+    - assets/images/science.png
   fonts:
     - family: Inter
       fonts:
