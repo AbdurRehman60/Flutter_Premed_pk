@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_carousel_view.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/models/flashcard_model.dart';
-import 'package:premedpk_mobile_app/utils/Data/flashcard_data.dart';
+import 'package:premedpk_mobile_app/repository/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/utils/Data/flashcard_screen_data.dart';
+import 'package:provider/provider.dart';
 
 class FlashcardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final subjectFlashcards =
-        getSubjectFlashcards(); // Calculate flashcard count
+    final flashcardProvider =
+        Provider.of<FlashcardProvider>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -51,7 +54,7 @@ class FlashcardScreen extends StatelessWidget {
                       '0xFF${gridData[index]['color']?.substring(1)}'));
                   final subject = gridData[index]['subject'] ?? '';
                   final flashcardCount =
-                      subjectFlashcards[subject]?.length ?? 0;
+                      flashcardProvider.getFilteredFlashcards(subject).length;
                   final page =
                       '$flashcardCount Questions'; // Update page based on count
                   return FlashcardItem(
@@ -71,24 +74,24 @@ class FlashcardScreen extends StatelessWidget {
   }
 
   // This function calculates the flashcard count for each subject
-  Map<String, List<FlashcardModel>> getSubjectFlashcards() {
-    Map<String, List<FlashcardModel>> subjectFlashcards = {};
+  // Map<String, List<FlashcardModel>> getSubjectFlashcards() {
+  //   Map<String, List<FlashcardModel>> subjectFlashcards = {};
 
-    for (var data in gridData) {
-      String subject = data['subject']!;
-      if (!subjectFlashcards.containsKey(subject)) {
-        subjectFlashcards[subject] = [];
-      }
-      // Find flashcards for the subject
-      for (var flashcard in sampleFlashcards) {
-        if (flashcard.subject == subject) {
-          subjectFlashcards[subject]?.add(flashcard);
-        }
-      }
-    }
+  //   for (var data in gridData) {
+  //     String subject = data['subject']!;
+  //     if (!subjectFlashcards.containsKey(subject)) {
+  //       subjectFlashcards[subject] = [];
+  //     }
+  //     // Find flashcards for the subject
+  //     for (var flashcard in ) {
+  //       if (flashcard.subject == subject) {
+  //         subjectFlashcards[subject]?.add(flashcard);
+  //       }
+  //     }
+  //   }
 
-    return subjectFlashcards;
-  }
+  //   return subjectFlashcards;
+  // }
 }
 
 class FlashcardItem extends StatelessWidget {

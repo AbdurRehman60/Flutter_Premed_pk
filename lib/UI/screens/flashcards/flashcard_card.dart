@@ -30,7 +30,7 @@ class _FlashcardCardState extends State<FlashcardCard> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
         child: FlipCard(
-          direction: FlipDirection.VERTICAL, // Set the flip direction
+          direction: FlipDirection.HORIZONTAL, // Set the flip direction
           flipOnTouch: true, // Set to true if you want the card to flip on tap
           front: buildFrontContent(),
           back: buildBackContent(),

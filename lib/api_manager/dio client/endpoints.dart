@@ -4,7 +4,7 @@ class Endpoints {
   static const String serverPort = "4002";
 
   // base url
-  static const String baseUrl = "http://192.168.100.117";
+  static const String baseUrl = "http://193.168.90.206";
   // static const String baseUrl = "http://192.168.100.117";
 
   //specific URLs
@@ -27,4 +27,5 @@ class Endpoints {
   static const String UserSolved = '/UserSolved';
   static const String UserPending = '/UserPending';
   static const String UserSubmitted = '/UserSubmitted';
+  static const String GetFlashcards = '/api/flashcard/GetFlashcards';
 }

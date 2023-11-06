@@ -2,7 +2,7 @@ class FlashcardModel {
   final String id;
   final String userName;
   final String questionID;
-  final String subject;
+
   final String questionText;
   final String correctOption;
   final String correctOptionText;
@@ -15,7 +15,6 @@ class FlashcardModel {
     required this.id,
     required this.userName,
     required this.questionID,
-    required this.subject,
     required this.questionText,
     required this.correctOption,
     required this.correctOptionText,
@@ -30,7 +29,6 @@ class FlashcardModel {
       'id': id,
       'userName': userName,
       'questionID': questionID,
-      'subject': subject,
       'questionText': questionText,
       'correctOption': correctOption,
       'correctOptionText': correctOptionText,
@@ -43,15 +41,14 @@ class FlashcardModel {
 
   factory FlashcardModel.fromJson(Map<String, dynamic> json) {
     return FlashcardModel(
-      id: json['id'],
-      userName: json['userName'],
-      questionID: json['questionID'],
-      subject: json['subject'],
-      questionText: json['questionText'],
-      correctOption: json['correctOption'],
-      correctOptionText: json['correctOptionText'],
-      explanationText: json['explanationText'],
-      tags: List<String>.from(json['tags']),
+      id: json['_id'],
+      userName: json['UserName'],
+      questionID: json['QuestionID'],
+      questionText: json['QuestionText'],
+      correctOption: json['CorrectOption'],
+      correctOptionText: json['CorrectOptionText'],
+      explanationText: json['ExplanationText'],
+      tags: List<String>.from(json['Tags']),
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
     );

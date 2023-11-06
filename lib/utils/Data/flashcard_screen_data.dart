@@ -36,5 +36,12 @@ List<Map<String, String>> gridData = [
     "subject": "Science Reasoning",
     'color': '#ECFBDB'
   },
+  {
+    "image": "assets/images/science.png",
+    "text": "Logical Reasoning",
+    "page": "page3",
+    "subject": "Logical Reasoning",
+    'color': '#ECFBDB'
+  },
   // Add more items as needed.
 ];

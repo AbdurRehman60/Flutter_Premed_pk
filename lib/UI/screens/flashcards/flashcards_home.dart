@@ -6,14 +6,11 @@ import '../../../repository/flashcard_provider.dart';
 
 class FlashcardDisplayScreen extends StatelessWidget {
   final String subject;
-  final FlashcardDataProvider flashcardProvider = FlashcardDataProvider();
 
   FlashcardDisplayScreen({required this.subject});
 
   @override
   Widget build(BuildContext context) {
-    final flashcards = flashcardProvider.getFlashcardsBySubject(subject);
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -39,7 +36,6 @@ class FlashcardDisplayScreen extends StatelessWidget {
         children: [
           Expanded(
             child: FlashcardCarouselView(
-              flashcardList: flashcards,
               selectedSubject: subject,
             ),
           ),

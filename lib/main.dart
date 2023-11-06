@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:premedpk_mobile_app/UI/test.dart';
 import 'package:premedpk_mobile_app/repository/auth_provider.dart';
 import 'package:premedpk_mobile_app/repository/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/repository/notes_provider.dart';
@@ -32,13 +33,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => NotesProvider()),
         ChangeNotifierProvider(create: (_) => AskAnExpertProvider()),
-        ChangeNotifierProvider(create: (_) => FlashcardDataProvider()),
+        ChangeNotifierProvider(create: (_) => FlashcardProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: _PreMedTheme.data,
-        home: FlashcardScreen(),
+        home: TestScreen(),
       ),
     );
   }
