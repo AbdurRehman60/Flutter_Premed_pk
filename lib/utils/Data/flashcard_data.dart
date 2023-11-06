@@ -36,7 +36,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6dd937d0eb48ed31a3fd",
     userName: "ddd@gmail.com",
     questionID: "621fc8381f15d9034f57d0ff",
-    subject: 'Physics',
+    subject: 'Chemistry',
     questionText:
         "<p>Fact Checking</p>\n<p>Fact 1: All drink mixes are beverages</p>\n<p>Fact 2: All beverages are drinkable</p>\n<p>Fact 3: All beverages are red</p>\n<p>If the above three statements are facts then which of the following statement will also be a fact?</p>\n<p>I. Some drink mixes are red</p>\n<p>II. All beverages are drink mixes.</p>\n<p>Ill. All red drink mixes are drinkable</p>\n",
     correctOption: "C",
@@ -125,7 +125,7 @@ List<FlashcardModel> sampleFlashcards = [
     id: "64da6e0237d0eb48ed31eb0d",
     userName: "example@gmail.com",
     questionID: "6241a5c03dd137da7bf6d2e2",
-    subject: 'Physics',
+    subject: 'Chemistry',
     questionText:
         "<p>Science Facts</p>\n<p>Fact 1: Water boils at 100°C (212°F) at sea level.</p>\n<p>Fact 2: Oxygen is necessary for combustion.</p>\n<p>Fact 3: Gold is a good conductor of electricity.</p>\n<p>Which of the following statement is a fact?</p>\n<p>I. Water boils at 50°C (122°F) at sea level.</p>\n<p>II. Combustion does not require oxygen.</p>\n<p>III. Gold is a poor conductor of electricity.</p>\n",
     correctOption: "A",

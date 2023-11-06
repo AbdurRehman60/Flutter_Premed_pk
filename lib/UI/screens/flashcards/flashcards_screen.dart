@@ -3,10 +3,9 @@ import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
+import 'package:premedpk_mobile_app/models/flashcard_model.dart';
+import 'package:premedpk_mobile_app/utils/Data/flashcard_data.dart';
 import 'package:premedpk_mobile_app/utils/Data/flashcard_screen_data.dart';
-
-import '../../../models/flashcard_model.dart';
-import '../../../utils/Data/flashcard_data.dart';
 
 class FlashcardScreen extends StatelessWidget {
   @override
@@ -43,8 +42,8 @@ class FlashcardScreen extends StatelessWidget {
                 itemCount: gridData.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
                   mainAxisExtent: 130,
                 ),
                 itemBuilder: (context, index) {
@@ -120,9 +119,7 @@ class FlashcardItem extends StatelessWidget {
               ),
             ),
           );
-        } else {
-          // Handle the case where 'page' is empty or null.
-        }
+        } else {}
       },
       child: Container(
         // Use a Container to set the background color
@@ -134,6 +131,8 @@ class FlashcardItem extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Align(
                 alignment: Alignment.topLeft,
@@ -157,7 +156,9 @@ class FlashcardItem extends StatelessWidget {
                 alignment: Alignment.bottomLeft,
                 child: Text(
                   page,
-                  style: PreMedTextTheme().subtext,
+                  style: PreMedTextTheme().subtext.copyWith(
+                        fontWeight: FontWeights.regular,
+                      ),
                 ),
               ),
             ],
