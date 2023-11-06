@@ -5,70 +5,6 @@ import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/utils/Data/flashcard_screen_data.dart';
 
-// class FlashcardScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(
-//           'Flashcards',
-//           style: PreMedTextTheme().heading5.copyWith(
-//                 color: PreMedColorTheme().black,
-//               ),
-//         ),
-//         backgroundColor: PreMedColorTheme().white,
-//       ),
-//       body: Column(
-//         mainAxisAlignment: MainAxisAlignment.start,
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.only(left: 20),
-//             child: Text(
-//               'Select Questions and start revising.',
-//               style: PreMedTextTheme().subtext.copyWith(
-//                   color: PreMedColorTheme().neutral400,
-//                   fontWeight: FontWeight.w400),
-//             ),
-//           ),
-//           Expanded(
-//             child: Padding(
-//               padding: const EdgeInsets.all(20.0),
-//               child: GridView.builder(
-//                 itemCount: gridData.length,
-//                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//                   crossAxisCount: 2,
-//                   mainAxisSpacing: 20,
-//                   crossAxisSpacing: 20,
-//                   mainAxisExtent: 130,
-//                 ),
-//                 itemBuilder: (context, index) {
-//                   Color color = Color(int.parse(
-//                       '0xFF${gridData[index]['color']?.substring(1)}'));
-//                   return FlashcardItem(
-//                     image: gridData[index]['image'] ?? '',
-//                     text: gridData[index]['text'] ?? '',
-//                     page: gridData[index]['page'] ?? '',
-//                     subject: gridData[index]['subject'] ?? '',
-//                     color: color, // Include subject
-//                   );
-//                 },
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
-import 'package:premedpk_mobile_app/constants/color_theme.dart';
-import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
-import 'package:premedpk_mobile_app/constants/text_theme.dart';
-import 'package:premedpk_mobile_app/utils/Data/flashcard_screen_data.dart';
-
 import '../../../models/flashcard_model.dart';
 import '../../../utils/Data/flashcard_data.dart';
 
@@ -193,7 +129,7 @@ class FlashcardItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: color, // Set the background color here
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: PreMedColorTheme().neutral300, width: 1),
+          border: Border.all(color: PreMedColorTheme().white, width: 1),
         ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
