@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/error_dialogue.dart';
+import 'package:premedpk_mobile_app/UI/screens/home/home_screen.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
 import 'package:premedpk_mobile_app/repository/auth_provider.dart';
@@ -41,14 +42,14 @@ class _SignupFormState extends State<SignupForm> {
         response.then(
           (response) {
             if (response['status']) {
-              // User user = response['user'];
+              User user = response['user'];
 
-              // Provider.of<UserProvider>(context, listen: false).setUser(user);
+              Provider.of<UserProvider>(context, listen: false).setUser(user);
 
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ExpertSolutionHome(),
+                  builder: (context) => const HomeScreen(),
                 ),
               );
             } else {

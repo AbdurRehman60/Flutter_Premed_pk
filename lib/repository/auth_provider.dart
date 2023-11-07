@@ -109,6 +109,7 @@ class AuthProvider extends ChangeNotifier {
         Endpoints.login,
         data: loginData,
       );
+      print(response);
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);

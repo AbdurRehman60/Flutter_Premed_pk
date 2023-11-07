@@ -18,7 +18,7 @@ class TestScreen extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => FlashcardScreen(),
+              builder: (context) => FlashcardHome(),
             ),
           );
         } else {

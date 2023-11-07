@@ -125,12 +125,7 @@ class ExpertSolutionHome extends StatelessWidget {
             final askAnExpertProvider =
                 Provider.of<AskAnExpertProvider>(context, listen: false);
             askAnExpertProvider.resetState();
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ExpertSolution(),
-              ),
-            );
+            Navigator.pushNamed(context, '/ExpertSolution');
           },
           child: Icon(
             Icons.add,

@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const Login(),
+          builder: (context) => const LoginScreen(),
         ),
       );
     });
@@ -50,11 +50,4 @@ class _SplashScreenState extends State<SplashScreen> {
 }
 
 // ignore: camel_case_types
-class Login extends StatelessWidget {
-  const Login({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const LoginScreen();
-  }
-}

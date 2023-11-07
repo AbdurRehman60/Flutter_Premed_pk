@@ -1,5 +1,8 @@
 import 'package:premedpk_mobile_app/UI/Widgets/error_dialogue.dart';
+import 'package:premedpk_mobile_app/UI/screens/home/home_screen.dart';
+import 'package:premedpk_mobile_app/models/user_model.dart';
 import 'package:premedpk_mobile_app/repository/auth_provider.dart';
+import 'package:premedpk_mobile_app/repository/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
@@ -23,20 +26,21 @@ class _LoginFormState extends State<LoginForm> {
     onLoginPressed() {
       final form = _formKey.currentState!;
       if (form.validate()) {
-        final Future<Map<String, dynamic>> response =
-            auth.login(emailController.text, passwordController.text);
-
+        final Future<Map<String, dynamic>> response = auth.login(
+          emailController.text,
+          passwordController.text,
+        );
         response.then(
           (response) {
             if (response['status']) {
-              // User user = response['user'];
+              User user = response['user'];
 
-              // Provider.of<UserProvider>(context, listen: false).setUser(user);
+              Provider.of<UserProvider>(context, listen: false).setUser(user);
 
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const SignUpScreen(),
+                  builder: (context) => const HomeScreen(),
                 ),
               );
             } else {
@@ -109,6 +113,31 @@ class _LoginFormState extends State<LoginForm> {
                 const OrDivider(),
                 SizedBoxes.verticalLarge,
                 const GoogleLogin(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'New to PreMed?',
+                      style: PreMedTextTheme().subtext,
+                    ),
+                    SizedBoxes.horizontalMicro,
+                    TextButton(
+                      child: Text(
+                        'SignUp',
+                        style: PreMedTextTheme().subtext.copyWith(
+                            color: PreMedColorTheme().primaryColorRed),
+                      ),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
           ],

@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_display_widget.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_search.dart';
 import 'package:premedpk_mobile_app/export.dart';
-import 'package:premedpk_mobile_app/models/notes_model.dart';
-import 'package:premedpk_mobile_app/utils/Data/notesdata.dart';
 
 class ProvincialGuides extends StatelessWidget {
   const ProvincialGuides({super.key});
