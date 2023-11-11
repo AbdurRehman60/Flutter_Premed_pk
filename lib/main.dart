@@ -1,11 +1,13 @@
 import 'package:camera/camera.dart';
-import 'package:premedpk_mobile_app/repository/auth_provider.dart';
-import 'package:premedpk_mobile_app/repository/expert_solution_provider.dart';
-import 'package:premedpk_mobile_app/repository/notes_provider.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/auth_provider.dart';
+import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
+import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
+import 'package:premedpk_mobile_app/providers/notes_provider.dart';
+
 import 'package:provider/provider.dart';
 
 import 'export.dart';
-import 'repository/flashcard_provider.dart';
 
 List<CameraDescription> cameras = [];
 
@@ -21,9 +23,10 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  // ignore: non_constant_identifier_names
   final PreMedTheme _PreMedTheme = PreMedTheme();
 
-  MyApp();
+  MyApp({super.key});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -36,12 +39,12 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         routes: {
-          '/ExpertSolution': (context) => ExpertSolution(),
+          '/ExpertSolution': (context) => const AskanExpert(),
         },
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: _PreMedTheme.data,
-        home: SplashScreen(),
+        home: const SplashScreen(),
       ),
     );
   }

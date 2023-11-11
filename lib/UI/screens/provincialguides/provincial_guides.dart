@@ -1,15 +1,14 @@
-import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_display_widget.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_search.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/utils/Data/notesdata.dart';
 
-class RevisionNotes extends StatelessWidget {
-  const RevisionNotes({super.key});
+class ProvincialGuides extends StatelessWidget {
+  const ProvincialGuides({super.key});
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           title: Row(
@@ -18,16 +17,13 @@ class RevisionNotes extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                    height: 32,
                     width: 32,
-                    child: Image.asset(
-                      PremedAssets.RevisionNotes,
-                      fit: BoxFit.contain,
-                    ),
+                    height: 32,
+                    child: Image.asset(PremedAssets.ProvisionalGuides),
                   ),
                   SizedBoxes.horizontalMedium,
                   Text(
-                    'Revision Notes',
+                    'Provincial Guides',
                     style: PreMedTextTheme()
                         .heading6
                         .copyWith(color: PreMedColorTheme().white),
@@ -35,7 +31,7 @@ class RevisionNotes extends StatelessWidget {
                 ],
               ),
               IconButton(
-                icon: Icon(Icons.search),
+                icon: const Icon(Icons.search),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -51,9 +47,10 @@ class RevisionNotes extends StatelessWidget {
             isScrollable: true, // Make tabs scrollable
             tabs: [
               Tab(text: 'All'),
-              Tab(text: 'Biology'),
-              Tab(text: 'Chemistry'),
-              Tab(text: 'Physics'),
+              Tab(text: 'Sindh'),
+              Tab(text: 'Punjab'),
+              Tab(text: 'Balochistan'),
+              Tab(text: 'KPK'),
             ],
           ),
         ),
@@ -64,18 +61,22 @@ class RevisionNotes extends StatelessWidget {
               PdfDisplay(notes: notesData),
               PdfDisplay(
                 notes: notesData
-                    .where((note) => note.subject == 'Biology')
+                    .where((note) => note.province == 'Sindh')
                     .toList(),
               ),
               PdfDisplay(
                 notes: notesData
-                    .where((note) => note.subject == 'Chemistry')
+                    .where((note) => note.province == 'Punjab')
                     .toList(),
               ),
               PdfDisplay(
                 notes: notesData
-                    .where((note) => note.subject == 'Physics')
+                    .where((note) => note.province == 'Balochistan')
                     .toList(),
+              ),
+              PdfDisplay(
+                notes:
+                    notesData.where((note) => note.province == 'KPK').toList(),
               ),
             ],
           ),

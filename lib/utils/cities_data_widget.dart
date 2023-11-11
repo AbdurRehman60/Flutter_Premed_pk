@@ -1,5 +1,5 @@
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class CityDropdownList extends StatefulWidget {
   final List<String> items;

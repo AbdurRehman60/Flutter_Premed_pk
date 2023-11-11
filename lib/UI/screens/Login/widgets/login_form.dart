@@ -1,8 +1,7 @@
-import 'package:premedpk_mobile_app/UI/Widgets/error_dialogue.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/home_screen.dart';
-import 'package:premedpk_mobile_app/models/user_model.dart';
-import 'package:premedpk_mobile_app/repository/auth_provider.dart';
-import 'package:premedpk_mobile_app/repository/user_provider.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
@@ -33,9 +32,9 @@ class _LoginFormState extends State<LoginForm> {
         response.then(
           (response) {
             if (response['status']) {
-              User user = response['user'];
+              // User user = response['user'];
 
-              Provider.of<UserProvider>(context, listen: false).setUser(user);
+              // Provider.of<UserProvider>(context, listen: false).setUser(user);
 
               Navigator.pushReplacement(
                 context,
@@ -117,7 +116,7 @@ class _LoginFormState extends State<LoginForm> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'New to PreMed?',
+                      "Don't have an account?",
                       style: PreMedTextTheme().subtext,
                     ),
                     SizedBoxes.horizontalMicro,

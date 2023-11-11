@@ -3,7 +3,7 @@ import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_display_scr
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
-import 'package:premedpk_mobile_app/repository/flashcard_provider.dart';
+import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/utils/Data/flashcard_screen_data.dart';
 import 'package:provider/provider.dart';
 

@@ -1,14 +1,14 @@
-import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_display_widget.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_search.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/utils/Data/notesdata.dart';
 
-class ProvincialGuides extends StatelessWidget {
-  const ProvincialGuides({super.key});
+class RevisionNotes extends StatelessWidget {
+  const RevisionNotes({super.key});
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           title: Row(
@@ -17,13 +17,16 @@ class ProvincialGuides extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                    width: 32,
                     height: 32,
-                    child: Image.asset(PremedAssets.ProvisionalGuides),
+                    width: 32,
+                    child: Image.asset(
+                      PremedAssets.RevisionNotes,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   SizedBoxes.horizontalMedium,
                   Text(
-                    'Provincial Guides',
+                    'Revision Notes',
                     style: PreMedTextTheme()
                         .heading6
                         .copyWith(color: PreMedColorTheme().white),
@@ -47,10 +50,9 @@ class ProvincialGuides extends StatelessWidget {
             isScrollable: true, // Make tabs scrollable
             tabs: [
               Tab(text: 'All'),
-              Tab(text: 'Sindh'),
-              Tab(text: 'Punjab'),
-              Tab(text: 'Balochistan'),
-              Tab(text: 'KPK'),
+              Tab(text: 'Biology'),
+              Tab(text: 'Chemistry'),
+              Tab(text: 'Physics'),
             ],
           ),
         ),
@@ -61,22 +63,18 @@ class ProvincialGuides extends StatelessWidget {
               PdfDisplay(notes: notesData),
               PdfDisplay(
                 notes: notesData
-                    .where((note) => note.province == 'Sindh')
+                    .where((note) => note.subject == 'Biology')
                     .toList(),
               ),
               PdfDisplay(
                 notes: notesData
-                    .where((note) => note.province == 'Punjab')
+                    .where((note) => note.subject == 'Chemistry')
                     .toList(),
               ),
               PdfDisplay(
                 notes: notesData
-                    .where((note) => note.province == 'Balochistan')
+                    .where((note) => note.subject == 'Physics')
                     .toList(),
-              ),
-              PdfDisplay(
-                notes:
-                    notesData.where((note) => note.province == 'KPK').toList(),
               ),
             ],
           ),

@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/crop.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/export.dart';
-import 'package:premedpk_mobile_app/repository/expert_solution_provider.dart';
+import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
+
 import 'package:provider/provider.dart';
 
 class DisplayImageScreen extends StatelessWidget {

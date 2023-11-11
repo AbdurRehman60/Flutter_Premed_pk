@@ -1,6 +1,7 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/models/flashcard_model.dart';
 
 class FlashcardCard extends StatefulWidget {
   final FlashcardModel flashcard;

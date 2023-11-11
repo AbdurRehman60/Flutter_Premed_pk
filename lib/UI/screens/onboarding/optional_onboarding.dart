@@ -1,6 +1,6 @@
 import 'package:premedpk_mobile_app/UI/screens/Onboarding/widgets/curve_painter.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/optional_onboarding_form.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import '../../../constants/constants_export.dart';
 
 class OptionalOnboarding extends StatelessWidget {
   const OptionalOnboarding({super.key});

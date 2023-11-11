@@ -1,18 +1,15 @@
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/error_dialogue.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/local_image_display.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/dropdown_form.dart';
-import 'package:premedpk_mobile_app/UI/widgets/success_snackbar.dart';
-import 'package:premedpk_mobile_app/repository/expert_solution_provider.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/utils/validators.dart';
 import 'package:provider/provider.dart';
 
-import 'package:premedpk_mobile_app/export.dart';
+import '../../../widgets/global_widgets_export.dart';
 
-class ExpertSolutionForm extends StatelessWidget {
-  ExpertSolutionForm({
+class AskanExpertForm extends StatelessWidget {
+  AskanExpertForm({
     Key? key,
   }) : super(key: key);
 
@@ -97,7 +94,7 @@ class ExpertSolutionForm extends StatelessWidget {
                     },
                   ),
                   SizedBoxes.verticalBig,
-                  CustomResourceDropDown(),
+                  const CustomResourceDropDown(),
                   SizedBoxes.verticalBig,
                   const Text(
                     'What problems are you facing in the uploaded question above?',

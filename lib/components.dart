@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/widgets/custom_button.dart';
-import 'package:premedpk_mobile_app/export.dart';
-import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
-import 'package:premedpk_mobile_app/utils/Data/country_code_data.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/utils/Data/school_data.dart';
+import 'package:premedpk_mobile_app/utils/school_data_widget.dart';
 
 class ComponentScreen extends StatelessWidget {
   const ComponentScreen({super.key});
@@ -91,7 +89,7 @@ class ComponentScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBoxes.verticalBig,
-                CustomTextField(
+                const CustomTextField(
                   hintText: 'email',
                   labelText: 'John.doe@gmail.com',
                 ),

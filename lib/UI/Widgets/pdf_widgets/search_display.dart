@@ -1,4 +1,5 @@
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
 
 class SearchDisplay extends StatelessWidget {

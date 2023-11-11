@@ -1,7 +1,8 @@
-import 'package:premedpk_mobile_app/UI/Widgets/error_dialogue.dart';
-import 'package:premedpk_mobile_app/export.dart';
-import 'package:premedpk_mobile_app/repository/flashcard_provider.dart';
+import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
+import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:provider/provider.dart';
+
+import 'widgets/global_widgets_export.dart';
 
 class TestScreen extends StatelessWidget {
   @override

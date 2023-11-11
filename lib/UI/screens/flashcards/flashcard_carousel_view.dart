@@ -1,8 +1,9 @@
 import 'dart:math';
-
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_card.dart';
-import 'package:premedpk_mobile_app/export.dart';
-import 'package:premedpk_mobile_app/repository/flashcard_provider.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/models/flashcard_model.dart';
+import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:provider/provider.dart';
 
 class FlashcardCarouselView extends StatefulWidget {
@@ -43,7 +44,7 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
     if (currentIndex > 0) {
       flashcardController?.animateToPage(
         currentIndex - 1,
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
     }
@@ -53,7 +54,7 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
     if (currentIndex < filteredFlashcards.length - 1) {
       flashcardController?.animateToPage(
         currentIndex + 1,
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
     }

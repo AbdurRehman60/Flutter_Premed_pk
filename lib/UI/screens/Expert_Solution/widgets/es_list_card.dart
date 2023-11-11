@@ -1,6 +1,7 @@
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/tags_row.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/view_solution.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
 
 class DoubtCard extends StatelessWidget {

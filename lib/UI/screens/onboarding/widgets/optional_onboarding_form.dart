@@ -1,11 +1,15 @@
 import 'package:intl_phone_field/phone_number.dart';
+import 'package:premedpk_mobile_app/UI/screens/home/home_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/check_box.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/export.dart';
-import 'package:premedpk_mobile_app/repository/auth_provider.dart';
+import 'package:premedpk_mobile_app/providers/auth_provider.dart';
+import 'package:premedpk_mobile_app/utils/phone_dropdown.dart';
 import 'package:provider/provider.dart';
 
 class OptionalOnboardingForm extends StatefulWidget {
-  OptionalOnboardingForm({super.key});
+  const OptionalOnboardingForm({super.key});
 
   @override
   State<OptionalOnboardingForm> createState() => _OptionalOnboardingFormState();
@@ -18,6 +22,7 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
   bool akuChecked = false;
   bool numsChecked = false;
 
+  @override
   Widget build(BuildContext context) {
     AuthProvider auth = Provider.of<AuthProvider>(context);
     TextEditingController parentNameController = TextEditingController();
@@ -40,6 +45,12 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
       print("Intend For: ${auth.intendFor.join(', ')}");
       print("Academy Joined: ${auth.academyJoined}");
       updateIntendFor();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
     }
 
     return Form(

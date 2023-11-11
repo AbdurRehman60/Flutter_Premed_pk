@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/export.dart';
-import 'package:premedpk_mobile_app/repository/expert_solution_provider.dart';
+import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:provider/provider.dart';
 
 class LocalImageDisplay extends StatefulWidget {

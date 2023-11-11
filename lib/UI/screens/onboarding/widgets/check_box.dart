@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/constants/color_theme.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class CustomCheckBox extends StatefulWidget {
   final bool initialValue;

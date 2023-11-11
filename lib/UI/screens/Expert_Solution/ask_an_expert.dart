@@ -1,8 +1,8 @@
-import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/expert_solution_form.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/ask_an_expert_form.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
-class ExpertSolution extends StatelessWidget {
-  const ExpertSolution({
+class AskanExpert extends StatelessWidget {
+  const AskanExpert({
     Key? key,
   }) : super(key: key);
 
@@ -29,7 +29,7 @@ class ExpertSolution extends StatelessWidget {
           ),
         ),
       ),
-      body: ExpertSolutionForm(),
+      body: AskanExpertForm(),
     );
   }
 }

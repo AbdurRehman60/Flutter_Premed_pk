@@ -1,6 +1,4 @@
 import 'dart:async'; // Import for Future.delayed
-
-import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:premedpk_mobile_app/export.dart';
 

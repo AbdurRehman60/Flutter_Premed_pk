@@ -1,4 +1,4 @@
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class EmptyState extends StatelessWidget {
   final String displayImage;

@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/data/es_data.dart';
-import 'package:premedpk_mobile_app/UI/widgets/custom_dropdown.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/data/es_dropdown_data.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
-import 'package:premedpk_mobile_app/repository/expert_solution_provider.dart';
+import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/utils/validators.dart';
 import 'package:provider/provider.dart';
 

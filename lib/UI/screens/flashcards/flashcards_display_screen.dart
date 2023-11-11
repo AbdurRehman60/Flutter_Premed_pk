@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_carousel_view.dart';
-import 'package:premedpk_mobile_app/export.dart';
-
-import '../../../repository/flashcard_provider.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class FlashcardDisplayScreen extends StatelessWidget {
   final String subject;

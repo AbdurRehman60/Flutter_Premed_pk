@@ -1,7 +1,6 @@
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
-
-import '../empty_state.dart';
 
 class PdfDisplay extends StatelessWidget {
   final List<Note> notes;

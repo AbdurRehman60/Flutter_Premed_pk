@@ -1,10 +1,15 @@
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/optional_checkbox.dart';
-import 'package:premedpk_mobile_app/UI/widgets/error_dialogue.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
+
 import 'package:premedpk_mobile_app/export.dart';
-import 'package:premedpk_mobile_app/repository/auth_provider.dart';
+import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
 import 'package:premedpk_mobile_app/utils/Data/school_data.dart';
+import 'package:premedpk_mobile_app/utils/cities_data_widget.dart';
+import 'package:premedpk_mobile_app/utils/phone_dropdown.dart';
+import 'package:premedpk_mobile_app/utils/school_data_widget.dart';
 import 'package:provider/provider.dart';
 
 class RequiredOnboardingForm extends StatefulWidget {
@@ -59,12 +64,12 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
 
               // Provider.of<UserProvider>(context, listen: false).setUser(user);
 
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const SignUpScreen(),
-              //   ),
-              // );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const OptionalOnboarding(),
+                ),
+              );
             } else {
               showError(context, response);
             }

@@ -1,7 +1,6 @@
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/widgets/es_list_card.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
-
-import '../../../../export.dart';
 
 class DoubtListView extends StatelessWidget {
   const DoubtListView({
