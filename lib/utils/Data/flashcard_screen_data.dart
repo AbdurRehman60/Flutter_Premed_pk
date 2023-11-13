@@ -41,7 +41,7 @@ List<Map<String, String>> gridData = [
     "text": "Logical Reasoning",
     "page": "page3",
     "subject": "Logical Reasoning",
-    'color': '#ECFBDB'
+    'color': '#F3FCE8'
   },
   // Add more items as needed.
 ];
