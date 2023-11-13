@@ -3,7 +3,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
 
 class SearchDisplay extends StatelessWidget {
-  final List<Note> notes;
+  final List<NoteModel> notes;
 
   SearchDisplay({
     required this.notes,
@@ -61,7 +61,7 @@ class SearchDisplay extends StatelessWidget {
 }
 
 class SearchTile extends StatelessWidget {
-  final Note note;
+  final NoteModel note;
 
   const SearchTile({
     super.key,

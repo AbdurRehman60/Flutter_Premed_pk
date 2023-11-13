@@ -21,23 +21,23 @@ class HomeScreen extends StatelessWidget {
           },
           child: Text('Expert Solution'),
         ),
+        // TextButton(
+        //   onPressed: () {
+        //     Navigator.pushReplacement(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (_) => const ProvincialGuides(),
+        //       ),
+        //     );
+        //   },
+        //   child: Text('Provincial Guides'),
+        // ),
         TextButton(
           onPressed: () {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (_) => const ProvincialGuides(),
-              ),
-            );
-          },
-          child: Text('Provincial Guides'),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (_) => const RevisionNotes(),
               ),
             );
           },

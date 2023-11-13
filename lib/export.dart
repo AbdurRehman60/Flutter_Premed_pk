@@ -12,7 +12,7 @@ export 'package:premedpk_mobile_app/UI/screens/onboarding/optional_onboarding.da
 export 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 
 export 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
-export 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
+// export 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 
 export 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 

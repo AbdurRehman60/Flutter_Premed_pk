@@ -3,7 +3,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
 
 class PdfDisplay extends StatelessWidget {
-  final List<Note> notes;
+  final List<NoteModel> notes;
   final bool isSearch;
 
   PdfDisplay({
@@ -46,7 +46,7 @@ class PdfDisplay extends StatelessWidget {
 }
 
 class PDFTile extends StatelessWidget {
-  final Note note;
+  final NoteModel note;
 
   const PDFTile({
     super.key,
@@ -83,13 +83,14 @@ class PDFTile extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBoxes.verticalMicro,
-          Text(
-            '${note.pages} Pages',
-            textAlign: TextAlign.center,
-            style: PreMedTextTheme()
-                .small
-                .copyWith(color: PreMedColorTheme().neutral400, fontSize: 14),
-          ),
+          note.pages != null
+              ? Text(
+                  '${note.pages} Pages',
+                  textAlign: TextAlign.center,
+                  style: PreMedTextTheme().small.copyWith(
+                      color: PreMedColorTheme().neutral400, fontSize: 14),
+                )
+              : SizedBox(),
         ],
       ),
     );

@@ -4,30 +4,38 @@ import 'package:premedpk_mobile_app/models/notes_model.dart';
 import 'package:premedpk_mobile_app/utils/Data/notesdata.dart';
 
 class PdfSearch extends StatefulWidget {
-  const PdfSearch({Key? key}) : super(key: key);
+  final List<NoteModel>? notesList;
+
+  const PdfSearch({Key? key, this.notesList}) : super(key: key);
 
   @override
   State<PdfSearch> createState() => _PdfSearchState();
 }
 
 class _PdfSearchState extends State<PdfSearch> {
-  static List<Note> Notes_Search = notesData;
-  List<Note> Notes_filtered_display = List.from(Notes_Search);
-
+  List<NoteModel>? filteredList;
   TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    filteredList = widget.notesList!;
+    // TODO: implement initState
+    super.initState();
+  }
 
   void updateList(String value) {
     setState(() {
-      Notes_filtered_display = Notes_Search.where((element) =>
-          element.title.toLowerCase().contains(value.toLowerCase())).toList();
+      filteredList = widget.notesList!
+          .where((element) =>
+              element.title.toLowerCase().contains(value.toLowerCase()))
+          .toList();
     });
   }
 
   void clearSearch() {
     setState(() {
       searchController.clear(); // Clear the text field
-      Notes_filtered_display =
-          List.from(Notes_Search); // Reset to the full list
+      filteredList = widget.notesList; // Reset to the full list
     });
   }
 
@@ -71,11 +79,11 @@ class _PdfSearchState extends State<PdfSearch> {
               ),
             ),
             Expanded(
-                child: PdfDisplay(
-              notes: Notes_filtered_display,
-              isSearch: true,
-            ) // Use filtered data here
-                )
+              child: PdfDisplay(
+                notes: filteredList!,
+                isSearch: true,
+              ),
+            ),
           ],
         ),
       ),

@@ -5,7 +5,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
 
 class PdfScreen extends StatefulWidget {
-  final Note note;
+  final NoteModel note;
   const PdfScreen({
     super.key,
     required this.note,

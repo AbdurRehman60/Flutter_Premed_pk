@@ -1,13 +1,12 @@
 import 'package:camera/camera.dart';
+import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/UI/test.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
-
 import 'package:provider/provider.dart';
-
 import 'export.dart';
 
 List<CameraDescription> cameras = [];
@@ -34,9 +33,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => NotesProvider()),
         ChangeNotifierProvider(create: (_) => AskAnExpertProvider()),
         ChangeNotifierProvider(create: (_) => FlashcardProvider()),
+        ChangeNotifierProvider(create: (_) => NotesProvider()),
       ],
       child: MaterialApp(
         routes: {

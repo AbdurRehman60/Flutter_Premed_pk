@@ -1,12 +1,17 @@
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
-import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/utils/Data/notesdata.dart';
+import 'package:premedpk_mobile_app/providers/notes_provider.dart';
+import 'package:provider/provider.dart';
+
+import '../../../constants/constants_export.dart';
 
 class ProvincialGuides extends StatelessWidget {
-  const ProvincialGuides({super.key});
+  const ProvincialGuides({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    NotesProvider guidesProvider =
+        Provider.of<NotesProvider>(context, listen: true);
+
     return DefaultTabController(
       length: 5,
       child: Scaffold(
@@ -31,12 +36,14 @@ class ProvincialGuides extends StatelessWidget {
                 ],
               ),
               IconButton(
-                icon: const Icon(Icons.search),
+                icon: Icon(Icons.search),
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const PdfSearch(),
+                      builder: (context) => PdfSearch(
+                        notesList: guidesProvider.guidesList,
+                      ),
                     ),
                   );
                 },
@@ -44,7 +51,7 @@ class ProvincialGuides extends StatelessWidget {
             ],
           ),
           bottom: const TabBar(
-            isScrollable: true, // Make tabs scrollable
+            isScrollable: true,
             tabs: [
               Tab(text: 'All'),
               Tab(text: 'Sindh'),
@@ -58,25 +65,26 @@ class ProvincialGuides extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
           child: TabBarView(
             children: [
-              PdfDisplay(notes: notesData),
+              PdfDisplay(notes: guidesProvider.guidesList),
               PdfDisplay(
-                notes: notesData
+                notes: guidesProvider.guidesList
                     .where((note) => note.province == 'Sindh')
                     .toList(),
               ),
               PdfDisplay(
-                notes: notesData
+                notes: guidesProvider.guidesList
                     .where((note) => note.province == 'Punjab')
                     .toList(),
               ),
               PdfDisplay(
-                notes: notesData
+                notes: guidesProvider.guidesList
                     .where((note) => note.province == 'Balochistan')
                     .toList(),
               ),
               PdfDisplay(
-                notes:
-                    notesData.where((note) => note.province == 'KPK').toList(),
+                notes: guidesProvider.guidesList
+                    .where((note) => note.province == 'KPK')
+                    .toList(),
               ),
             ],
           ),

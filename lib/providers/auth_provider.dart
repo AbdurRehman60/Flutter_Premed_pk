@@ -12,6 +12,8 @@ enum Status {
   LoggedIn,
   Authenticating,
   LoggedOut,
+  Init,
+  Fetching,
 }
 
 class AuthProvider extends ChangeNotifier {

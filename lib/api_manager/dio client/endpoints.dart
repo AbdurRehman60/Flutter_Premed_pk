@@ -4,8 +4,8 @@ class Endpoints {
   static const String serverPort = "4002";
 
   // base url
-  static const String baseUrl = "http://192.168.22.52";
-  // static const String baseUrl = "http://192.168.100.117";
+  // static const String baseUrl = "http://192.168.22.52";
+  static const String baseUrl = "http://193.168.90.42";
 
   //specific URLs
   static const String serverURL = "${baseUrl}:${serverPort}";
@@ -21,8 +21,8 @@ class Endpoints {
   static const String OptionalOnboarding = '/api/auth/optional-onboarding';
   static const String RequiredOnboarding = '/api/auth/required-onboarding';
   static const String getLoggedInUser = '/LoggedInUser';
-  static const String guides = '/api/notes/allguides';
-  static const String revisionNotes = '/api/notes/allguides';
+  static const String Guides = '/api/notes/allguides';
+  static const String RevisionNotes = '/api/notes/all';
   static const String DoubtUpload = '/DoubtUpload';
   static const String UserSolved = '/UserSolved';
   static const String UserPending = '/UserPending';

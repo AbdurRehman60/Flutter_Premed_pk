@@ -1,9 +1,9 @@
-class Note {
+class NoteModel {
   final String id;
   final bool isGuide;
   final String title;
   final String subject;
-  final String province;
+  final String? province;
   final String notesURL;
   final String coverImageURL;
   final List<NoteDemarcation>? demarcations;
@@ -12,7 +12,7 @@ class Note {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  Note({
+  NoteModel({
     required this.id,
     required this.isGuide,
     required this.title,
@@ -27,7 +27,7 @@ class Note {
     required this.updatedAt,
   });
 
-  factory Note.fromJson(Map<String, dynamic> json) {
+  factory NoteModel.fromJson(Map<String, dynamic> json) {
     print(json);
     List<NoteDemarcation> demarcations = [];
 
@@ -37,7 +37,7 @@ class Note {
           .toList();
     }
 
-    return Note(
+    return NoteModel(
       id: json['_id'],
       isGuide: json['isGuide'],
       title: json['title'],
