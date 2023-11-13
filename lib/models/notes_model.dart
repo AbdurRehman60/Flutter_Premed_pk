@@ -28,7 +28,6 @@ class NoteModel {
   });
 
   factory NoteModel.fromJson(Map<String, dynamic> json) {
-    print(json);
     List<NoteDemarcation> demarcations = [];
 
     if (json['demarcations'] != null) {
