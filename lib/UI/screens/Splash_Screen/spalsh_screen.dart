@@ -1,5 +1,6 @@
 import 'dart:async'; // Import for Future.delayed
 import 'package:lottie/lottie.dart';
+import 'package:premedpk_mobile_app/UI/test.dart';
 import 'package:premedpk_mobile_app/export.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
+          builder: (context) => const TestScreen(),
         ),
       );
     });

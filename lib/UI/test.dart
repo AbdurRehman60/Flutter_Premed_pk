@@ -1,7 +1,9 @@
+import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +16,9 @@ class TestScreen extends StatelessWidget {
     // Use Provider.of<FlashcardProvider>(context) to access the FlashcardProvider
     NotesProvider notesProvider =
         Provider.of<NotesProvider>(context, listen: true);
+
+    BundleProvider bundleProvider =
+        Provider.of<BundleProvider>(context, listen: false);
 
     onpressed() async {
       Map<String, dynamic> response = await notesProvider.fetchNotes();
@@ -42,6 +47,21 @@ class TestScreen extends StatelessWidget {
         );
       } else {
         showError(context, response as Map<String, dynamic>);
+      }
+    }
+
+    onbundlespressed() async {
+      Map<String, dynamic> response = await bundleProvider.fetchBundles();
+
+      if (response.isNotEmpty) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MarketPlace(),
+          ),
+        );
+      } else {
+        showError(context, response);
       }
     }
 
@@ -96,6 +116,11 @@ class TestScreen extends StatelessWidget {
                   ),
                 );
               },
+            ),
+            SizedBoxes.verticalExtraGargangua,
+            CustomButton(
+              buttonText: 'Bundles',
+              onPressed: onbundlespressed,
             ),
           ],
         ),
