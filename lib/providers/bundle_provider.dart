@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart'; // Import this for ChangeNotifier
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/export.dart';
@@ -19,12 +20,6 @@ class BundleProvider extends ChangeNotifier {
     _loadingStatus = value;
   }
 
-  List<BundleModel> _bundleList = [];
-  List<BundleModel> get bundleList => _bundleList;
-  set bundleList(List<BundleModel> value) {
-    _bundleList = value;
-  }
-
   notify() {
     notifyListeners();
   }
@@ -41,11 +36,14 @@ class BundleProvider extends ChangeNotifier {
 
       if (response == '') {
         final List<Map<String, dynamic>> responseData =
-            List<Map<String, dynamic>>.from(response.data['data']);
+            List<Map<String, dynamic>>.from(response['data']);
 
-        // Convert each map to a BundleModel
-        bundleList =
+        // Directly map to BundleModel
+        List<BundleModel> bundleList =
             responseData.map((json) => BundleModel.fromJson(json)).toList();
+
+        notify();
+        print(responseData);
 
         result = {
           'status': true,
