@@ -84,7 +84,7 @@ class MarketPlace extends StatelessWidget {
                                     width: 30,
                                     height: 30,
                                   ),
-                                  SizedBox(width: 8),
+                                  SizedBoxes.verticalMedium,
                                   Flexible(
                                     child: Text(
                                       '${filteredList[index].bundleName}',
@@ -99,14 +99,14 @@ class MarketPlace extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 8),
+                              SizedBoxes.verticalMedium,
                               Text(
                                 filteredList[index].bundleDescription,
                                 style: PreMedTextTheme().small.copyWith(
                                       color: PreMedColorTheme().neutral700,
                                     ),
                               ),
-                              SizedBox(height: 8),
+                              SizedBoxes.verticalMedium,
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: filteredList[index]
@@ -136,7 +136,7 @@ class MarketPlace extends StatelessWidget {
                                     )
                                     .toList(),
                               ),
-                              SizedBox(height: 16),
+                              SizedBoxes.verticalMedium,
                               Row(
                                 children: [
                                   Text(
@@ -145,7 +145,7 @@ class MarketPlace extends StatelessWidget {
                                         color:
                                             PreMedColorTheme().primaryColorRed),
                                   ),
-                                  SizedBox(width: 8),
+                                  SizedBoxes.verticalMedium,
                                   Text(
                                     '${filteredList[index].bundlePrice}',
                                     style: TextStyle(
@@ -158,7 +158,7 @@ class MarketPlace extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 8),
+                              SizedBoxes.verticalMedium,
                               SizedBox(
                                 width: 150,
                                 height: 40,
