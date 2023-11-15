@@ -28,5 +28,5 @@ class Endpoints {
   static const String UserPending = '/UserPending';
   static const String UserSubmitted = '/UserSubmitted';
   static const String GetFlashcards = '/api/flashcard/GetFlashcards';
-  static const String GetBundles = '/api/bundle';
+  static const String GetBundles = '/api/bundle/';
 }

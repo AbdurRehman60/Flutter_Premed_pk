@@ -24,6 +24,13 @@ class BundleProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<BundleModel> _bundleList = [];
+  List<BundleModel> get bundleList => _bundleList;
+  set bundleList(List<BundleModel> value) {
+    _bundleList = value;
+    notifyListeners();
+  }
+
   Future<Map<String, dynamic>> fetchBundles() async {
     var result;
     _loadingStatus = Status.Fetching;
@@ -34,13 +41,17 @@ class BundleProvider extends ChangeNotifier {
         Endpoints.GetBundles,
       );
 
-      if (response == '') {
+      if (response['data'] != null) {
+        // Change this line
         final List<Map<String, dynamic>> responseData =
             List<Map<String, dynamic>>.from(response['data']);
 
         // Directly map to BundleModel
         List<BundleModel> bundleList =
             responseData.map((json) => BundleModel.fromJson(json)).toList();
+
+        // Set the bundleList property
+        _bundleList = bundleList;
 
         notify();
         print(responseData);
