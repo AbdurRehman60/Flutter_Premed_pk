@@ -10,50 +10,52 @@ class MarketplaceTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('MarketplaceTabView build');
-    return DefaultTabController(
-      length: 7,
-      child: Column(
-        children: [
-          TabBar(
-            isScrollable: true,
-            indicatorColor: PreMedColorTheme()
-                .primaryColorRed, // Set the indicator color (underline color)
-            labelColor: PreMedColorTheme()
-                .primaryColorRed, // Set selected tab text color
-            unselectedLabelColor:
-                PreMedColorTheme().neutral400, // Set unselected tab text color
-            tabs: const [
-              Tab(text: 'All Bundles'),
-              Tab(text: 'Special Offers'),
-              Tab(text: 'AKU'),
-              Tab(text: 'MDCAT'),
-              Tab(text: 'NUMS'),
-              Tab(text: 'Courses'),
-              Tab(text: 'Coins'),
-            ],
-          ),
-          // TabBarView
-          Expanded(
-            child: TabBarView(
-              children: [
-                // Content for 'All Bundles' Tab
-                buildListView(context, 'All Bundles'),
-                // Content for 'Special Offers' Tab
-                buildListView(context, 'Special Offers'),
-                // Content for 'AKU' Tab
-                buildListView(context, 'AKU'),
-                // Content for 'MDCAT' Tab
-                buildListView(context, 'MDCAT'),
-                // Content for 'NUMS' Tab
-                buildListView(context, 'NUMS'),
-                // Content for 'Courses' Tab
-                buildListView(context, 'Courses'),
-                // Content for 'Coins' Tab
-                buildListView(context, 'Coins'),
+    return Expanded(
+      child: DefaultTabController(
+        length: 7,
+        child: Column(
+          children: [
+            TabBar(
+              isScrollable: true,
+              indicatorColor: PreMedColorTheme()
+                  .primaryColorRed, // Set the indicator color (underline color)
+              labelColor: PreMedColorTheme()
+                  .primaryColorRed, // Set selected tab text color
+              unselectedLabelColor: PreMedColorTheme()
+                  .neutral400, // Set unselected tab text color
+              tabs: const [
+                Tab(text: 'All Bundles'),
+                Tab(text: 'Special Offers'),
+                Tab(text: 'AKU'),
+                Tab(text: 'MDCAT'),
+                Tab(text: 'NUMS'),
+                Tab(text: 'Courses'),
+                Tab(text: 'Coins'),
               ],
             ),
-          ),
-        ],
+            // TabBarView
+            Expanded(
+              child: TabBarView(
+                children: [
+                  // Content for 'All Bundles' Tab
+                  buildListView(context, 'All Bundles'),
+                  // Content for 'Special Offers' Tab
+                  buildListView(context, 'Special Offers'),
+                  // Content for 'AKU' Tab
+                  buildListView(context, 'AKU'),
+                  // Content for 'MDCAT' Tab
+                  buildListView(context, 'MDCAT'),
+                  // Content for 'NUMS' Tab
+                  buildListView(context, 'NUMS'),
+                  // Content for 'Courses' Tab
+                  buildListView(context, 'Courses'),
+                  // Content for 'Coins' Tab
+                  buildListView(context, 'Coins'),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

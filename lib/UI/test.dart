@@ -57,9 +57,7 @@ class TestScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MarketPlace(
-              tabName: 'Special Offers',
-            ),
+            builder: (context) => MarketPlace(),
           ),
         );
       } else {
