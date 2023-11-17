@@ -10,8 +10,8 @@ class ModalSheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16.0),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -51,25 +51,22 @@ class ModalSheetWidget extends StatelessWidget {
                   color: PreMedColorTheme().neutral600,
                 ),
           ),
-          SizedBoxes.verticalMicro,
+          SizedBoxes.verticalMedium,
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: bundle.bundlePoints
                 .map(
                   (point) => Row(
                     children: [
-                      Icon(
-                        Icons.check,
-                        color: PreMedColorTheme().black,
-                        size: 16,
-                      ),
-                      const SizedBox(width: 5),
                       Flexible(
                         child: Text(
-                          point,
+                          '✅ ${point}',
                           style: PreMedTextTheme().small.copyWith(
-                                color: PreMedColorTheme().black,
+                                color: PreMedColorTheme().neutral600,
+                                height: 1.5,
                               ),
+                          maxLines: 1, // Set the maximum number of lines to 1
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],

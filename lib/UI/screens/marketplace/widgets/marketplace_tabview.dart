@@ -21,6 +21,7 @@ class MarketplaceTabView extends StatelessWidget {
               indicatorColor: PreMedColorTheme().primaryColorRed,
               labelColor: PreMedColorTheme().primaryColorRed,
               unselectedLabelColor: PreMedColorTheme().neutral400,
+              dividerColor: PreMedColorTheme().neutral600,
               tabs: const [
                 Tab(text: 'All Bundles'),
                 // Tab(text: 'Special Offers'),
@@ -178,17 +179,14 @@ class TabsCard extends StatelessWidget {
                     .map(
                       (point) => Row(
                         children: [
-                          Icon(
-                            Icons.check,
-                            color: PreMedColorTheme().black,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 5),
+                          // Text('✅'),
+                          // SizedBoxes.verticalMicro,
                           Flexible(
                             child: Text(
-                              point,
+                              '✅ ${point}',
                               style: PreMedTextTheme().small.copyWith(
-                                    color: PreMedColorTheme().black,
+                                    color: PreMedColorTheme().neutral600,
+                                    height: 1.5,
                                   ),
                               maxLines:
                                   1, // Set the maximum number of lines to 1
