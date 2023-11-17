@@ -82,7 +82,10 @@ class MarketplaceTabView extends StatelessWidget {
           shrinkWrap: true,
           itemCount: filteredList.length,
           itemBuilder: (context, index) {
-            return SpecialOfferCard(bundle: filteredList[index]);
+            return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SpecialOfferCard(bundle: filteredList[index]),
+            );
           },
         );
       },
