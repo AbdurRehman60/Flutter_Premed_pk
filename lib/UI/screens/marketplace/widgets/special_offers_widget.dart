@@ -198,14 +198,11 @@ Widget buildBundleIcon(String imageUrl) {
     width: 36,
     height: 36,
     errorBuilder: (context, error, stackTrace) {
-      return Container(
+      return Image.network(
+        "https://premedpk-cdn.sgp1.cdn.digitaloceanspaces.com/CustomImages/PreMedCircleLogo.cffae65f.png",
+        fit: BoxFit.contain,
         width: 36,
         height: 36,
-        color: Colors.grey,
-        child: const Icon(
-          Icons.error,
-          color: Colors.white,
-        ),
       );
     },
   );
