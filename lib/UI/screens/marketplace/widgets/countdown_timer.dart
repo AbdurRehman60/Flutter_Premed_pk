@@ -23,7 +23,7 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
 
   void _resetTimer() {
     DateTime now = DateTime.now();
-    DateTime resetTime = DateTime(now.year, now.month, now.day, 12, 0, 0);
+    DateTime resetTime = DateTime(now.year, now.month, now.day, 24, 0, 0);
     Duration timeDifference = resetTime.difference(now);
 
     hours = timeDifference.inHours;
