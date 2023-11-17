@@ -6,40 +6,36 @@ import '../../../constants/constants_export.dart';
 // Import your text theme
 
 class MarketPlace extends StatelessWidget {
-  MarketPlace({
-    Key? key,
-  }) : super(key: key);
+  const MarketPlace({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            GradientText('PreMed.PK Bundles',
-                style: PreMedTextTheme().heading3,
-                colors: [
-                  PreMedColorTheme().primaryColorBlue,
-                  PreMedColorTheme().primaryColorRed,
-                ]),
-            SizedBoxes.verticalMedium,
-            Center(
-              child: CountdownTimerWidget(),
-            ),
-            SizedBoxes.verticalMedium,
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Special Offers', // Display the current tab name (you can modify this as needed)
-                  textAlign: TextAlign.left,
-                  style: PreMedTextTheme().subtext,
-                ),
+        child: CustomScrollView(
+          slivers: [
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  SizedBoxes.verticalMedium,
+                  Center(
+                    child: GradientText(
+                      'PreMed.PK Bundles',
+                      style: PreMedTextTheme().heading3,
+                      colors: [
+                        PreMedColorTheme().primaryColorBlue,
+                        PreMedColorTheme().primaryColorRed,
+                      ],
+                    ),
+                  ),
+                  SizedBoxes.verticalMedium,
+                  CountdownTimerWidget(),
+                  SizedBoxes.verticalBig,
+                  SpecialOffers(),
+                  SizedBoxes.verticalBig,
+                ],
               ),
             ),
-            SpecialOffers(),
-            SizedBoxes.verticalMedium,
             MarketplaceTabView(),
           ],
         ),
