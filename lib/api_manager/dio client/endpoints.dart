@@ -15,18 +15,24 @@ class Endpoints {
 
   // connectTimeout
   static const Duration connectionTimeout = Duration(milliseconds: 5000);
+  //auth endpoints
   static const String login = '/login';
   static const String logout = '/auth/logout';
   static const String signup = '/api/auth/signup';
+  static const String getLoggedInUser = '/LoggedInUser';
+  //onboarding endpoints
   static const String OptionalOnboarding = '/api/auth/optional-onboarding';
   static const String RequiredOnboarding = '/api/auth/required-onboarding';
-  static const String getLoggedInUser = '/LoggedInUser';
+  //notes endpoints
   static const String Guides = '/api/notes/allguides';
   static const String RevisionNotes = '/api/notes/all';
+  //expertsolution endpoints
   static const String DoubtUpload = '/DoubtUpload';
   static const String UserSolved = '/UserSolved';
   static const String UserPending = '/UserPending';
   static const String UserSubmitted = '/UserSubmitted';
+  //flashcards endpoints
   static const String GetFlashcards = '/api/flashcard/GetFlashcards';
+  //bundles endpoints
   static const String GetBundles = '/api/bundle/';
 }

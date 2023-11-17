@@ -43,7 +43,7 @@ class ModalSheetWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBoxes.verticalMicro,
+          SizedBoxes.verticalMedium,
           Text(
             bundle.bundleDescription,
             style: PreMedTextTheme().body.copyWith(
