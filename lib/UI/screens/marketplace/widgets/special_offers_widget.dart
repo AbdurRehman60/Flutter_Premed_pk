@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/card_content.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/modal_bottom_sheet.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -91,83 +92,10 @@ class SpecialOfferCard extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(
-                children: [
-                  buildBundleIcon(bundle.bundleIcon),
-                  SizedBoxes.horizontalMicro,
-                  SizedBoxes.horizontalMicro,
-                  Flexible(
-                    child: RichText(
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      text: TextSpan(
-                        text: bundle.bundleName.split(' ').first, // First word
-                        style: PreMedTextTheme().heading5.copyWith(
-                              color: PreMedColorTheme()
-                                  .primaryColorRed, // Color for the first word
-                            ),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text:
-                                ' ${bundle.bundleName.split(' ').skip(1).join(' ')}', // Rest of the string
-                            style: PreMedTextTheme().heading5.copyWith(
-                                  color: PreMedColorTheme().black,
-                                ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBoxes.verticalMicro,
-              SizedBoxes.verticalMicro,
-              Text(
-                bundle.bundleDescription,
-                style: PreMedTextTheme().body.copyWith(
-                      height: 1.5,
-                      color: PreMedColorTheme().neutral600,
-                    ),
-                maxLines: 4, // Set the number of lines you want to show
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBoxes.verticalMedium,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '${bundle.bundleDiscount}',
-                    style: PreMedTextTheme().heading4.copyWith(
-                          fontWeight: FontWeights.bold,
-                          color: PreMedColorTheme().primaryColorRed,
-                        ),
-                  ),
-                  SizedBoxes.horizontalMicro,
-                  SizedBoxes.horizontalMicro,
-                  Text(
-                    '${bundle.bundlePrice}',
-                    style: TextStyle(
-                      color: PreMedColorTheme().neutral500,
-                      fontSize: 16,
-                      decoration: TextDecoration.lineThrough,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBoxes.verticalMedium,
-              SizedBox(
-                width: 132,
-                height: 40,
-                child: CustomButton(
-                  buttonText: 'Buy Now ->',
-                  onPressed: () {},
-                ),
-              ),
-            ],
+          child: CardContent(
+            bundle: bundle,
+            renderPoints: false,
+            renderDescription: false,
           ),
         ),
       ),
