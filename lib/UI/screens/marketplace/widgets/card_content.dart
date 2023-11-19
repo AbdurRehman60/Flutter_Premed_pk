@@ -1,17 +1,22 @@
+import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offers_widget.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
 import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
+import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../Widgets/global_widgets_export.dart';
 
 class CardContent extends StatelessWidget {
-  const CardContent(
-      {super.key,
-      required this.bundle,
-      required this.renderPoints,
-      this.renderDescription = true,
-      this.points});
+  const CardContent({
+    Key? key,
+    required this.bundle,
+    required this.renderPoints,
+    this.renderDescription = true,
+    this.points,
+  }) : super(key: key);
 
   final BundleModel bundle;
   final bool renderPoints;
@@ -20,6 +25,9 @@ class CardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+    bool isBundleInCart = cartProvider.selectedBundles.contains(bundle);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -34,15 +42,14 @@ class CardContent extends StatelessWidget {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 text: TextSpan(
-                  text: bundle.bundleName.split(' ').first, // First word
+                  text: bundle.bundleName.split(' ').first,
                   style: PreMedTextTheme().heading5.copyWith(
-                        color: PreMedColorTheme()
-                            .primaryColorRed, // Color for the first word
+                        color: PreMedColorTheme().primaryColorRed,
                       ),
                   children: <TextSpan>[
                     TextSpan(
                       text:
-                          ' ${bundle.bundleName.split(' ').skip(1).join(' ')}', // Rest of the string
+                          ' ${bundle.bundleName.split(' ').skip(1).join(' ')}',
                       style: PreMedTextTheme().heading5.copyWith(
                             color: PreMedColorTheme().black,
                           ),
@@ -62,30 +69,31 @@ class CardContent extends StatelessWidget {
                       height: 1.5,
                       color: PreMedColorTheme().neutral600,
                     ),
-                maxLines: 4, // Set the number of lines you want to show
+                maxLines: 4,
                 overflow: TextOverflow.ellipsis,
               )
             : SizedBox(),
+        SizedBoxes.verticalMedium,
         renderPoints
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: bundle.bundlePoints
-                    .take(points != null ? points! : bundle.bundlePoints.length)
+                    .take(5) // Take the first 5 points
                     .map(
                       (point) => Row(
                         children: [
-                          Icon(
-                            Icons.check,
-                            color: PreMedColorTheme().black,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 5),
+                          // Text('✅'),
+                          // SizedBoxes.verticalMicro,
                           Flexible(
                             child: Text(
-                              point,
+                              '✅ ${point}',
                               style: PreMedTextTheme().small.copyWith(
-                                    color: PreMedColorTheme().black,
+                                    color: PreMedColorTheme().neutral600,
+                                    height: 1.5,
                                   ),
+                              maxLines:
+                                  1, // Set the maximum number of lines to 1
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
@@ -118,14 +126,17 @@ class CardContent extends StatelessWidget {
           ],
         ),
         SizedBoxes.verticalMedium,
-        SizedBox(
-          width: 132,
-          height: 40,
-          child: CustomButton(
-            buttonText: 'Buy Now ->',
-            onPressed: () {},
+        if (!isBundleInCart) // Render the button only if the bundle is not in the cart
+          SizedBox(
+            width: 132,
+            height: 40,
+            child: CustomButton(
+              buttonText: 'Buy Now ->',
+              onPressed: () {
+                cartProvider.addToCart(bundle);
+              },
+            ),
           ),
-        ),
       ],
     );
   }

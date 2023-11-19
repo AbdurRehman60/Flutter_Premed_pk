@@ -80,3 +80,45 @@ class BundleProvider extends ChangeNotifier {
     return result;
   }
 }
+
+class CartProvider extends ChangeNotifier {
+  List<BundleModel> _selectedBundles = [];
+
+  List<BundleModel> get selectedBundles => _selectedBundles;
+
+  // Add properties for tracking total amounts
+  double get totalDiscountedPrice {
+    double total = 0;
+    for (var bundle in _selectedBundles) {
+      total += bundle.bundleDiscount;
+    }
+    return total;
+  }
+
+  double get totalOriginalPrice {
+    double total = 0;
+    for (var bundle in _selectedBundles) {
+      total += bundle.bundlePrice;
+    }
+    return total;
+  }
+
+  int get totalBundlesCount {
+    return _selectedBundles.length;
+  }
+
+  void addToCart(BundleModel bundle) {
+    _selectedBundles.add(bundle);
+    notifyListeners();
+  }
+
+  void removeFromCart(BundleModel bundle) {
+    _selectedBundles.remove(bundle);
+    notifyListeners();
+  }
+
+  void clearCart() {
+    _selectedBundles.clear();
+    notifyListeners();
+  }
+}

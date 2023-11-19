@@ -117,6 +117,7 @@ flutter:
     - assets/images/premedlogolarge.png
     - assets/images/shopcart.png
     - assets/images/marketplacebooks.png
+    - assets/images/cart.png
   fonts:
     - family: Inter
       fonts:

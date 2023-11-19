@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/countdown_timer.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/marketplace_tabview.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/addtocart.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offers_widget.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import '../../../constants/constants_export.dart';
-// Import your text theme
 
 class MarketPlace extends StatelessWidget {
   const MarketPlace({Key? key}) : super(key: key);
@@ -18,15 +19,37 @@ class MarketPlace extends StatelessWidget {
               delegate: SliverChildListDelegate(
                 [
                   SizedBoxes.verticalMedium,
-                  Center(
-                    child: GradientText(
-                      'PreMed.PK Bundles',
-                      style: PreMedTextTheme().heading3,
-                      colors: [
-                        PreMedColorTheme().primaryColorBlue,
-                        PreMedColorTheme().primaryColorRed,
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBoxes.horizontalTiny,
+                      SizedBoxes.horizontalTiny,
+                      Center(
+                        child: GradientText(
+                          'PreMed.PK Bundles',
+                          style: PreMedTextTheme().heading3,
+                          colors: [
+                            PreMedColorTheme().primaryColorBlue,
+                            PreMedColorTheme().primaryColorRed,
+                          ],
+                        ),
+                      ),
+                      Builder(
+                        builder: (BuildContext context) {
+                          return TextButton(
+                            onPressed: () {
+                              // Open the endDrawer
+                              Scaffold.of(context).openEndDrawer();
+                            },
+                            child: Image.asset(
+                              PremedAssets.Cart,
+                              width: 30,
+                              height: 31,
+                            ),
+                          );
+                        },
+                      )
+                    ],
                   ),
                   SizedBoxes.verticalMedium,
                   CountdownTimerWidget(),
@@ -40,6 +63,7 @@ class MarketPlace extends StatelessWidget {
           ],
         ),
       ),
+      endDrawer: AddtoCart(),
     );
   }
 }

@@ -97,15 +97,6 @@ class ModalSheetWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBoxes.verticalMedium,
-          SizedBox(
-            width: 132,
-            height: 40,
-            child: CustomButton(
-              buttonText: 'Buy Now ->',
-              onPressed: () {},
-            ),
-          ),
         ],
       ),
     );

@@ -95,7 +95,7 @@ class SpecialOfferCard extends StatelessWidget {
           child: CardContent(
             bundle: bundle,
             renderPoints: false,
-            renderDescription: false,
+            renderDescription: true,
           ),
         ),
       ),
