@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/cart_drawer.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/cart_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/countdown_timer.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/marketplace_tabview.dart';
-import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/addtocart.dart';
+
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offers_widget.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
+
 import '../../../constants/constants_export.dart';
 
 class MarketPlace extends StatelessWidget {
@@ -37,16 +40,11 @@ class MarketPlace extends StatelessWidget {
                       Builder(
                         builder: (BuildContext context) {
                           return TextButton(
-                            onPressed: () {
-                              // Open the endDrawer
-                              Scaffold.of(context).openEndDrawer();
-                            },
-                            child: Image.asset(
-                              PremedAssets.Cart,
-                              width: 30,
-                              height: 31,
-                            ),
-                          );
+                              onPressed: () {
+                                // Open the endDrawer
+                                Scaffold.of(context).openEndDrawer();
+                              },
+                              child: CartIcon());
                         },
                       )
                     ],
@@ -63,7 +61,7 @@ class MarketPlace extends StatelessWidget {
           ],
         ),
       ),
-      endDrawer: AddtoCart(),
+      endDrawer: CartDrawer(),
     );
   }
 }
