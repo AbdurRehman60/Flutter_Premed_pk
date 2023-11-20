@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/cart.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/card_content.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
@@ -88,13 +89,18 @@ class CartWidget extends StatelessWidget {
         Expanded(
           child: ListView.separated(
             itemCount: cartProvider.selectedBundles.length,
-            separatorBuilder: (context, index) =>
-                Divider(), // Add a divider between items
+            separatorBuilder: (context, index) => SizedBox(
+              width: 260,
+              child: Divider(
+                color: PreMedColorTheme().neutral300,
+              ),
+            ), // Add a divider between items
             itemBuilder: (context, index) {
               BundleModel bundle = cartProvider.selectedBundles[index];
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: CardContent(
@@ -127,13 +133,13 @@ class CartWidget extends StatelessWidget {
               SizedBoxes.verticalMedium,
               Row(
                 children: [
-                  Text('${cartProvider.totalDiscountedPrice}',
+                  Text('Rs. ${cartProvider.totalDiscountedPrice}',
                       style: PreMedTextTheme().heading3.copyWith(
                             color: PreMedColorTheme().primaryColorRed,
                           )),
                   SizedBoxes.horizontalMedium,
                   Text(
-                    '${cartProvider.totalOriginalPrice}',
+                    'Rs. ${cartProvider.totalOriginalPrice}',
                     style: PreMedTextTheme().heading7.copyWith(
                           color: PreMedColorTheme().neutral400,
                           decoration: TextDecoration.lineThrough,
@@ -146,7 +152,15 @@ class CartWidget extends StatelessWidget {
                 height: 50,
                 child: CustomButton(
                   buttonText: 'Go to Cart ->',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Cart(),
+                        settings: RouteSettings(arguments: cartProvider),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],

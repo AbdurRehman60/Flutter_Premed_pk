@@ -103,6 +103,14 @@ class CartProvider extends ChangeNotifier {
     return total;
   }
 
+  double get calculateTotalDiscount {
+    double totalDiscount = 0;
+    for (var bundle in _selectedBundles) {
+      totalDiscount += (bundle.bundlePrice - bundle.bundleDiscount);
+    }
+    return totalDiscount;
+  }
+
   int get totalBundlesCount {
     return _selectedBundles.length;
   }
