@@ -222,7 +222,7 @@ class Cart extends StatelessWidget {
         ),
       ),
       bottomSheet: Container(
-        height: MediaQuery.of(context).size.height * 0.46,
+        height: MediaQuery.of(context).size.height * 0.48,
         decoration: BoxDecoration(
           color: PreMedColorTheme().white,
           borderRadius: const BorderRadius.only(

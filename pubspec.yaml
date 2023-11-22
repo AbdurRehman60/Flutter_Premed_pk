@@ -118,6 +118,10 @@ flutter:
     - assets/images/shopcart.png
     - assets/images/marketplacebooks.png
     - assets/images/cart.png
+    - assets/images/easypaisa.jpg
+    - assets/images/jazzcash.png
+    - assets/images/meezan.jpg
+    - assets/images/howtopay.png
   fonts:
     - family: Inter
       fonts:

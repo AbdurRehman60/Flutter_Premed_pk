@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/cart.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/UI/test.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: _PreMedTheme.data,
-        home: TestScreen(),
+        home: Checkout(),
       ),
     );
   }
