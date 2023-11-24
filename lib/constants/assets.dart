@@ -12,4 +12,6 @@ class PremedAssets {
   static String MarketplaceBooks = 'assets/images/marketplacebooks.png';
   static String Cart = 'assets/images/cart.png';
   static String HowtoPay = 'assets/images/howtopay.png';
+  static String Payment = 'assets/images/payment.png';
+  static String Paymentupload = 'assets/images/upload.png';
 }

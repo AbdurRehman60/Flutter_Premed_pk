@@ -1,4 +1,5 @@
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/card_content.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/countdown_timer.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
@@ -43,7 +44,7 @@ class Cart extends StatelessWidget {
                   SizedBoxes.verticalLarge,
                   Container(
                     width: double.infinity,
-                    height: 600,
+                    height: 300,
                     decoration: BoxDecoration(
                       color: PreMedColorTheme().white,
                       border: GradientBoxBorder(
@@ -334,7 +335,19 @@ class Cart extends StatelessWidget {
               SizedBoxes.verticalLarge,
               CustomButton(
                 buttonText: 'Proceed to checkout ->',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Checkout(
+                        totalOriginalPrice: cartProvider.totalOriginalPrice,
+                        calculateTotalDiscount:
+                            cartProvider.calculateTotalDiscount,
+                        totalDiscountedPrice: cartProvider.totalDiscountedPrice,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),

@@ -133,12 +133,12 @@ class CartWidget extends StatelessWidget {
               ),
               SizedBoxes.verticalMedium,
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Rs. ${cartProvider.totalDiscountedPrice}',
                       style: PreMedTextTheme().heading3.copyWith(
                             color: PreMedColorTheme().primaryColorRed,
                           )),
-                  SizedBoxes.horizontalMedium,
                   Text(
                     'Rs. ${cartProvider.totalOriginalPrice}',
                     style: PreMedTextTheme().heading7.copyWith(

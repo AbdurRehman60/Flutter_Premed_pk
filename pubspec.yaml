@@ -72,6 +72,7 @@ dependencies:
   flip_card: ^0.7.0
   simple_gradient_text: ^1.3.0
   gradient_borders: ^1.0.0
+  dotted_border: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -122,6 +123,8 @@ flutter:
     - assets/images/jazzcash.png
     - assets/images/meezan.jpg
     - assets/images/howtopay.png
+    - assets/images/payment.png
+    - assets/images/upload.png
   fonts:
     - family: Inter
       fonts:
