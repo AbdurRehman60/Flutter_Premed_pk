@@ -7,6 +7,7 @@ import 'package:premedpk_mobile_app/UI/screens/expert_solution/local_image_displ
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/video_player.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -150,7 +151,14 @@ class _CheckoutState extends State<Checkout> {
                     SizedBoxes.verticalMedium,
                     CustomButton(
                       buttonText: 'Place Order ->',
-                      onPressed: () {},
+                      onPressed: () {
+                        // Access the CartProvider using Provider.of
+                        CartProvider cartProvider =
+                            Provider.of<CartProvider>(context, listen: false);
+
+                        // Call the function to place the order
+                        cartProvider.placeOrder();
+                      },
                     ),
                   ],
                 ),
