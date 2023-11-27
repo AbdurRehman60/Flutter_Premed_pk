@@ -135,7 +135,7 @@ class CartWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Rs. ${cartProvider.totalDiscountedPrice}',
+                  Text('Rs. ${cartProvider.afterDiscountPrice}',
                       style: PreMedTextTheme().heading3.copyWith(
                             color: PreMedColorTheme().primaryColorRed,
                           )),

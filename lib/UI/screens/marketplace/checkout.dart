@@ -157,7 +157,7 @@ class _CheckoutState extends State<Checkout> {
                             Provider.of<CartProvider>(context, listen: false);
 
                         // Call the function to place the order
-                        cartProvider.placeOrder();
+                        cartProvider.placeOrder('ddd@gmail.com');
                       },
                     ),
                   ],
@@ -215,13 +215,13 @@ class _CheckoutState extends State<Checkout> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 400,
-              width: 300,
-              child: VideoPlayerWidget(
-                videoLink: 'https://youtu.be/POOAMMej1xU',
-              ),
-            ),
+            // SizedBox(
+            //   height: 400,
+            //   width: 300,
+            //   child: VideoPlayerWidget(
+            //     videoLink: 'https://youtu.be/POOAMMej1xU',
+            //   ),
+            // ),
           ],
         ),
       ),

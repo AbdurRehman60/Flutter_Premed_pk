@@ -107,7 +107,7 @@ class CardContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              '${bundle.bundleDiscount}',
+              '${bundle.bundlePrice - bundle.bundleDiscount}',
               style: PreMedTextTheme().heading4.copyWith(
                     fontWeight: FontWeights.bold,
                     color: PreMedColorTheme().primaryColorRed,
