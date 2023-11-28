@@ -1,7 +1,6 @@
-import 'package:flutter/widgets.dart';
-import 'package:premedpk_mobile_app/constants/assets.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
+import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class CartIcon extends StatelessWidget {

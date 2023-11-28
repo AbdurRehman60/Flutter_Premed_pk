@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -37,6 +38,7 @@ class CustomTextField extends StatelessWidget {
     this.enabled = true,
     this.validator,
     this.cursorColor,
+    this.inputFormatters,
   })  : _controller = controller,
         super(key: key);
 
@@ -74,6 +76,7 @@ class CustomTextField extends StatelessWidget {
   final MouseCursor? cursorColor;
   final String? Function(String?)? validator;
   final bool enabled;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -145,6 +148,7 @@ class CustomTextField extends StatelessWidget {
       style: contentStyle ?? PreMedTextTheme().subtext,
       maxLines: maxLines,
       minLines: minLines,
+      inputFormatters: inputFormatters,
     );
   }
 }

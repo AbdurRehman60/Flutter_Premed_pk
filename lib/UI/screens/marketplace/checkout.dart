@@ -1,13 +1,9 @@
 import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:premedpk_mobile_app/UI/screens/expert_solution/local_image_display.dart';
-import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/video_player.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
+import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:provider/provider.dart';
 

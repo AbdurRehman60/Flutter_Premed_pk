@@ -6,6 +6,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
+import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class CartDrawer extends StatelessWidget {

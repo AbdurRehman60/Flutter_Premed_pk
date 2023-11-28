@@ -1,11 +1,13 @@
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/card_content.dart';
-import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/countdown_timer.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/cart_summary.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/coupon_code.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
-import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
+import 'package:premedpk_mobile_app/providers/cart_provider.dart';
+
 import 'package:provider/provider.dart';
 
 class Cart extends StatelessWidget {
@@ -13,10 +15,8 @@ class Cart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController couponText = new TextEditingController();
-    CartProvider cartProvider =
-        ModalRoute.of(context)!.settings.arguments as CartProvider;
-    CartProvider cartprovider = Provider.of<CartProvider>(context);
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().white,
@@ -31,8 +31,6 @@ class Cart extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // CountdownTimerWidget(),
-            // SizedBoxes.verticalMedium,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -45,7 +43,7 @@ class Cart extends StatelessWidget {
                   SizedBoxes.verticalLarge,
                   Container(
                     width: double.infinity,
-                    height: 300,
+                    height: 400,
                     decoration: BoxDecoration(
                       color: PreMedColorTheme().white,
                       border: GradientBoxBorder(
@@ -64,37 +62,34 @@ class Cart extends StatelessWidget {
                         itemCount: cartProvider.selectedBundles.length,
                         separatorBuilder: (context, index) => Divider(
                           color: PreMedColorTheme().neutral300,
-                        ), // Add a divider between items
+                        ),
                         itemBuilder: (context, index) {
                           BundleModel bundle =
                               cartProvider.selectedBundles[index];
-                          return index != cartProvider.selectedBundles.length
-                              ? Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: CardContent(
-                                          bundle: bundle,
-                                          renderPoints: true,
-                                          renderDescription: false,
-                                        ),
-                                      ),
-                                      IconButton(
-                                        icon: const Icon(Icons.close_rounded),
-                                        onPressed: () {
-                                          cartprovider.removeFromCart(bundle);
-                                        },
-                                      ),
-                                    ],
+                          return Padding(
+                            padding:
+                                index == cartProvider.selectedBundles.length - 1
+                                    ? const EdgeInsets.fromLTRB(16, 16, 16, 96)
+                                    : const EdgeInsets.all(16.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: CardContent(
+                                    bundle: bundle,
+                                    renderPoints: true,
+                                    renderDescription: false,
                                   ),
-                                )
-                              : const SizedBox(
-                                  height: 800,
-                                  width: double.infinity,
-                                );
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.close_rounded),
+                                  onPressed: () {
+                                    cartProvider.removeFromCart(bundle);
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -102,252 +97,34 @@ class Cart extends StatelessWidget {
                 ],
               ),
             ),
-            // SizedBoxes.verticalMedium,
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 20),
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       Text(
-            //         'Coupon',
-            //         style: PreMedTextTheme().heading6.copyWith(
-            //               color: PreMedColorTheme().primaryColorRed,
-            //             ),
-            //       ),
-            //       SizedBoxes.verticalTiny,
-            //       Row(
-            //         mainAxisSize: MainAxisSize.min,
-            //         children: [
-            //           const Expanded(
-            //             flex: 3,
-            //             child: CustomTextField(
-            //               hintText: 'Enter Code',
-            //             ),
-            //           ),
-            //           SizedBoxes.horizontalTiny,
-            //           Expanded(
-            //             child: CustomButton(
-            //               buttonText: 'Apply',
-            //               onPressed: () {},
-            //             ),
-            //           )
-            //         ],
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // SizedBoxes.verticalMedium,
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 20),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //       color: PreMedColorTheme().white,
-            //       border: Border.all(
-            //         color: PreMedColorTheme().neutral300,
-            //         width: 2,
-            //       ),
-            //       borderRadius: BorderRadius.circular(10),
-            //     ),
-            //     width: double.infinity,
-            //     child: Padding(
-            //       padding: const EdgeInsets.all(16.0),
-            //       child: Column(
-            //         mainAxisAlignment: MainAxisAlignment.start,
-            //         crossAxisAlignment: CrossAxisAlignment.start,
-            //         children: [
-            //           Text(
-            //             'Cart Summary',
-            //             style: PreMedTextTheme().body.copyWith(
-            //                   fontWeight: FontWeight.bold,
-            //                 ),
-            //           ),
-            //           SizedBoxes.verticalTiny,
-            //           Text(
-            //             'Subtotal: Rs. ${cartProvider.totalOriginalPrice.toStringAsFixed(2)}',
-            //             style: PreMedTextTheme().body.copyWith(
-            //                   fontWeight: FontWeight.w500,
-            //                 ),
-            //           ),
-            //           SizedBoxes.verticalTiny,
-            //           Text(
-            //             'Discount (50% off) -Rs.${cartProvider.calculateTotalDiscount}',
-            //             style: PreMedTextTheme().body.copyWith(
-            //                   fontWeight: FontWeight.w500,
-            //                 ),
-            //           ),
-            //           SizedBoxes.verticalTiny,
-            //           Text(
-            //             'Coupon',
-            //             style: PreMedTextTheme().body.copyWith(
-            //                   fontWeight: FontWeight.w500,
-            //                 ),
-            //           ),
-            //           SizedBoxes.verticalTiny,
-            //           SizedBox(
-            //             width: 280,
-            //             child: Divider(
-            //               color: PreMedColorTheme().neutral200,
-            //             ),
-            //           ),
-            //           Text(
-            //             'Total',
-            //             style: PreMedTextTheme().heading5,
-            //           ),
-            //           Row(
-            //             children: [
-            //               Text('Rs. ${cartProvider.totalDiscountedPrice}',
-            //                   style: PreMedTextTheme().heading3.copyWith(
-            //                         color: PreMedColorTheme().primaryColorRed,
-            //                       )),
-            //               SizedBoxes.horizontalMedium,
-            //               Text(
-            //                 'Rs. ${cartProvider.totalOriginalPrice}',
-            //                 style: PreMedTextTheme().heading7.copyWith(
-            //                       color: PreMedColorTheme().neutral400,
-            //                       decoration: TextDecoration.lineThrough,
-            //                     ),
-            //               ),
-            //             ],
-            //           ),
-            //           SizedBoxes.verticalLarge,
-            //           CustomButton(
-            //             buttonText: 'Proceed to checkout ->',
-            //             onPressed: () {},
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // SizedBoxes.verticalMedium,
           ],
         ),
       ),
-      bottomSheet: Container(
-        height: MediaQuery.of(context).size.height * 0.48,
-        decoration: BoxDecoration(
-          color: PreMedColorTheme().white,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20.0),
-            topRight: Radius.circular(20.0),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10.0,
-              spreadRadius: 2.0,
-              offset: const Offset(0, -1), // Offset to give a top shadow effect
+      bottomSheet: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.46,
+          decoration: BoxDecoration(
+            color: PreMedColorTheme().white,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
             ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 10.0,
+                spreadRadius: 2.0,
+                offset: const Offset(0, -1),
+              ),
+            ],
+          ),
+          child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ListView(
                 children: [
-                  Text(
-                    'Coupon',
-                    style: PreMedTextTheme().heading6.copyWith(
-                          color: PreMedColorTheme().primaryColorRed,
-                        ),
-                  ),
-                  SizedBoxes.verticalTiny,
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: CustomTextField(
-                          hintText: 'Enter Code',
-                          controller: couponText,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8.0, // You can adjust the spacing
-                      ),
-                      Expanded(
-                        child: CustomButton(
-                          buttonText: 'Apply',
-                          onPressed: () async {
-                            await cartprovider
-                                .verifyCouponCode(couponText.text);
-
-                            // Now, you can use the coupon code and amount
-                            String couponCode = cartprovider.couponCode;
-                            double couponAmount = cartProvider.couponAmount;
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    'Coupon applied: $couponCode, Amount: $couponAmount'),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBoxes.verticalBig,
-                  Text(
-                    'Cart Summary',
-                    style: PreMedTextTheme().body.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  SizedBoxes.verticalTiny,
-                  Text(
-                    'Subtotal: Rs. ${cartProvider.totalOriginalPrice.toStringAsFixed(2)}',
-                    style: PreMedTextTheme().body.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
-                  ),
-                  SizedBoxes.verticalTiny,
-                  Text(
-                    'Discount (50% off) -Rs.${cartProvider.afterDiscountPrice}',
-                    style: PreMedTextTheme().body.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
-                  ),
-                  SizedBoxes.verticalTiny,
-                  Text(
-                    'Coupon (50% off) -Rs.${cartProvider.coupounDiscount}',
-                    style: PreMedTextTheme().body.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
-                  ),
-                  SizedBoxes.verticalTiny,
-                  SizedBox(
-                    width: 280,
-                    child: Divider(
-                      color: PreMedColorTheme().neutral200,
-                    ),
-                  ),
-                  Text(
-                    'Total',
-                    style: PreMedTextTheme().heading5,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Rs. ${cartProvider.calculateTotalDiscount}',
-                        style: PreMedTextTheme().heading3.copyWith(
-                              color: PreMedColorTheme().primaryColorRed,
-                            ),
-                      ),
-                      SizedBoxes.horizontalMedium,
-                      Text(
-                        'Rs. ${cartProvider.totalOriginalPrice}',
-                        style: PreMedTextTheme().heading7.copyWith(
-                              color: PreMedColorTheme().neutral400,
-                              decoration: TextDecoration.lineThrough,
-                            ),
-                      ),
-                    ],
-                  ),
+                  const CouponCodeTF(),
+                  SizedBoxes.verticalLarge,
+                  const CartSummary(),
                   SizedBoxes.verticalLarge,
                   CustomButton(
                     buttonText: 'Proceed to checkout ->',
@@ -367,9 +144,7 @@ class Cart extends StatelessWidget {
                     },
                   ),
                 ],
-              ),
-            ],
-          ),
+              )),
         ),
       ),
     );

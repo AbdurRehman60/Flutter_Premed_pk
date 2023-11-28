@@ -1,13 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offers_widget.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
-import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
-import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
+import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
-
-import '../../../Widgets/global_widgets_export.dart';
 
 class CardContent extends StatelessWidget {
   const CardContent({

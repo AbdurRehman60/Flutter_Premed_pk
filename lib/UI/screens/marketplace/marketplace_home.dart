@@ -40,11 +40,12 @@ class MarketPlace extends StatelessWidget {
                       Builder(
                         builder: (BuildContext context) {
                           return TextButton(
-                              onPressed: () {
-                                // Open the endDrawer
-                                Scaffold.of(context).openEndDrawer();
-                              },
-                              child: CartIcon());
+                            onPressed: () {
+                              // Open the endDrawer
+                              Scaffold.of(context).openEndDrawer();
+                            },
+                            child: const CartIcon(),
+                          );
                         },
                       )
                     ],
@@ -52,12 +53,12 @@ class MarketPlace extends StatelessWidget {
                   SizedBoxes.verticalMedium,
                   CountdownTimerWidget(),
                   SizedBoxes.verticalBig,
-                  SpecialOffers(),
+                  const SpecialOffers(),
                   SizedBoxes.verticalBig,
                 ],
               ),
             ),
-            MarketplaceTabView(),
+            const MarketplaceTabView(),
           ],
         ),
       ),
