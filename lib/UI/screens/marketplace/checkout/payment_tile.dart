@@ -1,6 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/services.dart';
-import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/uplaodImage.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/uploadImage.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/cart_summary.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';

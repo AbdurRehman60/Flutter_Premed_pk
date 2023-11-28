@@ -15,42 +15,34 @@ class MarketPlace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: GradientText(
+          'PreMed.PK Bundles',
+          style: PreMedTextTheme().heading5,
+          colors: [
+            PreMedColorTheme().primaryColorBlue,
+            PreMedColorTheme().primaryColorRed,
+          ],
+        ),
+        actions: [
+          Builder(
+            builder: (BuildContext builderContext) => TextButton(
+              onPressed: () {
+                Scaffold.of(builderContext).openEndDrawer();
+              },
+              child: const CartIcon(),
+            ),
+          ),
+        ],
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+      ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  SizedBoxes.verticalMedium,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBoxes.horizontalTiny,
-                      SizedBoxes.horizontalTiny,
-                      Center(
-                        child: GradientText(
-                          'PreMed.PK Bundles',
-                          style: PreMedTextTheme().heading3,
-                          colors: [
-                            PreMedColorTheme().primaryColorBlue,
-                            PreMedColorTheme().primaryColorRed,
-                          ],
-                        ),
-                      ),
-                      Builder(
-                        builder: (BuildContext context) {
-                          return TextButton(
-                            onPressed: () {
-                              // Open the endDrawer
-                              Scaffold.of(context).openEndDrawer();
-                            },
-                            child: const CartIcon(),
-                          );
-                        },
-                      )
-                    ],
-                  ),
-                  SizedBoxes.verticalMedium,
                   CountdownTimerWidget(),
                   SizedBoxes.verticalBig,
                   const SpecialOffers(),

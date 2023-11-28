@@ -10,7 +10,7 @@ import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:provider/provider.dart';
 
 final Map<String, dynamic> meezanNumbers = {
-  'Fahad Niaz Sheikh': 'Account No: 99170105642737',
+  'Fahad Niaz Sheikh': '99170105642737',
 };
 
 final Map<String, dynamic> easyPaisaNumbers = {
