@@ -4,19 +4,35 @@ import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
 
+enum ValidateStatus { init, success, validating }
+
 class CartProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
 
+  notify() {
+    notifyListeners();
+  }
+
   final List<BundleModel> _selectedBundles = [];
+
+  ValidateStatus _validatingStatus = ValidateStatus.init;
+
+  ValidateStatus get validatingStatus => _validatingStatus;
+
+  set validatingStatus(ValidateStatus value) {
+    _validatingStatus = value;
+  }
 
   String? _couponCode;
   String get couponCode => _couponCode ?? "";
+  set couponCode(String value) {
+    _couponCode = value;
+  }
 
   double? _couponAmount;
   double get couponAmount => _couponAmount ?? 0;
-
-  notify() {
-    notifyListeners();
+  set couponAmount(double value) {
+    _couponAmount = value;
   }
 
   List<BundleModel> get selectedBundles => _selectedBundles;
@@ -153,24 +169,33 @@ class CartProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>> verifyCouponCode(String coupon) async {
     var result;
+
+    validatingStatus = ValidateStatus.validating;
+    notify();
     try {
       final response = await _client.get('${Endpoints.CouponCode}/$coupon');
 
       if (response['Error'] == false) {
         _couponCode = response['Code'];
         _couponAmount = response['Amount'];
+
+        validatingStatus = ValidateStatus.success;
         result = {
           'status': true,
           'message': 'Promo code applied!',
         };
         notify();
       } else {
+        validatingStatus = ValidateStatus.init;
+        notify();
         result = {
           'status': false,
           'message': response['ErrorType'],
         };
       }
     } on DioError catch (e) {
+      validatingStatus = ValidateStatus.init;
+      notify();
       result = {
         'status': false,
         'message': e.message,

@@ -11,6 +11,7 @@ class CustomButton extends StatelessWidget {
     this.isIconButton = false,
     this.icon = Icons.abc,
     this.iconSize = 24.0,
+    this.fontSize = 20.0,
     this.leftIcon = true,
     this.color,
     this.textColor,
@@ -27,6 +28,7 @@ class CustomButton extends StatelessWidget {
   final bool leftIcon;
   final Color? color;
   final Color? textColor;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class CustomButton extends StatelessWidget {
               side: BorderSide(
                   width: 1.0,
                   style: BorderStyle.solid,
-                  color: PreMedColorTheme().primaryColorRed),
+                  color: PreMedColorTheme().neutral400),
               minimumSize: buttonSize,
             ),
             child: isIconButton
@@ -62,9 +64,10 @@ class CustomButton extends StatelessWidget {
                       Text(
                         buttonText,
                         style: isActive
-                            ? PreMedTextTheme()
-                                .heading5
-                                .copyWith(color: PreMedColorTheme().white)
+                            ? PreMedTextTheme().heading5.copyWith(
+                                color: textColor ??
+                                    PreMedColorTheme().primaryColorRed,
+                                fontSize: fontSize ?? 20)
                             : PreMedTextTheme().heading6.copyWith(
                                 color: PreMedColorTheme().primaryColorRed),
                       ),

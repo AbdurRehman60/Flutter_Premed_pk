@@ -13,6 +13,15 @@ class CouponCodeTF extends StatefulWidget {
 }
 
 class _CouponCodeTFState extends State<CouponCodeTF> {
+  @override
+  void initState() {
+    super.initState();
+    CartProvider cartProvider =
+        Provider.of<CartProvider>(context, listen: false);
+    cartProvider.couponCode = "";
+    cartProvider.couponAmount = 0;
+  }
+
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -62,19 +71,22 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
               Expanded(
                 flex: 3,
                 child: CustomTextField(
-                  //  inputFormatters: [UpperCaseTextFormatter()],
+                  inputFormatters: [UpperCaseTextFormatter()],
                   hintText: 'Enter Code',
                   controller: couponText,
-
                   validator: (value) =>
                       validateIsNotEmpty(value, "Coupon Code"),
                 ),
               ),
-              SizedBoxes.horizontalBig,
+              SizedBoxes.horizontalTiny,
               Expanded(
                 child: CustomButton(
                   buttonText: 'Apply',
                   onPressed: onApplyCouponPressed,
+                  color:
+                      cartProvider.validatingStatus == ValidateStatus.validating
+                          ? PreMedColorTheme().neutral200
+                          : PreMedColorTheme().primaryColorRed,
                 ),
               ),
             ],

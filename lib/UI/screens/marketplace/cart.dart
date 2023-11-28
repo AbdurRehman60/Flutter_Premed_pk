@@ -1,5 +1,6 @@
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
+
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/card_content.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/cart_summary.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/coupon_code.dart';
@@ -132,13 +133,7 @@ class Cart extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Checkout(
-                            totalOriginalPrice: cartProvider.totalOriginalPrice,
-                            calculateTotalDiscount:
-                                cartProvider.calculateTotalDiscount,
-                            totalDiscountedPrice:
-                                cartProvider.afterDiscountPrice,
-                          ),
+                          builder: (context) => Checkout(),
                         ),
                       );
                     },

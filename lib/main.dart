@@ -1,4 +1,6 @@
 import 'package:camera/camera.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/payment_tile.dart';
 import 'package:premedpk_mobile_app/UI/test.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
@@ -41,14 +43,27 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CartProvider()),
       ],
       child: MaterialApp(
-        routes: {
-          '/ExpertSolution': (context) => const AskanExpert(),
-        },
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: _PreMedTheme.data,
-        home: const TestScreen(),
-      ),
+          routes: {
+            '/ExpertSolution': (context) => const AskanExpert(),
+          },
+          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          theme: _PreMedTheme.data,
+          home: Checkout()
+
+          //  PaymentTile(
+          //   selected: true,
+          //   paymentProvider: 'Bank Transfer',
+          //   image: PremedAssets.JazzCash,
+          //   numbers: numbers,
+          // ),
+          ),
     );
   }
 }
+
+final Map<String, dynamic> numbers = {
+  'Muhammad Uzair': '0333-3324911',
+  'Fahad Niaz Sheikh': '0325-6064069',
+  'Niaz Hussain': '0336-2542685',
+};

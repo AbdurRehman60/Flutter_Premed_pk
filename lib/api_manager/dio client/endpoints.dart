@@ -10,7 +10,8 @@ class Endpoints {
   // static const String baseUrl = "http://192.168.10.8"; //ebrahim
 
   //specific URLs
-  static const String serverURL = "${baseUrl}:${serverPort}";
+  //static const String serverURL = "${baseUrl}:${serverPort}"; 
+  static const String serverURL = "https://testapi.premed.pk";
 
   // receiveTimeout
   static const Duration receiveTimeout = Duration(milliseconds: 5000);

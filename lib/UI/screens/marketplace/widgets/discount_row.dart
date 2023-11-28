@@ -27,7 +27,7 @@ class DiscountRow extends StatelessWidget {
             children: <TextSpan>[
               if (discountPercentage != null)
                 TextSpan(
-                  text: '(${discountPercentage!.toInt()}% off)',
+                  text: '(${discountPercentage! * 100}% off)',
                   style: PreMedTextTheme().body.copyWith(
                         fontWeight: FontWeight.w500,
                         color: PreMedColorTheme().primaryColorRed,

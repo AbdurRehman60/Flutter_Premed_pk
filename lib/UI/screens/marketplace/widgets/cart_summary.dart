@@ -26,13 +26,15 @@ class CartSummary extends StatelessWidget {
         SizedBoxes.verticalTiny,
         DiscountRow(
           title: 'Discount',
-          discountPercentage: 50,
+          discountPercentage: ((cartProvider.totalOriginalPrice -
+                  cartProvider.afterDiscountPrice) /
+              cartProvider.totalOriginalPrice),
           price: cartProvider.afterDiscountPrice,
         ),
         SizedBoxes.verticalTiny,
         DiscountRow(
           title: 'Coupon',
-          discountPercentage: 50,
+          discountPercentage: cartProvider.couponAmount,
           price: cartProvider.coupounDiscount,
         ),
         SizedBoxes.verticalTiny,
