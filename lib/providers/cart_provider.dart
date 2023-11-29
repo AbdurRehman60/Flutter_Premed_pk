@@ -37,6 +37,14 @@ class CartProvider extends ChangeNotifier {
 
   List<BundleModel> get selectedBundles => _selectedBundles;
 
+  double get totalOriginalPrice {
+    double total = 0;
+    for (var bundle in _selectedBundles) {
+      total += bundle.bundlePrice;
+    }
+    return total;
+  }
+
   double get afterDiscountPrice {
     double total = 0;
     for (var bundle in _selectedBundles) {
@@ -46,18 +54,10 @@ class CartProvider extends ChangeNotifier {
     return total;
   }
 
-  double get totalOriginalPrice {
-    double total = 0;
-    for (var bundle in _selectedBundles) {
-      total += bundle.bundlePrice;
-    }
-    return total;
-  }
-
   double get coupounDiscount {
     double total = 0;
     for (var bundle in _selectedBundles) {
-      total += (afterDiscountPrice * couponAmount);
+      total = (afterDiscountPrice * couponAmount);
     }
     return total;
   }

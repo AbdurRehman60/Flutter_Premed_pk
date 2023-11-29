@@ -104,6 +104,7 @@ class Cart extends StatelessWidget {
       bottomSheet: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height * 0.46,
+          width: double.infinity,
           decoration: BoxDecoration(
             color: PreMedColorTheme().white,
             borderRadius: const BorderRadius.only(
@@ -120,7 +121,7 @@ class Cart extends StatelessWidget {
             ],
           ),
           child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(10.0),
               child: ListView(
                 children: [
                   const CouponCodeTF(),
