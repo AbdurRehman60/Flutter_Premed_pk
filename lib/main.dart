@@ -6,6 +6,7 @@ import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
+import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:provider/provider.dart';
 import 'export.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NotesProvider()),
         ChangeNotifierProvider(create: (_) => BundleProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => UplaodImageProvider()),
       ],
       child: MaterialApp(
           routes: {

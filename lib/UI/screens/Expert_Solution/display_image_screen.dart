@@ -1,11 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/crop.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/export.dart';
-import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
+import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -19,7 +17,7 @@ class DisplayImageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final askAnExpertProvider = Provider.of<AskAnExpertProvider>(context);
+    final uplaodImageProvider = Provider.of<UplaodImageProvider>(context);
 
     return Scaffold(
       body: SafeArea(
@@ -55,7 +53,7 @@ class DisplayImageScreen extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () {
-                    askAnExpertProvider.uploadedImage = image;
+                    uplaodImageProvider.uploadedImage = image;
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   },

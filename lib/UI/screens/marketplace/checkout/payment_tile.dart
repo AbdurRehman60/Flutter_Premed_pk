@@ -1,6 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/services.dart';
-import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/uploadImage.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/upload_payment_image.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/cart_summary.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -186,9 +186,9 @@ class PaymentTile extends StatelessWidget {
                           radius: const Radius.circular(12),
                           strokeCap: StrokeCap.round,
                           color: PreMedColorTheme().primaryColorBlue500,
-                          dashPattern: [10, 10],
+                          dashPattern: const [10, 10],
                           strokeWidth: 4,
-                          child: const LocalImageDisplayCheckout(),
+                          child: const UploadPaymentImage(),
                         ),
                       ),
                       SizedBoxes.verticalExtraGargangua,

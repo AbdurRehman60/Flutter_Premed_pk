@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
@@ -92,6 +94,13 @@ class CartProvider extends ChangeNotifier {
   void clearCoupon() {
     _couponCode = null;
     _couponAmount = null;
+    notify();
+  }
+
+  File? _uploadedImage;
+  File? get uploadedImage => _uploadedImage;
+  set uploadedImage(File? value) {
+    _uploadedImage = value;
     notify();
   }
 

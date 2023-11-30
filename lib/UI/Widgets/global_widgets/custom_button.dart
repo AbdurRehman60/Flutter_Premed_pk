@@ -87,9 +87,11 @@ class CustomButton extends StatelessWidget {
                     buttonText,
                     style: isActive
                         ? PreMedTextTheme().heading6.copyWith(
-                            color: textColor ?? PreMedColorTheme().white)
+                            color: textColor ?? PreMedColorTheme().white,
+                            fontSize: fontSize ?? 20)
                         : PreMedTextTheme().heading6.copyWith(
-                            color: PreMedColorTheme().primaryColorRed),
+                            color: PreMedColorTheme().primaryColorRed,
+                            fontSize: fontSize ?? 20),
                   ),
           )
         : TextButton(
@@ -119,10 +121,12 @@ class CustomButton extends StatelessWidget {
                         buttonText,
                         style: isActive
                             ? PreMedTextTheme().heading6.copyWith(
-                                color: textColor ?? PreMedColorTheme().white)
+                                color: textColor ?? PreMedColorTheme().white,
+                                fontSize: fontSize ?? 20)
                             : PreMedTextTheme().heading6.copyWith(
                                 color: textColor ??
-                                    PreMedColorTheme().primaryColorRed),
+                                    PreMedColorTheme().primaryColorRed,
+                                fontSize: fontSize ?? 20),
                       ),
                       leftIcon ? const SizedBox() : SizedBoxes.horizontalMicro,
                       leftIcon

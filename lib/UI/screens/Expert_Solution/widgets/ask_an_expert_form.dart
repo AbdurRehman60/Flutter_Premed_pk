@@ -3,6 +3,7 @@ import 'package:premedpk_mobile_app/UI/screens/expert_solution/local_image_displ
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/dropdown_form.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
+import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/utils/validators.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class AskanExpertForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final askAnExpertProvider = Provider.of<AskAnExpertProvider>(context);
-
+    final uplaodImageProvider = Provider.of<UplaodImageProvider>(context);
     TextEditingController descriptionController = TextEditingController();
 
     void onSubmitPressed() {
@@ -72,9 +73,9 @@ class AskanExpertForm extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: askAnExpertProvider.uploadedImage != null
+                    child: uplaodImageProvider.uploadedImage != null
                         ? Image.file(
-                            askAnExpertProvider.uploadedImage!,
+                            uplaodImageProvider.uploadedImage!,
                             fit: BoxFit.fitHeight,
                           )
                         : LocalImageDisplay(), // Implement LocalImageDisplay
