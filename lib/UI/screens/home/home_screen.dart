@@ -1,13 +1,15 @@
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/utils/services/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key});
 
   Future<String> getUsername() async {
-    final user = await UserPreferences().getUser();
-    return user!.userName;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String dsrID = prefs.getString("userName") ?? '';
+
+    return dsrID;
   }
 
   @override

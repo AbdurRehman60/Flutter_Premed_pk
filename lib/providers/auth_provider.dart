@@ -5,6 +5,7 @@ import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
 import 'package:premedpk_mobile_app/utils/services/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum Status {
   NotLoggedIn,
@@ -105,6 +106,7 @@ class AuthProvider extends ChangeNotifier {
     };
     _loggedInStatus = Status.Authenticating;
     notify();
+    print('calling login api');
     try {
       Response response = await _client.post(
         Endpoints.login,
@@ -116,11 +118,22 @@ class AuthProvider extends ChangeNotifier {
             Map<String, dynamic>.from(response.data);
 
         if (responseData["success"]) {
-          result = {
-            'status': responseData["success"],
-            'message': responseData["status"],
-          };
-          await getLoggedInUser();
+          print('login success - calling loggedin api');
+          final Map<String, dynamic> userResponse = await getLoggedInUser();
+
+          print('isloggedin result return- ${userResponse['status']}');
+          if (userResponse['status']) {
+            result = {
+              'status': userResponse["status"],
+              'message': userResponse["status"],
+            };
+          } else {
+            result = {
+              'status': userResponse["status"],
+              'message': userResponse["message"],
+            };
+          }
+
           _loggedInStatus = Status.LoggedIn;
           notify();
         } else {
@@ -142,33 +155,38 @@ class AuthProvider extends ChangeNotifier {
     } on DioException catch (e) {
       _loggedInStatus = Status.NotLoggedIn;
       notify();
-      // print('error + $e.message');
+
       result = {
         'status': false,
         'message': e.message,
       };
     }
+    print(
+      'login api result: ${result}',
+    );
     return result;
   }
 
   Future<Map<String, dynamic>> getLoggedInUser() async {
     var result;
-
+    print('calling loggedin api api');
     try {
       final response = await _client.get(
         Endpoints.getLoggedInUser,
       );
 
       if (response["isloggedin"]) {
+        print('isloggedin - true');
         User user = User.fromJson(response);
         await UserPreferences().saveUser(user);
-        print(user.fullName);
+
         print('saving');
         result = {
           'status': true,
           'message': "success",
         };
       } else {
+        print('isloggedin - false');
         result = {
           'status': false,
           'message': "Error in fetching User Details",
@@ -183,6 +201,9 @@ class AuthProvider extends ChangeNotifier {
         'message': e.message,
       };
     }
+    print(
+      'loggedinUser api result: ${result}',
+    );
     return result;
   }
 

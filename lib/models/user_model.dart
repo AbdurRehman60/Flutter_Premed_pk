@@ -70,7 +70,6 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> responseData) {
-    print(responseData);
     return User(
       status: responseData['status'] ?? "",
       isLoggedin: responseData['isloggedin'] ?? false,

@@ -18,11 +18,12 @@ class DioClient {
     _dio.interceptors.add(
       CookieManager(cookieJar),
     );
-    _loadCookies();
   }
 
   Future<void> _saveCookies(List<Cookie> cookies) async {
+    print('saving cookie - ${cookies}');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     prefs.setStringList(
       'cookies',
       cookies.map((cookie) => cookie.toString()).toList(),
@@ -30,8 +31,13 @@ class DioClient {
   }
 
   Future<List<Cookie>> _loadCookies() async {
+    print("Loading cookies...");
+
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     final List<String>? cookieStrings = prefs.getStringList('cookies');
+    print('cookie✨ - ${cookieStrings}');
+
     if (cookieStrings != null) {
       return cookieStrings
           .map((cookieString) => Cookie.fromSetCookieValue(cookieString))
@@ -49,6 +55,14 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
+      List<Cookie> cookies1 = await _loadCookies();
+      options ??= Options();
+      options.headers = {
+        'cookie': cookies1
+            .map((cookie) => '${cookie.name}=${cookie.value}')
+            .join('; ')
+      };
+
       final Response response = await _dio.get(
         uri,
         queryParameters: queryParameters,
@@ -56,9 +70,7 @@ class DioClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      List<Cookie> cookies =
-          await cookieJar.loadForRequest(response.requestOptions.uri);
-      await _saveCookies(cookies);
+
       return response.data;
     } catch (e) {
       throw e;
@@ -74,6 +86,13 @@ class DioClient {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
+    List<Cookie> cookies1 = await _loadCookies();
+    options ??= Options();
+    options.headers = {
+      'cookie':
+          cookies1.map((cookie) => '${cookie.name}=${cookie.value}').join('; ')
+    };
+
     final Response response = await _dio.post(
       uri,
       data: data,

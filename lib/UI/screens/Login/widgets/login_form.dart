@@ -25,7 +25,6 @@ class _LoginFormState extends State<LoginForm> {
     onLoginPressed() {
       final form = _formKey.currentState!;
       if (form.validate()) {
-        // final Future<Map<String, dynamic>> response = auth.getLoggedInUser();
         final Future<Map<String, dynamic>> response = auth.login(
           emailController.text,
           passwordController.text,
@@ -33,10 +32,6 @@ class _LoginFormState extends State<LoginForm> {
         response.then(
           (response) {
             if (response['status']) {
-              // User user = response['user'];
-
-              // Provider.of<UserProvider>(context, listen: false).setUser(user);
-
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
