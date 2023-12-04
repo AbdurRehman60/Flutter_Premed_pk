@@ -3,8 +3,6 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
-import '../export.dart';
-
 class PhoneDropdown extends StatelessWidget {
   final void Function(PhoneNumber) onPhoneNumberSelected;
   final String hintText;

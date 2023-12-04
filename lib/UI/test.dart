@@ -1,8 +1,9 @@
+import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/expert_solution_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
@@ -27,22 +28,6 @@ class TestScreen extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => RevisionNotes(),
-          ),
-        );
-      } else {
-        showError(context, response as Map<String, dynamic>);
-      }
-    }
-
-    onguidespressed() async {
-      // Create an instance of GuidesProvider
-
-      Map<String, dynamic> response = await notesProvider.fetchGuides();
-      if (response.isNotEmpty) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ProvincialGuides(),
           ),
         );
       } else {
@@ -96,10 +81,6 @@ class TestScreen extends StatelessWidget {
               onPressed: onpressed,
             ),
             SizedBoxes.verticalExtraGargangua,
-            CustomButton(
-              buttonText: 'Fetch Guides',
-              onPressed: onguidespressed,
-            ),
             SizedBoxes.verticalExtraGargangua,
             CustomButton(
               buttonText: 'Fetch Flashcards',

@@ -1,4 +1,4 @@
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/camera_widget.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/utils/services/open_gallery.dart';
 

@@ -1,6 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/card_content.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/modal_bottom_sheet.dart';
-import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offers_widget.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';

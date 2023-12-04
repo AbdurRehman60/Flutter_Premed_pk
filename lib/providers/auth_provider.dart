@@ -1,12 +1,11 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
+import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
+import 'package:premedpk_mobile_app/models/user_model.dart';
+import 'package:premedpk_mobile_app/utils/services/shared_preferences.dart';
 
-import '../api_manager/dio client/dio_client.dart';
-import '../api_manager/dio client/endpoints.dart';
-import 'package:premedpk_mobile_app/export.dart';
-
-// ignore: constant_identifier_names
 enum Status {
   NotLoggedIn,
   LoggedIn,
@@ -111,7 +110,7 @@ class AuthProvider extends ChangeNotifier {
         Endpoints.login,
         data: loginData,
       );
-      print(response);
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
@@ -121,6 +120,9 @@ class AuthProvider extends ChangeNotifier {
             'status': responseData["success"],
             'message': responseData["status"],
           };
+          await getLoggedInUser();
+          _loggedInStatus = Status.LoggedIn;
+          notify();
         } else {
           result = {
             'status': responseData["success"],
@@ -132,7 +134,10 @@ class AuthProvider extends ChangeNotifier {
         notify();
 
         //returning  results
-        result = {'status': false, 'message': json.decode(response.data)};
+        result = {
+          'status': false,
+          'message': json.decode(response.data),
+        };
       }
     } on DioException catch (e) {
       _loggedInStatus = Status.NotLoggedIn;
@@ -153,29 +158,26 @@ class AuthProvider extends ChangeNotifier {
       final response = await _client.get(
         Endpoints.getLoggedInUser,
       );
-      print(response);
-      result = {
-        'status': true,
-        'message': 'Successful',
-      };
-      // if (response.statusCode == 200) {
-      //   print(response);
 
-      //   result = {
-      //     'status': true,
-      //     'message': 'Successful',
-      //   };
-      // } else {
-      //   //returning  results
-      //   result = {
-      //     'status': false,
-      //     'message': json.decode(response.data),
-      //   };
-      // }
+      if (response["isloggedin"]) {
+        User user = User.fromJson(response);
+        await UserPreferences().saveUser(user);
+        print(user.fullName);
+        print('saving');
+        result = {
+          'status': true,
+          'message': "success",
+        };
+      } else {
+        result = {
+          'status': false,
+          'message': "Error in fetching User Details",
+        };
+      }
     } on DioException catch (e) {
       _loggedInStatus = Status.NotLoggedIn;
       notify();
-      // print('error + $e.message');
+
       result = {
         'status': false,
         'message': e.message,

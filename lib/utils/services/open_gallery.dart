@@ -1,7 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';

@@ -1,7 +1,7 @@
-import 'dart:async'; // Import for Future.delayed
+import 'dart:async';
 import 'package:lottie/lottie.dart';
-import 'package:premedpk_mobile_app/UI/test.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,12 +14,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Add a delay of 4 seconds and then navigate to the login page
+
     Future.delayed(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const TestScreen(),
+          builder: (context) => const LoginScreen(),
         ),
       );
     });
@@ -47,6 +47,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-
-// ignore: camel_case_types
-

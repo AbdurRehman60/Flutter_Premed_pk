@@ -1,5 +1,5 @@
 import 'package:chewie/chewie.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerWidget extends StatefulWidget {

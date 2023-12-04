@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
 
 class UserProvider extends ChangeNotifier {

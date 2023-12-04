@@ -1,9 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
-import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
 import 'package:premedpk_mobile_app/utils/base64_convertor.dart';
 

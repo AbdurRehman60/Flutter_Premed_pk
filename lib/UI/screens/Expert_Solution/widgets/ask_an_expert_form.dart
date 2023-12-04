@@ -1,13 +1,12 @@
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/local_image_display.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/dropdown_form.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/utils/validators.dart';
 import 'package:provider/provider.dart';
-
-import '../../../widgets/global_widgets_export.dart';
 
 class AskanExpertForm extends StatelessWidget {
   AskanExpertForm({

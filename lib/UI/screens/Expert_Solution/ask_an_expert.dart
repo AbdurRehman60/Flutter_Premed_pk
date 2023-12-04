@@ -1,5 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/ask_an_expert_form.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class AskanExpert extends StatelessWidget {
   const AskanExpert({

@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart'; // Import this for ChangeNotifier
+import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
-import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
 
 enum Status {

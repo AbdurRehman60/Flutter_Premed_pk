@@ -1,8 +1,6 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:premedpk_mobile_app/utils/secure_storage.dart';
-import 'package:premedpk_mobile_app/utils/shared_prefrences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'endpoints.dart';
@@ -20,78 +18,28 @@ class DioClient {
     _dio.interceptors.add(
       CookieManager(cookieJar),
     );
-    // _dio.interceptors.add(
-    //   InterceptorsWrapper(
-    //     onResponse: (response, handler) async {
-    //       if (response.data["header"]["errorCode"] == 401 &&
-    //           await SecureStorage()
-    //               .secStorage
-    //               .containsKey(key: 'refreshToken')) {
-    //         if (await refreshToken()) {
-    //           return handler.resolve(await _retry(response.requestOptions));
-    //         }
-    //       }
-    //       return handler.next(response);
-    //     },
-    //   ),
-    // );
+    _loadCookies();
   }
 
-  Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
+  Future<void> _saveCookies(List<Cookie> cookies) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String accessToken = prefs.getString("accessToken") ?? '';
-
-    final options = Options(
-      method: requestOptions.method,
-      headers: {"Authorization": "Bearer $accessToken"},
+    prefs.setStringList(
+      'cookies',
+      cookies.map((cookie) => cookie.toString()).toList(),
     );
-    print(requestOptions.path);
-    print(requestOptions.headers['Authorization']);
-
-    Response r = await _dio.request<dynamic>(requestOptions.path,
-        data: requestOptions.data,
-        queryParameters: requestOptions.queryParameters,
-        options: options);
-
-    print('r success');
-    return r;
   }
 
-  // Future<bool> refreshToken() async {
-  //   String newAccessToken;
-  //   String newRefreshToken;
-  //   final refreshToken = await SecureStorage().getRefreshToken();
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String dsrID = prefs.getString("dsrID") ?? '';
-
-  //   final Map<String, dynamic> refreshTokenData = {
-  //     "User_ID": dsrID,
-  //     "refreshToken": refreshToken,
-  //   };
-
-  //   final response =
-  //       await _dio.post(Endpoints.newAccessToken, data: refreshTokenData);
-
-  //   if (response.statusCode == 200) {
-  //     final Map<String, dynamic> responseData =
-  //         Map<String, dynamic>.from(response.data);
-  //     newAccessToken = responseData['body']['accessToken'];
-  //     newRefreshToken = responseData['body']['refreshToken'];
-
-  //     // await UserPreferences().updateToken(newAccessToken);
-  //     await SecureStorage().saveRefreshToken(newRefreshToken);
-
-  //     return true;
-  //   } else {
-  //     // refresh token is wrong
-  //     // await UserPreferences().updateToken('');
-  //     // UserPreferences().removeUser();
-
-  //     await SecureStorage().removeRefreshToken();
-  //     return false;
-  //   }
-  // }
+  Future<List<Cookie>> _loadCookies() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final List<String>? cookieStrings = prefs.getStringList('cookies');
+    if (cookieStrings != null) {
+      return cookieStrings
+          .map((cookieString) => Cookie.fromSetCookieValue(cookieString))
+          .toList();
+    } else {
+      return [];
+    }
+  }
 
   Future<dynamic> get(
     String uri, {
@@ -108,6 +56,9 @@ class DioClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
+      List<Cookie> cookies =
+          await cookieJar.loadForRequest(response.requestOptions.uri);
+      await _saveCookies(cookies);
       return response.data;
     } catch (e) {
       throw e;
@@ -132,6 +83,10 @@ class DioClient {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
+    List<Cookie> cookies =
+        await cookieJar.loadForRequest(response.requestOptions.uri);
+
+    await _saveCookies(cookies);
     return response;
   }
 }

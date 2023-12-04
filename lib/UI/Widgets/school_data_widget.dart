@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/export.dart';
 
 class SchoolDropdownList extends StatefulWidget {
   final List<String> items;
