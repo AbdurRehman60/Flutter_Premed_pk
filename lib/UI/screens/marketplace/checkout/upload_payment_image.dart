@@ -13,6 +13,13 @@ class UploadPaymentImage extends StatefulWidget {
 
 class _UploadPaymentImageState extends State<UploadPaymentImage> {
   @override
+  void initState() {
+    Provider.of<UplaodImageProvider>(context, listen: false).initToNull();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final uplaodImageProvider = Provider.of<UplaodImageProvider>(context);
 

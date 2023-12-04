@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 final Map<String, dynamic> meezanNumbers = {
   'Fahad Niaz Sheikh': '99170105642737',
+  'IBAN #': 'PK50MEZN0099170105642737'
 };
 
 final Map<String, dynamic> easyPaisaNumbers = {

@@ -56,6 +56,7 @@ class DisplayImageScreen extends StatelessWidget {
                     uplaodImageProvider.uploadedImage = image;
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   icon: const Icon(Icons.check),
                   iconSize: 42,
@@ -70,7 +71,7 @@ class DisplayImageScreen extends StatelessWidget {
   }
 
   void _navigateToCropImage(BuildContext context, File image) {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => CropImage(
           image: image,

@@ -17,7 +17,6 @@ class UploadOptionsBottomSheet extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                Navigator.of(context).pop();
                 pickImage(context);
               },
               child: Column(

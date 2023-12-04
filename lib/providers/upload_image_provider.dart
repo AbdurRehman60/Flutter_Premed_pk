@@ -12,4 +12,8 @@ class UplaodImageProvider extends ChangeNotifier {
     _uploadedImage = value;
     notify();
   }
+
+  void initToNull() {
+    _uploadedImage = null;
+  }
 }
