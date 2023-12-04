@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution_home.dart';
+import 'package:premedpk_mobile_app/UI/test.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,22 +30,7 @@ class HomeScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Column(
-        children: [
-          TextButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ExpertSolutionHome(),
-                ),
-              );
-            },
-            child: const Text('Expert Solution'),
-          ),
-          // ... other buttons ...
-        ],
-      ),
+      body: TestScreen(),
     );
   }
 }

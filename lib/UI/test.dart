@@ -71,41 +71,37 @@ class TestScreen extends StatelessWidget {
       });
     }
 
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomButton(
-              buttonText: 'Fetch Notes',
-              onPressed: onpressed,
-            ),
-            SizedBoxes.verticalExtraGargangua,
-            SizedBoxes.verticalExtraGargangua,
-            CustomButton(
-              buttonText: 'Fetch Flashcards',
-              onPressed: onflashcardspressed,
-            ),
-            SizedBoxes.verticalExtraGargangua,
-            CustomButton(
-              buttonText: 'Expert Solution',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ExpertSolutionHome(),
-                  ),
-                );
-              },
-            ),
-            SizedBoxes.verticalExtraGargangua,
-            CustomButton(
-              buttonText: 'Bundles',
-              onPressed: onbundlespressed,
-            ),
-          ],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CustomButton(
+          buttonText: 'Fetch Notes',
+          onPressed: onpressed,
         ),
-      ),
+        SizedBoxes.verticalExtraGargangua,
+        SizedBoxes.verticalExtraGargangua,
+        CustomButton(
+          buttonText: 'Fetch Flashcards',
+          onPressed: onflashcardspressed,
+        ),
+        SizedBoxes.verticalExtraGargangua,
+        CustomButton(
+          buttonText: 'Expert Solution',
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ExpertSolutionHome(),
+              ),
+            );
+          },
+        ),
+        SizedBoxes.verticalExtraGargangua,
+        CustomButton(
+          buttonText: 'Bundles',
+          onPressed: onbundlespressed,
+        ),
+      ],
     );
   }
 }
