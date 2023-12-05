@@ -1,8 +1,6 @@
-import 'dart:async';
 import 'package:lottie/lottie.dart';
-import 'package:premedpk_mobile_app/UI/screens/home/home_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
-import 'package:premedpk_mobile_app/UI/widgets/global_widgets/error_dialogue.dart';
+import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const HomeScreen(),
+                  builder: (context) => const MainNavigationScreen(),
                 ),
               );
             } else {

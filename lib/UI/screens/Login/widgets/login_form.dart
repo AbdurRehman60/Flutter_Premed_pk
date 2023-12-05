@@ -1,5 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/Signup/signup.dart';
-import 'package:premedpk_mobile_app/UI/screens/home/home_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
@@ -35,7 +35,7 @@ class _LoginFormState extends State<LoginForm> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const HomeScreen(),
+                  builder: (context) => const MainNavigationScreen(),
                 ),
               );
             } else {

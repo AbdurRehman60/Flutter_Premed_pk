@@ -1,5 +1,5 @@
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:premedpk_mobile_app/UI/screens/home/home_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/check_box.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
@@ -47,7 +47,7 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
+          builder: (context) => const MainNavigationScreen(),
         ),
       );
     }
