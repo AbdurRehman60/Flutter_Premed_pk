@@ -125,6 +125,7 @@ flutter:
     - assets/images/howtopay.png
     - assets/images/payment.png
     - assets/images/upload.png
+    - assets/images/notification_Icon.png
   fonts:
     - family: Inter
       fonts:

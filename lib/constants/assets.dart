@@ -17,4 +17,5 @@ class PremedAssets {
   static String Meezan = 'assets/images/meezan.jpg';
   static String JazzCash = 'assets/images/jazzcash.png';
   static String EasyPaisa = 'assets/images/easypaisa.jpg';
+  static String NotificationIcon = 'assets/images/notification_Icon.png';
 }

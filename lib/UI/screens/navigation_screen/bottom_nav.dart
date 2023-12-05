@@ -149,7 +149,7 @@ class _MainBottomNavBarItem extends StatelessWidget {
               border: Border.all(
                 color: isSelected
                     ? PreMedColorTheme().primaryColorRed
-                    : PreMedColorTheme().neutral200,
+                    : PreMedColorTheme().primaryColorRed200,
               ),
             ),
             child: Padding(
