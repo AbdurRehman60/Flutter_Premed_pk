@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/screens/account/account.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
@@ -29,7 +30,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     FlashcardHome(),
     const MarketPlace(),
     const ExpertSolutionHome(),
-    const RevisionNotes(),
+    const Account(),
   ];
 
   @override

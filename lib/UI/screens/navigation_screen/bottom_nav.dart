@@ -144,12 +144,12 @@ class _MainBottomNavBarItem extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: isSelected
-                  ? PreMedColorTheme().primaryColorRed
-                  : PreMedColorTheme().primaryColorRed100,
+                  ? PreMedColorTheme().primaryColorRed100
+                  : PreMedColorTheme().primaryColorRed,
               border: Border.all(
                 color: isSelected
-                    ? PreMedColorTheme().primaryColorRed
-                    : PreMedColorTheme().primaryColorRed200,
+                    ? PreMedColorTheme().primaryColorRed200
+                    : PreMedColorTheme().primaryColorRed,
               ),
             ),
             child: Padding(
@@ -160,8 +160,8 @@ class _MainBottomNavBarItem extends StatelessWidget {
                   Icon(
                     icon,
                     color: isSelected
-                        ? PreMedColorTheme().white
-                        : PreMedColorTheme().primaryColorRed,
+                        ? PreMedColorTheme().primaryColorRed
+                        : PreMedColorTheme().white,
                   ),
                   // Text(
                   //   label,

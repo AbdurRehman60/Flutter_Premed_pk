@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                 heading: "Chapter Guides",
                 description:
                     "Comprehensive study guides for Biology, Chemistry, and Physics, specifically designed to help you in your MDCAT, NUMS and AKU exams.",
-                icon: PremedAssets.RevisionNotes,
+                icon: PremedAssets.ProvisionalGuides,
                 bgColor: PreMedColorTheme().primaryColorBlue100,
                 btnColor: PreMedColorTheme().primaryColorBlue,
                 route: MaterialPageRoute(
