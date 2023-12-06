@@ -104,8 +104,9 @@ class DioClient {
     );
     List<Cookie> cookies =
         await cookieJar.loadForRequest(response.requestOptions.uri);
-
-    await _saveCookies(cookies);
+    if (cookies.isNotEmpty) {
+      await _saveCookies(cookies);
+    }
     return response;
   }
 }

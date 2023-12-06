@@ -27,7 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
         response.then(
           (response) {
             if (response['status']) {
-              // User information retrieved successfully, navigate to home screen
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -35,8 +34,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               );
             } else {
-              // Show error if there's an issue with the API call
-
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -60,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<bool> checkIfUserExists() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Check if any key exists in SharedPreferences, you can use any key that you know will be set when the user logs in
+
     return prefs.containsKey('isLoggedin') &&
         prefs.getBool('isLoggedin') == true;
   }

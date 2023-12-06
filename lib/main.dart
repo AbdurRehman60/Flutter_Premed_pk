@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 List<CameraDescription> cameras = [];
 
 Future<void> main() async {
-  // Fetch the available cameras before initializing the app.
   try {
     WidgetsFlutterBinding.ensureInitialized();
     cameras = await availableCameras();

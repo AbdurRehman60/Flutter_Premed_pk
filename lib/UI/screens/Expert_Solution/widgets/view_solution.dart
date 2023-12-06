@@ -75,9 +75,6 @@ class ViewSolution extends StatelessWidget {
                             .toList(),
                       ),
                       SizedBoxes.verticalMedium,
-
-                      // Insert VideoPlayerWidget here
-
                       Image.network(
                           'https://premed.pk/assets/CoreTeamImage-06df697b.png'),
                       SizedBoxes.verticalMedium,
@@ -87,7 +84,6 @@ class ViewSolution extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 7,
                       ),
-
                       Text(
                         'Solution',
                         style: PreMedTextTheme()

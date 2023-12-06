@@ -5,17 +5,19 @@ class NotesTile extends StatelessWidget {
   final String heading;
   final String description;
   final String icon;
-  final Route route;
+  // final Route route;
   final Color bgColor;
   final Color btnColor;
+  final VoidCallback onTap;
   const NotesTile({
     super.key,
     required this.heading,
     required this.description,
     required this.icon,
-    required this.route,
+    // required this.route,
     this.bgColor = Colors.black12,
     this.btnColor = Colors.black,
+    required this.onTap,
   });
 
   @override
@@ -61,9 +63,7 @@ class NotesTile extends StatelessWidget {
                 ),
                 SizedBoxes.horizontalBig,
                 IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(route);
-                  },
+                  onPressed: onTap,
                   icon: CircleAvatar(
                     backgroundColor: btnColor,
                     child: Icon(

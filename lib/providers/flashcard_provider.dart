@@ -35,7 +35,6 @@ class FlashcardProvider with ChangeNotifier {
 
     _doubtUploadStatus = Status.Fetching;
 
-    notify();
     try {
       Response response = await _client.post(
         Endpoints.GetFlashcards,
@@ -71,7 +70,7 @@ class FlashcardProvider with ChangeNotifier {
         'message': e.message,
       };
     }
-    _doubtUploadStatus = Status.Init;
+
     notify();
     return result;
   }

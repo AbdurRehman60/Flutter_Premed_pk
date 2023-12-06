@@ -10,6 +10,7 @@ enum Status {
   Init,
   Sending,
   Error,
+  Success,
 }
 
 class AskAnExpertProvider extends ChangeNotifier {
@@ -21,6 +22,14 @@ class AskAnExpertProvider extends ChangeNotifier {
 
   set doubtUploadStatus(Status value) {
     _doubtUploadStatus = value;
+  }
+
+  Status _fetchDoubtsStatus = Status.Init;
+
+  Status get fetchDoubtsStatus => _fetchDoubtsStatus;
+
+  set fetchDoubtsStatus(Status value) {
+    _fetchDoubtsStatus = value;
   }
 
   String _selectedResource = '';
@@ -51,7 +60,7 @@ class AskAnExpertProvider extends ChangeNotifier {
     notify();
   }
 
-  List<Doubt> _solvedDoubts = <Doubt>[];
+  List<Doubt> _solvedDoubts = [];
   List<Doubt> get solvedDoubts => _solvedDoubts;
   set solvedDoubts(List<Doubt> value) {
     _solvedDoubts = value;
@@ -135,43 +144,73 @@ class AskAnExpertProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> getDoubts({required String email}) async {
     var result;
 
-    _doubtUploadStatus = Status.Sending;
+    fetchDoubtsStatus = Status.Sending;
 
-    notify();
     try {
       Response response = await _client.post(
         Endpoints.UserSolved,
         data: {"username": email},
       );
 
-      if (response.statusCode == 200) {
+      Response response2 = await _client.post(
+        Endpoints.UserPending,
+        data: {"username": email},
+      );
+
+      Response response3 = await _client.post(
+        Endpoints.UserSubmitted,
+        data: {"username": email},
+      );
+
+      if (response.statusCode == 200 &&
+          response2.statusCode == 200 &&
+          response3.statusCode == 200) {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
 
+        final Map<String, dynamic> response2Data =
+            Map<String, dynamic>.from(response2.data);
+
+        final Map<String, dynamic> response3Data =
+            Map<String, dynamic>.from(response3.data);
+
+        List<Doubt> doubtList = [];
+
         for (var data in responseData['QuestionsDetails']) {
           Doubt doubt = Doubt.fromJson(data);
-          solvedDoubts.add(doubt);
+          doubtList.add(doubt);
         }
-        print(responseData);
+
+        for (var data in response2Data['QuestionsDetails']) {
+          Doubt doubt = Doubt.fromJson(data);
+          doubtList.add(doubt);
+        }
+
+        for (var data in response3Data['QuestionsDetails']) {
+          Doubt doubt = Doubt.fromJson(data);
+          doubtList.add(doubt);
+        }
+        _solvedDoubts = doubtList;
+        fetchDoubtsStatus = Status.Success;
+        notify();
         result = {
           'status': true,
           'message': "Fetched Successfully!",
         };
       } else {
-        _doubtUploadStatus = Status.Error;
+        fetchDoubtsStatus = Status.Error;
         notify();
-
-        // Returning results
         result = {'status': false, 'message': 'Request failed'};
       }
     } on DioError catch (e) {
-      _doubtUploadStatus = Status.Init;
+      fetchDoubtsStatus = Status.Init;
       notify();
       result = {
         'status': false,
         'message': e.message,
       };
     }
+
     return result;
   }
 }

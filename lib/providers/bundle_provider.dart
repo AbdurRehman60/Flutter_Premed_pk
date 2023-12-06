@@ -33,7 +33,6 @@ class BundleProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> fetchBundles() async {
     var result;
     _loadingStatus = Status.Fetching;
-    notify();
 
     try {
       final response = await _client.get(
@@ -41,17 +40,14 @@ class BundleProvider extends ChangeNotifier {
       );
 
       if (response['data'] != null) {
-        // Change this line
         final List<Map<String, dynamic>> responseData =
             List<Map<String, dynamic>>.from(response['data']);
 
-        // Directly map to BundleModel
         List<BundleModel> bundleList =
             responseData.map((json) => BundleModel.fromJson(json)).toList();
 
-        // Set the bundleList property
         _bundleList = bundleList;
-
+        loadingStatus = Status.Success;
         notify();
 
         result = {
@@ -59,22 +55,21 @@ class BundleProvider extends ChangeNotifier {
           'message': 'Data fetched successfully',
         };
       } else {
-        print('Failed to load data: ${response}');
+        _loadingStatus = Status.Init;
+        notify();
         result = {
           'status': false,
           'message': 'Failed to fetch data',
         };
       }
     } on DioError catch (e) {
+      _loadingStatus = Status.Init;
+      notify();
       result = {
         'status': false,
         'message': e.message,
       };
     }
-
-    _loadingStatus = Status.Init;
-    notify();
-
     return result;
   }
 }

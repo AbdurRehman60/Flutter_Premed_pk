@@ -1,6 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
-import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/cart_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -45,9 +44,13 @@ class HomeScreen extends StatelessWidget {
                 icon: PremedAssets.RevisionNotes,
                 bgColor: PreMedColorTheme().primaryColorRed100,
                 btnColor: PreMedColorTheme().primaryColorRed,
-                route: MaterialPageRoute(
-                  builder: (context) => const RevisionNotes(),
-                ),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const RevisionNotes(),
+                    ),
+                  );
+                },
               ),
               SizedBoxes.verticalMedium,
               NotesTile(
@@ -57,9 +60,13 @@ class HomeScreen extends StatelessWidget {
                 icon: PremedAssets.ProvisionalGuides,
                 bgColor: PreMedColorTheme().primaryColorBlue100,
                 btnColor: PreMedColorTheme().primaryColorBlue,
-                route: MaterialPageRoute(
-                  builder: (context) => const ProvincialGuides(),
-                ),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ProvincialGuides(),
+                    ),
+                  );
+                },
               )
             ],
           ),

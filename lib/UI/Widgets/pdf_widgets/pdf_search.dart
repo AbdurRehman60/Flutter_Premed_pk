@@ -81,6 +81,7 @@ class _PdfSearchState extends State<PdfSearch> {
               child: PdfDisplay(
                 notes: filteredList!,
                 isSearch: true,
+                isLoading: true,
               ),
             ),
           ],
