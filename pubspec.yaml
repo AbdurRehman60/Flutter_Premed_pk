@@ -65,6 +65,9 @@ dependencies:
   dio_cookie_manager: ^3.1.1
   flutter_cached_pdfview: ^0.4.2
   chewie: ^1.7.1
+
+  fijkplayer: ^0.11.0
+
   video_player_android: ^2.4.10
   flutter_html: ^3.0.0-beta.2
   animated_widgets: ^1.1.0
@@ -74,6 +77,7 @@ dependencies:
   gradient_borders: ^1.0.0
   dotted_border: ^2.1.0
   shimmer: ^3.0.0
+
 
 dev_dependencies:
   flutter_test:

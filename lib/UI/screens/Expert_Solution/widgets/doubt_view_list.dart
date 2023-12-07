@@ -14,6 +14,7 @@ class DoubtListView extends StatelessWidget {
   final bool solved;
   @override
   Widget build(BuildContext context) {
+
     final askAnExpertProvider = Provider.of<AskAnExpertProvider>(
       context,
     );
@@ -78,6 +79,7 @@ class DoubtListView extends StatelessWidget {
                 child: SpecialOffersShimmer(
                   tabCard: true,
                   cardCount: 4,
+
                 ),
               ),
             ],
