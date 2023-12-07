@@ -1,8 +1,7 @@
-import 'package:premedpk_mobile_app/UI/widgets/error_dialogue.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
-
-import '../../export.dart';
-import '../../repository/auth_provider.dart';
 
 class GoogleLogin extends StatelessWidget {
   const GoogleLogin({super.key});

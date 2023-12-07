@@ -6,7 +6,7 @@ class User {
   String phoneNumber;
   String city;
   String school;
-  bool academyJoined;
+  String academyJoined;
   bool onBoarding;
   bool optionalOnboarding;
   String accountType;
@@ -29,8 +29,7 @@ class User {
   List<dynamic> milestones;
   List<dynamic> notificationsRead;
   Map<String, dynamic> otherInfo;
-  bool isAdmin;
-  BundlesPurchased bundlesPurchased;
+  // BundlesPurchased bundlesPurchased;
   int coins;
   FreeTrial freeTrial;
 
@@ -65,50 +64,56 @@ class User {
     required this.milestones,
     required this.notificationsRead,
     required this.otherInfo,
-    required this.isAdmin,
-    required this.bundlesPurchased,
+    // required this.bundlesPurchased,
     required this.coins,
     required this.freeTrial,
   });
 
   factory User.fromJson(Map<String, dynamic> responseData) {
     return User(
-      status: responseData['status'],
-      isLoggedin: responseData['isloggedin'],
-      userName: responseData['email'],
-      fullName: responseData['fullname'],
-      phoneNumber: responseData['phonenumber'],
-      city: responseData['city'],
-      school: responseData['school'],
-      academyJoined: responseData['academyJoined'],
-      onBoarding: responseData['onboarding'],
-      optionalOnboarding: responseData['optionalOnboarding'],
-      accountType: responseData['accountType'],
+      status: responseData['status'] ?? "",
+      isLoggedin: responseData['isloggedin'] ?? false,
+      userName: responseData['username'] ?? "",
+      fullName: responseData['fullname'] ?? "",
+      phoneNumber: responseData['phonenumber'] ?? "",
+      city: responseData['city'] ?? "",
+      school: responseData['school'] ?? "",
+      academyJoined: responseData['academyJoined'] ?? "",
+      onBoarding:
+          responseData['onboarding'] == "" ? false : responseData['onboarding'],
+      optionalOnboarding: responseData['optionalOnboarding'] == ""
+          ? false
+          : responseData['optionalOnboarding'],
+      accountType: responseData['accountType'] ?? "",
       intendFor: List<String>.from(responseData['intendFor'] ?? []),
-      whichYear: responseData['whichYear'],
-      country: responseData['country'],
-      availableOnWhatsapp: responseData['availableOnWhatsapp'],
-      parentFullname: responseData['parentFullname'],
-      parentContactNumber: responseData['parentContactNumber'],
-      whatsappNumber: responseData['whatsappNumber'],
-      accountCreateDate: responseData['accountCreateDate'],
-      accountStatus: responseData['accountStatus'],
-      subscriptionStatus: responseData['subscriptionStatus'],
-      subscriptionStartDate: responseData['subscriptionStartDate'],
-      subscriptionEndDate: responseData['subscriptionEndDate'],
-      freeUser: responseData['freeUser'],
-      purchaseMocks: responseData['purchaseMocks'],
-      addonsPurchased: List<String>.from(responseData['addonsPurchased'] ?? []),
-      referral: responseData['referral'],
+      whichYear: responseData['whichYear'] ?? "",
+      country: responseData['country'] ?? "",
+      availableOnWhatsapp: responseData['availableOnWhatsapp'] == ""
+          ? false
+          : responseData['availableOnWhatsapp'],
+      parentFullname: responseData['parentFullName'] ?? "",
+      parentContactNumber: responseData['parentContactNumber'] ?? "",
+      whatsappNumber: responseData['whatsappNumber'] ?? "",
+      accountCreateDate: responseData['accountcreateddate'] ?? "",
+      accountStatus: responseData['accountstatus'] ?? "",
+      subscriptionStatus: responseData['subscriptionstatus'] ?? "",
+      subscriptionStartDate: responseData['subscriptionstartdate'] ?? "",
+      subscriptionEndDate: responseData['subscriptionenddate'] ?? "",
+      freeUser:
+          responseData['freeuser'] == "" ? false : responseData['freeuser'],
+      purchaseMocks: responseData['purchasedmocks'] == ""
+          ? false
+          : responseData['purchasedmocks'],
+      addonsPurchased: List<String>.from(responseData['addonspurchased'] ?? []),
+      referral: responseData['referal'] ?? "",
       milestones: List<dynamic>.from(responseData['milestones'] ?? []),
       notificationsRead:
-          List<dynamic>.from(responseData['notificationsRead'] ?? []),
-      otherInfo: responseData['otherInfo'] ?? {},
-      isAdmin: responseData['isAdmin'],
-      bundlesPurchased:
-          BundlesPurchased.fromJson(responseData['BundlesPurchased']),
-      coins: responseData['coins'],
-      freeTrial: FreeTrial.fromJson(responseData['freeTrial']),
+          List<dynamic>.from(responseData['notificationsread'] ?? []),
+      otherInfo: responseData['otherinfo'] ?? {},
+      // bundlesPurchased:
+      //     BundlesPurchased.fromJson(responseData['BundlesPurchased'] ?? {}),
+      coins: responseData['coins'] ?? 0,
+      freeTrial: FreeTrial.fromJson(responseData['freeTrial'] ?? {}),
     );
   }
 
@@ -138,14 +143,13 @@ class User {
     _data['subscriptionStartDate'] = subscriptionStartDate;
     _data['subscriptionEndDate'] = subscriptionEndDate;
     _data['freeUser'] = freeUser;
-    _data['purchaseMocks'] = purchaseMocks;
+    _data['purchasedmocks'] = purchaseMocks;
     _data['addonsPurchased'] = addonsPurchased;
     _data['referral'] = referral;
     _data['milestones'] = milestones;
     _data['notificationsRead'] = notificationsRead;
     _data['otherInfo'] = otherInfo;
-    _data['isAdmin'] = isAdmin;
-    _data['bundlesPurchased'] = bundlesPurchased.toJson();
+    // _data['bundlesPurchased'] = bundlesPurchased.toJson();
     _data['coins'] = coins;
     _data['freeTrial'] = freeTrial.toJson();
 
@@ -164,7 +168,9 @@ class BundlesPurchased {
 
   factory BundlesPurchased.fromJson(Map<String, dynamic> responseData) {
     final List<BundleItem> bundleItems = List<BundleItem>.from(
-      responseData.values.map((value) => BundleItem.fromJson(value)),
+      (responseData['tags'] as List<dynamic>).map(
+        (value) => BundleItem.fromJson(value as Map<String, dynamic>),
+      ),
     );
 
     final List<String> tags = List<String>.from(responseData['tags'] ?? []);
@@ -202,7 +208,8 @@ class BundleItem {
 
   factory BundleItem.fromJson(Map<String, dynamic> responseData) {
     return BundleItem(
-      bundleDetails: BundleDetails.fromJson(responseData['bundleDetails']),
+      bundleDetails: BundleDetails.fromJson(
+          responseData['bundleDetails'] as Map<String, dynamic>),
       bundleId: responseData['bundleId'],
       purchaseDate: responseData['PurchaseDate'],
       expiryDate: responseData['ExpiryDate'],
@@ -225,15 +232,13 @@ class BundleDetails {
   List<String> includedTags;
   bool isPublished;
   String bundleName;
-  double bundlePrice;
+  int bundlePrice;
   double discountPercentage;
   String bundleDescription;
   String bundleIcon;
-  double bundleDiscount;
+  int bundleDiscount;
   String createdAt;
   String updatedAt;
-  int v;
-  int position;
 
   BundleDetails({
     required this.id,
@@ -248,8 +253,6 @@ class BundleDetails {
     required this.bundleDiscount,
     required this.createdAt,
     required this.updatedAt,
-    required this.v,
-    required this.position,
   });
 
   factory BundleDetails.fromJson(Map<String, dynamic> responseData) {
@@ -260,14 +263,12 @@ class BundleDetails {
       isPublished: responseData['isPublished'],
       bundleName: responseData['BundleName'],
       bundlePrice: responseData['BundlePrice'],
-      discountPercentage: responseData['discountPercentage'],
+      discountPercentage: responseData['discountPercentage'].toDouble(),
       bundleDescription: responseData['BundleDescription'],
       bundleIcon: responseData['BundleIcon'],
       bundleDiscount: responseData['BundleDiscount'],
       createdAt: responseData['createdAt'],
       updatedAt: responseData['updatedAt'],
-      v: responseData['__v'],
-      position: responseData['Position'],
     );
   }
 
@@ -285,8 +286,7 @@ class BundleDetails {
     _data['BundleDiscount'] = bundleDiscount;
     _data['createdAt'] = createdAt;
     _data['updatedAt'] = updatedAt;
-    _data['__v'] = v;
-    _data['Position'] = position;
+
     return _data;
   }
 }
@@ -300,10 +300,10 @@ class FreeTrial {
     required this.daysLeft,
   });
 
-  factory FreeTrial.fromJson(Map<String, dynamic> responseData) {
+  factory FreeTrial.fromJson(Map<String, dynamic>? responseData) {
     return FreeTrial(
-      complete: responseData['complete'],
-      daysLeft: responseData['daysLeft'],
+      complete: responseData?['complete'] ?? false,
+      daysLeft: responseData?['daysLeft'] ?? 0,
     );
   }
 

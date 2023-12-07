@@ -1,8 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/constants/color_theme.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class CustomCheckBox extends StatefulWidget {
-  const CustomCheckBox({Key? key});
+  final bool initialValue;
+  final Function(bool) onChanged;
+  final String label;
+
+  CustomCheckBox({
+    required this.initialValue,
+    required this.onChanged,
+    required this.label,
+  });
 
   @override
   State<CustomCheckBox> createState() => _CustomCheckBoxState();
@@ -10,7 +17,14 @@ class CustomCheckBox extends StatefulWidget {
 
 class _CustomCheckBoxState extends State<CustomCheckBox> {
   bool isChecked = false;
-  double checkBoxSize = 18.0; // Adjust the size as needed
+  double checkBoxSize =
+      18.0; // Initialize the local state with the initial value
+
+  @override
+  void initState() {
+    super.initState();
+    isChecked = widget.initialValue;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,30 +32,45 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
       onTap: () {
         setState(() {
           isChecked = !isChecked;
+          widget.onChanged(isChecked);
         });
       },
-      child: Container(
-        width: checkBoxSize,
-        height: checkBoxSize,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(2.0), // 2px border radius
-          border: Border.all(
-            color: isChecked
-                ? PreMedColorTheme().primaryColorRed // Checked border color
-                : PreMedColorTheme().neutral500, // Unchecked border color
-            width: 0.5, // Border width
+      child: Row(
+        children: [
+          Container(
+            width: checkBoxSize,
+            height: checkBoxSize,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(2.0),
+              border: Border.all(
+                color: isChecked
+                    ? PreMedColorTheme().primaryColorRed
+                    : PreMedColorTheme().neutral500,
+                width: 0.5, // Border width
+              ),
+              color: isChecked
+                  ? PreMedColorTheme()
+                      .primaryColorRed // Checked background color
+                  : PreMedColorTheme().white, // Unchecked background color
+            ),
+            child: isChecked
+                ? Icon(
+                    Icons.check,
+                    size: checkBoxSize * 0.8,
+                    color: PreMedColorTheme().white, // Checkmark color
+                  )
+                : null,
           ),
-          color: isChecked
-              ? PreMedColorTheme().primaryColorRed // Checked background color
-              : PreMedColorTheme().white, // Unchecked background color
-        ),
-        child: isChecked
-            ? Icon(
-                Icons.check,
-                size: checkBoxSize * 0.8,
-                color: PreMedColorTheme().white, // Checkmark color
-              )
-            : null,
+          SizedBoxes.horizontalMedium,
+          Flexible(
+            child: Text(
+              widget.label,
+              style: PreMedTextTheme().subtext,
+              // No overflow and maxLines properties
+            ),
+          ),
+          SizedBoxes.horizontalTiny,
+        ],
       ),
     );
   }

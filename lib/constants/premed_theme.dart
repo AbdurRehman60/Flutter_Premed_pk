@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class PreMedTheme {
   final PreMedColorTheme _ColorTheme;
@@ -26,7 +25,7 @@ class PreMedTheme {
   ColorScheme get colorScheme => const ColorScheme.light().copyWith(
         primary: _ColorTheme.primaryColorRed,
         secondary: _ColorTheme.primaryColorBlue,
-        background: _ColorTheme.black,
+        background: _ColorTheme.white,
         surface: _ColorTheme.white,
         surfaceTint: _ColorTheme.neutral100,
       );

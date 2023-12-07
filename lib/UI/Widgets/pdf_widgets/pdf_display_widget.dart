@@ -1,31 +1,37 @@
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
 
-import '../empty_state.dart';
-
 class PdfDisplay extends StatelessWidget {
-  final List<Note> notes;
+  final List<NoteModel> notes;
   final bool isSearch;
-
-  PdfDisplay({
+  final bool isLoading;
+  const PdfDisplay({
+    super.key,
     required this.notes,
     this.isSearch = false,
+    required this.isLoading,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (notes.isNotEmpty) {
+    if (isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (notes.isNotEmpty) {
       return GridView.builder(
-        itemCount: notes.length, // You only have one item to display
+        itemCount: notes.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 2,
           crossAxisSpacing: 3,
-          mainAxisExtent:
-              290, // Adjust the number of columns in the grid as needed
+          mainAxisExtent: 290,
         ),
         itemBuilder: (BuildContext context, int index) {
-          return PDFTile(note: notes[index]);
+          return PDFTile(
+            note: notes[index],
+          );
         },
       );
     } else {
@@ -47,7 +53,7 @@ class PdfDisplay extends StatelessWidget {
 }
 
 class PDFTile extends StatelessWidget {
-  final Note note;
+  final NoteModel note;
 
   const PDFTile({
     super.key,
@@ -84,13 +90,14 @@ class PDFTile extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBoxes.verticalMicro,
-          Text(
-            '${note.pages} Pages',
-            textAlign: TextAlign.center,
-            style: PreMedTextTheme()
-                .small
-                .copyWith(color: PreMedColorTheme().neutral400, fontSize: 14),
-          ),
+          note.pages != null
+              ? Text(
+                  '${note.pages} Pages',
+                  textAlign: TextAlign.center,
+                  style: PreMedTextTheme().small.copyWith(
+                      color: PreMedColorTheme().neutral400, fontSize: 14),
+                )
+              : const SizedBox(),
         ],
       ),
     );

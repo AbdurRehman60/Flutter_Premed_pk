@@ -1,8 +1,11 @@
-import 'package:premedpk_mobile_app/UI/Widgets/error_dialogue.dart';
-import 'package:premedpk_mobile_app/repository/auth_provider.dart';
-import 'package:provider/provider.dart';
 
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/UI/screens/Signup/signup.dart';
+import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/auth_provider.dart';
+
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -24,20 +27,17 @@ class _LoginFormState extends State<LoginForm> {
     onLoginPressed() {
       final form = _formKey.currentState!;
       if (form.validate()) {
-        final Future<Map<String, dynamic>> response =
-            auth.login(emailController.text, passwordController.text);
-
+        final Future<Map<String, dynamic>> response = auth.login(
+          emailController.text,
+          passwordController.text,
+        );
         response.then(
           (response) {
             if (response['status']) {
-              // User user = response['user'];
-
-              // Provider.of<UserProvider>(context, listen: false).setUser(user);
-
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const SignUpScreen(),
+                  builder: (context) => const MainNavigationScreen(),
                 ),
               );
             } else {
@@ -92,8 +92,7 @@ class _LoginFormState extends State<LoginForm> {
                   controller: emailController,
                   labelText: 'Email',
                   hintText: 'Enter your email',
-                  validator: (value) =>
-                      validateEmail(value), // Use the email validator
+                  validator: (value) => validateEmail(value),
                 ),
                 SizedBoxes.verticalMedium,
                 CustomTextField(
@@ -101,15 +100,41 @@ class _LoginFormState extends State<LoginForm> {
                   labelText: "Password",
                   hintText: "Enter your password",
                   obscureText: true,
-                  validator: (value) =>
-                      validatePassword(value), // Use the password validator
+                  validator: (value) => validatePassword(value),
                 ),
                 SizedBoxes.verticalBig,
-                CustomButton(buttonText: 'Login', onPressed: onLoginPressed),
+                CustomButton(
+                  buttonText: 'Login',
+                  onPressed: onLoginPressed,
+                ),
                 SizedBoxes.verticalBig,
                 const OrDivider(),
                 SizedBoxes.verticalLarge,
                 const GoogleLogin(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account?",
+                      style: PreMedTextTheme().subtext,
+                    ),
+                    TextButton(
+                      child: Text(
+                        'SignUp',
+                        style: PreMedTextTheme().subtext.copyWith(
+                            color: PreMedColorTheme().primaryColorRed),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
           ],
