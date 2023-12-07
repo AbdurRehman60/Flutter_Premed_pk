@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:fijkplayer/fijkplayer.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class CustomFijkPanel extends StatefulWidget {
   final FijkPlayer player;

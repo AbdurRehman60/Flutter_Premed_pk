@@ -10,9 +10,8 @@ class Endpoints {
   static const String baseUrl = "http://193.168.90.89"; //saadoffice
   // static const String baseUrl = "http://192.168.10.8"; //ebrahim
 
-
   //specific URLs
-  //static const String serverURL = "${baseUrl}:${serverPort}"; 
+  //static const String serverURL = "${baseUrl}:${serverPort}";
   static const String serverURL = "https://testapi.premed.pk";
 
   // receiveTimeout
@@ -36,7 +35,7 @@ class Endpoints {
 
   static const String UserSolved = '/GetDoubtsByUser';
 
-  static const String UserSolved = '/UserSolved';
+  // static const String UserSolved = '/UserSolved';
   static const String UserPending = '/UserPending';
   static const String UserSubmitted = '/UserSubmitted';
 
@@ -45,5 +44,4 @@ class Endpoints {
   static const String GetBundles = '/api/bundle/';
   static const String PurchaseBundles = '/api/purchase/Bundle/';
   static const String CouponCode = '/VerifyCouponCode';
-
 }

@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/Widgets/video_player/video_player.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/tags_row.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/video_player.dart';
 
@@ -50,7 +51,6 @@ class ViewSolution extends StatelessWidget {
               Divider(
                 color: PreMedColorTheme().neutral200,
               ),
-
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
@@ -100,23 +100,22 @@ class ViewSolution extends StatelessWidget {
                         child: VideoPlayerWidget(
                           videoLink: doubt.videoLink,
                         ),
+                      ),
+                      SizedBoxes.verticalMedium,
+                      VideoScreen(
+                        url: doubt.videoLink,
+                      ),
+                      SizedBoxes.verticalExtraGargangua,
+                      CustomButton(
+                        buttonText: 'Add a Feedback',
+                        onPressed: () {
+                          _showReviewModal(context);
+                        },
                       )
                     ],
-
                   ),
-                  SizedBoxes.verticalMedium,
-                  VideoScreen(
-                    url: doubt.videoLink,
-                  )
-                ],
+                ),
               ),
-              SizedBoxes.verticalExtraGargangua,
-              CustomButton(
-                buttonText: 'Add a Feedback',
-                onPressed: () {
-                  _showReviewModal(context);
-                },
-              )
             ],
           ),
         ),
