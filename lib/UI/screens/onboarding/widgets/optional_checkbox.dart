@@ -8,10 +8,14 @@ import 'package:provider/provider.dart';
 
 class PhoneFieldWithCheckbox extends StatefulWidget {
   final void Function(String) onWhatsAppNumberSelected;
+
   final bool isPhoneFieldEnabled;
-  PhoneFieldWithCheckbox(
-      {required this.onWhatsAppNumberSelected,
-      required this.isPhoneFieldEnabled});
+  final String? initialValue;
+  PhoneFieldWithCheckbox({
+    required this.onWhatsAppNumberSelected,
+    required this.isPhoneFieldEnabled,
+    this.initialValue,
+  });
 
   @override
   _PhoneFieldWithCheckboxState createState() => _PhoneFieldWithCheckboxState();
@@ -29,6 +33,7 @@ class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {
 
   void togglePhoneField(bool value) {
     setState(() {
+      Provider.of<AuthProvider>(context, listen: false).whatsappNumber = '';
       showTF = !value;
       if (!showTF) {
         resetPhoneField();
@@ -37,7 +42,6 @@ class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {
   }
 
   void resetPhoneField() {
-    // Clear the phone number and reset the phone field
     whatsappNumberController.clear();
   }
 
@@ -60,6 +64,7 @@ class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {
               auth.whatsappNumber = phoneNumber.completeNumber;
             },
             hintText: 'Enter your WhatsApp Number',
+            initialValue: widget.initialValue,
           ),
         )
       ],

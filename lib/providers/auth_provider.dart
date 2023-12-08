@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
+import 'package:premedpk_mobile_app/utils/dialCode_to_country.dart';
 import 'package:premedpk_mobile_app/utils/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,6 +26,12 @@ class AuthProvider extends ChangeNotifier {
   Status get loggedInStatus => _loggedInStatus;
 
   set loggedInStatus(Status value) {
+    _loggedInStatus = value;
+  }
+
+  Status get SignUpStatus => _SignUpStatus;
+
+  set SignUpStatus(Status value) {
     _loggedInStatus = value;
   }
 
@@ -87,6 +94,13 @@ class AuthProvider extends ChangeNotifier {
     notify();
   }
 
+  String _country = '';
+  String get country => _country;
+
+  set country(String value) {
+    _country = value;
+  }
+
   String _School = '';
   String get School => _School;
   void setSchool(String value) {
@@ -106,7 +120,7 @@ class AuthProvider extends ChangeNotifier {
     };
     _loggedInStatus = Status.Authenticating;
     notify();
-    print('calling login api');
+
     try {
       Response response = await _client.post(
         Endpoints.login,
@@ -118,10 +132,8 @@ class AuthProvider extends ChangeNotifier {
             Map<String, dynamic>.from(response.data);
 
         if (responseData["success"]) {
-          print('login success - calling loggedin api');
           final Map<String, dynamic> userResponse = await getLoggedInUser();
 
-          print('isloggedin result return- ${userResponse['status']}');
           if (userResponse['status']) {
             result = {
               'status': userResponse["status"],
@@ -315,37 +327,47 @@ class AuthProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>> requiredOnboarding() async {
     var result;
-    result = {
-      'status': false,
-      'message': "dwd",
+
+    final Map<String, dynamic> payload = {
+      "phonenumber": phoneNumber,
+      "city": City,
+      "school": School,
+      "country": getCountryName(country.replaceFirst('+', '')),
+      "whichYear": intendedYear,
+      "whatsappNumber": whatsappNumber.isNotEmpty ? whatsappNumber : phoneNumber
     };
-    // try {
-    //   Response response = await _client.post(
-    //     Endpoints.OptionalOnboarding,
-    //     data: request,
-    //   );
 
-    //   if (response.statusCode == 200) {
-    //     final Map<String, dynamic> responseData =
-    //         Map<String, dynamic>.from(response.data);
+    print(payload);
+    _loggedInStatus = Status.Authenticating;
+    notify();
 
-    //     result = {
-    //       'status': responseData["success"],
-    //       'message': responseData["status"],
-    //     };
-    //     print(responseData);
-    //   } else {
-    //     result = {
-    //       'status': false,
-    //       'message': json.decode(response.data),
-    //     };
-    //   }
-    // } on DioException catch (e) {
-    //   result = {
-    //     'status': false,
-    //     'message': e.message,
-    //   };
-    // }
+    try {
+      Response response = await _client.post(
+        Endpoints.OptionalOnboarding,
+        data: payload,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+
+        result = {
+          'status': responseData["success"],
+          'message': responseData["status"],
+        };
+        print(responseData);
+      } else {
+        result = {
+          'status': false,
+          'message': json.decode(response.data),
+        };
+      }
+    } on DioException catch (e) {
+      result = {
+        'status': false,
+        'message': e.message,
+      };
+    }
 
     return result;
   }
