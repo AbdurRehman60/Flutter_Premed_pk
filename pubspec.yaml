@@ -131,6 +131,14 @@ flutter:
     - assets/images/payment.png
     - assets/images/upload.png
     - assets/images/notification_Icon.png
+    - assets/images/coins.png
+    - assets/images/contactus.png
+    #icons
+    - assets/icons/editprofile.png
+    - assets/icons/changepassword.png
+    - assets/icons/contactus.png
+    - assets/icons/lock.png
+    - assets/icons/logout.png
   fonts:
     - family: Inter
       fonts:
