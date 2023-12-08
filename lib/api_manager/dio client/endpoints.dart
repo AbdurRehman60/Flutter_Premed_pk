@@ -7,12 +7,12 @@ class Endpoints {
 
   // static const String baseUrl = "http://192.168.100.117"; //saad
   // static const String baseUrl = "http://192.168.100.104"; //saadhome2
-  static const String baseUrl = "http://192.168.10.3"; //saadoffice
+  // static const String baseUrl = "http://192.168.10.3"; //saadoffice
   // static const String baseUrl = "http://192.168.10.8"; //ebrahim
 
   //specific URLs
-  static const String serverURL = "${baseUrl}:${serverPort}";
-  // static const String serverURL = "https://testapi.premed.pk";
+  // static const String serverURL = "${baseUrl}:${serverPort}";
+  static const String serverURL = "https://testapi.premed.pk";
 
   // receiveTimeout
   static const Duration receiveTimeout = Duration(milliseconds: 5000);

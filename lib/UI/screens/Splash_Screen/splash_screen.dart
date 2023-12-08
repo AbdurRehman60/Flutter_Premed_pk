@@ -1,6 +1,7 @@
 import 'package:lottie/lottie.dart';
 import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
@@ -20,17 +21,22 @@ class _SplashScreenState extends State<SplashScreen> {
     // Delayed for animation to complete, you can adjust the duration accordingly
     Future.delayed(const Duration(seconds: 4), () async {
       bool userExists = await checkIfUserExists();
+      bool onboarding = await checkIfOnboardingComplete();
       if (userExists) {
         AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
 
-        final Future<Map<String, dynamic>> response = auth.getLoggedInUser();
+        final Future<Map<String, dynamic>> response =
+            auth.getLoggedInUser(onboarding ? true : false);
         response.then(
           (response) {
+            print(response);
             if (response['status']) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const MainNavigationScreen(),
+                  builder: (context) => onboarding
+                      ? const MainNavigationScreen()
+                      : const RequiredOnboarding(),
                 ),
               );
             } else {
@@ -60,6 +66,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
     return prefs.containsKey('isLoggedin') &&
         prefs.getBool('isLoggedin') == true;
+  }
+
+  Future<bool> checkIfOnboardingComplete() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.containsKey('onBoarding') &&
+        prefs.getBool('onBoarding') == true;
   }
 
   @override

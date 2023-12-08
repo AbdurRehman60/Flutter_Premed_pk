@@ -11,7 +11,7 @@ class GoogleLogin extends StatelessWidget {
     AuthProvider auth = Provider.of<AuthProvider>(context);
     onLoginPressed() {
       print('object');
-      final Future<Map<String, dynamic>> response1 = auth.getLoggedInUser();
+      final Future<Map<String, dynamic>> response1 = auth.getLoggedInUser(true);
       response1.then(
         (response) {
           if (response['status']) {

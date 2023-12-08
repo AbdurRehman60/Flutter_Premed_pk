@@ -73,6 +73,14 @@ class UserPreferences {
     return prefs.commit();
   }
 
+  Future<bool> saveNewUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('status', 'isLoggedIn');
+    prefs.setBool('isLoggedin', true);
+    prefs.setBool('onBoarding', false);
+    return prefs.commit();
+  }
   // Future<void> initNetworkCheck() async {
   //   final SharedPreferences prefs = await SharedPreferences.getInstance();
   //   prefs.setBool('netwrokChecked', true);

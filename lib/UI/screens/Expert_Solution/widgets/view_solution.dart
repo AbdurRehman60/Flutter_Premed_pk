@@ -1,5 +1,4 @@
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/tags_row.dart';
-import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/video_player.dart';
 
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/UI/widgets/video_player/video_player.dart';
@@ -107,7 +106,9 @@ class ViewSolution extends StatelessWidget {
                       height: 180,
                       child: doubt.solvedStatus == 'Solved'
                           ? VideoScreen(
-                              url: doubt.videoLink,
+                              // url: doubt.videoLink,
+                              url:
+                                  'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
                             )
                           : Center(
                               child: Container(

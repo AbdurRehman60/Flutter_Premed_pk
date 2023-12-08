@@ -119,7 +119,7 @@ class AuthProvider extends ChangeNotifier {
 
         if (responseData["success"]) {
           print('login success - calling loggedin api');
-          final Map<String, dynamic> userResponse = await getLoggedInUser();
+          final Map<String, dynamic> userResponse = await getLoggedInUser(true);
 
           print('isloggedin result return- ${userResponse['status']}');
           if (userResponse['status']) {
@@ -167,7 +167,7 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> getLoggedInUser() async {
+  Future<Map<String, dynamic>> getLoggedInUser(bool sharedPerfs) async {
     var result;
     print('calling loggedin api api');
     try {
@@ -177,9 +177,14 @@ class AuthProvider extends ChangeNotifier {
 
       if (response["isloggedin"]) {
         print('isloggedin - true');
-        User user = User.fromJson(response);
-        await UserPreferences().saveUser(user);
 
+        print(response);
+        if (sharedPerfs) {
+          User user = User.fromJson(response);
+          await UserPreferences().saveUser(user);
+        } else {
+          await UserPreferences().saveNewUser();
+        }
         print('saving');
         result = {
           'status': true,
@@ -230,24 +235,37 @@ class AuthProvider extends ChangeNotifier {
         Endpoints.signup,
         data: signupData,
       );
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
-        if (responseData["responseData"] == "success") {
-          result = {
-            'status': responseData["success"],
-            'message': responseData["status"],
-          };
+        if (responseData["success"]) {
+          print('in success');
+          final Map<String, dynamic> userResponse =
+              await getLoggedInUser(false);
+          print(userResponse);
+          print('isloggedin result return- ${userResponse['status']}');
+          if (userResponse['status']) {
+            result = {
+              'status': userResponse["status"],
+              'message': userResponse["status"],
+            };
+          } else {
+            result = {
+              'status': userResponse["status"],
+              'message': userResponse["message"],
+            };
+          }
         } else {
           result = {
-            'status': responseData["success"],
-            'message': responseData["status"],
+            'status': false,
+            'message': responseData["status"] ?? responseData["Text"],
           };
         }
       } else {
         _SignUpStatus = Status.Authenticating;
         notify();
-        //returning  results
+
         result = {
           'status': false,
           'message': json.decode(response.data),
@@ -262,6 +280,7 @@ class AuthProvider extends ChangeNotifier {
         'message': e.message,
       };
     }
+
     return result;
   }
 

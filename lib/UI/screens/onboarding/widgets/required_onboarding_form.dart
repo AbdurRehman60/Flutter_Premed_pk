@@ -42,13 +42,31 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
       hasErrors = false;
 
       if (auth.phoneNumber.isEmpty) {
-        print('object');
         setState(() {
-          error = 'Phone number cannot be empty.';
+          error = 'Phone number can not be empty.';
           hasErrors = true;
         });
       }
 
+      if (auth.whatsappNumber.isEmpty) {
+        setState(() {
+          error = 'WhatsApp number can not be empty.';
+          hasErrors = true;
+        });
+      }
+      if (auth.City.isEmpty) {
+        setState(() {
+          error = 'City can not be empty.';
+          hasErrors = true;
+        });
+      }
+
+      if (auth.School.isEmpty) {
+        setState(() {
+          error = 'School can not be empty.';
+          hasErrors = true;
+        });
+      }
       return !hasErrors;
     }
 
@@ -111,6 +129,7 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
                   onWhatsAppNumberSelected: (whatsappNumber) {
                     auth.whatsappNumber = whatsappNumber;
                   },
+                  isPhoneFieldEnabled: auth.whatsappNumber.isEmpty,
                 ),
 
                 Align(

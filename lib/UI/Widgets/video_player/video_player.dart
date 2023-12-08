@@ -1,6 +1,4 @@
 import 'package:fijkplayer/fijkplayer.dart';
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class VideoScreen extends StatefulWidget {
@@ -25,8 +23,8 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   void startPlay() async {
-    // await player.setOption(FijkOption.hostCategory, "request-screen-on", 1);
-    // await player.setOption(FijkOption.hostCategory, "request-audio-focus", 1);
+    await player.setOption(FijkOption.hostCategory, "request-screen-on", 1);
+    await player.setOption(FijkOption.hostCategory, "request-audio-focus", 1);
 
     await player
         .setDataSource(widget.url, autoPlay: true, showCover: true)
@@ -44,9 +42,13 @@ class _VideoScreenState extends State<VideoScreen> {
         aspectRatio: 16 / 9,
         child: isPlay
             ? FijkView(
+                fit: FijkFit.cover,
                 player: player,
-                panelBuilder: fijkPanel2Builder(snapShot: true),
-                fsFit: FijkFit.fill,
+                panelBuilder: fijkPanel2Builder(
+                  snapShot: true,
+                  fill: true,
+                ),
+                fsFit: FijkFit.fitHeight,
                 // panelBuilder: simplestUI,
                 // panelBuilder: (FijkPlayer player, FijkData data, BuildContext context,
                 //     Size viewSize, Rect texturePos) {
