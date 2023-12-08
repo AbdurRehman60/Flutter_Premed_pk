@@ -1,6 +1,6 @@
-
 import 'package:premedpk_mobile_app/UI/screens/Signup/signup.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
@@ -33,11 +33,14 @@ class _LoginFormState extends State<LoginForm> {
         );
         response.then(
           (response) {
+            print('resposne message: ${response['message']}');
             if (response['status']) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const MainNavigationScreen(),
+                  builder: (context) => response['message'] == 'onboarding'
+                      ? const RequiredOnboarding()
+                      : const MainNavigationScreen(),
                 ),
               );
             } else {

@@ -119,13 +119,13 @@ class AuthProvider extends ChangeNotifier {
 
         if (responseData["success"]) {
           print('login success - calling loggedin api');
-          final Map<String, dynamic> userResponse = await getLoggedInUser(true);
+          final Map<String, dynamic> userResponse = await getLoggedInUser();
 
           print('isloggedin result return- ${userResponse['status']}');
           if (userResponse['status']) {
             result = {
               'status': userResponse["status"],
-              'message': userResponse["status"],
+              'message': userResponse["message"],
             };
           } else {
             result = {
@@ -167,31 +167,30 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> getLoggedInUser(bool sharedPerfs) async {
+  Future<Map<String, dynamic>> getLoggedInUser() async {
     var result;
-    print('calling loggedin api api');
+
     try {
       final response = await _client.get(
         Endpoints.getLoggedInUser,
       );
 
       if (response["isloggedin"]) {
-        print('isloggedin - true');
-
-        print(response);
-        if (sharedPerfs) {
+        if (response["onboarding"]) {
           User user = User.fromJson(response);
           await UserPreferences().saveUser(user);
+          result = {
+            'status': true,
+            'message': "home",
+          };
         } else {
-          await UserPreferences().saveNewUser();
+          await UserPreferences().saveNewUser(response["onboarding"]);
+          result = {
+            'status': true,
+            'message': "onboarding",
+          };
         }
-        print('saving');
-        result = {
-          'status': true,
-          'message': "success",
-        };
       } else {
-        print('isloggedin - false');
         result = {
           'status': false,
           'message': "Error in fetching User Details",
@@ -206,9 +205,7 @@ class AuthProvider extends ChangeNotifier {
         'message': e.message,
       };
     }
-    print(
-      'loggedinUser api result: ${result}',
-    );
+
     return result;
   }
 
@@ -240,11 +237,8 @@ class AuthProvider extends ChangeNotifier {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
         if (responseData["success"]) {
-          print('in success');
-          final Map<String, dynamic> userResponse =
-              await getLoggedInUser(false);
-          print(userResponse);
-          print('isloggedin result return- ${userResponse['status']}');
+          final Map<String, dynamic> userResponse = await getLoggedInUser();
+
           if (userResponse['status']) {
             result = {
               'status': userResponse["status"],

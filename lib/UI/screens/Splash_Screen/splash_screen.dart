@@ -23,13 +23,12 @@ class _SplashScreenState extends State<SplashScreen> {
       bool userExists = await checkIfUserExists();
       bool onboarding = await checkIfOnboardingComplete();
       if (userExists) {
+        // ignore: use_build_context_synchronously
         AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
 
-        final Future<Map<String, dynamic>> response =
-            auth.getLoggedInUser(onboarding ? true : false);
+        final Future<Map<String, dynamic>> response = auth.getLoggedInUser();
         response.then(
           (response) {
-            print(response);
             if (response['status']) {
               Navigator.pushReplacement(
                 context,
