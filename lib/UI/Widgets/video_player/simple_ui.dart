@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:fijkplayer/fijkplayer.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class CustomFijkPanel extends StatefulWidget {
   final FijkPlayer player;
@@ -94,49 +94,48 @@ class _CustomFijkPanelState extends State<CustomFijkPanel> {
               },
             ),
           ),
-
-          // Slider(
-          //   value: _sliderValue,
-          //   min: 0.0,
-          //   max: _sliderMax, // Set the maximum slider value
-          //   onChanged: (double value) {
-          //     setState(() {
-          //       _sliderValue = value;
-          //     });
-          //   },
-          //   onChangeEnd: (double value) {
-          //     final positionInMilliseconds = value.toInt();
-          //     player.seekTo(positionInMilliseconds);
-          //   },
-          // ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     IconButton(
-          //       icon: Icon(
-          //         Icons.replay_10, // Icon for skip backward
-          //         color: Colors.red,
-          //       ),
-          //       onPressed: skipBackward,
-          //     ),
-          //     IconButton(
-          //       icon: Icon(
-          //         _playing ? Icons.pause : Icons.play_arrow,
-          //         color: const Color.fromRGBO(255, 255, 255, 1),
-          //       ),
-          //       onPressed: () {
-          //         _playing ? widget.player.pause() : widget.player.start();
-          //       },
-          //     ),
-          //     IconButton(
-          //       icon: Icon(
-          //         Icons.forward_10, // Icon for skip forward
-          //         color: Colors.red,
-          //       ),
-          //       onPressed: skipForward,
-          //     ),
-          //   ],
-          // ),
+          Slider(
+            value: _sliderValue,
+            min: 0.0,
+            max: _sliderMax, // Set the maximum slider value
+            onChanged: (double value) {
+              setState(() {
+                _sliderValue = value;
+              });
+            },
+            onChangeEnd: (double value) {
+              final positionInMilliseconds = value.toInt();
+              player.seekTo(positionInMilliseconds);
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.replay_10, // Icon for skip backward
+                  color: Colors.red,
+                ),
+                onPressed: skipBackward,
+              ),
+              IconButton(
+                icon: Icon(
+                  _playing ? Icons.pause : Icons.play_arrow,
+                  color: const Color.fromRGBO(255, 255, 255, 1),
+                ),
+                onPressed: () {
+                  _playing ? widget.player.pause() : widget.player.start();
+                },
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.forward_10, // Icon for skip forward
+                  color: Colors.red,
+                ),
+                onPressed: skipForward,
+              ),
+            ],
+          ),
         ],
       ),
     );

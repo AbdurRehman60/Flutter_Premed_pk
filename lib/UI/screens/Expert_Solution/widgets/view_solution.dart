@@ -2,10 +2,10 @@ import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/tags_row.
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/video_player.dart';
 
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/video_player/video_player.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
-import 'package:video_player/video_player.dart';
 
 class ViewSolution extends StatelessWidget {
   final Doubt doubt;
@@ -50,73 +50,72 @@ class ViewSolution extends StatelessWidget {
               Divider(
                 color: PreMedColorTheme().neutral200,
               ),
-
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        doubt.description,
-                        style: PreMedTextTheme().headline,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                      ),
-                      SizedBoxes.verticalMedium,
-                      Wrap(
-                        runSpacing: 8,
-                        spacing: 4,
-                        children: tags
-                            .map((tag) => TagsRow(
-                                  tagName: tag['tagName'],
-                                  isResource: tag['isResource'],
-                                ))
-                            .toList(),
-                      ),
-                      SizedBoxes.verticalMedium,
-                      Image.network(
-                          'https://premed.pk/assets/CoreTeamImage-06df697b.png'),
-                      SizedBoxes.verticalMedium,
-                      Text(
-                        doubt.description,
-                        style: PreMedTextTheme().headline,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 7,
-                      ),
-                      Text(
-                        'Solution',
-                        style: PreMedTextTheme()
-                            .subtext
-                            .copyWith(fontWeight: FontWeight.w600),
-                      ),
-                      SizedBoxes.verticalMedium,
-                      SizedBox(
-                        width: 320,
-                        height: 180,
-                        child: VideoPlayerWidget(
-                          videoLink: doubt.videoLink,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      doubt.description,
+                      style: PreMedTextTheme().headline,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                    SizedBoxes.verticalMedium,
+                    Wrap(
+                      runSpacing: 8,
+                      spacing: 4,
+                      children: tags
+                          .map((tag) => TagsRow(
+                                tagName: tag['tagName'],
+                                isResource: tag['isResource'],
+                              ))
+                          .toList(),
+                    ),
+                    SizedBoxes.verticalMedium,
+                    Container(
+                      height: 200,
+                      width: double.infinity,
+                      decoration: ShapeDecoration(
+                        color: PreMedColorTheme().primaryColorBlue100,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                      )
-                    ],
-
-                  ),
-                  SizedBoxes.verticalMedium,
-                  VideoScreen(
-                    url: doubt.videoLink,
-                  )
-                ],
+                      ),
+                      child: Image.network(doubt.imgURL),
+                    ),
+                    SizedBoxes.verticalMedium,
+                    Text(
+                      doubt.description,
+                      style: PreMedTextTheme().headline,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 7,
+                    ),
+                    SizedBoxes.verticalMedium,
+                    Text(
+                      'Solution',
+                      style: PreMedTextTheme()
+                          .subtext
+                          .copyWith(fontWeight: FontWeight.w600),
+                    ),
+                    SizedBoxes.verticalMedium,
+                    SizedBox(
+                      width: double.infinity,
+                      height: 180,
+                      child: doubt.solvedStatus == 'Solved'
+                          ? VideoScreen(
+                              url: doubt.videoLink,
+                            )
+                          : const Center(
+                              child: Chip(
+                                label: Text('Pending'),
+                              ),
+                            ),
+                    )
+                  ],
+                ),
               ),
-              SizedBoxes.verticalExtraGargangua,
-              CustomButton(
-                buttonText: 'Add a Feedback',
-                onPressed: () {
-                  _showReviewModal(context);
-                },
-              )
             ],
           ),
         ),

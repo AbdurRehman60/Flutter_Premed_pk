@@ -21,7 +21,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
     // Initialize the video player controller using networkUrl
     _videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse(widget.videoLink),
+      Uri.parse(
+          "https://premedpk-cdn.sgp1.digitaloceanspaces.com/Videos/2d42438a-d47b-4b47-8ab5-77437120930b.mp4"),
     );
 
     // Initialize the Chewie controller

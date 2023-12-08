@@ -1,11 +1,10 @@
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/widgets/video_player/simple_ui.dart';
 
 class VideoScreen extends StatefulWidget {
   final String url;
-
-  VideoScreen({required this.url});
+  final double aspectRatio;
+  VideoScreen({required this.url, this.aspectRatio = 16 / 9});
 
   @override
   _VideoScreenState createState() => _VideoScreenState();
