@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/utils/services/open_gallery.dart';
 
@@ -7,6 +8,10 @@ class UploadOptionsBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void onConfirm() {
+      Navigator.of(context).popUntil(ModalRoute.withName('/Checkout'));
+    }
+
     return Container(
       height: 124,
       child: Padding(
@@ -34,7 +39,9 @@ class UploadOptionsBottomSheet extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CameraScreen(),
+                    builder: (context) => CameraScreen(
+                        // onConfirm: onConfirm,
+                        ),
                   ),
                 );
               },

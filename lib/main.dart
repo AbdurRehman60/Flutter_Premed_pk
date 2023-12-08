@@ -1,5 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/display_image_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/splash_screen/splash_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
@@ -45,6 +47,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         routes: {
           '/ExpertSolution': (context) => const AskanExpert(),
+          '/Checkout': (context) => const Checkout(),
         },
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,

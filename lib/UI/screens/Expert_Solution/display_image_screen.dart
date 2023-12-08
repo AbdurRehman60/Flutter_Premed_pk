@@ -9,10 +9,12 @@ import 'package:provider/provider.dart';
 
 class DisplayImageScreen extends StatelessWidget {
   final File image;
+  // final VoidCallback onConfirm;
 
   DisplayImageScreen({
     Key? key,
     required this.image,
+    // required this.onConfirm,
   }) : super(key: key);
 
   @override
@@ -56,7 +58,7 @@ class DisplayImageScreen extends StatelessWidget {
                     uplaodImageProvider.uploadedImage = image;
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
-                    Navigator.of(context).pop();
+                    // onConfirm();
                   },
                   icon: const Icon(Icons.check),
                   iconSize: 42,

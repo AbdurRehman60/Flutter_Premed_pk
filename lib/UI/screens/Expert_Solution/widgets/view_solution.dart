@@ -74,17 +74,19 @@ class ViewSolution extends StatelessWidget {
                           .toList(),
                     ),
                     SizedBoxes.verticalMedium,
-                    Container(
-                      height: 200,
-                      width: double.infinity,
-                      decoration: ShapeDecoration(
-                        color: PreMedColorTheme().primaryColorBlue100,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      child: Image.network(doubt.imgURL),
-                    ),
+                    doubt.imgURL.isNotEmpty
+                        ? Container(
+                            height: 200,
+                            width: double.infinity,
+                            decoration: ShapeDecoration(
+                              color: PreMedColorTheme().primaryColorBlue100,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            child: Image.network(doubt.imgURL),
+                          )
+                        : const SizedBox(),
                     SizedBoxes.verticalMedium,
                     Text(
                       doubt.description,
@@ -107,9 +109,22 @@ class ViewSolution extends StatelessWidget {
                           ? VideoScreen(
                               url: doubt.videoLink,
                             )
-                          : const Center(
-                              child: Chip(
-                                label: Text('Pending'),
+                          : Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                  color: Colors.amberAccent[100],
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  child: Text(
+                                    'Pending',
+                                    textAlign: TextAlign.center,
+                                    style: PreMedTextTheme().headline.copyWith(
+                                        fontWeight: FontWeights.regular),
+                                  ),
+                                ),
                               ),
                             ),
                     )

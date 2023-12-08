@@ -1,9 +1,8 @@
-import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
+import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/utils/base64_convertor.dart';
 
 enum Status {
@@ -71,18 +70,17 @@ class AskAnExpertProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetState() {
+  void resetState(UplaodImageProvider uploadImageProvider) {
     _doubtUploadStatus = Status.Init;
     _selectedResource = '';
     _selectedSubject = '';
     _selectedTopic = '';
-    _uploadedImage = null;
+    uploadImageProvider.initToNull();
 
     notify();
   }
 
   Future<Map<String, dynamic>> uploadDoubt({
-    required String email,
     required String description,
     required String subject,
     required String topic,
@@ -91,7 +89,7 @@ class AskAnExpertProvider extends ChangeNotifier {
   }) async {
     var result;
     final Map<String, dynamic> askAnExpertData = {
-      "username": email,
+      "username": "ddd@gmail.com",
       "description": description,
       "subject": subject,
       "topic": topic,
@@ -116,7 +114,6 @@ class AskAnExpertProvider extends ChangeNotifier {
             'status': true,
             'message': responseData["message"],
           };
-          resetState();
         } else {
           result = {
             'status': false,
@@ -131,13 +128,14 @@ class AskAnExpertProvider extends ChangeNotifier {
         result = {'status': false, 'message': 'Request failed'};
       }
     } on DioError catch (e) {
-      _doubtUploadStatus = Status.Init;
+      _doubtUploadStatus = Status.Error;
       notify();
       result = {
         'status': false,
         'message': e.response?.data['message'],
       };
     }
+    _doubtUploadStatus = Status.Init;
     return result;
   }
 
