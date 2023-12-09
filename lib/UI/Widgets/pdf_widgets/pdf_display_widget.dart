@@ -5,26 +5,33 @@ import 'package:premedpk_mobile_app/models/notes_model.dart';
 class PdfDisplay extends StatelessWidget {
   final List<NoteModel> notes;
   final bool isSearch;
-
-  PdfDisplay({
+  final bool isLoading;
+  const PdfDisplay({
+    super.key,
     required this.notes,
     this.isSearch = false,
+    required this.isLoading,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (notes.isNotEmpty) {
+    if (isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (notes.isNotEmpty) {
       return GridView.builder(
-        itemCount: notes.length, // You only have one item to display
+        itemCount: notes.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 2,
           crossAxisSpacing: 3,
-          mainAxisExtent:
-              290, // Adjust the number of columns in the grid as needed
+          mainAxisExtent: 290,
         ),
         itemBuilder: (BuildContext context, int index) {
-          return PDFTile(note: notes[index]);
+          return PDFTile(
+            note: notes[index],
+          );
         },
       );
     } else {
@@ -90,7 +97,7 @@ class PDFTile extends StatelessWidget {
                   style: PreMedTextTheme().small.copyWith(
                       color: PreMedColorTheme().neutral400, fontSize: 14),
                 )
-              : SizedBox(),
+              : const SizedBox(),
         ],
       ),
     );

@@ -1,5 +1,3 @@
-import 'package:premedpk_mobile_app/export.dart';
-
 List<Map<String, String>> gridData = [
   {
     "image": "assets/images/biology.png",

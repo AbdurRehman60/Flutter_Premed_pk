@@ -1,29 +1,33 @@
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/widgets/doubt_view_list.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
+import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 
 import 'package:provider/provider.dart';
 
 class ExpertSolutionHome extends StatelessWidget {
-  const ExpertSolutionHome({Key? key});
+  const ExpertSolutionHome({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final askAnExpertProvider = Provider.of<AskAnExpertProvider>(context);
+    final askAnExpertProvider =
+        Provider.of<AskAnExpertProvider>(context, listen: false);
+
+    Future<Map<String, dynamic>> response =
+        askAnExpertProvider.getDoubts(email: 'ddd@gmail.com');
 
     final List<String> tabs = <String>['Solved Questions', 'Pending Questions'];
+
     return DefaultTabController(
-      length: tabs.length, // This is the number of tabs.
+      length: tabs.length,
       child: Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            // These are the slivers that show up in the "outer" scroll view.
             return <Widget>[
               SliverOverlapAbsorber(
                 handle:
                     NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
-                  // This is the title in the app bar.
                   toolbarHeight: 86,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
@@ -35,14 +39,13 @@ class ExpertSolutionHome extends StatelessWidget {
                   expandedHeight: 200.0,
                   forceElevated: innerBoxIsScrolled,
                   flexibleSpace: Stack(children: [
-                    // This is the title in the app bar.
                     Container(
                       decoration: ShapeDecoration(
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20),
-                          ), // Set the rounded border radius
+                          ),
                         ),
                         gradient: PreMedColorTheme().primaryGradient,
                       ),
@@ -68,9 +71,9 @@ class ExpertSolutionHome extends StatelessWidget {
                             SizedBoxes.verticalLarge,
                             Text(
                               'Get top-notch video solution answers to your MDCAT questions from top-merit experts 🙌🏻',
-                              style: PreMedTextTheme()
-                                  .body
-                                  .copyWith(color: PreMedColorTheme().white),
+                              style: PreMedTextTheme().body.copyWith(
+                                    color: PreMedColorTheme().white,
+                                  ),
                               textAlign: TextAlign.center,
                             ),
                             SizedBoxes.verticalMedium,
@@ -107,16 +110,10 @@ class ExpertSolutionHome extends StatelessWidget {
               ),
             ];
           },
-          body: TabBarView(
+          body: const TabBarView(
             children: [
-              DoubtListView(
-                  doubtList: askAnExpertProvider.solvedDoubts
-                      .where((doubt) => doubt.solvedStatus == 'Solved')
-                      .toList()),
-              DoubtListView(
-                  doubtList: askAnExpertProvider.solvedDoubts
-                      .where((doubt) => doubt.solvedStatus != 'Solved')
-                      .toList()),
+              DoubtListView(solved: true),
+              DoubtListView(solved: false),
             ],
           ),
         ),
@@ -125,7 +122,9 @@ class ExpertSolutionHome extends StatelessWidget {
           onPressed: () {
             final askAnExpertProvider =
                 Provider.of<AskAnExpertProvider>(context, listen: false);
-            askAnExpertProvider.resetState();
+            final uplaodImageProvider =
+                Provider.of<UplaodImageProvider>(context, listen: false);
+            askAnExpertProvider.resetState(uplaodImageProvider);
             Navigator.pushNamed(context, '/ExpertSolution');
           },
           child: Icon(

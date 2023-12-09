@@ -1,16 +1,15 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
-import 'package:premedpk_mobile_app/export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
+import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/utils/base64_convertor.dart';
 
 enum Status {
   Init,
   Sending,
   Error,
+  Success,
 }
 
 class AskAnExpertProvider extends ChangeNotifier {
@@ -22,6 +21,14 @@ class AskAnExpertProvider extends ChangeNotifier {
 
   set doubtUploadStatus(Status value) {
     _doubtUploadStatus = value;
+  }
+
+  Status _fetchDoubtsStatus = Status.Init;
+
+  Status get fetchDoubtsStatus => _fetchDoubtsStatus;
+
+  set fetchDoubtsStatus(Status value) {
+    _fetchDoubtsStatus = value;
   }
 
   String _selectedResource = '';
@@ -52,7 +59,7 @@ class AskAnExpertProvider extends ChangeNotifier {
     notify();
   }
 
-  List<Doubt> _solvedDoubts = <Doubt>[];
+  List<Doubt> _solvedDoubts = [];
   List<Doubt> get solvedDoubts => _solvedDoubts;
   set solvedDoubts(List<Doubt> value) {
     _solvedDoubts = value;
@@ -63,18 +70,17 @@ class AskAnExpertProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void resetState() {
+  void resetState(UplaodImageProvider uploadImageProvider) {
     _doubtUploadStatus = Status.Init;
     _selectedResource = '';
     _selectedSubject = '';
     _selectedTopic = '';
-    _uploadedImage = null;
+    uploadImageProvider.initToNull();
 
     notify();
   }
 
   Future<Map<String, dynamic>> uploadDoubt({
-    required String email,
     required String description,
     required String subject,
     required String topic,
@@ -83,7 +89,7 @@ class AskAnExpertProvider extends ChangeNotifier {
   }) async {
     var result;
     final Map<String, dynamic> askAnExpertData = {
-      "username": email,
+      "username": "ddd@gmail.com",
       "description": description,
       "subject": subject,
       "topic": topic,
@@ -108,7 +114,6 @@ class AskAnExpertProvider extends ChangeNotifier {
             'status': true,
             'message': responseData["message"],
           };
-          resetState();
         } else {
           result = {
             'status': false,
@@ -123,56 +128,87 @@ class AskAnExpertProvider extends ChangeNotifier {
         result = {'status': false, 'message': 'Request failed'};
       }
     } on DioError catch (e) {
-      _doubtUploadStatus = Status.Init;
+      _doubtUploadStatus = Status.Error;
       notify();
       result = {
         'status': false,
         'message': e.response?.data['message'],
       };
     }
+    _doubtUploadStatus = Status.Init;
     return result;
   }
 
   Future<Map<String, dynamic>> getDoubts({required String email}) async {
     var result;
 
-    _doubtUploadStatus = Status.Sending;
+    fetchDoubtsStatus = Status.Sending;
 
-    notify();
     try {
       Response response = await _client.post(
         Endpoints.UserSolved,
         data: {"username": email},
       );
 
-      if (response.statusCode == 200) {
+      Response response2 = await _client.post(
+        Endpoints.UserPending,
+        data: {"username": email},
+      );
+
+      Response response3 = await _client.post(
+        Endpoints.UserSubmitted,
+        data: {"username": email},
+      );
+
+      if (response.statusCode == 200 &&
+          response2.statusCode == 200 &&
+          response3.statusCode == 200) {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
 
+        final Map<String, dynamic> response2Data =
+            Map<String, dynamic>.from(response2.data);
+
+        final Map<String, dynamic> response3Data =
+            Map<String, dynamic>.from(response3.data);
+
+        List<Doubt> doubtList = [];
+
         for (var data in responseData['QuestionsDetails']) {
           Doubt doubt = Doubt.fromJson(data);
-          solvedDoubts.add(doubt);
+          doubtList.add(doubt);
         }
-        print(responseData);
+
+        for (var data in response2Data['QuestionsDetails']) {
+          Doubt doubt = Doubt.fromJson(data);
+          doubtList.add(doubt);
+        }
+
+        for (var data in response3Data['QuestionsDetails']) {
+          Doubt doubt = Doubt.fromJson(data);
+          doubtList.add(doubt);
+        }
+        _solvedDoubts = doubtList;
+        fetchDoubtsStatus = Status.Success;
+        notify();
         result = {
           'status': true,
           'message': "Fetched Successfully!",
         };
       } else {
-        _doubtUploadStatus = Status.Error;
+        fetchDoubtsStatus = Status.Error;
         notify();
-
-        // Returning results
         result = {'status': false, 'message': 'Request failed'};
       }
     } on DioError catch (e) {
-      _doubtUploadStatus = Status.Init;
+      fetchDoubtsStatus = Status.Init;
       notify();
       result = {
         'status': false,
         'message': e.message,
       };
     }
+
     return result;
   }
 }

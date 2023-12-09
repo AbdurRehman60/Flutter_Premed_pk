@@ -2,10 +2,17 @@
 
      <uses-permission android:name="android.permission.CAMERA" />   
      <uses-permission android:name="android.permission.INTERNET" />   
+     <queries>
+     <intent>
+     <action android:name="android.intent.action.VIEW" />
+     <data android:scheme="tel" />
+     </intent>
+     </queries>
     <application
         android:label="premedpk_mobile_app"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"

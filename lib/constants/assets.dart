@@ -17,4 +17,17 @@ class PremedAssets {
   static String Meezan = 'assets/images/meezan.jpg';
   static String JazzCash = 'assets/images/jazzcash.png';
   static String EasyPaisa = 'assets/images/easypaisa.jpg';
+  static String NotificationIcon = 'assets/images/notification_Icon.png';
+  static String Coins = 'assets/images/coins.png';
+  static String ContactUS = 'assets/images/contactus.png';
+  //icons
+
+  static String EditProfile = 'assets/icons/editprofile.png';
+  static String ChangePassword = 'assets/icons/changepassword.png';
+  static String ContactUs = 'assets/icons/contactus.png';
+  static String Policy = 'assets/icons/lock.png';
+  static String LogOut = 'assets/icons/logout.png';
+  static String WhatsApp = 'assets/icons/whatsapp.png';
+  static String Messenger = 'assets/icons/messenger.png';
+  static String Email = 'assets/icons/email.png';
 }

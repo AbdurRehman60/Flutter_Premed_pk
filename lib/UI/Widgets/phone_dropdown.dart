@@ -3,17 +3,20 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
-import '../export.dart';
-
 class PhoneDropdown extends StatelessWidget {
   final void Function(PhoneNumber) onPhoneNumberSelected;
   final String hintText;
+  final String? initialValue;
   const PhoneDropdown(
-      {super.key, required this.onPhoneNumberSelected, required this.hintText});
+      {super.key,
+      required this.onPhoneNumberSelected,
+      required this.hintText,
+      this.initialValue});
 
   @override
   Widget build(BuildContext context) {
     return IntlPhoneField(
+      initialValue: initialValue ?? "",
       initialCountryCode: 'PK',
       dropdownTextStyle: PreMedTextTheme().small,
       pickerDialogStyle: PickerDialogStyle(

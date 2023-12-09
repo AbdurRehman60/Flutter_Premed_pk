@@ -33,6 +33,7 @@ class PreMedColorTheme {
   Color get neutral700 => const Color(0xFF3E3E46);
   Color get neutral800 => const Color(0xFF27272A);
   Color get neutral900 => const Color(0xFF17171B);
+  Color get green => const Color.fromARGB(1, 43, 177, 64);
 
   //Gradient colors
   LinearGradient get primaryGradient => LinearGradient(

@@ -1,7 +1,8 @@
-import 'package:premedpk_mobile_app/UI/Widgets/pdf_widgets/pdf_display_widget.dart';
+import 'package:premedpk_mobile_app/UI/widgets/pdf_widgets/pdf_display_widget.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
-import 'package:premedpk_mobile_app/utils/Data/notesdata.dart';
+import 'package:premedpk_mobile_app/providers/notes_provider.dart';
+import 'package:provider/provider.dart';
 
 class PdfSearch extends StatefulWidget {
   final List<NoteModel>? notesList;
@@ -18,9 +19,8 @@ class _PdfSearchState extends State<PdfSearch> {
 
   @override
   void initState() {
-    filteredList = widget.notesList!;
-    // TODO: implement initState
     super.initState();
+    filteredList = widget.notesList!;
   }
 
   void updateList(String value) {
@@ -44,7 +44,7 @@ class _PdfSearchState extends State<PdfSearch> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Search'),
+        title: const Text('Search'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -78,11 +78,17 @@ class _PdfSearchState extends State<PdfSearch> {
                 ),
               ),
             ),
+            SizedBoxes.verticalMedium,
             Expanded(
-              child: PdfDisplay(
-                notes: filteredList!,
-                isSearch: true,
-              ),
+              child:
+                  Consumer<NotesProvider>(builder: (context, notesProvider, _) {
+                return PdfDisplay(
+                  notes: filteredList!,
+                  isSearch: true,
+                  isLoading:
+                      notesProvider.guidesloadingStatus == Status.Fetching,
+                );
+              }),
             ),
           ],
         ),

@@ -1,9 +1,12 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/video_player.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/payment_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/cart_summary.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/video_player/video_player.dart';
+import 'package:premedpk_mobile_app/UI/widgets/youtube_player/youtube_player.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
@@ -11,6 +14,7 @@ import 'package:provider/provider.dart';
 
 final Map<String, dynamic> meezanNumbers = {
   'Fahad Niaz Sheikh': '99170105642737',
+  'IBAN #': 'PK50MEZN0099170105642737'
 };
 
 final Map<String, dynamic> easyPaisaNumbers = {
@@ -131,6 +135,9 @@ class _CheckoutState extends State<Checkout> {
                       ),
                     ),
                   ),
+                  SizedBoxes.verticalMedium,
+                  // MyYoutubePlayer(),
+                  SizedBoxes.verticalMedium,
                 ],
               ),
             ],
@@ -150,126 +157,3 @@ class RadioGroup<T> {
     _selectedValue = value;
   }
 }
-
-
-// void _showBottomSheet(
-//       String optionText, String imagePath, String accountDetails) {
-//     showModalBottomSheet(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return SingleChildScrollView(
-//           child: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             crossAxisAlignment: CrossAxisAlignment.center,
-//             children: [
-//               SizedBoxes.verticalMedium,
-//               Image.asset(
-//                 imagePath,
-//                 width: 100,
-//                 height: 60,
-//                 fit: BoxFit.contain,
-//               ),
-//               const Text(
-//                 'Transfer the amount to these accounts \nand upload the screenshot of the \nreceipt',
-//               ),
-//               Text(accountDetails),
-//               Padding(
-//                 padding:
-//                     const EdgeInsets.symmetric(horizontal: 64, vertical: 20),
-//                 child: SizedBox(
-//                   width: 256,
-//                   height: 200,
-//                   child: DottedBorder(
-//                     color: PreMedColorTheme().primaryColorBlue500,
-//                     strokeWidth: 10,
-//                     dashPattern: [15, 15],
-//                     child: LocalImageDisplayCheckout(),
-//                   ),
-//                 ),
-//               ),
-//               SizedBoxes.verticalExtraGargangua,
-//               Padding(
-//                 padding: const EdgeInsets.all(16.0),
-//                 child: Column(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     SizedBox(
-//                       width: 280,
-//                       child: Divider(
-//                         color: PreMedColorTheme().neutral200,
-//                       ),
-//                     ),
-//                     SizedBoxes.verticalMedium,
-//                     CartSummary(),
-//                     SizedBoxes.verticalMedium,
-//                     CustomButton(
-//                       buttonText: 'Place Order ->',
-//                       onPressed: () {
-//                         // Access the CartProvider using Provider.of
-//                         CartProvider cartProvider =
-//                             Provider.of<CartProvider>(context, listen: false);
-
-//                         cartProvider.placeOrder('ddd@gmail.com');
-//                       },
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
-
-
-  // Widget buildListTile(
-  //     String title, int value, String imagePath, String accountdetails) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       setState(() {
-  //         selectedOption = value;
-  //         _showBottomSheet(title, imagePath, accountdetails);
-  //       });
-  //     },
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(16.0),
-  //       child: Card(
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.circular(10.0),
-  //           side: BorderSide(
-  //             color: selectedOption == value ? Colors.blue : Colors.black,
-  //             width: 1.0,
-  //           ),
-  //         ),
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(6.0),
-  //           child: ListTile(
-  //             title: Text(title),
-  //             leading: Radio(
-  //               visualDensity: VisualDensity.compact,
-  //               activeColor: PreMedColorTheme().primaryColorRed,
-  //               value: value,
-  //               groupValue: selectedOption,
-  //               onChanged: (int? newValue) {
-  //                 setState(() {
-  //                   selectedOption = newValue!;
-  //                   _showBottomSheet(title, imagePath,
-  //                       accountdetails); // Show the bottom sheet on radio button change
-  //                 });
-  //               },
-  //             ),
-  //             trailing: Image.asset(
-  //               imagePath,
-  //               width: 100,
-  //               height: 60,
-  //             ),
-  //             visualDensity: const VisualDensity(horizontal: -4.0),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }

@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/card_content.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/modal_bottom_sheet.dart';
-import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offer_shimmer.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
@@ -39,17 +37,19 @@ class SpecialOffers extends StatelessWidget {
                   .where((bundle) => bundle.includedTags.length >= 2)
                   .toList();
 
-              return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: filteredList.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin:
-                        EdgeInsets.only(left: index == 0 ? 20 : 0, right: 20),
-                    child: SpecialOfferCard(bundle: filteredList[index]),
-                  );
-                },
-              );
+              return bundleProvider.loadingStatus == Status.Success
+                  ? ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: filteredList.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(
+                              left: index == 0 ? 20 : 0, right: 20),
+                          child: SpecialOfferCard(bundle: filteredList[index]),
+                        );
+                      },
+                    )
+                  : SpecialOffersShimmer();
             },
           ),
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:premedpk_mobile_app/utils/validators.dart';
@@ -83,10 +83,10 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
                 child: CustomButton(
                   buttonText: 'Apply',
                   onPressed: onApplyCouponPressed,
-                  color:
-                      cartProvider.validatingStatus == ValidateStatus.validating
-                          ? PreMedColorTheme().neutral200
-                          : PreMedColorTheme().primaryColorRed,
+                  color: cartProvider.validatingStatus ==
+                          CouponValidateStatus.validating
+                      ? PreMedColorTheme().neutral200
+                      : PreMedColorTheme().primaryColorRed,
                 ),
               ),
             ],
@@ -129,7 +129,7 @@ class UpperCaseTextFormatter extends TextInputFormatter {
     TextEditingValue newValue,
   ) {
     return TextEditingValue(
-      text: newValue.text!.toUpperCase(),
+      text: newValue.text.toUpperCase(),
       selection: newValue.selection,
     );
   }

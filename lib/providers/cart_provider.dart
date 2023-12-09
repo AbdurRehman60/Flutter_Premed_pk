@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
 
-enum ValidateStatus { init, success, validating }
+enum CouponValidateStatus { init, success, validating }
 
 class CartProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
@@ -15,11 +17,11 @@ class CartProvider extends ChangeNotifier {
 
   final List<BundleModel> _selectedBundles = [];
 
-  ValidateStatus _validatingStatus = ValidateStatus.init;
+  CouponValidateStatus _validatingStatus = CouponValidateStatus.init;
 
-  ValidateStatus get validatingStatus => _validatingStatus;
+  CouponValidateStatus get validatingStatus => _validatingStatus;
 
-  set validatingStatus(ValidateStatus value) {
+  set validatingStatus(CouponValidateStatus value) {
     _validatingStatus = value;
   }
 
@@ -95,6 +97,13 @@ class CartProvider extends ChangeNotifier {
     notify();
   }
 
+  File? _uploadedImage;
+  File? get uploadedImage => _uploadedImage;
+  set uploadedImage(File? value) {
+    _uploadedImage = value;
+    notify();
+  }
+
   Future<Map<String, dynamic>> placeOrder(
     String username,
   ) async {
@@ -104,8 +113,8 @@ class CartProvider extends ChangeNotifier {
       Map<String, dynamic> purchaseData = {
         "username": "ddd@gmail.com",
         "BundleId": bundleIds,
-        "PaymentProof": "",
-        "ReferralCode": "",
+        "PaymentProof": "MDCAT50",
+        "CouponCode": "MDCAT50",
       };
       // if (ReferralCode != null && ReferralCode.isNotEmpty) {
       //   purchaseData["referralCode"] = ReferralCode;
@@ -170,7 +179,7 @@ class CartProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> verifyCouponCode(String coupon) async {
     var result;
 
-    validatingStatus = ValidateStatus.validating;
+    validatingStatus = CouponValidateStatus.validating;
     notify();
     try {
       final response = await _client.get('${Endpoints.CouponCode}/$coupon');
@@ -179,14 +188,14 @@ class CartProvider extends ChangeNotifier {
         _couponCode = response['Code'];
         _couponAmount = response['Amount'];
 
-        validatingStatus = ValidateStatus.success;
+        validatingStatus = CouponValidateStatus.success;
         result = {
           'status': true,
           'message': 'Promo code applied!',
         };
         notify();
       } else {
-        validatingStatus = ValidateStatus.init;
+        validatingStatus = CouponValidateStatus.init;
         notify();
         result = {
           'status': false,
@@ -194,7 +203,7 @@ class CartProvider extends ChangeNotifier {
         };
       }
     } on DioError catch (e) {
-      validatingStatus = ValidateStatus.init;
+      validatingStatus = CouponValidateStatus.init;
       notify();
       result = {
         'status': false,

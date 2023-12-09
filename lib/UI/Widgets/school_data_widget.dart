@@ -1,12 +1,12 @@
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
-class CityDropdownList extends StatefulWidget {
+class SchoolDropdownList extends StatefulWidget {
   final List<String> items;
   final String selectedItem;
-  final void Function(String?) onChanged;
+  final void Function(String) onChanged;
 
-  CityDropdownList({
+  SchoolDropdownList({
     Key? key,
     required this.items,
     required this.selectedItem,
@@ -14,20 +14,26 @@ class CityDropdownList extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CityDropdownList> createState() => _CityDropdownListState();
+  State<SchoolDropdownList> createState() => _SchoolDropdownListState();
 }
 
-class _CityDropdownListState extends State<CityDropdownList> {
+class _SchoolDropdownListState extends State<SchoolDropdownList> {
   TextEditingController _typeAheadController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    _typeAheadController.text = widget.selectedItem;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return TypeAheadField<String?>(
+    return TypeAheadField<String>(
       getImmediateSuggestions: true,
       textFieldConfiguration: TextFieldConfiguration(
         controller: _typeAheadController,
         decoration: InputDecoration(
-          hintText: 'Enter your City',
+          hintText: 'Enter your School',
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
@@ -53,32 +59,27 @@ class _CityDropdownListState extends State<CityDropdownList> {
         ),
       ),
       suggestionsCallback: (pattern) {
-        return widget.items
-            .where(
-              (item) => item.toLowerCase().contains(
-                    pattern.toLowerCase(),
-                  ),
-            )
-            .toList();
+        return widget.items.where(
+            (item) => item.toLowerCase().contains(pattern.toLowerCase()));
       },
-      itemBuilder: (context, String? itemData) {
+      itemBuilder: (context, itemData) {
         return ListTile(
           title: Text(
-            itemData ?? '',
+            itemData,
             style: PreMedTextTheme().subtext,
           ),
         );
       },
-      onSuggestionSelected: (String? itemData) {
+      onSuggestionSelected: (String itemData) {
         setState(() {
-          _typeAheadController.text = itemData!;
+          _typeAheadController.text = itemData;
         });
-        widget.onChanged(itemData); // Call the provided onChanged callback
+        widget.onChanged(itemData);
       },
       noItemsFoundBuilder: (context) {
         return const Padding(
           padding: EdgeInsets.all(8.0),
-          child: Text('No cities found.'),
+          child: Text('No schools found.'),
         );
       },
       hideOnLoading: true,

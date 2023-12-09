@@ -10,8 +10,8 @@ class ProvincialGuides extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NotesProvider guidesProvider =
-        Provider.of<NotesProvider>(context, listen: true);
-
+        Provider.of<NotesProvider>(context, listen: false);
+    guidesProvider.fetchGuides();
     return DefaultTabController(
       length: 5,
       child: Scaffold(
@@ -36,7 +36,7 @@ class ProvincialGuides extends StatelessWidget {
                 ],
               ),
               IconButton(
-                icon: Icon(Icons.search),
+                icon: const Icon(Icons.search),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -63,31 +63,42 @@ class ProvincialGuides extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
-          child: TabBarView(
-            children: [
-              PdfDisplay(notes: guidesProvider.guidesList),
-              PdfDisplay(
-                notes: guidesProvider.guidesList
-                    .where((note) => note.province == 'Sindh')
-                    .toList(),
-              ),
-              PdfDisplay(
-                notes: guidesProvider.guidesList
-                    .where((note) => note.province == 'Punjab')
-                    .toList(),
-              ),
-              PdfDisplay(
-                notes: guidesProvider.guidesList
-                    .where((note) => note.province == 'Balochistan')
-                    .toList(),
-              ),
-              PdfDisplay(
-                notes: guidesProvider.guidesList
-                    .where((note) => note.province == 'KPK')
-                    .toList(),
-              ),
-            ],
-          ),
+          child: Consumer<NotesProvider>(builder: (context, guidesProvider, _) {
+            bool isLoading =
+                guidesProvider.guidesloadingStatus == Status.Fetching;
+            return TabBarView(
+              children: [
+                PdfDisplay(
+                  notes: guidesProvider.guidesList,
+                  isLoading: isLoading,
+                ),
+                PdfDisplay(
+                  notes: guidesProvider.guidesList
+                      .where((note) => note.province == 'Sindh')
+                      .toList(),
+                  isLoading: isLoading,
+                ),
+                PdfDisplay(
+                  notes: guidesProvider.guidesList
+                      .where((note) => note.province == 'Punjab')
+                      .toList(),
+                  isLoading: isLoading,
+                ),
+                PdfDisplay(
+                  notes: guidesProvider.guidesList
+                      .where((note) => note.province == 'Balochistan')
+                      .toList(),
+                  isLoading: isLoading,
+                ),
+                PdfDisplay(
+                  notes: guidesProvider.guidesList
+                      .where((note) => note.province == 'KPK')
+                      .toList(),
+                  isLoading: isLoading,
+                ),
+              ],
+            );
+          }),
         ),
       ),
     );

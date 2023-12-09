@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
-import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
 
 enum Status {
@@ -13,10 +13,16 @@ enum Status {
 class NotesProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
 
-  Status _loadingStatus = Status.Init;
-  Status get loadingStatus => _loadingStatus;
-  set loadingStatus(Status value) {
-    _loadingStatus = value;
+  Status _notesLoadingStatus = Status.Init;
+  Status get notesLoadingStatus => _notesLoadingStatus;
+  set notesLoadingStatus(Status value) {
+    _notesLoadingStatus = value;
+  }
+
+  Status _guidesloadingStatus = Status.Init;
+  Status get guidesloadingStatus => _guidesloadingStatus;
+  set guidesloadingStatus(Status value) {
+    _guidesloadingStatus = value;
   }
 
   List<NoteModel> _guidesList = [];
@@ -37,20 +43,21 @@ class NotesProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>> fetchGuides() async {
     var result;
-    _loadingStatus = Status.Fetching;
-    notify();
+    _guidesloadingStatus = Status.Fetching;
 
     try {
       final response = await _client.get(
         Endpoints.Guides,
       );
-
+      List<NoteModel> list = [];
       if (response["message"] == "Guide fetched successfully") {
         for (final data in response['data']) {
           NoteModel fetchedData = NoteModel.fromJson(data);
-          guidesList.add(fetchedData);
+          list.add(fetchedData);
         }
 
+        guidesList = list;
+        _guidesloadingStatus = Status.Success;
         result = {
           'status': true,
           'message': 'Data fetched successfully',
@@ -67,17 +74,16 @@ class NotesProvider extends ChangeNotifier {
         'message': e.message,
       };
     }
-
-    _loadingStatus = Status.Init;
+    _guidesloadingStatus = Status.Init;
     notify();
-
     return result;
   }
 
   Future<Map<String, dynamic>> fetchNotes() async {
     var result;
-    _loadingStatus = Status.Fetching;
-    notify();
+    _notesLoadingStatus = Status.Fetching;
+
+    notesList = [];
 
     try {
       final response = await _client.get(
@@ -85,11 +91,17 @@ class NotesProvider extends ChangeNotifier {
       );
 
       if (response["message"] == "Notes fetched successfully") {
+        List<NoteModel> list = [];
+
         for (final data in response['data']) {
           NoteModel fetchedData = NoteModel.fromJson(data);
-          notesList.add(fetchedData);
+          list.add(fetchedData);
         }
 
+        notesList = list;
+
+        _notesLoadingStatus = Status.Success;
+        notify();
         result = {
           'status': true,
           'message': 'Data fetched successfully',
@@ -106,10 +118,8 @@ class NotesProvider extends ChangeNotifier {
         'message': e.message,
       };
     }
-
-    _loadingStatus = Status.Init;
+    _notesLoadingStatus = Status.Init;
     notify();
-
     return result;
   }
 }

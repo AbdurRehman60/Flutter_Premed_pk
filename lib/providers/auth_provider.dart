@@ -1,12 +1,13 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
+import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
+import 'package:premedpk_mobile_app/models/user_model.dart';
+import 'package:premedpk_mobile_app/utils/dialCode_to_country.dart';
+import 'package:premedpk_mobile_app/utils/services/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../api_manager/dio client/dio_client.dart';
-import '../api_manager/dio client/endpoints.dart';
-import 'package:premedpk_mobile_app/export.dart';
-
-// ignore: constant_identifier_names
 enum Status {
   NotLoggedIn,
   LoggedIn,
@@ -28,6 +29,12 @@ class AuthProvider extends ChangeNotifier {
     _loggedInStatus = value;
   }
 
+  Status get SignUpStatus => _SignUpStatus;
+
+  set SignUpStatus(Status value) {
+    _loggedInStatus = value;
+  }
+
   String _parentContactNumber = '';
   String get parentContactNumber => _parentContactNumber;
   set parentContactNumber(String value) {
@@ -35,10 +42,11 @@ class AuthProvider extends ChangeNotifier {
     notify();
   }
 
-  String _academyJoined = 'Yes';
+  String _academyJoined = 'No';
   String get academyJoined => _academyJoined;
   set academyJoined(String value) {
     _academyJoined = value;
+
     notify();
   }
 
@@ -46,7 +54,6 @@ class AuthProvider extends ChangeNotifier {
   String get parentFullName => _parentFullName;
   set parentFullName(String value) {
     _parentFullName = value;
-    notifyListeners();
   }
 
   List<String> _intendFor = [];
@@ -87,6 +94,13 @@ class AuthProvider extends ChangeNotifier {
     notify();
   }
 
+  String _country = '';
+  String get country => _country;
+
+  set country(String value) {
+    _country = value;
+  }
+
   String _School = '';
   String get School => _School;
   void setSchool(String value) {
@@ -106,21 +120,34 @@ class AuthProvider extends ChangeNotifier {
     };
     _loggedInStatus = Status.Authenticating;
     notify();
+
     try {
       Response response = await _client.post(
         Endpoints.login,
         data: loginData,
       );
-      print(response);
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
 
         if (responseData["success"]) {
-          result = {
-            'status': responseData["success"],
-            'message': responseData["status"],
-          };
+          final Map<String, dynamic> userResponse = await getLoggedInUser();
+
+          if (userResponse['status']) {
+            result = {
+              'status': userResponse["status"],
+              'message': userResponse["message"],
+            };
+          } else {
+            result = {
+              'status': userResponse["status"],
+              'message': userResponse["message"],
+            };
+          }
+
+          _loggedInStatus = Status.LoggedIn;
+          notify();
         } else {
           result = {
             'status': responseData["success"],
@@ -132,17 +159,21 @@ class AuthProvider extends ChangeNotifier {
         notify();
 
         //returning  results
-        result = {'status': false, 'message': json.decode(response.data)};
+        result = {
+          'status': false,
+          'message': json.decode(response.data),
+        };
       }
     } on DioException catch (e) {
       _loggedInStatus = Status.NotLoggedIn;
       notify();
-      // print('error + $e.message');
+
       result = {
         'status': false,
         'message': e.message,
       };
     }
+
     return result;
   }
 
@@ -153,34 +184,38 @@ class AuthProvider extends ChangeNotifier {
       final response = await _client.get(
         Endpoints.getLoggedInUser,
       );
-      print(response);
-      result = {
-        'status': true,
-        'message': 'Successful',
-      };
-      // if (response.statusCode == 200) {
-      //   print(response);
 
-      //   result = {
-      //     'status': true,
-      //     'message': 'Successful',
-      //   };
-      // } else {
-      //   //returning  results
-      //   result = {
-      //     'status': false,
-      //     'message': json.decode(response.data),
-      //   };
-      // }
+      if (response["isloggedin"]) {
+        User user = User.fromJson(response);
+        await UserPreferences().saveUser(user);
+        if (response["onboarding"]) {
+          result = {
+            'status': true,
+            'message': "home",
+          };
+        } else {
+          // await UserPreferences().saveNewUser(response["onboarding"]);
+          result = {
+            'status': true,
+            'message': "onboarding",
+          };
+        }
+      } else {
+        result = {
+          'status': false,
+          'message': "Error in fetching User Details",
+        };
+      }
     } on DioException catch (e) {
       _loggedInStatus = Status.NotLoggedIn;
       notify();
-      // print('error + $e.message');
+
       result = {
         'status': false,
         'message': e.message,
       };
     }
+
     return result;
   }
 
@@ -207,24 +242,34 @@ class AuthProvider extends ChangeNotifier {
         Endpoints.signup,
         data: signupData,
       );
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
-        if (responseData["responseData"] == "success") {
-          result = {
-            'status': responseData["success"],
-            'message': responseData["status"],
-          };
+        if (responseData["success"]) {
+          final Map<String, dynamic> userResponse = await getLoggedInUser();
+
+          if (userResponse['status']) {
+            result = {
+              'status': userResponse["status"],
+              'message': userResponse["status"],
+            };
+          } else {
+            result = {
+              'status': userResponse["status"],
+              'message': userResponse["message"],
+            };
+          }
         } else {
           result = {
-            'status': responseData["success"],
-            'message': responseData["status"],
+            'status': false,
+            'message': responseData["status"] ?? responseData["Text"],
           };
         }
       } else {
         _SignUpStatus = Status.Authenticating;
         notify();
-        //returning  results
+
         result = {
           'status': false,
           'message': json.decode(response.data),
@@ -239,133 +284,139 @@ class AuthProvider extends ChangeNotifier {
         'message': e.message,
       };
     }
+
     return result;
   }
 
-  Future<Map<String, dynamic>> postOptionalOnboarding(
-      Map<String, dynamic> optionalOnboardingData) async {
+  Future<Map<String, dynamic>> optionalOnboarding() async {
     var result;
 
-    // try {
-    //   Response response = await _client.post(
-    //     Endpoints.OptionalOnboarding,
-    //     data: request,
-    //   );
+    final Map<String, dynamic> payload = {
+      "academyJoined": academyJoined,
+      "parentContactNumber": parentContactNumber,
+      "parentFullName": parentFullName,
+      "optionalOnboarding": true,
+      "intendFor": intendFor,
+    };
 
-    //   if (response.statusCode == 200) {
-    //     final Map<String, dynamic> responseData =
-    //         Map<String, dynamic>.from(response.data);
+    _loggedInStatus = Status.Authenticating;
+    notify();
 
-    //     result = {
-    //       'status': responseData["success"],
-    //       'message': responseData["status"],
-    //     };
-    //     print(responseData);
-    //   } else {
-    //     result = {
-    //       'status': false,
-    //       'message': json.decode(response.data),
-    //     };
-    //   }
-    // } on DioException catch (e) {
-    //   result = {
-    //     'status': false,
-    //     'message': e.message,
-    //   };
-    // }
-    print(optionalOnboardingData);
+    try {
+      Response response = await _client.post(
+        Endpoints.OptionalOnboarding,
+        data: payload,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+
+        await getLoggedInUser();
+
+        result = {
+          'status': responseData["success"],
+          'message': responseData["status"],
+        };
+      } else {
+        result = {
+          'status': false,
+          'message': json.decode(response.data),
+        };
+      }
+    } on DioException catch (e) {
+      result = {
+        'status': false,
+        'message': e.message,
+      };
+    }
+
     return result;
   }
 
   Future<Map<String, dynamic>> requiredOnboarding() async {
     var result;
-    result = {
-      'status': false,
-      'message': "dwd",
+
+    final Map<String, dynamic> payload = {
+      "phonenumber": phoneNumber,
+      "city": City,
+      "school": School,
+      "country": getCountryName(country.replaceFirst('+', '')),
+      "whichYear": intendedYear,
+      "whatsappNumber": whatsappNumber.isNotEmpty ? whatsappNumber : phoneNumber
     };
-    // try {
-    //   Response response = await _client.post(
-    //     Endpoints.OptionalOnboarding,
-    //     data: request,
-    //   );
 
-    //   if (response.statusCode == 200) {
-    //     final Map<String, dynamic> responseData =
-    //         Map<String, dynamic>.from(response.data);
+    _loggedInStatus = Status.Authenticating;
+    notify();
 
-    //     result = {
-    //       'status': responseData["success"],
-    //       'message': responseData["status"],
-    //     };
-    //     print(responseData);
-    //   } else {
-    //     result = {
-    //       'status': false,
-    //       'message': json.decode(response.data),
-    //     };
-    //   }
-    // } on DioException catch (e) {
-    //   result = {
-    //     'status': false,
-    //     'message': e.message,
-    //   };
-    // }
+    try {
+      Response response = await _client.post(
+        Endpoints.RequiredOnboarding,
+        data: payload,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+
+        await getLoggedInUser();
+
+        result = {
+          'status': responseData["success"],
+          'message': responseData["status"],
+        };
+      } else {
+        result = {
+          'status': false,
+          'message': json.decode(response.data),
+        };
+      }
+    } on DioException catch (e) {
+      result = {
+        'status': false,
+        'message': e.message,
+      };
+    }
 
     return result;
   }
 
-  // Future<Map<String, dynamic>> logout() async {
-  //   var result;
+  Future<Map<String, dynamic>> logout() async {
+    var result;
 
-  //   if (!_Loggedin) {
-  //     // Do not proceed with logout if not logged in
-  //     return {'status': false, 'message': 'Not logged in'};
-  //   }
+    _loggedInStatus = Status.Authenticating;
+    notify();
 
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String accessToken = prefs.getString("accessToken") ?? '';
+    try {
+      Response response = await _client.logout(
+        Endpoints.logout,
+      );
 
-  //   _loggedInStatus = Status.Authenticating;
-  //   notify();
+      if (response.statusCode == 200) {
+        await UserPreferences().logOut();
+        _loggedInStatus = Status.LoggedOut;
+        notify();
 
-  //   try {
-  //     Response response = await _client.post(
-  //       Endpoints.logout,
-  //       options: Options(
-  //         headers: {"Authorization": "Bearer $accessToken"},
-  //       ),
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       final Map<String, dynamic> responseData =
-  //           Map<String, dynamic>.from(response.data);
-
-  //       SecureStorage().removeRefreshToken();
-
-  //       _loggedInStatus = Status.LoggedOut;
-  //       _Loggedin = false; // Set Loggedin to false after logout
-  //       notify();
-
-  //       result = {
-  //         'status': true,
-  //         'message': 'Successful',
-  //       };
-  //     } else {
-  //       _loggedInStatus = Status.LoggedIn;
-  //       notify();
-  //       result = {
-  //         'status': false,
-  //         'message': response.data.toString(),
-  //       };
-  //     }
-  //   } on DioError catch (e) {
-  //     _loggedInStatus = Status.LoggedIn;
-  //     notify();
-  //     result = {
-  //       'status': false,
-  //       'message': e.message,
-  //     };
-  //   }
-  //   return result;
-  // }
+        result = {
+          'status': true,
+          'message': 'Successful',
+        };
+      } else {
+        _loggedInStatus = Status.LoggedIn;
+        notify();
+        result = {
+          'status': false,
+          'message': response.data.toString(),
+        };
+      }
+    } on DioError catch (e) {
+      _loggedInStatus = Status.LoggedIn;
+      notify();
+      result = {
+        'status': false,
+        'message': e.message,
+      };
+    }
+    return result;
+  }
 }

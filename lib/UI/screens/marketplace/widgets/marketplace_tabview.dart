@@ -1,6 +1,6 @@
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/card_content.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/modal_bottom_sheet.dart';
-import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offers_widget.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offer_shimmer.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
@@ -83,53 +83,58 @@ class MarketplaceTabView extends StatelessWidget {
               .toList();
         }
 
-        return filteredList.length > 0
-            ? ListView.builder(
-                shrinkWrap: true,
-                itemCount: filteredList.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return ModalSheetWidget(bundle: filteredList[index]);
+        return bundleProvider.loadingStatus == Status.Success
+            ? filteredList.length > 0
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: filteredList.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ModalSheetWidget(
+                                  bundle: filteredList[index]);
+                            },
+                          );
                         },
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        decoration: BoxDecoration(
-                            color: PreMedColorTheme().white,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: PreMedColorTheme().neutral200,
-                              width: 2,
-                            )),
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: CardContent(
-                            bundle: filteredList[index],
-                            renderPoints: true,
-                            renderDescription: true,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            decoration: BoxDecoration(
+                                color: PreMedColorTheme().white,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: PreMedColorTheme().neutral200,
+                                  width: 2,
+                                )),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: CardContent(
+                                bundle: filteredList[index],
+                                renderPoints: true,
+                                renderDescription: true,
+                              ),
+                            ),
                           ),
                         ),
+                      );
+                    },
+                  )
+                : SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(80.0),
+                      child: EmptyState(
+                        displayImage: PremedAssets.Notfoundemptystate,
+                        title: 'LAUNCHING SOON',
+                        body: "",
                       ),
                     ),
-                  );
-                },
-              )
-            : SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(80.0),
-                  child: EmptyState(
-                    displayImage: PremedAssets.Notfoundemptystate,
-                    title: 'LAUNCHING SOON',
-                    body: "",
-                  ),
-                ),
+                  )
+            : const SpecialOffersShimmer(
+                tabCard: true,
               );
       },
     );

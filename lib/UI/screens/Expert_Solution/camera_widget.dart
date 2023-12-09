@@ -1,16 +1,18 @@
-import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/display_image_screen.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/export.dart';
 import 'package:premedpk_mobile_app/main.dart';
 import 'package:video_player/video_player.dart';
 
 class CameraScreen extends StatefulWidget {
-  CameraScreen();
+  // final VoidCallback onConfirm;
+  const CameraScreen({
+    super.key,
+    // required this.onConfirm,
+  });
 
   @override
   _CameraScreenState createState() => _CameraScreenState();
@@ -413,6 +415,7 @@ class _CameraScreenState extends State<CameraScreen>
                                             builder: (context) =>
                                                 DisplayImageScreen(
                                               image: imageFile,
+                                              // onConfirm: widget.onConfirm,
                                             ),
                                           ),
                                         );

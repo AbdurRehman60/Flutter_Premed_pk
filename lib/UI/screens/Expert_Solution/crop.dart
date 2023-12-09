@@ -76,7 +76,7 @@ class _CropImageState extends State<CropImage> {
   }
 
   void _navigateToDisplayImageScreen(CroppedFile croppedFile) {
-    Navigator.of(context).push(
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => DisplayImageScreen(
           image: File(croppedFile.path),

@@ -1,9 +1,11 @@
-import 'package:premedpk_mobile_app/UI/screens/home/home_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/Signup/signup.dart';
+import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
+
 import 'package:provider/provider.dart';
-import 'package:premedpk_mobile_app/export.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -32,20 +34,17 @@ class _LoginFormState extends State<LoginForm> {
         response.then(
           (response) {
             if (response['status']) {
-              // User user = response['user'];
-
-              // Provider.of<UserProvider>(context, listen: false).setUser(user);
-
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const HomeScreen(),
+                  builder: (context) => response['message'] == 'onboarding'
+                      ? const RequiredOnboarding()
+                      : const MainNavigationScreen(),
                 ),
               );
             } else {
               showError(context, response);
             }
-            // Add this line to print status code
           },
         );
       }
@@ -94,8 +93,7 @@ class _LoginFormState extends State<LoginForm> {
                   controller: emailController,
                   labelText: 'Email',
                   hintText: 'Enter your email',
-                  validator: (value) =>
-                      validateEmail(value), // Use the email validator
+                  validator: (value) => validateEmail(value),
                 ),
                 SizedBoxes.verticalMedium,
                 CustomTextField(
@@ -103,11 +101,13 @@ class _LoginFormState extends State<LoginForm> {
                   labelText: "Password",
                   hintText: "Enter your password",
                   obscureText: true,
-                  validator: (value) =>
-                      validatePassword(value), // Use the password validator
+                  validator: (value) => validatePassword(value),
                 ),
                 SizedBoxes.verticalBig,
-                CustomButton(buttonText: 'Login', onPressed: onLoginPressed),
+                CustomButton(
+                  buttonText: 'Login',
+                  onPressed: onLoginPressed,
+                ),
                 SizedBoxes.verticalBig,
                 const OrDivider(),
                 SizedBoxes.verticalLarge,
@@ -119,7 +119,6 @@ class _LoginFormState extends State<LoginForm> {
                       "Don't have an account?",
                       style: PreMedTextTheme().subtext,
                     ),
-                    SizedBoxes.horizontalMicro,
                     TextButton(
                       child: Text(
                         'SignUp',
@@ -127,7 +126,7 @@ class _LoginFormState extends State<LoginForm> {
                             color: PreMedColorTheme().primaryColorRed),
                       ),
                       onPressed: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const SignUpScreen(),

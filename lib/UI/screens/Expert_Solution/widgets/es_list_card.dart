@@ -19,8 +19,7 @@ class DoubtCard extends StatelessWidget {
       if (doubt.topic != null) {"tagName": doubt.topic, "isResource": false}
     ];
 
-    bool isSolved = doubt.solvedStatus ==
-        doubt.solvedStatus; // Check if the doubt is solved
+    bool isSolved = doubt.solvedStatus == 'Solved';
 
     return InkWell(
       onTap: () {
@@ -40,116 +39,97 @@ class DoubtCard extends StatelessWidget {
           elevation: 0,
           clipBehavior: Clip.hardEdge,
           constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height * 0.4,
+            minHeight: MediaQuery.of(context).size.height * 0.5,
           ),
           builder: (context) {
-            List<Widget> bottomSheetChildren = [
-              SingleChildScrollView(
+            return SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBoxes.verticalBig,
-                    Row(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBoxes.horizontalMedium,
-                        Text(
-                          'Doubt Details',
-                          style: PreMedTextTheme().heading5,
-                        ),
-                        SizedBoxes.horizontalMedium,
-                        Container(
-                          width: 55,
-                          decoration: ShapeDecoration(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            color: isSolved
-                                ? Colors.green // Solved status is green
-                                : Colors
-                                    .amberAccent, // Unsolved status is yellow
-                          ),
-                          child: Text(
-                            isSolved ? 'Solved' : 'Pending',
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBoxes.verticalBig,
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 4,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
                             Text(
-                              doubt.description,
-                              style: PreMedTextTheme().headline,
-                              maxLines: 4,
+                              'Doubt Details',
+                              style: PreMedTextTheme().heading5,
                             ),
-                            SizedBoxes.verticalMedium,
-                            Wrap(
-                              runSpacing: 8,
-                              spacing: 4,
-                              children: tags
-                                  .map((tag) => TagsRow(
-                                        tagName: tag['tagName'],
-                                        isResource: tag['isResource'],
-                                      ))
-                                  .toList(),
+                            SizedBoxes.horizontalMedium,
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: isSolved
+                                    ? Colors.green[100]
+                                    : Colors.amberAccent[100],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
+                                child: Text(
+                                  isSolved ? 'Solved' : 'Pending',
+                                  textAlign: TextAlign.center,
+                                  style: PreMedTextTheme().headline.copyWith(
+                                      fontWeight: FontWeights.regular),
+                                ),
+                              ),
                             ),
-                            SizedBoxes.verticalMedium,
-                            Image.network(
-                              'https://premed.pk/assets/CoreTeamImage-06df697b.png',
-                              width: 321,
-                              height: 77,
-                            ),
-                            SizedBoxes.verticalMicro
                           ],
                         ),
-                      ),
+                        SizedBoxes.verticalMedium,
+                        Text(
+                          doubt.description,
+                          style: PreMedTextTheme().headline,
+                          maxLines: 4,
+                        ),
+                        SizedBoxes.verticalMedium,
+                        Wrap(
+                          runSpacing: 8,
+                          spacing: 4,
+                          children: tags
+                              .map((tag) => TagsRow(
+                                    tagName: tag['tagName'],
+                                    isResource: tag['isResource'],
+                                  ))
+                              .toList(),
+                        ),
+                        SizedBoxes.verticalMedium,
+                        Container(
+                          height: 200,
+                          width: double.infinity,
+                          decoration: ShapeDecoration(
+                            color: PreMedColorTheme().primaryColorBlue100,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          child: Image.network(doubt.imgURL),
+                        ),
+                        SizedBoxes.verticalMedium,
+                      ],
                     ),
+                    if (isSolved)
+                      CustomButton(
+                        buttonText: 'Watch Explanation',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ViewSolution(
+                                doubt: doubt,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    else
+                      const SizedBox(),
                   ],
                 ),
               ),
-            ];
-
-            if (isSolved) {
-              bottomSheetChildren.add(SizedBox(
-                width: 320,
-                child: CustomButton(
-                    buttonText: 'Watch Explanation',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ViewSolution(
-                            doubt: doubt,
-                          ),
-                        ),
-                      );
-                    }),
-              ));
-            } else {
-              // If the doubt is unsolved, add a SizedBox
-              bottomSheetChildren.add(
-                const SizedBox(
-                  height: 48, // Adjust the height as needed
-                ),
-              );
-            }
-
-            return Column(
-              children: bottomSheetChildren,
             );
           },
         );
@@ -157,7 +137,7 @@ class DoubtCard extends StatelessWidget {
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

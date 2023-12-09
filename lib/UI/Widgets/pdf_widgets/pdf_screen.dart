@@ -3,6 +3,7 @@ import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
+import 'package:premedpk_mobile_app/utils/services/pdf_download.dart';
 
 class PdfScreen extends StatefulWidget {
   final NoteModel note;
@@ -32,6 +33,8 @@ class _PdfViewState extends State<PdfScreen> {
 
   @override
   Widget build(BuildContext context) {
+    PdfDownloader pdfDownloader = PdfDownloader();
+
     void openDemarcationBottomSheet() {
       showModalBottomSheet(
         context: context,
@@ -43,7 +46,7 @@ class _PdfViewState extends State<PdfScreen> {
         ),
         builder: (context) {
           return Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Column(
               children: [
                 Container(
@@ -93,23 +96,6 @@ class _PdfViewState extends State<PdfScreen> {
                           ),
                         ),
                       );
-                      // return ListTile(
-                      //   onTap: () async {
-                      //     Navigator.of(context).pop();
-
-                      //     _pdfViewController.future.then(
-                      //       (controller) {
-                      //         int pageNumber =
-                      //             widget.note.demarcations[index].page;
-
-                      //         if (pageNumber >= 0 && pageNumber < maxPage) {
-                      //           controller.setPage(pageNumber);
-                      //         }
-                      //       },
-                      //     );
-                      //   },
-                      //   title: Text(widget.note.demarcations[index].name),
-                      // );
                     },
                   ),
                 ),
@@ -141,6 +127,13 @@ class _PdfViewState extends State<PdfScreen> {
               ],
             ),
             actions: [
+              // IconButton(
+              //   onPressed: () {
+              //     pdfDownloader.downloadAndSavePDF(widget.note.notesURL,
+              //         'zxzxPreMed.PK-${widget.note.title}');
+              //   },
+              //   icon: Icon(Icons.download),
+              // ),
               IconButton(
                 onPressed: openDemarcationBottomSheet,
                 icon: const Icon(Icons.menu),
@@ -207,6 +200,7 @@ class _PdfViewState extends State<PdfScreen> {
                       iconSize: 15,
                       icon: Icons.arrow_back_ios,
                       buttonText: 'Previous',
+                      fontSize: 16,
                       onPressed: () {
                         _pdfViewController.future.then((controller) {
                           int pageNumber = currentPage - 2;
@@ -238,11 +232,14 @@ class _PdfViewState extends State<PdfScreen> {
                           color: PreMedColorTheme().neutral100,
                           border: Border(
                             top: BorderSide(
-                                color: PreMedColorTheme().neutral200),
+                              color: PreMedColorTheme().neutral200,
+                            ),
                             right: BorderSide(
-                                color: PreMedColorTheme().neutral200),
+                              color: PreMedColorTheme().neutral200,
+                            ),
                             bottom: BorderSide(
-                                color: PreMedColorTheme().neutral200),
+                              color: PreMedColorTheme().neutral200,
+                            ),
                           ),
                         ),
                         child: Padding(
@@ -267,6 +264,7 @@ class _PdfViewState extends State<PdfScreen> {
                       iconSize: 15,
                       icon: Icons.arrow_forward_ios,
                       buttonText: 'Next',
+                      fontSize: 16,
                       onPressed: () {
                         _pdfViewController.future.then((controller) {
                           int pageNumber = currentPage;
