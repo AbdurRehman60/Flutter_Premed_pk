@@ -49,6 +49,9 @@ class _CheckoutState extends State<Checkout> {
               ),
         ),
         centerTitle: true,
+        iconTheme: IconThemeData(
+          color: PreMedColorTheme().black,
+        ),
         backgroundColor: PreMedColorTheme().white,
       ),
       body: SingleChildScrollView(
@@ -136,7 +139,12 @@ class _CheckoutState extends State<Checkout> {
                     ),
                   ),
                   SizedBoxes.verticalMedium,
-                  // MyYoutubePlayer(),
+                  Text(
+                    'Video Instructions',
+                    style: PreMedTextTheme().heading5,
+                  ),
+                  SizedBoxes.verticalMedium,
+                  MyYoutubePlayer(),
                   SizedBoxes.verticalMedium,
                 ],
               ),

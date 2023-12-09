@@ -49,7 +49,7 @@ class Account extends StatelessWidget {
             child: Text(
               username.isNotEmpty ? username[0] : '',
               style: PreMedTextTheme().heading1.copyWith(
-                    color: PreMedColorTheme().white,
+                    color: PreMedColorTheme().primaryColorRed300,
                   ),
             ),
           ),

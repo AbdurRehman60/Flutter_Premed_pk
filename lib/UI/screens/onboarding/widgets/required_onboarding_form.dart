@@ -1,4 +1,5 @@
 import 'package:intl_phone_field/phone_number.dart';
+import 'package:premedpk_mobile_app/UI/Widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/optional_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/optional_checkbox.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
@@ -216,7 +217,11 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
           color: PreMedColorTheme().white,
           textColor: PreMedColorTheme().neutral600,
           onPressed: onNextPressed,
-        )
+        ),
+        SizedBoxes.verticalBig,
+        HubspotHelpButton(
+          light: true,
+        ),
       ],
     );
   }

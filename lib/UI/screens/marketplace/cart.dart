@@ -24,9 +24,12 @@ class Cart extends StatelessWidget {
         centerTitle: true,
         title: Text(
           'Cart',
-          style: PreMedTextTheme().subtext.copyWith(
+          style: PreMedTextTheme().heading6.copyWith(
                 color: PreMedColorTheme().black,
               ),
+        ),
+        iconTheme: IconThemeData(
+          color: PreMedColorTheme().black,
         ),
       ),
       body: SingleChildScrollView(

@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -15,33 +13,35 @@ class _MyYoutubePlayerState extends State<MyYoutubePlayer> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: 'POOAMMej1xU',
       flags: YoutubePlayerFlags(
-        autoPlay: true,
-        mute: true,
+        autoPlay: false,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
-      player: YoutubePlayer(
-        controller: _controller,
-        showVideoProgressIndicator: true,
-        progressIndicatorColor: Colors.amber,
-        progressColors: ProgressBarColors(
-          playedColor: Colors.amber,
-          handleColor: Colors.amberAccent,
+    return AspectRatio(
+      aspectRatio: 9 / 16,
+      child: YoutubePlayerBuilder(
+        player: YoutubePlayer(
+          controller: _controller,
+          showVideoProgressIndicator: true,
+          topActions: [],
+          progressIndicatorColor: PreMedColorTheme().primaryColorRed,
+          progressColors: ProgressBarColors(
+            playedColor: PreMedColorTheme().primaryColorRed,
+            handleColor: PreMedColorTheme().primaryColorRed100,
+          ),
+          onReady: () {
+            _controller.addListener(() {});
+          },
         ),
-        onReady: () {
-          _controller.addListener(() {});
-        },
+        builder: (context, player) => player,
       ),
-      builder: (context, player) => player,
     );
   }
 }

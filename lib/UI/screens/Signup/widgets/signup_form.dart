@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/Widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
@@ -162,14 +163,19 @@ class _SignupFormState extends State<SignupForm> {
                     ),
                   ],
                 ),
-                SizedBoxes.verticalBig,
-                Text(
-                  'By continuing, you agree to Premed.pk’s Terms of Use and Privacy Policy.',
-                  style: PreMedTextTheme().subtext.copyWith(
-                        color: PreMedColorTheme().neutral500,
-                        height: 1.5,
-                      ),
-                  textAlign: TextAlign.center,
+                HubspotHelpButton(),
+                SizedBoxes.verticalMedium,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 32),
+                  child: Text(
+                    'By continuing, you agree to Premed.pk’s  Terms of Use and Privacy Policy.',
+                    style: PreMedTextTheme().subtext.copyWith(
+                          fontSize: 12,
+                          color: PreMedColorTheme().neutral500,
+                          height: 1.5,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
                 )
               ],
             ),

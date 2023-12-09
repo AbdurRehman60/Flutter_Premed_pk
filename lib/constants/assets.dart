@@ -30,4 +30,5 @@ class PremedAssets {
   static String WhatsApp = 'assets/icons/whatsapp.png';
   static String Messenger = 'assets/icons/messenger.png';
   static String Email = 'assets/icons/email.png';
+  static String Chat = 'assets/icons/chat.png';
 }
