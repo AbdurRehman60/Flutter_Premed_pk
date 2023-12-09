@@ -33,7 +33,6 @@ class _LoginFormState extends State<LoginForm> {
         );
         response.then(
           (response) {
-            print('resposne message: ${response['message']}');
             if (response['status']) {
               Navigator.pushReplacement(
                 context,
@@ -46,7 +45,6 @@ class _LoginFormState extends State<LoginForm> {
             } else {
               showError(context, response);
             }
-            // Add this line to print status code
           },
         );
       }

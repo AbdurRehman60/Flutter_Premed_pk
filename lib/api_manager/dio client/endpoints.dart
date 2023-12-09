@@ -15,10 +15,10 @@ class Endpoints {
   static const String serverURL = "https://testapi.premed.pk";
 
   // receiveTimeout
-  static const Duration receiveTimeout = Duration(milliseconds: 5000);
+  static const Duration receiveTimeout = Duration(milliseconds: 15000);
 
   // connectTimeout
-  static const Duration connectionTimeout = Duration(milliseconds: 5000);
+  static const Duration connectionTimeout = Duration(milliseconds: 15000);
   //auth endpoints
   static const String login = '/login';
   static const String logout = '/auth/logout';

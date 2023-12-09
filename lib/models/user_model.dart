@@ -18,11 +18,11 @@ class User {
   String parentContactNumber;
   String whatsappNumber;
   String accountCreateDate;
-  String accountStatus;
+  String? accountStatus;
   String subscriptionStatus;
   String subscriptionStartDate;
   String subscriptionEndDate;
-  bool freeUser;
+  bool? freeUser;
   bool purchaseMocks;
   List<String> addonsPurchased;
   String referral;
@@ -53,7 +53,7 @@ class User {
     required this.parentContactNumber,
     required this.whatsappNumber,
     required this.accountCreateDate,
-    required this.accountStatus,
+    this.accountStatus,
     required this.subscriptionStatus,
     required this.subscriptionStartDate,
     required this.subscriptionEndDate,

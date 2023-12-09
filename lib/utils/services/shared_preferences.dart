@@ -26,11 +26,11 @@ class UserPreferences {
     prefs.setString('parentContactNumber', user.parentContactNumber);
     prefs.setString('whatsappNumber', user.whatsappNumber);
     prefs.setString('accountCreateDate', user.accountCreateDate);
-    prefs.setString('accountStatus', user.accountStatus);
+    prefs.setString('accountStatus', user.accountStatus ?? "");
     prefs.setString('subscriptionStatus', user.subscriptionStatus);
     prefs.setString('subscriptionStartDate', user.subscriptionStartDate);
     prefs.setString('subscriptionEndDate', user.subscriptionEndDate);
-    prefs.setBool('freeUser', user.freeUser);
+    prefs.setBool('freeUser', user.freeUser ?? false);
     prefs.setBool('purchaseMocks', user.purchaseMocks);
     prefs.setStringList('addonsPurchased', user.addonsPurchased);
     prefs.setString('referral', user.referral);

@@ -18,17 +18,17 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Delayed for animation to complete, you can adjust the duration accordingly
-    Future.delayed(const Duration(seconds: 4), () async {
+
+    Future.delayed(const Duration(seconds: 1), () async {
       bool userExists = await checkIfUserExists();
-      bool onboarding = await checkIfOnboardingComplete();
+
       if (userExists) {
-        // ignore: use_build_context_synchronously
         AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
 
-        final Future<Map<String, dynamic>> response = auth.getLoggedInUser();
-        response.then(
-          (response) {
+        final Map<String, dynamic> response = await auth.getLoggedInUser();
+        Future<bool> onboarding = checkIfOnboardingComplete();
+        onboarding.then(
+          (onboarding) {
             if (response['status']) {
               Navigator.pushReplacement(
                 context,

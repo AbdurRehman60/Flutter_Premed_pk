@@ -42,10 +42,11 @@ class AuthProvider extends ChangeNotifier {
     notify();
   }
 
-  String _academyJoined = 'Yes';
+  String _academyJoined = 'No';
   String get academyJoined => _academyJoined;
   set academyJoined(String value) {
     _academyJoined = value;
+
     notify();
   }
 
@@ -53,7 +54,6 @@ class AuthProvider extends ChangeNotifier {
   String get parentFullName => _parentFullName;
   set parentFullName(String value) {
     _parentFullName = value;
-    notifyListeners();
   }
 
   List<String> _intendFor = [];
@@ -188,15 +188,15 @@ class AuthProvider extends ChangeNotifier {
       );
 
       if (response["isloggedin"]) {
+        User user = User.fromJson(response);
+        await UserPreferences().saveUser(user);
         if (response["onboarding"]) {
-          User user = User.fromJson(response);
-          await UserPreferences().saveUser(user);
           result = {
             'status': true,
             'message': "home",
           };
         } else {
-          await UserPreferences().saveNewUser(response["onboarding"]);
+          // await UserPreferences().saveNewUser(response["onboarding"]);
           result = {
             'status': true,
             'message': "onboarding",
@@ -290,38 +290,49 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> postOptionalOnboarding(
-      Map<String, dynamic> optionalOnboardingData) async {
+  Future<Map<String, dynamic>> optionalOnboarding() async {
     var result;
 
-    // try {
-    //   Response response = await _client.post(
-    //     Endpoints.OptionalOnboarding,
-    //     data: request,
-    //   );
+    final Map<String, dynamic> payload = {
+      "academyJoined": academyJoined,
+      "parentContactNumber": parentContactNumber,
+      "parentFullName": parentFullName,
+      "optionalOnboarding": true,
+      "intendFor": intendFor,
+    };
 
-    //   if (response.statusCode == 200) {
-    //     final Map<String, dynamic> responseData =
-    //         Map<String, dynamic>.from(response.data);
+    _loggedInStatus = Status.Authenticating;
+    notify();
 
-    //     result = {
-    //       'status': responseData["success"],
-    //       'message': responseData["status"],
-    //     };
-    //     print(responseData);
-    //   } else {
-    //     result = {
-    //       'status': false,
-    //       'message': json.decode(response.data),
-    //     };
-    //   }
-    // } on DioException catch (e) {
-    //   result = {
-    //     'status': false,
-    //     'message': e.message,
-    //   };
-    // }
-    print(optionalOnboardingData);
+    try {
+      Response response = await _client.post(
+        Endpoints.OptionalOnboarding,
+        data: payload,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+
+        await getLoggedInUser();
+
+        result = {
+          'status': responseData["success"],
+          'message': responseData["status"],
+        };
+      } else {
+        result = {
+          'status': false,
+          'message': json.decode(response.data),
+        };
+      }
+    } on DioException catch (e) {
+      result = {
+        'status': false,
+        'message': e.message,
+      };
+    }
+
     return result;
   }
 
@@ -337,13 +348,12 @@ class AuthProvider extends ChangeNotifier {
       "whatsappNumber": whatsappNumber.isNotEmpty ? whatsappNumber : phoneNumber
     };
 
-    print(payload);
     _loggedInStatus = Status.Authenticating;
     notify();
 
     try {
       Response response = await _client.post(
-        Endpoints.OptionalOnboarding,
+        Endpoints.RequiredOnboarding,
         data: payload,
       );
 
@@ -351,11 +361,12 @@ class AuthProvider extends ChangeNotifier {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
 
+        await getLoggedInUser();
+
         result = {
           'status': responseData["success"],
           'message': responseData["status"],
         };
-        print(responseData);
       } else {
         result = {
           'status': false,
