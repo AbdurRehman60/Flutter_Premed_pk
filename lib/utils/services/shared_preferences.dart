@@ -203,63 +203,63 @@ class UserPreferences {
   //     otherInfo: {},
   //   );
   // }
-}
 
-Future<void> logOut() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<void> logOut() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  prefs.remove('status');
-  prefs.remove('isLoggedin');
-  prefs.remove('userName');
-  prefs.remove('fullName');
-  prefs.remove('phoneNumber');
-  prefs.remove('city');
-  prefs.remove('school');
-  prefs.remove('academyJoined');
-  prefs.remove('onBoarding');
-  prefs.remove('optionalOnboarding');
-  prefs.remove('accountType');
-  prefs.remove('intendFor');
-  prefs.remove('whichYear');
-  prefs.remove('country');
-  prefs.remove('availableOnWhatsapp');
-  prefs.remove('parentFullname');
-  prefs.remove('parentContactNumber');
-  prefs.remove('whatsappNumber');
-  prefs.remove('accountCreateDate');
-  prefs.remove('accountStatus');
-  prefs.remove('subscriptionStatus');
-  prefs.remove('subscriptionStartDate');
-  prefs.remove('subscriptionEndDate');
-  prefs.remove('freeUser');
-  prefs.remove('purchaseMocks');
-  prefs.remove('addonsPurchased');
-  prefs.remove('referral');
-  prefs.remove('milestones');
-  prefs.remove('notificationsRead');
-  prefs.remove('cookies');
-  prefs.remove('tags');
-  for (int i = 0; prefs.containsKey('$i.bundleId'); i++) {
-    prefs.remove('$i.bundleId');
-    prefs.remove('$i.purchaseDate');
-    prefs.remove('$i.expiryDate');
+    prefs.remove('status');
+    prefs.remove('isLoggedin');
+    prefs.remove('userName');
+    prefs.remove('fullName');
+    prefs.remove('phoneNumber');
+    prefs.remove('city');
+    prefs.remove('school');
+    prefs.remove('academyJoined');
+    prefs.remove('onBoarding');
+    prefs.remove('optionalOnboarding');
+    prefs.remove('accountType');
+    prefs.remove('intendFor');
+    prefs.remove('whichYear');
+    prefs.remove('country');
+    prefs.remove('availableOnWhatsapp');
+    prefs.remove('parentFullname');
+    prefs.remove('parentContactNumber');
+    prefs.remove('whatsappNumber');
+    prefs.remove('accountCreateDate');
+    prefs.remove('accountStatus');
+    prefs.remove('subscriptionStatus');
+    prefs.remove('subscriptionStartDate');
+    prefs.remove('subscriptionEndDate');
+    prefs.remove('freeUser');
+    prefs.remove('purchaseMocks');
+    prefs.remove('addonsPurchased');
+    prefs.remove('referral');
+    prefs.remove('milestones');
+    prefs.remove('notificationsRead');
+    prefs.remove('cookies');
+    prefs.remove('tags');
+    for (int i = 0; prefs.containsKey('$i.bundleId'); i++) {
+      prefs.remove('$i.bundleId');
+      prefs.remove('$i.purchaseDate');
+      prefs.remove('$i.expiryDate');
 
-    prefs.remove('$i.bundleDetails.id');
-    prefs.remove('$i.bundleDetails.bundlePoints');
-    prefs.remove('$i.bundleDetails.includedTags');
-    prefs.remove('$i.bundleDetails.isPublished');
-    prefs.remove('$i.bundleDetails.bundleName');
-    prefs.remove('$i.bundleDetails.bundlePrice');
-    prefs.remove('$i.bundleDetails.discountPercentage');
-    prefs.remove('$i.bundleDetails.bundleDescription');
-    prefs.remove('$i.bundleDetails.bundleIcon');
-    prefs.remove('$i.bundleDetails.bundleDiscount');
-    prefs.remove('$i.bundleDetails.createdAt');
-    prefs.remove('$i.bundleDetails.updatedAt');
-    prefs.remove('$i.bundleDetails.v');
-    prefs.remove('$i.bundleDetails.position');
+      prefs.remove('$i.bundleDetails.id');
+      prefs.remove('$i.bundleDetails.bundlePoints');
+      prefs.remove('$i.bundleDetails.includedTags');
+      prefs.remove('$i.bundleDetails.isPublished');
+      prefs.remove('$i.bundleDetails.bundleName');
+      prefs.remove('$i.bundleDetails.bundlePrice');
+      prefs.remove('$i.bundleDetails.discountPercentage');
+      prefs.remove('$i.bundleDetails.bundleDescription');
+      prefs.remove('$i.bundleDetails.bundleIcon');
+      prefs.remove('$i.bundleDetails.bundleDiscount');
+      prefs.remove('$i.bundleDetails.createdAt');
+      prefs.remove('$i.bundleDetails.updatedAt');
+      prefs.remove('$i.bundleDetails.v');
+      prefs.remove('$i.bundleDetails.position');
+    }
+
+    prefs.remove('freeTrial.complete');
+    prefs.remove('freeTrial.daysLeft');
   }
-
-  prefs.remove('freeTrial.complete');
-  prefs.remove('freeTrial.daysLeft');
 }

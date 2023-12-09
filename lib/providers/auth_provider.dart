@@ -384,9 +384,6 @@ class AuthProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> logout() async {
     var result;
 
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String accessToken = prefs.getString("accessToken") ?? '';
-
     _loggedInStatus = Status.Authenticating;
     notify();
 
@@ -396,8 +393,8 @@ class AuthProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
+        await UserPreferences().logOut();
         _loggedInStatus = Status.LoggedOut;
-
         notify();
 
         result = {
