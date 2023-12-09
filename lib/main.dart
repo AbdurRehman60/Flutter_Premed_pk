@@ -13,13 +13,17 @@ import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 List<CameraDescription> cameras = [];
 
 Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     cameras = await availableCameras();
   } on CameraException catch (e) {
     print('Error in fetching the cameras: $e');
@@ -47,7 +51,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UplaodImageProvider()),
       ],
       child: MaterialApp(
-
         routes: {
           '/ExpertSolution': (context) => const AskanExpert(),
           '/Checkout': (context) => const Checkout(),
@@ -57,7 +60,6 @@ class MyApp extends StatelessWidget {
         theme: _PreMedTheme.data,
         home: const SplashScreen(),
       ),
-
     );
   }
 }

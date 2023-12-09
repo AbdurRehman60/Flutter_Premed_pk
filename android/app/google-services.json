@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1036205428938",
+    "project_id": "premed-mobile-app",
+    "storage_bucket": "premed-mobile-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036205428938:android:c97ecb64ec26cee168e433",
+        "android_client_info": {
+          "package_name": "com.example.premedpk_mobile_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1036205428938-7jl9ggo0l1n4cb7v1s5mm7ulgrud2dss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGA_dIViPg5I26Dsp37OiChKqcE_FdQLw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1036205428938-7jl9ggo0l1n4cb7v1s5mm7ulgrud2dss.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1036205428938-oomnrs6bm8dnbmduhhbjp3hiagdpqjer.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.premedpkMobileApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

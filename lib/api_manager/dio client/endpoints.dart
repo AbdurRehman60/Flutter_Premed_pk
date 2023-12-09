@@ -25,6 +25,8 @@ class Endpoints {
   static const String logout = '/logout';
   static const String signup = '/api/auth/signup';
   static const String getLoggedInUser = '/LoggedInUser';
+  static const String continueWithGoogle = '/api/auth/google-login';
+
   //onboarding endpoints
   static const String OptionalOnboarding = '/api/auth/optional-onboarding';
   static const String RequiredOnboarding = '/api/auth/required-onboarding';

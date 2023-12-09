@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
 import 'package:premedpk_mobile_app/utils/dialCode_to_country.dart';
 import 'package:premedpk_mobile_app/utils/services/shared_preferences.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 enum Status {
   NotLoggedIn,
@@ -107,6 +107,12 @@ class AuthProvider extends ChangeNotifier {
     _School = value;
     notify();
   }
+
+  //GoogleSignin
+
+  final googleSignIn = GoogleSignIn();
+  GoogleSignInAccount? _googleUser;
+  GoogleSignInAccount get googleUser => _googleUser!;
 
   notify() {
     notifyListeners();
@@ -417,6 +423,99 @@ class AuthProvider extends ChangeNotifier {
         'message': e.message,
       };
     }
+    return result;
+  }
+
+  Future<Map<String, dynamic>> continueWithGoogle() async {
+    var result;
+
+    try {
+      _loggedInStatus = Status.Authenticating;
+      notify();
+
+      final user = await googleSignIn.signIn();
+      if (user == null) {
+        result = {
+          'status': false,
+          'message': 'No Account Selected',
+        };
+        return result;
+      }
+      _googleUser = user;
+
+      final googleAuth = await googleUser.authentication;
+
+      final Map<String, dynamic> payload = {
+        "username": googleUser.email.toString(),
+        "fullname": googleUser.displayName.toString(),
+        "picture": googleUser.photoUrl.toString(),
+        "token": googleAuth.accessToken.toString()
+      };
+      print(payload);
+      try {
+        Response response = await _client.post(
+          Endpoints.continueWithGoogle,
+          data: payload,
+        );
+        print("response ${response}");
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> responseData =
+              Map<String, dynamic>.from(response.data);
+
+          if (responseData["success"]) {
+            final Map<String, dynamic> userResponse = await getLoggedInUser();
+
+            if (userResponse['status']) {
+              result = {
+                'status': userResponse["status"],
+                'message': userResponse["message"],
+              };
+            } else {
+              result = {
+                'status': userResponse["status"],
+                'message': userResponse["message"],
+              };
+            }
+
+            _loggedInStatus = Status.LoggedIn;
+            notify();
+          } else {
+            result = {
+              'status': responseData["success"],
+              'message': responseData["status"],
+            };
+          }
+        } else {
+          _loggedInStatus = Status.NotLoggedIn;
+          notify();
+
+          result = {
+            'status': false,
+            'message': json.decode(response.data),
+          };
+        }
+      } on DioException catch (e) {
+        _loggedInStatus = Status.NotLoggedIn;
+        notify();
+
+        result = {
+          'status': false,
+          'message': e.message,
+        };
+      }
+
+      _googleUser = null;
+      await googleSignIn.disconnect();
+    } catch (e) {
+      _loggedInStatus = Status.NotLoggedIn;
+      notify();
+
+      result = {
+        'status': false,
+        'message': e.toString(),
+      };
+    }
+
     return result;
   }
 }

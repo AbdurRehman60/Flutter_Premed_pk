@@ -9,9 +9,9 @@
      </intent>
      </queries>
     <application
-        android:label="premedpk_mobile_app"
+        android:label="PreMed.PK"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
