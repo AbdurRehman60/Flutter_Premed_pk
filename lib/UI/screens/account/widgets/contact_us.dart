@@ -3,15 +3,8 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUs extends StatelessWidget {
-  final Color btnColor;
-  final Color btnColor1;
-  final Color btnColor2;
-
   const ContactUs({
     Key? key,
-    required this.btnColor,
-    required this.btnColor1,
-    required this.btnColor2,
   }) : super(key: key);
 
   @override
@@ -24,7 +17,7 @@ class ContactUs extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().white,
         title: Text(
-          'Contact US',
+          'Contact Us',
           style: PreMedTextTheme().heading7.copyWith(
                 color: PreMedColorTheme().black,
               ),
@@ -39,7 +32,7 @@ class ContactUs extends StatelessWidget {
         child: Column(
           children: [
             Image.asset(PremedAssets.ContactUS),
-            SizedBoxes.verticalLarge,
+            SizedBoxes.verticalGargangua,
             Container(
               decoration: BoxDecoration(
                 color: const Color(0xFFDDFFE2),
@@ -73,7 +66,7 @@ class ContactUs extends StatelessWidget {
                         launchUrl(whatsApp);
                       },
                       icon: CircleAvatar(
-                        backgroundColor: btnColor,
+                        backgroundColor: Colors.green,
                         child: Icon(
                           Icons.arrow_forward_rounded,
                           color: PreMedColorTheme().white,
@@ -84,7 +77,7 @@ class ContactUs extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBoxes.verticalGargangua,
+            SizedBoxes.verticalMedium,
             Container(
               decoration: BoxDecoration(
                 color: const Color(0xFFEBF7FF),
@@ -118,7 +111,7 @@ class ContactUs extends StatelessWidget {
                         launchUrl(messenger);
                       },
                       icon: CircleAvatar(
-                        backgroundColor: btnColor1,
+                        backgroundColor: const Color(0xFF039DFD),
                         child: Icon(
                           Icons.arrow_forward_rounded,
                           color: PreMedColorTheme().white,
@@ -129,7 +122,7 @@ class ContactUs extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBoxes.verticalGargangua,
+            SizedBoxes.verticalMedium,
             Container(
               decoration: BoxDecoration(
                 color: const Color(0xFFFFEFD5),
@@ -163,7 +156,7 @@ class ContactUs extends StatelessWidget {
                         launchUrl(gmail);
                       },
                       icon: CircleAvatar(
-                        backgroundColor: btnColor2,
+                        backgroundColor: const Color(0xFFFBA028),
                         child: Icon(
                           Icons.arrow_forward,
                           color: PreMedColorTheme().white,

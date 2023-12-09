@@ -29,18 +29,18 @@ class TermsCondition extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Welcome to PreMed.PK! \nThese terms and conditions outline the rules and regulations for the use of PreMed.PK's Website, located at premed.pk. \nBy accessing this website we assume you accept these terms and conditions. Do not continue to use PreMed.PK if you do not agree to take all of the terms and conditions stated on this page. The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: 'Client', 'You' and 'Your' refers to you, the person log on this website and compliant to the Company’s terms and conditions. 'The Company', 'Ourselves', 'We', 'Our' and 'Us', refers to our Company. 'Party', 'Parties', or 'Us', refers to both the Client and ourselves. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same",
+                "Welcome to PreMed.PK! \n\nThese terms and conditions outline the rules and regulations for the use of PreMed.PK's Website, located at premed.pk. \n\nBy accessing this website we assume you accept these terms and conditions. Do not continue to use PreMed.PK if you do not agree to take all of the terms and conditions stated on this page. The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: 'Client', 'You' and 'Your' refers to you, the person log on this website and compliant to the Company’s terms and conditions. 'The Company', 'Ourselves', 'We', 'Our' and 'Us', refers to our Company. 'Party', 'Parties', or 'Us', refers to both the Client and ourselves. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same",
               ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               Text(
                 'Cookies',
                 style: PreMedTextTheme().heading5,
               ),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.verticalMedium,
               const Text(
                 "We employ the use of cookies. By accessing PreMed.PK, you agreed to use cookies in agreement with the PreMed.PK's Privacy Policy. \nMost interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies",
               ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               Text(
                 'License',
                 style: PreMedTextTheme().heading5,
@@ -48,7 +48,7 @@ class TermsCondition extends StatelessWidget {
               const Text(
                 'Unless otherwise stated, PreMed.PK and/or its licensors own the intellectual property rights for all material on PreMed.PK. All intellectual property rights are reserved. You may access this from PreMed.PK for your own personal use subjected to restrictions set in these terms and conditions.\nYou Must Not:',
               ),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.verticalMedium,
               for (String bulletPoint in License)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
@@ -66,15 +66,15 @@ class TermsCondition extends StatelessWidget {
                     ],
                   ),
                 ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               Text(
                 'Hyperlinking to Our Content',
                 style: PreMedTextTheme().heading5,
               ),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.verticalMedium,
               const Text(
                   'The following organizations may link to our Website without prior written approval:'),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.verticalMedium,
               for (String bulletPoint in Hyperlinking)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
@@ -92,10 +92,10 @@ class TermsCondition extends StatelessWidget {
                     ],
                   ),
                 ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               const Text(
                   'These organizations may link to our home page, to publications, or to other Website information so long as the link:'),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.verticalMedium,
               for (String bulletPoint in Hyperlinking1)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
@@ -113,7 +113,7 @@ class TermsCondition extends StatelessWidget {
                     ],
                   ),
                 ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               const Text(
                 'We may consider and approve other link requests from the following types of organizations:',
               ),
@@ -134,11 +134,11 @@ class TermsCondition extends StatelessWidget {
                     ],
                   ),
                 ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               const Text(
                 'We will approve link requests from these organizations if we decide that:',
               ),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.verticalMedium,
               for (String bulletPoint in Hyperlinking3)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
@@ -156,10 +156,10 @@ class TermsCondition extends StatelessWidget {
                     ],
                   ),
                 ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               const Text(
                   'These organizations may link to our home page so long as the link:'),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.verticalMedium,
               for (String bulletPoint in Hyperlinking4)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
@@ -177,14 +177,14 @@ class TermsCondition extends StatelessWidget {
                     ],
                   ),
                 ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               const Text(
                 'If you are one of the organizations listed above and are interested in linking to our website, you must inform us by sending an e-mail to PreMed.PK. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to link to our Website, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.',
               ),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.verticalMedium,
               const Text(
                   'Approved organizations may hyperlink to our Website as follows:'),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.verticalMedium,
               for (String bulletPoint in Hyperlinking5)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
@@ -202,7 +202,7 @@ class TermsCondition extends StatelessWidget {
                     ],
                   ),
                 ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               const Text(
                 "No use of PreMed.PK's logo or other artwork will be allowed for linking absent a trademark license agreement.",
               ),
@@ -210,25 +210,25 @@ class TermsCondition extends StatelessWidget {
                 'Reservation of Rights',
                 style: PreMedTextTheme().heading5,
               ),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.verticalMedium,
               const Text(
                 'We reserve the right to request that you remove all links or any particular link to our Website. You approve to immediately remove all links to our Website upon request. We also reserve the right to amend these terms and conditions and it’s linking policy at any time. By continuously linking to our Website, you agree to be bound to and follow these linking terms and conditions.',
               ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               Text(
-                'we are not obligated to do so or to respond to you directly',
+                'We are not obligated to do so or to respond to you directly',
                 style: PreMedTextTheme().heading5,
               ),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.verticalMedium,
               const Text(
                 'If you find any link on our Website that is offensive for any reason, you are free to contact and inform us any moment. We will consider requests to remove links but we are not obligated to or so or to respond to you directly.',
               ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               Text(
                 'DMCA Guidelines',
                 style: PreMedTextTheme().heading5,
               ),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.verticalMedium,
               const Text(
                 'In accordance with the Digital Millennium Copyright Act or DMCA, PreMed.PK encourages all copyright infringement claims to be made in writing. Any registered user or visitor to the PreMed.PK website who believes they are a victim of copyright infringement should notify us immediately at contact@premed.pk with the subject of DMCA.',
               ),

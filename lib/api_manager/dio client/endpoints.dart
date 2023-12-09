@@ -22,7 +22,7 @@ class Endpoints {
   static const Duration connectionTimeout = Duration(milliseconds: 15000);
   //auth endpoints
   static const String login = '/login';
-  static const String logout = '/auth/logout';
+  static const String logout = '/logout';
   static const String signup = '/api/auth/signup';
   static const String getLoggedInUser = '/LoggedInUser';
   //onboarding endpoints

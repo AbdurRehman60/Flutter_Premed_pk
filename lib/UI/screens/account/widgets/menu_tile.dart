@@ -3,20 +3,14 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class MenuTile extends StatelessWidget {
   final String heading;
-  // final String description;
+
   final String icon;
-  // final Route route;
-  // final Color bgColor;
-  // final Color btnColor;
+
   final VoidCallback onTap;
   const MenuTile({
     super.key,
     required this.heading,
-    // required this.description,
     required this.icon,
-    // required this.route,
-    // this.bgColor = Colors.black12,
-    // this.btnColor = Colors.black,
     required this.onTap,
   });
 
@@ -31,7 +25,7 @@ class MenuTile extends StatelessWidget {
           border: Border.all(color: PreMedColorTheme().white, width: 1),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

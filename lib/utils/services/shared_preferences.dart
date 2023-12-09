@@ -205,7 +205,7 @@ class UserPreferences {
   // }
 }
 
-Future<void> removeUser() async {
+Future<void> logOut() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
   prefs.remove('status');
@@ -237,7 +237,7 @@ Future<void> removeUser() async {
   prefs.remove('referral');
   prefs.remove('milestones');
   prefs.remove('notificationsRead');
-
+  prefs.remove('cookies');
   prefs.remove('tags');
   for (int i = 0; prefs.containsKey('$i.bundleId'); i++) {
     prefs.remove('$i.bundleId');
