@@ -76,7 +76,6 @@ dependencies:
   dotted_border: ^2.1.0
   shimmer: ^3.0.0
   url_launcher: ^6.2.2
-
   youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
