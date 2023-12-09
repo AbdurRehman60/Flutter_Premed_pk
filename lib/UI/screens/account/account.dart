@@ -110,7 +110,11 @@ class Account extends StatelessWidget {
                             case 2:
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => const ContactUs(),
+                                  builder: (context) => ContactUs(
+                                    btnColor: Colors.green,
+                                    btnColor1: Color(0xFF039DFD),
+                                    btnColor2: Color(0xFFFBA028),
+                                  ),
                                 ),
                               );
                               break;

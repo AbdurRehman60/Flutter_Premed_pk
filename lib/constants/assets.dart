@@ -27,4 +27,7 @@ class PremedAssets {
   static String ContactUs = 'assets/icons/contactus.png';
   static String Policy = 'assets/icons/lock.png';
   static String LogOut = 'assets/icons/logout.png';
+  static String WhatsApp = 'assets/icons/whatsapp.png';
+  static String Messenger = 'assets/icons/messenger.png';
+  static String Email = 'assets/icons/email.png';
 }

@@ -77,6 +77,8 @@ dependencies:
   gradient_borders: ^1.0.0
   dotted_border: ^2.1.0
   shimmer: ^3.0.0
+  url_launcher: ^6.2.2
+  
 
 
 dev_dependencies:
@@ -139,6 +141,9 @@ flutter:
     - assets/icons/contactus.png
     - assets/icons/lock.png
     - assets/icons/logout.png
+    - assets/icons/whatsapp.png
+    - assets/icons/messenger.png
+    - assets/icons/email.png
   fonts:
     - family: Inter
       fonts:
