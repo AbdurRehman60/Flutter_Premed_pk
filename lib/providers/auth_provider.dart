@@ -338,58 +338,58 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> logout() async {
-    var result;
+//   Future<Map<String, dynamic>> logout() async {
+//     var result;
 
-    if (!_Loggedin) {
-      // Do not proceed with logout if not logged in
-      return {'status': false, 'message': 'Not logged in'};
-    }
+//     if (!_Loggedin) {
+//       // Do not proceed with logout if not logged in
+//       return {'status': false, 'message': 'Not logged in'};
+//     }
 
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String accessToken = prefs.getString("accessToken") ?? '';
+//     final SharedPreferences prefs = await SharedPreferences.getInstance();
+//     String accessToken = prefs.getString("accessToken") ?? '';
 
-    _loggedInStatus = Status.Authenticating;
-    notify();
+//     _loggedInStatus = Status.Authenticating;
+//     notify();
 
-    try {
-      Response response = await _client.post(
-        Endpoints.logout,
-        options: Options(
-          headers: {"Authorization": "Bearer $accessToken"},
-        ),
-      );
+//     try {
+//       Response response = await _client.post(
+//         Endpoints.logout,
+//         options: Options(
+//           headers: {"Authorization": "Bearer $accessToken"},
+//         ),
+//       );
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+//       if (response.statusCode == 200) {
+//         final Map<String, dynamic> responseData =
+//             Map<String, dynamic>.from(response.data);
 
-        SecureStorage().removeRefreshToken();
+//         SecureStorage().removeRefreshToken();
 
-        _loggedInStatus = Status.LoggedOut;
-        _Loggedin = false; // Set Loggedin to false after logout
-        notify();
+//         _loggedInStatus = Status.LoggedOut;
+//         _Loggedin = false; // Set Loggedin to false after logout
+//         notify();
 
-        result = {
-          'status': true,
-          'message': 'Successful',
-        };
-      } else {
-        _loggedInStatus = Status.LoggedIn;
-        notify();
-        result = {
-          'status': false,
-          'message': response.data.toString(),
-        };
-      }
-    } on DioError catch (e) {
-      _loggedInStatus = Status.LoggedIn;
-      notify();
-      result = {
-        'status': false,
-        'message': e.message,
-      };
-    }
-    return result;
-  }
+//         result = {
+//           'status': true,
+//           'message': 'Successful',
+//         };
+//       } else {
+//         _loggedInStatus = Status.LoggedIn;
+//         notify();
+//         result = {
+//           'status': false,
+//           'message': response.data.toString(),
+//         };
+//       }
+//     } on DioError catch (e) {
+//       _loggedInStatus = Status.LoggedIn;
+//       notify();
+//       result = {
+//         'status': false,
+//         'message': e.message,
+//       };
+//     }
+//     return result;
+//   }
 }

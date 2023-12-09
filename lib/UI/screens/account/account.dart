@@ -11,17 +11,17 @@ class Account extends StatelessWidget {
   const Account({Key? key}) : super(key: key);
   void onLogoutPressed() async {
     // Call the logout function from the provider
-    final result = await AuthProvider().logout();
+    // final result = await AuthProvider().logout();
 
     // Handle the result accordingly
-    if (result['status'] == true) {
-      // Logout was successful
-      // You may want to navigate to the login screen or perform any additional actions
-      print('Logout successful');
-    } else {
-      // Logout failed, display an error message or handle accordingly
-      print('Logout failed: ${result['message']}');
-    }
+    // if (result['status'] == true) {
+    //   // Logout was successful
+    //   // You may want to navigate to the login screen or perform any additional actions
+    //   print('Logout successful');
+    // } else {
+    //   // Logout failed, display an error message or handle accordingly
+    //   print('Logout failed: ${result['message']}');
+    // }
   }
 
   @override
