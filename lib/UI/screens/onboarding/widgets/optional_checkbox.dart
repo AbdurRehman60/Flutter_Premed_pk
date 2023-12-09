@@ -9,28 +9,39 @@ import 'package:provider/provider.dart';
 class PhoneFieldWithCheckbox extends StatefulWidget {
   final void Function(String) onWhatsAppNumberSelected;
 
-  PhoneFieldWithCheckbox({required this.onWhatsAppNumberSelected});
+  final bool isPhoneFieldEnabled;
+  final String? initialValue;
+  PhoneFieldWithCheckbox({
+    required this.onWhatsAppNumberSelected,
+    required this.isPhoneFieldEnabled,
+    this.initialValue,
+  });
 
   @override
   _PhoneFieldWithCheckboxState createState() => _PhoneFieldWithCheckboxState();
 }
 
 class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {
-  bool isPhoneFieldEnabled = false;
-
   TextEditingController whatsappNumberController = TextEditingController();
+  bool showTF = false;
+
+  @override
+  void initState() {
+    super.initState();
+    showTF = !widget.isPhoneFieldEnabled;
+  }
 
   void togglePhoneField(bool value) {
     setState(() {
-      isPhoneFieldEnabled = !value;
-      if (!isPhoneFieldEnabled) {
+      Provider.of<AuthProvider>(context, listen: false).whatsappNumber = '';
+      showTF = !value;
+      if (!showTF) {
         resetPhoneField();
       }
     });
   }
 
   void resetPhoneField() {
-    // Clear the phone number and reset the phone field
     whatsappNumberController.clear();
   }
 
@@ -42,17 +53,18 @@ class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {
       children: <Widget>[
         CustomCheckBox(
           label: "Is this number available on WhatsApp?",
-          initialValue: true, // By default, it is checked
-          onChanged: togglePhoneField, // Toggle phone field visibility
+          initialValue: !showTF,
+          onChanged: togglePhoneField,
         ),
         SizedBoxes.verticalBig,
         Visibility(
-          visible: isPhoneFieldEnabled,
+          visible: showTF,
           child: PhoneDropdown(
             onPhoneNumberSelected: (PhoneNumber phoneNumber) {
               auth.whatsappNumber = phoneNumber.completeNumber;
             },
             hintText: 'Enter your WhatsApp Number',
+            initialValue: widget.initialValue,
           ),
         )
       ],

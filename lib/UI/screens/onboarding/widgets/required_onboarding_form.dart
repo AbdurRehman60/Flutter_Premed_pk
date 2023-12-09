@@ -27,6 +27,7 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
 
     void onPhoneNumberSelected(PhoneNumber phoneNumber) {
       auth.phoneNumber = phoneNumber.completeNumber;
+      auth.country = phoneNumber.countryCode;
     }
 
     void onCitySelected(String? selectedCity) {
@@ -42,13 +43,25 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
       hasErrors = false;
 
       if (auth.phoneNumber.isEmpty) {
-        print('object');
         setState(() {
-          error = 'Phone number cannot be empty.';
+          error = 'Phone number can not be empty.';
           hasErrors = true;
         });
       }
 
+      if (auth.City.isEmpty) {
+        setState(() {
+          error = 'City can not be empty.';
+          hasErrors = true;
+        });
+      }
+
+      if (auth.School.isEmpty) {
+        setState(() {
+          error = 'School can not be empty.';
+          hasErrors = true;
+        });
+      }
       return !hasErrors;
     }
 
@@ -101,18 +114,20 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
                   ),
                 ),
                 SizedBoxes.verticalTiny,
-
                 PhoneDropdown(
                   onPhoneNumberSelected: onPhoneNumberSelected,
                   hintText: "Enter Your Phone Number",
+                  initialValue: auth.phoneNumber,
                 ),
                 SizedBoxes.verticalMedium,
                 PhoneFieldWithCheckbox(
                   onWhatsAppNumberSelected: (whatsappNumber) {
                     auth.whatsappNumber = whatsappNumber;
                   },
+                  isPhoneFieldEnabled: auth.whatsappNumber.isEmpty ||
+                      auth.whatsappNumber == auth.phoneNumber,
+                  initialValue: auth.whatsappNumber,
                 ),
-
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
@@ -121,13 +136,11 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
                   ),
                 ),
                 SizedBoxes.verticalTiny,
-                // CustomTextField(),
                 CityDropdownList(
                   items: cities_data,
                   selectedItem: auth.City,
                   onChanged: onCitySelected,
                 ),
-
                 SizedBoxes.verticalLarge,
                 Align(
                   alignment: Alignment.topLeft,
@@ -140,10 +153,9 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
                 SizedBoxes.verticalLarge,
                 SchoolDropdownList(
                   items: schools_data,
-                  selectedItem: schools_data[0],
+                  selectedItem: auth.School,
                   onChanged: onSchoolSelected, // Pass the callback function
                 ),
-
                 SizedBoxes.verticalLarge,
                 Align(
                   alignment: Alignment.topLeft,

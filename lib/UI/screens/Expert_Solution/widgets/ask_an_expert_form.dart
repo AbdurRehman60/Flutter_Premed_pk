@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/screens/expert_solution/ask_an_expert.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/local_image_display.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/dropdown_form.dart';
@@ -23,19 +24,18 @@ class AskanExpertForm extends StatelessWidget {
 
     void onSubmitPressed() {
       final form = _formKey.currentState!;
-      if (askAnExpertProvider.uploadedImage == null) {
+      if (uplaodImageProvider.uploadedImage == null) {
         showError(context, {"message": "Please upload an Image"});
         return;
       }
       if (form.validate()) {
         final Future<Map<String, dynamic>> response =
             askAnExpertProvider.uploadDoubt(
-          email: "ddd@gmail.com",
           description: descriptionController.text,
           subject: askAnExpertProvider.selectedSubject,
           topic: askAnExpertProvider.selectedTopic,
           resource: askAnExpertProvider.selectedResource,
-          testImage: askAnExpertProvider.uploadedImage!,
+          testImage: uplaodImageProvider.uploadedImage!,
         );
 
         response.then((response) {
@@ -46,6 +46,7 @@ class AskanExpertForm extends StatelessWidget {
               SnackbarType.SUCCESS,
               navigate: true,
             );
+            askAnExpertProvider.getDoubts(email: "ddd@gmail.com");
           } else {
             showError(context, response);
           }
@@ -72,12 +73,18 @@ class AskanExpertForm extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: uplaodImageProvider.uploadedImage != null
-                        ? Image.file(
-                            uplaodImageProvider.uploadedImage!,
-                            fit: BoxFit.fitHeight,
-                          )
-                        : LocalImageDisplay(), // Implement LocalImageDisplay
+                    child: Consumer<UplaodImageProvider>(
+                      builder: (context, value, child) {
+                        bool uploadedImage = value.uploadedImage != null;
+
+                        return uploadedImage
+                            ? Image.file(
+                                uplaodImageProvider.uploadedImage!,
+                                fit: BoxFit.fitHeight,
+                              )
+                            : LocalImageDisplay();
+                      },
+                    ), // Implement LocalImageDisplay
                   ),
                   SizedBoxes.verticalLarge,
                   const OrDivider(),
@@ -88,7 +95,7 @@ class AskanExpertForm extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CameraScreen(),
+                          builder: (context) => const CameraScreen(),
                         ),
                       );
                     },
@@ -112,7 +119,14 @@ class AskanExpertForm extends StatelessWidget {
                   ),
                   SizedBoxes.verticalBig,
                   CustomButton(
-                    buttonText: 'Submit',
+                    isActive:
+                        askAnExpertProvider.doubtUploadStatus == Status.Sending
+                            ? false
+                            : true,
+                    buttonText:
+                        askAnExpertProvider.doubtUploadStatus == Status.Sending
+                            ? 'Submitting'
+                            : 'Submit',
                     onPressed: onSubmitPressed,
                   ),
                 ],

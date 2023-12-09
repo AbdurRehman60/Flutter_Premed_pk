@@ -26,11 +26,11 @@ class UserPreferences {
     prefs.setString('parentContactNumber', user.parentContactNumber);
     prefs.setString('whatsappNumber', user.whatsappNumber);
     prefs.setString('accountCreateDate', user.accountCreateDate);
-    prefs.setString('accountStatus', user.accountStatus);
+    prefs.setString('accountStatus', user.accountStatus ?? "");
     prefs.setString('subscriptionStatus', user.subscriptionStatus);
     prefs.setString('subscriptionStartDate', user.subscriptionStartDate);
     prefs.setString('subscriptionEndDate', user.subscriptionEndDate);
-    prefs.setBool('freeUser', user.freeUser);
+    prefs.setBool('freeUser', user.freeUser ?? false);
     prefs.setBool('purchaseMocks', user.purchaseMocks);
     prefs.setStringList('addonsPurchased', user.addonsPurchased);
     prefs.setString('referral', user.referral);
@@ -73,6 +73,14 @@ class UserPreferences {
     return prefs.commit();
   }
 
+  Future<bool> saveNewUser(bool? onBoarding) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('status', 'User is logged in');
+    prefs.setBool('isLoggedin', true);
+    prefs.setBool('onBoarding', onBoarding ?? false);
+    return prefs.commit();
+  }
   // Future<void> initNetworkCheck() async {
   //   final SharedPreferences prefs = await SharedPreferences.getInstance();
   //   prefs.setBool('netwrokChecked', true);

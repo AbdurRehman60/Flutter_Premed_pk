@@ -21,6 +21,12 @@ class _SchoolDropdownListState extends State<SchoolDropdownList> {
   TextEditingController _typeAheadController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    _typeAheadController.text = widget.selectedItem;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TypeAheadField<String>(
       getImmediateSuggestions: true,

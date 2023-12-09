@@ -8,6 +8,7 @@ class Endpoints {
   static const String baseUrl = "http://192.168.100.117"; //saad
   // static const String baseUrl = "http://192.168.100.104"; //saadhome2
   // static const String baseUrl = "http://193.168.90.89"; //saadoffice
+  // static const String baseUrl = "http://192.168.10.3"; //saadoffice
   // static const String baseUrl = "http://192.168.10.8"; //ebrahim
 
   //specific URLs
@@ -15,10 +16,10 @@ class Endpoints {
   static const String serverURL = "https://testapi.premed.pk";
 
   // receiveTimeout
-  static const Duration receiveTimeout = Duration(milliseconds: 5000);
+  static const Duration receiveTimeout = Duration(milliseconds: 15000);
 
   // connectTimeout
-  static const Duration connectionTimeout = Duration(milliseconds: 5000);
+  static const Duration connectionTimeout = Duration(milliseconds: 15000);
   //auth endpoints
   static const String login = '/login';
   static const String logout = '/auth/logout';
@@ -42,6 +43,6 @@ class Endpoints {
   static const String GetFlashcards = '/api/flashcard/GetFlashcards';
   //bundles endpoints
   static const String GetBundles = '/api/bundle/';
-  static const String PurchaseBundles = '/api/purchase/Bundle/';
+  static const String PurchaseBundles = '/api/purchase/Bundle';
   static const String CouponCode = '/VerifyCouponCode';
 }

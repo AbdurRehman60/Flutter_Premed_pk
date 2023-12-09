@@ -1,8 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
-import 'package:premedpk_mobile_app/UI/screens/account/account.dart';
-import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
-import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
+import 'package:premedpk_mobile_app/UI/screens/splash_screen/splash_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
@@ -18,6 +17,7 @@ List<CameraDescription> cameras = [];
 Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
+
     cameras = await availableCameras();
   } on CameraException catch (e) {
     print('Error in fetching the cameras: $e');
@@ -45,15 +45,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UplaodImageProvider()),
       ],
       child: MaterialApp(
-          routes: {
-            '/ExpertSolution': (context) => const AskanExpert(),
-          },
-          title: 'Flutter Demo',
-          debugShowCheckedModeBanner: false,
-          theme: _PreMedTheme.data,
-          home: LoginScreen()
-          // home: HomeScreen(),
-          ),
+        routes: {
+          '/ExpertSolution': (context) => const AskanExpert(),
+          '/Checkout': (context) => const Checkout(),
+        },
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: _PreMedTheme.data,
+        home: const SplashScreen(),
+      ),
     );
   }
 }

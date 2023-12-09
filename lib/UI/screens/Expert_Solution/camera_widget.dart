@@ -8,7 +8,11 @@ import 'package:premedpk_mobile_app/main.dart';
 import 'package:video_player/video_player.dart';
 
 class CameraScreen extends StatefulWidget {
-  CameraScreen();
+  // final VoidCallback onConfirm;
+  const CameraScreen({
+    super.key,
+    // required this.onConfirm,
+  });
 
   @override
   _CameraScreenState createState() => _CameraScreenState();
@@ -411,6 +415,7 @@ class _CameraScreenState extends State<CameraScreen>
                                             builder: (context) =>
                                                 DisplayImageScreen(
                                               image: imageFile,
+                                              // onConfirm: widget.onConfirm,
                                             ),
                                           ),
                                         );

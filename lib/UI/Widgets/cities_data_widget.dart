@@ -21,6 +21,12 @@ class _CityDropdownListState extends State<CityDropdownList> {
   TextEditingController _typeAheadController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    _typeAheadController.text = widget.selectedItem;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TypeAheadField<String?>(
       getImmediateSuggestions: true,

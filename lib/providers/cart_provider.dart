@@ -113,8 +113,8 @@ class CartProvider extends ChangeNotifier {
       Map<String, dynamic> purchaseData = {
         "username": "ddd@gmail.com",
         "BundleId": bundleIds,
-        "PaymentProof": "",
-        "ReferralCode": "",
+        "PaymentProof": "MDCAT50",
+        "CouponCode": "MDCAT50",
       };
       // if (ReferralCode != null && ReferralCode.isNotEmpty) {
       //   purchaseData["referralCode"] = ReferralCode;

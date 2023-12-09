@@ -5,6 +5,7 @@ import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
 import 'package:premedpk_mobile_app/utils/secure_storage.dart';
+import 'package:premedpk_mobile_app/utils/dialCode_to_country.dart';
 import 'package:premedpk_mobile_app/utils/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,6 +30,12 @@ class AuthProvider extends ChangeNotifier {
     _loggedInStatus = value;
   }
 
+  Status get SignUpStatus => _SignUpStatus;
+
+  set SignUpStatus(Status value) {
+    _loggedInStatus = value;
+  }
+
   String _parentContactNumber = '';
   String get parentContactNumber => _parentContactNumber;
   set parentContactNumber(String value) {
@@ -36,10 +43,11 @@ class AuthProvider extends ChangeNotifier {
     notify();
   }
 
-  String _academyJoined = 'Yes';
+  String _academyJoined = 'No';
   String get academyJoined => _academyJoined;
   set academyJoined(String value) {
     _academyJoined = value;
+
     notify();
   }
 
@@ -47,7 +55,6 @@ class AuthProvider extends ChangeNotifier {
   String get parentFullName => _parentFullName;
   set parentFullName(String value) {
     _parentFullName = value;
-    notifyListeners();
   }
 
   List<String> _intendFor = [];
@@ -88,6 +95,13 @@ class AuthProvider extends ChangeNotifier {
     notify();
   }
 
+  String _country = '';
+  String get country => _country;
+
+  set country(String value) {
+    _country = value;
+  }
+
   String _School = '';
   String get School => _School;
   void setSchool(String value) {
@@ -107,7 +121,7 @@ class AuthProvider extends ChangeNotifier {
     };
     _loggedInStatus = Status.Authenticating;
     notify();
-    print('calling login api');
+
     try {
       Response response = await _client.post(
         Endpoints.login,
@@ -119,14 +133,12 @@ class AuthProvider extends ChangeNotifier {
             Map<String, dynamic>.from(response.data);
 
         if (responseData["success"]) {
-          print('login success - calling loggedin api');
           final Map<String, dynamic> userResponse = await getLoggedInUser();
 
-          print('isloggedin result return- ${userResponse['status']}');
           if (userResponse['status']) {
             result = {
               'status': userResponse["status"],
-              'message': userResponse["status"],
+              'message': userResponse["message"],
             };
           } else {
             result = {
@@ -170,24 +182,28 @@ class AuthProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>> getLoggedInUser() async {
     var result;
-    print('calling loggedin api api');
+
     try {
       final response = await _client.get(
         Endpoints.getLoggedInUser,
       );
 
       if (response["isloggedin"]) {
-        print('isloggedin - true');
         User user = User.fromJson(response);
         await UserPreferences().saveUser(user);
-
-        print('saving');
-        result = {
-          'status': true,
-          'message': "success",
-        };
+        if (response["onboarding"]) {
+          result = {
+            'status': true,
+            'message': "home",
+          };
+        } else {
+          // await UserPreferences().saveNewUser(response["onboarding"]);
+          result = {
+            'status': true,
+            'message': "onboarding",
+          };
+        }
       } else {
-        print('isloggedin - false');
         result = {
           'status': false,
           'message': "Error in fetching User Details",
@@ -202,9 +218,7 @@ class AuthProvider extends ChangeNotifier {
         'message': e.message,
       };
     }
-    print(
-      'loggedinUser api result: ${result}',
-    );
+
     return result;
   }
 
@@ -231,24 +245,34 @@ class AuthProvider extends ChangeNotifier {
         Endpoints.signup,
         data: signupData,
       );
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
-        if (responseData["responseData"] == "success") {
-          result = {
-            'status': responseData["success"],
-            'message': responseData["status"],
-          };
+        if (responseData["success"]) {
+          final Map<String, dynamic> userResponse = await getLoggedInUser();
+
+          if (userResponse['status']) {
+            result = {
+              'status': userResponse["status"],
+              'message': userResponse["status"],
+            };
+          } else {
+            result = {
+              'status': userResponse["status"],
+              'message': userResponse["message"],
+            };
+          }
         } else {
           result = {
-            'status': responseData["success"],
-            'message': responseData["status"],
+            'status': false,
+            'message': responseData["status"] ?? responseData["Text"],
           };
         }
       } else {
         _SignUpStatus = Status.Authenticating;
         notify();
-        //returning  results
+
         result = {
           'status': false,
           'message': json.decode(response.data),
@@ -263,77 +287,99 @@ class AuthProvider extends ChangeNotifier {
         'message': e.message,
       };
     }
+
     return result;
   }
 
-  Future<Map<String, dynamic>> postOptionalOnboarding(
-      Map<String, dynamic> optionalOnboardingData) async {
+  Future<Map<String, dynamic>> optionalOnboarding() async {
     var result;
 
-    // try {
-    //   Response response = await _client.post(
-    //     Endpoints.OptionalOnboarding,
-    //     data: request,
-    //   );
+    final Map<String, dynamic> payload = {
+      "academyJoined": academyJoined,
+      "parentContactNumber": parentContactNumber,
+      "parentFullName": parentFullName,
+      "optionalOnboarding": true,
+      "intendFor": intendFor,
+    };
 
-    //   if (response.statusCode == 200) {
-    //     final Map<String, dynamic> responseData =
-    //         Map<String, dynamic>.from(response.data);
+    _loggedInStatus = Status.Authenticating;
+    notify();
 
-    //     result = {
-    //       'status': responseData["success"],
-    //       'message': responseData["status"],
-    //     };
-    //     print(responseData);
-    //   } else {
-    //     result = {
-    //       'status': false,
-    //       'message': json.decode(response.data),
-    //     };
-    //   }
-    // } on DioException catch (e) {
-    //   result = {
-    //     'status': false,
-    //     'message': e.message,
-    //   };
-    // }
-    print(optionalOnboardingData);
+    try {
+      Response response = await _client.post(
+        Endpoints.OptionalOnboarding,
+        data: payload,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+
+        await getLoggedInUser();
+
+        result = {
+          'status': responseData["success"],
+          'message': responseData["status"],
+        };
+      } else {
+        result = {
+          'status': false,
+          'message': json.decode(response.data),
+        };
+      }
+    } on DioException catch (e) {
+      result = {
+        'status': false,
+        'message': e.message,
+      };
+    }
+
     return result;
   }
 
   Future<Map<String, dynamic>> requiredOnboarding() async {
     var result;
-    result = {
-      'status': false,
-      'message': "dwd",
+
+    final Map<String, dynamic> payload = {
+      "phonenumber": phoneNumber,
+      "city": City,
+      "school": School,
+      "country": getCountryName(country.replaceFirst('+', '')),
+      "whichYear": intendedYear,
+      "whatsappNumber": whatsappNumber.isNotEmpty ? whatsappNumber : phoneNumber
     };
-    // try {
-    //   Response response = await _client.post(
-    //     Endpoints.OptionalOnboarding,
-    //     data: request,
-    //   );
 
-    //   if (response.statusCode == 200) {
-    //     final Map<String, dynamic> responseData =
-    //         Map<String, dynamic>.from(response.data);
+    _loggedInStatus = Status.Authenticating;
+    notify();
 
-    //     result = {
-    //       'status': responseData["success"],
-    //       'message': responseData["status"],
-    //     };
-    //     print(responseData);
-    //   } else {
-    //     result = {
-    //       'status': false,
-    //       'message': json.decode(response.data),
-    //     };
-    //   }
-    // } on DioException catch (e) {
-    //   result = {
-    //     'status': false,
-    //     'message': e.message,
-    //   };
-    // }
+    try {
+      Response response = await _client.post(
+        Endpoints.RequiredOnboarding,
+        data: payload,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+
+        await getLoggedInUser();
+
+        result = {
+          'status': responseData["success"],
+          'message': responseData["status"],
+        };
+      } else {
+        result = {
+          'status': false,
+          'message': json.decode(response.data),
+        };
+      }
+    } on DioException catch (e) {
+      result = {
+        'status': false,
+        'message': e.message,
+      };
+    }
 
     return result;
   }
