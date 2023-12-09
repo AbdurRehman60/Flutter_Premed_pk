@@ -5,9 +5,9 @@ class Endpoints {
 
   // base url
 
-  // static const String baseUrl = "http://192.168.100.117"; //saad
+  static const String baseUrl = "http://192.168.100.117"; //saad
   // static const String baseUrl = "http://192.168.100.104"; //saadhome2
-  static const String baseUrl = "http://193.168.90.89"; //saadoffice
+  // static const String baseUrl = "http://193.168.90.89"; //saadoffice
   // static const String baseUrl = "http://192.168.10.8"; //ebrahim
 
   //specific URLs

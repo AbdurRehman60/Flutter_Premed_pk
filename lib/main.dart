@@ -1,6 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/account.dart';
+import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
+import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
@@ -49,7 +51,7 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: _PreMedTheme.data,
-          home: Account()
+          home: LoginScreen()
           // home: HomeScreen(),
           ),
     );

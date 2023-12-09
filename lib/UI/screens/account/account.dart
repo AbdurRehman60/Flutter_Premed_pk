@@ -5,9 +5,24 @@ import 'package:premedpk_mobile_app/UI/screens/account/widgets/menu_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 
 class Account extends StatelessWidget {
   const Account({Key? key}) : super(key: key);
+  void onLogoutPressed() async {
+    // Call the logout function from the provider
+    final result = await AuthProvider().logout();
+
+    // Handle the result accordingly
+    if (result['status'] == true) {
+      // Logout was successful
+      // You may want to navigate to the login screen or perform any additional actions
+      print('Logout successful');
+    } else {
+      // Logout failed, display an error message or handle accordingly
+      print('Logout failed: ${result['message']}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +166,7 @@ class Account extends StatelessWidget {
                 width: 312,
                 height: 50,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: onLogoutPressed,
                   style: TextButton.styleFrom(
                     backgroundColor:
                         PreMedColorTheme().primaryColorRed, // Background color
