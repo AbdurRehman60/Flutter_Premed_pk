@@ -197,7 +197,6 @@ class PaymentTile extends StatelessWidget {
                       CustomButton(
                         buttonText: 'Place Order ->',
                         onPressed: () {
-                          // Access the CartProvider using Provider.of
                           CartProvider cartProvider =
                               Provider.of<CartProvider>(context, listen: false);
 

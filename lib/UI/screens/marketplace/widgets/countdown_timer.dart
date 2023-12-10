@@ -1,7 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/material.dart';
-import '../../../../constants/constants_export.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class CountdownTimerWidget extends StatefulWidget {
   @override

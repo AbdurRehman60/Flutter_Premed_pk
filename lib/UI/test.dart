@@ -55,7 +55,7 @@ class TestScreen extends StatelessWidget {
 
     onflashcardspressed() {
       final Future<Map<String, dynamic>> response =
-          flashcardProvider.getFlashcardsByUser(email: "ddd@gmail.com");
+          flashcardProvider.getFlashcardsByUser();
       response.then((response) {
         if (response.isNotEmpty) {
           Navigator.push(

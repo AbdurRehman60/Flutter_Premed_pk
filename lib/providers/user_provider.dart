@@ -3,18 +3,31 @@ import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
 
 class UserProvider extends ChangeNotifier {
-  final List<CameraDescription> cameras;
-  UserProvider(this.cameras);
-  User? _user;
+  static final UserProvider _instance = UserProvider._internal();
+  factory UserProvider() => _instance;
 
-  User? get user => _user;
+  UserProvider._internal();
 
-  void setUser(User user) {
-    _user = user;
-    notifyListeners(); // Notify listeners when the user is set.
+  notify() {
+    notifyListeners();
   }
 
-  String? getUserName() {
-    return _user?.userName;
+  User? _user;
+  User? get user => _user;
+  set user(User? value) {
+    _user = value;
+    notify();
+  }
+
+  String getUserName() {
+    return _user?.fullName ?? '';
+  }
+
+  String getEmail() {
+    return _user?.userName ?? '';
+  }
+
+  int getCoins() {
+    return _user?.coins ?? 0;
   }
 }

@@ -46,9 +46,9 @@ class MarketPlace extends StatelessWidget {
               delegate: SliverChildListDelegate(
                 [
                   CountdownTimerWidget(),
-                  SizedBoxes.verticalBig,
+                  SizedBoxes.verticalMedium,
                   const SpecialOffers(),
-                  SizedBoxes.verticalBig,
+                  SizedBoxes.verticalMedium,
                 ],
               ),
             ),

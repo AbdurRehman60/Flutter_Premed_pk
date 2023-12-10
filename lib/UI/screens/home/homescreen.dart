@@ -3,6 +3,8 @@ import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.d
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -13,62 +15,66 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Consumer<UserProvider>(
+            builder: (context, userProvider, child) {
+              return Column(
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "👋🏼 Welcome Back",
-                        style: PreMedTextTheme().subtext,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "👋🏼 Welcome Back",
+                            style: PreMedTextTheme().subtext,
+                          ),
+                          SizedBoxes.vertical2Px,
+                          Text(
+                            userProvider.getUserName().split(' ').first,
+                            style: PreMedTextTheme().heading4,
+                          ),
+                        ],
                       ),
-                      SizedBoxes.vertical2Px,
-                      Text(
-                        "Ebrahim Baig",
-                        style: PreMedTextTheme().heading4,
-                      ),
+                      const NotificationIcon()
                     ],
                   ),
-                  const NotificationIcon()
+                  SizedBoxes.verticalLarge,
+                  NotesTile(
+                    heading: "Revision Notes",
+                    description:
+                        "Comprehensive study notes for Biology, Chemistry, Physics, and Mathematics, specifically designed to help you excel in your MDCAT exams.",
+                    icon: PremedAssets.RevisionNotes,
+                    bgColor: PreMedColorTheme().primaryColorRed100,
+                    btnColor: PreMedColorTheme().primaryColorRed,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const RevisionNotes(),
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBoxes.verticalMedium,
+                  NotesTile(
+                    heading: "Chapter Guides",
+                    description:
+                        "Comprehensive study guides for Biology, Chemistry, and Physics, specifically designed to help you in your MDCAT, NUMS and AKU exams.",
+                    icon: PremedAssets.ProvisionalGuides,
+                    bgColor: PreMedColorTheme().primaryColorBlue100,
+                    btnColor: PreMedColorTheme().primaryColorBlue,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const ProvincialGuides(),
+                        ),
+                      );
+                    },
+                  )
                 ],
-              ),
-              SizedBoxes.verticalLarge,
-              NotesTile(
-                heading: "Revision Notes",
-                description:
-                    "Comprehensive study notes for Biology, Chemistry, Physics, and Mathematics, specifically designed to help you excel in your MDCAT exams.",
-                icon: PremedAssets.RevisionNotes,
-                bgColor: PreMedColorTheme().primaryColorRed100,
-                btnColor: PreMedColorTheme().primaryColorRed,
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const RevisionNotes(),
-                    ),
-                  );
-                },
-              ),
-              SizedBoxes.verticalMedium,
-              NotesTile(
-                heading: "Chapter Guides",
-                description:
-                    "Comprehensive study guides for Biology, Chemistry, and Physics, specifically designed to help you in your MDCAT, NUMS and AKU exams.",
-                icon: PremedAssets.ProvisionalGuides,
-                bgColor: PreMedColorTheme().primaryColorBlue100,
-                btnColor: PreMedColorTheme().primaryColorBlue,
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const ProvincialGuides(),
-                    ),
-                  );
-                },
-              )
-            ],
+              );
+            },
           ),
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
+import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/utils/base64_convertor.dart';
 
 enum Status {
@@ -89,7 +90,7 @@ class AskAnExpertProvider extends ChangeNotifier {
   }) async {
     var result;
     final Map<String, dynamic> askAnExpertData = {
-      "username": "ddd@gmail.com",
+      "username": UserProvider().getEmail(),
       "description": description,
       "subject": subject,
       "topic": topic,
@@ -102,7 +103,7 @@ class AskAnExpertProvider extends ChangeNotifier {
     notify();
     try {
       Response response = await _client.post(
-        Endpoints.DoubtUpload, // Update to match your API endpoint
+        Endpoints.DoubtUpload,
         data: askAnExpertData,
       );
 
@@ -139,11 +140,11 @@ class AskAnExpertProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> getDoubts({required String email}) async {
+  Future<Map<String, dynamic>> getDoubts() async {
     var result;
 
     fetchDoubtsStatus = Status.Sending;
-
+    String email = UserProvider().getEmail();
     try {
       Response response = await _client.post(
         Endpoints.UserSolved,

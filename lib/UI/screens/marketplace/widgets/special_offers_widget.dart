@@ -30,7 +30,7 @@ class SpecialOffers extends StatelessWidget {
         SizedBoxes.verticalBig,
         SizedBox(
           // height: MediaQuery.of(context).size.height * 0.3,
-          height: 300,
+          height: 280,
           child: Consumer<BundleProvider>(
             builder: (context, bundleProvider, _) {
               List<BundleModel> filteredList = bundleProvider.bundleList

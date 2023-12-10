@@ -38,8 +38,7 @@ class FlashcardHome extends StatelessWidget {
             ),
           ),
           FutureBuilder(
-            future:
-                flashcardProvider.getFlashcardsByUser(email: "ddd@gmail.com"),
+            future: flashcardProvider.getFlashcardsByUser(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return FlashcardShimmer();

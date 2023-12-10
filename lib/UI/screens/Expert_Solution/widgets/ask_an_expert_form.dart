@@ -46,7 +46,7 @@ class AskanExpertForm extends StatelessWidget {
               SnackbarType.SUCCESS,
               navigate: true,
             );
-            askAnExpertProvider.getDoubts(email: "ddd@gmail.com");
+            askAnExpertProvider.getDoubts();
           } else {
             showError(context, response);
           }

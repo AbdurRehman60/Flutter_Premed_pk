@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
+import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/utils/dialCode_to_country.dart';
 import 'package:premedpk_mobile_app/utils/services/shared_preferences.dart';
 
@@ -194,6 +195,8 @@ class AuthProvider extends ChangeNotifier {
       if (response["isloggedin"]) {
         User user = User.fromJson(response);
         await UserPreferences().saveUser(user);
+
+        UserProvider().user = user;
         if (response["onboarding"]) {
           result = {
             'status': true,

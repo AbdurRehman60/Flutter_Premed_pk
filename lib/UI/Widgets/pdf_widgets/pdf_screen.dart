@@ -127,13 +127,10 @@ class _PdfViewState extends State<PdfScreen> {
               ],
             ),
             actions: [
-              // IconButton(
-              //   onPressed: () {
-              //     pdfDownloader.downloadAndSavePDF(widget.note.notesURL,
-              //         'zxzxPreMed.PK-${widget.note.title}');
-              //   },
-              //   icon: Icon(Icons.download),
-              // ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.download),
+              ),
               IconButton(
                 onPressed: openDemarcationBottomSheet,
                 icon: const Icon(Icons.menu),

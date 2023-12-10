@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/flashcard_model.dart';
+import 'package:premedpk_mobile_app/providers/user_provider.dart';
 
 enum Status {
   Init,
@@ -29,8 +30,7 @@ class FlashcardProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Map<String, dynamic>> getFlashcardsByUser(
-      {required String email}) async {
+  Future<Map<String, dynamic>> getFlashcardsByUser() async {
     var result;
 
     _doubtUploadStatus = Status.Fetching;
@@ -38,7 +38,9 @@ class FlashcardProvider with ChangeNotifier {
     try {
       Response response = await _client.post(
         Endpoints.GetFlashcards,
-        data: {"username": email},
+        data: {
+          "username": UserProvider().getEmail(),
+        },
       );
 
       if (response.statusCode == 200) {

@@ -13,8 +13,7 @@ class ExpertSolutionHome extends StatelessWidget {
     final askAnExpertProvider =
         Provider.of<AskAnExpertProvider>(context, listen: false);
 
-    Future<Map<String, dynamic>> response =
-        askAnExpertProvider.getDoubts(email: 'ddd@gmail.com');
+    Future<Map<String, dynamic>> response = askAnExpertProvider.getDoubts();
 
     final List<String> tabs = <String>['Solved Questions', 'Pending Questions'];
 

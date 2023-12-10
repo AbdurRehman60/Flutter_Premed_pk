@@ -56,8 +56,6 @@ class CardContent extends StatelessWidget {
             ),
           ],
         ),
-        SizedBoxes.verticalMicro,
-        SizedBoxes.verticalMicro,
         renderDescription
             ? Text(
                 bundle.bundleDescription,
@@ -65,11 +63,10 @@ class CardContent extends StatelessWidget {
                       height: 1.5,
                       color: PreMedColorTheme().neutral600,
                     ),
-                maxLines: 4,
+                maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               )
             : SizedBox(),
-        SizedBoxes.verticalMedium,
         renderPoints
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,12 +95,11 @@ class CardContent extends StatelessWidget {
                     .toList(),
               )
             : SizedBox(),
-        SizedBoxes.verticalMedium,
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              '${bundle.bundlePrice - bundle.bundleDiscount}',
+              '${(bundle.bundlePrice - bundle.bundleDiscount).round()}',
               style: PreMedTextTheme().heading4.copyWith(
                     fontWeight: FontWeights.bold,
                     color: PreMedColorTheme().primaryColorRed,
@@ -121,8 +117,9 @@ class CardContent extends StatelessWidget {
             ),
           ],
         ),
-        SizedBoxes.verticalMedium,
-        if (!isBundleInCart) // Render the button only if the bundle is not in the cart
+        SizedBoxes.verticalMicro,
+        SizedBoxes.verticalMicro,
+        if (!isBundleInCart)
           SizedBox(
             width: 132,
             height: 40,
