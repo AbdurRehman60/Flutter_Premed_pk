@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_card.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -51,7 +50,7 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
   }
 
   void goToNextCard() {
-    if (currentIndex < filteredFlashcards.length - 1) {
+    if (currentIndex < filteredFlashcards.length + 1) {
       flashcardController?.animateToPage(
         currentIndex + 1,
         duration: const Duration(milliseconds: 500),
@@ -91,6 +90,13 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
 
     return Column(
       children: [
+        Text(
+          'Click on card to see Answers',
+          style: PreMedTextTheme().heading7.copyWith(
+                fontWeight: FontWeights.regular,
+                color: PreMedColorTheme().neutral500,
+              ),
+        ),
         Expanded(
           child: PageView.builder(
             itemCount: filteredFlashcards.length,

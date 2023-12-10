@@ -50,12 +50,23 @@ class ContactUs extends StatelessWidget {
                           height: 42,
                         ),
                         SizedBoxes.horizontalMedium,
-                        const Column(
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('WhatsApp'),
-                            Text('Click to start a chat'),
+                            Text(
+                              'WhatsApp',
+                              style: PreMedTextTheme().heading6.copyWith(
+                                    color: Color(0xFF009B18),
+                                  ),
+                            ),
+                            Text(
+                              'Click to start a chat',
+                              style: PreMedTextTheme().headline.copyWith(
+                                    fontWeight: FontWeights.medium,
+                                    color: Color(0xFF43AB53),
+                                  ),
+                            ),
                           ],
                         ),
                       ],
@@ -65,7 +76,7 @@ class ContactUs extends StatelessWidget {
                         launchUrl(whatsApp);
                       },
                       icon: CircleAvatar(
-                        backgroundColor: Colors.green,
+                        backgroundColor: Color(0xFF2BB140),
                         child: Icon(
                           Icons.arrow_forward_rounded,
                           color: PreMedColorTheme().white,
@@ -95,12 +106,23 @@ class ContactUs extends StatelessWidget {
                           height: 42,
                         ),
                         SizedBoxes.horizontalMedium,
-                        const Column(
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Messenger'),
-                            Text('Click to start a chat'),
+                            Text(
+                              'Messenger',
+                              style: PreMedTextTheme().heading6.copyWith(
+                                    color: Color(0xFF188DCC),
+                                  ),
+                            ),
+                            Text(
+                              'Click to start a chat',
+                              style: PreMedTextTheme().headline.copyWith(
+                                    fontWeight: FontWeights.medium,
+                                    color: Color(0xFF4F8BAB),
+                                  ),
+                            ),
                           ],
                         ),
                       ],
@@ -140,12 +162,23 @@ class ContactUs extends StatelessWidget {
                           height: 42,
                         ),
                         SizedBoxes.horizontalMedium,
-                        const Column(
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Email'),
-                            Text('Click to send an email'),
+                            Text(
+                              'Email',
+                              style: PreMedTextTheme().heading6.copyWith(
+                                    color: Color(0xFFDA8F11),
+                                  ),
+                            ),
+                            Text(
+                              'Click to send an email',
+                              style: PreMedTextTheme().headline.copyWith(
+                                    fontWeight: FontWeights.medium,
+                                    color: Color(0xFFA48754),
+                                  ),
+                            ),
                           ],
                         ),
                       ],

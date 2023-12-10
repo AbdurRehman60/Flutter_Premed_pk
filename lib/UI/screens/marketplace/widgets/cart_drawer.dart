@@ -150,19 +150,22 @@ class CartWidget extends StatelessWidget {
                 ],
               ),
               SizedBoxes.verticalMedium,
-              SizedBox(
-                height: 50,
-                child: CustomButton(
-                  buttonText: 'Go to Cart ->',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Cart(),
-                        settings: RouteSettings(arguments: cartProvider),
-                      ),
-                    );
-                  },
+              Visibility(
+                visible: cartProvider.totalBundlesCount > 0,
+                child: SizedBox(
+                  height: 50,
+                  child: CustomButton(
+                    buttonText: 'Go to Cart ->',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Cart(),
+                          settings: RouteSettings(arguments: cartProvider),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
