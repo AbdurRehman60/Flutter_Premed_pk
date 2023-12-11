@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/payment_tile.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/payment_video_youtube.dart';
 import 'package:premedpk_mobile_app/UI/widgets/youtube_player/youtube_player.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
@@ -126,20 +127,33 @@ class _CheckoutState extends State<Checkout> {
                       ),
                     ),
                   ),
-                  SizedBoxes.verticalMedium,
-                  Text(
-                    'Video Instructions',
-                    style: PreMedTextTheme().heading5,
-                  ),
-                  SizedBoxes.verticalMedium,
-                  const MyYoutubePlayer(),
-                  SizedBoxes.verticalMedium,
+                  // SizedBoxes.verticalMedium,
+                  // Text(
+                  //   'Video Instructions',
+                  //   style: PreMedTextTheme().heading5,
+                  // ),
+                  // SizedBoxes.verticalMedium,
+                  // const MyYoutubePlayer(),
+                  // SizedBoxes.verticalMedium,
                 ],
               ),
             ],
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: PreMedColorTheme().primaryColorRed,
+          onPressed: () {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              clipBehavior: Clip.hardEdge,
+              context: context,
+              builder: (BuildContext context) {
+                return const PaymentVideo();
+              },
+            );
+          },
+          child: const Icon(Icons.help_outline_outlined)),
     );
   }
 }
