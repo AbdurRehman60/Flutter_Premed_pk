@@ -3,12 +3,12 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
 
 class SearchDisplay extends StatelessWidget {
-  final List<NoteModel> notes;
 
   const SearchDisplay({
     super.key,
     required this.notes,
   });
+  final List<NoteModel> notes;
 
   @override
   Widget build(BuildContext context) {
@@ -62,12 +62,12 @@ class SearchDisplay extends StatelessWidget {
 }
 
 class SearchTile extends StatelessWidget {
-  final NoteModel note;
 
   const SearchTile({
     super.key,
     required this.note,
   });
+  final NoteModel note;
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +83,6 @@ class SearchTile extends StatelessWidget {
     return InkWell(
       onTap: onTileClick,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.network(
             note.coverImageURL,

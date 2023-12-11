@@ -17,8 +17,8 @@ class Account extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider auth = Provider.of<AuthProvider>(context);
-    void onLogoutPressed() async {
+    final AuthProvider auth = Provider.of<AuthProvider>(context);
+    Future<void> onLogoutPressed() async {
       final Future<Map<String, dynamic>> response = auth.logout();
 
       response.then(
@@ -41,7 +41,6 @@ class Account extends StatelessWidget {
       child: Consumer<UserProvider>(
         builder: (context, userProvider, child) {
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBoxes.verticalGargangua,
@@ -63,7 +62,6 @@ class Account extends StatelessWidget {
               SizedBoxes.verticalTiny,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
                     PremedAssets.Coins,
@@ -90,23 +88,18 @@ class Account extends StatelessWidget {
                       case 0:
                         heading = 'Edit Profile';
                         imagePath = PremedAssets.EditProfile;
-                        break;
                       case 1:
                         heading = 'Change Password';
                         imagePath = PremedAssets.ChangePassword;
-                        break;
                       case 2:
                         heading = 'Contact Us';
                         imagePath = PremedAssets.ContactUs;
-                        break;
                       case 3:
                         heading = 'Privacy Policy';
                         imagePath = PremedAssets.Policy;
-                        break;
                       case 4:
                         heading = 'Terms & Condition';
                         imagePath = PremedAssets.Policy;
-                        break;
                     }
 
                     return MenuTile(
@@ -120,28 +113,24 @@ class Account extends StatelessWidget {
                                 builder: (context) => const EditProfile(),
                               ),
                             );
-                            break;
                           case 1:
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const ChangePassword(),
                               ),
                             );
-                            break;
                           case 2:
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const ContactUs(),
                               ),
                             );
-                            break;
                           case 3:
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const PrivacyPolicy(),
                               ),
                             );
-                            break;
                           case 4:
                             // Handle Terms & Condition tap
                             Navigator.of(context).push(
@@ -149,7 +138,6 @@ class Account extends StatelessWidget {
                                 builder: (context) => const TermsCondition(),
                               ),
                             );
-                            break;
                         }
                       },
                     );

@@ -1,10 +1,9 @@
-import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
-
 import 'package:provider/provider.dart';
 
 class SignupForm extends StatefulWidget {
@@ -27,12 +26,12 @@ class _SignupFormState extends State<SignupForm> {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider auth = Provider.of<AuthProvider>(context);
+    final AuthProvider auth = Provider.of<AuthProvider>(context);
 
     void onSignupPressed() {
       final form = _formKey.currentState!;
       if (form.validate()) {
-        Future<Map<String, dynamic>> response = auth.signup(
+        final Future<Map<String, dynamic>> response = auth.signup(
           emailController.text,
           passwordController.text,
           fullNameController.text,
@@ -186,7 +185,7 @@ class _SignupFormState extends State<SignupForm> {
   }
 
   String? validateFullname(String? value) {
-    if ((value == null || value.isEmpty)) {
+    if (value == null || value.isEmpty) {
       return 'Full name is required';
     } else if (value.length < 3) {
       return 'Incorrect name length';

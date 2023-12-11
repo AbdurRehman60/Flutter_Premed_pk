@@ -4,14 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class PreMedTheme {
-  final PreMedColorTheme _ColorTheme;
-  final PreMedTextTheme _TextTheme;
 
   PreMedTheme({
     PreMedColorTheme? ColorTheme,
     PreMedTextTheme? TextTheme,
   })  : _TextTheme = TextTheme ?? PreMedTextTheme(),
         _ColorTheme = ColorTheme ?? PreMedColorTheme();
+  final PreMedColorTheme _ColorTheme;
+  final PreMedTextTheme _TextTheme;
 
   ThemeData get data => ThemeData(
         primaryColor: _ColorTheme.primaryColorRed,

@@ -103,36 +103,10 @@ class CustomDropDown<T> extends StatelessWidget {
 }
 
 class CustomDropDownOption<T> {
-  final T value;
-  final String displayOption;
-
   const CustomDropDownOption({
     required this.value,
     required this.displayOption,
   });
+  final T value;
+  final String displayOption;
 }
-// PopupMenuButton<T>(
-//       constraints: BoxConstraints(
-//         minWidth: double.infinity,
-//         maxWidth: double.infinity * 0.5,
-//         minHeight: 100,
-//         maxHeight: MediaQuery.of(context).size.height * 0.7,
-//       ),
-//       shadowColor: PreMedColorTheme().neutral900,
-//       color: PreMedColorTheme().white,
-//       itemBuilder: (BuildContext context) {
-//         return options.map((option) {
-//           return PopupMenuItem<T>(
-//             value: option.value,
-//             child: Container(
-//               width: double.infinity,
-//               child: Text(
-//                 option.displayOption,
-//                 overflow: TextOverflow.ellipsis,
-//                 style: PreMedTextTheme().subtext,
-//               ),
-//             ),
-//           );
-//         }).toList();
-//       },
-//       child: 

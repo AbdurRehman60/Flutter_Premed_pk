@@ -25,7 +25,6 @@ class PrivacyPolicy extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
@@ -47,7 +46,7 @@ class PrivacyPolicy extends StatelessWidget {
               ),
               SizedBoxes.verticalMedium,
               // Manually create Text widgets for bullet points
-              for (String bulletPoint in howWeUseYourInformationBulletPoints)
+              for (final String bulletPoint in howWeUseYourInformationBulletPoints)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
@@ -95,7 +94,7 @@ class PrivacyPolicy extends StatelessWidget {
                 style: PreMedTextTheme().heading5,
               ),
               SizedBoxes.verticalBig,
-              for (String bulletPoint in DMCAGuidlines)
+              for (final String bulletPoint in DMCAGuidlines)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(

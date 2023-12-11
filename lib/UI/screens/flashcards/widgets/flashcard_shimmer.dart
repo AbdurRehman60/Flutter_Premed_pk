@@ -39,7 +39,7 @@ class FlashcardItemSkeleton extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: PreMedColorTheme().white, width: 1),
+        border: Border.all(color: PreMedColorTheme().white),
       ),
     );
   }

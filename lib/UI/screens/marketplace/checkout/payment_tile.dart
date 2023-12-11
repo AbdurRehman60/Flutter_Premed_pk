@@ -25,7 +25,7 @@ class PaymentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider =
+    final CartProvider cartProvider =
         Provider.of<CartProvider>(context, listen: false);
 
     void copyToClipboard(String text) {
@@ -82,7 +82,6 @@ class PaymentTile extends StatelessWidget {
                         color: Colors.black.withOpacity(0.1),
                         spreadRadius: 2,
                         blurRadius: 16,
-                        offset: const Offset(0, 0),
                       ),
                     ]
                   : [],
@@ -146,9 +145,8 @@ class PaymentTile extends StatelessWidget {
             ),
           ),
         ),
-        selected ? SizedBoxes.verticalBig : const SizedBox(),
-        selected
-            ? Container(
+        if (selected) SizedBoxes.verticalBig else const SizedBox(),
+        if (selected) Container(
                 width: double.infinity,
                 height: 880,
                 decoration: BoxDecoration(
@@ -163,7 +161,6 @@ class PaymentTile extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Image.asset(
@@ -225,8 +222,7 @@ class PaymentTile extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
-            : const SizedBox(),
+              ) else const SizedBox(),
         SizedBoxes.verticalBig,
       ],
     );

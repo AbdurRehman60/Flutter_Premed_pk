@@ -1,15 +1,15 @@
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class EmptyState extends StatelessWidget {
-  final String displayImage;
-  final String title;
-  final String body;
   const EmptyState({
     super.key,
     required this.displayImage,
     required this.title,
     required this.body,
   });
+  final String displayImage;
+  final String title;
+  final String body;
 
   @override
   Widget build(BuildContext context) {

@@ -16,7 +16,7 @@ class Cart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
+    final CartProvider cartProvider = Provider.of<CartProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +68,7 @@ class Cart extends StatelessWidget {
                           color: PreMedColorTheme().neutral300,
                         ),
                         itemBuilder: (context, index) {
-                          BundleModel bundle =
+                          final BundleModel bundle =
                               cartProvider.selectedBundles[index];
                           return Padding(
                             padding:

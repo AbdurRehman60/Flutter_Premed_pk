@@ -6,7 +6,7 @@ enum SnackbarType { INFO, SUCCESS }
 
 void showSnackbar(BuildContext context, String message, SnackbarType type,
     {bool? navigate}) {
-  bool shouldNavigate = navigate ?? false;
+  final bool shouldNavigate = navigate ?? false;
 
   if (shouldNavigate && Navigator.canPop(context)) {
     Navigator.of(context).pop();

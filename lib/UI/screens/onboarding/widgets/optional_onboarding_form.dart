@@ -1,12 +1,12 @@
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/check_box.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
+import 'package:premedpk_mobile_app/UI/widgets/phone_dropdown.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
-import 'package:premedpk_mobile_app/UI/widgets/phone_dropdown.dart';
 import 'package:provider/provider.dart';
 
 class OptionalOnboardingForm extends StatefulWidget {
@@ -26,13 +26,19 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
   bool hasErrors = false;
   @override
   Widget build(BuildContext context) {
-    AuthProvider auth = Provider.of<AuthProvider>(context);
+    final AuthProvider auth = Provider.of<AuthProvider>(context);
 
     void updateIntendFor() {
-      List<String> intendFor = [];
-      if (mdcatChecked) intendFor.add('MDCAT');
-      if (akuChecked) intendFor.add('AKU');
-      if (numsChecked) intendFor.add('NUMS');
+      final List<String> intendFor = [];
+      if (mdcatChecked) {
+        intendFor.add('MDCAT');
+      }
+      if (akuChecked) {
+        intendFor.add('AKU');
+      }
+      if (numsChecked) {
+        intendFor.add('NUMS');
+      }
 
       auth.intendFor = intendFor;
     }
@@ -95,7 +101,6 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
             color: PreMedColorTheme().white,
             border: Border.all(
               color: PreMedColorTheme().neutral300,
-              width: 1,
             ),
             borderRadius: BorderRadius.circular(8.0),
           ),
@@ -208,23 +213,23 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
                   }).toList(),
                 ),
                 SizedBoxes.verticalMedium,
-                hasErrors
-                    ? Text(
-                        error,
-                        textAlign: TextAlign.center,
-                        style: PreMedTextTheme().subtext1.copyWith(
-                              color: Colors.redAccent,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      )
-                    : const SizedBox(),
+                if (hasErrors)
+                  Text(
+                    error,
+                    textAlign: TextAlign.center,
+                    style: PreMedTextTheme().subtext1.copyWith(
+                          color: Colors.redAccent,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  )
+                else
+                  const SizedBox(),
               ],
             ),
           ),
         ),
         SizedBoxes.verticalGargangua,
         Row(
-          mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
               flex: 2,

@@ -35,11 +35,9 @@ class DoubtListView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        index == 0
-                            ? const SizedBox(
+                        if (index == 0) const SizedBox(
                                 height: 140,
-                              )
-                            : const SizedBox(),
+                              ) else const SizedBox(),
                         DoubtCard(
                           doubt: doubtList[index],
                         ),

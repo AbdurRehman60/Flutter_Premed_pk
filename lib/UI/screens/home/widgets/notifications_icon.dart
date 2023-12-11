@@ -22,7 +22,7 @@ class NotificationIcon extends StatelessWidget {
           top: 0,
           child: Consumer<CartProvider>(
             builder: (context, cartProvider, child) {
-              int itemCount = cartProvider.totalBundlesCount;
+              final int itemCount = cartProvider.totalBundlesCount;
               return Container(
                 padding: const EdgeInsets.all(6),
                 decoration: const BoxDecoration(

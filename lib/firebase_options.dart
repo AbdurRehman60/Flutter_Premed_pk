@@ -2,7 +2,7 @@
 // ignore_for_file: lines_longer_than_80_chars, avoid_classes_with_only_static_members
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1036205428938',
     projectId: 'premed-mobile-app',
     storageBucket: 'premed-mobile-app.appspot.com',
-    iosClientId: '1036205428938-oomnrs6bm8dnbmduhhbjp3hiagdpqjer.apps.googleusercontent.com',
+    iosClientId:
+        '1036205428938-oomnrs6bm8dnbmduhhbjp3hiagdpqjer.apps.googleusercontent.com',
     iosBundleId: 'com.example.premedpkMobileApp',
   );
 }

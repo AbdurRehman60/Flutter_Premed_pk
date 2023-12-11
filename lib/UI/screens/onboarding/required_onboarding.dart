@@ -40,7 +40,6 @@ class RequiredOnboarding extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Align(
-                          alignment: Alignment.center,
                           child: Text(
                             'Just One More Step to Begin Your Journey in Medicine.',
                             style: PreMedTextTheme().subtext.copyWith(
@@ -64,7 +63,3 @@ class RequiredOnboarding extends StatelessWidget {
     );
   }
 }
-
-
-
-//test

@@ -69,7 +69,7 @@ class AskAnExpertProvider extends ChangeNotifier {
     notify();
   }
 
-  notify() {
+  void notify() {
     notifyListeners();
   }
 
@@ -104,7 +104,7 @@ class AskAnExpertProvider extends ChangeNotifier {
 
     notify();
     try {
-      Response response = await _client.post(
+      final Response response = await _client.post(
         Endpoints.DoubtUpload,
         data: askAnExpertData,
       );
@@ -146,19 +146,19 @@ class AskAnExpertProvider extends ChangeNotifier {
     Map<String, Object?> result;
 
     fetchDoubtsStatus = Status.Sending;
-    String email = UserProvider().getEmail();
+    final String email = UserProvider().getEmail();
     try {
-      Response response = await _client.post(
+      final Response response = await _client.post(
         Endpoints.UserSolved,
         data: {"username": email},
       );
 
-      Response response2 = await _client.post(
+      final Response response2 = await _client.post(
         Endpoints.UserPending,
         data: {"username": email},
       );
 
-      Response response3 = await _client.post(
+      final Response response3 = await _client.post(
         Endpoints.UserSubmitted,
         data: {"username": email},
       );
@@ -175,20 +175,20 @@ class AskAnExpertProvider extends ChangeNotifier {
         final Map<String, dynamic> response3Data =
             Map<String, dynamic>.from(response3.data);
 
-        List<Doubt> doubtList = [];
+        final List<Doubt> doubtList = [];
 
-        for (var data in responseData['QuestionsDetails']) {
-          Doubt doubt = Doubt.fromJson(data);
+        for (final data in responseData['QuestionsDetails']) {
+          final Doubt doubt = Doubt.fromJson(data);
           doubtList.add(doubt);
         }
 
-        for (var data in response2Data['QuestionsDetails']) {
-          Doubt doubt = Doubt.fromJson(data);
+        for (final data in response2Data['QuestionsDetails']) {
+          final Doubt doubt = Doubt.fromJson(data);
           doubtList.add(doubt);
         }
 
-        for (var data in response3Data['QuestionsDetails']) {
-          Doubt doubt = Doubt.fromJson(data);
+        for (final data in response3Data['QuestionsDetails']) {
+          final Doubt doubt = Doubt.fromJson(data);
           doubtList.add(doubt);
         }
         _solvedDoubts = doubtList;

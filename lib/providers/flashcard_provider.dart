@@ -28,7 +28,7 @@ class FlashcardProvider with ChangeNotifier {
     _flashcardData = value;
   }
 
-  notify() {
+  void notify() {
     notifyListeners();
   }
 
@@ -38,7 +38,7 @@ class FlashcardProvider with ChangeNotifier {
     _doubtUploadStatus = Status.Fetching;
 
     try {
-      Response response = await _client.post(
+      final Response response = await _client.post(
         Endpoints.GetFlashcards,
         data: {
           "username": UserProvider().getEmail(),
@@ -48,9 +48,9 @@ class FlashcardProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         final List<Map<String, dynamic>> responseData =
             List<Map<String, dynamic>>.from(response.data);
-        List<FlashcardModel> fetchedList = [];
-        for (var data in responseData) {
-          FlashcardModel flashcard = FlashcardModel.fromJson(data);
+        final List<FlashcardModel> fetchedList = [];
+        for (final data in responseData) {
+          final FlashcardModel flashcard = FlashcardModel.fromJson(data);
           fetchedList.add(flashcard);
         }
         flashcardData = fetchedList;

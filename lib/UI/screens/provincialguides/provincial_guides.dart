@@ -9,7 +9,7 @@ class ProvincialGuides extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NotesProvider guidesProvider =
+    final NotesProvider guidesProvider =
         Provider.of<NotesProvider>(context, listen: false);
     guidesProvider.fetchGuides();
     return DefaultTabController(
@@ -64,7 +64,7 @@ class ProvincialGuides extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
           child: Consumer<NotesProvider>(builder: (context, guidesProvider, _) {
-            bool isLoading =
+            final bool isLoading =
                 guidesProvider.guidesloadingStatus == Status.Fetching;
             return TabBarView(
               children: [

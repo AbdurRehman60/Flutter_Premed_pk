@@ -6,12 +6,12 @@ import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:provider/provider.dart';
 
 class DisplayImageScreen extends StatelessWidget {
-  final File image;
 
   const DisplayImageScreen({
     super.key,
     required this.image,
   });
+  final File image;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,6 @@ class DisplayImageScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               child: Padding(

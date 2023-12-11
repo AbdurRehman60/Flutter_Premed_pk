@@ -3,15 +3,15 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
 
 class PdfDisplay extends StatelessWidget {
-  final List<NoteModel> notes;
-  final bool isSearch;
-  final bool isLoading;
   const PdfDisplay({
     super.key,
     required this.notes,
     this.isSearch = false,
     required this.isLoading,
   });
+  final List<NoteModel> notes;
+  final bool isSearch;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +53,12 @@ class PdfDisplay extends StatelessWidget {
 }
 
 class PDFTile extends StatelessWidget {
-  final NoteModel note;
 
   const PDFTile({
     super.key,
     required this.note,
   });
+  final NoteModel note;
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +74,6 @@ class PDFTile extends StatelessWidget {
     return InkWell(
       onTap: onTileClick,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.network(
             note.coverImageURL,
@@ -90,14 +88,12 @@ class PDFTile extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBoxes.verticalMicro,
-          note.pages != null
-              ? Text(
+          if (note.pages != null) Text(
                   '${note.pages} Pages',
                   textAlign: TextAlign.center,
                   style: PreMedTextTheme().small.copyWith(
                       color: PreMedColorTheme().neutral400, fontSize: 14),
-                )
-              : const SizedBox(),
+                ) else const SizedBox(),
         ],
       ),
     );

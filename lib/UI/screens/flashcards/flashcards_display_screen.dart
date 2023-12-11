@@ -2,12 +2,12 @@ import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_carousel_vie
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class FlashcardDisplayScreen extends StatelessWidget {
-  final String subject;
 
   const FlashcardDisplayScreen({
     super.key,
     required this.subject,
   });
+  final String subject;
 
   @override
   Widget build(BuildContext context) {

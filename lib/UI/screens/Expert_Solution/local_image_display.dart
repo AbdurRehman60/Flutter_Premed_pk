@@ -52,14 +52,11 @@ class _LocalImageDisplayState extends State<LocalImageDisplay> {
             // Implement LocalImageDisplay
           ),
         Expanded(
-          flex: 1,
           child: CustomButton(
             color: PreMedColorTheme().primaryColorBlue100,
             textColor: PreMedColorTheme().primaryColorBlue800,
-            isActive: true,
             iconSize: 0,
             isIconButton: true,
-            isOutlined: false,
             onPressed: pickImage,
             buttonText: 'Choose from Gallery',
           ),

@@ -4,14 +4,14 @@ import 'package:intl_phone_field/phone_number.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class PhoneDropdown extends StatelessWidget {
-  final void Function(PhoneNumber) onPhoneNumberSelected;
-  final String hintText;
-  final String? initialValue;
   const PhoneDropdown(
       {super.key,
       required this.onPhoneNumberSelected,
       required this.hintText,
       this.initialValue});
+  final void Function(PhoneNumber) onPhoneNumberSelected;
+  final String hintText;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {

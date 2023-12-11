@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_screen_data.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_display_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/widgets/flashcard_shimmer.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
-import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_screen_data.dart';
 import 'package:provider/provider.dart';
 
 class FlashcardHome extends StatelessWidget {
@@ -27,7 +27,6 @@ class FlashcardHome extends StatelessWidget {
         backgroundColor: PreMedColorTheme().white,
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
@@ -63,7 +62,7 @@ class FlashcardHome extends StatelessWidget {
                         mainAxisExtent: 130,
                       ),
                       itemBuilder: (context, index) {
-                        Color color = Color(int.parse(
+                        final Color color = Color(int.parse(
                             '0xFF${gridData[index]['color']?.substring(1)}'));
                         final subject = gridData[index]['subject'] ?? '';
                         final flashcardCount = flashcardProvider
@@ -92,11 +91,7 @@ class FlashcardHome extends StatelessWidget {
 }
 
 class FlashcardItem extends StatelessWidget {
-  final String image;
-  final String text;
-  final String page;
-  final String subject;
-  final Color color; // Use Color for background color
+  // Use Color for background color
 
   const FlashcardItem({
     super.key,
@@ -106,6 +101,11 @@ class FlashcardItem extends StatelessWidget {
     required this.subject,
     required this.color, // Add color as a parameter
   });
+  final String image;
+  final String text;
+  final String page;
+  final String subject;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -127,12 +127,11 @@ class FlashcardItem extends StatelessWidget {
         decoration: BoxDecoration(
           color: color, // Set the background color here
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: PreMedColorTheme().white, width: 1),
+          border: Border.all(color: PreMedColorTheme().white),
         ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Align(

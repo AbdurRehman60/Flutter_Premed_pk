@@ -4,9 +4,9 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/flashcard_model.dart';
 
 class FlashcardCard extends StatefulWidget {
-  final FlashcardModel flashcard;
 
   const FlashcardCard({super.key, required this.flashcard});
+  final FlashcardModel flashcard;
 
   @override
   State<FlashcardCard> createState() => _FlashcardCardState();
@@ -31,8 +31,6 @@ class _FlashcardCardState extends State<FlashcardCard> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
         child: FlipCard(
-          direction: FlipDirection.HORIZONTAL, // Set the flip direction
-          flipOnTouch: true, // Set to true if you want the card to flip on tap
           front: buildFrontContent(),
           back: buildBackContent(),
         ),
@@ -48,7 +46,6 @@ class _FlashcardCardState extends State<FlashcardCard> {
             BorderRadius.circular(12.0), // Adjust the radius as needed
         border: Border.all(
           color: PreMedColorTheme().neutral300, // Border color
-          width: 1.0, // Adjust the border width as needed
         ),
         boxShadow: const [
           BoxShadow(
@@ -94,7 +91,6 @@ class _FlashcardCardState extends State<FlashcardCard> {
         borderRadius: BorderRadius.circular(12.0),
         border: Border.all(
           color: PreMedColorTheme().neutral300,
-          width: 1.0,
         ),
         boxShadow: const [
           BoxShadow(

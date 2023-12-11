@@ -12,7 +12,7 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider auth = Provider.of<AuthProvider>(context);
+    final AuthProvider auth = Provider.of<AuthProvider>(context);
 
     void onPhoneNumberSelected(PhoneNumber phoneNumber) {
       auth.parentContactNumber = phoneNumber.completeNumber;
@@ -40,7 +40,6 @@ class EditProfile extends StatelessWidget {
           child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(

@@ -8,6 +8,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'endpoints.dart';
 
 class DioClient {
+  DioClient() {
+    _dio.interceptors.add(
+      CookieManager(cookieJar),
+    );
+  }
   static BaseOptions options = BaseOptions(
     baseUrl: Endpoints.serverURL,
     connectTimeout: Endpoints.connectionTimeout,
@@ -16,11 +21,6 @@ class DioClient {
 
   final Dio _dio = Dio(options);
   final cookieJar = CookieJar();
-  DioClient() {
-    _dio.interceptors.add(
-      CookieManager(cookieJar),
-    );
-  }
 
   Future<void> _saveCookies(List<Cookie> cookies) async {
     print('saving cookie - $cookies');
@@ -57,7 +57,7 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
-      List<Cookie> cookies1 = await _loadCookies();
+      final List<Cookie> cookies1 = await _loadCookies();
       options ??= Options();
       options.headers = {
         'cookie': cookies1
@@ -88,7 +88,7 @@ class DioClient {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    List<Cookie> cookies1 = await _loadCookies();
+    final List<Cookie> cookies1 = await _loadCookies();
     options ??= Options();
     options.headers = {
       'cookie':
@@ -104,7 +104,7 @@ class DioClient {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
-    List<Cookie> cookies =
+    final List<Cookie> cookies =
         await cookieJar.loadForRequest(response.requestOptions.uri);
     if (cookies.isNotEmpty) {
       await _saveCookies(cookies);
@@ -120,7 +120,7 @@ class DioClient {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
-      List<Cookie> cookies1 = await _loadCookies();
+      final List<Cookie> cookies1 = await _loadCookies();
       options ??= Options();
       options.headers = {
         'cookie': cookies1

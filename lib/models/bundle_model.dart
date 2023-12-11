@@ -1,18 +1,4 @@
 class BundleModel {
-  final String id;
-  final List<String> bundlePoints;
-  final List<String> includedTags;
-  final bool isPublished;
-  final String bundleName;
-  final double bundlePrice;
-  final double discountPercentage;
-  final String bundleDescription;
-  final String bundleIcon;
-  final double bundleDiscount;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final int v;
-  final int position;
 
   BundleModel({
     required this.id,
@@ -49,4 +35,18 @@ class BundleModel {
       position: json['Position'],
     );
   }
+  final String id;
+  final List<String> bundlePoints;
+  final List<String> includedTags;
+  final bool isPublished;
+  final String bundleName;
+  final double bundlePrice;
+  final double discountPercentage;
+  final String bundleDescription;
+  final String bundleIcon;
+  final double bundleDiscount;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int v;
+  final int position;
 }

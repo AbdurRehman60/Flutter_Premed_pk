@@ -23,7 +23,6 @@ class NewsUpdates extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -52,10 +51,9 @@ class NewsUpdates extends StatelessWidget {
 }
 
 class LatestNews extends StatelessWidget {
+  LatestNews({super.key});
   final String title = 'Sindh Announces MDCAT \nReconduct on November 24th.';
   final ImageProvider image = AssetImage(PremedAssets.PrMedLogoLarge);
-
-  LatestNews({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +65,6 @@ class LatestNews extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
@@ -119,11 +116,11 @@ class LatestNews extends StatelessWidget {
       itemCount: 10, // Change this to the desired number of items
       itemBuilder: (context, index) {
         // Alternate between red and blue
-        Color itemColor = index % 2 == 0
+        final Color itemColor = index % 2 == 0
             ? PreMedColorTheme().primaryColorRed200
             : PreMedColorTheme().primaryColorBlue200;
 
-        Color buttonColor = index % 2 == 0
+        final Color buttonColor = index % 2 == 0
             ? PreMedColorTheme().primaryColorBlue300
             : PreMedColorTheme().primaryColorRed300;
 
@@ -136,7 +133,6 @@ class LatestNews extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   NewsContent(
@@ -175,10 +171,9 @@ class LatestNews extends StatelessWidget {
 }
 
 class OldNews extends StatelessWidget {
+  OldNews({super.key});
   final String title = 'Sindh Announces MDCAT \nReconduct on November 24th.';
   final ImageProvider image = AssetImage(PremedAssets.PrMedLogoLarge);
-
-  OldNews({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +185,6 @@ class OldNews extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
@@ -241,8 +235,8 @@ class OldNews extends StatelessWidget {
     return ListView.builder(
       itemCount: 10, // Change this to the desired number of items
       itemBuilder: (context, index) {
-        Color itemColor = Colors.white; // Fixed to white
-        Color buttonColor =
+        final Color itemColor = Colors.white; // Fixed to white
+        final Color buttonColor =
             PreMedColorTheme().primaryColorRed300; // Fixed color
 
         return Row(

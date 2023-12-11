@@ -21,13 +21,13 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
   }
 
   void _resetTimer() {
-    DateTime now = DateTime.now();
-    DateTime resetTime = DateTime(now.year, now.month, now.day, 24, 0, 0);
-    Duration timeDifference = resetTime.difference(now);
+    final DateTime now = DateTime.now();
+    final DateTime resetTime = DateTime(now.year, now.month, now.day, 24);
+    final Duration timeDifference = resetTime.difference(now);
 
     hours = timeDifference.inHours;
-    minutes = (timeDifference.inMinutes % 60);
-    seconds = (timeDifference.inSeconds % 60);
+    minutes = timeDifference.inMinutes % 60;
+    seconds = timeDifference.inSeconds % 60;
   }
 
   void _startTimer() {
@@ -155,20 +155,19 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
 }
 
 class CustomDraw extends CustomPainter {
-  late Paint painter;
-  late double radius;
-  late double textWidth;
-
   CustomDraw(Color color, this.textWidth, {this.radius = 0}) {
     painter = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..color = color;
   }
+  late Paint painter;
+  late double radius;
+  late double textWidth;
 
   @override
   void paint(Canvas canvas, Size size) {
-    var path = Path();
+    final path = Path();
 
     path.moveTo(size.width - ((size.width - textWidth) / 3), 0);
 
@@ -183,7 +182,7 @@ class CustomDraw extends CustomPainter {
 
     path.lineTo(0, radius);
     path.cubicTo(0, radius, 0, 0, radius, 0);
-    path.lineTo(((size.width - textWidth) / 3), 0);
+    path.lineTo((size.width - textWidth) / 3, 0);
 
     canvas.drawPath(path, painter);
   }
@@ -193,11 +192,6 @@ class CustomDraw extends CustomPainter {
 }
 
 class CustomTitleWidget extends StatefulWidget {
-  final double height;
-  final double width;
-  final double? radius;
-  final String title;
-  final Color? color;
   const CustomTitleWidget(
       {super.key,
       required this.height,
@@ -205,6 +199,11 @@ class CustomTitleWidget extends StatefulWidget {
       required this.title,
       this.color,
       this.radius});
+  final double height;
+  final double width;
+  final double? radius;
+  final String title;
+  final Color? color;
 
   @override
   State<CustomTitleWidget> createState() => _CustomTitleWidgetState();
@@ -223,7 +222,7 @@ class _CustomTitleWidgetState extends State<CustomTitleWidget> {
       setState(() {
         final textKeyContext = textKey.currentContext;
         if (textKeyContext != null) {
-          final box = textKeyContext.findRenderObject() as RenderBox;
+          final box = textKeyContext.findRenderObject()! as RenderBox;
           textHeight = box.size.height;
           textWidth = box.size.width;
         }

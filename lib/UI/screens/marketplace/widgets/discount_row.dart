@@ -1,9 +1,6 @@
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class DiscountRow extends StatelessWidget {
-  final String title;
-  final double? discountPercentage;
-  final double price;
 
   const DiscountRow({
     super.key,
@@ -11,6 +8,9 @@ class DiscountRow extends StatelessWidget {
     this.discountPercentage,
     required this.price,
   });
+  final String title;
+  final double? discountPercentage;
+  final double price;
 
   @override
   Widget build(BuildContext context) {

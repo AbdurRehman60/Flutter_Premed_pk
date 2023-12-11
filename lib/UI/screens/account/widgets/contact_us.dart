@@ -51,7 +51,6 @@ class ContactUs extends StatelessWidget {
                         ),
                         SizedBoxes.horizontalMedium,
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -107,7 +106,6 @@ class ContactUs extends StatelessWidget {
                         ),
                         SizedBoxes.horizontalMedium,
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -163,7 +161,6 @@ class ContactUs extends StatelessWidget {
                         ),
                         SizedBoxes.horizontalMedium,
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -219,7 +216,6 @@ class ContactUs extends StatelessWidget {
                         ),
                         SizedBoxes.horizontalMedium,
                         Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -244,7 +240,6 @@ class ContactUs extends StatelessWidget {
                         launchUrl(
                           mode: LaunchMode.inAppBrowserView,
                           hubspot,
-                          webViewConfiguration: const WebViewConfiguration(),
                         );
                       },
                       icon: CircleAvatar(

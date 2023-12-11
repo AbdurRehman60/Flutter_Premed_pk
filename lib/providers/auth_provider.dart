@@ -117,7 +117,7 @@ class AuthProvider extends ChangeNotifier {
   GoogleSignInAccount? _googleUser;
   GoogleSignInAccount get googleUser => _googleUser!;
 
-  notify() {
+  void notify() {
     notifyListeners();
   }
 
@@ -131,7 +131,7 @@ class AuthProvider extends ChangeNotifier {
     notify();
 
     try {
-      Response response = await _client.post(
+      final Response response = await _client.post(
         Endpoints.login,
         data: loginData,
       );
@@ -195,7 +195,7 @@ class AuthProvider extends ChangeNotifier {
       );
 
       if (response["isloggedin"]) {
-        User user = User.fromJson(response);
+        final User user = User.fromJson(response);
         await UserPreferences().saveUser(user);
 
         UserProvider().user = user;
@@ -249,7 +249,7 @@ class AuthProvider extends ChangeNotifier {
     notify();
 
     try {
-      Response response = await _client.post(
+      final Response response = await _client.post(
         Endpoints.signup,
         data: signupData,
       );
@@ -314,7 +314,7 @@ class AuthProvider extends ChangeNotifier {
     notify();
 
     try {
-      Response response = await _client.post(
+      final Response response = await _client.post(
         Endpoints.OptionalOnboarding,
         data: payload,
       );
@@ -361,7 +361,7 @@ class AuthProvider extends ChangeNotifier {
     notify();
 
     try {
-      Response response = await _client.post(
+      final Response response = await _client.post(
         Endpoints.RequiredOnboarding,
         data: payload,
       );
@@ -399,7 +399,7 @@ class AuthProvider extends ChangeNotifier {
     notify();
 
     try {
-      Response response = await _client.logout(
+      final Response response = await _client.logout(
         Endpoints.logout,
       );
 
@@ -451,14 +451,14 @@ class AuthProvider extends ChangeNotifier {
       final googleAuth = await googleUser.authentication;
 
       final Map<String, dynamic> payload = {
-        "username": googleUser.email.toString(),
+        "username": googleUser.email,
         "fullname": googleUser.displayName.toString(),
         "picture": googleUser.photoUrl.toString(),
         "token": googleAuth.accessToken.toString()
       };
 
       try {
-        Response response = await _client.post(
+        final Response response = await _client.post(
           Endpoints.continueWithGoogle,
           data: payload,
         );

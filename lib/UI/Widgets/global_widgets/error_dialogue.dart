@@ -3,7 +3,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 void showError(BuildContext context, Map<String, dynamic> response,
     {bool? navigate}) {
-  bool shouldNavigate = navigate ?? false;
+  final bool shouldNavigate = navigate ?? false;
 
   if (shouldNavigate && Navigator.canPop(context)) {
     Navigator.of(context).pop();
@@ -39,14 +39,12 @@ class ErrorDialog extends StatelessWidget {
           boxShadow: const [
             BoxShadow(
               color: Color.fromARGB(90, 0, 0, 0),
-              offset: Offset(0, 0),
               blurRadius: 10.0,
             ),
           ],
         ),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(

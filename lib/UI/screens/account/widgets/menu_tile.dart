@@ -1,17 +1,17 @@
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class MenuTile extends StatelessWidget {
-  final String heading;
-
-  final String icon;
-
-  final VoidCallback onTap;
   const MenuTile({
     super.key,
     required this.heading,
     required this.icon,
     required this.onTap,
   });
+  final String heading;
+
+  final String icon;
+
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class MenuTile extends StatelessWidget {
         decoration: BoxDecoration(
           // color: bgColor,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: PreMedColorTheme().white, width: 1),
+          border: Border.all(color: PreMedColorTheme().white),
         ),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -29,7 +29,6 @@ class MenuTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Image.asset(
                     icon,

@@ -8,7 +8,7 @@ class RevisionNotes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NotesProvider notesProvider =
+    final NotesProvider notesProvider =
         Provider.of<NotesProvider>(context, listen: false);
     notesProvider.fetchNotes();
 
@@ -69,7 +69,7 @@ class RevisionNotes extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
           child: Consumer<NotesProvider>(
             builder: (context, notesProvider, _) {
-              bool isLoading =
+              final bool isLoading =
                   notesProvider.notesLoadingStatus == Status.Fetching;
               return TabBarView(
                 children: [

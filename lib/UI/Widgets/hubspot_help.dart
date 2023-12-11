@@ -2,11 +2,11 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HubspotHelpButton extends StatelessWidget {
-  final bool light;
   const HubspotHelpButton({
     super.key,
     this.light = false,
   });
+  final bool light;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,6 @@ class HubspotHelpButton extends StatelessWidget {
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
             Icons.chat,

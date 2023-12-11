@@ -47,13 +47,14 @@ class _CropImageScreenState extends State<CropImageScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _imageFile != null
-                ? Image.file(_imageFile!)
-                : const Text('No image selected'),
+            if (_imageFile != null)
+              Image.file(_imageFile!)
+            else
+              const Text('No image selected'),
             ElevatedButton(
               onPressed: () {
                 final image =
-                    ModalRoute.of(context)!.settings.arguments as File;
+                    ModalRoute.of(context)!.settings.arguments! as File;
                 _cropImage(image);
               },
               child: const Text('Crop Image'),

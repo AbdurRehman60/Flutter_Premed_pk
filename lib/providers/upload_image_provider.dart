@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class UplaodImageProvider extends ChangeNotifier {
-  notify() {
+  void notify() {
     notifyListeners();
   }
 

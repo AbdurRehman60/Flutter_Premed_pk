@@ -1,16 +1,4 @@
 class NoteModel {
-  final String id;
-  final bool isGuide;
-  final String title;
-  final String subject;
-  final String? province;
-  final String notesURL;
-  final String coverImageURL;
-  final List<NoteDemarcation>? demarcations;
-  final int? pages;
-  final int position;
-  final DateTime createdAt;
-  final DateTime updatedAt;
 
   NoteModel({
     required this.id,
@@ -51,12 +39,21 @@ class NoteModel {
       updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
+  final String id;
+  final bool isGuide;
+  final String title;
+  final String subject;
+  final String? province;
+  final String notesURL;
+  final String coverImageURL;
+  final List<NoteDemarcation>? demarcations;
+  final int? pages;
+  final int position;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 }
 
 class NoteDemarcation {
-  final String id;
-  final String name;
-  final int page;
 
   NoteDemarcation({
     required this.id,
@@ -71,4 +68,7 @@ class NoteDemarcation {
       page: json['page'],
     );
   }
+  final String id;
+  final String name;
+  final int page;
 }

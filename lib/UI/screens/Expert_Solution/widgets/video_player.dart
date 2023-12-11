@@ -3,12 +3,12 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
-  final String videoLink;
 
   const VideoPlayerWidget({
     super.key,
     required this.videoLink,
   });
+  final String videoLink;
 
   @override
   State<VideoPlayerWidget> createState() => _VideoPlayerWidgetState();

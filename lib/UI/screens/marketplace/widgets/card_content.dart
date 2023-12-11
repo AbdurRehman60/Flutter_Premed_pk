@@ -1,5 +1,5 @@
-import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offers_widget.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
@@ -21,8 +21,8 @@ class CardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
-    bool isBundleInCart = cartProvider.selectedBundles.contains(bundle);
+    final CartProvider cartProvider = Provider.of<CartProvider>(context);
+    final bool isBundleInCart = cartProvider.selectedBundles.contains(bundle);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,47 +56,47 @@ class CardContent extends StatelessWidget {
             ),
           ],
         ),
-        renderDescription
-            ? Text(
-                bundle.bundleDescription,
-                style: PreMedTextTheme().body.copyWith(
-                      height: 1.5,
-                      color: PreMedColorTheme().neutral600,
-                    ),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              )
-            : const SizedBox(),
-        renderPoints
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: bundle.bundlePoints
-                    .take(5) // Take the first 5 points
-                    .map(
-                      (point) => Row(
-                        children: [
-                          // Text('✅'),
-                          // SizedBoxes.verticalMicro,
-                          Flexible(
-                            child: Text(
-                              '✅ $point',
-                              style: PreMedTextTheme().small.copyWith(
-                                    color: PreMedColorTheme().neutral600,
-                                    height: 1.5,
-                                  ),
-                              maxLines:
-                                  1, // Set the maximum number of lines to 1
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
+        if (renderDescription)
+          Text(
+            bundle.bundleDescription,
+            style: PreMedTextTheme().body.copyWith(
+                  height: 1.5,
+                  color: PreMedColorTheme().neutral600,
+                ),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          )
+        else
+          const SizedBox(),
+        if (renderPoints)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: bundle.bundlePoints
+                .take(5) // Take the first 5 points
+                .map(
+                  (point) => Row(
+                    children: [
+                      // Text('✅'),
+                      // SizedBoxes.verticalMicro,
+                      Flexible(
+                        child: Text(
+                          '✅ $point',
+                          style: PreMedTextTheme().small.copyWith(
+                                color: PreMedColorTheme().neutral600,
+                                height: 1.5,
+                              ),
+                          maxLines: 1, // Set the maximum number of lines to 1
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    )
-                    .toList(),
-              )
-            : const SizedBox(),
+                    ],
+                  ),
+                )
+                .toList(),
+          )
+        else
+          const SizedBox(),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               '${(bundle.bundlePrice - bundle.bundleDiscount).round()}',

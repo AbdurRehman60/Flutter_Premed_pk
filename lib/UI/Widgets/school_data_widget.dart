@@ -2,9 +2,6 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class SchoolDropdownList extends StatefulWidget {
-  final List<String> items;
-  final String selectedItem;
-  final void Function(String) onChanged;
 
   const SchoolDropdownList({
     super.key,
@@ -12,6 +9,9 @@ class SchoolDropdownList extends StatefulWidget {
     required this.selectedItem,
     required this.onChanged,
   });
+  final List<String> items;
+  final String selectedItem;
+  final void Function(String) onChanged;
 
   @override
   State<SchoolDropdownList> createState() => _SchoolDropdownListState();
@@ -84,7 +84,6 @@ class _SchoolDropdownListState extends State<SchoolDropdownList> {
         );
       },
       hideOnLoading: true,
-      hideSuggestionsOnKeyboardHide: true,
     );
   }
 }

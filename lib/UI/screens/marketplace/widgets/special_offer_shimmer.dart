@@ -2,13 +2,13 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SpecialOffersShimmer extends StatelessWidget {
-  final bool tabCard;
-  final int cardCount;
   const SpecialOffersShimmer({
     super.key,
     this.tabCard = false,
     this.cardCount = 2,
   });
+  final bool tabCard;
+  final int cardCount;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class SpecialOffersShimmer extends StatelessWidget {
           return Container(
             margin: tabCard
                 ? EdgeInsets.only(
-                    left: 20, right: 20, top: index == 0 ? 16 : 8, bottom: 0)
+                    left: 20, right: 20, top: index == 0 ? 16 : 8)
                 : EdgeInsets.only(left: index == 0 ? 20 : 0, right: 20),
             child: ShimmerSpecialOfferCard(
               tabCard: tabCard,
@@ -35,8 +35,8 @@ class SpecialOffersShimmer extends StatelessWidget {
 }
 
 class ShimmerSpecialOfferCard extends StatelessWidget {
-  final bool tabCard;
   const ShimmerSpecialOfferCard({super.key, required this.tabCard});
+  final bool tabCard;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class ShimmerSpecialOfferCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white, width: 1),
+        border: Border.all(color: Colors.white),
       ),
     );
   }

@@ -33,7 +33,7 @@ class _PdfViewState extends State<PdfScreen> {
 
   @override
   Widget build(BuildContext context) {
-    PdfDownloader pdfDownloader = PdfDownloader();
+    final PdfDownloader pdfDownloader = PdfDownloader();
 
     void openDemarcationBottomSheet() {
       showModalBottomSheet(
@@ -70,7 +70,7 @@ class _PdfViewState extends State<PdfScreen> {
 
                           _pdfViewController.future.then(
                             (controller) {
-                              int pageNumber =
+                              final int pageNumber =
                                   widget.note.demarcations![index].page;
 
                               if (pageNumber >= 0 && pageNumber < maxPage) {
@@ -255,7 +255,6 @@ class _PdfViewState extends State<PdfScreen> {
                     child: CustomButton(
                       textColor: PreMedColorTheme().white,
                       color: PreMedColorTheme().primaryColorRed,
-                      isOutlined: false,
                       isIconButton: true,
                       leftIcon: false,
                       iconSize: 15,
@@ -264,7 +263,7 @@ class _PdfViewState extends State<PdfScreen> {
                       fontSize: 16,
                       onPressed: () {
                         _pdfViewController.future.then((controller) {
-                          int pageNumber = currentPage;
+                          final int pageNumber = currentPage;
 
                           if (pageNumber > 0 && pageNumber <= maxPage) {
                             controller.setPage(pageNumber);

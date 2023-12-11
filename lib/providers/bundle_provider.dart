@@ -21,7 +21,7 @@ class BundleProvider extends ChangeNotifier {
     _loadingStatus = value;
   }
 
-  notify() {
+  void notify() {
     notifyListeners();
   }
 
@@ -45,7 +45,7 @@ class BundleProvider extends ChangeNotifier {
         final List<Map<String, dynamic>> responseData =
             List<Map<String, dynamic>>.from(response['data']);
 
-        List<BundleModel> bundleList =
+        final List<BundleModel> bundleList =
             responseData.map((json) => BundleModel.fromJson(json)).toList();
 
         _bundleList = bundleList;

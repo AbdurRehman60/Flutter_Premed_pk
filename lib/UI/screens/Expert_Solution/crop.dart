@@ -6,9 +6,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/display_image_screen.dart';
 
 class CropImage extends StatefulWidget {
-  final File image;
 
   const CropImage({super.key, required this.image});
+  final File image;
 
   @override
   State<CropImage> createState() => _CropImageState();
@@ -31,7 +31,6 @@ class _CropImageState extends State<CropImage> {
     return Scaffold(
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.all(30),
@@ -55,7 +54,6 @@ class _CropImageState extends State<CropImage> {
     try {
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: image.path,
-        compressFormat: ImageCompressFormat.jpg,
         compressQuality: 100,
         uiSettings: [
           AndroidUiSettings(

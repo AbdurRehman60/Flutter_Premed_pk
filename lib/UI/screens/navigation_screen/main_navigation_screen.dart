@@ -17,7 +17,7 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   Future<String> getUsername() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String dsrID = prefs.getString("userName") ?? '';
+    final String dsrID = prefs.getString("userName") ?? '';
 
     return dsrID;
   }

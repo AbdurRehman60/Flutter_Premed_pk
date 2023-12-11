@@ -1,15 +1,14 @@
-import 'package:premedpk_mobile_app/UI/widgets/video_player/video_player.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/tags_row.dart';
+import 'package:premedpk_mobile_app/UI/widgets/video_player/video_player.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
 
 class ViewSolution extends StatelessWidget {
-  final Doubt doubt;
   const ViewSolution({
     super.key,
     required this.doubt,
   });
+  final Doubt doubt;
 
   // void _showReviewModal(BuildContext context) {
   //   showModalBottomSheet(
@@ -22,10 +21,13 @@ class ViewSolution extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> tags = [
+    final List<Map<String, dynamic>> tags = [
       {"tagName": doubt.resource, "isResource": true},
       {"tagName": doubt.subject, "isResource": false},
-      doubt.topic != null ? {"tagName": doubt.topic, "isResource": false} : {},
+      if (doubt.topic != null)
+        {"tagName": doubt.topic, "isResource": false}
+      else
+        {},
     ];
     return Scaffold(
       appBar: AppBar(
@@ -36,7 +38,6 @@ class ViewSolution extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -50,7 +51,6 @@ class ViewSolution extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -71,19 +71,20 @@ class ViewSolution extends StatelessWidget {
                           .toList(),
                     ),
                     SizedBoxes.verticalMedium,
-                    doubt.imgURL.isNotEmpty
-                        ? Container(
-                            height: 200,
-                            width: double.infinity,
-                            decoration: ShapeDecoration(
-                              color: PreMedColorTheme().primaryColorBlue100,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                            ),
-                            child: Image.network(doubt.imgURL),
-                          )
-                        : const SizedBox(),
+                    if (doubt.imgURL.isNotEmpty)
+                      Container(
+                        height: 200,
+                        width: double.infinity,
+                        decoration: ShapeDecoration(
+                          color: PreMedColorTheme().primaryColorBlue100,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        child: Image.network(doubt.imgURL),
+                      )
+                    else
+                      const SizedBox(),
                     SizedBoxes.verticalMedium,
                     Text(
                       doubt.description,

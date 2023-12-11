@@ -5,21 +5,21 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
 
 class DoubtCard extends StatelessWidget {
-  final Doubt doubt;
   const DoubtCard({
     super.key,
     required this.doubt,
   });
+  final Doubt doubt;
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> tags = [
+    final List<Map<String, dynamic>> tags = [
       {"tagName": doubt.resource, "isResource": true},
       {"tagName": doubt.subject, "isResource": false},
       if (doubt.topic != null) {"tagName": doubt.topic, "isResource": false}
     ];
 
-    bool isSolved = doubt.solvedStatus == 'Solved';
+    final bool isSolved = doubt.solvedStatus == 'Solved';
 
     return InkWell(
       onTap: () {
@@ -139,7 +139,6 @@ class DoubtCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(

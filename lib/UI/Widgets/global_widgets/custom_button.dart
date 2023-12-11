@@ -19,7 +19,7 @@ class CustomButton extends StatelessWidget {
 
   String buttonText;
   final Function()? onPressed;
-  Size buttonSize = const Size(0, 0);
+  Size buttonSize = Size.zero;
   final bool isActive;
   final bool isOutlined;
   final bool isIconButton;
@@ -40,27 +40,27 @@ class CustomButton extends StatelessWidget {
               backgroundColor: isActive
                   ? PreMedColorTheme().white
                   : PreMedColorTheme().primaryColorRed,
-              side: BorderSide(
-                  width: 1.0,
-                  style: BorderStyle.solid,
-                  color: PreMedColorTheme().neutral400),
+              side: BorderSide(color: PreMedColorTheme().neutral400),
               minimumSize: buttonSize,
             ),
             child: isIconButton
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      leftIcon
-                          ? Icon(
-                              icon,
-                              size: iconSize,
-                              color: isOutlined
-                                  ? textColor ??
-                                      PreMedColorTheme().primaryColorRed
-                                  : textColor ?? PreMedColorTheme().white,
-                            )
-                          : const SizedBox(),
-                      leftIcon ? SizedBoxes.horizontalMicro : const SizedBox(),
+                      if (leftIcon)
+                        Icon(
+                          icon,
+                          size: iconSize,
+                          color: isOutlined
+                              ? textColor ?? PreMedColorTheme().primaryColorRed
+                              : textColor ?? PreMedColorTheme().white,
+                        )
+                      else
+                        const SizedBox(),
+                      if (leftIcon)
+                        SizedBoxes.horizontalMicro
+                      else
+                        const SizedBox(),
                       Text(
                         buttonText,
                         style: isActive
@@ -71,16 +71,20 @@ class CustomButton extends StatelessWidget {
                             : PreMedTextTheme().heading6.copyWith(
                                 color: PreMedColorTheme().primaryColorRed),
                       ),
-                      leftIcon ? const SizedBox() : SizedBoxes.horizontalMicro,
-                      leftIcon
-                          ? const SizedBox()
-                          : Icon(
-                              icon,
-                              size: iconSize,
-                              color: isOutlined
-                                  ? textColor ?? PreMedColorTheme().neutral800
-                                  : textColor ?? PreMedColorTheme().white,
-                            ),
+                      if (leftIcon)
+                        const SizedBox()
+                      else
+                        SizedBoxes.horizontalMicro,
+                      if (leftIcon)
+                        const SizedBox()
+                      else
+                        Icon(
+                          icon,
+                          size: iconSize,
+                          color: isOutlined
+                              ? textColor ?? PreMedColorTheme().neutral800
+                              : textColor ?? PreMedColorTheme().white,
+                        ),
                     ],
                   )
                 : Text(
@@ -106,17 +110,20 @@ class CustomButton extends StatelessWidget {
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      leftIcon
-                          ? Icon(
-                              icon,
-                              size: iconSize,
-                              color: isOutlined
-                                  ? textColor ??
-                                      PreMedColorTheme().primaryColorRed
-                                  : textColor ?? PreMedColorTheme().white,
-                            )
-                          : const SizedBox(),
-                      leftIcon ? SizedBoxes.horizontalMicro : const SizedBox(),
+                      if (leftIcon)
+                        Icon(
+                          icon,
+                          size: iconSize,
+                          color: isOutlined
+                              ? textColor ?? PreMedColorTheme().primaryColorRed
+                              : textColor ?? PreMedColorTheme().white,
+                        )
+                      else
+                        const SizedBox(),
+                      if (leftIcon)
+                        SizedBoxes.horizontalMicro
+                      else
+                        const SizedBox(),
                       Text(
                         buttonText,
                         style: isActive
@@ -128,17 +135,20 @@ class CustomButton extends StatelessWidget {
                                     PreMedColorTheme().primaryColorRed,
                                 fontSize: fontSize ?? 20),
                       ),
-                      leftIcon ? const SizedBox() : SizedBoxes.horizontalMicro,
-                      leftIcon
-                          ? const SizedBox()
-                          : Icon(
-                              icon,
-                              size: iconSize,
-                              color: isOutlined
-                                  ? textColor ??
-                                      PreMedColorTheme().primaryColorRed
-                                  : textColor ?? PreMedColorTheme().white,
-                            ),
+                      if (leftIcon)
+                        const SizedBox()
+                      else
+                        SizedBoxes.horizontalMicro,
+                      if (leftIcon)
+                        const SizedBox()
+                      else
+                        Icon(
+                          icon,
+                          size: iconSize,
+                          color: isOutlined
+                              ? textColor ?? PreMedColorTheme().primaryColorRed
+                              : textColor ?? PreMedColorTheme().white,
+                        ),
                     ],
                   )
                 : Text(

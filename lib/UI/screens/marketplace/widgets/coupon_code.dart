@@ -16,7 +16,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
   @override
   void initState() {
     super.initState();
-    CartProvider cartProvider =
+    final CartProvider cartProvider =
         Provider.of<CartProvider>(context, listen: false);
     cartProvider.couponCode = "";
     cartProvider.couponAmount = 0;
@@ -26,9 +26,9 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
+    final CartProvider cartProvider = Provider.of<CartProvider>(context);
 
-    TextEditingController couponText = TextEditingController();
+    final TextEditingController couponText = TextEditingController();
 
     onApplyCouponPressed() {
       final form = formKey.currentState!;
@@ -55,7 +55,6 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
     return Form(
       key: formKey,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -92,9 +91,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
             ],
           ),
           SizedBoxes.verticalMicro,
-          cartProvider.couponCode.isNotEmpty
-              ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+          if (cartProvider.couponCode.isNotEmpty) Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
@@ -114,8 +111,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
                       ),
                     ),
                   ],
-                )
-              : const SizedBox(),
+                ) else const SizedBox(),
         ],
       ),
     );

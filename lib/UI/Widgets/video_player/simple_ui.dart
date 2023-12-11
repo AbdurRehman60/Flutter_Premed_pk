@@ -2,11 +2,6 @@ import 'package:fijkplayer/fijkplayer.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class CustomFijkPanel extends StatefulWidget {
-  final FijkPlayer player;
-  final FijkData data;
-  final BuildContext buildContext;
-  final Size viewSize;
-  final Rect texturePos;
 
   const CustomFijkPanel({
     super.key,
@@ -16,6 +11,11 @@ class CustomFijkPanel extends StatefulWidget {
     required this.viewSize,
     required this.texturePos,
   });
+  final FijkPlayer player;
+  final FijkData data;
+  final BuildContext buildContext;
+  final Size viewSize;
+  final Rect texturePos;
 
   @override
   State<CustomFijkPanel> createState() => _CustomFijkPanelState();
@@ -35,9 +35,9 @@ class _CustomFijkPanelState extends State<CustomFijkPanel> {
   }
 
   void _playerValueChanged() {
-    FijkValue value = player.value;
+    final FijkValue value = player.value;
 
-    bool playing = (value.state == FijkState.started);
+    final bool playing = (value.state == FijkState.started);
     if (playing != _playing) {
       setState(() {
         _sliderValue = player.currentPos.inMilliseconds.toDouble();
@@ -69,7 +69,7 @@ class _CustomFijkPanelState extends State<CustomFijkPanel> {
 
   @override
   Widget build(BuildContext context) {
-    Rect rect = Rect.fromLTRB(
+    final Rect rect = Rect.fromLTRB(
         max(0.0, widget.texturePos.left),
         max(0.0, widget.texturePos.top),
         min(widget.viewSize.width, widget.texturePos.right),
@@ -94,7 +94,6 @@ class _CustomFijkPanelState extends State<CustomFijkPanel> {
           ),
           Slider(
             value: _sliderValue,
-            min: 0.0,
             max: _sliderMax, // Set the maximum slider value
             onChanged: (double value) {
               setState(() {

@@ -115,7 +115,6 @@ class MarketplaceTabView extends StatelessWidget {
                               child: CardContent(
                                 bundle: filteredList[index],
                                 renderPoints: true,
-                                renderDescription: true,
                               ),
                             ),
                           ),

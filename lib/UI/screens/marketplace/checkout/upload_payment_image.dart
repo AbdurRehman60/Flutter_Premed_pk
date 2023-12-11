@@ -1,5 +1,5 @@
-import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/select_upload_method_bottomsheet.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +33,6 @@ class _UploadPaymentImageState extends State<UploadPaymentImage> {
                     boundaryMargin: const EdgeInsets.all(8.0),
                     minScale: 0.5,
                     maxScale: 4.0,
-                    scaleEnabled: true,
                     child: Image.file(
                       uplaodImageProvider.uploadedImage!,
                       fit: BoxFit.fitHeight,
@@ -69,7 +68,6 @@ class _UploadPaymentImageState extends State<UploadPaymentImage> {
             )
           : Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Image.asset(
                   PremedAssets.Payment,

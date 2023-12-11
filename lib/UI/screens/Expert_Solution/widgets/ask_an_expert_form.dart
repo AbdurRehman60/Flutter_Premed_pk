@@ -19,7 +19,7 @@ class AskanExpertForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final askAnExpertProvider = Provider.of<AskAnExpertProvider>(context);
     final uplaodImageProvider = Provider.of<UplaodImageProvider>(context);
-    TextEditingController descriptionController = TextEditingController();
+    final TextEditingController descriptionController = TextEditingController();
 
     void onSubmitPressed() {
       final form = _formKey.currentState!;
@@ -74,7 +74,7 @@ class AskanExpertForm extends StatelessWidget {
                     ),
                     child: Consumer<UplaodImageProvider>(
                       builder: (context, value, child) {
-                        bool uploadedImage = value.uploadedImage != null;
+                        final bool uploadedImage = value.uploadedImage != null;
 
                         return uploadedImage
                             ? Image.file(

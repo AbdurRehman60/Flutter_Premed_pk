@@ -1,9 +1,6 @@
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class CustomCheckBox extends StatefulWidget {
-  final bool initialValue;
-  final Function(bool) onChanged;
-  final String label;
 
   const CustomCheckBox({
     super.key,
@@ -11,6 +8,9 @@ class CustomCheckBox extends StatefulWidget {
     required this.onChanged,
     required this.label,
   });
+  final bool initialValue;
+  final Function(bool) onChanged;
+  final String label;
 
   @override
   State<CustomCheckBox> createState() => _CustomCheckBoxState();

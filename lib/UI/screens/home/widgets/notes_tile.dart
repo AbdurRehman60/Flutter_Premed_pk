@@ -1,13 +1,6 @@
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class NotesTile extends StatelessWidget {
-  final String heading;
-  final String description;
-  final String icon;
-  // final Route route;
-  final Color bgColor;
-  final Color btnColor;
-  final VoidCallback onTap;
   const NotesTile({
     super.key,
     required this.heading,
@@ -18,6 +11,13 @@ class NotesTile extends StatelessWidget {
     this.btnColor = Colors.black,
     required this.onTap,
   });
+  final String heading;
+  final String description;
+  final String icon;
+  // final Route route;
+  final Color bgColor;
+  final Color btnColor;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +25,11 @@ class NotesTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: PreMedColorTheme().white, width: 1),
+        border: Border.all(color: PreMedColorTheme().white),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(

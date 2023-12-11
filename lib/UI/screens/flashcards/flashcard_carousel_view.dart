@@ -40,10 +40,10 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
 
   @override
   Widget build(BuildContext context) {
-    FlashcardProvider flashcardProvider =
+    final FlashcardProvider flashcardProvider =
         Provider.of<FlashcardProvider>(context);
 
-    List<FlashcardModel> filteredFlashcards =
+    final List<FlashcardModel> filteredFlashcards =
         flashcardProvider.getFilteredFlashcards(widget.selectedSubject);
 
     void goToPreviousCard() {

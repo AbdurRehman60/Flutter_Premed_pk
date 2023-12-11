@@ -10,7 +10,7 @@ class GoogleLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider auth = Provider.of<AuthProvider>(context);
+    final AuthProvider auth = Provider.of<AuthProvider>(context);
     onLoginPressed() {
       final Future<Map<String, dynamic>> response1 = auth.continueWithGoogle();
       response1.then(

@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreferences {
   Future<bool> saveUser(User user) async {

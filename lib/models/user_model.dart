@@ -1,37 +1,4 @@
 class User {
-  String status;
-  bool isLoggedin;
-  String userName;
-  String fullName;
-  String phoneNumber;
-  String city;
-  String school;
-  String academyJoined;
-  bool onBoarding;
-  bool optionalOnboarding;
-  String accountType;
-  List<dynamic> intendFor;
-  String whichYear;
-  String country;
-  bool availableOnWhatsapp;
-  String parentFullname;
-  String parentContactNumber;
-  String whatsappNumber;
-  String accountCreateDate;
-  String? accountStatus;
-  String subscriptionStatus;
-  String subscriptionStartDate;
-  String subscriptionEndDate;
-  bool? freeUser;
-  bool purchaseMocks;
-  List<String> addonsPurchased;
-  String referral;
-  List<dynamic> milestones;
-  List<dynamic> notificationsRead;
-  Map<String, dynamic> otherInfo;
-  // BundlesPurchased bundlesPurchased;
-  int coins;
-  FreeTrial freeTrial;
 
   User({
     required this.status,
@@ -116,6 +83,39 @@ class User {
       freeTrial: FreeTrial.fromJson(responseData['freeTrial'] ?? {}),
     );
   }
+  String status;
+  bool isLoggedin;
+  String userName;
+  String fullName;
+  String phoneNumber;
+  String city;
+  String school;
+  String academyJoined;
+  bool onBoarding;
+  bool optionalOnboarding;
+  String accountType;
+  List<dynamic> intendFor;
+  String whichYear;
+  String country;
+  bool availableOnWhatsapp;
+  String parentFullname;
+  String parentContactNumber;
+  String whatsappNumber;
+  String accountCreateDate;
+  String? accountStatus;
+  String subscriptionStatus;
+  String subscriptionStartDate;
+  String subscriptionEndDate;
+  bool? freeUser;
+  bool purchaseMocks;
+  List<String> addonsPurchased;
+  String referral;
+  List<dynamic> milestones;
+  List<dynamic> notificationsRead;
+  Map<String, dynamic> otherInfo;
+  // BundlesPurchased bundlesPurchased;
+  int coins;
+  FreeTrial freeTrial;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -158,8 +158,6 @@ class User {
 }
 
 class BundlesPurchased {
-  List<BundleItem> bundleItems;
-  List<String> tags;
 
   BundlesPurchased({
     required this.bundleItems,
@@ -180,6 +178,8 @@ class BundlesPurchased {
       tags: tags,
     );
   }
+  List<BundleItem> bundleItems;
+  List<String> tags;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -194,10 +194,6 @@ class BundlesPurchased {
 }
 
 class BundleItem {
-  BundleDetails bundleDetails;
-  String bundleId;
-  String purchaseDate;
-  String expiryDate;
 
   BundleItem({
     required this.bundleDetails,
@@ -215,6 +211,10 @@ class BundleItem {
       expiryDate: responseData['ExpiryDate'],
     );
   }
+  BundleDetails bundleDetails;
+  String bundleId;
+  String purchaseDate;
+  String expiryDate;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -227,18 +227,6 @@ class BundleItem {
 }
 
 class BundleDetails {
-  String id;
-  List<String> bundlePoints;
-  List<String> includedTags;
-  bool isPublished;
-  String bundleName;
-  int bundlePrice;
-  double discountPercentage;
-  String bundleDescription;
-  String bundleIcon;
-  int bundleDiscount;
-  String createdAt;
-  String updatedAt;
 
   BundleDetails({
     required this.id,
@@ -271,6 +259,18 @@ class BundleDetails {
       updatedAt: responseData['updatedAt'],
     );
   }
+  String id;
+  List<String> bundlePoints;
+  List<String> includedTags;
+  bool isPublished;
+  String bundleName;
+  int bundlePrice;
+  double discountPercentage;
+  String bundleDescription;
+  String bundleIcon;
+  int bundleDiscount;
+  String createdAt;
+  String updatedAt;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -292,8 +292,6 @@ class BundleDetails {
 }
 
 class FreeTrial {
-  bool complete;
-  int daysLeft;
 
   FreeTrial({
     required this.complete,
@@ -306,6 +304,8 @@ class FreeTrial {
       daysLeft: responseData?['daysLeft'] ?? 0,
     );
   }
+  bool complete;
+  int daysLeft;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};

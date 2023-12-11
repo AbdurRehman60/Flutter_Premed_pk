@@ -15,7 +15,6 @@ class SpecialOffers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -33,7 +32,7 @@ class SpecialOffers extends StatelessWidget {
           height: 280,
           child: Consumer<BundleProvider>(
             builder: (context, bundleProvider, _) {
-              List<BundleModel> filteredList = bundleProvider.bundleList
+              final List<BundleModel> filteredList = bundleProvider.bundleList
                   .where((bundle) => bundle.includedTags.length >= 2)
                   .toList();
 
@@ -95,7 +94,6 @@ class SpecialOfferCard extends StatelessWidget {
           child: CardContent(
             bundle: bundle,
             renderPoints: false,
-            renderDescription: true,
           ),
         ),
       ),

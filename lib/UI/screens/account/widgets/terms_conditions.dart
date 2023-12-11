@@ -25,7 +25,6 @@ class TermsCondition extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
@@ -49,7 +48,7 @@ class TermsCondition extends StatelessWidget {
                 'Unless otherwise stated, PreMed.PK and/or its licensors own the intellectual property rights for all material on PreMed.PK. All intellectual property rights are reserved. You may access this from PreMed.PK for your own personal use subjected to restrictions set in these terms and conditions.\nYou Must Not:',
               ),
               SizedBoxes.verticalMedium,
-              for (String bulletPoint in License)
+              for (final String bulletPoint in License)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
@@ -75,7 +74,7 @@ class TermsCondition extends StatelessWidget {
               const Text(
                   'The following organizations may link to our Website without prior written approval:'),
               SizedBoxes.verticalMedium,
-              for (String bulletPoint in Hyperlinking)
+              for (final String bulletPoint in Hyperlinking)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
@@ -96,7 +95,7 @@ class TermsCondition extends StatelessWidget {
               const Text(
                   'These organizations may link to our home page, to publications, or to other Website information so long as the link:'),
               SizedBoxes.verticalMedium,
-              for (String bulletPoint in Hyperlinking1)
+              for (final String bulletPoint in Hyperlinking1)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
@@ -117,7 +116,7 @@ class TermsCondition extends StatelessWidget {
               const Text(
                 'We may consider and approve other link requests from the following types of organizations:',
               ),
-              for (String bulletPoint in Hyperlinking2)
+              for (final String bulletPoint in Hyperlinking2)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
@@ -139,7 +138,7 @@ class TermsCondition extends StatelessWidget {
                 'We will approve link requests from these organizations if we decide that:',
               ),
               SizedBoxes.verticalMedium,
-              for (String bulletPoint in Hyperlinking3)
+              for (final String bulletPoint in Hyperlinking3)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
@@ -160,7 +159,7 @@ class TermsCondition extends StatelessWidget {
               const Text(
                   'These organizations may link to our home page so long as the link:'),
               SizedBoxes.verticalMedium,
-              for (String bulletPoint in Hyperlinking4)
+              for (final String bulletPoint in Hyperlinking4)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(
@@ -185,7 +184,7 @@ class TermsCondition extends StatelessWidget {
               const Text(
                   'Approved organizations may hyperlink to our Website as follows:'),
               SizedBoxes.verticalMedium,
-              for (String bulletPoint in Hyperlinking5)
+              for (final String bulletPoint in Hyperlinking5)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Row(

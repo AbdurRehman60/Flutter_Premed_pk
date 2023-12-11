@@ -4,22 +4,22 @@ import 'package:fijkplayer/fijkplayer.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class VideoScreen extends StatefulWidget {
-  final String url;
-  final double aspectRatio;
   const VideoScreen({
     super.key,
     required this.url,
     this.aspectRatio = 16 / 9,
   });
+  final String url;
+  final double aspectRatio;
 
   @override
   State<VideoScreen> createState() => _VideoScreenState();
 }
 
 class _VideoScreenState extends State<VideoScreen> {
+  _VideoScreenState();
   final FijkPlayer player = FijkPlayer();
   bool isPlay = false;
-  _VideoScreenState();
 
   @override
   void initState() {
@@ -75,7 +75,6 @@ class _VideoScreenState extends State<VideoScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(

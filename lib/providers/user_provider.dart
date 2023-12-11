@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
 
 class UserProvider extends ChangeNotifier {
-  static final UserProvider _instance = UserProvider._internal();
   factory UserProvider() => _instance;
 
   UserProvider._internal();
+  static final UserProvider _instance = UserProvider._internal();
 
-  notify() {
+  void notify() {
     notifyListeners();
   }
 

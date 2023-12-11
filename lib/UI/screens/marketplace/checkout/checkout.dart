@@ -111,7 +111,6 @@ class _CheckoutState extends State<Checkout> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        width: 1,
                         color: PreMedColorTheme().neutral300,
                       ),
                     ),
@@ -121,7 +120,6 @@ class _CheckoutState extends State<Checkout> {
                         boundaryMargin: const EdgeInsets.all(8.0),
                         minScale: 0.5,
                         maxScale: 4.0,
-                        scaleEnabled: true,
                         child: Image.asset(
                           PremedAssets.HowtoPay,
                         ),

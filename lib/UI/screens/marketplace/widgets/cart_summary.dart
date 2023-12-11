@@ -8,7 +8,7 @@ class CartSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
+    final CartProvider cartProvider = Provider.of<CartProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -26,9 +26,9 @@ class CartSummary extends StatelessWidget {
         SizedBoxes.verticalTiny,
         DiscountRow(
           title: 'Discount',
-          discountPercentage: ((cartProvider.totalOriginalPrice -
+          discountPercentage: (cartProvider.totalOriginalPrice -
                   cartProvider.afterDiscountPrice) /
-              cartProvider.totalOriginalPrice),
+              cartProvider.totalOriginalPrice,
           price: cartProvider.afterDiscountPrice,
         ),
         SizedBoxes.verticalTiny,

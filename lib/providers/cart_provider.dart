@@ -13,7 +13,7 @@ enum CouponValidateStatus { init, success, validating }
 class CartProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
 
-  notify() {
+  void notify() {
     notifyListeners();
   }
 
@@ -43,7 +43,7 @@ class CartProvider extends ChangeNotifier {
 
   double get totalOriginalPrice {
     double total = 0;
-    for (var bundle in _selectedBundles) {
+    for (final bundle in _selectedBundles) {
       total += bundle.bundlePrice;
     }
     return total;
@@ -51,8 +51,8 @@ class CartProvider extends ChangeNotifier {
 
   double get afterDiscountPrice {
     double total = 0;
-    for (var bundle in _selectedBundles) {
-      total += (bundle.bundlePrice - bundle.bundleDiscount);
+    for (final bundle in _selectedBundles) {
+      total += bundle.bundlePrice - bundle.bundleDiscount;
     }
 
     return total;
@@ -60,16 +60,16 @@ class CartProvider extends ChangeNotifier {
 
   double get couponDiscount {
     double total = 0;
-    for (var _ in _selectedBundles) {
-      total = (afterDiscountPrice * couponAmount);
+    for (final _ in _selectedBundles) {
+      total = afterDiscountPrice * couponAmount;
     }
     return total;
   }
 
   double get calculateTotalDiscount {
     double total = 0;
-    for (var _ in _selectedBundles) {
-      total = (afterDiscountPrice + couponDiscount);
+    for (final _ in _selectedBundles) {
+      total = afterDiscountPrice + couponDiscount;
     }
     return total;
   }
@@ -108,9 +108,9 @@ class CartProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>> placeOrder() async {
     try {
-      List<String> bundleIds = _selectedBundles.map((b) => b.id).toList();
+      final List<String> bundleIds = _selectedBundles.map((b) => b.id).toList();
 
-      Map<String, dynamic> purchaseData = {
+      final Map<String, dynamic> purchaseData = {
         "username": UserProvider().getEmail(),
         "BundleId": bundleIds,
         "PaymentProof":

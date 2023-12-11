@@ -50,7 +50,7 @@ class _CameraScreenState extends State<CameraScreen>
 
   getPermissionStatus() async {
     await Permission.camera.request();
-    var status = await Permission.camera.status;
+    final status = await Permission.camera.status;
 
     if (status.isGranted) {
       print('Camera Permission: GRANTED');
@@ -67,15 +67,15 @@ class _CameraScreenState extends State<CameraScreen>
 
   refreshAlreadyCapturedImages() async {
     final directory = await getApplicationDocumentsDirectory();
-    List<FileSystemEntity> fileList = await directory.list().toList();
+    final List<FileSystemEntity> fileList = await directory.list().toList();
     allFileList.clear();
-    List<Map<int, dynamic>> fileNames = [];
+    final List<Map<int, dynamic>> fileNames = [];
 
-    for (var file in fileList) {
+    for (final file in fileList) {
       if (file.path.contains('.jpg') || file.path.contains('.mp4')) {
         allFileList.add(File(file.path));
 
-        String name = file.path.split('/').last.split('.').first;
+        final String name = file.path.split('/').last.split('.').first;
         fileNames.add({0: int.parse(name), 1: file.path.split('/').last});
       }
     }
@@ -83,7 +83,7 @@ class _CameraScreenState extends State<CameraScreen>
     if (fileNames.isNotEmpty) {
       final recentFile =
           fileNames.reduce((curr, next) => curr[0] > next[0] ? curr : next);
-      String recentFileName = recentFile[1];
+      final String recentFileName = recentFile[1];
 
       _imageFile = File('${directory.path}/$recentFileName');
     }
@@ -100,7 +100,7 @@ class _CameraScreenState extends State<CameraScreen>
     }
 
     try {
-      XFile file = await cameraController.takePicture();
+      final XFile file = await cameraController.takePicture();
       return file;
     } on CameraException catch (e) {
       print('Error occured while taking picture: $e');
@@ -147,7 +147,7 @@ class _CameraScreenState extends State<CameraScreen>
     }
 
     try {
-      XFile file = await controller!.stopVideoRecording();
+      final XFile file = await controller!.stopVideoRecording();
       setState(() {
         _isRecordingInProgress = false;
       });
@@ -392,13 +392,13 @@ class _CameraScreenState extends State<CameraScreen>
                                         rawImage = await takePicture();
                                         imageFile = File(rawImage!.path);
 
-                                        int currentUnix = DateTime.now()
+                                        final int currentUnix = DateTime.now()
                                             .millisecondsSinceEpoch;
 
                                         final directory =
                                             await getApplicationDocumentsDirectory();
 
-                                        String fileFormat =
+                                        final String fileFormat =
                                             imageFile.path.split('.').last;
 
                                         await imageFile.copy(
@@ -450,7 +450,6 @@ class _CameraScreenState extends State<CameraScreen>
                 : Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const CircularProgressIndicator(),
                         SizedBoxes.verticalBig,
@@ -467,7 +466,6 @@ class _CameraScreenState extends State<CameraScreen>
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       'Permission denied',

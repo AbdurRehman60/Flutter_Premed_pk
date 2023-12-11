@@ -3,12 +3,12 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
 
 class ModalSheetWidget extends StatelessWidget {
-  final BundleModel bundle;
 
   const ModalSheetWidget({
     super.key,
     required this.bundle,
   });
+  final BundleModel bundle;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,6 @@ class ModalSheetWidget extends StatelessWidget {
           ),
           SizedBoxes.verticalMedium,
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 '${bundle.bundleDiscount}',

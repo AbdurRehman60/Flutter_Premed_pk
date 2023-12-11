@@ -5,9 +5,9 @@ import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:provider/provider.dart';
 
 class PdfSearch extends StatefulWidget {
-  final List<NoteModel>? notesList;
 
   const PdfSearch({super.key, this.notesList});
+  final List<NoteModel>? notesList;
 
   @override
   State<PdfSearch> createState() => _PdfSearchState();
@@ -20,7 +20,7 @@ class _PdfSearchState extends State<PdfSearch> {
   @override
   void initState() {
     super.initState();
-    filteredList = widget.notesList!;
+    filteredList = widget.notesList;
   }
 
   void updateList(String value) {

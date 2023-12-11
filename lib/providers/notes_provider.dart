@@ -39,7 +39,7 @@ class NotesProvider extends ChangeNotifier {
     _notesList = value;
   }
 
-  notify() {
+  void notify() {
     notifyListeners();
   }
 
@@ -51,10 +51,10 @@ class NotesProvider extends ChangeNotifier {
       final response = await _client.get(
         Endpoints.Guides,
       );
-      List<NoteModel> list = [];
+      final List<NoteModel> list = [];
       if (response["message"] == "Guide fetched successfully") {
         for (final data in response['data']) {
-          NoteModel fetchedData = NoteModel.fromJson(data);
+          final NoteModel fetchedData = NoteModel.fromJson(data);
           list.add(fetchedData);
         }
 
@@ -93,10 +93,10 @@ class NotesProvider extends ChangeNotifier {
       );
 
       if (response["message"] == "Notes fetched successfully") {
-        List<NoteModel> list = [];
+        final List<NoteModel> list = [];
 
         for (final data in response['data']) {
-          NoteModel fetchedData = NoteModel.fromJson(data);
+          final NoteModel fetchedData = NoteModel.fromJson(data);
           list.add(fetchedData);
         }
 

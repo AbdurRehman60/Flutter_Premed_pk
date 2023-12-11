@@ -20,13 +20,13 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Future.delayed(const Duration(seconds: 1), () async {
-      bool userExists = await checkIfUserExists();
+      final bool userExists = await checkIfUserExists();
 
       if (userExists) {
-        AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
+        final AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
 
         final Map<String, dynamic> response = await auth.getLoggedInUser();
-        Future<bool> onboarding = checkIfOnboardingComplete();
+        final Future<bool> onboarding = checkIfOnboardingComplete();
         onboarding.then(
           (onboarding) {
             if (response['status']) {

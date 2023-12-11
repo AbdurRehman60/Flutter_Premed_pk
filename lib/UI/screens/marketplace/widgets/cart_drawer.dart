@@ -11,7 +11,7 @@ class CartDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartProvider cartProvider = Provider.of<CartProvider>(context);
+    final CartProvider cartProvider = Provider.of<CartProvider>(context);
 
     return Drawer(
       child: SafeArea(
@@ -98,9 +98,8 @@ class CartWidget extends StatelessWidget {
                 ),
               ), // Add a divider between items
               itemBuilder: (context, index) {
-                BundleModel bundle = cartProvider.selectedBundles[index];
+                final BundleModel bundle = cartProvider.selectedBundles[index];
                 return Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       child: CardContent(
