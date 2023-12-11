@@ -62,40 +62,48 @@ class Cart extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: ListView.separated(
-                        itemCount: cartProvider.selectedBundles.length,
-                        separatorBuilder: (context, index) => Divider(
-                          color: PreMedColorTheme().neutral300,
-                        ),
-                        itemBuilder: (context, index) {
-                          final BundleModel bundle =
-                              cartProvider.selectedBundles[index];
-                          return Padding(
-                            padding:
-                                index == cartProvider.selectedBundles.length - 1
-                                    ? const EdgeInsets.fromLTRB(16, 16, 16, 96)
-                                    : const EdgeInsets.all(16.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: CardContent(
-                                    bundle: bundle,
-                                    renderPoints: true,
-                                    renderDescription: false,
+                      child: cartProvider.selectedBundles.isNotEmpty
+                          ? ListView.separated(
+                              itemCount: cartProvider.selectedBundles.length,
+                              separatorBuilder: (context, index) => Divider(
+                                color: PreMedColorTheme().neutral300,
+                              ),
+                              itemBuilder: (context, index) {
+                                final BundleModel bundle =
+                                    cartProvider.selectedBundles[index];
+                                return Padding(
+                                  padding: index ==
+                                          cartProvider.selectedBundles.length -
+                                              1
+                                      ? const EdgeInsets.fromLTRB(
+                                          16, 16, 16, 96)
+                                      : const EdgeInsets.all(16.0),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: CardContent(
+                                          bundle: bundle,
+                                          renderPoints: true,
+                                          renderDescription: false,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.close_rounded),
+                                        onPressed: () {
+                                          cartProvider.removeFromCart(bundle);
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.close_rounded),
-                                  onPressed: () {
-                                    cartProvider.removeFromCart(bundle);
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                                );
+                              },
+                            )
+                          : EmptyState(
+                              displayImage: PremedAssets.EmptyCart,
+                              title: "YOUR CART IS EMPTY",
+                              body: ""),
                     ),
                   ),
                 ],

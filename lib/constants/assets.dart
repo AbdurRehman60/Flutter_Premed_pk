@@ -22,6 +22,7 @@ class PremedAssets {
   static String NotificationIcon = 'assets/images/notification_Icon.png';
   static String Coins = 'assets/images/coins.png';
   static String ContactUS = 'assets/images/contactus.png';
+  static String EmptyCart = 'assets/images/cartemptystate.png';
   //icons
 
   static String EditProfile = 'assets/icons/editprofile.png';

@@ -2,6 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class UplaodImageProvider extends ChangeNotifier {
+  factory UplaodImageProvider() => _instance;
+
+  UplaodImageProvider._internal();
+  static final UplaodImageProvider _instance = UplaodImageProvider._internal();
+
   void notify() {
     notifyListeners();
   }
@@ -14,6 +19,6 @@ class UplaodImageProvider extends ChangeNotifier {
   }
 
   void initToNull() {
-    uploadedImage = null;
+    _uploadedImage = null;
   }
 }

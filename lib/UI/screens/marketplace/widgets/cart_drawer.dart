@@ -1,6 +1,7 @@
 import 'package:premedpk_mobile_app/UI/screens/marketplace/cart.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/card_content.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets/empty_state.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
@@ -89,39 +90,45 @@ class CartWidget extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.separated(
-              itemCount: cartProvider.selectedBundles.length,
-              separatorBuilder: (context, index) => SizedBox(
-                width: double.infinity,
-                child: Divider(
-                  color: PreMedColorTheme().neutral300,
-                ),
-              ), // Add a divider between items
-              itemBuilder: (context, index) {
-                final BundleModel bundle = cartProvider.selectedBundles[index];
-                return Row(
-                  children: [
-                    Expanded(
-                      child: CardContent(
-                        bundle: bundle,
-                        renderPoints: false,
-                        renderDescription: false,
+            child: cartProvider.selectedBundles.isNotEmpty
+                ? ListView.separated(
+                    itemCount: cartProvider.selectedBundles.length,
+                    separatorBuilder: (context, index) => SizedBox(
+                      width: double.infinity,
+                      child: Divider(
+                        color: PreMedColorTheme().neutral300,
                       ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.close_rounded,
-                        size: 16,
-                        color: PreMedColorTheme().neutral400,
-                      ),
-                      onPressed: () {
-                        cartProvider.removeFromCart(bundle);
-                      },
-                    ),
-                  ],
-                );
-              },
-            ),
+                    ), // Add a divider between items
+                    itemBuilder: (context, index) {
+                      final BundleModel bundle =
+                          cartProvider.selectedBundles[index];
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: CardContent(
+                              bundle: bundle,
+                              renderPoints: false,
+                              renderDescription: false,
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.close_rounded,
+                              size: 16,
+                              color: PreMedColorTheme().neutral400,
+                            ),
+                            onPressed: () {
+                              cartProvider.removeFromCart(bundle);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  )
+                : EmptyState(
+                    displayImage: PremedAssets.EmptyCart,
+                    title: "YOUR CART IS EMPTY",
+                    body: ""),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

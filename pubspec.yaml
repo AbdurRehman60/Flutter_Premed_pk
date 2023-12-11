@@ -123,6 +123,8 @@ flutter:
     - assets/images/notification_Icon.png
     - assets/images/coins.png
     - assets/images/contactus.png
+    - assets/images/cartemptystate.png
+
     #icons
     - assets/icons/editprofile.png
     - assets/icons/changepassword.png

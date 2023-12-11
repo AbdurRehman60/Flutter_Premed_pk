@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
+import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:premedpk_mobile_app/utils/base64_convertor.dart';
 
 enum CouponValidateStatus { init, success, validating }
 
@@ -107,16 +109,20 @@ class CartProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> placeOrder() async {
+    Map<String, Object?> result;
     try {
       final List<String> bundleIds = _selectedBundles.map((b) => b.id).toList();
 
       final Map<String, dynamic> purchaseData = {
         "username": UserProvider().getEmail(),
         "BundleId": bundleIds,
-        "PaymentProof":
-            "imageToDataUri(UplaodImageProvider().uploadedImage!, " ")",
-        "CouponCode": couponCode,
+        "PaymentProof": await imageToDataUri(
+            UplaodImageProvider().uploadedImage!, "image/jpeg"),
       };
+      if (couponCode.isNotEmpty) {
+        purchaseData['CouponCode'] = couponCode;
+      }
+      print(purchaseData['CouponCode']);
       // if (ReferralCode != null && ReferralCode.isNotEmpty) {
       //   purchaseData["referralCode"] = ReferralCode;
       // }
@@ -169,7 +175,6 @@ class CartProvider extends ChangeNotifier {
       // Handle DioError
       print('DioError: ${e.message}');
 
-      // Return an error status
       return {
         'status': false,
         'message': e.message,

@@ -40,27 +40,25 @@ class _UploadPaymentImageState extends State<UploadPaymentImage> {
                   ),
                 ),
                 Center(
-                  child: Positioned(
-                    child: SizedBox(
-                      width: 128,
-                      height: 36,
-                      child: CustomButton(
-                        buttonText: "Upload",
-                        onPressed: () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const UploadOptionsBottomSheet();
-                            },
-                          );
-                        },
-                        color: PreMedColorTheme().primaryColorBlue600,
-                        isIconButton: true,
-                        leftIcon: false,
-                        iconSize: 20,
-                        fontSize: 16,
-                        icon: Icons.file_upload_outlined,
-                      ),
+                  child: SizedBox(
+                    width: 128,
+                    height: 36,
+                    child: CustomButton(
+                      buttonText: "Upload",
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const UploadOptionsBottomSheet();
+                          },
+                        );
+                      },
+                      color: PreMedColorTheme().primaryColorBlue600,
+                      isIconButton: true,
+                      leftIcon: false,
+                      iconSize: 20,
+                      fontSize: 16,
+                      icon: Icons.file_upload_outlined,
                     ),
                   ),
                 ),

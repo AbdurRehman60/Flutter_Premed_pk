@@ -47,7 +47,7 @@ class PaymentTile extends StatelessWidget {
       return true;
     }
 
-    onPlaceOrder() {
+    void onPlaceOrder() {
       if (validateOrder()) {
         final Future<Map<String, dynamic>> response = cartProvider.placeOrder();
         response.then(
@@ -146,83 +146,85 @@ class PaymentTile extends StatelessWidget {
           ),
         ),
         if (selected) SizedBoxes.verticalBig else const SizedBox(),
-        if (selected) Container(
-                width: double.infinity,
-                height: 880,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: PreMedColorTheme().neutral400,
-                    width: 1.5,
+        if (selected)
+          Container(
+            width: double.infinity,
+            height: 880,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(
+                color: PreMedColorTheme().neutral400,
+                width: 1.5,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    image,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.contain,
                   ),
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        image,
-                        width: 80,
-                        height: 80,
-                        fit: BoxFit.contain,
-                      ),
-                      SizedBoxes.verticalMedium,
-                      const Text(
-                        'Transfer the amount to these accounts and upload the screenshot of the receipt',
-                      ),
-                      SizedBoxes.verticalMedium,
-                      SelectableText(
-                        numbers.entries
-                            .map((entry) => '${entry.value} (${entry.key})')
-                            .join(' '),
-                      ),
-                      SizedBoxes.verticalMedium,
-                      SizedBox(
-                        width: 72,
-                        height: 32,
-                        child: CustomButton(
-                            buttonText: "Copy",
-                            isIconButton: true,
-                            isOutlined: true,
-                            icon: Icons.copy,
-                            textColor: PreMedColorTheme().neutral500,
-                            iconSize: 12,
-                            fontSize: 12,
-                            onPressed: () {
-                              if (numbers.isNotEmpty) {
-                                final phoneNumber = numbers.entries.first.value;
-                                copyToClipboard(phoneNumber);
-                              }
-                            }),
-                      ),
-                      SizedBoxes.verticalExtraGargangua,
-                      SizedBox(
-                        width: double.infinity,
-                        height: 256,
-                        child: DottedBorder(
-                          borderType: BorderType.RRect,
-                          radius: const Radius.circular(12),
-                          strokeCap: StrokeCap.round,
-                          color: PreMedColorTheme().primaryColorBlue500,
-                          dashPattern: const [10, 10],
-                          strokeWidth: 4,
-                          child: const UploadPaymentImage(),
-                        ),
-                      ),
-                      SizedBoxes.verticalExtraGargangua,
-                      const CartSummary(),
-                      SizedBoxes.verticalMedium,
-                      CustomButton(
-                        buttonText: 'Place Order ->',
-                        onPressed: onPlaceOrder,
-                      ),
-                    ],
+                  SizedBoxes.verticalMedium,
+                  const Text(
+                    'Transfer the amount to these accounts and upload the screenshot of the receipt',
                   ),
-                ),
-              ) else const SizedBox(),
+                  SizedBoxes.verticalMedium,
+                  SelectableText(
+                    numbers.entries
+                        .map((entry) => '${entry.value} (${entry.key})')
+                        .join(' '),
+                  ),
+                  SizedBoxes.verticalMedium,
+                  SizedBox(
+                    width: 72,
+                    height: 32,
+                    child: CustomButton(
+                        buttonText: "Copy",
+                        isIconButton: true,
+                        isOutlined: true,
+                        icon: Icons.copy,
+                        textColor: PreMedColorTheme().neutral500,
+                        iconSize: 12,
+                        fontSize: 12,
+                        onPressed: () {
+                          if (numbers.isNotEmpty) {
+                            final phoneNumber = numbers.entries.first.value;
+                            copyToClipboard(phoneNumber);
+                          }
+                        }),
+                  ),
+                  SizedBoxes.verticalExtraGargangua,
+                  SizedBox(
+                    width: double.infinity,
+                    height: 256,
+                    child: DottedBorder(
+                      borderType: BorderType.RRect,
+                      radius: const Radius.circular(12),
+                      strokeCap: StrokeCap.round,
+                      color: PreMedColorTheme().primaryColorBlue500,
+                      dashPattern: const [10, 10],
+                      strokeWidth: 4,
+                      child: const UploadPaymentImage(),
+                    ),
+                  ),
+                  SizedBoxes.verticalExtraGargangua,
+                  const CartSummary(),
+                  SizedBoxes.verticalMedium,
+                  CustomButton(
+                    buttonText: 'Place Order ->',
+                    onPressed: onPlaceOrder,
+                  ),
+                ],
+              ),
+            ),
+          )
+        else
+          const SizedBox(),
         SizedBoxes.verticalBig,
       ],
     );
