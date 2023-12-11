@@ -1,6 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/payment_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/payment_video_youtube.dart';
-import 'package:premedpk_mobile_app/UI/widgets/youtube_player/youtube_player.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 final Map<String, dynamic> meezanNumbers = {

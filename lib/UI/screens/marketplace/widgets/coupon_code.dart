@@ -30,7 +30,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
 
     final TextEditingController couponText = TextEditingController();
 
-    onApplyCouponPressed() {
+    void onApplyCouponPressed() {
       final form = formKey.currentState!;
       if (form.validate()) {
         final Future<Map<String, dynamic>> response =
@@ -48,7 +48,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
       }
     }
 
-    handleRemovePromoCode() {
+    void handleRemovePromoCode() {
       cartProvider.clearCoupon();
     }
 
@@ -91,27 +91,30 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
             ],
           ),
           SizedBoxes.verticalMicro,
-          if (cartProvider.couponCode.isNotEmpty) Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Promo Code: ${cartProvider.couponCode} is applied",
-                      style: PreMedTextTheme().subtext.copyWith(
-                            color: PreMedColorTheme().neutral400,
-                          ),
-                    ),
-                    IconButton(
-                      visualDensity: VisualDensity.compact,
-                      splashRadius: 16,
-                      onPressed: handleRemovePromoCode,
-                      icon: Icon(
-                        Icons.close,
+          if (cartProvider.couponCode.isNotEmpty)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Promo Code: ${cartProvider.couponCode} is applied",
+                  style: PreMedTextTheme().subtext.copyWith(
                         color: PreMedColorTheme().neutral400,
-                        size: 20,
                       ),
-                    ),
-                  ],
-                ) else const SizedBox(),
+                ),
+                IconButton(
+                  visualDensity: VisualDensity.compact,
+                  splashRadius: 16,
+                  onPressed: handleRemovePromoCode,
+                  icon: Icon(
+                    Icons.close,
+                    color: PreMedColorTheme().neutral400,
+                    size: 20,
+                  ),
+                ),
+              ],
+            )
+          else
+            const SizedBox(),
         ],
       ),
     );

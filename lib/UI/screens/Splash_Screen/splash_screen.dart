@@ -23,7 +23,8 @@ class _SplashScreenState extends State<SplashScreen> {
       final bool userExists = await checkIfUserExists();
 
       if (userExists) {
-        final AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
+        final AuthProvider auth =
+            Provider.of<AuthProvider>(context, listen: false);
 
         final Map<String, dynamic> response = await auth.getLoggedInUser();
         final Future<bool> onboarding = checkIfOnboardingComplete();
@@ -64,14 +65,14 @@ class _SplashScreenState extends State<SplashScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     return prefs.containsKey('isLoggedin') &&
-        prefs.getBool('isLoggedin') == true;
+        (prefs.getBool('isLoggedin') ?? false);
   }
 
   Future<bool> checkIfOnboardingComplete() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     return prefs.containsKey('onBoarding') &&
-        prefs.getBool('onBoarding') == true;
+        (prefs.getBool('onBoarding') ?? false);
   }
 
   @override

@@ -57,7 +57,7 @@ class LatestNews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    onButtontapped(ImageProvider image, String title) {
+    void onButtontapped(ImageProvider image, String title) {
       showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -116,11 +116,11 @@ class LatestNews extends StatelessWidget {
       itemCount: 10, // Change this to the desired number of items
       itemBuilder: (context, index) {
         // Alternate between red and blue
-        final Color itemColor = index % 2 == 0
+        final Color itemColor = index.isEven
             ? PreMedColorTheme().primaryColorRed200
             : PreMedColorTheme().primaryColorBlue200;
 
-        final Color buttonColor = index % 2 == 0
+        final Color buttonColor = index.isEven
             ? PreMedColorTheme().primaryColorBlue300
             : PreMedColorTheme().primaryColorRed300;
 
@@ -177,7 +177,7 @@ class OldNews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    onButtontapped(ImageProvider image, String title) {
+    void onButtontapped(ImageProvider image, String title) {
       showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -235,7 +235,7 @@ class OldNews extends StatelessWidget {
     return ListView.builder(
       itemCount: 10, // Change this to the desired number of items
       itemBuilder: (context, index) {
-        final Color itemColor = Colors.white; // Fixed to white
+        const Color itemColor = Colors.white; // Fixed to white
         final Color buttonColor =
             PreMedColorTheme().primaryColorRed300; // Fixed color
 

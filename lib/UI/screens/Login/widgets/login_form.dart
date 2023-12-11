@@ -24,7 +24,7 @@ class _LoginFormState extends State<LoginForm> {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
-    onLoginPressed() {
+    void onLoginPressed() {
       final form = _formKey.currentState!;
       if (form.validate()) {
         final Future<Map<String, dynamic>> response = auth.login(

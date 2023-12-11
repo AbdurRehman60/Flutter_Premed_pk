@@ -28,7 +28,7 @@ class _VideoScreenState extends State<VideoScreen> {
     player.setOption(FijkOption.playerCategory, "mediacodec-all-videos", 1);
   }
 
-  void startPlay() async {
+  Future<void> startPlay() async {
     await player.setOption(FijkOption.hostCategory, "request-screen-on", 1);
     await player.setOption(FijkOption.hostCategory, "request-audio-focus", 1);
 

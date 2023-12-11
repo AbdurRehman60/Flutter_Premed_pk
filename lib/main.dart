@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
@@ -26,7 +28,6 @@ Future<void> main() async {
     );
     cameras = await availableCameras();
   } on CameraException catch (e) {
-    // ignore: avoid_print
     print('Error in fetching the cameras: $e');
   }
   runApp(

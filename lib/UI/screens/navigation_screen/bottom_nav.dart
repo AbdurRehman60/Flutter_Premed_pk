@@ -89,7 +89,7 @@ class _BottomNavBarItem extends StatelessWidget {
     return Expanded(
       child: InkWell(
         onTap: onTap,
-        child: Container(
+        child: ColoredBox(
           color: PreMedColorTheme().white,
           child: Padding(
             padding: const EdgeInsets.all(8.0),

@@ -72,19 +72,3 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     setState(() {});
   }
 }
-
-
-// appBar: AppBar(
-//         title: FutureBuilder<String>(
-//           future: getUsername(),
-//           builder: (context, snapshot) {
-//             if (snapshot.connectionState == ConnectionState.waiting) {
-//               return const CircularProgressIndicator();
-//             } else if (snapshot.hasError) {
-//               return const Text('Error fetching username');
-//             } else {
-//               return Text('Welcome, ${snapshot.data}');
-//             }
-//           },
-//         ),
-//       ),

@@ -119,9 +119,7 @@ class AskanExpertForm extends StatelessWidget {
                   SizedBoxes.verticalBig,
                   CustomButton(
                     isActive:
-                        askAnExpertProvider.doubtUploadStatus == Status.Sending
-                            ? false
-                            : true,
+                        askAnExpertProvider.doubtUploadStatus != Status.Sending,
                     buttonText:
                         askAnExpertProvider.doubtUploadStatus == Status.Sending
                             ? 'Submitting'
