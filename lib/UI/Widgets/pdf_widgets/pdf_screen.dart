@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -6,13 +5,14 @@ import 'package:premedpk_mobile_app/models/notes_model.dart';
 import 'package:premedpk_mobile_app/utils/services/pdf_download.dart';
 
 class PdfScreen extends StatefulWidget {
-  final NoteModel note;
   const PdfScreen({
     super.key,
     required this.note,
   });
+  final NoteModel note;
+
   @override
-  _PdfViewState createState() => _PdfViewState();
+  State<PdfScreen> createState() => _PdfViewState();
 }
 
 class _PdfViewState extends State<PdfScreen> {
@@ -129,7 +129,9 @@ class _PdfViewState extends State<PdfScreen> {
             actions: [
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.download),
+                icon: const Icon(
+                  Icons.download,
+                ),
               ),
               IconButton(
                 onPressed: openDemarcationBottomSheet,
@@ -191,16 +193,14 @@ class _PdfViewState extends State<PdfScreen> {
                     child: CustomButton(
                       textColor: PreMedColorTheme().neutral500,
                       color: PreMedColorTheme().white,
-                      isOutlined: false,
                       isIconButton: true,
-                      leftIcon: true,
                       iconSize: 15,
                       icon: Icons.arrow_back_ios,
                       buttonText: 'Previous',
                       fontSize: 16,
                       onPressed: () {
                         _pdfViewController.future.then((controller) {
-                          int pageNumber = currentPage - 2;
+                          final int pageNumber = currentPage - 2;
 
                           if (pageNumber >= 0 && pageNumber < maxPage) {
                             controller.setPage(pageNumber);

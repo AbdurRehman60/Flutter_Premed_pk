@@ -9,6 +9,8 @@ import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_screen_data.
 import 'package:provider/provider.dart';
 
 class FlashcardHome extends StatelessWidget {
+  const FlashcardHome({super.key});
+
   @override
   Widget build(BuildContext context) {
     final flashcardProvider =
@@ -41,7 +43,7 @@ class FlashcardHome extends StatelessWidget {
             future: flashcardProvider.getFlashcardsByUser(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return FlashcardShimmer();
+                return const FlashcardShimmer();
               } else if (snapshot.hasError) {
                 // Handle errors
                 return const Center(
@@ -96,7 +98,8 @@ class FlashcardItem extends StatelessWidget {
   final String subject;
   final Color color; // Use Color for background color
 
-  FlashcardItem({
+  const FlashcardItem({
+    super.key,
     required this.image,
     required this.text,
     required this.page,

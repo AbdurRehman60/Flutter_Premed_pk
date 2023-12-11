@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:intl_phone_field/countries.dart';
 
 String getCountryName(String countryCode) {

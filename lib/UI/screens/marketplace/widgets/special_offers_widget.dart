@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 
 class SpecialOffers extends StatelessWidget {
   const SpecialOffers({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class SpecialOffers extends StatelessWidget {
                         );
                       },
                     )
-                  : SpecialOffersShimmer();
+                  : const SpecialOffersShimmer();
             },
           ),
         ),

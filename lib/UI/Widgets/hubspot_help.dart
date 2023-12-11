@@ -14,8 +14,7 @@ class HubspotHelpButton extends StatelessWidget {
       onPressed: () async {
         launchUrl(
           mode: LaunchMode.inAppBrowserView,
-          Uri.parse('https:staging.premed.pk/support'),
-          webViewConfiguration: WebViewConfiguration(),
+          Uri.parse('https://premed.pk/support'),
         );
       },
       child: Row(

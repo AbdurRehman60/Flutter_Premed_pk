@@ -24,7 +24,7 @@ class OptionalOnboarding extends StatelessWidget {
         Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   SizedBoxes.verticalBig,
@@ -42,7 +42,7 @@ class OptionalOnboarding extends StatelessWidget {
                         .copyWith(color: PreMedColorTheme().neutral500),
                   ),
                   SizedBoxes.verticalExtraGargangua,
-                  OptionalOnboardingForm(),
+                  const OptionalOnboardingForm(),
                 ],
               ),
             ),

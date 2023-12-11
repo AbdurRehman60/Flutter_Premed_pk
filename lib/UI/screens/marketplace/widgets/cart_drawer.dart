@@ -1,15 +1,14 @@
 import 'package:premedpk_mobile_app/UI/screens/marketplace/cart.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/card_content.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
-
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
-import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class CartDrawer extends StatelessWidget {
+  const CartDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
@@ -160,7 +159,7 @@ class CartWidget extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Cart(),
+                          builder: (context) => const Cart(),
                           settings: RouteSettings(arguments: cartProvider),
                         ),
                       );

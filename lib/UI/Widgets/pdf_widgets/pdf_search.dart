@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class PdfSearch extends StatefulWidget {
   final List<NoteModel>? notesList;
 
-  const PdfSearch({Key? key, this.notesList}) : super(key: key);
+  const PdfSearch({super.key, this.notesList});
 
   @override
   State<PdfSearch> createState() => _PdfSearchState();

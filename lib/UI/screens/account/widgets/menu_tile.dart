@@ -1,4 +1,3 @@
-import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class MenuTile extends StatelessWidget {
@@ -50,19 +49,9 @@ class MenuTile extends StatelessWidget {
               SizedBoxes.verticalLarge,
               Row(
                 children: [
-                  // Flexible(
-                  //   child: Text(
-                  //     description,
-                  //     style: PreMedTextTheme().subtext.copyWith(
-                  //           fontWeight: FontWeights.regular,
-                  //           fontSize: 14,
-                  //         ),
-                  //   ),
-                  // ),
                   SizedBoxes.horizontalBig,
-                  Icon(
+                  const Icon(
                     Icons.arrow_forward_ios,
-                    // color: PreMedColorTheme().black,
                     color: Colors.red,
                   ),
                 ],

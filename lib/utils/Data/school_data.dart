@@ -1,4 +1,4 @@
-List<String> schools_data = [
+List<String> schoolsdata = [
   "A.P.S, Sargodha",
   "Abaidullah College - Bahawalnagar",
   "Abaidullah Educational Complex Pakpattan, Lahore",

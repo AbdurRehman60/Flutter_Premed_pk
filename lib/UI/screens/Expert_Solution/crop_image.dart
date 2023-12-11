@@ -5,8 +5,10 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
 class CropImageScreen extends StatefulWidget {
+  const CropImageScreen({super.key});
+
   @override
-  _CropImageScreenState createState() => _CropImageScreenState();
+  State<CropImageScreen> createState() => _CropImageScreenState();
 }
 
 class _CropImageScreenState extends State<CropImageScreen> {
@@ -39,7 +41,7 @@ class _CropImageScreenState extends State<CropImageScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Crop Image'),
+        title: const Text('Crop Image'),
       ),
       body: Center(
         child: Column(
@@ -47,14 +49,14 @@ class _CropImageScreenState extends State<CropImageScreen> {
           children: <Widget>[
             _imageFile != null
                 ? Image.file(_imageFile!)
-                : Text('No image selected'),
+                : const Text('No image selected'),
             ElevatedButton(
               onPressed: () {
                 final image =
                     ModalRoute.of(context)!.settings.arguments as File;
                 _cropImage(image);
               },
-              child: Text('Crop Image'),
+              child: const Text('Crop Image'),
             ),
             // CustomButton(
             //   buttonText: 'Continue',

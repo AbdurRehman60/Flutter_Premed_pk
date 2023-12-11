@@ -5,7 +5,8 @@ import 'package:premedpk_mobile_app/models/notes_model.dart';
 class SearchDisplay extends StatelessWidget {
   final List<NoteModel> notes;
 
-  SearchDisplay({
+  const SearchDisplay({
+    super.key,
     required this.notes,
   });
 

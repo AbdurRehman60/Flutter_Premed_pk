@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:math';
-
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
@@ -12,6 +9,7 @@ class CustomFijkPanel extends StatefulWidget {
   final Rect texturePos;
 
   const CustomFijkPanel({
+    super.key,
     required this.player,
     required this.data,
     required this.buildContext,
@@ -20,7 +18,7 @@ class CustomFijkPanel extends StatefulWidget {
   });
 
   @override
-  _CustomFijkPanelState createState() => _CustomFijkPanelState();
+  State<CustomFijkPanel> createState() => _CustomFijkPanelState();
 }
 
 class _CustomFijkPanelState extends State<CustomFijkPanel> {
@@ -112,7 +110,7 @@ class _CustomFijkPanelState extends State<CustomFijkPanel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.replay_10, // Icon for skip backward
                   color: Colors.red,
                 ),
@@ -128,7 +126,7 @@ class _CustomFijkPanelState extends State<CustomFijkPanel> {
                 },
               ),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.forward_10, // Icon for skip forward
                   color: Colors.red,
                 ),

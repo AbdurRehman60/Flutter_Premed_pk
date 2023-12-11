@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/cities_data_widget.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/global_widgets_export.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/phone_dropdown.dart';
+import 'package:premedpk_mobile_app/UI/widgets/cities_data_widget.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/phone_dropdown.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
@@ -52,7 +50,7 @@ class EditProfile extends StatelessWidget {
                   ),
             ),
             SizedBoxes.verticalMedium,
-            CustomTextField(
+            const CustomTextField(
               hintText: 'baig.ebrahim@gmail.com',
             ),
             SizedBoxes.verticalMedium,
@@ -71,8 +69,8 @@ class EditProfile extends StatelessWidget {
                     )),
             SizedBoxes.verticalMedium,
             CityDropdownList(
-              items: cities_data,
-              selectedItem: auth.City,
+              items: cities,
+              selectedItem: auth.city,
               onChanged: onCitySelected,
             ),
             Padding(

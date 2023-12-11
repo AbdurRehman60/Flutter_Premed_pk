@@ -118,42 +118,42 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['status'] = status;
-    _data['isloggedin'] = isLoggedin;
-    _data['email'] = userName;
-    _data['fullname'] = fullName;
-    _data['phonenumber'] = phoneNumber;
-    _data['city'] = city;
-    _data['school'] = school;
-    _data['academyJoined'] = academyJoined;
-    _data['onboarding'] = onBoarding;
-    _data['optionalOnboarding'] = optionalOnboarding;
-    _data['accountType'] = accountType;
-    _data['intendFor'] = intendFor;
-    _data['whichYear'] = whichYear;
-    _data['country'] = country;
-    _data['availableOnWhatsapp'] = availableOnWhatsapp;
-    _data['parentFullname'] = parentFullname;
-    _data['parentContactNumber'] = parentContactNumber;
-    _data['whatsappNumber'] = whatsappNumber;
-    _data['accountCreateDate'] = accountCreateDate;
-    _data['accountStatus'] = accountStatus;
-    _data['subscriptionStatus'] = subscriptionStatus;
-    _data['subscriptionStartDate'] = subscriptionStartDate;
-    _data['subscriptionEndDate'] = subscriptionEndDate;
-    _data['freeUser'] = freeUser;
-    _data['purchasedmocks'] = purchaseMocks;
-    _data['addonsPurchased'] = addonsPurchased;
-    _data['referral'] = referral;
-    _data['milestones'] = milestones;
-    _data['notificationsRead'] = notificationsRead;
-    _data['otherInfo'] = otherInfo;
+    final data = <String, dynamic>{};
+    data['status'] = status;
+    data['isloggedin'] = isLoggedin;
+    data['email'] = userName;
+    data['fullname'] = fullName;
+    data['phonenumber'] = phoneNumber;
+    data['city'] = city;
+    data['school'] = school;
+    data['academyJoined'] = academyJoined;
+    data['onboarding'] = onBoarding;
+    data['optionalOnboarding'] = optionalOnboarding;
+    data['accountType'] = accountType;
+    data['intendFor'] = intendFor;
+    data['whichYear'] = whichYear;
+    data['country'] = country;
+    data['availableOnWhatsapp'] = availableOnWhatsapp;
+    data['parentFullname'] = parentFullname;
+    data['parentContactNumber'] = parentContactNumber;
+    data['whatsappNumber'] = whatsappNumber;
+    data['accountCreateDate'] = accountCreateDate;
+    data['accountStatus'] = accountStatus;
+    data['subscriptionStatus'] = subscriptionStatus;
+    data['subscriptionStartDate'] = subscriptionStartDate;
+    data['subscriptionEndDate'] = subscriptionEndDate;
+    data['freeUser'] = freeUser;
+    data['purchasedmocks'] = purchaseMocks;
+    data['addonsPurchased'] = addonsPurchased;
+    data['referral'] = referral;
+    data['milestones'] = milestones;
+    data['notificationsRead'] = notificationsRead;
+    data['otherInfo'] = otherInfo;
     // _data['bundlesPurchased'] = bundlesPurchased.toJson();
-    _data['coins'] = coins;
-    _data['freeTrial'] = freeTrial.toJson();
+    data['coins'] = coins;
+    data['freeTrial'] = freeTrial.toJson();
 
-    return _data;
+    return data;
   }
 }
 
@@ -182,14 +182,14 @@ class BundlesPurchased {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['tags'] = tags;
+    final data = <String, dynamic>{};
+    data['tags'] = tags;
 
     for (int i = 0; i < bundleItems.length; i++) {
-      _data[i.toString()] = bundleItems[i].toJson();
+      data[i.toString()] = bundleItems[i].toJson();
     }
 
-    return _data;
+    return data;
   }
 }
 
@@ -217,12 +217,12 @@ class BundleItem {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['bundleDetails'] = bundleDetails.toJson();
-    _data['bundleId'] = bundleId;
-    _data['PurchaseDate'] = purchaseDate;
-    _data['ExpiryDate'] = expiryDate;
-    return _data;
+    final data = <String, dynamic>{};
+    data['bundleDetails'] = bundleDetails.toJson();
+    data['bundleId'] = bundleId;
+    data['PurchaseDate'] = purchaseDate;
+    data['ExpiryDate'] = expiryDate;
+    return data;
   }
 }
 
@@ -273,21 +273,21 @@ class BundleDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['_id'] = id;
-    _data['BundlePoints'] = bundlePoints;
-    _data['IncludedTags'] = includedTags;
-    _data['isPublished'] = isPublished;
-    _data['BundleName'] = bundleName;
-    _data['BundlePrice'] = bundlePrice;
-    _data['discountPercentage'] = discountPercentage;
-    _data['BundleDescription'] = bundleDescription;
-    _data['BundleIcon'] = bundleIcon;
-    _data['BundleDiscount'] = bundleDiscount;
-    _data['createdAt'] = createdAt;
-    _data['updatedAt'] = updatedAt;
+    final data = <String, dynamic>{};
+    data['_id'] = id;
+    data['BundlePoints'] = bundlePoints;
+    data['IncludedTags'] = includedTags;
+    data['isPublished'] = isPublished;
+    data['BundleName'] = bundleName;
+    data['BundlePrice'] = bundlePrice;
+    data['discountPercentage'] = discountPercentage;
+    data['BundleDescription'] = bundleDescription;
+    data['BundleIcon'] = bundleIcon;
+    data['BundleDiscount'] = bundleDiscount;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
 
-    return _data;
+    return data;
   }
 }
 
@@ -308,9 +308,9 @@ class FreeTrial {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['complete'] = complete;
-    _data['daysLeft'] = daysLeft;
-    return _data;
+    final data = <String, dynamic>{};
+    data['complete'] = complete;
+    data['daysLeft'] = daysLeft;
+    return data;
   }
 }

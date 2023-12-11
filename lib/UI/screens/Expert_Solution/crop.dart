@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -6,7 +8,7 @@ import 'package:premedpk_mobile_app/UI/screens/expert_solution/display_image_scr
 class CropImage extends StatefulWidget {
   final File image;
 
-  const CropImage({Key? key, required this.image}) : super(key: key);
+  const CropImage({super.key, required this.image});
 
   @override
   State<CropImage> createState() => _CropImageState();
@@ -40,7 +42,7 @@ class _CropImageState extends State<CropImage> {
                 ),
                 child: _croppedFile != null
                     ? Image.file(File(_croppedFile!.path))
-                    : CircularProgressIndicator(), // Display a loading indicator while cropping
+                    : const CircularProgressIndicator(),
               ),
             ),
           ],
@@ -58,13 +60,10 @@ class _CropImageState extends State<CropImage> {
         uiSettings: [
           AndroidUiSettings(
             toolbarTitle: 'Cropper',
-            // Configure other settings as needed.
           ),
           IOSUiSettings(
             title: 'Cropper',
-            // Configure other settings as needed.
           ),
-          // WebUiSettings for web platform.
         ],
       );
       if (croppedFile != null) {
@@ -85,9 +84,9 @@ class _CropImageState extends State<CropImage> {
     );
   }
 
-  void _clear() {
-    setState(() {
-      _croppedFile = null;
-    });
-  }
+  // void _clear() {
+  //   setState(() {
+  //     _croppedFile = null;
+  //   });
+  // }
 }

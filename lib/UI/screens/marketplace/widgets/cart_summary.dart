@@ -35,7 +35,7 @@ class CartSummary extends StatelessWidget {
         DiscountRow(
           title: 'Coupon',
           discountPercentage: cartProvider.couponAmount,
-          price: cartProvider.coupounDiscount,
+          price: cartProvider.couponDiscount,
         ),
         SizedBoxes.verticalTiny,
         Divider(
@@ -48,7 +48,7 @@ class CartSummary extends StatelessWidget {
         Row(
           children: [
             Text(
-              'Rs. ${cartProvider.calculateTotalDiscount}',
+              'Rs. ${cartProvider.totalOriginalPrice - cartProvider.calculateTotalDiscount}',
               style: PreMedTextTheme().heading3.copyWith(
                     color: PreMedColorTheme().primaryColorRed,
                   ),

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 enum SnackbarType { INFO, SUCCESS }

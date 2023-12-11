@@ -5,7 +5,10 @@ import 'package:premedpk_mobile_app/models/bundle_model.dart';
 class ModalSheetWidget extends StatelessWidget {
   final BundleModel bundle;
 
-  ModalSheetWidget({required this.bundle});
+  const ModalSheetWidget({
+    super.key,
+    required this.bundle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +62,7 @@ class ModalSheetWidget extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          '✅ ${point}',
+                          '✅ $point',
                           style: PreMedTextTheme().small.copyWith(
                                 color: PreMedColorTheme().neutral600,
                                 height: 1.5,

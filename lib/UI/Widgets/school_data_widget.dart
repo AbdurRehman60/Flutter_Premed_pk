@@ -6,23 +6,24 @@ class SchoolDropdownList extends StatefulWidget {
   final String selectedItem;
   final void Function(String) onChanged;
 
-  SchoolDropdownList({
-    Key? key,
+  const SchoolDropdownList({
+    super.key,
     required this.items,
     required this.selectedItem,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<SchoolDropdownList> createState() => _SchoolDropdownListState();
 }
 
 class _SchoolDropdownListState extends State<SchoolDropdownList> {
-  TextEditingController _typeAheadController = TextEditingController();
+  final TextEditingController _typeAheadController = TextEditingController();
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
+
     _typeAheadController.text = widget.selectedItem;
   }
 

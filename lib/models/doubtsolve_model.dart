@@ -64,9 +64,9 @@ class QuestionsResponse {
   });
 
   factory QuestionsResponse.fromJson(Map<String, dynamic> json) {
-    List<dynamic> DoubtJson = json['QuestionsDetails'];
+    List<dynamic> doubtJson = json['QuestionsDetails'];
     List<Doubt> questionsDetails =
-        DoubtJson.map((item) => Doubt.fromJson(item)).toList();
+        doubtJson.map((item) => Doubt.fromJson(item)).toList();
 
     return QuestionsResponse(
       success: json['success'],

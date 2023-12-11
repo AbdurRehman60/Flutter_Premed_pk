@@ -3,15 +3,15 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ContactUs extends StatelessWidget {
   const ContactUs({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final Uri whatsApp = Uri.parse('https://wa.me/923061289229');
     final Uri messenger = Uri.parse('https://m.me/PreMed.PK');
     final Uri gmail = Uri.parse('mailto:contact@premed.pk');
-    final Uri hubspot = Uri.parse('https:staging.premed.pk/support');
+    final Uri hubspot = Uri.parse('https://premed.pk/support');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().white,
@@ -57,14 +57,14 @@ class ContactUs extends StatelessWidget {
                             Text(
                               'WhatsApp',
                               style: PreMedTextTheme().heading6.copyWith(
-                                    color: Color(0xFF009B18),
+                                    color: const Color(0xFF009B18),
                                   ),
                             ),
                             Text(
                               'Click to start a chat',
                               style: PreMedTextTheme().headline.copyWith(
                                     fontWeight: FontWeights.medium,
-                                    color: Color(0xFF43AB53),
+                                    color: const Color(0xFF43AB53),
                                   ),
                             ),
                           ],
@@ -76,7 +76,7 @@ class ContactUs extends StatelessWidget {
                         launchUrl(whatsApp);
                       },
                       icon: CircleAvatar(
-                        backgroundColor: Color(0xFF2BB140),
+                        backgroundColor: const Color(0xFF2BB140),
                         child: Icon(
                           Icons.arrow_forward_rounded,
                           color: PreMedColorTheme().white,
@@ -113,14 +113,14 @@ class ContactUs extends StatelessWidget {
                             Text(
                               'Messenger',
                               style: PreMedTextTheme().heading6.copyWith(
-                                    color: Color(0xFF188DCC),
+                                    color: const Color(0xFF188DCC),
                                   ),
                             ),
                             Text(
                               'Click to start a chat',
                               style: PreMedTextTheme().headline.copyWith(
                                     fontWeight: FontWeights.medium,
-                                    color: Color(0xFF4F8BAB),
+                                    color: const Color(0xFF4F8BAB),
                                   ),
                             ),
                           ],
@@ -169,14 +169,14 @@ class ContactUs extends StatelessWidget {
                             Text(
                               'Email',
                               style: PreMedTextTheme().heading6.copyWith(
-                                    color: Color(0xFFDA8F11),
+                                    color: const Color(0xFFDA8F11),
                                   ),
                             ),
                             Text(
                               'Click to send an email',
                               style: PreMedTextTheme().headline.copyWith(
                                     fontWeight: FontWeights.medium,
-                                    color: Color(0xFFA48754),
+                                    color: const Color(0xFFA48754),
                                   ),
                             ),
                           ],
@@ -225,14 +225,14 @@ class ContactUs extends StatelessWidget {
                             Text(
                               'Live Chat',
                               style: PreMedTextTheme().heading6.copyWith(
-                                    color: Color(0xFF4E5DA7),
+                                    color: const Color(0xFF4E5DA7),
                                   ),
                             ),
                             Text(
                               'Click here to start a chat',
                               style: PreMedTextTheme().headline.copyWith(
                                     fontWeight: FontWeights.medium,
-                                    color: Color(0xFF757FB2),
+                                    color: const Color(0xFF757FB2),
                                   ),
                             ),
                           ],
@@ -244,7 +244,7 @@ class ContactUs extends StatelessWidget {
                         launchUrl(
                           mode: LaunchMode.inAppBrowserView,
                           hubspot,
-                          webViewConfiguration: WebViewConfiguration(),
+                          webViewConfiguration: const WebViewConfiguration(),
                         );
                       },
                       icon: CircleAvatar(

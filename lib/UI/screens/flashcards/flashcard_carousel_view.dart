@@ -6,12 +6,11 @@ import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:provider/provider.dart';
 
 class FlashcardCarouselView extends StatefulWidget {
-  final String selectedSubject;
-
   const FlashcardCarouselView({
-    Key? key,
+    super.key,
     required this.selectedSubject,
-  }) : super(key: key);
+  });
+  final String selectedSubject;
 
   @override
   State<FlashcardCarouselView> createState() => _FlashcardCarouselViewState();
@@ -20,12 +19,12 @@ class FlashcardCarouselView extends StatefulWidget {
 class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
   PageController? flashcardController;
   int currentIndex = 0;
-  List<FlashcardModel> filteredFlashcards = [];
 
   @override
   void initState() {
     super.initState();
     flashcardController = PageController(initialPage: currentIndex);
+
     flashcardController?.addListener(() {
       setState(() {
         currentIndex = flashcardController?.page?.toInt() ?? 0;
@@ -39,26 +38,6 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
     super.dispose();
   }
 
-  void goToPreviousCard() {
-    if (currentIndex > 0) {
-      flashcardController?.animateToPage(
-        currentIndex - 1,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.ease,
-      );
-    }
-  }
-
-  void goToNextCard() {
-    if (currentIndex < filteredFlashcards.length + 1) {
-      flashcardController?.animateToPage(
-        currentIndex + 1,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.ease,
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     FlashcardProvider flashcardProvider =
@@ -66,6 +45,26 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
 
     List<FlashcardModel> filteredFlashcards =
         flashcardProvider.getFilteredFlashcards(widget.selectedSubject);
+
+    void goToPreviousCard() {
+      if (currentIndex > 0) {
+        flashcardController?.animateToPage(
+          currentIndex - 1,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease,
+        );
+      }
+    }
+
+    void goToNextCard() {
+      if (currentIndex < filteredFlashcards.length - 1) {
+        flashcardController?.animateToPage(
+          currentIndex + 1,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease,
+        );
+      }
+    }
 
     if (filteredFlashcards.isEmpty) {
       return Center(

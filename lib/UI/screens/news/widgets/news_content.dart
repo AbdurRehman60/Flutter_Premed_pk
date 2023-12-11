@@ -2,15 +2,15 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class NewsContent extends StatelessWidget {
   NewsContent({
-    Key? key,
+    super.key,
     required this.itemColor,
     required this.buttonColor,
     this.showDescription = true,
     this.showImage = true, // Add this flag
     required this.context,
   });
-  String title = 'Sindh Announces MDCAT \nReconduct on November 24th.';
-  ImageProvider image = AssetImage(PremedAssets.PrMedLogoLarge);
+  final String title = 'Sindh Announces MDCAT \nReconduct on November 24th.';
+  final ImageProvider image = AssetImage(PremedAssets.PrMedLogoLarge);
   final Color itemColor;
   final Color buttonColor;
   final bool showDescription;

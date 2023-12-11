@@ -1,5 +1,5 @@
-import 'package:premedpk_mobile_app/UI/Widgets/hubspot_help.dart';
-import 'package:premedpk_mobile_app/UI/screens/Signup/signup.dart';
+import 'package:premedpk_mobile_app/UI/screens/signup/signup.dart';
+import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
@@ -10,8 +10,8 @@ import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -137,7 +137,7 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ],
                 ),
-                HubspotHelpButton(),
+                const HubspotHelpButton(),
               ],
             ),
           ],

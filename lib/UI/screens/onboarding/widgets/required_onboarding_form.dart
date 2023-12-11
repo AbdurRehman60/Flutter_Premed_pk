@@ -1,15 +1,15 @@
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/hubspot_help.dart';
+import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/optional_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/optional_checkbox.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
-import 'package:premedpk_mobile_app/utils/data/citites_data.dart';
-import 'package:premedpk_mobile_app/utils/data/school_data.dart';
+import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
 import 'package:premedpk_mobile_app/UI/widgets/cities_data_widget.dart';
 import 'package:premedpk_mobile_app/UI/widgets/phone_dropdown.dart';
 import 'package:premedpk_mobile_app/UI/widgets/school_data_widget.dart';
+import 'package:premedpk_mobile_app/utils/data/school_data.dart';
 import 'package:provider/provider.dart';
 
 class RequiredOnboardingForm extends StatefulWidget {
@@ -50,14 +50,14 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
         });
       }
 
-      if (auth.City.isEmpty) {
+      if (auth.city.isEmpty) {
         setState(() {
           error = 'City can not be empty.';
           hasErrors = true;
         });
       }
 
-      if (auth.School.isEmpty) {
+      if (auth.school.isEmpty) {
         setState(() {
           error = 'School can not be empty.';
           hasErrors = true;
@@ -138,8 +138,8 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
                 ),
                 SizedBoxes.verticalTiny,
                 CityDropdownList(
-                  items: cities_data,
-                  selectedItem: auth.City,
+                  items: cities,
+                  selectedItem: auth.city,
                   onChanged: onCitySelected,
                 ),
                 SizedBoxes.verticalLarge,
@@ -153,8 +153,8 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
                 ),
                 SizedBoxes.verticalLarge,
                 SchoolDropdownList(
-                  items: schools_data,
-                  selectedItem: auth.School,
+                  items: schoolsdata,
+                  selectedItem: auth.school,
                   onChanged: onSchoolSelected, // Pass the callback function
                 ),
                 SizedBoxes.verticalLarge,
@@ -219,7 +219,7 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
           onPressed: onNextPressed,
         ),
         SizedBoxes.verticalBig,
-        HubspotHelpButton(
+        const HubspotHelpButton(
           light: true,
         ),
       ],

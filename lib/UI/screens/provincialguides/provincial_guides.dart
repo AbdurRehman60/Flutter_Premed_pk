@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../constants/constants_export.dart';
 
 class ProvincialGuides extends StatelessWidget {
-  const ProvincialGuides({Key? key}) : super(key: key);
+  const ProvincialGuides({super.key});
 
   @override
   Widget build(BuildContext context) {

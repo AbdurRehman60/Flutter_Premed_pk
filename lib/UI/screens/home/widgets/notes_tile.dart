@@ -1,4 +1,3 @@
-import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class NotesTile extends StatelessWidget {

@@ -6,10 +6,10 @@ import 'package:premedpk_mobile_app/models/flashcard_model.dart';
 class FlashcardCard extends StatefulWidget {
   final FlashcardModel flashcard;
 
-  const FlashcardCard({Key? key, required this.flashcard}) : super(key: key);
+  const FlashcardCard({super.key, required this.flashcard});
 
   @override
-  _FlashcardCardState createState() => _FlashcardCardState();
+  State<FlashcardCard> createState() => _FlashcardCardState();
 }
 
 class _FlashcardCardState extends State<FlashcardCard> {

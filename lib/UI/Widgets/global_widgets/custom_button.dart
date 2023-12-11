@@ -3,7 +3,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 // ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
   CustomButton({
-    Key? key,
+    super.key,
     required this.buttonText,
     required this.onPressed,
     this.isActive = true,
@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
     this.leftIcon = true,
     this.color,
     this.textColor,
-  }) : super(key: key);
+  });
 
   String buttonText;
   final Function()? onPressed;

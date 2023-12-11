@@ -1,20 +1,19 @@
 import 'package:camera/camera.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/splash_screen/splash_screen.dart';
-
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
-import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
+import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'firebase_options.dart';
 
 List<CameraDescription> cameras = [];
@@ -27,6 +26,7 @@ Future<void> main() async {
     );
     cameras = await availableCameras();
   } on CameraException catch (e) {
+    // ignore: avoid_print
     print('Error in fetching the cameras: $e');
   }
   runApp(
@@ -35,9 +35,8 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final PreMedTheme _PreMedTheme = PreMedTheme();
-
   MyApp({super.key});
+  final PreMedTheme _preMedTheme = PreMedTheme();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,7 @@ class MyApp extends StatelessWidget {
         },
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: _PreMedTheme.data,
+        theme: _preMedTheme.data,
         home: const SplashScreen(),
       ),
     );

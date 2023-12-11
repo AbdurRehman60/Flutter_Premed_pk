@@ -11,14 +11,15 @@ class PhoneFieldWithCheckbox extends StatefulWidget {
 
   final bool isPhoneFieldEnabled;
   final String? initialValue;
-  PhoneFieldWithCheckbox({
+  const PhoneFieldWithCheckbox({
+    super.key,
     required this.onWhatsAppNumberSelected,
     required this.isPhoneFieldEnabled,
     this.initialValue,
   });
 
   @override
-  _PhoneFieldWithCheckboxState createState() => _PhoneFieldWithCheckboxState();
+  State<PhoneFieldWithCheckbox> createState() => _PhoneFieldWithCheckboxState();
 }
 
 class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {

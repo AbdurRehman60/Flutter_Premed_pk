@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/crop.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -9,13 +7,11 @@ import 'package:provider/provider.dart';
 
 class DisplayImageScreen extends StatelessWidget {
   final File image;
-  // final VoidCallback onConfirm;
 
-  DisplayImageScreen({
-    Key? key,
+  const DisplayImageScreen({
+    super.key,
     required this.image,
-    // required this.onConfirm,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,8 @@ class DiscountRow extends StatelessWidget {
   final double? discountPercentage;
   final double price;
 
-  DiscountRow({
+  const DiscountRow({
+    super.key,
     required this.title,
     this.discountPercentage,
     required this.price,

@@ -2,7 +2,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class CustomDropDown<T> extends StatelessWidget {
   const CustomDropDown({
-    Key? key,
+    super.key,
     this.options = const [],
     this.value,
     this.onChanged,
@@ -21,7 +21,7 @@ class CustomDropDown<T> extends StatelessWidget {
     this.hintStyle,
     this.onTap,
     this.validator,
-  }) : super(key: key);
+  });
 
   final List<CustomDropDownOption<T>> options;
   final T? value;

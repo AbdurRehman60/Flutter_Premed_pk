@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BottomNavigator extends StatefulWidget {
-  const BottomNavigator({Key? key});
+  const BottomNavigator({super.key});
 
   @override
   State<BottomNavigator> createState() => _BottomNavigatorState();
@@ -19,9 +19,11 @@ class _BottomNavigatorState extends State<BottomNavigator> {
           alignment: AlignmentDirectional.bottomCenter,
           child: BottomNavigationBar(
             currentIndex: _currentIndex,
-            selectedItemColor: Color(0xFFEC5863), // Color for the selected tab
-            unselectedItemColor: Color(0xFF71717A), // Color for unselected tabs
-            items: [
+            selectedItemColor:
+                const Color(0xFFEC5863), // Color for the selected tab
+            unselectedItemColor:
+                const Color(0xFF71717A), // Color for unselected tabs
+            items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Home',

@@ -25,6 +25,9 @@ class PaymentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider =
+        Provider.of<CartProvider>(context, listen: false);
+
     void copyToClipboard(String text) {
       final cleanedText = text.replaceAll('-', '');
 
@@ -36,6 +39,27 @@ class PaymentTile extends StatelessWidget {
           duration: Duration(seconds: 2),
         ),
       );
+    }
+
+    bool validateOrder() {
+      // if (cartProvider.School.isEmpty) {}
+      // return !hasErrors;
+      return true;
+    }
+
+    onPlaceOrder() {
+      if (validateOrder()) {
+        final Future<Map<String, dynamic>> response = cartProvider.placeOrder();
+        response.then(
+          (response) {
+            if (response['status']) {
+              showError(context, response);
+            } else {
+              showError(context, response);
+            }
+          },
+        );
+      }
     }
 
     return Column(
@@ -196,12 +220,7 @@ class PaymentTile extends StatelessWidget {
                       SizedBoxes.verticalMedium,
                       CustomButton(
                         buttonText: 'Place Order ->',
-                        onPressed: () {
-                          CartProvider cartProvider =
-                              Provider.of<CartProvider>(context, listen: false);
-
-                          cartProvider.placeOrder('ddd@gmail.com');
-                        },
+                        onPressed: onPlaceOrder,
                       ),
                     ],
                   ),

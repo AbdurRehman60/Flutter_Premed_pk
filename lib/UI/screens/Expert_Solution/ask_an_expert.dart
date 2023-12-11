@@ -3,8 +3,8 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class AskanExpert extends StatelessWidget {
   const AskanExpert({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

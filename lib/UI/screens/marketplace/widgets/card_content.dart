@@ -7,17 +7,17 @@ import 'package:provider/provider.dart';
 
 class CardContent extends StatelessWidget {
   const CardContent({
-    Key? key,
+    super.key,
     required this.bundle,
     required this.renderPoints,
     this.renderDescription = true,
     this.points,
-  }) : super(key: key);
+  });
 
   final BundleModel bundle;
   final bool renderPoints;
   final int? points;
-  final renderDescription;
+  final bool renderDescription;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class CardContent extends StatelessWidget {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               )
-            : SizedBox(),
+            : const SizedBox(),
         renderPoints
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +79,7 @@ class CardContent extends StatelessWidget {
                           // SizedBoxes.verticalMicro,
                           Flexible(
                             child: Text(
-                              '✅ ${point}',
+                              '✅ $point',
                               style: PreMedTextTheme().small.copyWith(
                                     color: PreMedColorTheme().neutral600,
                                     height: 1.5,
@@ -94,7 +94,7 @@ class CardContent extends StatelessWidget {
                     )
                     .toList(),
               )
-            : SizedBox(),
+            : const SizedBox(),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

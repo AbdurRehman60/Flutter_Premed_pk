@@ -21,7 +21,7 @@ class FlashcardShimmer extends StatelessWidget {
             return Shimmer.fromColors(
               baseColor: PreMedColorTheme().neutral200,
               highlightColor: PreMedColorTheme().neutral50,
-              child: FlashcardItemSkeleton(),
+              child: const FlashcardItemSkeleton(),
             );
           },
         ),
@@ -31,6 +31,8 @@ class FlashcardShimmer extends StatelessWidget {
 }
 
 class FlashcardItemSkeleton extends StatelessWidget {
+  const FlashcardItemSkeleton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

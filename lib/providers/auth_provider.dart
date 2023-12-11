@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, unnecessary_getters_setters, deprecated_member_use
+
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -22,7 +24,7 @@ class AuthProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
 
   Status _loggedInStatus = Status.NotLoggedIn;
-  Status _SignUpStatus = Status.Authenticating;
+  Status _signUpStatus = Status.Authenticating;
 
   Status get loggedInStatus => _loggedInStatus;
 
@@ -30,9 +32,9 @@ class AuthProvider extends ChangeNotifier {
     _loggedInStatus = value;
   }
 
-  Status get SignUpStatus => _SignUpStatus;
+  Status get signUpStatus => _signUpStatus;
 
-  set SignUpStatus(Status value) {
+  set signUpStatus(Status value) {
     _loggedInStatus = value;
   }
 
@@ -88,10 +90,10 @@ class AuthProvider extends ChangeNotifier {
     notify();
   }
 
-  String _City = '';
-  String get City => _City;
+  String _city = '';
+  String get city => _city;
   void setCity(String value) {
-    _City = value;
+    _city = value;
     notify();
   }
 
@@ -102,10 +104,10 @@ class AuthProvider extends ChangeNotifier {
     _country = value;
   }
 
-  String _School = '';
-  String get School => _School;
+  String _school = '';
+  String get school => _school;
   void setSchool(String value) {
-    _School = value;
+    _school = value;
     notify();
   }
 
@@ -120,7 +122,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> login(String email, String password) async {
-    var result;
+    Map<String, Object?> result;
     final Map<String, dynamic> loginData = {
       "username": email,
       "password": password,
@@ -185,7 +187,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> getLoggedInUser() async {
-    var result;
+    Map<String, Object?> result;
 
     try {
       final response = await _client.get(
@@ -234,7 +236,7 @@ class AuthProvider extends ChangeNotifier {
     String fullName,
     String? referralCode,
   ) async {
-    var result;
+    Map<String, Object?> result;
     final Map<String, dynamic> signupData = {
       "fullname": fullName,
       "username": email,
@@ -243,7 +245,7 @@ class AuthProvider extends ChangeNotifier {
     if (referralCode != null && referralCode.isNotEmpty) {
       signupData["referralCode"] = referralCode;
     }
-    _SignUpStatus = Status.Authenticating;
+    _signUpStatus = Status.Authenticating;
     notify();
 
     try {
@@ -276,7 +278,7 @@ class AuthProvider extends ChangeNotifier {
           };
         }
       } else {
-        _SignUpStatus = Status.Authenticating;
+        _signUpStatus = Status.Authenticating;
         notify();
 
         result = {
@@ -298,7 +300,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> optionalOnboarding() async {
-    var result;
+    Map<String, Object?> result;
 
     final Map<String, dynamic> payload = {
       "academyJoined": academyJoined,
@@ -344,12 +346,12 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> requiredOnboarding() async {
-    var result;
+    Map<String, Object?> result;
 
     final Map<String, dynamic> payload = {
       "phonenumber": phoneNumber,
-      "city": City,
-      "school": School,
+      "city": city,
+      "school": school,
       "country": getCountryName(country.replaceFirst('+', '')),
       "whichYear": intendedYear,
       "whatsappNumber": whatsappNumber.isNotEmpty ? whatsappNumber : phoneNumber
@@ -391,7 +393,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> logout() async {
-    var result;
+    Map<String, Object?> result;
 
     _loggedInStatus = Status.Authenticating;
     notify();
@@ -430,7 +432,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> continueWithGoogle() async {
-    var result;
+    Map<String, Object?> result;
 
     try {
       _loggedInStatus = Status.Authenticating;
@@ -454,13 +456,13 @@ class AuthProvider extends ChangeNotifier {
         "picture": googleUser.photoUrl.toString(),
         "token": googleAuth.accessToken.toString()
       };
-      print(payload);
+
       try {
         Response response = await _client.post(
           Endpoints.continueWithGoogle,
           data: payload,
         );
-        print("response ${response}");
+
         if (response.statusCode == 200) {
           final Map<String, dynamic> responseData =
               Map<String, dynamic>.from(response.data);

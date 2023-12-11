@@ -1,8 +1,10 @@
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class CountdownTimerWidget extends StatefulWidget {
+  const CountdownTimerWidget({super.key});
+
   @override
-  _CountdownTimerWidgetState createState() => _CountdownTimerWidgetState();
+  State<CountdownTimerWidget> createState() => _CountdownTimerWidgetState();
 }
 
 class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
@@ -197,13 +199,12 @@ class CustomTitleWidget extends StatefulWidget {
   final String title;
   final Color? color;
   const CustomTitleWidget(
-      {Key? key,
+      {super.key,
       required this.height,
       required this.width,
       required this.title,
       this.color,
-      this.radius})
-      : super(key: key);
+      this.radius});
 
   @override
   State<CustomTitleWidget> createState() => _CustomTitleWidgetState();

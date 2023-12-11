@@ -5,7 +5,8 @@ class CustomCheckBox extends StatefulWidget {
   final Function(bool) onChanged;
   final String label;
 
-  CustomCheckBox({
+  const CustomCheckBox({
+    super.key,
     required this.initialValue,
     required this.onChanged,
     required this.label,

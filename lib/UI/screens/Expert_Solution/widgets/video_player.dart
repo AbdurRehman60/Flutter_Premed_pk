@@ -5,10 +5,13 @@ import 'package:video_player/video_player.dart';
 class VideoPlayerWidget extends StatefulWidget {
   final String videoLink;
 
-  VideoPlayerWidget({required this.videoLink});
+  const VideoPlayerWidget({
+    super.key,
+    required this.videoLink,
+  });
 
   @override
-  _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
+  State<VideoPlayerWidget> createState() => _VideoPlayerWidgetState();
 }
 
 class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {

@@ -4,7 +4,10 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 class FlashcardDisplayScreen extends StatelessWidget {
   final String subject;
 
-  FlashcardDisplayScreen({required this.subject});
+  const FlashcardDisplayScreen({
+    super.key,
+    required this.subject,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class FlashcardDisplayScreen extends StatelessWidget {
         backgroundColor: PreMedColorTheme().white,
         iconTheme: IconThemeData(color: PreMedColorTheme().black),
         title: Text(
-          '$subject',
+          subject,
           style: PreMedTextTheme()
               .heading5
               .copyWith(color: PreMedColorTheme().black),

@@ -2,14 +2,13 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class PremedBottomNav extends StatelessWidget {
   const PremedBottomNav(
-      {Key? key,
+      {super.key,
       required this.currentIndex,
       required this.onTapHome,
       required this.onTapMarketplace,
       required this.onTapFlashcards,
       required this.onTapExpertSolution,
-      required this.onTapProfile})
-      : super(key: key);
+      required this.onTapProfile});
 
   final int currentIndex;
   final VoidCallback onTapHome;
@@ -29,7 +28,7 @@ class PremedBottomNav extends StatelessWidget {
             color: Colors.grey.withOpacity(0.4),
             spreadRadius: 5,
             blurRadius: 7,
-            offset: Offset(0, 5), // changes position of shadow
+            offset: const Offset(0, 5), // changes position of shadow
           ),
         ],
       ),
@@ -74,12 +73,11 @@ class PremedBottomNav extends StatelessWidget {
 
 class _BottomNavBarItem extends StatelessWidget {
   const _BottomNavBarItem({
-    Key? key,
     required this.icon,
     required this.isSelected,
     required this.onTap,
     required this.label,
-  }) : super(key: key);
+  });
 
   final bool isSelected;
   final VoidCallback onTap;
@@ -121,12 +119,11 @@ class _BottomNavBarItem extends StatelessWidget {
 
 class _MainBottomNavBarItem extends StatelessWidget {
   const _MainBottomNavBarItem({
-    Key? key,
     required this.icon,
     required this.isSelected,
     required this.onTap,
     required this.label,
-  }) : super(key: key);
+  });
 
   final bool isSelected;
   final VoidCallback onTap;

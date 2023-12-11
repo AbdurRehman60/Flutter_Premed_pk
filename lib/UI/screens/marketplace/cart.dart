@@ -137,7 +137,7 @@ class Cart extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Checkout(),
+                          builder: (context) => const Checkout(),
                         ),
                       );
                     },

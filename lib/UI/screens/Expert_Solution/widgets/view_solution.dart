@@ -1,7 +1,5 @@
-import 'package:premedpk_mobile_app/UI/Widgets/video_player/video_player.dart';
+import 'package:premedpk_mobile_app/UI/widgets/video_player/video_player.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/tags_row.dart';
-
-import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
@@ -9,18 +7,18 @@ import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
 class ViewSolution extends StatelessWidget {
   final Doubt doubt;
   const ViewSolution({
-    Key? key,
+    super.key,
     required this.doubt,
-  }) : super(key: key);
+  });
 
-  void _showReviewModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return const ReviewModal();
-      },
-    );
-  }
+  // void _showReviewModal(BuildContext context) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     builder: (context) {
+  //       return const ReviewModal();
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +103,7 @@ class ViewSolution extends StatelessWidget {
                       width: double.infinity,
                       height: 180,
                       child: doubt.solvedStatus == 'Solved'
-                          ? VideoScreen(
+                          ? const VideoScreen(
                               // url: doubt.videoLink,
                               url:
                                   'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
@@ -140,68 +138,68 @@ class ViewSolution extends StatelessWidget {
   }
 }
 
-class ReviewModal extends StatefulWidget {
-  const ReviewModal({super.key});
+// class ReviewModal extends StatefulWidget {
+//   const ReviewModal({super.key});
 
-  @override
-  _ReviewModalState createState() => _ReviewModalState();
-}
+//   @override
+//   _ReviewModalState createState() => _ReviewModalState();
+// }
 
-class _ReviewModalState extends State<ReviewModal> {
-  int selectedRating = 0;
+// class _ReviewModalState extends State<ReviewModal> {
+//   int selectedRating = 0;
 
-  void _setRating(int rating) {
-    setState(() {
-      selectedRating = rating;
-    });
-  }
+//   void _setRating(int rating) {
+//     setState(() {
+//       selectedRating = rating;
+//     });
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Add a Feedback',
-            style: PreMedTextTheme().subtext,
-          ),
-          SizedBoxes.verticalMedium,
-          Text(
-            'How well did you understand?',
-            style: PreMedTextTheme()
-                .body
-                .copyWith(color: PreMedColorTheme().neutral400),
-          ),
-          SizedBoxes.verticalMedium,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: List.generate(5, (index) {
-              final starNumber = index + 1;
-              return InkWell(
-                onTap: () {
-                  _setRating(starNumber);
-                },
-                child: Icon(
-                  Icons.star,
-                  size: 40,
-                  color:
-                      starNumber <= selectedRating ? Colors.amber : Colors.grey,
-                ),
-              );
-            }),
-          ),
-          SizedBoxes.verticalMedium,
-          CustomButton(
-              buttonText: 'Submit',
-              onPressed: () {
-                Navigator.of(context).pop();
-              })
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       padding: const EdgeInsets.all(16),
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.start,
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         mainAxisSize: MainAxisSize.min,
+//         children: [
+//           Text(
+//             'Add a Feedback',
+//             style: PreMedTextTheme().subtext,
+//           ),
+//           SizedBoxes.verticalMedium,
+//           Text(
+//             'How well did you understand?',
+//             style: PreMedTextTheme()
+//                 .body
+//                 .copyWith(color: PreMedColorTheme().neutral400),
+//           ),
+//           SizedBoxes.verticalMedium,
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.start,
+//             children: List.generate(5, (index) {
+//               final starNumber = index + 1;
+//               return InkWell(
+//                 onTap: () {
+//                   _setRating(starNumber);
+//                 },
+//                 child: Icon(
+//                   Icons.star,
+//                   size: 40,
+//                   color:
+//                       starNumber <= selectedRating ? Colors.amber : Colors.grey,
+//                 ),
+//               );
+//             }),
+//           ),
+//           SizedBoxes.verticalMedium,
+//           CustomButton(
+//               buttonText: 'Submit',
+//               onPressed: () {
+//                 Navigator.of(context).pop();
+//               })
+//         ],
+//       ),
+//     );
+//   }
+// }

@@ -7,9 +7,9 @@ import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
 class DoubtCard extends StatelessWidget {
   final Doubt doubt;
   const DoubtCard({
-    Key? key,
+    super.key,
     required this.doubt,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

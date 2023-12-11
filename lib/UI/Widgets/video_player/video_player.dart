@@ -1,13 +1,19 @@
+// ignore_for_file: avoid_print
+
 import 'package:fijkplayer/fijkplayer.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class VideoScreen extends StatefulWidget {
   final String url;
   final double aspectRatio;
-  VideoScreen({required this.url, this.aspectRatio = 16 / 9});
+  const VideoScreen({
+    super.key,
+    required this.url,
+    this.aspectRatio = 16 / 9,
+  });
 
   @override
-  _VideoScreenState createState() => _VideoScreenState();
+  State<VideoScreen> createState() => _VideoScreenState();
 }
 
 class _VideoScreenState extends State<VideoScreen> {

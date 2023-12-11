@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, unnecessary_getters_setters, deprecated_member_use
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
@@ -31,7 +33,7 @@ class FlashcardProvider with ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> getFlashcardsByUser() async {
-    var result;
+    Map<String, Object?> result;
 
     _doubtUploadStatus = Status.Fetching;
 

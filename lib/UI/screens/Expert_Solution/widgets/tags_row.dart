@@ -26,6 +26,6 @@ class TagsRow extends StatelessWidget {
                           : PreMedColorTheme().primaryColorBlue800,
                     )),
           )
-        : SizedBox();
+        : const SizedBox();
   }
 }

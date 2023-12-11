@@ -1,10 +1,12 @@
-import 'dart:io';
+// ignore_for_file: unnecessary_getters_setters, deprecated_member_use
 
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
+import 'package:premedpk_mobile_app/providers/user_provider.dart';
 
 enum CouponValidateStatus { init, success, validating }
 
@@ -56,9 +58,9 @@ class CartProvider extends ChangeNotifier {
     return total;
   }
 
-  double get coupounDiscount {
+  double get couponDiscount {
     double total = 0;
-    for (var bundle in _selectedBundles) {
+    for (var _ in _selectedBundles) {
       total = (afterDiscountPrice * couponAmount);
     }
     return total;
@@ -66,8 +68,8 @@ class CartProvider extends ChangeNotifier {
 
   double get calculateTotalDiscount {
     double total = 0;
-    for (var bundle in _selectedBundles) {
-      total = (afterDiscountPrice - coupounDiscount);
+    for (var _ in _selectedBundles) {
+      total = (afterDiscountPrice + couponDiscount);
     }
     return total;
   }
@@ -104,17 +106,16 @@ class CartProvider extends ChangeNotifier {
     notify();
   }
 
-  Future<Map<String, dynamic>> placeOrder(
-    String username,
-  ) async {
+  Future<Map<String, dynamic>> placeOrder() async {
     try {
       List<String> bundleIds = _selectedBundles.map((b) => b.id).toList();
 
       Map<String, dynamic> purchaseData = {
-        "username": "ddd@gmail.com",
+        "username": UserProvider().getEmail(),
         "BundleId": bundleIds,
-        "PaymentProof": "MDCAT50",
-        "CouponCode": "MDCAT50",
+        "PaymentProof":
+            "imageToDataUri(UplaodImageProvider().uploadedImage!, " ")",
+        "CouponCode": couponCode,
       };
       // if (ReferralCode != null && ReferralCode.isNotEmpty) {
       //   purchaseData["referralCode"] = ReferralCode;
@@ -130,7 +131,7 @@ class CartProvider extends ChangeNotifier {
       if (response == 'Bundle Purchased Successfully') {
         // API request successful
         final responseData = response.data;
-        print(responseData);
+
         // Extract information from the response
         final message = responseData['message'];
         final orderData = responseData['order'];
@@ -177,7 +178,7 @@ class CartProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> verifyCouponCode(String coupon) async {
-    var result;
+    Map<String, Object?> result;
 
     validatingStatus = CouponValidateStatus.validating;
     notify();

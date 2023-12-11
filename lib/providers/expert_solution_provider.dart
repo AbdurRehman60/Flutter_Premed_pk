@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, unnecessary_getters_setters, deprecated_member_use
+
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -88,7 +90,7 @@ class AskAnExpertProvider extends ChangeNotifier {
     required String resource,
     required File testImage,
   }) async {
-    var result;
+    Map<String, dynamic> result;
     final Map<String, dynamic> askAnExpertData = {
       "username": UserProvider().getEmail(),
       "description": description,
@@ -141,7 +143,7 @@ class AskAnExpertProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> getDoubts() async {
-    var result;
+    Map<String, Object?> result;
 
     fetchDoubtsStatus = Status.Sending;
     String email = UserProvider().getEmail();

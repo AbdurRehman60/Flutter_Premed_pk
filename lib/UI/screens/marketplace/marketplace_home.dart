@@ -9,13 +9,13 @@ import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class MarketPlace extends StatelessWidget {
-  const MarketPlace({Key? key}) : super(key: key);
+  const MarketPlace({super.key});
 
   @override
   Widget build(BuildContext context) {
-    BundleProvider bundleProvider =
+    final BundleProvider bundleProvider =
         Provider.of<BundleProvider>(context, listen: false);
-    Future<Map<String, dynamic>> response = bundleProvider.fetchBundles();
+    final Future<Map<String, dynamic>> response = bundleProvider.fetchBundles();
     return Scaffold(
       appBar: AppBar(
         title: GradientText(
@@ -45,7 +45,7 @@ class MarketPlace extends StatelessWidget {
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  CountdownTimerWidget(),
+                  const CountdownTimerWidget(),
                   SizedBoxes.verticalMedium,
                   const SpecialOffers(),
                   SizedBoxes.verticalMedium,
@@ -56,7 +56,7 @@ class MarketPlace extends StatelessWidget {
           ],
         ),
       ),
-      endDrawer: CartDrawer(),
+      endDrawer: const CartDrawer(),
     );
   }
 }

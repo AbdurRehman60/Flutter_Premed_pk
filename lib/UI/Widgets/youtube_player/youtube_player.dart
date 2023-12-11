@@ -16,7 +16,7 @@ class _MyYoutubePlayerState extends State<MyYoutubePlayer> {
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: 'POOAMMej1xU',
-      flags: YoutubePlayerFlags(
+      flags: const YoutubePlayerFlags(
         autoPlay: false,
       ),
     );
@@ -30,7 +30,6 @@ class _MyYoutubePlayerState extends State<MyYoutubePlayer> {
         player: YoutubePlayer(
           controller: _controller,
           showVideoProgressIndicator: true,
-          topActions: [],
           progressIndicatorColor: PreMedColorTheme().primaryColorRed,
           progressColors: ProgressBarColors(
             playedColor: PreMedColorTheme().primaryColorRed,

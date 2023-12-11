@@ -8,7 +8,7 @@ import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:provider/provider.dart';
 
 class MarketplaceTabView extends StatelessWidget {
-  const MarketplaceTabView({Key? key});
+  const MarketplaceTabView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,7 @@ class MarketplaceTabView extends StatelessWidget {
         }
 
         return bundleProvider.loadingStatus == Status.Success
-            ? filteredList.length > 0
+            ? filteredList.isNotEmpty
                 ? ListView.builder(
                     shrinkWrap: true,
                     itemCount: filteredList.length,

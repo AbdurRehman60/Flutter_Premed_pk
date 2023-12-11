@@ -1,4 +1,4 @@
-import 'package:premedpk_mobile_app/UI/Widgets/hubspot_help.dart';
+import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 
 class SignupForm extends StatefulWidget {
   const SignupForm({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<SignupForm> createState() => _SignupFormState();
@@ -163,10 +163,10 @@ class _SignupFormState extends State<SignupForm> {
                     ),
                   ],
                 ),
-                HubspotHelpButton(),
+                const HubspotHelpButton(),
                 SizedBoxes.verticalMedium,
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32),
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: Text(
                     'By continuing, you agree to Premed.pk’s  Terms of Use and Privacy Policy.',
                     style: PreMedTextTheme().subtext.copyWith(

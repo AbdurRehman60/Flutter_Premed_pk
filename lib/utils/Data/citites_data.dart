@@ -1,4 +1,4 @@
-List<String> cities_data = [
+List<String> cities = [
   "Abbottabad",
   "Adilpur",
   "Ahmadpur East",

@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/global_widgets_export.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class ChangePassword extends StatelessWidget {
@@ -36,7 +34,7 @@ class ChangePassword extends StatelessWidget {
                   ),
             ),
             SizedBoxes.verticalMicro,
-            CustomTextField(
+            const CustomTextField(
               hintText: 'Old Password',
             ),
             SizedBoxes.verticalMedium,
@@ -47,7 +45,7 @@ class ChangePassword extends StatelessWidget {
                   ),
             ),
             SizedBoxes.verticalMicro,
-            CustomTextField(
+            const CustomTextField(
               hintText: 'New Password',
             ),
             SizedBoxes.verticalMedium,
@@ -58,7 +56,7 @@ class ChangePassword extends StatelessWidget {
                   ),
             ),
             SizedBoxes.verticalMicro,
-            CustomTextField(
+            const CustomTextField(
               hintText: 'Confirm New Password',
             ),
             Padding(

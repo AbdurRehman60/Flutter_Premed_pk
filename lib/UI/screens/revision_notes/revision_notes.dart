@@ -39,7 +39,9 @@ class RevisionNotes extends StatelessWidget {
                 ],
               ),
               IconButton(
-                icon: Icon(Icons.search),
+                icon: const Icon(
+                  Icons.search,
+                ),
                 onPressed: () {
                   Navigator.push(
                     context,

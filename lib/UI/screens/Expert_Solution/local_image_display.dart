@@ -1,32 +1,32 @@
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:provider/provider.dart';
 
 class LocalImageDisplay extends StatefulWidget {
+  const LocalImageDisplay({super.key});
+
   @override
-  _LocalImageDisplayState createState() => _LocalImageDisplayState();
+  State<LocalImageDisplay> createState() => _LocalImageDisplayState();
 }
 
 class _LocalImageDisplayState extends State<LocalImageDisplay> {
-  File? _image;
+  // File? _image;
   @override
   Widget build(BuildContext context) {
     final uploadImageProvider = Provider.of<UplaodImageProvider>(context);
 
-    Future<void> _pickImage() async {
+    Future<void> pickImage() async {
       final imagePicker = ImagePicker();
       final pickedFile =
           await imagePicker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
         uploadImageProvider.uploadedImage = File(pickedFile.path);
-        setState(() {
-          _image = File(pickedFile.path);
-        });
+        // setState(() {
+        //   _image = File(pickedFile.path);
+        // });
       }
     }
 
@@ -60,7 +60,7 @@ class _LocalImageDisplayState extends State<LocalImageDisplay> {
             iconSize: 0,
             isIconButton: true,
             isOutlined: false,
-            onPressed: _pickImage,
+            onPressed: pickImage,
             buttonText: 'Choose from Gallery',
           ),
         ),

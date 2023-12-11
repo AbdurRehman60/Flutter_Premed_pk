@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/Widgets/global_widgets_export.dart';
-import 'package:premedpk_mobile_app/constants/assets.dart';
-import 'package:premedpk_mobile_app/constants/color_theme.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 import 'widgets/news_content.dart';
 
 class NewsUpdates extends StatelessWidget {
+  const NewsUpdates({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,15 +52,14 @@ class NewsUpdates extends StatelessWidget {
 }
 
 class LatestNews extends StatelessWidget {
-  LatestNews({
-    super.key,
-  });
-  String title = 'Sindh Announces MDCAT \nReconduct on November 24th.';
-  ImageProvider image = AssetImage(PremedAssets.PrMedLogoLarge);
+  final String title = 'Sindh Announces MDCAT \nReconduct on November 24th.';
+  final ImageProvider image = AssetImage(PremedAssets.PrMedLogoLarge);
+
+  LatestNews({super.key});
 
   @override
   Widget build(BuildContext context) {
-    OnButtontapped(ImageProvider image, String title) {
+    onButtontapped(ImageProvider image, String title) {
       showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -152,11 +150,10 @@ class LatestNews extends StatelessWidget {
                       height: 27,
                       child: TextButton(
                         onPressed: () {
-                          OnButtontapped(image, title);
+                          onButtontapped(image, title);
                         },
                         style: TextButton.styleFrom(
                           backgroundColor: buttonColor,
-                          primary: Colors.white,
                         ),
                         child: Text(
                           'Read More',
@@ -178,14 +175,14 @@ class LatestNews extends StatelessWidget {
 }
 
 class OldNews extends StatelessWidget {
-  OldNews({
-    Key? key,
-  }) : super(key: key);
-  String title = 'Sindh Announces MDCAT \nReconduct on November 24th.';
-  ImageProvider image = AssetImage(PremedAssets.PrMedLogoLarge);
+  final String title = 'Sindh Announces MDCAT \nReconduct on November 24th.';
+  final ImageProvider image = AssetImage(PremedAssets.PrMedLogoLarge);
+
+  OldNews({super.key});
+
   @override
   Widget build(BuildContext context) {
-    OnButtontapped(ImageProvider image, String title) {
+    onButtontapped(ImageProvider image, String title) {
       showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -266,11 +263,10 @@ class OldNews extends StatelessWidget {
                 height: 27,
                 child: TextButton(
                   onPressed: () {
-                    OnButtontapped(image, title);
+                    onButtontapped(image, title);
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: buttonColor,
-                    primary: Colors.white,
                   ),
                   child: Text(
                     'Read More',
@@ -281,7 +277,6 @@ class OldNews extends StatelessWidget {
                 ),
               ),
             ),
-            // Add a Divider between containers
           ],
         );
       },

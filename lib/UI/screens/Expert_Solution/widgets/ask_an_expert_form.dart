@@ -1,4 +1,3 @@
-import 'package:premedpk_mobile_app/UI/screens/expert_solution/ask_an_expert.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/local_image_display.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/dropdown_form.dart';
@@ -11,8 +10,8 @@ import 'package:provider/provider.dart';
 
 class AskanExpertForm extends StatelessWidget {
   AskanExpertForm({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final _formKey = GlobalKey<FormState>();
 
@@ -82,7 +81,7 @@ class AskanExpertForm extends StatelessWidget {
                                 uplaodImageProvider.uploadedImage!,
                                 fit: BoxFit.fitHeight,
                               )
-                            : LocalImageDisplay();
+                            : const LocalImageDisplay();
                       },
                     ), // Implement LocalImageDisplay
                   ),

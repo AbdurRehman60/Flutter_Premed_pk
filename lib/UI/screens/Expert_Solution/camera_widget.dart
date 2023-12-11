@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -55,7 +57,7 @@ class _CameraScreenState extends State<CameraScreen>
       setState(() {
         _isCameraPermissionGranted = true;
       });
-      // Set and initialize the new camera
+
       onNewCameraSelected(cameras[0]);
       refreshAlreadyCapturedImages();
     } else {
@@ -69,14 +71,14 @@ class _CameraScreenState extends State<CameraScreen>
     allFileList.clear();
     List<Map<int, dynamic>> fileNames = [];
 
-    fileList.forEach((file) {
+    for (var file in fileList) {
       if (file.path.contains('.jpg') || file.path.contains('.mp4')) {
         allFileList.add(File(file.path));
 
         String name = file.path.split('/').last.split('.').first;
         fileNames.add({0: int.parse(name), 1: file.path.split('/').last});
       }
-    });
+    }
 
     if (fileNames.isNotEmpty) {
       final recentFile =
@@ -106,18 +108,18 @@ class _CameraScreenState extends State<CameraScreen>
     }
   }
 
-  Future<void> _startVideoPlayer() async {
-    if (_videoFile != null) {
-      videoController = VideoPlayerController.file(_videoFile!);
-      await videoController!.initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized,
-        // even before the play button has been pressed.
-        setState(() {});
-      });
-      await videoController!.setLooping(true);
-      await videoController!.play();
-    }
-  }
+  // Future<void> _startVideoPlayer() async {
+  //   if (_videoFile != null) {
+  //     videoController = VideoPlayerController.file(_videoFile!);
+  //     await videoController!.initialize().then((_) {
+  //       // Ensure the first frame is shown after the video is initialized,
+  //       // even before the play button has been pressed.
+  //       setState(() {});
+  //     });
+  //     await videoController!.setLooping(true);
+  //     await videoController!.play();
+  //   }
+  // }
 
   Future<void> startVideoRecording() async {
     final CameraController? cameraController = controller;
@@ -310,7 +312,7 @@ class _CameraScreenState extends State<CameraScreen>
                           ),
                         ],
                       ),
-                      // TODO: Uncomment to preview the overlay
+
                       // Center(
                       //   child: Image.asset(
                       //     'assets/camera_aim.png',

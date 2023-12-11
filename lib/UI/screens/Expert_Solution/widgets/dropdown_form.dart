@@ -9,7 +9,7 @@ class CustomResourceDropDown extends StatefulWidget {
   const CustomResourceDropDown({super.key});
 
   @override
-  _CustomResourceDropdownState createState() => _CustomResourceDropdownState();
+  State<CustomResourceDropDown> createState() => _CustomResourceDropdownState();
 }
 
 class _CustomResourceDropdownState extends State<CustomResourceDropDown> {
