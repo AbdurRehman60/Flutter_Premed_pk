@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names, unnecessary_getters_setters, deprecated_member_use
+// ignore_for_file: constant_identifier_names, unnecessary_getters_setters, deprecated_member_use, avoid_print
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -23,6 +23,15 @@ class BundleProvider extends ChangeNotifier {
 
   void notify() {
     notifyListeners();
+  }
+
+  String _discount = "50%";
+
+  String get discount => _discount;
+  set discount(String value) {
+    _discount = value;
+
+    notify();
   }
 
   List<BundleModel> _bundleList = [];
@@ -73,5 +82,19 @@ class BundleProvider extends ChangeNotifier {
       };
     }
     return result;
+  }
+
+  Future<void> fetchDiscount() async {
+    try {
+      final response = await _client.get(
+        "https://premedpk-cdn.sgp1.cdn.digitaloceanspaces.com/Mobile-App/discount.json",
+      );
+
+      if (response['discount'] != null) {
+        _discount = response['discount'];
+      }
+    } on DioError catch (e) {
+      print(e.error);
+    }
   }
 }

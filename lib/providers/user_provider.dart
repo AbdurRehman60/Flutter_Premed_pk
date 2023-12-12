@@ -18,6 +18,20 @@ class UserProvider extends ChangeNotifier {
     notify();
   }
 
+  String _phoneNumber = '';
+  String get phoneNumber => _phoneNumber;
+  set phoneNumber(String value) {
+    _phoneNumber = value;
+    notify();
+  }
+
+  String _city = '';
+  String get city => _city;
+  void setCity(String value) {
+    _city = value;
+    notify();
+  }
+
   String getUserName() {
     return _user?.fullName ?? '';
   }

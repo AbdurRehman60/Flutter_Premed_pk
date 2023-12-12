@@ -1,8 +1,8 @@
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
-import 'package:premedpk_mobile_app/utils/services/pdf_download.dart';
 
 class PdfScreen extends StatefulWidget {
   const PdfScreen({
@@ -18,6 +18,7 @@ class PdfScreen extends StatefulWidget {
 class _PdfViewState extends State<PdfScreen> {
   int currentPage = 0;
   int maxPage = 0;
+  bool isDownloading = false;
 
   final Completer<PDFViewController> _pdfViewController =
       Completer<PDFViewController>();
@@ -33,8 +34,6 @@ class _PdfViewState extends State<PdfScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final PdfDownloader pdfDownloader = PdfDownloader();
-
     void openDemarcationBottomSheet() {
       showModalBottomSheet(
         context: context,
@@ -128,10 +127,50 @@ class _PdfViewState extends State<PdfScreen> {
             ),
             actions: [
               IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.download,
-                ),
+                onPressed: () {
+                  if (!isDownloading) {
+                    FileDownloader.downloadFile(
+                      url: widget.note.notesURL.trim(),
+                      name: '${widget.note.title.trim()}_PreMed.PK',
+                      notificationType: NotificationType.all,
+                      onDownloadRequestIdReceived: (downloadId) {
+                        setState(() {
+                          isDownloading = true;
+                        });
+                      },
+                      onDownloadCompleted: (path) {
+                        setState(() {
+                          isDownloading = false;
+                        });
+                        showSnackbar(
+                          context,
+                          "Download Complete",
+                          SnackbarType.SUCCESS,
+                        );
+                      },
+                      onDownloadError: (errorMessage) {
+                        setState(() {
+                          isDownloading = false;
+                        });
+                        showSnackbar(
+                          context,
+                          errorMessage,
+                          SnackbarType.INFO,
+                        );
+                      },
+                    );
+                  }
+                },
+                icon: isDownloading
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                        ))
+                    : const Icon(
+                        Icons.download,
+                      ),
               ),
               IconButton(
                 onPressed: openDemarcationBottomSheet,

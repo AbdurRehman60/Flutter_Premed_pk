@@ -27,9 +27,6 @@ class PaymentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String error = "";
-    bool hasErrors = false;
-
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
 
     void copyToClipboard(String text) {

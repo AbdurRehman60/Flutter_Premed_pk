@@ -48,16 +48,16 @@ class PremedBottomNav extends StatelessWidget {
             onTap: onTapFlashcards,
           ),
           _MainBottomNavBarItem(
-            icon: Icons.shopping_bag,
+            icon: Icons.school_outlined,
             isSelected: 2 == currentIndex,
             label: 'Marketplace',
-            onTap: onTapMarketplace,
+            onTap: onTapExpertSolution,
           ),
           _BottomNavBarItem(
-            icon: Icons.play_circle_fill_outlined,
+            icon: Icons.shopping_bag,
             isSelected: 3 == currentIndex,
-            label: 'Expert Solution',
-            onTap: onTapExpertSolution,
+            label: 'Bundles',
+            onTap: onTapMarketplace,
           ),
           _BottomNavBarItem(
             icon: Icons.person_2,

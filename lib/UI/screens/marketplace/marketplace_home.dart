@@ -15,7 +15,8 @@ class MarketPlace extends StatelessWidget {
   Widget build(BuildContext context) {
     final BundleProvider bundleProvider =
         Provider.of<BundleProvider>(context, listen: false);
-    final Future<Map<String, dynamic>> response = bundleProvider.fetchBundles();
+    bundleProvider.fetchBundles();
+    bundleProvider.fetchDiscount();
     return Scaffold(
       appBar: AppBar(
         title: GradientText(

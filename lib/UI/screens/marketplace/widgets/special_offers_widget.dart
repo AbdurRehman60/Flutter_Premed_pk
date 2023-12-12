@@ -35,7 +35,7 @@ class SpecialOffers extends StatelessWidget {
               final List<BundleModel> filteredList = bundleProvider.bundleList
                   .where((bundle) => bundle.includedTags.length >= 2)
                   .toList();
-
+              filteredList.sort((a, b) => a.position.compareTo(b.position));
               return bundleProvider.loadingStatus == Status.Success
                   ? ListView.builder(
                       scrollDirection: Axis.horizontal,

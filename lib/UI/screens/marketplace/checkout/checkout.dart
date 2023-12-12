@@ -1,3 +1,5 @@
+// ignore_for_file: use_setters_to_change_properties
+
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/payment_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/payment_video_youtube.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -155,7 +157,7 @@ class RadioGroup<T> {
 
   T? get selectedValue => _selectedValue;
 
-  void setSelectedValue(T value) {
+  void setSelectedValue(T? value) {
     _selectedValue = value;
   }
 }

@@ -8,70 +8,79 @@ class RevisionNotes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NotesProvider notesProvider =
-        Provider.of<NotesProvider>(context, listen: false);
-    notesProvider.fetchNotes();
-
-    return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
+    return Consumer<NotesProvider>(
+      builder: (context, notesProvider, _) {
+        if (notesProvider.notesList.isEmpty) {
+          notesProvider.fetchNotes();
+        }
+        final bool isLoading =
+            notesProvider.notesLoadingStatus == Status.Fetching;
+        return DefaultTabController(
+          length: 4,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    height: 32,
-                    width: 32,
-                    child: Image.asset(
-                      PremedAssets.RevisionNotes,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  SizedBoxes.horizontalMedium,
-                  Text(
-                    'Revision Notes',
-                    style: PreMedTextTheme()
-                        .heading6
-                        .copyWith(color: PreMedColorTheme().white),
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 32,
+                        width: 32,
+                        child: Image.asset(
+                          PremedAssets.RevisionNotes,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      SizedBoxes.horizontalMedium,
+                      Text(
+                        'Revision Notes',
+                        style: PreMedTextTheme()
+                            .heading6
+                            .copyWith(color: PreMedColorTheme().white),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              IconButton(
-                icon: const Icon(
-                  Icons.search,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    notesProvider.fetchNotes();
+                  },
+                  icon: const Icon(
+                    Icons.replay_outlined,
+                  ),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PdfSearch(
-                        notesList: notesProvider.notesList,
+                IconButton(
+                  icon: const Icon(
+                    Icons.search,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PdfSearch(
+                          notesList: notesProvider.notesList,
+                        ),
                       ),
-                    ),
-                  );
-                },
-              )
-            ],
-          ),
-          bottom: const TabBar(
-            isScrollable: true, // Make tabs scrollable
-            tabs: [
-              Tab(text: 'All'),
-              Tab(text: 'Biology'),
-              Tab(text: 'Chemistry'),
-              Tab(text: 'Physics'),
-            ],
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
-          child: Consumer<NotesProvider>(
-            builder: (context, notesProvider, _) {
-              final bool isLoading =
-                  notesProvider.notesLoadingStatus == Status.Fetching;
-              return TabBarView(
+                    );
+                  },
+                )
+              ],
+              bottom: const TabBar(
+                isScrollable: true, // Make tabs scrollable
+                tabs: [
+                  Tab(text: 'All'),
+                  Tab(text: 'Biology'),
+                  Tab(text: 'Chemistry'),
+                  Tab(text: 'Physics'),
+                ],
+              ),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+              child: TabBarView(
                 children: [
                   PdfDisplay(
                     notes: notesProvider.notesList,
@@ -96,11 +105,11 @@ class RevisionNotes extends StatelessWidget {
                     isLoading: isLoading,
                   ),
                 ],
-              );
-            },
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

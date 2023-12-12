@@ -166,7 +166,7 @@ class CartProvider extends ChangeNotifier {
         Endpoints.PurchaseBundles,
         data: purchaseData,
       );
-      print(response);
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);

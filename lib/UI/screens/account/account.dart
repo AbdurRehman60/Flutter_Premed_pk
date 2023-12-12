@@ -56,7 +56,9 @@ class Account extends StatelessWidget {
               ),
               SizedBoxes.verticalMedium,
               Text(
-                userProvider.getUserName(),
+                userProvider.getUserName().split(' ').length > 1
+                    ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}'
+                    : userProvider.getUserName().split(' ').first,
                 style: PreMedTextTheme().heading5,
               ),
               SizedBoxes.verticalTiny,
@@ -86,7 +88,7 @@ class Account extends StatelessWidget {
 
                     switch (index) {
                       case 0:
-                        heading = 'Edit Profile';
+                        heading = 'Account';
                         imagePath = PremedAssets.EditProfile;
                       case 1:
                         heading = 'Change Password';

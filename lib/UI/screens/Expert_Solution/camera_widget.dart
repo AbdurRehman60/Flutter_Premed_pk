@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, library_private_types_in_public_api
 
 import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
@@ -26,29 +26,29 @@ class _CameraScreenState extends State<CameraScreen>
   VideoPlayerController? videoController;
   // late Future<void> _initializeControllerFuture;
   File? _imageFile;
-  File? _videoFile;
+  // File? _videoFile;
   // Initial values
   bool _isCameraInitialized = false;
   bool _isCameraPermissionGranted = false;
-  bool _isRearCameraSelected = true;
-  bool _isVideoCameraSelected = false;
+  // bool _isRearCameraSelected = true;
+  // bool _isVideoCameraSelected = false;
   bool _isRecordingInProgress = false;
-  double _minAvailableExposureOffset = 0.0;
-  double _maxAvailableExposureOffset = 0.0;
+  // double _minAvailableExposureOffset = 0.0;
+  // double _maxAvailableExposureOffset = 0.0;
   double _minAvailableZoom = 1.0;
   double _maxAvailableZoom = 1.0;
 
   // Current values
   double _currentZoomLevel = 1.0;
-  double _currentExposureOffset = 0.0;
-  FlashMode? _currentFlashMode;
+  // double _currentExposureOffset = 0.0;
+  // FlashMode? _currentFlashMode;
 
   List<File> allFileList = [];
   final resolutionPresets = ResolutionPreset.values;
 
   ResolutionPreset currentResolutionPreset = ResolutionPreset.high;
 
-  getPermissionStatus() async {
+  Future<void> getPermissionStatus() async {
     await Permission.camera.request();
     final status = await Permission.camera.status;
 
@@ -65,7 +65,7 @@ class _CameraScreenState extends State<CameraScreen>
     }
   }
 
-  refreshAlreadyCapturedImages() async {
+  Future<void> refreshAlreadyCapturedImages() async {
     final directory = await getApplicationDocumentsDirectory();
     final List<FileSystemEntity> fileList = await directory.list().toList();
     allFileList.clear();
@@ -184,12 +184,12 @@ class _CameraScreenState extends State<CameraScreen>
     }
   }
 
-  void resetCameraValues() async {
+  Future<void> resetCameraValues() async {
     _currentZoomLevel = 1.0;
-    _currentExposureOffset = 0.0;
+    // _currentExposureOffset = 0.0;
   }
 
-  void onNewCameraSelected(CameraDescription cameraDescription) async {
+  Future<void> onNewCameraSelected(CameraDescription cameraDescription) async {
     final previousCameraController = controller;
 
     final CameraController cameraController = CameraController(
@@ -210,18 +210,20 @@ class _CameraScreenState extends State<CameraScreen>
 
     // Update UI if controller updated
     cameraController.addListener(() {
-      if (mounted) setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
 
     try {
       await cameraController.initialize();
       await Future.wait([
-        cameraController
-            .getMinExposureOffset()
-            .then((value) => _minAvailableExposureOffset = value),
-        cameraController
-            .getMaxExposureOffset()
-            .then((value) => _maxAvailableExposureOffset = value),
+        // cameraController
+        //     .getMinExposureOffset()
+        //     .then((value) => _minAvailableExposureOffset = value),
+        // cameraController
+        //     .getMaxExposureOffset()
+        //     .then((value) => _maxAvailableExposureOffset = value),
         cameraController
             .getMaxZoomLevel()
             .then((value) => _maxAvailableZoom = value),
@@ -230,7 +232,7 @@ class _CameraScreenState extends State<CameraScreen>
             .then((value) => _minAvailableZoom = value),
       ]);
 
-      _currentFlashMode = controller!.value.flashMode;
+      // _currentFlashMode = controller!.value.flashMode;
     } on CameraException catch (e) {
       print('Error initializing camera: $e');
     }
@@ -376,52 +378,59 @@ class _CameraScreenState extends State<CameraScreen>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   InkWell(
-                                    onTap: () async {
-                                      XFile? rawImage = await takePicture();
-                                      File imageFile = File(rawImage!.path);
+                                    onTap: () {
+                                      XFile? rawImage;
+                                      File imageFile;
 
                                       showDialog(
                                         context: context,
-                                        barrierDismissible:
-                                            false, // Prevents users from dismissing the dialog
+                                        barrierDismissible: false,
                                         builder: (context) => const Center(
                                           child: CircularProgressIndicator(),
                                         ),
                                       );
-                                      try {
-                                        rawImage = await takePicture();
+
+                                      takePicture()
+                                          .then((XFile? capturedImage) {
+                                        rawImage = capturedImage;
                                         imageFile = File(rawImage!.path);
 
                                         final int currentUnix = DateTime.now()
                                             .millisecondsSinceEpoch;
 
-                                        final directory =
-                                            await getApplicationDocumentsDirectory();
+                                        getApplicationDocumentsDirectory()
+                                            .then((directory) {
+                                          final String fileFormat =
+                                              imageFile.path.split('.').last;
 
-                                        final String fileFormat =
-                                            imageFile.path.split('.').last;
+                                          imageFile
+                                              .copy(
+                                                  '${directory.path}/$currentUnix.$fileFormat')
+                                              .then((_) {
+                                            Navigator.of(context).pop();
 
-                                        await imageFile.copy(
-                                          '${directory.path}/$currentUnix.$fileFormat',
-                                        );
-                                      } catch (error) {
-                                        // Handle any errors that may occur during image capture
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DisplayImageScreen(
+                                                  image: imageFile,
+                                                ),
+                                              ),
+                                            );
+                                          }).catchError((error) {
+                                            print(
+                                                'Error copying image: $error');
+                                            Navigator.of(context).pop();
+                                          });
+                                        }).catchError((error) {
+                                          print(
+                                              'Error getting directory: $error');
+                                          Navigator.of(context).pop();
+                                        });
+                                      }).catchError((error) {
                                         print('Error capturing image: $error');
-                                      } finally {
-                                        // Close the loading indicator dialog
                                         Navigator.of(context).pop();
-
-                                        // Navigate to the new screen with the captured image
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                DisplayImageScreen(
-                                              image: imageFile,
-                                              // onConfirm: widget.onConfirm,
-                                            ),
-                                          ),
-                                        );
-                                      }
+                                      });
                                     },
                                     child: const Stack(
                                       alignment: Alignment.center,

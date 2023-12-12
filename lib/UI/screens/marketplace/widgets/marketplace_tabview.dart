@@ -69,18 +69,22 @@ class MarketplaceTabView extends StatelessWidget {
 
         if (tabName == 'All Bundles') {
           filteredList = bundleProvider.bundleList;
+          filteredList.sort((a, b) => a.position.compareTo(b.position));
         } else if (tabName == 'Special Offers') {
           filteredList = bundleProvider.bundleList
               .where((bundle) => bundle.includedTags.length >= 2)
               .toList();
+          filteredList.sort((a, b) => a.position.compareTo(b.position));
         } else if (tabName == 'Courses') {
           filteredList = bundleProvider.bundleList
               .where((bundle) => bundle.includedTags.contains('Course'))
               .toList();
+          filteredList.sort((a, b) => a.position.compareTo(b.position));
         } else {
           filteredList = bundleProvider.bundleList
               .where((bundle) => bundle.bundleName.contains(tabName))
               .toList();
+          filteredList.sort((a, b) => a.position.compareTo(b.position));
         }
 
         return bundleProvider.loadingStatus == Status.Success

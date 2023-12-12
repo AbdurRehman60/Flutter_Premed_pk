@@ -47,6 +47,9 @@ class NotesProvider extends ChangeNotifier {
     Map<String, Object?> result;
     _guidesloadingStatus = Status.Fetching;
 
+    if (guidesList.isNotEmpty) {
+      notify();
+    }
     try {
       final response = await _client.get(
         Endpoints.Guides,
@@ -84,7 +87,9 @@ class NotesProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> fetchNotes() async {
     Map<String, Object?> result;
     _notesLoadingStatus = Status.Fetching;
-
+    if (notesList.isNotEmpty) {
+      notify();
+    }
     notesList = [];
 
     try {

@@ -19,45 +19,43 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 3), () async {
-      final bool userExists = await checkIfUserExists();
+    Future.delayed(const Duration(seconds: 3)).then((_) {
+      checkIfUserExists().then((userExists) {
+        if (userExists) {
+          final AuthProvider auth =
+              Provider.of<AuthProvider>(context, listen: false);
 
-      if (userExists) {
-        final AuthProvider auth =
-            Provider.of<AuthProvider>(context, listen: false);
-
-        final Map<String, dynamic> response = await auth.getLoggedInUser();
-        final Future<bool> onboarding = checkIfOnboardingComplete();
-        onboarding.then(
-          (onboarding) {
-            if (response['status']) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => onboarding
-                      ? const MainNavigationScreen()
-                      : const RequiredOnboarding(),
-                ),
-              );
-            } else {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginScreen(),
-                ),
-              );
-            }
-          },
-        );
-      } else {
-        // User does not exist, navigate to login screen
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const LoginScreen(),
-          ),
-        );
-      }
+          auth.getLoggedInUser().then((response) {
+            checkIfOnboardingComplete().then((onboarding) {
+              if (response['status']) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => onboarding
+                        ? const MainNavigationScreen()
+                        : const RequiredOnboarding(),
+                  ),
+                );
+              } else {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
+              }
+            });
+          });
+        } else {
+          // User does not exist, navigate to login screen
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+            ),
+          );
+        }
+      });
     });
   }
 

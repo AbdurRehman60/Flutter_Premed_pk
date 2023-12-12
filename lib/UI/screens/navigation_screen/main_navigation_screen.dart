@@ -27,8 +27,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   final screens = [
     const HomeScreen(),
     const FlashcardHome(),
-    const MarketPlace(),
     const ExpertSolutionHome(),
+    const MarketPlace(),
     const Account(),
   ];
 
@@ -57,12 +57,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     setState(() {});
   }
 
-  void onTapMarketplace() {
+  void onTapExpertSolution() {
     currentIndex = 2;
     setState(() {});
   }
 
-  void onTapExpertSolution() {
+  void onTapMarketplace() {
     currentIndex = 3;
     setState(() {});
   }

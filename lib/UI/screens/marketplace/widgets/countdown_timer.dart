@@ -1,4 +1,6 @@
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
+import 'package:provider/provider.dart';
 
 class CountdownTimerWidget extends StatefulWidget {
   const CountdownTimerWidget({super.key});
@@ -16,6 +18,9 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
   @override
   void initState() {
     super.initState();
+    final bundleProvider = Provider.of<BundleProvider>(context, listen: false);
+    bundleProvider.fetchDiscount();
+
     _resetTimer();
     _startTimer();
   }
@@ -61,6 +66,7 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final bundleProvider = Provider.of<BundleProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 20,
@@ -78,7 +84,7 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '50% OFF',
+              '${bundleProvider.discount} OFF',
               style: PreMedTextTheme().heading1.copyWith(
                     color: PreMedColorTheme().white,
                     fontSize: 40,

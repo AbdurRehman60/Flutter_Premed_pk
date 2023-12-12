@@ -1,5 +1,6 @@
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/user_provider.dart';
 
 class ChangePassword extends StatelessWidget {
   const ChangePassword({super.key});
@@ -21,51 +22,58 @@ class ChangePassword extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Old Password',
-              style: PreMedTextTheme().body.copyWith(
-                    fontWeight: FontWeight.w500,
+          child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: UserProvider().user?.accountType == "google"
+              ? const Center(
+                  child: Text(
+                    "You signed in from google, You can't change your password.",
+                    textAlign: TextAlign.center,
                   ),
-            ),
-            SizedBoxes.verticalMicro,
-            const CustomTextField(
-              hintText: 'Old Password',
-            ),
-            SizedBoxes.verticalMedium,
-            Text(
-              'New Password',
-              style: PreMedTextTheme().body.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-            ),
-            SizedBoxes.verticalMicro,
-            const CustomTextField(
-              hintText: 'New Password',
-            ),
-            SizedBoxes.verticalMedium,
-            Text(
-              'Confirm New Password',
-              style: PreMedTextTheme().body.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-            ),
-            SizedBoxes.verticalMicro,
-            const CustomTextField(
-              hintText: 'Confirm New Password',
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 378),
-              child: CustomButton(
-                buttonText: 'Change Password',
-                onPressed: () {},
-              ),
-            )
-          ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Old Password',
+                      style: PreMedTextTheme().body.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
+                    SizedBoxes.verticalMicro,
+                    const CustomTextField(
+                      hintText: 'Old Password',
+                    ),
+                    SizedBoxes.verticalMedium,
+                    Text(
+                      'New Password',
+                      style: PreMedTextTheme().body.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
+                    SizedBoxes.verticalTiny,
+                    const CustomTextField(
+                      hintText: 'New Password',
+                    ),
+                    SizedBoxes.verticalMedium,
+                    Text(
+                      'Confirm New Password',
+                      style: PreMedTextTheme().body.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
+                    SizedBoxes.verticalTiny,
+                    const CustomTextField(
+                      hintText: 'Confirm New Password',
+                    ),
+                    SizedBoxes.verticalGargangua,
+                    CustomButton(
+                      buttonText: 'Change Password',
+                      onPressed: () {},
+                    )
+                  ],
+                ),
         ),
       )),
     );
