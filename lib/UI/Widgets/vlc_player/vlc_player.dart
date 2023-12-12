@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:premedpk_mobile_app/UI/widgets/vlc_player/video_data.dart';
 import 'package:premedpk_mobile_app/UI/widgets/vlc_player/vlc_player_with_controls.dart';
 
 class CustomVLCPlayer extends StatefulWidget {

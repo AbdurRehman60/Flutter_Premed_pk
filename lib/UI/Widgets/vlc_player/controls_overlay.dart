@@ -60,8 +60,8 @@ class ControlsOverlay extends StatelessWidget {
                           color: _iconColor,
                           iconSize: _playButtonIconSize,
                           icon: const Icon(
-                            Icons.play_arrow,
-                            size: 24,
+                            Icons.play_circle_fill,
+                            size: 8,
                           ),
                         ),
                         // IconButton(

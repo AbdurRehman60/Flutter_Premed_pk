@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "1036205428938-1lut6otfpqao28jqggefhs9h3qe3tl27.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.premedpk_mobile_app",
+            "certificate_hash": "7235dab4d4c1a2d22ee0cf1b8759f9bf6c401254"
+          }
+        },
+        {
+          "client_id": "1036205428938-hvofupdjndp97qbtrr3q2vg73q90enfi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.premedpk_mobile_app",
+            "certificate_hash": "e5dc0f1ce7bcbf9f48a702cbe34acc4bec65dc48"
+          }
+        },
+        {
           "client_id": "1036205428938-7jl9ggo0l1n4cb7v1s5mm7ulgrud2dss.apps.googleusercontent.com",
           "client_type": 3
         }

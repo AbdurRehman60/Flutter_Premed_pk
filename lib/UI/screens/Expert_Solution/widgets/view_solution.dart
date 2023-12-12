@@ -70,95 +70,109 @@ class ViewSolution extends StatelessWidget {
                           color: PreMedColorTheme().neutral200,
                         ),
                       },
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (isLandscape) ...{
-                              Text(
-                                doubt.description,
-                                style: PreMedTextTheme().headline,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2,
-                              ),
-                              SizedBoxes.verticalMedium,
-                              Wrap(
-                                runSpacing: 8,
-                                spacing: 4,
-                                children: tags
-                                    .map((tag) => TagsRow(
-                                          tagName: tag['tagName'],
-                                          isResource: tag['isResource'],
-                                        ))
-                                    .toList(),
-                              ),
-                              SizedBoxes.verticalMedium,
-                              if (doubt.imgURL.isNotEmpty)
-                                Container(
-                                  height: 200,
-                                  width: double.infinity,
-                                  decoration: ShapeDecoration(
-                                    color:
-                                        PreMedColorTheme().primaryColorBlue100,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (isLandscape) ...{
+                            Text(
+                              doubt.description,
+                              style: PreMedTextTheme().headline,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                          },
+                          if (isLandscape) ...{
+                            SizedBoxes.verticalMedium,
+                          },
+                          if (isLandscape) ...{
+                            Wrap(
+                              runSpacing: 8,
+                              spacing: 4,
+                              children: tags
+                                  .map((tag) => TagsRow(
+                                        tagName: tag['tagName'],
+                                        isResource: tag['isResource'],
+                                      ))
+                                  .toList(),
+                            ),
+                          },
+                          if (isLandscape) ...{
+                            SizedBoxes.verticalMedium,
+                          },
+                          if (isLandscape) ...{
+                            if (doubt.imgURL.isNotEmpty)
+                              Container(
+                                height: 200,
+                                width: double.infinity,
+                                decoration: ShapeDecoration(
+                                  color: PreMedColorTheme().primaryColorBlue100,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
                                   ),
-                                  child: Image.network(doubt.imgURL),
-                                )
-                              else
-                                const SizedBox(),
-                              SizedBoxes.verticalMedium,
-                              Text(
-                                doubt.description,
-                                style: PreMedTextTheme().headline,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 7,
-                              ),
-                              SizedBoxes.verticalMedium,
-                              Text(
-                                'Solution',
-                                style: PreMedTextTheme()
-                                    .subtext
-                                    .copyWith(fontWeight: FontWeight.w600),
-                              ),
-                              SizedBoxes.verticalMedium,
-                            },
-                            SizedBox(
-                              width: double.infinity,
-                              height: isLandscape
-                                  ? 400
-                                  : MediaQuery.of(context).size.height,
-                              child: doubt.solvedStatus == 'Solved'
-                                  ? CustomVLCPlayer(
-                                      url: doubt.videoLink,
-                                    )
-                                  : Center(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          color: Colors.amberAccent[100],
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 16, vertical: 8),
-                                          child: Text(
-                                            'Pending',
-                                            textAlign: TextAlign.center,
-                                            style: PreMedTextTheme()
-                                                .headline
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeights.regular),
-                                          ),
+                                ),
+                                child: Image.network(doubt.imgURL),
+                              )
+                            else
+                              const SizedBox(),
+                          },
+                          if (isLandscape) ...{
+                            SizedBoxes.verticalMedium,
+                          },
+                          if (isLandscape) ...{
+                            Text(
+                              doubt.description,
+                              style: PreMedTextTheme().headline,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 7,
+                            ),
+                          },
+                          if (isLandscape) ...{
+                            SizedBoxes.verticalMedium,
+                          },
+                          if (isLandscape) ...{
+                            Text(
+                              'Solution',
+                              style: PreMedTextTheme()
+                                  .subtext
+                                  .copyWith(fontWeight: FontWeight.w600),
+                            ),
+                          },
+                          if (isLandscape) ...{
+                            SizedBoxes.verticalMedium,
+                          },
+                          SizedBox(
+                            width: double.infinity,
+                            height: isLandscape
+                                ? 400
+                                : MediaQuery.of(context).size.height,
+                            child: doubt.solvedStatus == 'Solved'
+                                ? CustomVLCPlayer(
+                                    url: doubt.videoLink,
+                                  )
+                                : Center(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(4),
+                                        color: Colors.amberAccent[100],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 8),
+                                        child: Text(
+                                          'Pending',
+                                          textAlign: TextAlign.center,
+                                          style: PreMedTextTheme()
+                                              .headline
+                                              .copyWith(
+                                                  fontWeight:
+                                                      FontWeights.regular),
                                         ),
                                       ),
                                     ),
-                            )
-                          ],
-                        ),
+                                  ),
+                          )
+                        ],
                       ),
                     ],
                   ),
