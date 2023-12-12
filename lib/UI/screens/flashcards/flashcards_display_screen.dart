@@ -2,7 +2,6 @@ import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_carousel_vie
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class FlashcardDisplayScreen extends StatelessWidget {
-
   const FlashcardDisplayScreen({
     super.key,
     required this.subject,
@@ -22,14 +21,14 @@ class FlashcardDisplayScreen extends StatelessWidget {
               .heading5
               .copyWith(color: PreMedColorTheme().black),
         ),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.menu_rounded,
-                color: PreMedColorTheme().black,
-              ))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {},
+        //       icon: Icon(
+        //         Icons.menu_rounded,
+        //         color: PreMedColorTheme().black,
+        //       ))
+        // ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

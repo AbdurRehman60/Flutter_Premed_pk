@@ -23,6 +23,8 @@ class PremedAssets {
   static String Coins = 'assets/images/coins.png';
   static String ContactUS = 'assets/images/contactus.png';
   static String EmptyCart = 'assets/images/cartemptystate.png';
+  static String Celebration = 'assets/images/happy.png';
+  static String Purchase = 'assets/images/purchase.png';
   //icons
 
   static String EditProfile = 'assets/icons/editprofile.png';

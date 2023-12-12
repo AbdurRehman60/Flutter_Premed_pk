@@ -3,8 +3,8 @@ import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/payment_vide
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 final Map<String, dynamic> meezanNumbers = {
-  'Fahad Niaz Sheikh': '99170105642737',
-  'IBAN #': 'PK50MEZN0099170105642737'
+  'IBAN #': 'PK50MEZN0099170105642737',
+  'Fahad Niaz Sheikh': '99170105642737'
 };
 
 final Map<String, dynamic> easyPaisaNumbers = {
@@ -126,14 +126,6 @@ class _CheckoutState extends State<Checkout> {
                       ),
                     ),
                   ),
-                  // SizedBoxes.verticalMedium,
-                  // Text(
-                  //   'Video Instructions',
-                  //   style: PreMedTextTheme().heading5,
-                  // ),
-                  // SizedBoxes.verticalMedium,
-                  // const MyYoutubePlayer(),
-                  // SizedBoxes.verticalMedium,
                 ],
               ),
             ],
@@ -141,18 +133,19 @@ class _CheckoutState extends State<Checkout> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          backgroundColor: PreMedColorTheme().primaryColorRed,
-          onPressed: () {
-            showModalBottomSheet(
-              isScrollControlled: true,
-              clipBehavior: Clip.hardEdge,
-              context: context,
-              builder: (BuildContext context) {
-                return const PaymentVideo();
-              },
-            );
-          },
-          child: const Icon(Icons.help_outline_outlined)),
+        backgroundColor: PreMedColorTheme().primaryColorBlue,
+        onPressed: () {
+          showModalBottomSheet(
+            isScrollControlled: true,
+            clipBehavior: Clip.hardEdge,
+            context: context,
+            builder: (BuildContext context) {
+              return const PaymentVideo();
+            },
+          );
+        },
+        child: const Icon(Icons.help_outline_outlined),
+      ),
     );
   }
 }

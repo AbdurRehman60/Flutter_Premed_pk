@@ -1,10 +1,12 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/services.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/thankyou.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/upload_payment_image.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/cart_summary.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
+import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:provider/provider.dart';
 
 class PaymentTile extends StatelessWidget {
@@ -25,8 +27,10 @@ class PaymentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CartProvider cartProvider =
-        Provider.of<CartProvider>(context, listen: false);
+    String error = "";
+    bool hasErrors = false;
+
+    final CartProvider cartProvider = Provider.of<CartProvider>(context);
 
     void copyToClipboard(String text) {
       final cleanedText = text.replaceAll('-', '');
@@ -42,9 +46,19 @@ class PaymentTile extends StatelessWidget {
     }
 
     bool validateOrder() {
-      // if (cartProvider.School.isEmpty) {}
-      // return !hasErrors;
-      return true;
+      if (UplaodImageProvider().uploadedImage == null) {
+        cartProvider.errors = {
+          "hasErrors": true,
+          "error": "Please upload payment screenshot.",
+        };
+      } else {
+        cartProvider.errors = {
+          "hasErrors": false,
+          "error": "No Errors",
+        };
+      }
+
+      return !cartProvider.errors["hasErrors"];
     }
 
     void onPlaceOrder() {
@@ -53,11 +67,45 @@ class PaymentTile extends StatelessWidget {
         response.then(
           (response) {
             if (response['status']) {
-              showError(context, response);
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const Thankyou(),
+                ),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  duration: const Duration(seconds: 2),
+                  behavior: SnackBarBehavior.floating,
+                  margin: const EdgeInsets.all(8),
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  content: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "🚀 Order Placed Successfulssssly!",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
             } else {
               showError(context, response);
             }
           },
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(cartProvider.errors['error']),
+            duration: const Duration(seconds: 2),
+          ),
         );
       }
     }
@@ -215,10 +263,31 @@ class PaymentTile extends StatelessWidget {
                   SizedBoxes.verticalExtraGargangua,
                   const CartSummary(),
                   SizedBoxes.verticalMedium,
-                  CustomButton(
-                    buttonText: 'Place Order ->',
-                    onPressed: onPlaceOrder,
-                  ),
+                  if (cartProvider.orderStatus == OrderStatus.processing)
+                    Column(
+                      children: [
+                        SizedBoxes.verticalMedium,
+                        SizedBoxes.verticalMedium,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                )),
+                            SizedBoxes.horizontalMedium,
+                            const Text("Placing Order"),
+                          ],
+                        ),
+                      ],
+                    )
+                  else
+                    CustomButton(
+                      buttonText: 'Place Order ->',
+                      onPressed: onPlaceOrder,
+                    ),
                 ],
               ),
             ),

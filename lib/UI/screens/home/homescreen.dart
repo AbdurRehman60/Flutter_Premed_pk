@@ -32,7 +32,9 @@ class HomeScreen extends StatelessWidget {
                             ),
                             SizedBoxes.vertical2Px,
                             Text(
-                              userProvider.getUserName().split(' ').first,
+                              userProvider.getUserName().split(' ').length > 1
+                                  ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}'
+                                  : userProvider.getUserName().split(' ').first,
                               style: PreMedTextTheme().heading4,
                             ),
                           ],
@@ -60,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                     NotesTile(
                       heading: "Chapter Guides",
                       description:
-                          "Comprehensive study guides for Biology, Chemistry, and Physics, specifically designed to help you in your MDCAT, NUMS and AKU exams.",
+                          "Comprehensive study guides for Biology, Chemistry, and Physics, specifically designed to help you in your MDCAT, NUMS and Private University exams.",
                       icon: PremedAssets.ProvisionalGuides,
                       bgColor: PreMedColorTheme().primaryColorBlue100,
                       btnColor: PreMedColorTheme().primaryColorBlue,

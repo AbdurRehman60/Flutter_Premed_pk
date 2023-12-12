@@ -18,7 +18,7 @@ class OptionalOnboardingForm extends StatefulWidget {
 
 class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
   bool mdcatChecked = false;
-  bool akuChecked = false;
+  bool privateChecked = false;
   bool numsChecked = false;
   TextEditingController parentNameController = TextEditingController();
 
@@ -33,8 +33,8 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
       if (mdcatChecked) {
         intendFor.add('MDCAT');
       }
-      if (akuChecked) {
-        intendFor.add('AKU');
+      if (privateChecked) {
+        intendFor.add('Private');
       }
       if (numsChecked) {
         intendFor.add('NUMS');
@@ -158,11 +158,11 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
                     ),
                     Flexible(
                       child: CustomCheckBox(
-                        label: "AKU",
-                        initialValue: akuChecked,
+                        label: "Private",
+                        initialValue: privateChecked,
                         onChanged: (value) {
                           setState(() {
-                            akuChecked = value;
+                            privateChecked = value;
                             updateIntendFor();
                           });
                         },

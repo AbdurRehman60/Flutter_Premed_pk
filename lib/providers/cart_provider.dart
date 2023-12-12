@@ -1,16 +1,16 @@
 // ignore_for_file: unnecessary_getters_setters, deprecated_member_use
 
-import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/utils/base64_convertor.dart';
 
 enum CouponValidateStatus { init, success, validating }
+
+enum OrderStatus { init, success, processing, error }
 
 class CartProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
@@ -29,6 +29,14 @@ class CartProvider extends ChangeNotifier {
     _validatingStatus = value;
   }
 
+  OrderStatus _orderStatus = OrderStatus.init;
+
+  OrderStatus get orderStatus => _orderStatus;
+
+  set orderStatus(OrderStatus value) {
+    _orderStatus = value;
+  }
+
   String? _couponCode;
   String get couponCode => _couponCode ?? "";
   set couponCode(String value) {
@@ -39,6 +47,17 @@ class CartProvider extends ChangeNotifier {
   double get couponAmount => _couponAmount ?? 0;
   set couponAmount(double value) {
     _couponAmount = value;
+  }
+
+  Map<String, dynamic> _errors = {
+    "hasErrors": false,
+    "error": "",
+  };
+
+  Map<String, dynamic> get errors => _errors;
+
+  set errors(Map<String, dynamic> value) {
+    _errors = value;
   }
 
   List<BundleModel> get selectedBundles => _selectedBundles;
@@ -71,7 +90,7 @@ class CartProvider extends ChangeNotifier {
   double get calculateTotalDiscount {
     double total = 0;
     for (final _ in _selectedBundles) {
-      total = afterDiscountPrice + couponDiscount;
+      total = afterDiscountPrice - couponDiscount;
     }
     return total;
   }
@@ -108,8 +127,27 @@ class CartProvider extends ChangeNotifier {
     notify();
   }
 
+  void resetToDefaults() {
+    _selectedBundles.clear();
+    _validatingStatus = CouponValidateStatus.init;
+    _orderStatus = OrderStatus.init;
+    _couponCode = null;
+    _couponAmount = null;
+    _errors = {
+      "hasErrors": false,
+      "error": "",
+    };
+    _uploadedImage = null;
+
+    notify();
+  }
+
   Future<Map<String, dynamic>> placeOrder() async {
     Map<String, Object?> result;
+
+    _orderStatus = OrderStatus.processing;
+    notify();
+
     try {
       final List<String> bundleIds = _selectedBundles.map((b) => b.id).toList();
 
@@ -119,67 +157,42 @@ class CartProvider extends ChangeNotifier {
         "PaymentProof": await imageToDataUri(
             UplaodImageProvider().uploadedImage!, "image/jpeg"),
       };
+
       if (couponCode.isNotEmpty) {
         purchaseData['CouponCode'] = couponCode;
       }
-      print(purchaseData['CouponCode']);
-      // if (ReferralCode != null && ReferralCode.isNotEmpty) {
-      //   purchaseData["referralCode"] = ReferralCode;
-      // }
-      notify();
 
-      // Call the API function from DioClient
       final response = await _client.post(
         Endpoints.PurchaseBundles,
         data: purchaseData,
       );
+      print(response);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
 
-      if (response == 'Bundle Purchased Successfully') {
-        // API request successful
-        final responseData = response.data;
-
-        // Extract information from the response
-        final message = responseData['message'];
-        final orderData = responseData['order'];
-        // Extract additional information as needed
-
-        // Use the extracted information as needed
-        print('Message: $message');
-        print('Order Data: $orderData');
-
-        // You may want to update the local state or take further actions based on the response
-
-        // Notify listeners to update the UI
-        notify();
-
-        // Return some data or a default value
-        return {
+        result = {
           'status': true,
-          'message': 'Order placed successfully',
-          'data':
-              responseData, // You can adjust this based on what you want to return
+          'message': responseData['message'],
         };
+        resetToDefaults();
       } else {
-        // API request failed
-        print(
-            'Failed to send data to API. Status code: ${response.statusCode}');
-        // Handle the error, e.g., show an error message
-
-        // Return an error status
-        return {
+        _orderStatus = OrderStatus.error;
+        notify();
+        result = {
           'status': false,
-          'message': 'Failed to place the order',
+          'message': json.decode(response.data['error']),
         };
       }
     } on DioError catch (e) {
-      // Handle DioError
-      print('DioError: ${e.message}');
-
+      _orderStatus = OrderStatus.error;
+      notify();
       return {
         'status': false,
-        'message': e.message,
+        'message': e.response!.data['message'],
       };
     }
+    return result;
   }
 
   Future<Map<String, dynamic>> verifyCouponCode(String coupon) async {

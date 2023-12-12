@@ -29,7 +29,8 @@ class CartSummary extends StatelessWidget {
           discountPercentage: (cartProvider.totalOriginalPrice -
                   cartProvider.afterDiscountPrice) /
               cartProvider.totalOriginalPrice,
-          price: cartProvider.afterDiscountPrice,
+          price:
+              cartProvider.totalOriginalPrice - cartProvider.afterDiscountPrice,
         ),
         SizedBoxes.verticalTiny,
         DiscountRow(
@@ -48,7 +49,7 @@ class CartSummary extends StatelessWidget {
         Row(
           children: [
             Text(
-              'Rs. ${cartProvider.totalOriginalPrice - cartProvider.calculateTotalDiscount}',
+              'Rs. ${cartProvider.calculateTotalDiscount}',
               style: PreMedTextTheme().heading3.copyWith(
                     color: PreMedColorTheme().primaryColorRed,
                   ),

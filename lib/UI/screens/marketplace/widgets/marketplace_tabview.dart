@@ -26,7 +26,7 @@ class MarketplaceTabView extends StatelessWidget {
               tabs: const [
                 Tab(text: 'All Bundles'),
                 Tab(text: 'Special Offers'),
-                Tab(text: 'AKU'),
+                Tab(text: 'Private'),
                 Tab(text: 'MDCAT'),
                 Tab(text: 'NUMS'),
                 Tab(text: 'Courses'),
@@ -42,8 +42,8 @@ class MarketplaceTabView extends StatelessWidget {
                   buildListView(context, 'All Bundles'),
                   // Content for 'Special Offers' Tab
                   buildListView(context, 'Special Offers'),
-                  // Content for 'AKU' Tab
-                  buildListView(context, 'AKU'),
+                  // Content for 'Private' Tab
+                  buildListView(context, 'Private'),
                   // Content for 'MDCAT' Tab
                   buildListView(context, 'MDCAT'),
                   // Content for 'NUMS' Tab
