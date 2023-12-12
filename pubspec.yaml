@@ -109,6 +109,7 @@ flutter:
     - assets/images/coins.png
     - assets/images/contactus.png
     - assets/images/cartemptystate.png
+    - assets/images/happy.png
 
     #icons
     - assets/icons/editprofile.png

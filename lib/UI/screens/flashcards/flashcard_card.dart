@@ -4,7 +4,6 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/flashcard_model.dart';
 
 class FlashcardCard extends StatefulWidget {
-
   const FlashcardCard({super.key, required this.flashcard});
   final FlashcardModel flashcard;
 
@@ -112,7 +111,7 @@ class _FlashcardCardState extends State<FlashcardCard> {
                     .copyWith(color: PreMedColorTheme().primaryColorRed),
               ),
               Html(
-                data: widget.flashcard.explanationText,
+                data: widget.flashcard.correctOptionText,
                 style: {
                   'p': Style(
                     textAlign: TextAlign.center,
