@@ -1,147 +1,147 @@
-import 'package:fijkplayer/fijkplayer.dart';
-import 'package:premedpk_mobile_app/constants/constants_export.dart';
+// import 'package:fijkplayer/fijkplayer.dart';
+// import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
-class CustomFijkPanel extends StatefulWidget {
+// class CustomFijkPanel extends StatefulWidget {
 
-  const CustomFijkPanel({
-    super.key,
-    required this.player,
-    required this.data,
-    required this.buildContext,
-    required this.viewSize,
-    required this.texturePos,
-  });
-  final FijkPlayer player;
-  final FijkData data;
-  final BuildContext buildContext;
-  final Size viewSize;
-  final Rect texturePos;
+//   const CustomFijkPanel({
+//     super.key,
+//     required this.player,
+//     required this.data,
+//     required this.buildContext,
+//     required this.viewSize,
+//     required this.texturePos,
+//   });
+//   final FijkPlayer player;
+//   final FijkData data;
+//   final BuildContext buildContext;
+//   final Size viewSize;
+//   final Rect texturePos;
 
-  @override
-  State<CustomFijkPanel> createState() => _CustomFijkPanelState();
-}
+//   @override
+//   State<CustomFijkPanel> createState() => _CustomFijkPanelState();
+// }
 
-class _CustomFijkPanelState extends State<CustomFijkPanel> {
-  FijkPlayer get player => widget.player;
-  bool _playing = false;
-  double _sliderValue = 0.0;
-  double _sliderMax = 0.0; // Maximum slider value
-  late Timer _sliderUpdateTimer;
+// class _CustomFijkPanelState extends State<CustomFijkPanel> {
+//   FijkPlayer get player => widget.player;
+//   bool _playing = false;
+//   double _sliderValue = 0.0;
+//   double _sliderMax = 0.0; // Maximum slider value
+//   late Timer _sliderUpdateTimer;
 
-  @override
-  void initState() {
-    super.initState();
-    widget.player.addListener(_playerValueChanged);
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     widget.player.addListener(_playerValueChanged);
+//   }
 
-  void _playerValueChanged() {
-    final FijkValue value = player.value;
+//   void _playerValueChanged() {
+//     final FijkValue value = player.value;
 
-    final bool playing = (value.state == FijkState.started);
-    if (playing != _playing) {
-      setState(() {
-        _sliderValue = player.currentPos.inMilliseconds.toDouble();
-        _playing = playing;
-      });
-    }
+//     final bool playing = (value.state == FijkState.started);
+//     if (playing != _playing) {
+//       setState(() {
+//         _sliderValue = player.currentPos.inMilliseconds.toDouble();
+//         _playing = playing;
+//       });
+//     }
 
-    if (_sliderMax == 0.0 && value.prepared) {
-      // Set the maximum slider value when you have the duration information.
-      setState(() {
-        _sliderMax = value.duration.inMilliseconds.toDouble();
-      });
-    }
-  }
+//     if (_sliderMax == 0.0 && value.prepared) {
+//       // Set the maximum slider value when you have the duration information.
+//       setState(() {
+//         _sliderMax = value.duration.inMilliseconds.toDouble();
+//       });
+//     }
+//   }
 
-  void skipForward() {
-    final currentPosition = player.currentPos.inMilliseconds;
-    final targetPosition =
-        currentPosition + 10000; // 10 seconds in milliseconds
-    player.seekTo(targetPosition);
-  }
+//   void skipForward() {
+//     final currentPosition = player.currentPos.inMilliseconds;
+//     final targetPosition =
+//         currentPosition + 10000; // 10 seconds in milliseconds
+//     player.seekTo(targetPosition);
+//   }
 
-  void skipBackward() {
-    final currentPosition = player.currentPos.inMilliseconds;
-    final targetPosition =
-        currentPosition - 10000; // 10 seconds in milliseconds
-    player.seekTo(targetPosition);
-  }
+//   void skipBackward() {
+//     final currentPosition = player.currentPos.inMilliseconds;
+//     final targetPosition =
+//         currentPosition - 10000; // 10 seconds in milliseconds
+//     player.seekTo(targetPosition);
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    final Rect rect = Rect.fromLTRB(
-        max(0.0, widget.texturePos.left),
-        max(0.0, widget.texturePos.top),
-        min(widget.viewSize.width, widget.texturePos.right),
-        min(widget.viewSize.height, widget.texturePos.bottom));
+//   @override
+//   Widget build(BuildContext context) {
+//     final Rect rect = Rect.fromLTRB(
+//         max(0.0, widget.texturePos.left),
+//         max(0.0, widget.texturePos.top),
+//         min(widget.viewSize.width, widget.texturePos.right),
+//         min(widget.viewSize.height, widget.texturePos.bottom));
 
-    return Positioned.fromRect(
-      rect: rect,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            alignment: Alignment.bottomLeft,
-            child: IconButton(
-              icon: Icon(
-                _playing ? Icons.pause : Icons.play_arrow,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                _playing ? widget.player.pause() : widget.player.start();
-              },
-            ),
-          ),
-          Slider(
-            value: _sliderValue,
-            max: _sliderMax, // Set the maximum slider value
-            onChanged: (double value) {
-              setState(() {
-                _sliderValue = value;
-              });
-            },
-            onChangeEnd: (double value) {
-              final positionInMilliseconds = value.toInt();
-              player.seekTo(positionInMilliseconds);
-            },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: const Icon(
-                  Icons.replay_10, // Icon for skip backward
-                  color: Colors.red,
-                ),
-                onPressed: skipBackward,
-              ),
-              IconButton(
-                icon: Icon(
-                  _playing ? Icons.pause : Icons.play_arrow,
-                  color: const Color.fromRGBO(255, 255, 255, 1),
-                ),
-                onPressed: () {
-                  _playing ? widget.player.pause() : widget.player.start();
-                },
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.forward_10, // Icon for skip forward
-                  color: Colors.red,
-                ),
-                onPressed: skipForward,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+//     return Positioned.fromRect(
+//       rect: rect,
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.end,
+//         children: [
+//           Container(
+//             alignment: Alignment.bottomLeft,
+//             child: IconButton(
+//               icon: Icon(
+//                 _playing ? Icons.pause : Icons.play_arrow,
+//                 color: Colors.white,
+//               ),
+//               onPressed: () {
+//                 _playing ? widget.player.pause() : widget.player.start();
+//               },
+//             ),
+//           ),
+//           Slider(
+//             value: _sliderValue,
+//             max: _sliderMax, // Set the maximum slider value
+//             onChanged: (double value) {
+//               setState(() {
+//                 _sliderValue = value;
+//               });
+//             },
+//             onChangeEnd: (double value) {
+//               final positionInMilliseconds = value.toInt();
+//               player.seekTo(positionInMilliseconds);
+//             },
+//           ),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               IconButton(
+//                 icon: const Icon(
+//                   Icons.replay_10, // Icon for skip backward
+//                   color: Colors.red,
+//                 ),
+//                 onPressed: skipBackward,
+//               ),
+//               IconButton(
+//                 icon: Icon(
+//                   _playing ? Icons.pause : Icons.play_arrow,
+//                   color: const Color.fromRGBO(255, 255, 255, 1),
+//                 ),
+//                 onPressed: () {
+//                   _playing ? widget.player.pause() : widget.player.start();
+//                 },
+//               ),
+//               IconButton(
+//                 icon: const Icon(
+//                   Icons.forward_10, // Icon for skip forward
+//                   color: Colors.red,
+//                 ),
+//                 onPressed: skipForward,
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    player.removeListener(_playerValueChanged);
-    _sliderUpdateTimer.cancel();
-  }
-}
+//   @override
+//   void dispose() {
+//     super.dispose();
+//     player.removeListener(_playerValueChanged);
+//     _sliderUpdateTimer.cancel();
+//   }
+// }

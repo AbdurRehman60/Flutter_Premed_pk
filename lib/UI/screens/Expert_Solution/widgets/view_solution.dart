@@ -1,5 +1,6 @@
+import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/tags_row.dart';
-import 'package:premedpk_mobile_app/UI/widgets/video_player/video_player.dart';
+import 'package:premedpk_mobile_app/UI/widgets/vlc_player/vlc_player.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
 
@@ -29,112 +30,142 @@ class ViewSolution extends StatelessWidget {
       else
         {},
     ];
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('View Solution'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Doubt',
-                style: PreMedTextTheme().heading5,
-                textAlign: TextAlign.left,
-              ),
-              Divider(
-                color: PreMedColorTheme().neutral200,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      doubt.description,
-                      style: PreMedTextTheme().headline,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                    ),
-                    SizedBoxes.verticalMedium,
-                    Wrap(
-                      runSpacing: 8,
-                      spacing: 4,
-                      children: tags
-                          .map((tag) => TagsRow(
-                                tagName: tag['tagName'],
-                                isResource: tag['isResource'],
-                              ))
-                          .toList(),
-                    ),
-                    SizedBoxes.verticalMedium,
-                    if (doubt.imgURL.isNotEmpty)
-                      Container(
-                        height: 200,
-                        width: double.infinity,
-                        decoration: ShapeDecoration(
-                          color: PreMedColorTheme().primaryColorBlue100,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
+    return WillPopScope(
+      onWillPop: () async {
+        if (MediaQuery.of(context).orientation == Orientation.landscape) {
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
+          ]);
+          // Show system overlays
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+              overlays: SystemUiOverlay.values);
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+          appBar: MediaQuery.of(context).orientation == Orientation.portrait
+              ? AppBar(
+                  centerTitle: true,
+                  title: const Text('View Solution'),
+                )
+              : null,
+          body: OrientationBuilder(
+            builder: (context, orientation) {
+              final bool isLandscape = orientation == Orientation.portrait;
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(isLandscape ? 16.0 : 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (isLandscape) ...{
+                        Text(
+                          'Doubt',
+                          style: PreMedTextTheme().heading5,
+                          textAlign: TextAlign.left,
                         ),
-                        child: Image.network(doubt.imgURL),
-                      )
-                    else
-                      const SizedBox(),
-                    SizedBoxes.verticalMedium,
-                    Text(
-                      doubt.description,
-                      style: PreMedTextTheme().headline,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 7,
-                    ),
-                    SizedBoxes.verticalMedium,
-                    Text(
-                      'Solution',
-                      style: PreMedTextTheme()
-                          .subtext
-                          .copyWith(fontWeight: FontWeight.w600),
-                    ),
-                    SizedBoxes.verticalMedium,
-                    SizedBox(
-                      width: double.infinity,
-                      height: 180,
-                      child: doubt.solvedStatus == 'Solved'
-                          ? const VideoScreen(
-                              // url: doubt.videoLink,
-                              url:
-                                  'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-                            )
-                          : Center(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
-                                  color: Colors.amberAccent[100],
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 8),
-                                  child: Text(
-                                    'Pending',
-                                    textAlign: TextAlign.center,
-                                    style: PreMedTextTheme().headline.copyWith(
-                                        fontWeight: FontWeights.regular),
-                                  ),
-                                ),
+                        Divider(
+                          color: PreMedColorTheme().neutral200,
+                        ),
+                      },
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (isLandscape) ...{
+                              Text(
+                                doubt.description,
+                                style: PreMedTextTheme().headline,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
                               ),
-                            ),
-                    )
-                  ],
+                              SizedBoxes.verticalMedium,
+                              Wrap(
+                                runSpacing: 8,
+                                spacing: 4,
+                                children: tags
+                                    .map((tag) => TagsRow(
+                                          tagName: tag['tagName'],
+                                          isResource: tag['isResource'],
+                                        ))
+                                    .toList(),
+                              ),
+                              SizedBoxes.verticalMedium,
+                              if (doubt.imgURL.isNotEmpty)
+                                Container(
+                                  height: 200,
+                                  width: double.infinity,
+                                  decoration: ShapeDecoration(
+                                    color:
+                                        PreMedColorTheme().primaryColorBlue100,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                  ),
+                                  child: Image.network(doubt.imgURL),
+                                )
+                              else
+                                const SizedBox(),
+                              SizedBoxes.verticalMedium,
+                              Text(
+                                doubt.description,
+                                style: PreMedTextTheme().headline,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 7,
+                              ),
+                              SizedBoxes.verticalMedium,
+                              Text(
+                                'Solution',
+                                style: PreMedTextTheme()
+                                    .subtext
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              SizedBoxes.verticalMedium,
+                            },
+                            SizedBox(
+                              width: double.infinity,
+                              height: isLandscape
+                                  ? 400
+                                  : MediaQuery.of(context).size.height,
+                              child: doubt.solvedStatus == 'Solved'
+                                  ? CustomVLCPlayer(
+                                      url: doubt.videoLink,
+                                    )
+                                  : Center(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                          color: Colors.amberAccent[100],
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 8),
+                                          child: Text(
+                                            'Pending',
+                                            textAlign: TextAlign.center,
+                                            style: PreMedTextTheme()
+                                                .headline
+                                                .copyWith(
+                                                    fontWeight:
+                                                        FontWeights.regular),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
+              );
+            },
+          )),
     );
   }
 }
