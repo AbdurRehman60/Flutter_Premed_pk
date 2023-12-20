@@ -28,6 +28,25 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need to access the device gallery (photo library)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need to access the device camera</string>
+	<key>GIDClientID</key>
+	<string>1036205428938-oomnrs6bm8dnbmduhhbjp3hiagdpqjer.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				
+				<string>com.googleusercontent.apps.1036205428938-oomnrs6bm8dnbmduhhbjp3hiagdpqjer</string>
+			</array>
+		</dict>
+	</array>
+	
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
