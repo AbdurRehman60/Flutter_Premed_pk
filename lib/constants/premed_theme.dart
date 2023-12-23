@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class PreMedTheme {
-
   PreMedTheme({
     PreMedColorTheme? ColorTheme,
     PreMedTextTheme? TextTheme,
@@ -48,12 +47,12 @@ class PreMedTheme {
         backgroundColor: _ColorTheme.primaryColorRed,
         foregroundColor: _ColorTheme.white,
         systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Color.fromARGB(20, 0, 0, 0),
-          statusBarIconBrightness: Brightness.dark,
-          systemNavigationBarColor: Colors.transparent,
-          systemNavigationBarDividerColor: Colors.transparent,
+          // statusBarColor: Color.fromARGB(208, 204, 13, 13),
+          // statusBarIconBrightness: Brightness.dark,
+          systemNavigationBarColor: Colors.white,
+          systemNavigationBarDividerColor: Colors.white,
         ),
-        elevation: 0,
+        // elevation: 0,
       );
 
   TabBarTheme get tabBarTheme => TabBarTheme(

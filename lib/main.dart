@@ -6,6 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/splash_screen/splash_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
@@ -16,11 +17,13 @@ import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:premedpk_mobile_app/utils/services/notifications/firebase_messaging_api.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
 List<CameraDescription> cameras = [];
+final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   try {
@@ -33,6 +36,7 @@ Future<void> main() async {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
     };
+    await FirebaseMessagingAPI().initNotifications();
     cameras = await availableCameras();
   } on CameraException catch (e) {
     print('Error in fetching the cameras: $e');
@@ -63,11 +67,13 @@ class MyApp extends StatelessWidget {
         routes: {
           '/ExpertSolution': (context) => const AskanExpert(),
           '/Checkout': (context) => const Checkout(),
+          '/Marketplace': (context) => const MarketPlace(),
         },
-        title: 'Flutter Demo',
+        title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
         home: const SplashScreen(),
+        navigatorKey: navigatorKey,
       ),
     );
   }

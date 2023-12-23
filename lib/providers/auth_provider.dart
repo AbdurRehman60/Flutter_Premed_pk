@@ -10,6 +10,7 @@ import 'package:premedpk_mobile_app/models/user_model.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/utils/dialCode_to_country.dart';
 import 'package:premedpk_mobile_app/utils/services/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum Status {
   NotLoggedIn,
@@ -142,6 +143,17 @@ class AuthProvider extends ChangeNotifier {
 
         if (responseData["success"]) {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
+
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+          final String? fcmToken = prefs.getString('fcmToken');
+
+          await _client.post(
+            Endpoints.SaveFCMToken,
+            data: {'fcmToken': fcmToken},
+          );
+
+          //TO-DO SAVE USER LOGIN DETAILS (MOBILE DEVICE ETC.)
 
           if (userResponse['status']) {
             result = {
@@ -399,6 +411,14 @@ class AuthProvider extends ChangeNotifier {
     notify();
 
     try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      final String? fcmToken = prefs.getString('fcmToken');
+      await _client.post(
+        Endpoints.DeleteFCMToken,
+        data: {'fcmToken': fcmToken},
+      );
+
       final Response response = await _client.logout(
         Endpoints.logout,
       );
