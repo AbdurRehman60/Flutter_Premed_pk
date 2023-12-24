@@ -103,7 +103,7 @@ class FirebaseMessagingAPI {
       'fcmToken',
       fCMToken!,
     );
-
+    await _firebaseMessaging.subscribeToTopic('allDownloads');
     initPushNotifications();
     initLocalNotifications();
   }

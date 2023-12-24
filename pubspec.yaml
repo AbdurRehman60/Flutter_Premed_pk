@@ -112,6 +112,7 @@ flutter:
     - assets/images/contactus.png
     - assets/images/cartemptystate.png
     - assets/images/happy.png
+    - assets/images/purchase.png
 
     #icons
     - assets/icons/editprofile.png
