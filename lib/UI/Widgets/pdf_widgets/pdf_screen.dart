@@ -111,7 +111,9 @@ class _PdfViewState extends State<PdfScreen> {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: PreMedColorTheme().white,
-            iconTheme: IconThemeData(color: PreMedColorTheme().primaryColorRed),
+            iconTheme: IconThemeData(
+              color: PreMedColorTheme().primaryColorRed,
+            ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -126,52 +128,55 @@ class _PdfViewState extends State<PdfScreen> {
               ],
             ),
             actions: [
-              IconButton(
-                onPressed: () {
-                  if (!isDownloading) {
-                    FileDownloader.downloadFile(
-                      url: widget.note.notesURL.trim(),
-                      name: '${widget.note.title.trim()}_PreMed.PK',
-                      notificationType: NotificationType.all,
-                      onDownloadRequestIdReceived: (downloadId) {
-                        setState(() {
-                          isDownloading = true;
-                        });
-                      },
-                      onDownloadCompleted: (path) {
-                        setState(() {
-                          isDownloading = false;
-                        });
-                        showSnackbar(
-                          context,
-                          "Download Complete",
-                          SnackbarType.SUCCESS,
-                        );
-                      },
-                      onDownloadError: (errorMessage) {
-                        setState(() {
-                          isDownloading = false;
-                        });
-                        showSnackbar(
-                          context,
-                          errorMessage,
-                          SnackbarType.INFO,
-                        );
-                      },
-                    );
-                  }
-                },
-                icon: isDownloading
-                    ? const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.5,
-                        ))
-                    : const Icon(
-                        Icons.download,
-                      ),
-              ),
+              if (Platform.isAndroid)
+                IconButton(
+                  onPressed: () {
+                    if (!isDownloading) {
+                      FileDownloader.downloadFile(
+                        url: widget.note.notesURL.trim(),
+                        name: '${widget.note.title.trim()}_PreMed.PK',
+                        notificationType: NotificationType.all,
+                        onDownloadRequestIdReceived: (downloadId) {
+                          setState(() {
+                            isDownloading = true;
+                          });
+                        },
+                        onDownloadCompleted: (path) {
+                          setState(() {
+                            isDownloading = false;
+                          });
+                          showSnackbar(
+                            context,
+                            "Download Complete",
+                            SnackbarType.SUCCESS,
+                          );
+                        },
+                        onDownloadError: (errorMessage) {
+                          setState(() {
+                            isDownloading = false;
+                          });
+                          showSnackbar(
+                            context,
+                            errorMessage,
+                            SnackbarType.INFO,
+                          );
+                        },
+                      );
+                    }
+                  },
+                  icon: isDownloading
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                          ))
+                      : const Icon(
+                          Icons.download,
+                        ),
+                )
+              else
+                SizedBox(),
               IconButton(
                 onPressed: openDemarcationBottomSheet,
                 icon: const Icon(Icons.menu),

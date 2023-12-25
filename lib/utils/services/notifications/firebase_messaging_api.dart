@@ -7,9 +7,11 @@ import 'package:premedpk_mobile_app/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
-  print(
-    message.notification.toString(),
-  );
+  if (kDebugMode) {
+    print(
+      message.notification,
+    );
+  }
 }
 
 class FirebaseMessagingAPI {
@@ -18,18 +20,12 @@ class FirebaseMessagingAPI {
   final _androidChannel = const AndroidNotificationChannel(
     'high_importance_channel',
     'High Important Notifications',
+    importance: Importance.high,
+    enableLights: true,
     description: "This Channel is used for important notifications",
   );
 
   final _localNotifications = FlutterLocalNotificationsPlugin();
-
-  void handleMessage(RemoteMessage? message) {
-    if (message == null) {
-      return;
-    }
-
-    navigatorKey.currentState?.pushNamed("/MarketPlace");
-  }
 
   Future<void> initPushNotifications() async {
     await FirebaseMessaging.instance
@@ -39,9 +35,17 @@ class FirebaseMessagingAPI {
       sound: true,
     );
 
-    FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
+    try {
+      await FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error handling initial message: $e");
+      }
+    }
 
-    FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      handleMessage(message);
+    });
 
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
 
@@ -77,10 +81,8 @@ class FirebaseMessagingAPI {
 
     await _localNotifications.initialize(
       settings,
-      onDidReceiveBackgroundNotificationResponse: (payload) {
-        // Ensure that payload is a String before decoding
-        final Map<String, dynamic> messageMap = jsonDecode(payload as String);
-        final message = RemoteMessage.fromMap(messageMap);
+      onDidReceiveNotificationResponse: (playload) {
+        final message = RemoteMessage.fromMap(jsonDecode(playload.payload!));
         handleMessage(message);
       },
     );
@@ -94,17 +96,27 @@ class FirebaseMessagingAPI {
   Future<void> initNotifications() async {
     await _firebaseMessaging.requestPermission();
     final fCMToken = await _firebaseMessaging.getToken();
-    if (kDebugMode) {
-      print('Token $fCMToken');
+    if (fCMToken != null) {
+      if (kDebugMode) {
+        print('Token $fCMToken');
+      }
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('fcmToken', fCMToken);
+      await _firebaseMessaging.subscribeToTopic('allDownloads');
+      initPushNotifications();
+      initLocalNotifications();
+    } else {
+      if (kDebugMode) {
+        print('Failed to get FCM token');
+      }
     }
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  }
 
-    await prefs.setString(
-      'fcmToken',
-      fCMToken!,
-    );
-    await _firebaseMessaging.subscribeToTopic('allDownloads');
-    initPushNotifications();
-    initLocalNotifications();
+  void handleMessage(RemoteMessage? message) {
+    if (message == null) {
+      return;
+    }
+
+    navigatorKey.currentState?.pushNamed("/MarketPlace");
   }
 }

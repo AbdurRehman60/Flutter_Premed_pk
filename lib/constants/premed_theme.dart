@@ -46,13 +46,6 @@ class PreMedTheme {
   AppBarTheme get appBarTheme => AppBarTheme(
         backgroundColor: _ColorTheme.primaryColorRed,
         foregroundColor: _ColorTheme.white,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          // statusBarColor: Color.fromARGB(208, 204, 13, 13),
-          // statusBarIconBrightness: Brightness.dark,
-          systemNavigationBarColor: Colors.white,
-          systemNavigationBarDividerColor: Colors.white,
-        ),
-        // elevation: 0,
       );
 
   TabBarTheme get tabBarTheme => TabBarTheme(

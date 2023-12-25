@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/cart_drawer.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/cart_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/countdown_timer.dart';
@@ -19,27 +20,32 @@ class MarketPlace extends StatelessWidget {
     bundleProvider.fetchDiscount();
     return Scaffold(
       appBar: AppBar(
-        title: GradientText(
-          'PreMed.PK Bundles',
-          style: PreMedTextTheme().heading5,
-          colors: [
-            PreMedColorTheme().primaryColorBlue,
-            PreMedColorTheme().primaryColorRed,
-          ],
-        ),
-        actions: [
-          Builder(
-            builder: (BuildContext builderContext) => TextButton(
-              onPressed: () {
-                Scaffold.of(builderContext).openEndDrawer();
-              },
-              child: const CartIcon(),
-            ),
+          title: GradientText(
+            'PreMed.PK Bundles',
+            style: PreMedTextTheme().heading5,
+            colors: [
+              PreMedColorTheme().primaryColorBlue,
+              PreMedColorTheme().primaryColorRed,
+            ],
           ),
-        ],
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-      ),
+          actions: [
+            Builder(
+              builder: (BuildContext builderContext) => TextButton(
+                onPressed: () {
+                  Scaffold.of(builderContext).openEndDrawer();
+                },
+                child: const CartIcon(),
+              ),
+            ),
+          ],
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Color.fromARGB(14, 0, 0, 0),
+            statusBarIconBrightness: Brightness.dark,
+            systemNavigationBarColor: Colors.white,
+            systemNavigationBarDividerColor: Colors.white,
+          )),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [

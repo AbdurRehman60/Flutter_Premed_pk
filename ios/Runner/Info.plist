@@ -40,8 +40,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				
+			<array>				
 				<string>com.googleusercontent.apps.1036205428938-oomnrs6bm8dnbmduhhbjp3hiagdpqjer</string>
 			</array>
 		</dict>

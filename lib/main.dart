@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
@@ -52,6 +53,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Color.fromARGB(14, 0, 0, 0),
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarDividerColor: Colors.white,
+    ));
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
