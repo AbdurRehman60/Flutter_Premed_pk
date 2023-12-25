@@ -177,18 +177,21 @@ class _PdfViewState extends State<PdfScreen> {
                 )
               else
                 const SizedBox(),
-              IconButton(
-                onPressed: openDemarcationBottomSheet,
-                icon: const Icon(Icons.menu),
-              )
+              if (!widget.note.isGuide)
+                IconButton(
+                  onPressed: openDemarcationBottomSheet,
+                  icon: const Icon(Icons.menu),
+                )
+              else
+                const SizedBox(),
             ],
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: PDF(
               fitPolicy: FitPolicy.BOTH,
-              autoSpacing: false,
               pageSnap: false,
+              autoSpacing: false,
               onPageChanged: (int? current, int? total) {
                 currentPage = current! + 1;
                 _pageCountController.add('${currentPage + 1} - $total');
@@ -196,7 +199,7 @@ class _PdfViewState extends State<PdfScreen> {
               onViewCreated: (PDFViewController pdfViewController) async {
                 _pdfViewController.complete(pdfViewController);
                 await Future.delayed(
-                  const Duration(milliseconds: 50),
+                  const Duration(milliseconds: 150),
                 );
                 final int current =
                     await pdfViewController.getCurrentPage() ?? 0;
@@ -204,7 +207,7 @@ class _PdfViewState extends State<PdfScreen> {
 
                 setState(() {
                   currentPage = current + 1;
-                  maxPage = pageCount ?? 0;
+                  maxPage = pageCount ?? 2;
                 });
 
                 _pageCountController.add('${currentPage + 1} - $maxPage');
@@ -215,19 +218,25 @@ class _PdfViewState extends State<PdfScreen> {
                 child: Text('$progress %'),
               ),
               errorWidget: (dynamic error) => Center(
-                child: Text(
-                  error.toString(),
+                child: Center(
+                  child: EmptyState(
+                      displayImage: PremedAssets.Notfoundemptystate,
+                      title: 'Oops! Something Went Wrong',
+                      body:
+                          "We're having trouble fetching the PDF right now. Please try again later, and we hope to have it ready for you soon."),
                 ),
               ),
             ),
           ),
           bottomNavigationBar: GestureDetector(
             onVerticalDragEnd: (details) {
-              openDemarcationBottomSheet();
+              if (!widget.note.isGuide) {
+                openDemarcationBottomSheet();
+              }
             },
             child: Padding(
               padding:
-                  const EdgeInsets.only(left: 8, right: 8, bottom: 2, top: 2),
+                  const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

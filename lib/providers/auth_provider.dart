@@ -25,7 +25,7 @@ class AuthProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
 
   Status _loggedInStatus = Status.NotLoggedIn;
-  Status _signUpStatus = Status.Authenticating;
+  Status _signUpStatus = Status.NotLoggedIn;
 
   Status get loggedInStatus => _loggedInStatus;
 
@@ -156,20 +156,23 @@ class AuthProvider extends ChangeNotifier {
           //TO-DO SAVE USER LOGIN DETAILS (MOBILE DEVICE ETC.)
 
           if (userResponse['status']) {
+            _loggedInStatus = Status.LoggedIn;
+            notify();
             result = {
               'status': userResponse["status"],
               'message': userResponse["message"],
             };
           } else {
+            _loggedInStatus = Status.NotLoggedIn;
+            notify();
             result = {
               'status': userResponse["status"],
               'message': userResponse["message"],
             };
           }
-
-          _loggedInStatus = Status.LoggedIn;
-          notify();
         } else {
+          _loggedInStatus = Status.NotLoggedIn;
+          notify();
           result = {
             'status': responseData["success"],
             'message': responseData["status"],
@@ -195,6 +198,7 @@ class AuthProvider extends ChangeNotifier {
       };
     }
 
+    notify();
     return result;
   }
 
@@ -455,15 +459,13 @@ class AuthProvider extends ChangeNotifier {
     Map<String, Object?> result;
 
     try {
-      _loggedInStatus = Status.Authenticating;
-      notify();
-
       final user = await googleSignIn.signIn();
       if (user == null) {
         result = {
           'status': false,
           'message': 'No Account Selected',
         };
+
         return result;
       }
       _googleUser = user;
@@ -501,9 +503,6 @@ class AuthProvider extends ChangeNotifier {
                 'message': userResponse["message"],
               };
             }
-
-            _loggedInStatus = Status.LoggedIn;
-            notify();
           } else {
             result = {
               'status': responseData["success"],
@@ -511,18 +510,12 @@ class AuthProvider extends ChangeNotifier {
             };
           }
         } else {
-          _loggedInStatus = Status.NotLoggedIn;
-          notify();
-
           result = {
             'status': false,
             'message': json.decode(response.data),
           };
         }
       } on DioException catch (e) {
-        _loggedInStatus = Status.NotLoggedIn;
-        notify();
-
         result = {
           'status': false,
           'message': e.message,
@@ -532,9 +525,6 @@ class AuthProvider extends ChangeNotifier {
       _googleUser = null;
       await googleSignIn.disconnect();
     } catch (e) {
-      _loggedInStatus = Status.NotLoggedIn;
-      notify();
-
       result = {
         'status': false,
         'message': e.toString(),

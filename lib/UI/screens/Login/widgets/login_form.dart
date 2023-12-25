@@ -102,38 +102,60 @@ class _LoginFormState extends State<LoginForm> {
                   validator: (value) => validatePassword(value),
                 ),
                 SizedBoxes.verticalBig,
-                CustomButton(
-                  buttonText: 'Login',
-                  onPressed: onLoginPressed,
-                ),
-                SizedBoxes.verticalBig,
-                const OrDivider(),
-                SizedBoxes.verticalLarge,
-                const GoogleLogin(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Don't have an account?",
-                      style: PreMedTextTheme().subtext,
-                    ),
-                    TextButton(
-                      child: Text(
-                        'SignUp',
-                        style: PreMedTextTheme().subtext.copyWith(
-                            color: PreMedColorTheme().primaryColorRed),
+                if (auth.loggedInStatus == Status.Authenticating) ...{
+                  SizedBoxes.verticalBig,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.0,
+                        ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignUpScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                      SizedBoxes.horizontalMedium,
+                      Text(
+                        'Logging in',
+                        style: PreMedTextTheme().subtext,
+                      ),
+                    ],
+                  ),
+                  SizedBoxes.verticalLarge,
+                } else ...{
+                  CustomButton(
+                    buttonText: 'Login',
+                    onPressed: onLoginPressed,
+                  ),
+                  SizedBoxes.verticalBig,
+                  const OrDivider(),
+                  SizedBoxes.verticalLarge,
+                  const GoogleLogin(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have an account?",
+                        style: PreMedTextTheme().subtext,
+                      ),
+                      TextButton(
+                        child: Text(
+                          'SignUp',
+                          style: PreMedTextTheme().subtext.copyWith(
+                              color: PreMedColorTheme().primaryColorRed),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SignUpScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                },
                 const HubspotHelpButton(),
               ],
             ),
