@@ -26,7 +26,7 @@ class MarketplaceTabView extends StatelessWidget {
               tabs: const [
                 Tab(text: 'All Bundles'),
                 Tab(text: 'Special Offers'),
-                Tab(text: 'Private'),
+                Tab(text: 'Private Universities'),
                 Tab(text: 'MDCAT'),
                 Tab(text: 'NUMS'),
                 Tab(text: 'Courses'),

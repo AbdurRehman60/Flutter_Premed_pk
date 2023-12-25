@@ -1,5 +1,4 @@
 class BundleModel {
-
   BundleModel({
     required this.id,
     required this.bundlePoints,
@@ -13,8 +12,10 @@ class BundleModel {
     required this.bundleDiscount,
     required this.createdAt,
     required this.updatedAt,
-    required this.v,
     required this.position,
+    this.bundlePDF,
+    this.interestedFormLink,
+    this.purchaseFormLink,
   });
 
   factory BundleModel.fromJson(Map<String, dynamic> json) {
@@ -31,8 +32,10 @@ class BundleModel {
       bundleDiscount: json['BundleDiscount'].toDouble(),
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
-      v: json['__v'],
       position: json['Position'],
+      bundlePDF: json['BundlePDF'],
+      interestedFormLink: json['InterestedFormLink'],
+      purchaseFormLink: json['PurchaseFormLink'],
     );
   }
   final String id;
@@ -47,6 +50,9 @@ class BundleModel {
   final double bundleDiscount;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final int v;
+
   final int position;
+  final String? bundlePDF;
+  final String? interestedFormLink;
+  final String? purchaseFormLink;
 }

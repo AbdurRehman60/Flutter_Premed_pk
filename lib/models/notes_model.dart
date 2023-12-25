@@ -1,5 +1,4 @@
 class NoteModel {
-
   NoteModel({
     required this.id,
     required this.isGuide,
@@ -10,7 +9,7 @@ class NoteModel {
     required this.coverImageURL,
     this.demarcations,
     this.pages,
-    required this.position,
+    this.position,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -34,7 +33,7 @@ class NoteModel {
       coverImageURL: json['coverImageURL'],
       demarcations: demarcations,
       pages: json['pages'],
-      position: json['position'],
+      position: json['position'] ?? 0,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
     );
@@ -48,13 +47,12 @@ class NoteModel {
   final String coverImageURL;
   final List<NoteDemarcation>? demarcations;
   final int? pages;
-  final int position;
+  final int? position;
   final DateTime createdAt;
   final DateTime updatedAt;
 }
 
 class NoteDemarcation {
-
   NoteDemarcation({
     required this.id,
     required this.name,
@@ -65,7 +63,7 @@ class NoteDemarcation {
     return NoteDemarcation(
       id: json['_id'],
       name: json['name'],
-      page: json['page'],
+      page: json['page'] ?? 0,
     );
   }
   final String id;

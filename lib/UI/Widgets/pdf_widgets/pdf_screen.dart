@@ -176,7 +176,7 @@ class _PdfViewState extends State<PdfScreen> {
                         ),
                 )
               else
-                SizedBox(),
+                const SizedBox(),
               IconButton(
                 onPressed: openDemarcationBottomSheet,
                 icon: const Icon(Icons.menu),

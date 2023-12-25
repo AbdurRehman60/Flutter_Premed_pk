@@ -15,6 +15,7 @@ class CustomButton extends StatelessWidget {
     this.leftIcon = true,
     this.color,
     this.textColor,
+    this.fontWeight,
   });
 
   String buttonText;
@@ -29,6 +30,7 @@ class CustomButton extends StatelessWidget {
   final Color? color;
   final Color? textColor;
   final double? fontSize;
+  final FontWeight? fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +67,18 @@ class CustomButton extends StatelessWidget {
                         buttonText,
                         style: isActive
                             ? PreMedTextTheme().heading5.copyWith(
-                                color: textColor ??
-                                    PreMedColorTheme().primaryColorRed,
-                                fontSize: fontSize ?? 20)
+                                  color: textColor ??
+                                      PreMedColorTheme().primaryColorRed,
+                                  fontSize: fontSize ?? 20,
+                                  fontWeight:
+                                      fontWeight ?? FontWeights.semiBold,
+                                )
                             : PreMedTextTheme().heading6.copyWith(
-                                color: PreMedColorTheme().primaryColorRed),
+                                  color: PreMedColorTheme().primaryColorRed,
+                                  fontSize: fontSize ?? 20,
+                                  fontWeight:
+                                      fontWeight ?? FontWeights.semiBold,
+                                ),
                       ),
                       if (leftIcon)
                         const SizedBox()
@@ -91,11 +100,15 @@ class CustomButton extends StatelessWidget {
                     buttonText,
                     style: isActive
                         ? PreMedTextTheme().heading6.copyWith(
-                            color: textColor ?? PreMedColorTheme().white,
-                            fontSize: fontSize ?? 20)
+                              color: textColor ?? PreMedColorTheme().white,
+                              fontSize: fontSize ?? 20,
+                              fontWeight: fontWeight ?? FontWeights.semiBold,
+                            )
                         : PreMedTextTheme().heading6.copyWith(
-                            color: PreMedColorTheme().primaryColorRed,
-                            fontSize: fontSize ?? 20),
+                              color: PreMedColorTheme().primaryColorRed,
+                              fontSize: fontSize ?? 20,
+                              fontWeight: fontWeight ?? FontWeights.semiBold,
+                            ),
                   ),
           )
         : TextButton(
@@ -128,12 +141,18 @@ class CustomButton extends StatelessWidget {
                         buttonText,
                         style: isActive
                             ? PreMedTextTheme().heading6.copyWith(
-                                color: textColor ?? PreMedColorTheme().white,
-                                fontSize: fontSize ?? 20)
+                                  color: textColor ?? PreMedColorTheme().white,
+                                  fontSize: fontSize ?? 20,
+                                  fontWeight:
+                                      fontWeight ?? FontWeights.semiBold,
+                                )
                             : PreMedTextTheme().heading6.copyWith(
-                                color: textColor ??
-                                    PreMedColorTheme().primaryColorRed,
-                                fontSize: fontSize ?? 20),
+                                  color: textColor ??
+                                      PreMedColorTheme().primaryColorRed,
+                                  fontSize: fontSize ?? 20,
+                                  fontWeight:
+                                      fontWeight ?? FontWeights.semiBold,
+                                ),
                       ),
                       if (leftIcon)
                         const SizedBox()
@@ -154,9 +173,10 @@ class CustomButton extends StatelessWidget {
                 : Text(
                     buttonText,
                     style: isActive
-                        ? PreMedTextTheme()
-                            .heading6
-                            .copyWith(color: PreMedColorTheme().white)
+                        ? PreMedTextTheme().heading6.copyWith(
+                            color: textColor ?? PreMedColorTheme().white,
+                            fontSize: fontSize ?? 20,
+                            fontWeight: fontWeight ?? FontWeights.semiBold)
                         : PreMedTextTheme().heading6.copyWith(
                             color: PreMedColorTheme().primaryColorRed),
                   ),

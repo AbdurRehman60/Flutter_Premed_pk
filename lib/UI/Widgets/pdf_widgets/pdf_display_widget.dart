@@ -53,7 +53,6 @@ class PdfDisplay extends StatelessWidget {
 }
 
 class PDFTile extends StatelessWidget {
-
   const PDFTile({
     super.key,
     required this.note,
@@ -75,12 +74,7 @@ class PDFTile extends StatelessWidget {
       onTap: onTileClick,
       child: Column(
         children: [
-          Image.network(
-            note.coverImageURL,
-            height: 200,
-            width: 142,
-            fit: BoxFit.contain,
-          ),
+          buildPdfIcon(note.coverImageURL),
           SizedBoxes.verticalMedium,
           Text(
             note.title,
@@ -88,14 +82,43 @@ class PDFTile extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBoxes.verticalMicro,
-          if (note.pages != null) Text(
-                  '${note.pages} Pages',
-                  textAlign: TextAlign.center,
-                  style: PreMedTextTheme().small.copyWith(
-                      color: PreMedColorTheme().neutral400, fontSize: 14),
-                ) else const SizedBox(),
+          if (note.pages != null)
+            Text(
+              '${note.pages} Pages',
+              textAlign: TextAlign.center,
+              style: PreMedTextTheme()
+                  .small
+                  .copyWith(color: PreMedColorTheme().neutral400, fontSize: 14),
+            )
+          else
+            const SizedBox(),
         ],
       ),
     );
   }
+}
+
+Widget buildPdfIcon(String imageUrl) {
+  return Image.network(
+    imageUrl,
+    fit: BoxFit.cover,
+    width: 142,
+    height: 200,
+    errorBuilder: (context, error, stackTrace) {
+      return Container(
+        width: 142,
+        height: 200,
+        decoration: BoxDecoration(
+          color: PreMedColorTheme().neutral500,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Text(
+          'Loading',
+          style: PreMedTextTheme().heading1.copyWith(
+                color: PreMedColorTheme().primaryColorRed,
+              ),
+        ),
+      );
+    },
+  );
 }

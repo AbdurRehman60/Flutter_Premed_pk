@@ -4,6 +4,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CardContent extends StatelessWidget {
   const CardContent({
@@ -96,6 +97,7 @@ class CardContent extends StatelessWidget {
           )
         else
           const SizedBox(),
+        SizedBoxes.verticalMedium,
         Row(
           children: [
             Text(
@@ -117,11 +119,70 @@ class CardContent extends StatelessWidget {
             ),
           ],
         ),
-        SizedBoxes.verticalMicro,
-        SizedBoxes.verticalMicro,
-        if (!isBundleInCart)
+        SizedBoxes.verticalMedium,
+        if (bundle.bundleName.contains("Course") ||
+            bundle.bundleName.contains("Counselling")) ...{
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            alignment: WrapAlignment.center,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: CustomButton(
+                  buttonText: 'Buy Now ->',
+                  onPressed: () {
+                    launchUrl(
+                      mode: LaunchMode.inAppBrowserView,
+                      Uri.parse(bundle.purchaseFormLink!),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: CustomButton(
+                  isIconButton: true,
+                  color: Colors.transparent,
+                  textColor: PreMedColorTheme().neutral800,
+                  leftIcon: false,
+                  isOutlined: true,
+                  fontSize: 16,
+                  iconSize: 0,
+                  buttonText: "I'm interested",
+                  fontWeight: FontWeights.medium,
+                  onPressed: () {
+                    launchUrl(
+                      mode: LaunchMode.inAppBrowserView,
+                      Uri.parse(bundle.interestedFormLink!),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: CustomButton(
+                  color: Colors.transparent,
+                  fontSize: 16,
+                  fontWeight: FontWeights.medium,
+                  textColor: PreMedColorTheme().neutral800,
+                  buttonText: 'View Details',
+                  onPressed: () {
+                    launchUrl(
+                      mode: LaunchMode.inAppBrowserView,
+                      Uri.parse(bundle.bundlePDF!),
+                    );
+                  },
+                ),
+              ),
+            ],
+          )
+        } else if (!isBundleInCart)
           SizedBox(
-            width: 132,
+            width: 140,
             height: 40,
             child: CustomButton(
               buttonText: 'Buy Now ->',

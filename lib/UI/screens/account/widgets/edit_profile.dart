@@ -51,7 +51,7 @@ class EditProfile extends StatelessWidget {
               ),
               SizedBoxes.verticalTiny,
               CustomTextField(
-                initialValue: UserProvider().user?.userName,
+                initialValue: UserProvider().user?.fullName,
               ),
               SizedBoxes.verticalMedium,
               Text(
