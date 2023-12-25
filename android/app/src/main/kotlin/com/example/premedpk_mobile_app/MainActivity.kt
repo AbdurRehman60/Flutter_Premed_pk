@@ -1,4 +1,4 @@
-package com.example.premedpk_mobile_app
+package com.premedpk.android_mobile_app
 
 import io.flutter.embedding.android.FlutterActivity
 
