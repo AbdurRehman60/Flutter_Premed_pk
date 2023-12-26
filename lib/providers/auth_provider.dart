@@ -492,6 +492,16 @@ class AuthProvider extends ChangeNotifier {
           if (responseData["success"]) {
             final Map<String, dynamic> userResponse = await getLoggedInUser();
 
+            final SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+
+            final String? fcmToken = prefs.getString('fcmToken');
+
+            await _client.post(
+              Endpoints.SaveFCMToken,
+              data: {'fcmToken': fcmToken},
+            );
+
             if (userResponse['status']) {
               result = {
                 'status': userResponse["status"],
