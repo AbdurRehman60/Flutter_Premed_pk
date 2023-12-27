@@ -543,4 +543,39 @@ class AuthProvider extends ChangeNotifier {
 
     return result;
   }
+  // Future<Map<String, dynamic>> forgotPassword(String email) async {
+  //   Map<String, Object?> result;
+  //   final Map<String, dynamic> payload = {
+  //     "username": email,
+  //   };
+
+  //   try {
+  //     final Response response = await _client.post(
+  //       Endpoints.forgotPassword,
+  //       data: payload,
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       final Map<String, dynamic> responseData =
+  //           Map<String, dynamic>.from(response.data);
+
+  //       result = {
+  //         'status': responseData["success"],
+  //         'message': responseData["status"],
+  //       };
+  //     } else {
+  //       result = {
+  //         'status': false,
+  //         'message': json.decode(response.data),
+  //       };
+  //     }
+  //   } on DioException catch (e) {
+  //     result = {
+  //       'status': false,
+  //       'message': e.message,
+  //     };
+  //   }
+
+  //   return result;
+  // }
 }
