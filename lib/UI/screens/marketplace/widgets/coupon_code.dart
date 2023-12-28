@@ -30,9 +30,14 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
 
     final TextEditingController couponText = TextEditingController();
 
+    void handleRemovePromoCode() {
+      cartProvider.clearCoupon();
+    }
+
     void onApplyCouponPressed() {
       final form = formKey.currentState!;
       if (form.validate()) {
+        handleRemovePromoCode();
         final Future<Map<String, dynamic>> response =
             cartProvider.verifyCouponCode(
           couponText.text,
@@ -46,10 +51,6 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
           },
         );
       }
-    }
-
-    void handleRemovePromoCode() {
-      cartProvider.clearCoupon();
     }
 
     return Form(
@@ -78,16 +79,24 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
                 ),
               ),
               SizedBoxes.horizontalTiny,
-              Expanded(
-                child: CustomButton(
-                  buttonText: 'Apply',
-                  onPressed: onApplyCouponPressed,
-                  color: cartProvider.validatingStatus ==
-                          CouponValidateStatus.validating
-                      ? PreMedColorTheme().neutral200
-                      : PreMedColorTheme().primaryColorRed,
+              if (cartProvider.validatingStatus ==
+                  CouponValidateStatus.validating)
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                      )),
+                )
+              else
+                Expanded(
+                  child: CustomButton(
+                    buttonText: 'Apply',
+                    onPressed: onApplyCouponPressed,
+                  ),
                 ),
-              ),
             ],
           ),
           SizedBoxes.verticalMicro,
