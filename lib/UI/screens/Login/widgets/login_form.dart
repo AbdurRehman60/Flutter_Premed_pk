@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/screens/signup/signup.dart';
@@ -127,7 +128,28 @@ class _LoginFormState extends State<LoginForm> {
                     buttonText: 'Login',
                     onPressed: onLoginPressed,
                   ),
-                  SizedBoxes.verticalBig,
+                  SizedBoxes.verticalMicro,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        child: Text(
+                          'I forgot my password.',
+                          style: PreMedTextTheme()
+                              .subtext
+                              .copyWith(color: PreMedColorTheme().neutral400),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ForgotPassword(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                   const OrDivider(),
                   SizedBoxes.verticalLarge,
                   const GoogleLogin(),

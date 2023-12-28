@@ -7,6 +7,7 @@ class ChangePassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    onchangepasswordpressed() {}
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().white,
@@ -70,7 +71,7 @@ class ChangePassword extends StatelessWidget {
                     SizedBoxes.verticalGargangua,
                     CustomButton(
                       buttonText: 'Change Password',
-                      onPressed: () {},
+                      onPressed: onchangepasswordpressed,
                     )
                   ],
                 ),

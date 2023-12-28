@@ -6,6 +6,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
+import 'package:premedpk_mobile_app/UI/screens/Login/login.dart';
+import 'package:premedpk_mobile_app/UI/screens/Login/widgets/login_form.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_error.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_success.dart';
@@ -79,11 +81,13 @@ class MyApp extends StatelessWidget {
           '/ExpertSolution': (context) => const AskanExpert(),
           '/Checkout': (context) => const Checkout(),
           '/Marketplace': (context) => const MarketPlace(),
+          '/ForgotPasswordSuccess': (context) => const ForgotPasswordSuccess(),
+          '/ForgotPasswordError': (context) => const ForgotPassword(),
         },
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const ForgotPasswordError(),
+        home: const LoginScreen(),
         navigatorKey: navigatorKey,
       ),
     );

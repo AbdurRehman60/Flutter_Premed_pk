@@ -543,39 +543,40 @@ class AuthProvider extends ChangeNotifier {
 
     return result;
   }
-  // Future<Map<String, dynamic>> forgotPassword(String email) async {
-  //   Map<String, Object?> result;
-  //   final Map<String, dynamic> payload = {
-  //     "username": email,
-  //   };
 
-  //   try {
-  //     final Response response = await _client.post(
-  //       Endpoints.forgotPassword,
-  //       data: payload,
-  //     );
+  Future<Map<String, dynamic>> forgotPassword(String email) async {
+    Map<String, Object?> result;
+    final Map<String, dynamic> forgotPasswordData = {
+      "username": email,
+    };
 
-  //     if (response.statusCode == 200) {
-  //       final Map<String, dynamic> responseData =
-  //           Map<String, dynamic>.from(response.data);
+    try {
+      final Response response = await _client.post(
+        Endpoints.forgotPassword,
+        data: forgotPasswordData,
+      );
 
-  //       result = {
-  //         'status': responseData["success"],
-  //         'message': responseData["status"],
-  //       };
-  //     } else {
-  //       result = {
-  //         'status': false,
-  //         'message': json.decode(response.data),
-  //       };
-  //     }
-  //   } on DioException catch (e) {
-  //     result = {
-  //       'status': false,
-  //       'message': e.message,
-  //     };
-  //   }
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
 
-  //   return result;
-  // }
+        result = {
+          'status': responseData["success"],
+          'message': responseData["status"],
+        };
+      } else {
+        result = {
+          'status': false,
+          'message': response.data["status"] ?? response.data["Text"],
+        };
+      }
+    } on DioError catch (e) {
+      result = {
+        'status': false,
+        'message': e.response?.data ?? e.message,
+      };
+    }
+
+    return result;
+  }
 }

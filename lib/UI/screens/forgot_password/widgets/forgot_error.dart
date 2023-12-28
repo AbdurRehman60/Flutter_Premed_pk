@@ -68,7 +68,7 @@ class ForgotPasswordError extends StatelessWidget {
                   ),
                   SizedBoxes.verticalMedium,
                   const Text(
-                    'Reset Link already sent to \nddd@gmail.com. Please \ncheck you inbox and junk',
+                    'Reset Link already sent to \nthe provided email address. Please \ncheck your inbox and junk',
                     style: TextStyle(
                       color: Color(0xFF153424),
                       fontSize: 16.0,
