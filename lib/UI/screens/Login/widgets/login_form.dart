@@ -134,16 +134,17 @@ class _LoginFormState extends State<LoginForm> {
                     children: [
                       TextButton(
                         child: Text(
-                          'I forgot my password.',
-                          style: PreMedTextTheme()
-                              .subtext
-                              .copyWith(color: PreMedColorTheme().neutral400),
+                          'I forgot my password',
+                          style: PreMedTextTheme().subtext.copyWith(
+                                color: PreMedColorTheme().neutral600,
+                                fontWeight: FontWeights.regular,
+                              ),
                         ),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ForgotPassword(),
+                              builder: (context) => const ForgotPassword(),
                             ),
                           );
                         },

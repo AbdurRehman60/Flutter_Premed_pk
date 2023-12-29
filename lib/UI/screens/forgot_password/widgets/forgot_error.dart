@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/constants/assets.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class ForgotPasswordError extends StatelessWidget {
-  const ForgotPasswordError({super.key});
+  const ForgotPasswordError({super.key, required this.errorText});
+  final String errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +34,11 @@ class ForgotPasswordError extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: const Color(
-                    0xFFF6DDDD), // Set your desired background color
-                borderRadius: BorderRadius.circular(12.0), // Set border radius
+                color: const Color(0xFFF6DDDD),
+                borderRadius: BorderRadius.circular(12.0),
                 border: Border.all(
-                  color: const Color(0xFF153424), // Set border color
-                  width: 0, // Set border thickness
+                  color: const Color(0xFF153424),
+                  width: 0,
                 ),
               ),
               child: Column(
@@ -67,9 +65,9 @@ class ForgotPasswordError extends StatelessWidget {
                     ],
                   ),
                   SizedBoxes.verticalMedium,
-                  const Text(
-                    'Reset Link already sent to \nthe provided email address. Please \ncheck your inbox and junk',
-                    style: TextStyle(
+                  Text(
+                    errorText,
+                    style: const TextStyle(
                       color: Color(0xFF153424),
                       fontSize: 16.0,
                     ),

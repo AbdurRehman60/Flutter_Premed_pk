@@ -122,7 +122,6 @@ class UserProvider extends ChangeNotifier {
   }
 
   // Update password
-  // Update password
   Future<void> updatePassword(String newPassword) async {
     try {
       final response = await _client.post(

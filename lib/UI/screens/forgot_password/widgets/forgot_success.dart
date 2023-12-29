@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/constants/assets.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class ForgotPasswordSuccess extends StatelessWidget {

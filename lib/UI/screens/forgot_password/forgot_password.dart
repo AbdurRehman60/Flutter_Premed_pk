@@ -27,8 +27,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
         response.then(
           (response) {
-            if (response['status'] == true) {
-              print('saad hai1');
+            if (response['status']) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
@@ -39,7 +38,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ForgotPasswordError(),
+                  builder: (context) => ForgotPasswordError(
+                    errorText: response['message'] ?? 'Error',
+                  ),
                 ),
               );
             }
@@ -77,39 +78,38 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             children: [
               Text(
                 'Reset Your Password',
-                style: PreMedTextTheme().heading3.copyWith(
+                style: PreMedTextTheme().heading5.copyWith(
                       color: PreMedColorTheme().primaryColorRed,
                     ),
               ),
               SizedBoxes.verticalMedium,
               Text(
                 'Please provide the email address \nassociated with your PreMed.PK account.',
+                textAlign: TextAlign.center,
                 style: PreMedTextTheme().body.copyWith(
                       color: PreMedColorTheme().neutral600,
                     ),
               ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Colors.black, // Border color
-                    width: 1.0, // Border thickness
+                    color: PreMedColorTheme().neutral400,
                   ),
-                  borderRadius: BorderRadius.circular(12.0), // Border radius
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('E-mail*'),
+                    SizedBoxes.verticalMicro,
                     CustomTextField(
                       controller: emailController,
-                      hintText: 'baig.ebrahim@gmail.com',
+                      hintText: 'Enter your email',
                     ),
-                    SizedBoxes.verticalExtraGargangua,
-                    // Assuming you have a CustomTextField widget
+                    SizedBoxes.verticalBig,
                     CustomButton(
                       buttonText: 'Reset Password',
                       onPressed: onResetPasswordPressed,

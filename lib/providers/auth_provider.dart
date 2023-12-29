@@ -560,14 +560,21 @@ class AuthProvider extends ChangeNotifier {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
 
-        result = {
-          'status': responseData["success"],
-          'message': responseData["status"],
-        };
+        if (responseData["success"] != null) {
+          result = {
+            'status': responseData["success"],
+            'message': responseData["status"],
+          };
+        } else {
+          result = {
+            'status': false,
+            'message': response.data["ErrorText"],
+          };
+        }
       } else {
         result = {
           'status': false,
-          'message': response.data["status"] ?? response.data["Text"],
+          'message': 'Error',
         };
       }
     } on DioError catch (e) {
