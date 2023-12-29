@@ -154,14 +154,32 @@ class Account extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   height: 50,
-                  child: CustomButton(
-                    buttonText: 'Logout',
-                    onPressed: onLogoutPressed,
-                    isIconButton: true,
-                    icon: Icons.logout,
-                    fontSize: 18,
-                    iconSize: 20,
-                  ),
+                  child: auth.loggedInStatus == Status.Authenticating
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.0,
+                              ),
+                            ),
+                            SizedBoxes.horizontalMedium,
+                            Text(
+                              'Logging Out',
+                              style: PreMedTextTheme().subtext,
+                            ),
+                          ],
+                        )
+                      : CustomButton(
+                          buttonText: 'Logout',
+                          onPressed: onLogoutPressed,
+                          isIconButton: true,
+                          icon: Icons.logout,
+                          fontSize: 18,
+                          iconSize: 20,
+                        ),
                 ),
               ),
               SizedBoxes.verticalBig,

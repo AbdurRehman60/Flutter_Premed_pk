@@ -6,7 +6,6 @@ import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:provider/provider.dart';
 
 class DisplayImageScreen extends StatelessWidget {
-
   const DisplayImageScreen({
     super.key,
     required this.image,
@@ -34,7 +33,11 @@ class DisplayImageScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  icon: const Icon(Icons.cancel),
+                  icon: Icon(
+                    Icons.cancel_outlined,
+                    size: 32,
+                    color: PreMedColorTheme().neutral400,
+                  ),
                   iconSize: 42,
                   alignment: Alignment.bottomLeft,
                   color: PreMedColorTheme().primaryColorRed,
@@ -43,6 +46,7 @@ class DisplayImageScreen extends StatelessWidget {
                   width: 240,
                   child: CustomButton(
                     buttonText: 'Continue to Crop Image',
+                    fontSize: 16,
                     onPressed: () {
                       _navigateToCropImage(context, image);
                     },
@@ -55,12 +59,17 @@ class DisplayImageScreen extends StatelessWidget {
                     Navigator.of(context).pop();
                     // onConfirm();
                   },
-                  icon: const Icon(Icons.check),
+                  icon: Icon(
+                    Icons.check,
+                    size: 32,
+                    color: PreMedColorTheme().neutral400,
+                  ),
                   iconSize: 42,
                   color: PreMedColorTheme().primaryColorRed,
                 ),
               ],
             ),
+            SizedBoxes.verticalMedium,
           ],
         ),
       ),
@@ -68,7 +77,7 @@ class DisplayImageScreen extends StatelessWidget {
   }
 
   void _navigateToCropImage(BuildContext context, File image) {
-    Navigator.of(context).pushReplacement(
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => CropImage(
           image: image,

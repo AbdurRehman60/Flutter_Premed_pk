@@ -6,7 +6,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/display_image_screen.dart';
 
 class CropImage extends StatefulWidget {
-
   const CropImage({super.key, required this.image});
   final File image;
 
@@ -73,6 +72,8 @@ class _CropImageState extends State<CropImage> {
   }
 
   void _navigateToDisplayImageScreen(CroppedFile croppedFile) {
+    Navigator.of(context).pop();
+
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => DisplayImageScreen(
