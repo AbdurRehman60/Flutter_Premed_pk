@@ -7,7 +7,7 @@ class Endpoints {
 
   // base url
 
-  static const String baseUrl = "http://192.168.10.11"; //saad
+  static const String baseUrl = "http://192.168.48.52"; //saad
 
   //specific URLs
   // static const String serverURL = "${baseUrl}:${serverPort}";
@@ -53,5 +53,5 @@ class Endpoints {
   static const String DeleteFCMToken = '/api/appNotifications/deleteFCMToken';
 
   //update account details
-  static const String UpdateAccount = '/api/UpdateAccountInfo';
+  static const String UpdateAccount = '/UpdateAccountInfo';
 }

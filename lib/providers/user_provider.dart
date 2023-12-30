@@ -48,98 +48,70 @@ class UserProvider extends ChangeNotifier {
   }
 
   // Update full name
-  Future<void> updateFullName(String fullName) async {
+  Future<Map<String, dynamic>> updateUserDetails({
+    String? fullName,
+    String? phoneNumber,
+    String? city,
+    String? school,
+  }) async {
+    Map<String, dynamic> result;
+    final Map<String, dynamic> updateData = {
+      'fullname': fullName,
+      'phonenumber': phoneNumber,
+      'city': city,
+      'school': school,
+    };
+
     try {
-      final response = await _client.post(
+      final Response response = await _client.post(
         Endpoints.UpdateAccount,
-        data: {
-          'fullname': fullName,
-        },
+        data: updateData,
       );
 
-      // Check the response and handle accordingly
-      if (response.data['Error'] == false) {
-        // Update local user information if needed
-        // For example, update the _user property
-        _user?.fullName = fullName;
-        notify();
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+
+        if (responseData['Error'] == false) {
+          // Update local user information if needed
+          if (fullName != null && _user?.fullName != null) {
+            _user!.fullName = fullName;
+          }
+          if (phoneNumber != null) {
+            _phoneNumber = phoneNumber;
+          }
+          if (city != null) {
+            _city = city;
+          }
+          if (school != null && _user != null) {
+            _user!.school = school;
+          }
+
+          notify();
+          result = {
+            'status': true,
+            'message': 'User details updated successfully',
+          };
+        } else {
+          result = {
+            'status': false,
+            'message': 'Failed to update user details',
+          };
+        }
       } else {
-        // Handle error
-        print('Error updating full name: ${response.data}');
+        result = {
+          'status': false,
+          'message': 'Failed to update user details. Server error.',
+        };
       }
-    } catch (error) {
-      // Handle network error
-      print('Network error updating full name: $error');
+    } on DioError catch (e) {
+      result = {
+        'status': false,
+        'message': 'Network error updating user details: ${e.message}',
+      };
     }
-  }
 
-  // Update phone number
-  Future<void> updatePhoneNumber(String phoneNumber) async {
-    try {
-      final response = await _client.post(
-        Endpoints.UpdateAccount,
-        data: {
-          'phonenumber': phoneNumber,
-        },
-      );
-
-      if (response.data['Error'] == false) {
-        // Update local user information if needed
-        _phoneNumber = phoneNumber;
-        notify();
-      } else {
-        // Handle error
-        print('Error updating phone number: ${response.data}');
-      }
-    } catch (error) {
-      // Handle network error
-      print('Network error updating phone number: $error');
-    }
-  }
-
-  // Update city
-  Future<void> updateCity(String city) async {
-    try {
-      final response = await _client.post(
-        Endpoints.UpdateAccount,
-        data: {
-          'city': city,
-        },
-      );
-
-      if (response.data['Error'] == false) {
-        // Update local user information if needed
-        _city = city;
-        notify();
-      } else {
-        // Handle error
-        print('Error updating city: ${response.data}');
-      }
-    } catch (error) {
-      // Handle network error
-      print('Network error updating city: $error');
-    }
-  }
-
-  // Update password
-  Future<void> updatePassword(String newPassword) async {
-    try {
-      final response = await _client.post(
-        Endpoints.UpdateAccount,
-        data: {
-          'password': newPassword,
-        },
-      );
-
-      if (response.data['Error'] == false) {
-        // Password updated successfully
-      } else {
-        // Handle error and print response details
-        print('Error updating password: ${response.data}');
-      }
-    } catch (error) {
-      // Handle network error
-      print('Network error updating password: $error');
-    }
+    notify();
+    return result;
   }
 }

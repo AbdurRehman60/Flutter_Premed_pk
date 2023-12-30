@@ -5,7 +5,6 @@ import 'package:premedpk_mobile_app/UI/widgets/phone_dropdown.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
-import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -17,7 +16,7 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final UserProvider userProvider =
       UserProvider(); // Create an instance of UserProvider
-
+  final TextEditingController fullNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -26,20 +25,16 @@ class _EditProfileState extends State<EditProfile> {
       final form = _formKey.currentState!;
       if (form.validate()) {
         try {
-          // Assuming you have a method in UserProvider to update the full name
-          await userProvider
-              .updateFullName(UserProvider().user?.fullName ?? '');
+          await userProvider.updateUserDetails();
 
-          // Show a success SnackBar
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('Details updated successfully!'),
             ),
           );
         } catch (error) {
-          // Show an error SnackBar
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('Failed to update details. Please try again.'),
             ),
           );
@@ -88,6 +83,7 @@ class _EditProfileState extends State<EditProfile> {
                   SizedBoxes.verticalTiny,
                   CustomTextField(
                     initialValue: userProvider.user?.fullName,
+                    // controller: fullNameController,
                   ),
                   SizedBoxes.verticalMedium,
                   Text(

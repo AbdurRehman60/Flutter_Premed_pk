@@ -20,28 +20,23 @@ class _ChangePasswordState extends State<ChangePassword> {
         TextEditingController();
     final UserProvider userProvider = Provider.of<UserProvider>(context);
 
-    void onchangepasswordpressed(BuildContext context) async {
-      final form = _formKey.currentState!;
-      if (form.validate()) {
-        try {
-          // Assuming you have a method in UserProvider to update the password
-          await userProvider.updatePassword(newPasswordController.text);
+    void onchangepasswordpressed() async {
+      if (_formKey.currentState?.validate() ?? false) {
+        final String oldPassword = oldPasswordController.text.trim();
+        final String newPassword = newPasswordController.text.trim();
+        final String confirmNewPassword =
+            confirmNewPasswordController.text.trim();
 
-          // Show a success SnackBar
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Password changed successfully!'),
-            ),
-          );
-        } catch (error) {
-          // Show an error SnackBar
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Failed to change password. Please try again.'),
-            ),
-          );
-          print('Error changing password: $error');
+        // Check if new password and confirm new password match
+        if (newPassword != confirmNewPassword) {
+          // Show an error message or handle the mismatch
+          return;
         }
+
+        // Call the updatePassword method from UserProvider
+        await userProvider.updateUserDetails();
+
+        // You can add more logic here based on the result of the updatePassword method
       }
     }
 
@@ -113,7 +108,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         SizedBoxes.verticalGargangua,
                         CustomButton(
                           buttonText: 'Change Password',
-                          onPressed: () => onchangepasswordpressed(context),
+                          onPressed: onchangepasswordpressed,
                         ),
                       ],
                     ),
