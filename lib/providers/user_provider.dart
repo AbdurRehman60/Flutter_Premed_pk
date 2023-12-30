@@ -74,7 +74,7 @@ class UserProvider extends ChangeNotifier {
 
         if (responseData['Error'] == false) {
           // Update local user information if needed
-          if (fullName != null && _user?.fullName != null) {
+          if (fullName != null && _user != null) {
             _user!.fullName = fullName;
           }
           if (phoneNumber != null) {
