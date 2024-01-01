@@ -1,6 +1,7 @@
 import 'package:premedpk_mobile_app/UI/screens/notifications/notifications.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
+import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
 import 'package:provider/provider.dart';
 
 class NotificationIcon extends StatelessWidget {
@@ -29,18 +30,19 @@ class NotificationIcon extends StatelessWidget {
           Positioned(
             right: 0,
             top: 0,
-            child: Consumer<CartProvider>(
-              builder: (context, cartProvider, child) {
-                final int itemCount = cartProvider.totalBundlesCount;
+            child: Consumer<WebNotificationsProvider>(
+              builder: (context, webNotificationsProvider, child) {
+                final int itemCount =
+                    webNotificationsProvider.webNotificationList.length;
                 return Container(
                   padding: const EdgeInsets.all(6),
                   decoration: const BoxDecoration(
-                    color: Colors.red, // or any other color you prefer
+                    color: Colors.red,
                     shape: BoxShape.circle,
                   ),
                   child: Text(itemCount > 0 ? itemCount.toString() : '0',
                       style: PreMedTextTheme().subtext1.copyWith(
-                            fontSize: 12,
+                            fontSize: 10,
                             color: PreMedColorTheme().white,
                           )),
                 );

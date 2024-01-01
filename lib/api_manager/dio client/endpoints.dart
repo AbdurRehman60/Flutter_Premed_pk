@@ -50,4 +50,6 @@ class Endpoints {
 
   static const String SaveFCMToken = '/api/appNotifications/saveFCMToken';
   static const String DeleteFCMToken = '/api/appNotifications/deleteFCMToken';
+
+  static const String GetWebNotifications = '/GetNotifications';
 }

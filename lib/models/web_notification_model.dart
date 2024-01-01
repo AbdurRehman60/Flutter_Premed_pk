@@ -7,7 +7,6 @@ class WebNotificationModel {
     required this.content,
     required this.createdAt,
     required this.updatedAt,
-    required this.v,
   });
 
   factory WebNotificationModel.fromJson(Map<String, dynamic> json) {
@@ -15,11 +14,10 @@ class WebNotificationModel {
       id: json['_id'],
       userName: json['UserName'],
       group: json['Group'],
-      type: json['Type'],
+      type: json['Type'] ?? '',
       content: Content.fromJson(json['Content']),
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
-      v: json['__v'],
     );
   }
 
@@ -30,7 +28,6 @@ class WebNotificationModel {
   final Content content;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final int v;
 
   Map<String, dynamic> toJson() {
     return {
@@ -41,7 +38,6 @@ class WebNotificationModel {
       'Content': content.toJson(),
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
-      '__v': v,
     };
   }
 }
@@ -50,23 +46,23 @@ class Content {
   Content({
     required this.iconSrc,
     required this.text,
-    required this.actionButton1Text,
-    required this.actionButton1URL,
+    this.actionButton1Text,
+    this.actionButton1URL,
   });
 
   factory Content.fromJson(Map<String, dynamic> json) {
     return Content(
       iconSrc: json['IconSrc'],
-      text: json['Text'],
-      actionButton1Text: json['ActionButton1Text'],
-      actionButton1URL: json['ActionButton1URL'],
+      text: json['Text'] ?? '',
+      actionButton1Text: json['ActionButton1Text'] ?? '',
+      actionButton1URL: json['ActionButton1URL'] ?? '',
     );
   }
 
   final String iconSrc;
   final String text;
-  final String actionButton1Text;
-  final String actionButton1URL;
+  final String? actionButton1Text;
+  final String? actionButton1URL;
 
   Map<String, dynamic> toJson() {
     return {

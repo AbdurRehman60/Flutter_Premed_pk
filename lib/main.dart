@@ -18,6 +18,7 @@ import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
 import 'package:premedpk_mobile_app/utils/services/notifications/firebase_messaging_api.dart';
 import 'package:provider/provider.dart';
 
@@ -70,6 +71,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => UplaodImageProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => WebNotificationsProvider()),
       ],
       child: MaterialApp(
         routes: {
