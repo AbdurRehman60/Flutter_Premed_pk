@@ -24,22 +24,25 @@ class _EditProfileState extends State<EditProfile> {
     void onEditDetailsPressed() async {
       final form = _formKey.currentState!;
       if (form.validate()) {
-        try {
-          await userProvider.updateUserDetails();
+        final Future<Map<String, dynamic>> response =
+            userProvider.updateUserDetails(fullNameController.text);
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Details updated successfully!'),
-            ),
-          );
-        } catch (error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to update details. Please try again.'),
-            ),
-          );
-          print('Error updating details: $error');
-        }
+        response.then(
+          (response) {
+            if (response['status']) {
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => response['message'] == 'onboarding'
+              //         ? const RequiredOnboarding()
+              //         : const MainNavigationScreen(),
+              //   ),
+              // );
+            } else {
+              showError(context, response);
+            }
+          },
+        );
       }
     }
 

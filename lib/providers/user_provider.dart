@@ -48,18 +48,15 @@ class UserProvider extends ChangeNotifier {
   }
 
   // Update full name
-  Future<Map<String, dynamic>> updateUserDetails({
-    String? fullName,
-    String? phoneNumber,
-    String? city,
-    String? school,
-  }) async {
+  Future<Map<String, dynamic>> updateUserDetails(
+    String fullname,
+  ) async {
     Map<String, dynamic> result;
     final Map<String, dynamic> updateData = {
-      'fullname': fullName,
+      'fullname': fullname.isEmpty ? user?.fullName : fullname,
       'phonenumber': phoneNumber,
-      'city': city,
-      'school': school,
+      'city': city.isNotEmpty ? city : user?.city,
+      'school': _user?.school,
     };
 
     try {
@@ -73,20 +70,49 @@ class UserProvider extends ChangeNotifier {
             Map<String, dynamic>.from(response.data);
 
         if (responseData['Error'] == false) {
-          // Update local user information if needed
-          if (fullName != null && _user != null) {
-            _user!.fullName = fullName;
-          }
-          if (phoneNumber != null) {
-            _phoneNumber = phoneNumber;
-          }
-          if (city != null) {
-            _city = city;
-          }
-          if (school != null && _user != null) {
-            _user!.school = school;
-          }
+          notify();
+          result = {
+            'status': true,
+            'message': 'User details updated successfully',
+          };
+        } else {
+          result = {
+            'status': false,
+            'message': 'Failed to update user details',
+          };
+        }
+      } else {
+        result = {
+          'status': false,
+          'message': 'Failed to update user details. Server error.',
+        };
+      }
+    } on DioError catch (e) {
+      result = {
+        'status': false,
+        'message': 'Network error updating user details: ${e.message}',
+      };
+    }
 
+    notify();
+    return result;
+  }
+
+  Future<Map<String, dynamic>> changePassword() async {
+    Map<String, dynamic> result;
+    final Map<String, dynamic> updateData = {};
+
+    try {
+      final Response response = await _client.post(
+        Endpoints.UpdateAccount,
+        data: updateData,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+
+        if (responseData['Error'] == false) {
           notify();
           result = {
             'status': true,

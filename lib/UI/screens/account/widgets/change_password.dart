@@ -34,7 +34,6 @@ class _ChangePasswordState extends State<ChangePassword> {
         }
 
         // Call the updatePassword method from UserProvider
-        await userProvider.updateUserDetails();
 
         // You can add more logic here based on the result of the updatePassword method
       }
