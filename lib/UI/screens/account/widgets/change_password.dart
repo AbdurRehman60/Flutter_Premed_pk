@@ -80,6 +80,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         CustomTextField(
                           controller: oldPasswordController,
                           hintText: 'Old Password',
+                          obscureText: true,
                         ),
                         SizedBoxes.verticalMedium,
                         Text(
@@ -92,6 +93,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                         CustomTextField(
                           controller: newPasswordController,
                           hintText: 'New Password',
+                          validator: newPasswordValidator,
+                          obscureText: true,
                         ),
                         SizedBoxes.verticalMedium,
                         Text(
@@ -104,6 +107,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                         CustomTextField(
                           controller: confirmNewPasswordController,
                           hintText: 'Confirm New Password',
+                          validator: (value) => confirmNewPasswordValidator(
+                              value!, newPasswordController.text),
+                          obscureText: true,
                         ),
                         SizedBoxes.verticalGargangua,
                         CustomButton(
@@ -117,5 +123,23 @@ class _ChangePasswordState extends State<ChangePassword> {
         ),
       ),
     );
+  }
+
+  String? newPasswordValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'New password cannot be empty';
+    }
+    // Add more validation rules as needed
+    return null;
+  }
+
+  String? confirmNewPasswordValidator(String value, String newPassword) {
+    if (value.isEmpty) {
+      return 'Confirm new password cannot be empty';
+    }
+    if (value != newPassword) {
+      return 'Passwords do not match';
+    }
+    return null;
   }
 }
