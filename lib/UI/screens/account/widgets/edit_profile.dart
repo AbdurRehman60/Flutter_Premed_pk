@@ -3,6 +3,7 @@ import 'package:premedpk_mobile_app/UI/widgets/cities_data_widget.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/UI/widgets/phone_dropdown.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
 
@@ -14,30 +15,36 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  final UserProvider userProvider =
-      UserProvider(); // Create an instance of UserProvider
+  final UserProvider userProvider = UserProvider();
+  final AuthProvider auth = AuthProvider();
   final TextEditingController fullNameController = TextEditingController();
+
+  @override
+  void initState() {
+    fullNameController.text = userProvider.user!.fullName;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
-    void onEditDetailsPressed() async {
-      final form = _formKey.currentState!;
+    Future<void> onEditDetailsPressed() async {
+      final form = formKey.currentState!;
       if (form.validate()) {
+        print(fullNameController.text);
         final Future<Map<String, dynamic>> response =
             userProvider.updateUserDetails(fullNameController.text);
 
         response.then(
           (response) {
             if (response['status']) {
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => response['message'] == 'onboarding'
-              //         ? const RequiredOnboarding()
-              //         : const MainNavigationScreen(),
-              //   ),
-              // );
+              auth.getLoggedInUser();
+              showSnackbar(
+                context,
+                "User Details Updated",
+                SnackbarType.SUCCESS,
+              );
             } else {
               showError(context, response);
             }
@@ -65,11 +72,11 @@ class _EditProfileState extends State<EditProfile> {
         ),
         centerTitle: true,
         iconTheme: IconThemeData(
-          color: PreMedColorTheme().black, // Set the color for the icon
+          color: PreMedColorTheme().black,
         ),
       ),
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
@@ -85,8 +92,8 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   SizedBoxes.verticalTiny,
                   CustomTextField(
-                    initialValue: userProvider.user?.fullName,
-                    // controller: fullNameController,
+                    // initialValue: userProvider.user?.fullName,
+                    controller: fullNameController,
                   ),
                   SizedBoxes.verticalMedium,
                   Text(
@@ -101,18 +108,18 @@ class _EditProfileState extends State<EditProfile> {
                     hintText: "Contact Number",
                     initialValue: userProvider.user?.phoneNumber,
                   ),
-                  Text(
-                    'City',
-                    style: PreMedTextTheme().body.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
-                  ),
-                  SizedBoxes.verticalTiny,
-                  CityDropdownList(
-                    items: cities,
-                    selectedItem: userProvider.user?.city ?? '',
-                    onChanged: onCitySelected,
-                  ),
+                  // Text(
+                  //   'City',
+                  //   style: PreMedTextTheme().body.copyWith(
+                  //         fontWeight: FontWeight.w500,
+                  //       ),
+                  // ),
+                  // SizedBoxes.verticalTiny,
+                  // CityDropdownList(
+                  //   items: cities,
+                  //   selectedItem: userProvider.user?.city ?? '',
+                  //   onChanged: onCitySelected,
+                  // ),
                   SizedBoxes.verticalGargangua,
                   CustomButton(
                     buttonText: 'Save Changes',

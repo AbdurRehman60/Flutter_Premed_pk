@@ -84,7 +84,12 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  bool _obscureText = false;
+  late bool _obscureText;
+  @override
+  void initState() {
+    _obscureText = widget.obscureText;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,19 +167,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
           inputFormatters: widget.inputFormatters,
         ),
         if (widget.obscureText)
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-              icon: Icon(
-                _obscureText ? Icons.visibility_off : Icons.visibility,
-                color: Theme.of(context).primaryColor,
-              ),
-              onPressed: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
+          IconButton(
+            icon: Icon(
+              _obscureText ? Icons.visibility : Icons.visibility_off,
+              color: PreMedColorTheme().neutral400,
             ),
+            onPressed: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
           ),
       ],
     );

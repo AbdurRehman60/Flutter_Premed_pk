@@ -54,7 +54,7 @@ class UserProvider extends ChangeNotifier {
     Map<String, dynamic> result;
     final Map<String, dynamic> updateData = {
       'fullname': fullname.isEmpty ? user?.fullName : fullname,
-      'phonenumber': phoneNumber,
+      'phonenumber': phoneNumber.isNotEmpty ? phoneNumber : user?.phoneNumber,
       'city': city.isNotEmpty ? city : user?.city,
       'school': _user?.school,
     };
@@ -98,13 +98,17 @@ class UserProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> changePassword() async {
+  Future<Map<String, dynamic>> changePassword(
+      String oldpassword, String newpassword) async {
     Map<String, dynamic> result;
-    final Map<String, dynamic> updateData = {};
+    final Map<String, dynamic> updateData = {
+      'oldpassword': oldpassword,
+      'newpassword': newpassword
+    };
 
     try {
       final Response response = await _client.post(
-        Endpoints.UpdateAccount,
+        Endpoints.UpdatePassword,
         data: updateData,
       );
 
@@ -116,18 +120,18 @@ class UserProvider extends ChangeNotifier {
           notify();
           result = {
             'status': true,
-            'message': 'User details updated successfully',
+            'message': 'Password updated successfully',
           };
         } else {
           result = {
             'status': false,
-            'message': 'Failed to update user details',
+            'message': responseData['ErrorText'],
           };
         }
       } else {
         result = {
           'status': false,
-          'message': 'Failed to update user details. Server error.',
+          'message': 'Failed to changed password. Server error.',
         };
       }
     } on DioError catch (e) {

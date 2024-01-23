@@ -4,38 +4,48 @@ import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class ChangePassword extends StatefulWidget {
-  const ChangePassword({Key? key}) : super(key: key);
+  const ChangePassword({super.key});
 
   @override
   State<ChangePassword> createState() => _ChangePasswordState();
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
     final TextEditingController oldPasswordController = TextEditingController();
     final TextEditingController newPasswordController = TextEditingController();
     final TextEditingController confirmNewPasswordController =
         TextEditingController();
     final UserProvider userProvider = Provider.of<UserProvider>(context);
 
-    void onchangepasswordpressed() async {
-      if (_formKey.currentState?.validate() ?? false) {
+    void onchangepasswordpressed() {
+      final form = _formKey.currentState!;
+
+      if (form.validate()) {
         final String oldPassword = oldPasswordController.text.trim();
         final String newPassword = newPasswordController.text.trim();
-        final String confirmNewPassword =
-            confirmNewPasswordController.text.trim();
 
-        // Check if new password and confirm new password match
-        if (newPassword != confirmNewPassword) {
-          // Show an error message or handle the mismatch
-          return;
-        }
-
-        // Call the updatePassword method from UserProvider
-
-        // You can add more logic here based on the result of the updatePassword method
+        final Future<Map<String, dynamic>> response =
+            userProvider.changePassword(
+          oldPassword,
+          newPassword,
+        );
+        response.then(
+          (response) {
+            if (response['status']) {
+              showSnackbar(
+                context,
+                "Password Updated",
+                SnackbarType.SUCCESS,
+                navigate: true,
+              );
+            } else {
+              showError(context, response);
+            }
+          },
+        );
       }
     }
 
@@ -107,7 +117,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                           controller: confirmNewPasswordController,
                           hintText: 'Confirm New Password',
                           validator: (value) => confirmNewPasswordValidator(
-                              value!, newPasswordController.text),
+                            value!,
+                            newPasswordController.text,
+                          ),
                           obscureText: true,
                         ),
                         SizedBoxes.verticalGargangua,

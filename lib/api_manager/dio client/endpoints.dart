@@ -7,11 +7,11 @@ class Endpoints {
 
   // base url
 
-  static const String baseUrl = "http://192.168.48.52"; //saad
+  static const String baseUrl = "http://192.168.10.6"; //saad
 
   //specific URLs
-  // static const String serverURL = "${baseUrl}:${serverPort}";
-  static const String serverURL = "https://testapi.premed.pk";
+  static const String serverURL = "${baseUrl}:${serverPort}";
+  // static const String serverURL = "https://testapi.premed.pk";
 
   // receiveTimeout
   static const Duration receiveTimeout = Duration(milliseconds: 15000);
@@ -52,8 +52,9 @@ class Endpoints {
   static const String SaveFCMToken = '/api/appNotifications/saveFCMToken';
   static const String DeleteFCMToken = '/api/appNotifications/deleteFCMToken';
 
-<<<<<<< HEAD
-=======
   //update account details
->>>>>>> 46d1e78afb9a801ef042c355a562325ab43b8c9f
+  static const String UpdateAccount = '/UpdateAccountInfo';
+  static const String UpdatePassword = '/UpdateAccountPassword';
+
+  static const String GetWebNotifications = '/GetNotifications';
 }
