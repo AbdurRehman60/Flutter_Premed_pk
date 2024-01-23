@@ -46,6 +46,9 @@ class PreMedTheme {
   AppBarTheme get appBarTheme => AppBarTheme(
         backgroundColor: _ColorTheme.primaryColorRed,
         foregroundColor: _ColorTheme.white,
+        iconTheme: IconThemeData(
+          color: PreMedColorTheme().black, // Set the color for the icon
+        ),
       );
 
   TabBarTheme get tabBarTheme => TabBarTheme(

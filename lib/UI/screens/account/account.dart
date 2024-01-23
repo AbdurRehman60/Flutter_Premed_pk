@@ -5,6 +5,7 @@ import 'package:premedpk_mobile_app/UI/screens/account/widgets/menu_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
 import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
+import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/error_dialogue.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -62,21 +63,34 @@ class Account extends StatelessWidget {
                 style: PreMedTextTheme().heading5,
               ),
               SizedBoxes.verticalTiny,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    PremedAssets.Coins,
-                    width: 16,
-                    height: 16,
-                    fit: BoxFit.fill,
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MarketPlace(),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        PremedAssets.Coins,
+                        width: 16,
+                        height: 16,
+                        fit: BoxFit.fill,
+                      ),
+                      SizedBoxes.horizontalMicro,
+                      Text(
+                        userProvider.getCoins().toString(),
+                        style: PreMedTextTheme().body,
+                      ),
+                    ],
                   ),
-                  SizedBoxes.horizontalMicro,
-                  Text(
-                    userProvider.getCoins().toString(),
-                    style: PreMedTextTheme().body,
-                  ),
-                ],
+                ),
               ),
               SizedBoxes.verticalMedium,
               Expanded(

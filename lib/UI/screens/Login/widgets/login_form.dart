@@ -166,7 +166,7 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                       TextButton(
                         child: Text(
-                          'SignUp',
+                          'Sign Up',
                           style: PreMedTextTheme().subtext.copyWith(
                               color: PreMedColorTheme().primaryColorRed),
                         ),

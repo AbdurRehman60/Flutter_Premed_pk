@@ -34,8 +34,8 @@ class Endpoints {
   static const String RevisionNotes = '/api/notes/all';
   //expertsolution endpoints
   static const String DoubtUpload = '/DoubtUpload';
-
   static const String UserSolved = '/GetDoubtsByUser';
+  static const String RateDoubt = '/RateUser';
 
   // static const String UserSolved = '/UserSolved';
   static const String UserPending = '/UserPending';
