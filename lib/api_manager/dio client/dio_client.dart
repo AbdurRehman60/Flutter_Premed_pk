@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -23,7 +21,7 @@ class DioClient {
   final cookieJar = CookieJar();
 
   Future<void> _saveCookies(List<Cookie> cookies) async {
-    print('saving cookie - $cookies');
+    // print('saving cookie - $cookies');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setStringList(
@@ -33,12 +31,12 @@ class DioClient {
   }
 
   Future<List<Cookie>> _loadCookies() async {
-    print("Loading cookies...");
+    // print("Loading cookies...");
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final List<String>? cookieStrings = prefs.getStringList('cookies');
-    print('cookie✨ - $cookieStrings');
+    // print('cookie✨ - $cookieStrings');
 
     if (cookieStrings != null) {
       return cookieStrings

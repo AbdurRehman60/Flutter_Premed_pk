@@ -23,7 +23,7 @@ class NotificationsScreen extends StatelessWidget {
               webNotificationsProvider.notificationStatus == Status.Fetching;
 
           final List<WebNotificationModel> a =
-              webNotificationsProvider.webNotificationList;
+              webNotificationsProvider.webNotificationList.reversed.toList();
           return isLoading
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -36,7 +36,6 @@ class NotificationsScreen extends StatelessWidget {
                   : ListView.builder(
                       itemCount:
                           webNotificationsProvider.webNotificationList.length,
-                      reverse: true,
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
                           padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),

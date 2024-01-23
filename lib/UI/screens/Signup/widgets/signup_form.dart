@@ -70,7 +70,10 @@ class _SignupFormState extends State<SignupForm> {
               children: [
                 Align(
                   alignment: Alignment.topLeft,
-                  child: Image.asset(PremedAssets.PrMedLogo),
+                  child: Image.asset(
+                    PremedAssets.premedlogo,
+                    width: 120,
+                  ),
                 ),
                 Text(
                   'Start Your path to',

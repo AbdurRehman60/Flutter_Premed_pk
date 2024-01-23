@@ -10,21 +10,20 @@ class NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 172,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: PreMedColorTheme().white,
         border: Border.all(
           color: PreMedColorTheme().primaryColorRed,
-          width: 1.5,
+          width: 1,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            spreadRadius: 2,
-            blurRadius: 16,
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withOpacity(0.1),
+        //     spreadRadius: 2,
+        //     blurRadius: 16,
+        //   ),
+        // ],
       ),
       child: Padding(
         padding: const EdgeInsets.all(12.0),

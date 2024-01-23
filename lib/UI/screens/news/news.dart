@@ -53,7 +53,7 @@ class NewsUpdates extends StatelessWidget {
 class LatestNews extends StatelessWidget {
   LatestNews({super.key});
   final String title = 'Sindh Announces MDCAT \nReconduct on November 24th.';
-  final ImageProvider image = AssetImage(PremedAssets.PrMedLogoLarge);
+  final ImageProvider image = AssetImage(PremedAssets.premedlogo);
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class LatestNews extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.asset(
-                      PremedAssets.PrMedLogoLarge,
+                      PremedAssets.premedlogo,
                       width: 96,
                       height: 96,
                       fit: BoxFit.contain,
@@ -173,7 +173,7 @@ class LatestNews extends StatelessWidget {
 class OldNews extends StatelessWidget {
   OldNews({super.key});
   final String title = 'Sindh Announces MDCAT \nReconduct on November 24th.';
-  final ImageProvider image = AssetImage(PremedAssets.PrMedLogoLarge);
+  final ImageProvider image = AssetImage(PremedAssets.premedlogo);
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +190,7 @@ class OldNews extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.asset(
-                      PremedAssets.PrMedLogoLarge,
+                      PremedAssets.premedlogo,
                       width: 96,
                       height: 96,
                       fit: BoxFit.contain,

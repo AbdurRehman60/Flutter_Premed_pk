@@ -61,7 +61,10 @@ class _LoginFormState extends State<LoginForm> {
               children: [
                 Align(
                   alignment: Alignment.topLeft,
-                  child: Image.asset(PremedAssets.PrMedLogo),
+                  child: Image.asset(
+                    PremedAssets.premedlogo,
+                    width: 120,
+                  ),
                 ),
                 SizedBoxes.verticalBig,
                 Text(

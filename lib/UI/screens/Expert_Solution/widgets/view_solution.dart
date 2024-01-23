@@ -111,7 +111,15 @@ class ViewSolution extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                 ),
-                                child: Image.network(doubt.imgURL),
+                                child: Image.network(
+                                  doubt.imgURL,
+                                  errorBuilder: (BuildContext context,
+                                      Object error, StackTrace? stackTrace) {
+                                    return ColoredBox(
+                                      color: PreMedColorTheme().neutral100,
+                                    );
+                                  },
+                                ),
                               )
                             else
                               const SizedBox(),

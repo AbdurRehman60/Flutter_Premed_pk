@@ -27,28 +27,28 @@ class NotificationIcon extends StatelessWidget {
               height: 31,
             ),
           ),
-          Positioned(
-            right: 0,
-            top: 0,
-            child: Consumer<WebNotificationsProvider>(
-              builder: (context, webNotificationsProvider, child) {
-                final int itemCount =
-                    webNotificationsProvider.webNotificationList.length;
-                return Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(itemCount > 0 ? itemCount.toString() : '0',
-                      style: PreMedTextTheme().subtext1.copyWith(
-                            fontSize: 10,
-                            color: PreMedColorTheme().white,
-                          )),
-                );
-              },
-            ),
-          ),
+          // Positioned(
+          //   right: 0,
+          //   top: 0,
+          //   child: Consumer<WebNotificationsProvider>(
+          //     builder: (context, webNotificationsProvider, child) {
+          //       final int itemCount =
+          //           webNotificationsProvider.webNotificationList.length;
+          //       return Container(
+          //         padding: const EdgeInsets.all(6),
+          //         decoration: const BoxDecoration(
+          //           color: Colors.red,
+          //           shape: BoxShape.circle,
+          //         ),
+          //         child: Text(itemCount > 0 ? itemCount.toString() : '0',
+          //             style: PreMedTextTheme().subtext1.copyWith(
+          //                   fontSize: 10,
+          //                   color: PreMedColorTheme().white,
+          //                 )),
+          //       );
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

@@ -82,7 +82,7 @@ class PaymentTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "🚀 Order Placed Successfulssssly!",
+                        "🚀 Order Placed Successfully!",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.0,

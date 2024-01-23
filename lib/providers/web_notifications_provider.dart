@@ -44,7 +44,6 @@ class WebNotificationsProvider extends ChangeNotifier {
         Endpoints.GetWebNotifications,
       );
       final List<WebNotificationModel> list = [];
-      print(response);
       for (final data in response) {
         final WebNotificationModel fetchedData =
             WebNotificationModel.fromJson(data);
