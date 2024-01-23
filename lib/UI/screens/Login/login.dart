@@ -22,8 +22,9 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: TypingTextAnimation()),
+                      padding: EdgeInsets.all(8.0),
+                      child: TypingTextAnimation(),
+                    ),
                     SizedBoxes.verticalBig,
                     Image.asset('assets/images/Books.png'),
                   ],

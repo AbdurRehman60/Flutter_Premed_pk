@@ -194,7 +194,6 @@ class PaymentTile extends StatelessWidget {
         if (selected)
           Container(
             width: double.infinity,
-            height: 880,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               border: Border.all(

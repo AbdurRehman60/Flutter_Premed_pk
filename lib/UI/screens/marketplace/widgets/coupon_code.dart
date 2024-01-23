@@ -69,7 +69,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: CustomTextField(
                   inputFormatters: [UpperCaseTextFormatter()],
                   hintText: 'Enter Code',
@@ -93,7 +93,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
               else
                 Expanded(
                   child: CustomButton(
-                    buttonText: 'Apply',
+                    buttonText: '→',
                     onPressed: onApplyCouponPressed,
                   ),
                 ),
@@ -104,11 +104,13 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Promo Code: ${cartProvider.couponCode} is applied",
-                  style: PreMedTextTheme().subtext.copyWith(
-                        color: PreMedColorTheme().neutral400,
-                      ),
+                Flexible(
+                  child: Text(
+                    "Promo Code: ${cartProvider.couponCode} is applied",
+                    style: PreMedTextTheme().subtext.copyWith(
+                          color: PreMedColorTheme().neutral400,
+                        ),
+                  ),
                 ),
                 IconButton(
                   visualDensity: VisualDensity.compact,

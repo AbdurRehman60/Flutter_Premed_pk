@@ -7,7 +7,6 @@ import 'package:premedpk_mobile_app/UI/screens/expert_solution/display_image_scr
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/main.dart';
-import 'package:video_player/video_player.dart';
 
 class CameraScreen extends StatefulWidget {
   // final VoidCallback onConfirm;
@@ -23,7 +22,6 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen>
     with WidgetsBindingObserver {
   CameraController? controller;
-  VideoPlayerController? videoController;
   // late Future<void> _initializeControllerFuture;
   File? _imageFile;
   // File? _videoFile;
@@ -283,7 +281,7 @@ class _CameraScreenState extends State<CameraScreen>
   @override
   void dispose() {
     controller?.dispose();
-    videoController?.dispose();
+    // videoController?.dispose();
     super.dispose();
   }
 

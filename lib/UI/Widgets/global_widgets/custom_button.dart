@@ -11,7 +11,7 @@ class CustomButton extends StatelessWidget {
     this.isIconButton = false,
     this.icon = Icons.abc,
     this.iconSize = 24.0,
-    this.fontSize = 20.0,
+    this.fontSize = 18.0,
     this.leftIcon = true,
     this.color,
     this.textColor,
