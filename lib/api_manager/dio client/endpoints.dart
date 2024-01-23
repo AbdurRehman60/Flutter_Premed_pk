@@ -7,7 +7,7 @@ class Endpoints {
 
   // base url
 
-  static const String baseUrl = "http://192.168.10.11"; //saad
+  static const String baseUrl = "http://192.168.48.52"; //saad
 
   //specific URLs
   // static const String serverURL = "${baseUrl}:${serverPort}";
@@ -24,6 +24,7 @@ class Endpoints {
   static const String signup = '/api/auth/signup';
   static const String getLoggedInUser = '/LoggedInUser';
   static const String continueWithGoogle = '/api/auth/google-login';
+  static const String forgotPassword = '/Forgot-Password';
 
   //onboarding endpoints
   static const String OptionalOnboarding = '/api/auth/optional-onboarding';
@@ -51,5 +52,8 @@ class Endpoints {
   static const String SaveFCMToken = '/api/appNotifications/saveFCMToken';
   static const String DeleteFCMToken = '/api/appNotifications/deleteFCMToken';
 
-  static const String GetWebNotifications = '/GetNotifications';
+<<<<<<< HEAD
+=======
+  //update account details
+>>>>>>> 46d1e78afb9a801ef042c355a562325ab43b8c9f
 }

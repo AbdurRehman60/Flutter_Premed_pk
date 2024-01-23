@@ -123,6 +123,8 @@ flutter:
     - assets/icons/messenger.png
     - assets/icons/email.png
     - assets/icons/chat.png
+    - assets/icons/check.png
+    - assets/icons/Error.png
   fonts:
     - family: Inter
       fonts:
