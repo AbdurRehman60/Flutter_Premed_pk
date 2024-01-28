@@ -94,23 +94,25 @@ class FirebaseMessagingAPI {
   }
 
   Future<void> initNotifications() async {
-    await _firebaseMessaging.requestPermission();
-    await Future.delayed(const Duration(seconds: 1));
-    final fCMToken = await _firebaseMessaging.getToken();
-    if (fCMToken != null) {
-      if (kDebugMode) {
-        print('Token $fCMToken');
-      }
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('fcmToken', fCMToken);
-      await _firebaseMessaging.subscribeToTopic('allDownloads');
-      initPushNotifications();
-      initLocalNotifications();
-    } else {
-      if (kDebugMode) {
-        print('Failed to get FCM token');
-      }
-    }
+    _firebaseMessaging.requestPermission().then((value) {
+      _firebaseMessaging.getToken().then((value) {
+        print('TOken$value');
+      });
+    });
+    // if (fCMToken != null) {
+    //   if (kDebugMode) {
+    //     print('Token $fCMToken');
+    //   }
+    //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+    //   await prefs.setString('fcmToken', fCMToken);
+    //   await _firebaseMessaging.subscribeToTopic('allDownloads');
+    //   initPushNotifications();
+    //   initLocalNotifications();
+    // } else {
+    //   if (kDebugMode) {
+    //     print('Failed to get FCM token');
+    //   }
+    // }
   }
 
   void handleMessage(RemoteMessage? message) {
