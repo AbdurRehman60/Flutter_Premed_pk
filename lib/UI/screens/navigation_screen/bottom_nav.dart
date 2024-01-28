@@ -20,7 +20,8 @@ class PremedBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      height:  Platform.isIOS ? 100 : 70,
+      padding: EdgeInsets.only(bottom: Platform.isIOS ? 16 : 0),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -31,6 +32,7 @@ class PremedBottomNav extends StatelessWidget {
             offset: const Offset(0, 5), // changes position of shadow
           ),
         ],
+      
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
