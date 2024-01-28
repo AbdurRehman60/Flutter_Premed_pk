@@ -40,12 +40,8 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
-  end
-end
 
-post_install do |installer|
-  installer.pods_project.targets.each do |target|
-
+    # Start of the permission_handler configuration
     target.build_configurations.each do |config|
 
       
@@ -100,5 +96,7 @@ post_install do |installer|
 
     end
     # End of the permission_handler configuration
+
   end
 end
+
