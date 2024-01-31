@@ -79,7 +79,7 @@ class ModalSheetWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${(bundle.bundlePrice - bundle.bundleDiscount).round()}',
+                'Rs. ${(bundle.bundlePrice - bundle.bundleDiscount).round()}',
                 style: PreMedTextTheme().heading4.copyWith(
                       fontWeight: FontWeights.bold,
                       color: PreMedColorTheme().primaryColorRed,
@@ -88,7 +88,7 @@ class ModalSheetWidget extends StatelessWidget {
               SizedBoxes.horizontalMicro,
               SizedBoxes.horizontalMicro,
               Text(
-                '${bundle.bundlePrice}',
+                'Rs. ${bundle.bundlePrice}',
                 style: TextStyle(
                   color: PreMedColorTheme().neutral500,
                   fontSize: 16,

@@ -11,7 +11,7 @@ class Endpoints {
 
   //specific URLs
   // static const String serverURL = "${baseUrl}:${serverPort}";
-  static const String serverURL = "https://testapi.premed.pk";
+  static const String serverURL = "https://prodapi.premed.pk";
 
   // receiveTimeout
   static const Duration receiveTimeout = Duration(milliseconds: 15000);

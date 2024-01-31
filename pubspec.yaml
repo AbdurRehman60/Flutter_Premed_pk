@@ -63,7 +63,7 @@ dependencies:
   flutter_vlc_player: ^7.4.0
   firebase_messaging: ^14.7.9
   flutter_local_notifications: ^16.2.0
-  camera_avfoundation: ^0.9.14
+  camera_avfoundation: ^0.9.13
 
 dev_dependencies:
   flutter_test:
@@ -111,6 +111,8 @@ flutter:
     - assets/images/cartemptystate.png
     - assets/images/happy.png
     - assets/images/purchase.png
+    - assets/images/english.png
+    - assets/images/logic.png
 
     #icons
     - assets/icons/editprofile.png
@@ -136,30 +138,3 @@ flutter:
         - asset: assets/fonts/Inter-Regular.ttf
         - asset: assets/fonts/Inter-SemiBold.ttf
         - asset: assets/fonts/Inter-Thin.ttf
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages

@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offers_widget.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -13,12 +14,14 @@ class CardContent extends StatelessWidget {
     required this.renderPoints,
     this.renderDescription = true,
     this.points,
+    this.small = false,
   });
 
   final BundleModel bundle;
   final bool renderPoints;
   final int? points;
   final bool renderDescription;
+  final bool small;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +34,12 @@ class CardContent extends StatelessWidget {
       children: [
         Row(
           children: [
-            buildBundleIcon(bundle.bundleIcon),
-            SizedBoxes.horizontalMicro,
-            SizedBoxes.horizontalMicro,
+            if (small)
+              const SizedBox()
+            else ...{
+              buildBundleIcon(bundle.bundleIcon),
+              SizedBoxes.horizontalMedium,
+            },
             Flexible(
               child: RichText(
                 maxLines: 3,
@@ -42,6 +48,7 @@ class CardContent extends StatelessWidget {
                   text: bundle.bundleName.split(' ').first,
                   style: PreMedTextTheme().heading5.copyWith(
                         color: PreMedColorTheme().primaryColorRed,
+                        fontSize: small ? 16 : 20,
                       ),
                   children: <TextSpan>[
                     TextSpan(
@@ -49,6 +56,7 @@ class CardContent extends StatelessWidget {
                           ' ${bundle.bundleName.split(' ').skip(1).join(' ')}',
                       style: PreMedTextTheme().heading5.copyWith(
                             color: PreMedColorTheme().black,
+                            fontSize: small ? 16 : 20,
                           ),
                     ),
                   ],
@@ -101,25 +109,26 @@ class CardContent extends StatelessWidget {
         Row(
           children: [
             Text(
-              '${(bundle.bundlePrice - bundle.bundleDiscount).round()}',
+              'Rs. ${(bundle.bundlePrice - bundle.bundleDiscount).round()}',
               style: PreMedTextTheme().heading4.copyWith(
                     fontWeight: FontWeights.bold,
                     color: PreMedColorTheme().primaryColorRed,
+                    fontSize: small ? 16 : 20,
                   ),
             ),
             SizedBoxes.horizontalMicro,
             SizedBoxes.horizontalMicro,
             Text(
-              '${bundle.bundlePrice}',
+              'Rs. ${bundle.bundlePrice}',
               style: TextStyle(
                 color: PreMedColorTheme().neutral500,
-                fontSize: 16,
+                fontSize: small ? 14 : 20,
                 decoration: TextDecoration.lineThrough,
               ),
             ),
           ],
         ),
-        SizedBoxes.verticalMedium,
+        if (!small) SizedBoxes.verticalMedium,
         if (bundle.bundleName.contains("Course") ||
             bundle.bundleName.contains("Counselling")) ...{
           Wrap(
@@ -188,6 +197,7 @@ class CardContent extends StatelessWidget {
               buttonText: 'Buy Now ->',
               onPressed: () {
                 cartProvider.addToCart(bundle);
+                MarketPlace.openDrawer();
               },
             ),
           ),

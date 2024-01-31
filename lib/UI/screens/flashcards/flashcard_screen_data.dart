@@ -21,6 +21,20 @@ List<Map<String, String>> gridData = [
     'color': '#FFEEED'
   },
   {
+    "image": "assets/images/english.png",
+    "text": "English",
+    "page": "page1",
+    "subject": "English",
+    'color': '#e7f6f9',
+  },
+  {
+    "image": "assets/images/logic.png",
+    "text": "Logical Reasoning",
+    "page": "page3",
+    "subject": "Logical Reasoning",
+    'color': '#F3FCE8'
+  },
+  {
     "image": "assets/images/maths.png",
     "text": "Mathematics Reasoning",
     "page": "page3",
@@ -32,14 +46,8 @@ List<Map<String, String>> gridData = [
     "text": "Science Reasoning",
     "page": "page3",
     "subject": "Science Reasoning",
-    'color': '#ECFBDB'
+    'color': '#faf8df'
   },
-  {
-    "image": "assets/images/science.png",
-    "text": "Logical Reasoning",
-    "page": "page3",
-    "subject": "Logical Reasoning",
-    'color': '#F3FCE8'
-  },
+
   // Add more items as needed.
 ];

@@ -105,10 +105,14 @@ class CartWidget extends StatelessWidget {
                       return Row(
                         children: [
                           Expanded(
-                            child: CardContent(
-                              bundle: bundle,
-                              renderPoints: false,
-                              renderDescription: false,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: CardContent(
+                                bundle: bundle,
+                                renderPoints: false,
+                                renderDescription: false,
+                                small: true,
+                              ),
                             ),
                           ),
                           IconButton(
@@ -130,21 +134,29 @@ class CartWidget extends StatelessWidget {
                     title: "YOUR CART IS EMPTY",
                     body: ""),
           ),
+          SizedBox(
+            width: double.infinity,
+            child: Divider(
+              color: PreMedColorTheme().neutral300,
+            ),
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              SizedBoxes.verticalMicro,
               Text(
                 'Total',
                 style: PreMedTextTheme().heading5,
               ),
               SizedBoxes.verticalMedium,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   Text('Rs. ${cartProvider.afterDiscountPrice}',
                       style: PreMedTextTheme().heading3.copyWith(
                             color: PreMedColorTheme().primaryColorRed,
                           )),
+                  SizedBoxes.horizontalMicro,
                   Text(
                     'Rs. ${cartProvider.totalOriginalPrice}',
                     style: PreMedTextTheme().heading7.copyWith(

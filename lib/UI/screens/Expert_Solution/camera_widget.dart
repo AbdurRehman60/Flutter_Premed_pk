@@ -48,7 +48,7 @@ class _CameraScreenState extends State<CameraScreen>
 
   Future<void> getPermissionStatus() async {
     await Permission.camera.request();
-    print("in");
+
     final status = await Permission.camera.status;
 
     if (status.isGranted) {
