@@ -36,4 +36,6 @@ class PremedAssets {
   static String Messenger = 'assets/icons/messenger.png';
   static String Email = 'assets/icons/email.png';
   static String Chat = 'assets/icons/chat.png';
+  static String QA = 'assets/icons/QA.png';
+  static String YT = 'assets/icons/YT.png';
 }

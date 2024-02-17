@@ -5,6 +5,7 @@ import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dar
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -74,6 +75,43 @@ class HomeScreen extends StatelessWidget {
                         );
                       },
                     ),
+                    SizedBoxes.verticalMedium,
+                    NotesTile(
+                      heading: "Attempt Questions",
+                      description:
+                          "Attempt over 50,000 Questions on our website to prepare for the MDCAT, AKU and NUMS exam. This feature will be launched on the app very soon.",
+                      icon: PremedAssets.QA,
+                      bgColor: Color.fromARGB(255, 93, 230, 98),
+                      btnColor: Colors.green,
+                      onTap: () async {
+                        const url =
+                            'https://premed.pk/decks/mdcat%20qbank'; // Replace with your YouTube channel URL
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                    ),
+                    SizedBoxes.verticalMedium,
+                    NotesTile(
+                      heading: "Latest updates on the \nMDCAT!",
+                      description:
+                          "Visit our YouTube Channel to watch guidance videos made by seniors who have cracked their entrance exams and gotten admission into their dream universities! Make sure to subscribe to stay updated!",
+                      icon: PremedAssets.YT,
+                      bgColor: PreMedColorTheme().primaryColorRed300,
+                      btnColor: PreMedColorTheme().primaryColorRed600,
+                      onTap: () async {
+                        const url =
+                            'https://www.youtube.com/@premedpk'; // Replace with your YouTube channel URL
+                        if (await canLaunch(url)) {
+                          await launch(url);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                    ),
+                    SizedBoxes.verticalMedium,
                   ],
                 );
               },
