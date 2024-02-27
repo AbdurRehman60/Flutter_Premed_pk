@@ -65,6 +65,8 @@ dependencies:
   flutter_vlc_player: ^7.4.0
   firebase_messaging: ^14.7.9
   flutter_local_notifications: ^16.2.0
+  google_fonts: ^6.1.0
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -113,6 +115,7 @@ flutter:
     - assets/images/cartemptystate.png
     - assets/images/happy.png
     - assets/images/purchase.png
+    - assets/images/chartcircle.png
 
     #icons
     - assets/icons/editprofile.png
