@@ -116,6 +116,7 @@ flutter:
     - assets/images/happy.png
     - assets/images/purchase.png
     - assets/images/chartcircle.png
+    - assets/images/infocell.png
 
     #icons
     - assets/icons/editprofile.png
