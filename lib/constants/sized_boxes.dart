@@ -5,8 +5,10 @@ class SizedBoxes {
 
   //vertical sized boxes
   static SizedBox vertical2Px = const SizedBox(height: 2);
+  static SizedBox vertical3Px = const SizedBox(height: 3,);
   static SizedBox verticalMicro = const SizedBox(height: 4);
   static SizedBox verticalTiny = const SizedBox(height: 8);
+  static SizedBox vertical10Px = const SizedBox(height: 10);
   static SizedBox verticalMedium = const SizedBox(height: 14);
   static SizedBox verticalLarge = const SizedBox(height: 16);
   static SizedBox verticalBig = const SizedBox(height: 20);
