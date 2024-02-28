@@ -44,7 +44,7 @@ class StatisticsPage extends StatelessWidget {
                         'assets/images/chartcircle.png',
                       ),
                     ),
-                    SizedBoxes.verticalLarge,
+                    SizedBoxes.horizontalLarge,
                     const Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
