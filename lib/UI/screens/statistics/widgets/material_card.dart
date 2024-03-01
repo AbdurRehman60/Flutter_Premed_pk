@@ -7,7 +7,7 @@ class MaterialCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 2,
+      elevation: 5,
       clipBehavior: Clip.hardEdge,
       borderRadius: BorderRadius.circular(20),
       child: Container(
