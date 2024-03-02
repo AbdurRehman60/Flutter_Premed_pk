@@ -130,6 +130,7 @@ flutter:
     - assets/icons/chat.png
     - assets/icons/QA.png
     - assets/icons/YT.png
+    - assets/icons/
   fonts:
     - family: Inter
       fonts:

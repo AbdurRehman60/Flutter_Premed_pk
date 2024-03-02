@@ -10,6 +10,7 @@ class SizedBoxes {
   static SizedBox verticalTiny = const SizedBox(height: 8);
   static SizedBox vertical10Px = const SizedBox(height: 10);
   static SizedBox verticalMedium = const SizedBox(height: 14);
+  static SizedBox vertical15Px = const SizedBox(height: 15,);
   static SizedBox verticalLarge = const SizedBox(height: 16);
   static SizedBox verticalBig = const SizedBox(height: 20);
   static SizedBox verticalGargangua = const SizedBox(height: 30);
@@ -19,6 +20,7 @@ class SizedBoxes {
   static SizedBox horizontal2Px = const SizedBox(width: 2);
   static SizedBox horizontalMicro = const SizedBox(width: 4);
   static SizedBox horizontalTiny = const SizedBox(width: 8);
+  static SizedBox horizontal12Px = const SizedBox(width: 12);
   static SizedBox horizontalMedium = const SizedBox(width: 14);
   static SizedBox horizontalLarge = const SizedBox(width: 16);
   static SizedBox horizontalBig = const SizedBox(width: 20);
