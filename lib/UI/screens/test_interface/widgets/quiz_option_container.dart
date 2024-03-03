@@ -20,6 +20,7 @@ class QuizOptionContainer extends StatelessWidget {
         ),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             optionNumber,
