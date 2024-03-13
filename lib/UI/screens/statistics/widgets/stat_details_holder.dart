@@ -8,7 +8,7 @@ class StatDetailHolder extends StatelessWidget {
       required this.details,
       this.preDetails,
       required this.textColor});
-  final String count;
+  final dynamic count;
   final String? preDetails;
   final String details;
   final Color textColor;
@@ -18,7 +18,7 @@ class StatDetailHolder extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          count,
+          '$count',
           style: GoogleFonts.rubik(
             height: 1.3,
             fontWeight: FontWeight.w800,

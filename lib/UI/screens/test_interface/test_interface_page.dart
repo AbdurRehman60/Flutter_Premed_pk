@@ -205,7 +205,8 @@ class TestInterfacePage extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    border:Border.all( color: const Color(0xFFEC5863),width: 1),
+                    border:
+                        Border.all(color: const Color(0xFFEC5863), width: 1),
                   ),
                   child: SvgPicture.asset('assets/icons/flask-icon.svg'),
                 ),

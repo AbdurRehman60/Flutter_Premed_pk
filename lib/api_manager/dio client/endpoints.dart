@@ -12,7 +12,7 @@ class Endpoints {
   //specific URLs
   // static const String serverURL = "${baseUrl}:${serverPort}";
   static const String serverURL = "https://testapi.premed.pk";
-
+  static const statsUrl = 'https://prodapi.premed.pk/';
   // receiveTimeout
   static const Duration receiveTimeout = Duration(milliseconds: 15000);
 
@@ -50,4 +50,5 @@ class Endpoints {
 
   static const String SaveFCMToken = '/api/appNotifications/saveFCMToken';
   static const String DeleteFCMToken = '/api/appNotifications/deleteFCMToken';
+  static const statistics = 'api/statistics/compute-statistics';
 }

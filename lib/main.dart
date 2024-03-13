@@ -10,6 +10,7 @@ import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dar
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/splash_screen/splash_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/statistics_page.dart';
+import 'package:premedpk_mobile_app/UI/screens/test_interface/test_interface_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
@@ -17,6 +18,7 @@ import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
+import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/utils/services/notifications/firebase_messaging_api.dart';
@@ -71,6 +73,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => UplaodImageProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => UserStatProvider()),
       ],
       child: MaterialApp(
         routes: {
