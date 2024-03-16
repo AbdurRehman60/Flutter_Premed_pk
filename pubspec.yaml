@@ -118,6 +118,7 @@ flutter:
     - assets/images/purchase.png
     - assets/images/chartcircle.png
     - assets/images/infocell.png
+    - assets/images/
 
     #icons
     - assets/icons/editprofile.png

@@ -65,23 +65,3 @@ class SubjectAttempt {
   final int totalQuestionsCorrect;
   final int totalQuestionsIncorrect;
 }
-
-//TotoalQuestionAttempted
-//DecksAttemptedr
-//TestsAttmempted
-//Paractice TestsAttempted
-//Total Time Taken
-//Average Time per Question
-//Minutes
-//Seconds
-//
-// UserStatModel(
-// ,
-// json['testsAttempted'],
-// json['practiceAttempted'],
-// json['totalTimeTaken'],
-// json['avgTimePerQuestion'],
-// json['totalQuestionsCorrect'],
-// totalQuestionAttempted: json['totalQuestionsAttempted'],
-// userStatid: json['_id'],
-// userId: json['userId']);

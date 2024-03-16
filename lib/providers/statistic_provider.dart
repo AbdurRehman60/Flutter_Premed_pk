@@ -29,16 +29,6 @@ class UserStatProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void fetchUser() async {
-  //   try {
-  //     print('function called');
-  //     final Response res = await _client.post(
-  //         Endpoints.clientServerURL+Endpoints.UserStatistics,
-  //         data: {"userId": "658adb86b90ac17d82560a7c"});
-  //     print(res);
-  //   } catch (e) {}
-  // }
-  //
   Future<Map<String, dynamic>> fetchUserStatistics() async {
     Map<String, dynamic> result;
     _loadingStatus = UserStatStatus.Fetching;
@@ -83,8 +73,4 @@ class UserStatProvider extends ChangeNotifier {
     }
     return result;
   }
-
-//   Future<UserStatModel> getUserStatistics(){
-//
-// }
 }
