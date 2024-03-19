@@ -64,6 +64,7 @@ dependencies:
   firebase_messaging: ^14.7.9
   flutter_local_notifications: ^16.2.0
   camera_avfoundation: ^0.9.13
+  gestures: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -113,6 +114,7 @@ flutter:
     - assets/images/purchase.png
     - assets/images/english.png
     - assets/images/logic.png
+    - assets/images/
 
     #icons
     - assets/icons/editprofile.png

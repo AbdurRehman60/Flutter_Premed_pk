@@ -34,7 +34,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    buttonSize = Size(MediaQuery.of(context).size.width * 1, 54);
+    buttonSize = Size(MediaQuery.of(context).size.width * 0.7, 50);
     return isOutlined
         ? TextButton(
             onPressed: isActive ? onPressed ?? () {} : null,

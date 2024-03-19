@@ -2,6 +2,7 @@ import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/required_onboa
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/ui/screens/onboarding/widgets/curve_painter.dart';
 
+
 class RequiredOnboarding extends StatelessWidget {
   const RequiredOnboarding({super.key});
 
@@ -11,11 +12,6 @@ class RequiredOnboarding extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                gradient: PreMedColorTheme().primaryGradient,
-              ),
-            ),
             SizedBox(
               width: double.infinity,
               height: MediaQuery.of(context).size.height * 0.6,
@@ -28,35 +24,55 @@ class RequiredOnboarding extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBoxes.verticalBig,
-                      Text(
-                        'Welcome Aboard',
-                        style: PreMedTextTheme().heading2.copyWith(
-                              color: PreMedColorTheme().primaryColorRed,
-                            ),
-                      ),
-                      SizedBoxes.verticalTiny,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Align(
-                          child: Text(
-                            'Just One More Step to Begin Your Journey in Medicine.',
-                            style: PreMedTextTheme().subtext.copyWith(
-                                  color: PreMedColorTheme().neutral500,
-                                  height: 1.4,
-                                ),
+                      SizedBoxes.verticalExtraGargangua,
+                      Column(
+                        children: [
+                          SizedBoxes.verticalExtraGargangua,
+                          Text(
+                            'Sign Up',
                             textAlign: TextAlign.center,
+                            style: PreMedTextTheme()
+                                .heading1
+                                .copyWith(color: PreMedColorTheme().primaryColorRed),
                           ),
-                        ),
-                      ),
+                          SizedBoxes.verticalTiny,
+                          RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              style: PreMedTextTheme().subtext.copyWith(color: PreMedColorTheme().black),
+                              children: [
+                                TextSpan(
+                                  text: 'A warm welcome to the ',
+                                ),
+                                TextSpan(
+                                  text: 'Pre',
+                                  style: PreMedTextTheme().subtext1,
+                                ),
+                                TextSpan(
+                                  text: 'M',
+                                  style: PreMedTextTheme().subtext1.copyWith(color: PreMedColorTheme().primaryColorRed),
+                                ),
+                                TextSpan(
+                                  text: 'ed',
+                                  style: PreMedTextTheme().subtext1,
+                                ),
+                                TextSpan(
+                                  text:  ' family! We\'re delighted to have you here. Let the magic begin!',
+                                ),
+                              ],
+                            ),
+                          ),
                       SizedBoxes.verticalExtraGargangua,
                       const RequiredOnboardingForm(),
                     ],
                   ),
+                    ]
                 ),
               ),
             ),
+            )
           ],
         ),
       ),

@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -10,6 +9,8 @@ import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.d
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_success.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/onboarding/optional_onboarding.dart';
+import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/screens/splash_screen/splash_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';

@@ -11,6 +11,10 @@ import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
 import 'package:premedpk_mobile_app/utils/data/school_data.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/gestures.dart';
+import 'dart:math' as math;
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
 
 class RequiredOnboardingForm extends StatefulWidget {
   const RequiredOnboardingForm({super.key});
@@ -22,6 +26,7 @@ class RequiredOnboardingForm extends StatefulWidget {
 class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
   String error = "";
   bool hasErrors = false;
+
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
@@ -50,12 +55,12 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
         });
       }
 
-      if (auth.city.isEmpty) {
-        setState(() {
-          error = 'City can not be empty.';
-          hasErrors = true;
-        });
-      }
+      // if (auth.city.isEmpty) {
+      //   setState(() {
+      //     error = 'City can not be empty.';
+      //     hasErrors = true;
+      //   });
+      // }
 
       if (auth.school.isEmpty) {
         setState(() {
@@ -94,59 +99,16 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
     return Column(
       children: [
         Container(
-          decoration: BoxDecoration(
-            color: PreMedColorTheme().white,
-            border: Border.all(
-              color: PreMedColorTheme().neutral300,
-            ),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Phone Number',
-                    style: PreMedTextTheme().subtext,
-                  ),
-                ),
-                SizedBoxes.verticalTiny,
-                PhoneDropdown(
-                  onPhoneNumberSelected: onPhoneNumberSelected,
-                  hintText: "Enter Your Phone Number",
-                  initialValue: auth.phoneNumber,
-                ),
-                SizedBoxes.verticalMedium,
-                PhoneFieldWithCheckbox(
-                  onWhatsAppNumberSelected: (whatsappNumber) {
-                    auth.whatsappNumber = whatsappNumber;
-                  },
-                  isPhoneFieldEnabled: auth.whatsappNumber.isEmpty ||
-                      auth.whatsappNumber == auth.phoneNumber,
-                  initialValue: auth.whatsappNumber,
-                ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'City',
-                    style: PreMedTextTheme().subtext,
-                  ),
-                ),
-                SizedBoxes.verticalTiny,
-                CityDropdownList(
-                  items: cities,
-                  selectedItem: auth.city,
-                  onChanged: onCitySelected,
-                ),
-                SizedBoxes.verticalLarge,
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'School Name',
+                    'Educational Information',
                     textAlign: TextAlign.start,
-                    style: PreMedTextTheme().subtext,
+                    style: PreMedTextTheme().subtext1,
                   ),
                 ),
                 SizedBoxes.verticalLarge,
@@ -159,38 +121,44 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Which year are you in?',
-                    style: PreMedTextTheme().body,
+                    'Contact Information',
+                    style: PreMedTextTheme().subtext1,
                   ),
                 ),
-                SizedBoxes.verticalMicro,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: options.map(
-                    (option) {
-                      return Row(
-                        children: [
-                          Radio(
-                            value: option,
-                            groupValue: auth.intendedYear,
-                            onChanged: (value) {
-                              auth.intendedYear = value!;
-                            },
-                            visualDensity: VisualDensity.compact,
-                            activeColor: PreMedColorTheme().primaryColorRed,
-                          ),
-                          Flexible(
-                            child: Text(
-                              option,
-                              style: PreMedTextTheme().subtext,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ).toList(),
+                SizedBoxes.verticalTiny,
+                PhoneDropdown(
+                  onPhoneNumberSelected: onPhoneNumberSelected,
+                  hintText: "",
+                  initialValue: auth.phoneNumber,
                 ),
                 SizedBoxes.verticalMedium,
+                PhoneFieldWithCheckbox(
+                  onWhatsAppNumberSelected: (whatsappNumber) {
+                    auth.whatsappNumber = whatsappNumber;
+                  },
+                  isPhoneFieldEnabled: auth.whatsappNumber.isEmpty ||
+                      auth.whatsappNumber == auth.phoneNumber,
+                  initialValue: auth.whatsappNumber,
+                ),
+                SizedBoxes.verticalLarge,
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Parent\'s Information',
+                    style: PreMedTextTheme().subtext1,
+                  ),
+                ),
+                SizedBoxes.verticalTiny,
+                CustomTextField(
+                  prefixIcon: Icon(Icons.person_outline_rounded),
+                  labelText: 'Parent/Guardian\'s Name',
+                ),
+                SizedBoxes.verticalTiny,
+                CustomTextField(
+                  prefixIcon: Transform.rotate(
+                      angle: math.pi / 2, child: Icon(Icons.phone_enabled_outlined)),
+                  labelText: 'Parent/Guardian\'s Name',
+                ),
                 if (hasErrors)
                   Text(
                     error,
@@ -208,25 +176,56 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
         ),
         SizedBoxes.verticalBig,
         CustomButton(
-          buttonText: 'Next',
-          isIconButton: true,
-          icon: Icons.arrow_forward,
-          leftIcon: false,
-          color: PreMedColorTheme().white,
-          textColor: PreMedColorTheme().neutral600,
+          buttonText: 'Create Account',
+          color: PreMedColorTheme().primaryColorRed,
+          textColor: PreMedColorTheme().white,
           onPressed: onNextPressed,
         ),
         SizedBoxes.verticalBig,
-        const HubspotHelpButton(
-          light: true,
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            style: PreMedTextTheme().body.copyWith(
+              color: PreMedColorTheme().neutral500,
+            ),
+            children: [
+              TextSpan(
+                text: "By signing in, you agree to our ",
+                style: PreMedTextTheme().body.copyWith(
+                  color: PreMedColorTheme().neutral500,
+                ),
+              ),
+              TextSpan(
+                text: "Privacy Policy",
+                style: PreMedTextTheme().body1.copyWith(
+                  color: PreMedColorTheme().neutral500,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicy() ));
+                  },
+              ),
+              TextSpan(
+                text: " and ",
+                style: PreMedTextTheme().body.copyWith(
+                  color: PreMedColorTheme().neutral500,
+                ),
+              ),
+              TextSpan(
+                text: "Terms of Use",
+                style: PreMedTextTheme().body1.copyWith(
+                    color: PreMedColorTheme().neutral500
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => TermsCondition() ));
+                  },
+              ),
+            ],
+          ),
         ),
       ],
     );
   }
 }
 
-List<String> options = [
-  'FSc 1st Year/AS Level',
-  'FSc 2nd Year/A2 Level',
-  'Have given MDCAT & improving'
-];

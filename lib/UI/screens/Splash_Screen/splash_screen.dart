@@ -1,4 +1,5 @@
 import 'package:lottie/lottie.dart';
+import 'package:premedpk_mobile_app/UI/screens/Login/signin.dart';
 import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
@@ -40,7 +41,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
+                    builder: (context) => const SignIn(
+
+                    ),
                   ),
                 );
               }
@@ -51,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const LoginScreen(),
+              builder: (context) => const SignIn(),
             ),
           );
         }

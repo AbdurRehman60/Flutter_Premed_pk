@@ -24,7 +24,7 @@ class HubspotHelpButton extends StatelessWidget {
             Icons.chat,
             color: light
                 ? PreMedColorTheme().white
-                : PreMedColorTheme().neutral400,
+                : PreMedColorTheme().neutral500,
             size: 20,
           ),
           SizedBoxes.horizontalTiny,
@@ -33,7 +33,7 @@ class HubspotHelpButton extends StatelessWidget {
             style: PreMedTextTheme().subtext.copyWith(
                   color: light
                       ? PreMedColorTheme().white
-                      : PreMedColorTheme().neutral400,
+                      : PreMedColorTheme().neutral500,
                 ),
           )
         ],

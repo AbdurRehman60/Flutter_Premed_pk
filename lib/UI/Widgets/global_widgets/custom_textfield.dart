@@ -96,81 +96,85 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Stack(
       alignment: Alignment.centerRight,
       children: [
-        TextFormField(
-          enabled: widget.enabled,
-          initialValue: widget.initialValue,
-          obscureText: _obscureText,
-          decoration: InputDecoration(
-            filled: widget.filled,
-            fillColor: widget.fillColor,
-            border: widget.border,
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: PreMedColorTheme().neutral200,
+        Material(
+          elevation: 4,
+          borderRadius: BorderRadius.circular(18),
+          child: TextFormField(
+            enabled: widget.enabled,
+            initialValue: widget.initialValue,
+            obscureText: _obscureText,
+            decoration: InputDecoration(
+              filled: widget.filled,
+              fillColor: widget.fillColor,
+              border: widget.border,
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(18),
+                borderSide: BorderSide(
+                  color: PreMedColorTheme().neutral200,
+                ),
               ),
+              enabledBorder: widget.enabledBorder ??
+                  OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(18),
+                    borderSide: BorderSide(
+                      color: PreMedColorTheme().white,
+                    ),
+                  ),
+              focusedBorder: widget.focusedBorder ??
+                  OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(18),
+                    borderSide: BorderSide(
+                      color: PreMedColorTheme().black,
+                    ),
+                  ),
+              errorBorder: widget.errorBorder ??
+                  OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(18),
+                    borderSide: const BorderSide(color: Colors.red),
+                  ),
+              focusedErrorBorder: widget.focusedErrorBorder ??
+                  OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(18),
+                    borderSide: const BorderSide(color: Colors.red),
+                  ),
+              errorText: widget.errorText,
+              errorStyle: widget.errorStyle,
+              hintText: widget.hintText,
+              hintStyle: widget.hintStyle ??
+                  PreMedTextTheme()
+                      .subtext
+                      .copyWith(color: PreMedColorTheme().neutral400),
+              isDense: widget.isDense,
+              suffixIcon: widget.suffixIcon,
+              prefixIcon: widget.prefixIcon,
+              contentPadding: widget.contentPadding ??
+                  const EdgeInsets.fromLTRB(16, 16, 16, 16),
+              suffixIconConstraints: widget.suffixIconConstraints,
+              labelText: widget.labelText,
+              labelStyle: widget.enabled
+                  ? widget.labelStyle ?? PreMedTextTheme().subtext
+                  : PreMedTextTheme()
+                      .subtext
+                      .copyWith(color: PreMedColorTheme().neutral400),
+              alignLabelWithHint: widget.alignLabelWithText,
             ),
-            enabledBorder: widget.enabledBorder ??
-                OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: PreMedColorTheme().neutral600,
-                  ),
-                ),
-            focusedBorder: widget.focusedBorder ??
-                OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: PreMedColorTheme().black,
-                  ),
-                ),
-            errorBorder: widget.errorBorder ??
-                OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: Colors.red),
-                ),
-            focusedErrorBorder: widget.focusedErrorBorder ??
-                OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: Colors.red),
-                ),
-            errorText: widget.errorText,
-            errorStyle: widget.errorStyle,
-            hintText: widget.hintText,
-            hintStyle: widget.hintStyle ??
-                PreMedTextTheme()
-                    .subtext
-                    .copyWith(color: PreMedColorTheme().neutral400),
-            isDense: widget.isDense,
-            suffixIcon: widget.suffixIcon,
-            prefixIcon: widget.prefixIcon,
-            contentPadding: widget.contentPadding ??
-                const EdgeInsets.fromLTRB(16, 16, 16, 16),
-            suffixIconConstraints: widget.suffixIconConstraints,
-            labelText: widget.labelText,
-            labelStyle: widget.enabled
-                ? widget.labelStyle ?? PreMedTextTheme().subtext
-                : PreMedTextTheme()
-                    .subtext
-                    .copyWith(color: PreMedColorTheme().neutral400),
-            alignLabelWithHint: widget.alignLabelWithText,
+            onTap: widget.onTap,
+            readOnly: widget.readOnly,
+            keyboardType: widget.keyboardType,
+            controller: widget._controller,
+            onChanged: widget.onChanged,
+            validator: widget.validator,
+            style: widget.contentStyle ?? PreMedTextTheme().subtext,
+            maxLines: widget.maxLines,
+            minLines: widget.minLines,
+            inputFormatters: widget.inputFormatters,
           ),
-          onTap: widget.onTap,
-          readOnly: widget.readOnly,
-          keyboardType: widget.keyboardType,
-          controller: widget._controller,
-          onChanged: widget.onChanged,
-          validator: widget.validator,
-          style: widget.contentStyle ?? PreMedTextTheme().subtext,
-          maxLines: widget.maxLines,
-          minLines: widget.minLines,
-          inputFormatters: widget.inputFormatters,
         ),
         if (widget.obscureText)
           IconButton(
             icon: Icon(
-              _obscureText ? Icons.visibility : Icons.visibility_off,
-              color: PreMedColorTheme().neutral400,
+              _obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+              color: PreMedColorTheme().neutral900,
             ),
             onPressed: () {
               setState(() {

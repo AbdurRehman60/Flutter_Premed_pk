@@ -12,11 +12,12 @@ class OrDivider extends StatelessWidget {
         Expanded(
           child: Divider(
             color: PreMedColorTheme().neutral400,
-            thickness: 1.5,
+            thickness: 0.75,
+            indent: 50,
           ),
         ),
         SizedBoxes.horizontalMicro,
-        Text('OR',
+        Text('or',
             style: PreMedTextTheme().heading6.copyWith(
                   fontWeight: FontWeights.medium,
                   color: PreMedColorTheme().neutral400,
@@ -25,7 +26,8 @@ class OrDivider extends StatelessWidget {
         Expanded(
           child: Divider(
             color: PreMedColorTheme().neutral400,
-            thickness: 1.5,
+            endIndent: 50,
+            thickness: .75,
           ),
         ),
       ],
