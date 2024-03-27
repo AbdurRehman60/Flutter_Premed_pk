@@ -57,4 +57,9 @@ class Endpoints {
   static const String UpdatePassword = '/UpdateAccountPassword';
 
   static const String GetWebNotifications = '/GetNotifications';
+  //stat Points
+  static const String UserStatistics= '/api/statistics/compute-statistics';
+
+  //deckPoint
+  static const String Deckspoints= '/api/get-all-published-decks';
 }

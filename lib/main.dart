@@ -15,6 +15,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
+import 'package:premedpk_mobile_app/providers/decks_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UplaodImageProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => WebNotificationsProvider()),
+        ChangeNotifierProvider(create: (_) => DecksProvider()),
       ],
       child: MaterialApp(
         routes: {

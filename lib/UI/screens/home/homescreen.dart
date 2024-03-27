@@ -3,6 +3,7 @@ import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.d
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/decks_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(actions: [IconButton(onPressed: (){
+        final contt = context.read<DecksProvider>();
+        contt.fetchDecks();
+      }, icon: Icon(Icons.ac_unit))],),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
