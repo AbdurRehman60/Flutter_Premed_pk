@@ -115,6 +115,7 @@ flutter:
     - assets/images/purchase.png
     - assets/images/english.png
     - assets/images/logic.png
+    - assets/images/
 
     #icons
     - assets/icons/editprofile.png
@@ -128,6 +129,7 @@ flutter:
     - assets/icons/chat.png
     - assets/icons/check.png
     - assets/icons/Error.png
+    - assets/icons/
   fonts:
     - family: Inter
       fonts:
