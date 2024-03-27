@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/screens/Signup/signup1.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
@@ -7,6 +8,10 @@ import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/gestures.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
+
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -56,50 +61,59 @@ class _LoginFormState extends State<LoginForm> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: 20),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Image.asset(
-                    PremedAssets.premedlogo,
-                    width: 120,
-                  ),
-                ),
                 SizedBoxes.verticalBig,
                 Text(
-                  'Welcome Back!',
-                  textAlign: TextAlign.left,
+                  'Sign In',
+                  textAlign: TextAlign.center,
                   style: PreMedTextTheme()
-                      .heading2
-                      .copyWith(color: PreMedColorTheme().neutral800),
+                      .heading1
+                      .copyWith(color: PreMedColorTheme().primaryColorRed),
                 ),
-                SizedBoxes.verticalMedium,
-                Text(
-                  'Ready to Pursue Your Medical Dreams?',
-                  textAlign: TextAlign.left,
-                  style: PreMedTextTheme()
-                      .subtext
-                      .copyWith(color: PreMedColorTheme().neutral500),
-                ),
-                Text(
-                  'Sign in to Continue Your Journey.',
-                  textAlign: TextAlign.left,
-                  style: PreMedTextTheme()
-                      .subtext
-                      .copyWith(color: PreMedColorTheme().neutral500),
+                SizedBoxes.verticalTiny,
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: PreMedTextTheme().subtext.copyWith(color: PreMedColorTheme().black),
+                    children: [
+                      TextSpan(
+                        text: 'Welcome back to ',
+                      ),
+                      TextSpan(
+                        text: 'Pre',
+                        style: PreMedTextTheme().subtext1,
+                      ),
+                      TextSpan(
+                        text: 'M',
+                        style: PreMedTextTheme().subtext1.copyWith(color: PreMedColorTheme().primaryColorRed),
+                      ),
+                      TextSpan(
+                        text: 'ed',
+                        style: PreMedTextTheme().subtext1,
+                      ),
+                      TextSpan(
+                        text: '! Where’ve you been? Let’s resume your journey!',
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBoxes.verticalExtraGargangua,
                 CustomTextField(
+
                   controller: emailController,
-                  labelText: 'Email',
+                  prefixIcon: Icon(Icons.mail_outline),
+                  labelText: 'Email address',
                   hintText: 'Enter your email',
                   validator: (value) => validateEmail(value),
                 ),
                 SizedBoxes.verticalMedium,
                 CustomTextField(
                   controller: passwordController,
+                  prefixIcon: Icon(Icons.lock_outline),
                   labelText: "Password",
                   hintText: "Enter your password",
                   obscureText: true,
@@ -128,8 +142,9 @@ class _LoginFormState extends State<LoginForm> {
                   SizedBoxes.verticalLarge,
                 } else ...{
                   CustomButton(
-                    buttonText: 'Login',
+                    buttonText: 'Sign In',
                     onPressed: onLoginPressed,
+
                   ),
                   SizedBoxes.verticalMicro,
                   Row(
@@ -137,11 +152,11 @@ class _LoginFormState extends State<LoginForm> {
                     children: [
                       TextButton(
                         child: Text(
-                          'I forgot my password',
+                          'Forgot Password?',
                           style: PreMedTextTheme().subtext.copyWith(
-                                color: PreMedColorTheme().neutral600,
-                                fontWeight: FontWeights.regular,
-                              ),
+                            color: PreMedColorTheme().neutral600,
+                            fontWeight: FontWeights.regular,
+                          ),
                         ),
                         onPressed: () {
                           Navigator.push(
@@ -154,9 +169,6 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ],
                   ),
-                  const OrDivider(),
-                  SizedBoxes.verticalLarge,
-                  const GoogleLogin(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -167,22 +179,64 @@ class _LoginFormState extends State<LoginForm> {
                       TextButton(
                         child: Text(
                           'Sign Up',
-                          style: PreMedTextTheme().subtext.copyWith(
+                          style: PreMedTextTheme().subtext1.copyWith(
                               color: PreMedColorTheme().primaryColorRed),
                         ),
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SignUpScreen(),
+                              builder: (context) => const SignUp(),
                             ),
                           );
                         },
                       ),
                     ],
                   ),
-                },
-                const HubspotHelpButton(),
+                  SizedBox(height: 80,),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: PreMedTextTheme().body.copyWith(
+                        color: PreMedColorTheme().neutral500,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: "By signing in, you agree to our ",
+                          style: PreMedTextTheme().body.copyWith(
+                            color: PreMedColorTheme().neutral500,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Privacy Policy",
+                          style: PreMedTextTheme().body1.copyWith(
+                            color: PreMedColorTheme().neutral500,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicy() ));
+                            },
+                        ),
+                        TextSpan(
+                          text: " and ",
+                          style: PreMedTextTheme().body.copyWith(
+                            color: PreMedColorTheme().neutral500,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Terms of Use",
+                          style: PreMedTextTheme().body1.copyWith(
+                              color: PreMedColorTheme().neutral500
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => TermsCondition() ));
+                            },
+                        ),
+                      ],
+                    ),
+                  ),
+                }
               ],
             ),
           ],
@@ -190,6 +244,7 @@ class _LoginFormState extends State<LoginForm> {
       ),
     );
   }
+
 
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {

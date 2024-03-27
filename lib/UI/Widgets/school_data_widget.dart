@@ -29,61 +29,66 @@ class _SchoolDropdownListState extends State<SchoolDropdownList> {
 
   @override
   Widget build(BuildContext context) {
-    return TypeAheadField<String>(
-      getImmediateSuggestions: true,
-      textFieldConfiguration: TextFieldConfiguration(
-        controller: _typeAheadController,
-        decoration: InputDecoration(
-          hintText: 'Enter your School',
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: PreMedColorTheme().neutral400,
+    return Material(
+      elevation: 3,
+      borderRadius: BorderRadius.circular(18),
+      child: TypeAheadField<String>(
+        getImmediateSuggestions: true,
+        textFieldConfiguration: TextFieldConfiguration(
+          controller: _typeAheadController,
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.school_outlined),
+            hintText: 'University/College',
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide(
+                color: PreMedColorTheme().white,
+              ),
             ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: PreMedColorTheme().neutral900,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide(
+                color: PreMedColorTheme().neutral900,
+              ),
             ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: const BorderSide(color: Colors.red),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: const BorderSide(color: Colors.red),
+            ),
+            contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+            hintStyle: PreMedTextTheme().subtext,
           ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: Colors.red),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: Colors.red),
-          ),
-          contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-          hintStyle: PreMedTextTheme().subtext,
         ),
+        suggestionsCallback: (pattern) {
+          return widget.items.where(
+              (item) => item.toLowerCase().contains(pattern.toLowerCase()));
+        },
+        itemBuilder: (context, itemData) {
+          return ListTile(
+            title: Text(
+              itemData,
+              style: PreMedTextTheme().subtext,
+            ),
+          );
+        },
+        onSuggestionSelected: (String itemData) {
+          setState(() {
+            _typeAheadController.text = itemData;
+          });
+          widget.onChanged(itemData);
+        },
+        noItemsFoundBuilder: (context) {
+          return const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('No schools found.'),
+          );
+        },
+        hideOnLoading: true,
       ),
-      suggestionsCallback: (pattern) {
-        return widget.items.where(
-            (item) => item.toLowerCase().contains(pattern.toLowerCase()));
-      },
-      itemBuilder: (context, itemData) {
-        return ListTile(
-          title: Text(
-            itemData,
-            style: PreMedTextTheme().subtext,
-          ),
-        );
-      },
-      onSuggestionSelected: (String itemData) {
-        setState(() {
-          _typeAheadController.text = itemData;
-        });
-        widget.onChanged(itemData);
-      },
-      noItemsFoundBuilder: (context) {
-        return const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text('No schools found.'),
-        );
-      },
-      hideOnLoading: true,
     );
   }
 }

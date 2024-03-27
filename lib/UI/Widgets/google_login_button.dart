@@ -11,6 +11,7 @@ class GoogleLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
+    final buttonSize = MediaQuery.of(context).size.width * 0.7;
     void onLoginPressed() {
       final Future<Map<String, dynamic>> response1 = auth.continueWithGoogle();
       response1.then(
@@ -31,33 +32,39 @@ class GoogleLogin extends StatelessWidget {
       );
     }
 
-    return GestureDetector(
-      onTap: onLoginPressed,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: PreMedColorTheme()
-                .primaryColorRed, // Change the outline color as needed
-            width: 1.5,
+    return SizedBox(
+      width: buttonSize,
+      height: 50,
+      child: ElevatedButton(
+        onPressed: onLoginPressed,
+        style: ElevatedButton.styleFrom(
+         backgroundColor: PreMedColorTheme().white,
+          elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
           ),
-          borderRadius: BorderRadius.circular(8.0),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.asset(
-              PremedAssets
-                  .GoogleLogo, // Replace with the path to your Google logo image
-              height: 24.0,
-              width: 24.0,
-            ),
-            SizedBoxes.horizontalMedium,
-            Text(
-              'Continue with Google',
-              style: PreMedTextTheme().subtext,
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Image.asset(
+                PremedAssets.GoogleLogo,
+                height: 24.0,
+                width: 24.0,
+                fit: BoxFit.contain,
+              ),
+              // SizedBoxes.horizontalMedium,
+              Expanded(
+                child: Text(
+                  'Sign In with Google',
+                  textAlign: TextAlign.center,
+                  style: PreMedTextTheme().subtext,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

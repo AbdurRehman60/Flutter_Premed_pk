@@ -45,20 +45,20 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
               borderRadius: BorderRadius.circular(2.0),
               border: Border.all(
                 color: isChecked
-                    ? PreMedColorTheme().primaryColorRed
+                    ? PreMedColorTheme().tickcolor
                     : PreMedColorTheme().neutral500,
                 width: 0.5, // Border width
               ),
               color: isChecked
                   ? PreMedColorTheme()
-                      .primaryColorRed // Checked background color
+                      .customCheckboxColor // Checked background color
                   : PreMedColorTheme().white, // Unchecked background color
             ),
             child: isChecked
                 ? Icon(
                     Icons.check,
                     size: checkBoxSize * 0.8,
-                    color: PreMedColorTheme().white, // Checkmark color
+                    color: PreMedColorTheme().tickcolor, // Checkmark color
                   )
                 : null,
           ),
