@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/screens/signup/signup.dart';
@@ -61,7 +62,10 @@ class _LoginFormState extends State<LoginForm> {
               children: [
                 Align(
                   alignment: Alignment.topLeft,
-                  child: Image.asset(PremedAssets.PrMedLogo),
+                  child: Image.asset(
+                    PremedAssets.premedlogo,
+                    width: 120,
+                  ),
                 ),
                 SizedBoxes.verticalBig,
                 Text(
@@ -127,7 +131,29 @@ class _LoginFormState extends State<LoginForm> {
                     buttonText: 'Login',
                     onPressed: onLoginPressed,
                   ),
-                  SizedBoxes.verticalBig,
+                  SizedBoxes.verticalMicro,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        child: Text(
+                          'I forgot my password',
+                          style: PreMedTextTheme().subtext.copyWith(
+                                color: PreMedColorTheme().neutral600,
+                                fontWeight: FontWeights.regular,
+                              ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ForgotPassword(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                   const OrDivider(),
                   SizedBoxes.verticalLarge,
                   const GoogleLogin(),
@@ -140,7 +166,7 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                       TextButton(
                         child: Text(
-                          'SignUp',
+                          'Sign Up',
                           style: PreMedTextTheme().subtext.copyWith(
                               color: PreMedColorTheme().primaryColorRed),
                         ),

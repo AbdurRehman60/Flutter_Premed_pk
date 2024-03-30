@@ -2,8 +2,7 @@
 
 class PremedAssets {
   PremedAssets._();
-  static String PrMedLogo = 'assets/images/PreMedLogo.png';
-  static String PrMedLogoLarge = 'assets/images/premedlogolarge.png';
+  static String premedlogo = 'assets/images/PreMedLogo.png';
   static String ShoppingCart = 'assets/images/shopcart.png';
   static String EsIcon = 'assets/images/eshome.png';
   static String GoogleLogo = 'assets/images/google.png';
@@ -36,6 +35,6 @@ class PremedAssets {
   static String Messenger = 'assets/icons/messenger.png';
   static String Email = 'assets/icons/email.png';
   static String Chat = 'assets/icons/chat.png';
-  static String QA = 'assets/icons/QA.png';
-  static String YT = 'assets/icons/YT.png';
+  static String Check = 'assets/icons/check.png';
+  static String Error = 'assets/icons/Error.png';
 }

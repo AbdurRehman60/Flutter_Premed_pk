@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class PreMedTheme {
@@ -46,21 +45,21 @@ class PreMedTheme {
   AppBarTheme get appBarTheme => AppBarTheme(
         backgroundColor: _ColorTheme.primaryColorRed,
         foregroundColor: _ColorTheme.white,
+        iconTheme: IconThemeData(
+          color: PreMedColorTheme().white,
+        ),
       );
 
   TabBarTheme get tabBarTheme => TabBarTheme(
-        labelColor:
-            PreMedColorTheme().white, // Color for the selected tab label
-        unselectedLabelColor: Colors.black54, // Color for unselected tab labels
+        labelColor: PreMedColorTheme().white,
+        unselectedLabelColor: Colors.black54,
         labelStyle: PreMedTextTheme().body.copyWith(
               fontWeight: FontWeights.bold,
-            ), // Style for selected tab label
+            ),
         unselectedLabelStyle: PreMedTextTheme().body.copyWith(
               fontWeight: FontWeights.medium,
             ),
         indicatorColor: PreMedColorTheme().white,
         dividerColor: Colors.white,
-
-        // Style for unselected tab labels
       );
 }

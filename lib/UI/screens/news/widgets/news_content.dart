@@ -10,7 +10,7 @@ class NewsContent extends StatelessWidget {
     required this.context,
   });
   final String title = 'Sindh Announces MDCAT \nReconduct on November 24th.';
-  final ImageProvider image = AssetImage(PremedAssets.PrMedLogoLarge);
+  final ImageProvider image = AssetImage(PremedAssets.premedlogo);
   final Color itemColor;
   final Color buttonColor;
   final bool showDescription;
@@ -30,7 +30,7 @@ class NewsContent extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.asset(
-                    PremedAssets.PrMedLogoLarge,
+                    PremedAssets.premedlogo,
                     width: 36,
                     height: 36,
                     fit: BoxFit.contain,

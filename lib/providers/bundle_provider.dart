@@ -25,7 +25,7 @@ class BundleProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String _discount = "50%";
+  String _discount = "00%";
 
   String get discount => _discount;
   set discount(String value) {

@@ -82,7 +82,7 @@ class PaymentTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "🚀 Order Placed Successfulssssly!",
+                        "🚀 Order Placed Successfully!",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.0,
@@ -194,7 +194,6 @@ class PaymentTile extends StatelessWidget {
         if (selected)
           Container(
             width: double.infinity,
-            height: 880,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               border: Border.all(

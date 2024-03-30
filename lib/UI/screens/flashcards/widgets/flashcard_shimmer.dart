@@ -10,7 +10,7 @@ class FlashcardShimmer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: GridView.builder(
-          itemCount: 6,
+          itemCount: 7,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 8,

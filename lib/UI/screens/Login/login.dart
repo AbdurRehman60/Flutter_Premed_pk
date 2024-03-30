@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/login/widgets/login_form.dart';
+import 'package:premedpk_mobile_app/UI/widgets/freenotes_animation.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -20,19 +21,9 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Sign Up to get Province',
-                      textAlign: TextAlign.center,
-                      style: PreMedTextTheme()
-                          .heading3
-                          .copyWith(color: PreMedColorTheme().white),
-                    ),
-                    Text(
-                      'wise Chapter guides for FREE!',
-                      textAlign: TextAlign.center,
-                      style: PreMedTextTheme()
-                          .heading3
-                          .copyWith(color: PreMedColorTheme().white),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TypingTextAnimation(),
                     ),
                     SizedBoxes.verticalBig,
                     Image.asset('assets/images/Books.png'),

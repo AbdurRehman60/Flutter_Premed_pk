@@ -86,7 +86,6 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
             } else {
               showError(context, response);
             }
-            // Add this line to print status code
           },
         );
       }

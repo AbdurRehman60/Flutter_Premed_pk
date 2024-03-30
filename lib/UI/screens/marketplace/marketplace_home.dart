@@ -11,6 +11,11 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class MarketPlace extends StatelessWidget {
   const MarketPlace({super.key});
+  static final GlobalKey<ScaffoldState> scaffoldKey =
+      GlobalKey<ScaffoldState>();
+  static void openDrawer() {
+    scaffoldKey.currentState?.openEndDrawer();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +24,7 @@ class MarketPlace extends StatelessWidget {
     bundleProvider.fetchBundles();
     bundleProvider.fetchDiscount();
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
           title: GradientText(
             'PreMed.PK Bundles',
@@ -28,13 +34,14 @@ class MarketPlace extends StatelessWidget {
               PreMedColorTheme().primaryColorRed,
             ],
           ),
+          iconTheme: IconThemeData(
+            color: PreMedColorTheme().black,
+          ),
           actions: [
             Builder(
-              builder: (BuildContext builderContext) => TextButton(
-                onPressed: () {
-                  Scaffold.of(builderContext).openEndDrawer();
-                },
-                child: const CartIcon(),
+              builder: (BuildContext builderContext) => const TextButton(
+                onPressed: openDrawer,
+                child: CartIcon(),
               ),
             ),
           ],

@@ -7,12 +7,12 @@ class Endpoints {
 
   // base url
 
-  static const String baseUrl = "http://192.168.10.11"; //saad
+  static const String baseUrl = "http://192.168.10.6"; //saad
 
   //specific URLs
   // static const String serverURL = "${baseUrl}:${serverPort}";
-  static const String serverURL = "https://testapi.premed.pk";
-  static const statsUrl = 'https://prodapi.premed.pk/';
+  static const String serverURL = "https://prodapi.premed.pk";
+
   // receiveTimeout
   static const Duration receiveTimeout = Duration(milliseconds: 15000);
 
@@ -24,6 +24,7 @@ class Endpoints {
   static const String signup = '/api/auth/signup';
   static const String getLoggedInUser = '/LoggedInUser';
   static const String continueWithGoogle = '/api/auth/google-login';
+  static const String forgotPassword = '/Forgot-Password';
 
   //onboarding endpoints
   static const String OptionalOnboarding = '/api/auth/optional-onboarding';
@@ -33,8 +34,8 @@ class Endpoints {
   static const String RevisionNotes = '/api/notes/all';
   //expertsolution endpoints
   static const String DoubtUpload = '/DoubtUpload';
-
   static const String UserSolved = '/GetDoubtsByUser';
+  static const String RateDoubt = '/RateUser';
 
   // static const String UserSolved = '/UserSolved';
   static const String UserPending = '/UserPending';
@@ -50,5 +51,10 @@ class Endpoints {
 
   static const String SaveFCMToken = '/api/appNotifications/saveFCMToken';
   static const String DeleteFCMToken = '/api/appNotifications/deleteFCMToken';
-  static const statistics = 'api/statistics/compute-statistics';
+
+  //update account details
+  static const String UpdateAccount = '/UpdateAccountInfo';
+  static const String UpdatePassword = '/UpdateAccountPassword';
+
+  static const String GetWebNotifications = '/GetNotifications';
 }

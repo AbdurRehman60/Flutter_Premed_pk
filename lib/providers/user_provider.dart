@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
+import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -6,7 +9,7 @@ class UserProvider extends ChangeNotifier {
 
   UserProvider._internal();
   static final UserProvider _instance = UserProvider._internal();
-
+  final DioClient _client = DioClient();
   void notify() {
     notifyListeners();
   }
@@ -42,5 +45,103 @@ class UserProvider extends ChangeNotifier {
 
   int getCoins() {
     return _user?.coins ?? 0;
+  }
+
+  // Update full name
+  Future<Map<String, dynamic>> updateUserDetails(
+    String fullname,
+  ) async {
+    Map<String, dynamic> result;
+    final Map<String, dynamic> updateData = {
+      'fullname': fullname.isEmpty ? user?.fullName : fullname,
+      'phonenumber': phoneNumber.isNotEmpty ? phoneNumber : user?.phoneNumber,
+      'city': city.isNotEmpty ? city : user?.city,
+      'school': _user?.school,
+    };
+
+    try {
+      final Response response = await _client.post(
+        Endpoints.UpdateAccount,
+        data: updateData,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+
+        if (responseData['Error'] == false) {
+          notify();
+          result = {
+            'status': true,
+            'message': 'User details updated successfully',
+          };
+        } else {
+          result = {
+            'status': false,
+            'message': 'Failed to update user details',
+          };
+        }
+      } else {
+        result = {
+          'status': false,
+          'message': 'Failed to update user details. Server error.',
+        };
+      }
+    } on DioError catch (e) {
+      result = {
+        'status': false,
+        'message': 'Network error updating user details: ${e.message}',
+      };
+    }
+
+    notify();
+    return result;
+  }
+
+  Future<Map<String, dynamic>> changePassword(
+      String oldpassword, String newpassword) async {
+    Map<String, dynamic> result;
+    final Map<String, dynamic> updateData = {
+      'oldpassword': oldpassword,
+      'newpassword': newpassword
+    };
+
+    try {
+      final Response response = await _client.post(
+        Endpoints.UpdatePassword,
+        data: updateData,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+
+        if (responseData['Error'] == false) {
+          notify();
+          result = {
+            'status': true,
+            'message': 'Password updated successfully',
+          };
+        } else {
+          result = {
+            'status': false,
+            'message': responseData['ErrorText'],
+          };
+        }
+      } else {
+        result = {
+          'status': false,
+          'message': 'Failed to changed password. Server error.',
+        };
+      }
+    } on DioError catch (e) {
+      result = {
+        'status': false,
+        'message': 'Network error updating user details: ${e.message}',
+      };
+    }
+
+    notify();
+    return result;
   }
 }

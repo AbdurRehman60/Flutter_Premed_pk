@@ -3,16 +3,55 @@ import 'package:premedpk_mobile_app/UI/widgets/cities_data_widget.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/UI/widgets/phone_dropdown.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/utils/Data/citites_data.dart';
-import 'package:provider/provider.dart';
 
-class EditProfile extends StatelessWidget {
-  const EditProfile({super.key});
+class EditProfile extends StatefulWidget {
+  const EditProfile({Key? key}) : super(key: key);
+
+  @override
+  State<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
+  final UserProvider userProvider = UserProvider();
+  final AuthProvider auth = AuthProvider();
+  final TextEditingController fullNameController = TextEditingController();
+
+  @override
+  void initState() {
+    fullNameController.text = userProvider.user!.fullName;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final UserProvider userProvider = Provider.of<UserProvider>(context);
+    final formKey = GlobalKey<FormState>();
+
+    Future<void> onEditDetailsPressed() async {
+      final form = formKey.currentState!;
+      if (form.validate()) {
+        print(fullNameController.text);
+        final Future<Map<String, dynamic>> response =
+            userProvider.updateUserDetails(fullNameController.text);
+
+        response.then(
+          (response) {
+            if (response['status']) {
+              auth.getLoggedInUser();
+              showSnackbar(
+                context,
+                "User Details Updated",
+                SnackbarType.SUCCESS,
+              );
+            } else {
+              showError(context, response);
+            }
+          },
+        );
+      }
+    }
 
     void onPhoneNumberSelected(PhoneNumber phoneNumber) {
       userProvider.phoneNumber = phoneNumber.completeNumber;
@@ -33,60 +72,65 @@ class EditProfile extends StatelessWidget {
         ),
         centerTitle: true,
         iconTheme: IconThemeData(
-          color: PreMedColorTheme().black, // Set the color for the icon
+          color: PreMedColorTheme().black,
         ),
       ),
-      body: SafeArea(
+      body: Form(
+        key: formKey,
+        child: SafeArea(
           child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Full Name',
-                style: PreMedTextTheme().body.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Full Name',
+                    style: PreMedTextTheme().body.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
+                  SizedBoxes.verticalTiny,
+                  CustomTextField(
+                    // initialValue: userProvider.user?.fullName,
+                    controller: fullNameController,
+                  ),
+                  SizedBoxes.verticalMedium,
+                  Text(
+                    'Phone Number',
+                    style: PreMedTextTheme().body.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
+                  SizedBoxes.verticalTiny,
+                  PhoneDropdown(
+                    onPhoneNumberSelected: onPhoneNumberSelected,
+                    hintText: "Contact Number",
+                    initialValue: userProvider.user?.phoneNumber,
+                  ),
+                  // Text(
+                  //   'City',
+                  //   style: PreMedTextTheme().body.copyWith(
+                  //         fontWeight: FontWeight.w500,
+                  //       ),
+                  // ),
+                  // SizedBoxes.verticalTiny,
+                  // CityDropdownList(
+                  //   items: cities,
+                  //   selectedItem: userProvider.user?.city ?? '',
+                  //   onChanged: onCitySelected,
+                  // ),
+                  SizedBoxes.verticalGargangua,
+                  CustomButton(
+                    buttonText: 'Save Changes',
+                    onPressed: onEditDetailsPressed,
+                  ),
+                ],
               ),
-              SizedBoxes.verticalTiny,
-              CustomTextField(
-                initialValue: UserProvider().user?.fullName,
-              ),
-              SizedBoxes.verticalMedium,
-              Text(
-                'Phone Number',
-                style: PreMedTextTheme().body.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
-              ),
-              SizedBoxes.verticalTiny,
-              PhoneDropdown(
-                onPhoneNumberSelected: onPhoneNumberSelected,
-                hintText: "Contact Number",
-                initialValue: UserProvider().user?.phoneNumber,
-              ),
-              Text(
-                'City',
-                style: PreMedTextTheme().body.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
-              ),
-              SizedBoxes.verticalTiny,
-              CityDropdownList(
-                items: cities,
-                selectedItem: UserProvider().user?.city ?? '',
-                onChanged: onCitySelected,
-              ),
-              SizedBoxes.verticalGargangua,
-              // CustomButton(
-              //   buttonText: 'Save Changes',
-              //   onPressed: () {},
-              // )
-            ],
+            ),
           ),
         ),
-      )),
+      ),
     );
   }
 }

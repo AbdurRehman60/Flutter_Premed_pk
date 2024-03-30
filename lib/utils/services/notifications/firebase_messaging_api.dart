@@ -95,6 +95,7 @@ class FirebaseMessagingAPI {
 
   Future<void> initNotifications() async {
     await _firebaseMessaging.requestPermission();
+    await Future.delayed(const Duration(seconds: 1));
     final fCMToken = await _firebaseMessaging.getToken();
     if (fCMToken != null) {
       if (kDebugMode) {

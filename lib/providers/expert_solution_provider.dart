@@ -214,4 +214,51 @@ class AskAnExpertProvider extends ChangeNotifier {
 
     return result;
   }
+
+  Future<Map<String, dynamic>> rateDoubt({
+    required String id,
+    required int rating,
+    required String username,
+  }) async {
+    Map<String, dynamic> result;
+    final Map<String, dynamic> ratingData = {
+      "id": id,
+      "rating": rating,
+      "username": username,
+    };
+    notify();
+    try {
+      final Response response = await _client.post(
+        Endpoints.RateDoubt,
+        data: ratingData,
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
+        if (responseData["acknowledged"]) {
+          result = {
+            'status': true,
+            'message': "Your rating was submitted",
+          };
+        } else {
+          result = {
+            'status': false,
+            'message': "Something went wrong",
+          };
+        }
+      } else {
+        result = {'status': false, 'message': 'Request failed'};
+      }
+    } on DioError catch (e) {
+      _doubtUploadStatus = Status.Error;
+      notify();
+      result = {
+        'status': false,
+        'message': e.response?.data['message'],
+      };
+    }
+
+    return result;
+  }
 }

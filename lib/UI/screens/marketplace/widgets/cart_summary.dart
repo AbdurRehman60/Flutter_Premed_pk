@@ -46,7 +46,8 @@ class CartSummary extends StatelessWidget {
           'Total',
           style: PreMedTextTheme().heading5,
         ),
-        Row(
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             Text(
               'Rs. ${cartProvider.calculateTotalDiscount}',
@@ -63,7 +64,7 @@ class CartSummary extends StatelessWidget {
                   ),
             ),
           ],
-        ),
+        )
       ],
     );
   }

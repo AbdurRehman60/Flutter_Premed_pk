@@ -3,7 +3,6 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/bundle_model.dart';
 
 class ModalSheetWidget extends StatelessWidget {
-
   const ModalSheetWidget({
     super.key,
     required this.bundle,
@@ -80,7 +79,7 @@ class ModalSheetWidget extends StatelessWidget {
           Row(
             children: [
               Text(
-                '${bundle.bundleDiscount}',
+                'Rs. ${(bundle.bundlePrice - bundle.bundleDiscount).round()}',
                 style: PreMedTextTheme().heading4.copyWith(
                       fontWeight: FontWeights.bold,
                       color: PreMedColorTheme().primaryColorRed,
@@ -89,7 +88,7 @@ class ModalSheetWidget extends StatelessWidget {
               SizedBoxes.horizontalMicro,
               SizedBoxes.horizontalMicro,
               Text(
-                '${bundle.bundlePrice}',
+                'Rs. ${bundle.bundlePrice}',
                 style: TextStyle(
                   color: PreMedColorTheme().neutral500,
                   fontSize: 16,
