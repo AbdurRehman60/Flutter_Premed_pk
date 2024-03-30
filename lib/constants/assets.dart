@@ -37,4 +37,6 @@ class PremedAssets {
   static String Chat = 'assets/icons/chat.png';
   static String Check = 'assets/icons/check.png';
   static String Error = 'assets/icons/Error.png';
+  static String QA = 'assets/icons/QA.png';
+  static String YT = 'assets/icons/YT.png';
 }

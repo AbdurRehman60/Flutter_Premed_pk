@@ -12,6 +12,7 @@ class Endpoints {
   //specific URLs
   // static const String serverURL = "${baseUrl}:${serverPort}";
   static const String serverURL = "https://prodapi.premed.pk";
+  static const statsUrl = 'https://prodapi.premed.pk/';
 
   // receiveTimeout
   static const Duration receiveTimeout = Duration(milliseconds: 15000);
@@ -57,4 +58,5 @@ class Endpoints {
   static const String UpdatePassword = '/UpdateAccountPassword';
 
   static const String GetWebNotifications = '/GetNotifications';
+  static const statistics = 'api/statistics/compute-statistics';
 }
