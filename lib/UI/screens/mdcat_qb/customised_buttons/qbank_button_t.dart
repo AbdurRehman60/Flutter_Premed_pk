@@ -4,8 +4,11 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/mdcat_qbank_yearly.dart';
 
 class ButtonRow extends StatelessWidget {
+  const ButtonRow({super.key,required this.ontap});
+final void Function() ontap;
   @override
   Widget build(BuildContext context) {
+
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
       child: Row(
@@ -25,12 +28,7 @@ class ButtonRow extends StatelessWidget {
                 color: PreMedColorTheme().white,
                 textColor: PreMedColorTheme().black,
                 showBorder: false,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => QbankYearly()),
-                  );
-                },
+                onPressed: ontap
               ),
             ),
           ),

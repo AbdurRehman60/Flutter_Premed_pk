@@ -56,7 +56,7 @@ class _QbankTopicalState extends State<QbankTopical> {
                       .copyWith(color: PreMedColorTheme().black),
                 ),
               ),
-              ButtonRow(),
+              // ButtonRow(),
               SizedBoxes.verticalBig,
               Center(
                 child: Text(

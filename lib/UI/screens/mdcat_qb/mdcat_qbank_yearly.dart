@@ -113,7 +113,7 @@ class _QbankYearlyState extends State<QbankYearly> {
                   style: PreMedTextTheme().heading6,
                 ),
               ),
-              ButtonRow(),
+              // ButtonRow(),
               SizedBoxes.verticalBig,
               Center(
                 child: Text(
@@ -165,7 +165,7 @@ class _QbankYearlyState extends State<QbankYearly> {
 
                                 } else if (deckGroup['deckGroupName'] ==
                                     'Federal MDCAT') {
-                                  destinationScreen = MDCAT_Papers_7();
+                                  destinationScreen = MDCAT_Papers_6();
 
                                 } else if (deckGroup['deckGroupName'] ==
                                     'Balochistan MDCAT') {
