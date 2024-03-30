@@ -276,11 +276,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
                         children: [
                           Expanded(
                             child: MaterialCard(
-                              height: 150,
                               child: StatDetailHolder(
                                   textColor: const Color(0xFF60CDBB),
-                                  count: formatTime(
-                                      userStatModel.totalTimeTaken ?? 0),
+                                  count:
+                                      formatTime(userStatModel.totalTimeTaken),
                                   details: 'Total \n Time Taken',
                                   preDetails: 'Minutes'),
                             ),
@@ -288,7 +287,6 @@ class _StatisticsPageState extends State<StatisticsPage> {
                           SizedBoxes.horizontalTiny,
                           Expanded(
                             child: MaterialCard(
-                              height: 150,
                               child: StatDetailHolder(
                                 textColor: const Color(0xFFEC5863),
                                 count: userStatModel.avgTimePerQuestion,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MaterialCard extends StatelessWidget {
-  const MaterialCard({super.key, required this.height, required this.child});
-  final double height;
+  const MaterialCard({super.key, this.height, required this.child});
+  final double? height;
   final Widget child;
   @override
   Widget build(BuildContext context) {
