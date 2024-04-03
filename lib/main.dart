@@ -9,10 +9,15 @@ import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dar
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/splash_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/md_qbank/mdcat_qbank_page.dart';
+import 'package:premedpk_mobile_app/UI/screens/md_qbank/tem_qbank.dart';
+import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/mdcat_qbank_mocks.dart';
+import 'package:premedpk_mobile_app/UI/screens/test_interface/test_mode_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
+import 'package:premedpk_mobile_app/providers/decks_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
@@ -72,6 +77,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UplaodImageProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => UserStatProvider()),
+        ChangeNotifierProvider(create: (_) => DecksProvider()),
       ],
       child: MaterialApp(
         routes: {
@@ -82,7 +88,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const SplashScreen(),
+        home: const MDCatQbankInterface(),
         navigatorKey: navigatorKey,
       ),
     );

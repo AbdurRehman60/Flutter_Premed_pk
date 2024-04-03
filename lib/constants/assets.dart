@@ -39,4 +39,5 @@ class PremedAssets {
   static String Error = 'assets/icons/Error.png';
   static String QA = 'assets/icons/QA.png';
   static String YT = 'assets/icons/YT.png';
+  static String RightArrow = 'assets/icons/right-arrow.svg';
 }
