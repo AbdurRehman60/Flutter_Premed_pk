@@ -5,6 +5,8 @@ class DeckModel {
   final String deckGrpName;
   final int deckGroupLenght;
   final List subDeckDetails;
+  final String deckType;
+
   DeckModel(
       {
       // required this.categoryName,
@@ -12,7 +14,8 @@ class DeckModel {
       required this.deckGrpName,
       required this.deckGroupImage,
       required this.deckGroupLenght,
-      required this.subDeckDetails
+      required this.subDeckDetails,
+        required this.deckType
 
       });
 
@@ -24,6 +27,7 @@ class DeckModel {
       deckGroupImage: json['deckGroupImage'],
       deckGroupLenght: json['decks'].length,
       subDeckDetails: json['decks'],
+      deckType: json['deckType'],
     );
   }
 }

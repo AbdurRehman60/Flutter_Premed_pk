@@ -116,6 +116,11 @@ flutter:
     - assets/images/english.png
     - assets/images/logic.png
     - assets/images/
+    - assets/images/pu qbank.svg
+    - assets/images/MDCAT QBank.png
+    - assets/images/NUMS qbank.png
+    - assets/images/pu_qbank.png
+    - assets/icons/Vector.png
 
     #icons
     - assets/icons/editprofile.png

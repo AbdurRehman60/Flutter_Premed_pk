@@ -1,53 +1,155 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/customised_buttons/qbank_button_y.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/build_error.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/qbank_tile.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/sub_bank_tile.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/deck_model.dart';
 import 'package:premedpk_mobile_app/providers/decks_provider.dart';
 import 'package:provider/provider.dart';
 
-class MdCatQbank extends StatefulWidget {
-  const MdCatQbank({Key? key}) : super(key: key);
+import '../mdcat_qb/mdcat_yearly_papers/federal_mdcat_papers.dart';
 
-  @override
-  State<MdCatQbank> createState() => _MdCatQbankState();
-}
+class Qbank extends StatelessWidget {
+  const Qbank({Key? key, required this.deckCategory}) : super(key: key);
+  final String deckCategory;
 
-class _MdCatQbankState extends State<MdCatQbank> {
   @override
   Widget build(BuildContext context) {
     final deckPro = Provider.of<DecksProvider>(context, listen: false);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () {},
+          icon: Material(
+            elevation: 4,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            clipBehavior: Clip.hardEdge,
+            child: SizedBox(
+              width: 37,
+              height: 37,
+              child: Image.asset('assets/icons/Vector.png'),
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+          padding: const EdgeInsets.fromLTRB(16, 15, 16, 0),
           child: Column(
             children: [
-              // ButtonRow(
-              //   onTap: () {
-              //     setState(() {
-              //       deckPro.changeDecktype();
-              //     });
-              //   },
-              // ),
+              Text(
+                deckCategory,
+                style: PreMedTextTheme()
+                    .heading2
+                    .copyWith(fontSize: 34, fontWeight: FontWeight.w800),
+              ),
+              Material(
+                elevation: 4,
+                borderRadius: BorderRadius.circular(10),
+                clipBehavior: Clip.hardEdge,
+                child: Container(
+                  height: 45,
+                  color: const Color(0xFFFFFFFF),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            deckPro.getYearlyDecks();
+                          },
+                          child: Consumer<DecksProvider>(
+                            builder: (context, decksProvider, _) => Container(
+                              height: double.infinity,
+                              width: double.infinity,
+                              decoration: decksProvider.changeColor
+                                  ? BoxDecoration(
+                                      color: const Color(0xFFEC5863),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: const Color(0x80FFFFFF),
+                                          width: 3),
+                                    )
+                                  : const BoxDecoration(),
+                              child: Center(
+                                child: Text('YEARLY',
+                                    style: PreMedTextTheme().heading2.copyWith(
+                                        color: decksProvider.changeColor
+                                            ? const Color(0xFFFFFFFF)
+                                            : const Color(0xFF000000),
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 12)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            deckPro.getTopicalDecks();
+                          },
+                          child: Consumer<DecksProvider>(
+                            builder: (context, decksProvider, _) => Container(
+                              height: double.infinity,
+                              width: double.infinity,
+                              decoration: decksProvider.changeColor
+                                  ? const BoxDecoration()
+                                  : BoxDecoration(
+                                      color: const Color(0xFFEC5863),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: const Color(0x80FFFFFF),
+                                          width: 3),
+                                    ),
+                              child: Center(
+                                child: Text('TOPICAL',
+                                    style: PreMedTextTheme().heading2.copyWith(
+                                        color: decksProvider.changeColor
+                                            ? const Color(0xFF000000)
+                                            : const Color(0xFFFFFFFF),
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 12)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBoxes.vertical26,
+              Text(
+                'Attempt a Full-Length Yearly Paper today and experience the feeling of giving the exam on the actual test day!',
+                textAlign: TextAlign.center,
+                style: PreMedTextTheme().heading2.copyWith(fontSize: 12),
+              ),
+              SizedBoxes.vertical26,
               Expanded(
                 child: FutureBuilder<Map<String, dynamic>>(
-                  future:
-                      Provider.of<DecksProvider>(context, listen: false).fetchDecks(),
+                  future: Provider.of<DecksProvider>(context, listen: false)
+                      .fetchDecks(deckCategory),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return _buildLoading(); // Show loading indicator
                     } else if (snapshot.hasError) {
-                      return _buildError(); // Show error message
+                      return buildError(); // Show error message
                     } else {
                       final Map<String, dynamic>? data = snapshot.data;
                       if (data != null && data['status'] == true) {
                         // Data loaded successfully
-                        return _buildDecksList(
-                            Provider.of<DecksProvider>(context, listen: false)
-                                .deckList);
+                        return _buildDecksList(Provider.of<DecksProvider>(
+                          context,
+                        ).deckList);
                       } else {
                         // Data loading failed
-                        return _buildError(message: data?['message']);
+                        return buildError(message: data?['message']);
                       }
                     }
                   },
@@ -74,6 +176,7 @@ class _MdCatQbankState extends State<MdCatQbank> {
         return QbankTile(
           qbank: deck,
           onTap: () {
+            print('object');
             showModalBottomSheet(
                 context: context,
                 builder: (context) => Container(
@@ -87,73 +190,6 @@ class _MdCatQbankState extends State<MdCatQbank> {
           },
         );
       },
-    );
-  }
-
-  Widget _buildError({String? message}) {
-    return Center(
-      child: Text(message ?? 'Error fetching data'),
-    );
-  }
-}
-
-class QbankTile extends StatelessWidget {
-  const QbankTile({Key? key, required this.qbank, required this.onTap})
-      : super(key: key);
-
-  final DeckModel qbank;
-  final void Function() onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        child: ListTile(
-          contentPadding: const EdgeInsets.all(8),
-          tileColor: Colors.grey.shade200,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(qbank.deckGroupImage),
-          ),
-          title: Text(qbank.deckGrpName),
-          subtitle: Text('${qbank.deckGroupLenght.toString()} Papers'),
-          trailing: Icon(
-            Icons.arrow_forward_ios_rounded,
-            color: Colors.red,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SubBankTile extends StatelessWidget {
-  const SubBankTile({Key? key, required this.onTap, required this.details})
-      : super(key: key);
-  final Map<String, dynamic> details;
-  final void Function() onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(8),
-        tileColor: Colors.grey.shade200,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        leading: CircleAvatar(
-          backgroundImage: NetworkImage(details['deckLogo']),
-        ),
-        title: Text(details['deckName']),
-        // subtitle: Text('${qbank.deckGroupLenght.toString()} Papers'),
-        trailing: const Icon(
-          Icons.arrow_forward_ios_rounded,
-          color: Colors.red,
-        ),
-      ),
     );
   }
 }

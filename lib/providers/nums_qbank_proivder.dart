@@ -1,52 +1,41 @@
-import 'package:flutter/cupertino.dart';
-import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
-import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/models/deck_model.dart';
 
+import '../api_manager/dio client/dio_client.dart';
 import '../api_manager/dio client/endpoints.dart';
+import '../constants/constants_export.dart';
+import '../models/deck_model.dart';
 
 enum FetchStatus { init, fetching, success, error }
 
 enum DeckType { yearly, topical }
 
-class DecksProvider extends ChangeNotifier {
-
-  bool _changeColor = true;
-  bool get changeColor => _changeColor;
-
+class NumsBankProvider extends ChangeNotifier {
   FetchStatus _fetchstatus = FetchStatus.init;
   FetchStatus get fetchstatus => _fetchstatus;
 
   DeckType _decktype = DeckType.yearly;
   DeckType get decktype => _decktype;
 
-  void getYearlyDecks() {
-    _deckList = _allDecks.where((deck) => deck.deckType == 'Yearly').toList();
-    _decktype = DeckType.yearly;
-    _changeColor = !_changeColor;
-    notify();
-  }
-
-  void getTopicalDecks() {
-    _deckList = _allDecks.where((deck) => deck.deckType == 'Topical').toList();
-    _decktype = DeckType.topical;
-    _changeColor = !_changeColor;
+  void changeDecktype() {
+    if (decktype == DeckType.yearly) {
+      _decktype = DeckType.topical;
+      notify();
+    } else if (decktype == DeckType.topical) {
+      _decktype = DeckType.yearly;
+    }
+    // fetchUserdecks();
     notify();
   }
 
   List<DeckModel> _deckList = [];
   List<DeckModel> get deckList => _deckList;
-
   set notesList(List<DeckModel> value) {
     _deckList = value;
   }
 
-  List<DeckModel> _allDecks = [];
-  List<DeckModel> get allDecks => _allDecks;
-
   void notify() {
     notifyListeners();
   }
+
 
   Future<Map<String, dynamic>> fetchDecks(String deckType) async {
     Map<String, dynamic> result;
@@ -54,29 +43,29 @@ class DecksProvider extends ChangeNotifier {
     final DioClient dio = DioClient();
     try {
       final responseData =
-          await dio.get(Endpoints.serverURL + Endpoints.Deckspoints);
+      await dio.get(Endpoints.serverURL + Endpoints.Deckspoints);
       if (responseData['success']) {
         final List deckCategories = responseData['data'];
         final mdcatQBankCategory = deckCategories.firstWhere(
-          (category) => category['categoryName'] == deckType);
+              (category) => category['categoryName'] == deckType,
+        );
         print(mdcatQBankCategory);
         final List mdcatDeckGroups = mdcatQBankCategory['deckGroups'];
-        final yearlyDecks = mdcatDeckGroups.where((category) {
-          return category['deckType'] == 'Yearly';
+        final requiredDecks = mdcatDeckGroups.where((category) {
+          return category['deckType'] == 'Topical';
+          // if (decktype == DeckType.yearly) {
+          //   return category['deckType'] == 'Yearly';
+          // } else {
+          //   return category['deckType'] == 'Topical';
+          // }
         }).toList();
-        final List<DeckModel> decksYearly = [];
-        for (var deck in yearlyDecks) {
-          final DeckModel deckModel = DeckModel.fromJson(deck);
-          decksYearly.add(deckModel);
-        }
-        _deckList = decksYearly;
         // print(requiredDecks.length);
         final List<DeckModel> decks = [];
-        for (var deck in mdcatDeckGroups) {
+        for (var deck in requiredDecks) {
           final DeckModel deckModel = DeckModel.fromJson(deck);
           decks.add(deckModel);
         }
-        _allDecks = decks;
+        _deckList = decks;
         print(_deckList.length);
         notify();
       } else {

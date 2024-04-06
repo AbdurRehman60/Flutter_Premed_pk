@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/mdcat_qbank_topical.dart';
 
-class ButtonRow extends StatelessWidget {
-  const ButtonRow({super.key, required this.onTap});
+class ButtonRow extends StatefulWidget {
+  final void Function() onYearlyTap;
+  final void Function() onTopicalTap;
 
-  final void Function() onTap;
+  const ButtonRow({
+    Key? key,
+    required this.onYearlyTap,
+    required this.onTopicalTap,
+  }) : super(key: key);
+
+  @override
+  _ButtonRowState createState() => _ButtonRowState();
+}
+
+class _ButtonRowState extends State<ButtonRow> {
+  bool yearlySelected = true;
+
   @override
   Widget build(BuildContext context) {
-    return MediaQuery(
-      data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
+    return Container(
+      color: Colors.black,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -25,9 +37,17 @@ class ButtonRow extends StatelessWidget {
                 topRightRadius: Radius.circular(8),
                 bottomRightRadius: Radius.circular(8),
                 bottomLeftRadius: Radius.circular(8.0),
-                color: PreMedColorTheme().primaryColorRed,
+                color: yearlySelected
+                    ? PreMedColorTheme().primaryColorRed
+                    : PreMedColorTheme().white,
                 textColor: PreMedColorTheme().white,
                 showBorder: true,
+                onPressed: () {
+                  setState(() {
+                    yearlySelected = true;
+                  });
+                  widget.onYearlyTap();
+                },
               ),
             ),
           ),
@@ -42,10 +62,17 @@ class ButtonRow extends StatelessWidget {
                 topLeftRadius: Radius.circular(0),
                 bottomRightRadius: Radius.circular(8),
                 bottomLeftRadius: Radius.circular(0),
-                color: PreMedColorTheme().white,
+                color: yearlySelected
+                    ? PreMedColorTheme().white
+                    : PreMedColorTheme().primaryColorRed,
                 textColor: PreMedColorTheme().black,
                 showBorder: false,
-                onPressed: onTap
+                onPressed: () {
+                  setState(() {
+                    yearlySelected = false;
+                  });
+                  widget.onTopicalTap();
+                },
               ),
             ),
           ),
@@ -63,8 +90,6 @@ class RoundedButton extends StatelessWidget {
   final Radius bottomRightRadius;
   final Color color;
   final Color textColor;
-  final double elevation;
-  final double borderRadius;
   final bool showBorder;
   final VoidCallback? onPressed;
 
@@ -77,8 +102,6 @@ class RoundedButton extends StatelessWidget {
     required this.bottomRightRadius,
     required this.color,
     required this.textColor,
-    this.elevation = 0,
-    this.borderRadius = 8,
     this.showBorder = false,
     this.onPressed,
   }) : super(key: key);
@@ -86,7 +109,7 @@ class RoundedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: BorderRadius.circular(borderRadius),
+      borderRadius: BorderRadius.circular(8),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -98,7 +121,7 @@ class RoundedButton extends StatelessWidget {
           color: color,
           border: showBorder
               ? Border.all(
-                  color: PreMedColorTheme().primaryColorRed200, width: 3)
+              color: PreMedColorTheme().primaryColorRed200, width: 3)
               : null,
         ),
         child: TextButton(
@@ -107,7 +130,7 @@ class RoundedButton extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Text(
               text,
-              style: PreMedTextTheme().subtext1.copyWith(color: textColor),
+              style: TextStyle(color: textColor),
             ),
           ),
         ),

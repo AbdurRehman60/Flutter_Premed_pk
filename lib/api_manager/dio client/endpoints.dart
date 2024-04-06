@@ -40,7 +40,6 @@ class Endpoints {
   // static const String UserSolved = '/UserSolved';
   static const String UserPending = '/UserPending';
   static const String UserSubmitted = '/UserSubmitted';
-
   static const String GetFlashcards = '/api/flashcard/GetFlashcards';
   //bundles endpoints
   static const String GetBundles = '/api/bundle/';

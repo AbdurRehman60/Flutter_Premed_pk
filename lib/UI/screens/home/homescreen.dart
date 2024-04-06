@@ -2,6 +2,8 @@ import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbanks/mdcat_qbank.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbanks/nums_qbank.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbanks/qbank_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/decks_provider.dart';
@@ -19,7 +21,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MdCatQbank()));
+                    MaterialPageRoute(builder: (context) => QbankHome()));
               },
               icon: Icon(Icons.ac_unit))
         ],
