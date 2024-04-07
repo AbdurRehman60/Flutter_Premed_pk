@@ -113,6 +113,12 @@ flutter:
     - assets/images/purchase.png
     - assets/images/english.png
     - assets/images/logic.png
+    - assets/images/Privacy Shield Tick.png
+    - assets/images/Slashed.png
+    - assets/images/Menu.png
+    - assets/images/Vector.png
+    - assets/images/content.png
+    - assets/images/uploadimage.png
 
     #icons
     - assets/icons/editprofile.png
@@ -126,6 +132,12 @@ flutter:
     - assets/icons/chat.png
     - assets/icons/check.png
     - assets/icons/Error.png
+    - assets/icons/User Circle.png
+    - assets/icons/Lock Password.png
+    - assets/icons/Contact Phone Chat.png
+    - assets/icons/Privacy Shield Tick.png
+    - assets/icons/file.png
+    - assets/icons/cross.png
   fonts:
     - family: Inter
       fonts:

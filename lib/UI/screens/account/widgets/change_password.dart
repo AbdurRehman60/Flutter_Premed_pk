@@ -52,15 +52,50 @@ class _ChangePasswordState extends State<ChangePassword> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().white,
-        title: Text(
-          'Change Password',
-          style: PreMedTextTheme().heading7.copyWith(
-                color: PreMedColorTheme().black,
+        leading: Container(
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 1,
+                blurRadius: 3,
+                offset: const Offset(0, 2),
               ),
+            ],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          alignment: Alignment.center,
+          child: Center(
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios_new_rounded,
+                  color: PreMedColorTheme().primaryColorRed),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
         ),
-        centerTitle: true,
-        iconTheme: IconThemeData(
-          color: PreMedColorTheme().black, // Set the color for the icon
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Change Password',
+              style: PreMedTextTheme().heading6.copyWith(
+                  color: PreMedColorTheme().black,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+            SizedBoxes.vertical2Px,
+            Text(
+                'SETTINGS',
+                style: PreMedTextTheme().subtext.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: PreMedColorTheme().black,)
+            )
+          ],
         ),
       ),
       body: Form(
@@ -79,41 +114,27 @@ class _ChangePasswordState extends State<ChangePassword> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Old Password',
-                          style: PreMedTextTheme().body.copyWith(
-                                fontWeight: FontWeight.w500,
-                              ),
-                        ),
+
                         SizedBoxes.verticalMicro,
                         CustomTextField(
+                          prefixIcon: const Icon(Icons.lock_outline),
                           controller: oldPasswordController,
                           hintText: 'Old Password',
                           obscureText: true,
                         ),
                         SizedBoxes.verticalMedium,
-                        Text(
-                          'New Password',
-                          style: PreMedTextTheme().body.copyWith(
-                                fontWeight: FontWeight.w500,
-                              ),
-                        ),
-                        SizedBoxes.verticalTiny,
+
                         CustomTextField(
+                          prefixIcon: const Icon(Icons.lock_outline),
                           controller: newPasswordController,
                           hintText: 'New Password',
                           validator: newPasswordValidator,
                           obscureText: true,
                         ),
                         SizedBoxes.verticalMedium,
-                        Text(
-                          'Confirm New Password',
-                          style: PreMedTextTheme().body.copyWith(
-                                fontWeight: FontWeight.w500,
-                              ),
-                        ),
-                        SizedBoxes.verticalTiny,
+
                         CustomTextField(
+                          prefixIcon: const Icon(Icons.lock_outline),
                           controller: confirmNewPasswordController,
                           hintText: 'Confirm New Password',
                           validator: (value) => confirmNewPasswordValidator(
@@ -124,7 +145,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ),
                         SizedBoxes.verticalGargangua,
                         CustomButton(
-                          buttonText: 'Change Password',
+                          buttonText: 'Save Changes',
                           onPressed: onchangepasswordpressed,
                         ),
                       ],

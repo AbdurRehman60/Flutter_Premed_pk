@@ -7,7 +7,8 @@ class Endpoints {
 
   // base url
 
-  static const String baseUrl = "http://192.168.10.6"; //saad
+  //static const String baseUrl = "http://192.168.10.6"; //saad
+  static const String baseUrl = "http://192.168.0.106"; //saneha
 
   //specific URLs
   // static const String serverURL = "${baseUrl}:${serverPort}";

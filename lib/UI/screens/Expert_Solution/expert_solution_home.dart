@@ -20,118 +20,103 @@ class ExpertSolutionHome extends StatelessWidget {
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: SliverAppBar(
-                  toolbarHeight: 86,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20.0),
-                      bottomRight: Radius.circular(20.0),
-                    ),
-                  ),
-                  pinned: true,
-                  expandedHeight: 200.0,
-                  forceElevated: innerBoxIsScrolled,
-                  flexibleSpace: Stack(children: [
-                    Container(
-                      decoration: ShapeDecoration(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
+        body: Column(children: [
+          SizedBoxes.verticalExtraGargangua,
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Expert Solutions',
+                      style: PreMedTextTheme().heading6.copyWith(
+                            color: PreMedColorTheme().black,
+                            fontSize: 34,
+                            fontWeight: FontWeight.w800,
                           ),
-                        ),
-                        gradient: PreMedColorTheme().primaryGradient,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBoxes.verticalMedium,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(PremedAssets.EsIcon),
-                                SizedBoxes.horizontalLarge,
-                                Text(
-                                  'Expert Solution',
-                                  style: PreMedTextTheme().heading5.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: PreMedColorTheme().white),
-                                ),
-                              ],
-                            ),
-                            SizedBoxes.verticalLarge,
-                            Text(
-                              'Get top-notch video solution answers to your MDCAT questions from top-merit experts 🙌🏻',
-                              style: PreMedTextTheme().body.copyWith(
-                                    color: PreMedColorTheme().white,
-                                  ),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBoxes.verticalMedium,
-                          ],
-                        ),
-                      ),
-                    ),
-                  ]),
-                  bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(50.0),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(16.0),
-                          bottomRight: Radius.circular(16.0),
-                        ),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(16.0),
-                          bottomRight: Radius.circular(16.0),
-                        ),
-                        child: TabBar(
-                          indicatorColor: PreMedColorTheme().white,
-                          indicatorWeight: 3.0,
-                          tabs: tabs
-                              .map((String name) => Tab(text: name))
-                              .toList(),
-                        ),
-                      ),
                     ),
                   ),
-                ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('Get answers to brain-teasing questions',
+                        style: PreMedTextTheme().subtext.copyWith(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w400,
+                              color: PreMedColorTheme().black,
+                            )),
+                  ),
+                ],
               ),
-            ];
-          },
-          body: const TabBarView(
-            children: [
-              DoubtListView(solved: true),
-              DoubtListView(solved: false),
-            ],
+            ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: PreMedColorTheme().primaryColorRed,
-          onPressed: () {
-            final askAnExpertProvider =
-                Provider.of<AskAnExpertProvider>(context, listen: false);
-            final uplaodImageProvider =
-                Provider.of<UplaodImageProvider>(context, listen: false);
-            askAnExpertProvider.resetState(uplaodImageProvider);
-            Navigator.pushNamed(context, '/ExpertSolution');
-          },
-          child: Icon(
-            Icons.add,
-            color: PreMedColorTheme().white,
-            size: 40,
-            weight: 50,
-            opticalSize: 100,
+          SizedBoxes.verticalMedium,
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8),
+            child: Container(
+              decoration: BoxDecoration(
+                color: PreMedColorTheme().white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 3,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: TabBar(
+                tabs: tabs.map((String name) => Tab(text: name)).toList(),
+                unselectedLabelColor: Colors.black,
+                labelColor: PreMedColorTheme().white,
+                indicator: BoxDecoration(
+                  border: Border.all(
+                      width: 3, color: PreMedColorTheme().primaryColorRed200),
+                  borderRadius: BorderRadius.circular(10),
+                  color: PreMedColorTheme().primaryColorRed,
+                ),
+                indicatorSize: TabBarIndicatorSize.tab,
+                labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              ),
+            ),
+          ),
+          const Expanded(
+            child: TabBarView(
+              children: [
+                DoubtListView(solved: true),
+                DoubtListView(solved: false),
+              ],
+            ),
+          ),
+        ]),
+        floatingActionButton: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(19),
+            border: Border.all(
+              color: PreMedColorTheme().primaryColorRed200,
+              width: 3,
+            ),
+          ),
+          child: FloatingActionButton(
+            backgroundColor: PreMedColorTheme().primaryColorRed,
+            onPressed: () {
+              final askAnExpertProvider =
+                  Provider.of<AskAnExpertProvider>(context, listen: false);
+              final uplaodImageProvider =
+                  Provider.of<UplaodImageProvider>(context, listen: false);
+              askAnExpertProvider.resetState(uplaodImageProvider);
+              Navigator.pushNamed(context, '/ExpertSolution');
+            },
+            child: Icon(
+              Icons.add,
+              color: PreMedColorTheme().white,
+              size: 40,
+              weight: 50,
+              opticalSize: 100,
+            ),
           ),
         ),
       ),

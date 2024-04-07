@@ -10,23 +10,51 @@ class AskanExpert extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black, // Customize as needed
+        backgroundColor: PreMedColorTheme().white,
+        leading: Container(
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 1,
+                blurRadius: 3,
+                offset: const Offset(0, 2),
+              ),
+            ],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          alignment: Alignment.center,
+          child: Center(
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios_new_rounded,
+                  color: PreMedColorTheme().primaryColorRed),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
         ),
-        backgroundColor: Colors.white, // Customize as needed
-        centerTitle: true,
-        title: const Text(
-          'Ask an Expert',
-          style: TextStyle(
-            fontSize: 18, // Adjust as needed
-            color: Colors.black, // Customize as needed
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Ask an Expert',
+              style: PreMedTextTheme().heading6.copyWith(
+                  color: PreMedColorTheme().black,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+            SizedBoxes.vertical2Px,
+            Text(
+                'EXPERT SOLUIONS',
+                style: PreMedTextTheme().subtext.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: PreMedColorTheme().black,)
+            )
+          ],
         ),
       ),
       body: AskanExpertForm(),

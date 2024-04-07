@@ -62,34 +62,47 @@ class AskanExpertForm extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  Container(
-                    height: 200,
-                    width: double.infinity,
-                    decoration: ShapeDecoration(
-                      color: PreMedColorTheme()
-                          .primaryColorBlue100, // Customize as needed
-                      shape: RoundedRectangleBorder(
+                  Stack(
+                    children:[ Container(
+                      height: 200,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                        color: PreMedColorTheme().white,
                         borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: Consumer<UplaodImageProvider>(
-                      builder: (context, value, child) {
-                        final bool uploadedImage = value.uploadedImage != null;
 
-                        return uploadedImage
-                            ? Image.file(
-                                uplaodImageProvider.uploadedImage!,
-                                fit: BoxFit.fitHeight,
-                              )
-                            : const LocalImageDisplay();
-                      },
-                    ), // Implement LocalImageDisplay
+                      ),
+                      child: Consumer<UplaodImageProvider>(
+                        builder: (context, value, child) {
+                          final bool uploadedImage = value.uploadedImage != null;
+
+                          return uploadedImage
+                              ? Image.file(
+                                  uplaodImageProvider.uploadedImage!,
+                                  fit: BoxFit.fitHeight,
+                                )
+                              : const LocalImageDisplay();
+                        },
+                      ),
+                // Implement LocalImageDisplay
+                    ),
+              ]
                   ),
                   SizedBoxes.verticalLarge,
-                  const OrDivider(),
+                  const Padding(
+                    padding:  EdgeInsets.only(left: 36,right: 36),
+                    child: OrDivider(),
+                  ),
                   SizedBoxes.verticalLarge,
                   CustomButton(
-                    buttonText: 'Open Camera & Take Photo',
+                    buttonText: 'Use Camera',
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -103,16 +116,16 @@ class AskanExpertForm extends StatelessWidget {
                   const CustomResourceDropDown(),
                   SizedBoxes.verticalBig,
                   const Text(
-                    'What problems are you facing in the uploaded question above?',
+                    'What problems are you facing with the uploaded question?',
                     style: TextStyle(
-                      fontSize: 16, // Adjust as needed
+                      fontSize: 16, fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBoxes.verticalTiny,
                   CustomTextField(
                     controller: descriptionController,
                     maxLines: 6,
-                    hintText: 'Enter questions here',
+                    hintText: 'Explain your issue briefly...',
                     validator: (value) =>
                         validateIsNotEmpty(value, "Description"),
                   ),
@@ -123,7 +136,7 @@ class AskanExpertForm extends StatelessWidget {
                     buttonText:
                         askAnExpertProvider.doubtUploadStatus == Status.Sending
                             ? 'Submitting'
-                            : 'Submit',
+                            : 'Submit for 5 Coins',
                     onPressed: onSubmitPressed,
                   ),
                 ],

@@ -38,168 +38,219 @@ class Account extends StatelessWidget {
       );
     }
 
-    return SafeArea(
-      child: Consumer<UserProvider>(
-        builder: (context, userProvider, child) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBoxes.verticalGargangua,
-              CircleAvatar(
-                backgroundColor: PreMedColorTheme().primaryColorRed100,
-                maxRadius: 60,
-                child: Text(
-                  userProvider.getUserName()[0].toUpperCase(),
-                  style: PreMedTextTheme().heading1.copyWith(
-                        color: PreMedColorTheme().primaryColorRed300,
-                      ),
-                ),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100.0),
+        child: Container(
+          padding: const EdgeInsets.only(top: 20),
+          child: AppBar(
+            backgroundColor: PreMedColorTheme().white,
+            title: Padding(
+              padding: const EdgeInsets.only(left: 6.0, top: 28, bottom: 28),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Settings',
+                    style: PreMedTextTheme().heading6.copyWith(
+                          color: PreMedColorTheme().black,
+                          fontSize: 34,
+                          fontWeight: FontWeight.w800,
+                        ),
+                  ),
+                  SizedBoxes.vertical2Px,
+                  Text('Your App and Account Preferences',
+                      style: PreMedTextTheme().subtext.copyWith(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w400,
+                            color: PreMedColorTheme().black,
+                          ))
+                ],
               ),
-              SizedBoxes.verticalMedium,
-              Text(
-                userProvider.getUserName().split(' ').length > 1
-                    ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}'
-                    : userProvider.getUserName().split(' ').first,
-                style: PreMedTextTheme().heading5,
-              ),
-              SizedBoxes.verticalTiny,
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MarketPlace(),
+            ),
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: Consumer<UserProvider>(
+          builder: (context, userProvider, child) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                          color: PreMedColorTheme().primaryColorRed, width: 8)),
+                  child: CircleAvatar(
+                    backgroundColor: PreMedColorTheme().primaryColorRed100,
+                    maxRadius: 55,
+                    child: Text(
+                      userProvider.getUserName()[0].toUpperCase(),
+                      style: PreMedTextTheme().heading1.copyWith(
+                          color: PreMedColorTheme().primaryColorRed,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 55),
                     ),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        PremedAssets.Coins,
-                        width: 16,
-                        height: 16,
-                        fit: BoxFit.fill,
-                      ),
-                      SizedBoxes.horizontalMicro,
-                      Text(
-                        userProvider.getCoins().toString(),
-                        style: PreMedTextTheme().body,
-                      ),
-                    ],
                   ),
                 ),
-              ),
-              SizedBoxes.verticalMedium,
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    String heading = '';
-                    String imagePath = '';
-
-                    switch (index) {
-                      case 0:
-                        heading = 'Account';
-                        imagePath = PremedAssets.EditProfile;
-                      case 1:
-                        heading = 'Change Password';
-                        imagePath = PremedAssets.ChangePassword;
-                      case 2:
-                        heading = 'Contact Us';
-                        imagePath = PremedAssets.ContactUs;
-                      case 3:
-                        heading = 'Privacy Policy';
-                        imagePath = PremedAssets.Policy;
-                      case 4:
-                        heading = 'Terms & Condition';
-                        imagePath = PremedAssets.Policy;
-                    }
-
-                    return MenuTile(
-                      heading: heading,
-                      icon: imagePath,
-                      onTap: () {
-                        switch (index) {
-                          case 0:
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const EditProfile(),
-                              ),
-                            );
-                          case 1:
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const ChangePassword(),
-                              ),
-                            );
-                          case 2:
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const ContactUs(),
-                              ),
-                            );
-                          case 3:
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const PrivacyPolicy(),
-                              ),
-                            );
-                          case 4:
-                            // Handle Terms & Condition tap
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const TermsCondition(),
-                              ),
-                            );
-                        }
-                      },
+                SizedBoxes.verticalTiny,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MarketPlace(),
+                      ),
                     );
                   },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          PremedAssets.Coins,
+                          width: 16,
+                          height: 16,
+                          fit: BoxFit.fill,
+                        ),
+                        SizedBoxes.horizontalMicro,
+                        Text(
+                          userProvider.getCoins().toString(),
+                          style: PreMedTextTheme().body,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              SizedBoxes.verticalMedium,
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: auth.loggedInStatus == Status.Authenticating
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2.0,
-                              ),
+                SizedBoxes.verticalMedium,
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: 6,
+                    itemBuilder: (context, index) {
+                      String heading = '';
+                      String imagePath = '';
+
+                      switch (index) {
+                        case 0:
+                          heading = 'Account';
+                          imagePath = PremedAssets.EditProfile;
+                        case 1:
+                          heading = 'Change Password';
+                          imagePath = PremedAssets.ChangePassword;
+                        case 2:
+                          heading = 'Contact Us';
+                          imagePath = PremedAssets.ContactUs;
+                        case 3: // Logout Button
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                              top: 10,
+                              bottom: 20,
+                              left: 20,
+                              right: 20,
                             ),
-                            SizedBoxes.horizontalMedium,
-                            Text(
-                              'Logging Out',
-                              style: PreMedTextTheme().subtext,
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 50,
+                              child:
+                                  auth.loggedInStatus == Status.Authenticating
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(
+                                              width: 16,
+                                              height: 16,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2.0,
+                                              ),
+                                            ),
+                                            SizedBoxes.horizontalMedium,
+                                            Text(
+                                              'Logging Out',
+                                              style: PreMedTextTheme().subtext,
+                                            ),
+                                          ],
+                                        )
+                                      : CustomButton(
+                                          buttonText: 'Sign out',
+                                          onPressed: onLogoutPressed,
+                                        ),
+                            ),
+                          );
+                        case 4:
+                          heading = 'Privacy Policy';
+                          imagePath = 'assets/icons/Privacy Shield Tick.png';
+                        case 5:
+                          heading = 'Terms of Use';
+                          imagePath = PremedAssets.Terms;
+                      }
+
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: PreMedColorTheme().white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              spreadRadius: 1,
+                              blurRadius: 5,
                             ),
                           ],
-                        )
-                      : CustomButton(
-                          buttonText: 'Logout',
-                          onPressed: onLogoutPressed,
-                          isIconButton: true,
-                          icon: Icons.logout,
-                          fontSize: 18,
-                          iconSize: 20,
                         ),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 8),
+                        child: MenuTile(
+                          heading: heading,
+                          icon: imagePath,
+                          onTap: () {
+                            switch (index) {
+                              case 0:
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const EditProfile(),
+                                  ),
+                                );
+                              case 1:
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ChangePassword(),
+                                  ),
+                                );
+                              case 2:
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const ContactUs(),
+                                  ),
+                                );
+
+                              case 4:
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const PrivacyPolicy(),
+                                  ),
+                                );
+                              case 5:
+                                // Handle Terms & Condition tap
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const TermsCondition(),
+                                  ),
+                                );
+                            }
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-              SizedBoxes.verticalBig,
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }

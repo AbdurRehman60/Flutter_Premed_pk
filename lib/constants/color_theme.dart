@@ -17,6 +17,9 @@ class PreMedColorTheme {
   Color get primaryColorBlue200 => const Color(0xFFBCD6FF);
   Color get primaryColorBlue100 => const Color(0xFFE9F1FF);
   Color get primaryColorBlue800 => const Color(0xFF1D2533);
+  //checkbox color
+  Color customCheckboxColor = const Color(0xFF77D9A5);
+  Color tickcolor= const Color(0xFF076445);
 
   //normal color list
   Color get white => const Color(0xFFFFFFFF);

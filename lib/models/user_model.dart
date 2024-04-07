@@ -79,7 +79,7 @@ class User {
       otherInfo: responseData['otherinfo'] ?? {},
       // bundlesPurchased:
       //     BundlesPurchased.fromJson(responseData['BundlesPurchased'] ?? {}),
-      coins: responseData['coins'] ?? 0,
+      coins: responseData['coins'] ??0,
       freeTrial: FreeTrial.fromJson(responseData['freeTrial'] ?? {}),
     );
   }

@@ -9,6 +9,7 @@ class PdfScreen extends StatefulWidget {
     super.key,
     required this.note,
   });
+
   final NoteModel note;
 
   @override
@@ -59,6 +60,21 @@ class _PdfViewState extends State<PdfScreen> {
                   ),
                 ),
                 SizedBoxes.vertical2Px,
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'CONTENTS',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: PreMedColorTheme().neutral900,
+                      ),
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: ListView.builder(
                     itemCount: widget.note.demarcations?.length,
@@ -78,20 +94,34 @@ class _PdfViewState extends State<PdfScreen> {
                             },
                           );
                         },
+
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            widget.note.demarcations![index].name,
-                            style: PreMedTextTheme().body.copyWith(
-                                fontSize: 16,
-                                fontWeight: currentPage ==
-                                        widget.note.demarcations![index].page
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
-                                color: currentPage ==
-                                        widget.note.demarcations![index].page
-                                    ? PreMedColorTheme().primaryColorRed
-                                    : PreMedColorTheme().neutral900),
+                          child: Row(
+                            children: [
+                            Image.asset(
+                            'assets/images/content.png',
+                            width: 24,
+                            height: 24,
+                          ),
+                          SizedBoxes.horizontalLarge,
+
+                          Expanded(
+                            child: Text(
+                              widget.note.demarcations![index].name,
+                              style: PreMedTextTheme().body.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: currentPage ==
+                                          widget.note.demarcations![index].page
+                                      ? FontWeight.w700
+                                      : FontWeight.w700,
+                                  color: currentPage ==
+                                          widget.note.demarcations![index].page
+                                      ? PreMedColorTheme().primaryColorRed
+                                      : PreMedColorTheme().neutral900),
+                            ),
+                          ),
+                          ]
                           ),
                         ),
                       );
@@ -111,18 +141,58 @@ class _PdfViewState extends State<PdfScreen> {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: PreMedColorTheme().white,
-            iconTheme: IconThemeData(
-              color: PreMedColorTheme().primaryColorRed,
+            leading: Container(
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 3,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              alignment: Alignment.center,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios_new_rounded,
+                    color: PreMedColorTheme().primaryColorRed),
+                onPressed: () {
+                      Navigator.of(context).pop();
+                },
+              ),
             ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Text(
-                    widget.note.title,
-                    style: PreMedTextTheme().subtext,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          widget.note.title,
+                          style: PreMedTextTheme().subtext.copyWith(
+                                color: PreMedColorTheme().black,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                              ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('REVISION NOTES',
+                            style: PreMedTextTheme().subtext.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: PreMedColorTheme().black,
+                                )),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -166,28 +236,30 @@ class _PdfViewState extends State<PdfScreen> {
                   },
                   icon: isDownloading
                       ? const SizedBox(
-                          width: 16,
-                          height: 16,
+                          width: 20,
+                          height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2.5,
                           ))
-                      : const Icon(
-                          Icons.download,
+                      : Icon(
+                          Icons.check_circle,
+                          size: 24,
+                          color: PreMedColorTheme().tickcolor,
                         ),
                 )
               else
                 const SizedBox(),
-              if (!widget.note.isGuide)
-                IconButton(
-                  onPressed: openDemarcationBottomSheet,
-                  icon: const Icon(Icons.menu),
-                )
-              else
-                const SizedBox(),
+              // if (!widget.note.isGuide)
+              //   IconButton(
+              //     onPressed: openDemarcationBottomSheet,
+              //     icon: const Icon(Icons.menu),
+              //   )
+              // else
+              //   const SizedBox(),
             ],
           ),
           body: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
             child: PDF(
               fitPolicy: FitPolicy.BOTH,
               pageSnap: false,
@@ -228,101 +300,89 @@ class _PdfViewState extends State<PdfScreen> {
               ),
             ),
           ),
-          bottomNavigationBar: GestureDetector(
-            onVerticalDragEnd: (details) {
-              if (!widget.note.isGuide) {
-                openDemarcationBottomSheet();
-              }
-            },
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
+            child: Container(
+              height: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 3,
+                    offset: const Offset(0, -2),
+                  ),
+                ],
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(
-                    height: 36,
-                    width: 120,
-                    child: CustomButton(
-                      textColor: PreMedColorTheme().neutral500,
-                      color: PreMedColorTheme().white,
-                      isIconButton: true,
-                      iconSize: 15,
-                      icon: Icons.arrow_back_ios,
-                      buttonText: 'Previous',
-                      fontSize: 16,
-                      onPressed: () {
-                        _pdfViewController.future.then((controller) {
-                          final int pageNumber = currentPage - 2;
-
-                          if (pageNumber >= 0 && pageNumber < maxPage) {
-                            controller.setPage(pageNumber);
-                          }
-                        });
-                      },
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                        color: PreMedColorTheme().primaryColorBlue,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Visibility(
+                      visible: !widget.note.isGuide,
+                      child: GestureDetector(
+                        onTap: () {
+                          openDemarcationBottomSheet();
+                        },
+                        child: Image.asset(
+                          'assets/images/Menu.png',
+                        ),
+                      ),
                     ),
                   ),
                   Row(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: PreMedColorTheme().neutral200),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
-                          child: Text(
-                            "$currentPage",
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 4),
+                        child: Text(
+                          "$currentPage",
+                          style: PreMedTextTheme().headline.copyWith(
+                              fontSize: 15, fontWeight: FontWeight.w700),
                         ),
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: PreMedColorTheme().neutral100,
-                          border: Border(
-                            top: BorderSide(
-                              color: PreMedColorTheme().neutral200,
-                            ),
-                            right: BorderSide(
-                              color: PreMedColorTheme().neutral200,
-                            ),
-                            bottom: BorderSide(
-                              color: PreMedColorTheme().neutral200,
-                            ),
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
-                          child: Text(
-                            maxPage.toString(),
-                          ),
+                      Text(
+                        'of',
+                        style: PreMedTextTheme().headline.copyWith(
+                            fontSize: 15, fontWeight: FontWeight.w700),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 4),
+                        child: Text(
+                          maxPage.toString(),
+                          style: PreMedTextTheme().headline.copyWith(
+                              fontSize: 15, fontWeight: FontWeight.w700),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 36,
-                    width: 120,
-                    child: CustomButton(
-                      textColor: PreMedColorTheme().white,
-                      color: PreMedColorTheme().primaryColorRed,
-                      isIconButton: true,
-                      leftIcon: false,
-                      iconSize: 15,
-                      icon: Icons.arrow_forward_ios,
-                      buttonText: 'Next',
-                      fontSize: 16,
-                      onPressed: () {
-                        _pdfViewController.future.then((controller) {
-                          final int pageNumber = currentPage;
-
-                          if (pageNumber > 0 && pageNumber <= maxPage) {
-                            controller.setPage(pageNumber);
-                          }
-                        });
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                        color: PreMedColorTheme().white,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                            color: PreMedColorTheme().primaryColorRed)),
+                    child: GestureDetector(
+                      onTap: () {
                       },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'assets/images/Vector.png',
+                        ),
+                      ),
                     ),
                   ),
                 ],

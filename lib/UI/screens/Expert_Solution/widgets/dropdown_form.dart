@@ -21,9 +21,9 @@ class _CustomResourceDropdownState extends State<CustomResourceDropDown> {
         const Align(
           alignment: Alignment.topLeft,
           child: Text(
-            'Select Resource',
+            'Resource',
             style: TextStyle(
-              fontSize: 16, // Adjust as needed
+              fontSize: 16, fontWeight: FontWeight.bold
             ),
           ),
         ),
@@ -48,10 +48,11 @@ class _CustomResourceDropdownState extends State<CustomResourceDropDown> {
         const Align(
           alignment: Alignment.topLeft,
           child: Text(
-            'Select Subject',
+            'Subject',
             style: TextStyle(
-              fontSize: 16, // Adjust as needed
-            ),
+              fontSize: 16,
+    fontWeight: FontWeight.bold,
+            )
           ),
         ),
         SizedBoxes.verticalTiny,
@@ -74,9 +75,10 @@ class _CustomResourceDropdownState extends State<CustomResourceDropDown> {
         const Align(
           alignment: Alignment.topLeft,
           child: Text(
-            'Select Topic',
+            'Topic',
             style: TextStyle(
-              fontSize: 16, // Adjust as needed
+              fontSize: 16,
+              fontWeight: FontWeight.bold
             ),
           ),
         ),

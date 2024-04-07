@@ -49,9 +49,10 @@ class MenuTile extends StatelessWidget {
               Row(
                 children: [
                   SizedBoxes.horizontalBig,
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.red,
+                   Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: PreMedColorTheme().primaryColorRed,
+                     size: 20,
                   ),
                 ],
               ),

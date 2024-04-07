@@ -54,15 +54,30 @@ class DoubtListView extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(PremedAssets.Notfoundemptystate),
+                    Image.asset(PremedAssets.Slashed, width: 64, height:64, ),
                     SizedBoxes.verticalTiny,
-                    Text(
-                      'NO PENDING QUESTIONS',
-                      style: PreMedTextTheme().subtext1.copyWith(
-                          color: PreMedColorTheme().primaryColorRed,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1.36),
+                    Column(
+                      children: [
+                        Text(
+                          solved ? 'NO QUERIES SOLVED' : 'NO QUERIES PENDING',
+                          style: PreMedTextTheme().subtext1.copyWith(
+                              color: PreMedColorTheme().black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 1.36),
+                        ),
+                        SizedBoxes.verticalTiny,
+                        Text(
+                          solved
+                              ? 'Maybe the query is still pending, or you haven’t asked any questions!'
+                              : 'Either all your queries have been solved, or you haven’t asked any questions!',
+                          style: PreMedTextTheme().subtext1.copyWith(
+                              color: PreMedColorTheme().black,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                     SizedBoxes.verticalTiny,
                   ],
@@ -70,14 +85,10 @@ class DoubtListView extends StatelessWidget {
               )
         : const Column(
             children: [
-              SizedBox(
-                height: 140,
-              ),
               Expanded(
                 child: SpecialOffersShimmer(
                   tabCard: true,
                   cardCount: 4,
-
                 ),
               ),
             ],

@@ -24,12 +24,14 @@ class PremedAssets {
   static String EmptyCart = 'assets/images/cartemptystate.png';
   static String Celebration = 'assets/images/happy.png';
   static String Purchase = 'assets/images/purchase.png';
+  static String Slashed = 'assets/images/Slashed.png';
   //icons
 
-  static String EditProfile = 'assets/icons/editprofile.png';
-  static String ChangePassword = 'assets/icons/changepassword.png';
-  static String ContactUs = 'assets/icons/contactus.png';
-  static String Policy = 'assets/icons/lock.png';
+  static String EditProfile = 'assets/icons/User Circle.png';
+  static String ChangePassword = 'assets/icons/Lock Password.png';
+  static String ContactUs = 'assets/icons/Contact Phone Chat.png';
+  static String Policy = 'assets/icons/Privacy Shield Tick';
+  static String Terms = 'assets/icons/file.png';
   static String LogOut = 'assets/icons/logout.png';
   static String WhatsApp = 'assets/icons/whatsapp.png';
   static String Messenger = 'assets/icons/messenger.png';
@@ -37,4 +39,7 @@ class PremedAssets {
   static String Chat = 'assets/icons/chat.png';
   static String Check = 'assets/icons/check.png';
   static String Error = 'assets/icons/Error.png';
+  static String Cross ='assets/icons/cross.png';
 }
+
+

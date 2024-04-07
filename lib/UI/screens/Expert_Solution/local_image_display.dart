@@ -51,15 +51,23 @@ class _LocalImageDisplayState extends State<LocalImageDisplay> {
             ),
             // Implement LocalImageDisplay
           ),
-        Expanded(
-          child: CustomButton(
-            color: PreMedColorTheme().primaryColorBlue100,
-            textColor: PreMedColorTheme().primaryColorBlue800,
-            iconSize: 0,
-            isIconButton: true,
-            onPressed: pickImage,
-            buttonText: 'Choose from Gallery',
-          ),
+        Column(
+          children: [
+            const SizedBox(height: 50,),
+            SizedBox(
+              width: 44,
+              height: 44,
+              child: Image.asset('assets/images/uploadimage.png'),
+            ),
+            CustomButton(
+              color: PreMedColorTheme().white,
+              textColor: PreMedColorTheme().primaryColorBlue800,
+              iconSize: 0,
+              isIconButton: true,
+              onPressed: pickImage,
+              buttonText: 'Upload Picture',
+            ),
+          ],
         ),
       ],
     );
