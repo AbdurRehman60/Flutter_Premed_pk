@@ -1,7 +1,7 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:premedpk_mobile_app/UI/screens/md_qbank/widgets/deck_info_container.dart';
-import 'package:premedpk_mobile_app/UI/screens/md_qbank/widgets/sub_deck_container.dart';
+import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/deck_info_container.dart';
+import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/sub_deck_container.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/decks_provider.dart';
@@ -167,14 +167,9 @@ class _MDCatQbankInterfaceState extends State<MDCatQbankInterface> {
                       // Data loaded successfully
                       return Expanded(
                         child: ListView.builder(
-                          itemCount:
-                              Provider.of<DecksProvider>(context, listen: false)
-                                  .deckList
-                                  .length,
+                          itemCount: deckPro.deckList.length,
                           itemBuilder: (context, index) {
-                            final deck = Provider.of<DecksProvider>(context,
-                                    listen: false)
-                                .deckList[index];
+                            final deck = deckPro.deckList[index];
                             return DeckInfoContainer(
                                 qbank: deck,
                                 onTap: () {

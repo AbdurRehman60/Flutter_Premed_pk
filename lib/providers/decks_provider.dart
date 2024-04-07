@@ -44,7 +44,6 @@ class DecksProvider extends ChangeNotifier {
       // print('fetching');
       final responseData =
       await _client.get(Endpoints.serverURL + Endpoints.Deckspoints);
-      print(responseData);
       if (responseData['success']) {
         final List deckCategories = responseData['data'];
         final mdCATQBANK = deckCategories[7];

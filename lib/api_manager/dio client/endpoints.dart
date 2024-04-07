@@ -60,4 +60,6 @@ class Endpoints {
   static const String GetWebNotifications = '/GetNotifications';
   static const statistics = 'api/statistics/compute-statistics';
   static const String Deckspoints= '/api/get-all-published-decks';
+  static const String QuestionOfTheDay= '/api/question/getRandomQuestions';
+
 }
