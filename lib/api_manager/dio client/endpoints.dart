@@ -58,4 +58,7 @@ class Endpoints {
   static const String UpdatePassword = '/UpdateAccountPassword';
 
   static const String GetWebNotifications = '/GetNotifications';
+
+  //delete account
+  static const String DeleteAccount = '/api/user/DeleteAccount';
 }

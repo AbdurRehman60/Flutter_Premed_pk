@@ -1,5 +1,6 @@
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/change_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/contact_us.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/delete_account.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/edit_profile.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/menu_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
@@ -127,7 +128,7 @@ class Account extends StatelessWidget {
                 SizedBoxes.verticalMedium,
                 Expanded(
                   child: ListView.builder(
-                    itemCount: 6,
+                    itemCount: 7,
                     itemBuilder: (context, index) {
                       String heading = '';
                       String imagePath = '';
@@ -185,6 +186,9 @@ class Account extends StatelessWidget {
                         case 5:
                           heading = 'Terms of Use';
                           imagePath = PremedAssets.Terms;
+                        case 6:
+                          heading = 'Delete Account';
+                          imagePath = PremedAssets.Cross;
                       }
 
                       return Container(
@@ -238,6 +242,15 @@ class Account extends StatelessWidget {
                                   MaterialPageRoute(
                                     builder: (context) =>
                                         const TermsCondition(),
+                                  ),
+                                );
+
+                              case 6:
+                                //for deletion of acc
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                    const DeleteAccount(),
                                   ),
                                 );
                             }

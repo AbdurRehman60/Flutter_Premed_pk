@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -10,6 +9,8 @@ class UserProvider extends ChangeNotifier {
   UserProvider._internal();
   static final UserProvider _instance = UserProvider._internal();
   final DioClient _client = DioClient();
+
+
   void notify() {
     notifyListeners();
   }
@@ -138,6 +139,52 @@ class UserProvider extends ChangeNotifier {
       result = {
         'status': false,
         'message': 'Network error updating user details: ${e.message}',
+      };
+    }
+
+    notify();
+    return result;
+  }
+
+//account deletion
+  Future<Map<String, dynamic>> deleteAccount(
+      String username, String password) async {
+    Map<String, dynamic> result;
+    try {
+      final Response response = await _client.put(
+        Endpoints.DeleteAccount,
+        data: {
+          'username': username,
+          'password': password,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData =
+        Map<String, dynamic>.from(response.data);
+
+        if (responseData['message'] == "User deleted successfully") {
+          notify();
+          result = {
+            'status': true,
+            'message': 'User account deleted successfully',
+          };
+        } else {
+          result = {
+            'status': false,
+            'message': 'Failed to delete user account',
+          };
+        }
+      } else {
+        result = {
+          'status': false,
+          'message': 'Failed to delete user account. Server error.',
+        };
+      }
+    } on DioException catch (e) {
+      result = {
+        'status': false,
+        'message': 'Network error deleting user account: ${e.message}',
       };
     }
 

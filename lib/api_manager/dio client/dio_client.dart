@@ -10,6 +10,7 @@ class DioClient {
     _dio.interceptors.add(
       CookieManager(cookieJar),
     );
+    _dio.interceptors.add(LogInterceptor(responseBody: true));
   }
   static BaseOptions options = BaseOptions(
     baseUrl: Endpoints.serverURL,
@@ -19,6 +20,7 @@ class DioClient {
 
   final Dio _dio = Dio(options);
   final cookieJar = CookieJar();
+
 
   Future<void> _saveCookies(List<Cookie> cookies) async {
     // print('saving cookie - $cookies');
@@ -139,4 +141,38 @@ class DioClient {
       rethrow;
     }
   }
+
+  Future<dynamic> put(
+      String uri, {
+        data,
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        CancelToken? cancelToken,
+        ProgressCallback? onSendProgress,
+        ProgressCallback? onReceiveProgress,
+      }) async {
+    final List<Cookie> cookies1 = await _loadCookies();
+    options ??= Options();
+    options.headers = {
+      'cookie':
+      cookies1.map((cookie) => '${cookie.name}=${cookie.value}').join('; ')
+    };
+
+    final Response response = await _dio.put(
+      uri,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+    final List<Cookie> cookies =
+    await cookieJar.loadForRequest(response.requestOptions.uri);
+    if (cookies.isNotEmpty) {
+      await _saveCookies(cookies);
+    }
+    return response;
+  }
+
 }
