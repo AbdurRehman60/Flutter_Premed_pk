@@ -1,4 +1,3 @@
-import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offers_widget.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -27,6 +26,8 @@ class CardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
     final bool isBundleInCart = cartProvider.selectedBundles.contains(bundle);
+
+
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,8 +197,10 @@ class CardContent extends StatelessWidget {
             child: CustomButton(
               buttonText: 'Buy Now ->',
               onPressed: () {
-                cartProvider.addToCart(bundle);
-                MarketPlace.openDrawer();
+                launchUrl(
+                  mode: LaunchMode.inAppBrowserView,
+                  Uri.parse("https://premed.pk/pricing"),
+                );
               },
             ),
           ),
