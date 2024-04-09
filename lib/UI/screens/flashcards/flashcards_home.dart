@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_screen_data.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_display_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/widgets/flashcard_shimmer.dart';
+import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
@@ -17,25 +18,54 @@ class FlashcardHome extends StatelessWidget {
         Provider.of<FlashcardProvider>(context, listen: false);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Flashcards',
-          style: PreMedTextTheme().heading5.copyWith(
-                color: PreMedColorTheme().black,
-              ),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60.0),
+        child: AppBar(
+          backgroundColor: PreMedColorTheme().white,
+          leading: Container(
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 3,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            alignment: Alignment.center,
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios_new_rounded,
+                  color: PreMedColorTheme().primaryColorRed),
+              onPressed: () {Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>const HomeScreen()),
+              );
+              },
+            ),
+          ),
+          automaticallyImplyLeading: false,
         ),
-        backgroundColor: PreMedColorTheme().white,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Text(
-              'Select Questions and start revising.',
-              style: PreMedTextTheme().subtext.copyWith(
-                  color: PreMedColorTheme().neutral400,
-                  fontWeight: FontWeight.w400),
+            padding: const EdgeInsets.all(10.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Flashcards',
+                style: PreMedTextTheme().heading6.copyWith(
+                  color: PreMedColorTheme().black,
+                  fontSize: 34,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
             ),
           ),
           FutureBuilder(
@@ -125,9 +155,18 @@ class FlashcardItem extends StatelessWidget {
       child: Container(
         // Use a Container to set the background color
         decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
           color: color, // Set the background color here
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: PreMedColorTheme().white),
+          border: Border.all(color: PreMedColorTheme().white,
+          width: 3),
         ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),

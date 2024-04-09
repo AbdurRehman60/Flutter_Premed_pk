@@ -10,6 +10,7 @@ class FlashcardCarouselView extends StatefulWidget {
     super.key,
     required this.selectedSubject,
   });
+
   final String selectedSubject;
 
   @override
@@ -89,13 +90,6 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
 
     return Column(
       children: [
-        Text(
-          'Click on card to see Answers',
-          style: PreMedTextTheme().heading7.copyWith(
-                fontWeight: FontWeights.regular,
-                color: PreMedColorTheme().neutral500,
-              ),
-        ),
         Expanded(
           child: PageView.builder(
             itemCount: filteredFlashcards.length,
@@ -125,18 +119,33 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: CustomButton(
-                  isOutlined: true,
-                  onPressed: goToPreviousCard,
-                  buttonText: 'Previous',
-                  textColor: PreMedColorTheme().neutral500,
+                child: Material(
+                  elevation: 3,
+                  borderRadius: BorderRadius.circular(12),
+                  child: CustomButton(
+                    color: Colors.white30,
+                    isOutlined: true,
+                    onPressed: goToPreviousCard,
+                    buttonText: 'Previous',
+                    textColor: PreMedColorTheme().neutral500,
+                    isIconButton: true,
+                    icon: Icons.arrow_back_ios_rounded,
+
+                  ),
                 ),
               ),
               SizedBoxes.horizontalMedium,
               Expanded(
-                child: CustomButton(
-                  onPressed: goToNextCard,
-                  buttonText: 'Next',
+                child: Material(
+                  elevation: 3,
+                  borderRadius: BorderRadius.circular(12),
+                  child: CustomButton(
+                    onPressed: goToNextCard,
+                    buttonText: 'Next',
+                    isIconButton: true,
+                    icon: Icons.arrow_forward_ios_rounded,
+                    leftIcon: false,
+                  ),
                 ),
               ),
             ],

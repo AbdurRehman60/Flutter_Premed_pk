@@ -42,7 +42,7 @@ class CustomButton extends StatelessWidget {
               backgroundColor: isActive
                   ? PreMedColorTheme().white
                   : PreMedColorTheme().primaryColorRed,
-              side: BorderSide(color: PreMedColorTheme().neutral400),
+              side: BorderSide(color: PreMedColorTheme().white),
               minimumSize: buttonSize,
             ),
             child: isIconButton

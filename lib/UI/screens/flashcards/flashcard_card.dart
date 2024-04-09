@@ -5,6 +5,7 @@ import 'package:premedpk_mobile_app/models/flashcard_model.dart';
 
 class FlashcardCard extends StatefulWidget {
   const FlashcardCard({super.key, required this.flashcard});
+
   final FlashcardModel flashcard;
 
   @override
@@ -38,45 +39,49 @@ class _FlashcardCardState extends State<FlashcardCard> {
   }
 
   Widget buildFrontContent() {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.3,
-      decoration: BoxDecoration(
-        borderRadius:
-            BorderRadius.circular(12.0), // Adjust the radius as needed
-        border: Border.all(
-          color: PreMedColorTheme().neutral300, // Border color
+    return Material(
+      color: Colors.white30,
+      elevation: 3,
+      borderRadius: BorderRadius.circular(12.0),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.6,
+        decoration: BoxDecoration(
+          color: Colors.white24,
+          borderRadius: BorderRadius.circular(12.0),
+          border: Border.all(color: PreMedColorTheme().white, width: 3),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.white,
+              spreadRadius: 1,
+              offset: Offset(0, 2),
+              blurRadius: 4.0,
+            ),
+          ],
         ),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.white, // Shadow color
-            offset: Offset(0, 2), // Offset (horizontal, vertical)
-            blurRadius: 4.0, // Blur radius
-          ),
-        ],
-      ),
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20), // You can adjust the padding
-          child: Column(
-            children: [
-              Text(
-                'Question',
-                style: PreMedTextTheme().heading6.copyWith(
-                      color: PreMedColorTheme().primaryColorBlue,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20), // You can adjust the padding
+            child: Column(
+              children: [
+                Text(
+                  'Question',
+                  style: PreMedTextTheme().heading6.copyWith(
+                        color: PreMedColorTheme().primaryColorBlue,
+                      ),
+                ),
+                Html(
+                  data: widget.flashcard.questionText,
+                  style: {
+                    'p': Style(
+                      textAlign: TextAlign.center,
+                      fontFamily: 'Inter',
+                      fontSize: FontSize(14.0),
+                      fontWeight: FontWeight.w400,
                     ),
-              ),
-              Html(
-                data: widget.flashcard.questionText,
-                style: {
-                  'p': Style(
-                    textAlign: TextAlign.center,
-                    fontFamily: 'Inter',
-                    fontSize: FontSize(14.0),
-                    fontWeight: FontWeight.w400,
-                  ),
-                },
-              ),
-            ],
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -84,44 +89,49 @@ class _FlashcardCardState extends State<FlashcardCard> {
   }
 
   Widget buildBackContent() {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.6,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(
-          color: PreMedColorTheme().neutral300,
+    return Material(
+      color: Colors.white30,
+      elevation: 3,
+      borderRadius: BorderRadius.circular(12.0),
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.6,
+        decoration: BoxDecoration(
+          color: Colors.white24,
+          borderRadius: BorderRadius.circular(12.0),
+          border: Border.all(color: PreMedColorTheme().white, width: 3),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.white,
+              spreadRadius: 1,
+              offset: Offset(0, 2),
+              blurRadius: 4.0,
+            ),
+          ],
         ),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.white,
-            offset: Offset(0, 2),
-            blurRadius: 4.0,
-          ),
-        ],
-      ),
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Text(
-                'Answer',
-                style: PreMedTextTheme()
-                    .heading6
-                    .copyWith(color: PreMedColorTheme().primaryColorRed),
-              ),
-              Html(
-                data: widget.flashcard.correctOptionText,
-                style: {
-                  'p': Style(
-                    textAlign: TextAlign.center,
-                    fontFamily: 'Inter',
-                    fontSize: FontSize(14.0),
-                    fontWeight: FontWeight.w400,
-                  ),
-                },
-              ),
-            ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Text(
+                  'Answer',
+                  style: PreMedTextTheme()
+                      .heading6
+                      .copyWith(color: PreMedColorTheme().primaryColorRed),
+                ),
+                Html(
+                  data: widget.flashcard.correctOptionText,
+                  style: {
+                    'p': Style(
+                      textAlign: TextAlign.center,
+                      fontFamily: 'Inter',
+                      fontSize: FontSize(14.0),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

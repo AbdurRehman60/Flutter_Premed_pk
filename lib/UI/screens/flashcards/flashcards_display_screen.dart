@@ -12,23 +12,52 @@ class FlashcardDisplayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         backgroundColor: PreMedColorTheme().white,
-        iconTheme: IconThemeData(color: PreMedColorTheme().black),
-        title: Text(
-          subject,
-          style: PreMedTextTheme()
-              .heading5
-              .copyWith(color: PreMedColorTheme().black),
+        leading: Container(
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 1,
+                blurRadius: 3,
+                offset: const Offset(0, 2),
+              ),
+            ],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          alignment: Alignment.center,
+          child: Center(
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios_new_rounded,
+                  color: PreMedColorTheme().primaryColorRed),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
         ),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {},
-        //       icon: Icon(
-        //         Icons.menu_rounded,
-        //         color: PreMedColorTheme().black,
-        //       ))
-        // ],
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              subject,
+              style: PreMedTextTheme().heading6.copyWith(
+                  color: PreMedColorTheme().black,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+            SizedBoxes.vertical2Px,
+            Text(
+                'FLASHCARDS',
+                style: PreMedTextTheme().subtext.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: PreMedColorTheme().black,)
+            )
+          ],
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
