@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/customised_buttons/qbank_button_y.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/build_error.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/qbank_tile.dart';

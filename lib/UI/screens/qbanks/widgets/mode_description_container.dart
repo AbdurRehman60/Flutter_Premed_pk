@@ -69,7 +69,6 @@ class ModeDescription extends StatelessWidget {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         backgroundColor: PreMedColorTheme().primaryColorRed),
                     onPressed: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=> TestBank()));
 
                     },
                     child: Text(

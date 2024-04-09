@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbanks/mdcat_qbank.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbanks/nums_qbank.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbanks/private_universties_qbank.dart';

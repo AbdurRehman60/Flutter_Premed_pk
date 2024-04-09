@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
@@ -16,16 +17,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => QbankHome()));
-              },
-              icon: Icon(Icons.ac_unit))
-        ],
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
