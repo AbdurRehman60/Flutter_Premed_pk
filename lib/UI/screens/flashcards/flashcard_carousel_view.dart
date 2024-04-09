@@ -114,7 +114,7 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 64, right: 64),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -130,7 +130,6 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
                     textColor: PreMedColorTheme().neutral500,
                     isIconButton: true,
                     icon: Icons.arrow_back_ios_rounded,
-
                   ),
                 ),
               ),

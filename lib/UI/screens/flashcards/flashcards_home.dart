@@ -40,11 +40,11 @@ class FlashcardHome extends StatelessWidget {
             child: IconButton(
               icon: Icon(Icons.arrow_back_ios_new_rounded,
                   color: PreMedColorTheme().primaryColorRed),
-              onPressed: () {Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>const HomeScreen()),
-              );
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
               },
             ),
           ),
@@ -61,10 +61,10 @@ class FlashcardHome extends StatelessWidget {
               child: Text(
                 'Flashcards',
                 style: PreMedTextTheme().heading6.copyWith(
-                  color: PreMedColorTheme().black,
-                  fontSize: 34,
-                  fontWeight: FontWeight.w800,
-                ),
+                      color: PreMedColorTheme().black,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w800,
+                    ),
               ),
             ),
           ),
@@ -89,7 +89,7 @@ class FlashcardHome extends StatelessWidget {
                         crossAxisCount: 2,
                         mainAxisSpacing: 8,
                         crossAxisSpacing: 8,
-                        mainAxisExtent: 130,
+                        mainAxisExtent: 140,
                       ),
                       itemBuilder: (context, index) {
                         final Color color = Color(int.parse(
@@ -165,8 +165,7 @@ class FlashcardItem extends StatelessWidget {
           ],
           color: color, // Set the background color here
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: PreMedColorTheme().white,
-          width: 3),
+          border: Border.all(color: PreMedColorTheme().white, width: 3),
         ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),

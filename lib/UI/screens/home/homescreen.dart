@@ -30,24 +30,14 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             SizedBoxes.vertical2Px,
                             Text(
-                              'Hi, ${userProvider
-                                  .getUserName()
-                                  .split(' ')
-                                  .length > 1 ? '${userProvider
-                                  .getUserName()
-                                  .split(' ')
-                                  .first} ${userProvider.getUserName().split(
-                                  ' ')[1]}' : userProvider
-                                  .getUserName()
-                                  .split(' ')
-                                  .first}',
+                              'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
                               style: PreMedTextTheme().heading4.copyWith(
                                   fontWeight: FontWeight.w800, fontSize: 28),
                             ),
                             Text(
                               'Ready to continue your journey?',
                               style:
-                              PreMedTextTheme().body.copyWith(fontSize: 17),
+                                  PreMedTextTheme().body.copyWith(fontSize: 17),
                             )
                           ],
                         ),
@@ -61,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                       child: NotesTile(
                         heading: "The Question Bank",
                         description:
-                        "Qbank of MDCAT, NUMS and Private Universities",
+                            "Attempt over 50,000 Questions on our website to prepare for the MDCAT, AKU and NUMS exam. This feature will be launched on the app very soon.",
                         icon: PremedAssets.QuestionBank,
                         bgColor: PreMedColorTheme().white,
                         onTap: () {
@@ -72,7 +62,6 @@ class HomeScreen extends StatelessWidget {
                         },
                       ),
                     ),
-
                     SizedBoxes.verticalMedium,
                     Material(
                       elevation: 3,
@@ -80,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                       child: NotesTile(
                         heading: "Revision Notes",
                         description:
-                        "Comprehensive study notes for Biology, Physics and Chemistry",
+                            "Comprehensive study notes for Biology, Physics and Chemistry",
                         icon: PremedAssets.RevisionNotes,
                         bgColor: PreMedColorTheme().white,
                         onTap: () {
@@ -99,7 +88,7 @@ class HomeScreen extends StatelessWidget {
                       child: NotesTile(
                         heading: "Study Guides",
                         description:
-                        "Comprehensive study guides for Biology, Physics and Chemistry",
+                            "Comprehensive study guides for Biology, Physics and Chemistry",
                         icon: PremedAssets.ProvisionalGuides,
                         bgColor: PreMedColorTheme().white,
                         onTap: () {
@@ -111,15 +100,13 @@ class HomeScreen extends StatelessWidget {
                         },
                       ),
                     ),
-
                     SizedBoxes.verticalMedium,
                     Material(
                       elevation: 3,
                       borderRadius: BorderRadius.circular(15),
                       child: NotesTile(
                         heading: "Flashcards",
-                        description:
-                        "Fast-paced Revision",
+                        description: "Fast-paced Revision",
                         icon: PremedAssets.Flashcards,
                         bgColor: PreMedColorTheme().white,
                         onTap: () {
@@ -131,15 +118,13 @@ class HomeScreen extends StatelessWidget {
                         },
                       ),
                     ),
-
                     SizedBoxes.verticalMedium,
                     Material(
                       elevation: 3,
                       borderRadius: BorderRadius.circular(15),
                       child: NotesTile(
                         heading: "Youtube",
-                        description:
-                        "PreMEd's Youtube Account",
+                        description: "Latest updates on \nMDCAT!",
                         icon: PremedAssets.Youtube,
                         bgColor: PreMedColorTheme().white,
                         onTap: () {

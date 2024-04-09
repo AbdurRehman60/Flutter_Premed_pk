@@ -14,7 +14,6 @@ class DoubtListView extends StatelessWidget {
   final bool solved;
   @override
   Widget build(BuildContext context) {
-
     final askAnExpertProvider = Provider.of<AskAnExpertProvider>(
       context,
     );
@@ -35,9 +34,12 @@ class DoubtListView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (index == 0) const SizedBox(
-                                height: 140,
-                              ) else const SizedBox(),
+                        if (index == 0)
+                          const SizedBox(
+                            height: 1,
+                          )
+                        else
+                          const SizedBox(),
                         DoubtCard(
                           doubt: doubtList[index],
                         ),
@@ -54,7 +56,11 @@ class DoubtListView extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(PremedAssets.Slashed, width: 64, height:64, ),
+                    Image.asset(
+                      PremedAssets.Slashed,
+                      width: 64,
+                      height: 64,
+                    ),
                     SizedBoxes.verticalTiny,
                     Column(
                       children: [
@@ -72,9 +78,10 @@ class DoubtListView extends StatelessWidget {
                               ? 'Maybe the query is still pending, or you haven’t asked any questions!'
                               : 'Either all your queries have been solved, or you haven’t asked any questions!',
                           style: PreMedTextTheme().subtext1.copyWith(
-                              color: PreMedColorTheme().black,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,),
+                                color: PreMedColorTheme().black,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                              ),
                           textAlign: TextAlign.center,
                         ),
                       ],

@@ -7,7 +7,18 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: SignupForm(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 120,
+              ),
+              const SignupForm()
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

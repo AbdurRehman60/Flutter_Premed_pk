@@ -1,5 +1,4 @@
 class Doubt {
-
   Doubt({
     required this.id,
     required this.username,
@@ -32,7 +31,7 @@ class Doubt {
       rated: json['rated'],
       disputed: json['disputed'],
       disputedUsername: json['disputedUsername'] ?? '',
-      disputedTimes: json['disputedTimes'],
+      disputedTimes: json['disputedTimes'] ?? 0,
       solvedStatus: json['solvedStatus'],
       timestamp: json['timestamp'],
     );
@@ -46,22 +45,22 @@ class Doubt {
   final String videoLink;
   final String imgURL;
   final String expertUsername;
-  final bool rated;
-  final bool disputed;
+  final bool? rated;
+  final bool? disputed;
   final String disputedUsername;
-  final int disputedTimes;
+  final int? disputedTimes;
   final String solvedStatus;
   final String timestamp;
 }
 
 class QuestionsResponse {
-
   QuestionsResponse({
     required this.success,
     required this.questionsDetails,
   });
 
   factory QuestionsResponse.fromJson(Map<String, dynamic> json) {
+    final bool success = json['success'] ?? false;
     final List<dynamic> doubtJson = json['QuestionsDetails'];
     final List<Doubt> questionsDetails =
         doubtJson.map((item) => Doubt.fromJson(item)).toList();

@@ -51,6 +51,11 @@ class PreMedTextTheme {
         fontWeight: FontWeights.regular,
       );
 
+  TextStyle get body1 => _baseTextStyle.copyWith(
+        fontSize: 14.0,
+        fontWeight: FontWeights.bold,
+      );
+
   TextStyle get subtext => _baseTextStyle.copyWith(
         fontSize: 16.0,
         fontWeight: FontWeights.medium,

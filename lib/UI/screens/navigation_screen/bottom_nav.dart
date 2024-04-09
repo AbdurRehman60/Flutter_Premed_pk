@@ -20,7 +20,7 @@ class PremedBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:  Platform.isIOS ? 100 : 70,
+      height: Platform.isIOS ? 100 : 70,
       padding: EdgeInsets.only(bottom: Platform.isIOS ? 16 : 0),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -32,7 +32,6 @@ class PremedBottomNav extends StatelessWidget {
             offset: const Offset(0, 5), // changes position of shadow
           ),
         ],
-      
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,27 +42,27 @@ class PremedBottomNav extends StatelessWidget {
             label: 'Dashboard',
             onTap: onTapHome,
           ),
-          _BottomNavBarItem(
-            icon: 'assets/images/Question Bank.png',
-            isSelected: 1 == currentIndex,
-            label: 'Qbank',
-            onTap: onTapQbank,
-          ),
+          // _BottomNavBarItem(
+          //   icon: 'assets/images/Question Bank.png',
+          //   isSelected: 1 == currentIndex,
+          //   label: 'Qbank',
+          //   onTap: onTapQbank,
+          // ),
           _MainBottomNavBarItem(
             icon: 'assets/images/Expert Solutions.png',
-            isSelected: 2 == currentIndex,
+            isSelected: 1 == currentIndex,
             label: 'Expert Solutions',
             onTap: onTapExpertSolution,
           ),
           _BottomNavBarItem(
             icon: 'assets/images/Shop.png',
-            isSelected: 3 == currentIndex,
+            isSelected: 2 == currentIndex,
             label: 'Shop',
             onTap: onTapMarketplace,
           ),
           _BottomNavBarItem(
             icon: 'assets/images/Settings.png',
-            isSelected: 4 == currentIndex,
+            isSelected: 3 == currentIndex,
             label: 'Settings',
             onTap: onTapProfile,
           ),

@@ -108,8 +108,10 @@ class AskAnExpertProvider extends ChangeNotifier {
         Endpoints.DoubtUpload,
         data: askAnExpertData,
       );
+      print(response);
 
       if (response.statusCode == 200) {
+        print('object${response}');
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
         if (responseData["success"]) {
@@ -178,6 +180,7 @@ class AskAnExpertProvider extends ChangeNotifier {
         final List<Doubt> doubtList = [];
 
         for (final data in responseData['QuestionsDetails']) {
+          print(data);
           final Doubt doubt = Doubt.fromJson(data);
           doubtList.add(doubt);
         }
