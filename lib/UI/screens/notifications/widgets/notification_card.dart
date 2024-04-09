@@ -16,14 +16,14 @@ class NotificationCard extends StatelessWidget {
         children: [
           Image.network(
             notification.content.iconSrc,
-            width: 64,
-            height: 64,
+            width: 44,
+            height: 44,
             errorBuilder:
                 (BuildContext context, Object error, StackTrace? stackTrace) {
               return Image.network(
                 "https://premedpk-cdn.sgp1.cdn.digitaloceanspaces.com/CustomImages/PreMedCircleLogo.cffae65f.png",
-                width: 64,
-                height: 64,
+                width: 44,
+                height: 44,
               );
             },
           ),
