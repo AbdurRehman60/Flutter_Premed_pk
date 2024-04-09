@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
+import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/mdcat_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -45,89 +46,94 @@ class HomeScreen extends StatelessWidget {
                     ),
                     SizedBoxes.verticalLarge,
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: PreMedColorTheme().white,
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                                color: PreMedColorTheme().white, width: 3),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 3,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          width: 180,
-                          height: 130,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Image.asset(
-                                  PremedAssets.QuestionBank,
-                                  width: 34,
-                                  height: 68,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const MDCAT()));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: PreMedColorTheme().white,
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                  color: PreMedColorTheme().white, width: 3),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  spreadRadius: 1,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 2),
                                 ),
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('PREVIOUS ACTIVITY', style: PreMedTextTheme().body.copyWith(fontSize: 12, fontWeight: FontWeight.w700, color: PreMedColorTheme().neutral600
-                                  )),
-                                  Text('MDCAT', style: PreMedTextTheme().heading5.copyWith(fontSize: 18, color: PreMedColorTheme().black,fontWeight: FontWeight.w800,)),
-                                  Text('QBank', style: TextStyle(fontSize: 16, color: PreMedColorTheme().black)),
-                                ],
-                              ),
-                            ],
+                              ],
+                            ),
+                            width: 180,
+                            height: 130,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Image.asset(
+                                    PremedAssets.QuestionBank,
+                                    width: 34,
+                                    height: 68,
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('PREVIOUS ACTIVITY', style: PreMedTextTheme().body.copyWith(fontSize: 12, fontWeight: FontWeight.w700, color: PreMedColorTheme().neutral600
+                                    )),
+                                    Text('MDCAT', style: PreMedTextTheme().heading5.copyWith(fontSize: 18, color: PreMedColorTheme().black,fontWeight: FontWeight.w800,)),
+                                    Text('QBank', style: TextStyle(fontSize: 16, color: PreMedColorTheme().black)),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         SizedBoxes.horizontalMicro,
-                        Container(
-                          decoration: BoxDecoration(
-                            color: PreMedColorTheme().white,
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                                color: PreMedColorTheme().white, width: 3),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 3,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          width: 180,
-                          height: 130,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Image.asset(
-                                  PremedAssets.Flashcards,
-                                  width: 38,
-                                  height: 38,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const FlashcardHome()));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: PreMedColorTheme().white,
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                  color: PreMedColorTheme().white, width: 3),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  spreadRadius: 1,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 2),
                                 ),
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Flashcards', style: PreMedTextTheme().heading5.copyWith(fontSize: 22, color: PreMedColorTheme().black,fontWeight: FontWeight.w800,)),
-                                  Text('Fast-paced \n revision!', style: TextStyle(fontSize: 16, color: PreMedColorTheme().black)),
-                                ],
-                              ),
-                            ],
+                              ],
+                            ),
+                            width: 180,
+                            height: 130,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Image.asset(
+                                    PremedAssets.Flashcards,
+                                    width: 38,
+                                    height: 38,
+                                  ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Flashcards', style: PreMedTextTheme().heading5.copyWith(fontSize: 22, color: PreMedColorTheme().black,fontWeight: FontWeight.w800,)),
+                                    Text('Fast-paced \n revision!', style: TextStyle(fontSize: 16, color: PreMedColorTheme().black)),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
