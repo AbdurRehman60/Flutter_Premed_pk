@@ -4,6 +4,7 @@ import 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution_h
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/mdcat_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/bottom_nav.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,7 +28,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final screens = [
     const HomeScreen(),
-    const FlashcardHome(),
+    const MDCAT(),
     const ExpertSolutionHome(),
     const MarketPlace(),
     const Account(),
@@ -54,7 +55,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         bottomNavigationBar: PremedBottomNav(
           currentIndex: navigationStack.last,
           onTapHome: () => onTap(0),
-          onTapFlashcards: () => onTap(1),
+          onTapQbank: () => onTap(1),
           onTapExpertSolution: () => onTap(2),
           onTapMarketplace: () => onTap(3),
           onTapProfile: () => onTap(4),

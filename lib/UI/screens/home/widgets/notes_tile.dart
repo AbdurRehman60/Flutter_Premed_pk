@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class NotesTile extends StatelessWidget {
@@ -29,52 +31,53 @@ class NotesTile extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
           children: [
-            Row(
-              children: [
-                Image.asset(
-                  icon,
-                  fit: BoxFit.contain,
-                  width: 32,
-                  height: 32,
-                ),
-                SizedBoxes.horizontalMedium,
-                Text(
-                  heading,
-                  style: PreMedTextTheme().heading5,
-                ),
-              ],
+            Image.asset(
+              icon,
+              fit: BoxFit.contain,
+              width: 32,
+              height: 32,
             ),
-            SizedBoxes.verticalLarge,
-            Row(
-              children: [
-                Flexible(
-                  child: Text(
+            SizedBoxes.horizontalMedium,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBoxes.horizontalMedium,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      heading,
+                      style: PreMedTextTheme().heading5,
+                    ),
+                  ),
+                  SizedBoxes.vertical2Px,
+                  Text(
                     description,
                     style: PreMedTextTheme().subtext.copyWith(
                           fontWeight: FontWeights.regular,
                           fontSize: 14,
+
                         ),
                   ),
-                ),
-                SizedBoxes.horizontalBig,
-                IconButton(
-                  onPressed: onTap,
-                  icon: CircleAvatar(
-                    backgroundColor: btnColor,
-                    child: Icon(
-                      Icons.arrow_forward_rounded,
-                      color: PreMedColorTheme().white,
-                    ),
-                  ),
-                )
-              ],
+                  SizedBoxes.horizontalBig,
+                ],
+              ),
             ),
+
+            IconButton(
+              onPressed: onTap,
+              icon: Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: PreMedColorTheme().primaryColorRed,
+              ),
+            )
           ],
         ),
       ),
     );
   }
 }
+
+

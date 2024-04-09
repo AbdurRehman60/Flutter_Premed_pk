@@ -6,14 +6,14 @@ class PremedBottomNav extends StatelessWidget {
       required this.currentIndex,
       required this.onTapHome,
       required this.onTapMarketplace,
-      required this.onTapFlashcards,
+      required this.onTapQbank,
       required this.onTapExpertSolution,
       required this.onTapProfile});
 
   final int currentIndex;
   final VoidCallback onTapHome;
   final VoidCallback onTapMarketplace;
-  final VoidCallback onTapFlashcards;
+  final VoidCallback onTapQbank;
   final VoidCallback onTapExpertSolution;
   final VoidCallback onTapProfile;
 
@@ -38,33 +38,33 @@ class PremedBottomNav extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _BottomNavBarItem(
-            icon: Icons.home,
+            icon: 'assets/images/Dashboard.png',
             isSelected: 0 == currentIndex,
-            label: 'Home',
+            label: 'Dashboard',
             onTap: onTapHome,
           ),
           _BottomNavBarItem(
-            icon: Icons.bookmarks_rounded,
+            icon: 'assets/images/Question Bank.png',
             isSelected: 1 == currentIndex,
-            label: 'Flashcards',
-            onTap: onTapFlashcards,
+            label: 'Qbank',
+            onTap: onTapQbank,
           ),
           _MainBottomNavBarItem(
-            icon: Icons.school_outlined,
+            icon: 'assets/images/Expert Solutions.png',
             isSelected: 2 == currentIndex,
-            label: 'Marketplace',
+            label: 'Expert Solutions',
             onTap: onTapExpertSolution,
           ),
           _BottomNavBarItem(
-            icon: Icons.shopping_bag,
+            icon: 'assets/images/Shop.png',
             isSelected: 3 == currentIndex,
-            label: 'Bundles',
+            label: 'Shop',
             onTap: onTapMarketplace,
           ),
           _BottomNavBarItem(
-            icon: Icons.person_2,
+            icon: 'assets/images/Settings.png',
             isSelected: 4 == currentIndex,
-            label: 'Profile',
+            label: 'Settings',
             onTap: onTapProfile,
           ),
         ],
@@ -84,7 +84,7 @@ class _BottomNavBarItem extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
   final String label;
-  final IconData icon;
+  final String icon;
 
   @override
   Widget build(BuildContext context) {
@@ -93,25 +93,24 @@ class _BottomNavBarItem extends StatelessWidget {
         onTap: onTap,
         child: ColoredBox(
           color: PreMedColorTheme().white,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  icon,
-                  color: isSelected
-                      ? PreMedColorTheme().primaryColorRed
-                      : PreMedColorTheme().neutral200,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  label,
-                  style: PreMedTextTheme().small,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                icon,
+                width: 24,
+                height: 24,
+                color: isSelected
+                    ? PreMedColorTheme().primaryColorRed
+                    : PreMedColorTheme().neutral300,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: PreMedTextTheme().small,
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         ),
       ),
@@ -130,45 +129,31 @@ class _MainBottomNavBarItem extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
   final String label;
-  final IconData icon;
+  final String icon;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: isSelected
-                  ? PreMedColorTheme().primaryColorRed100
-                  : PreMedColorTheme().primaryColorRed,
-              border: Border.all(
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+        child: Align(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                icon,
+                width: 28,
+                height: 28,
                 color: isSelected
-                    ? PreMedColorTheme().primaryColorRed200
-                    : PreMedColorTheme().primaryColorRed,
+                    ? PreMedColorTheme().primaryColorRed
+                    : PreMedColorTheme().neutral300,
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    icon,
-                    color: isSelected
-                        ? PreMedColorTheme().primaryColorRed
-                        : PreMedColorTheme().white,
-                  ),
-                  // Text(
-                  //   label,
-                  //   style: PreMedTextTheme().small,
-                  // ),
-                ],
+              Text(
+                label,
+                style: PreMedTextTheme().small,
               ),
-            ),
+            ],
           ),
         ),
       ),

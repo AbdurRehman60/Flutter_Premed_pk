@@ -18,13 +18,15 @@ class PremedAssets {
   static String Meezan = 'assets/images/meezan.jpg';
   static String JazzCash = 'assets/images/jazzcash.png';
   static String EasyPaisa = 'assets/images/easypaisa.jpg';
-  static String NotificationIcon = 'assets/images/notification_Icon.png';
+  static String NotificationIcon = 'assets/images/Bell Icon.png';
   static String Coins = 'assets/images/coins.png';
   static String ContactUS = 'assets/images/contactus.png';
   static String EmptyCart = 'assets/images/cartemptystate.png';
   static String Celebration = 'assets/images/happy.png';
   static String Purchase = 'assets/images/purchase.png';
   static String Slashed = 'assets/images/Slashed.png';
+  static String QuestionBank = 'assets/images/Question Bank.png';
+  static String Flashcards = 'assets/images/Flashcards.png';
   //icons
 
   static String EditProfile = 'assets/icons/User Circle.png';

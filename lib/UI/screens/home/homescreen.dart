@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
@@ -15,7 +16,7 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
             child: Consumer<UserProvider>(
               builder: (context, userProvider, child) {
                 return Column(
@@ -26,46 +27,140 @@ class HomeScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "👋🏼 Welcome Back",
-                              style: PreMedTextTheme().subtext,
-                            ),
                             SizedBoxes.vertical2Px,
                             Text(
-                              userProvider.getUserName().split(' ').length > 1
-                                  ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}'
-                                  : userProvider.getUserName().split(' ').first,
-                              style: PreMedTextTheme().heading4,
+                              'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
+                              style: PreMedTextTheme().heading4.copyWith(
+                                  fontWeight: FontWeight.w800, fontSize: 28),
                             ),
+                            Text(
+                              'Ready to continue your journey?',
+                              style:
+                                  PreMedTextTheme().body.copyWith(fontSize: 17),
+                            )
                           ],
                         ),
                         const NotificationIcon()
                       ],
                     ),
                     SizedBoxes.verticalLarge,
-                    NotesTile(
-                      heading: "Revision Notes",
-                      description:
-                          "Comprehensive study notes for Biology, Chemistry, Physics, and Mathematics, specifically designed to help you excel in your MDCAT exams.",
-                      icon: PremedAssets.RevisionNotes,
-                      bgColor: PreMedColorTheme().primaryColorRed100,
-                      btnColor: PreMedColorTheme().primaryColorRed,
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const RevisionNotes(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: PreMedColorTheme().white,
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                                color: PreMedColorTheme().white, width: 3),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 3,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
-                        );
-                      },
+                          width: 180,
+                          height: 130,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Image.asset(
+                                  PremedAssets.QuestionBank,
+                                  width: 34,
+                                  height: 68,
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('PREVIOUS ACTIVITY', style: PreMedTextTheme().body.copyWith(fontSize: 12, fontWeight: FontWeight.w700, color: PreMedColorTheme().neutral600
+                                  )),
+                                  Text('MDCAT', style: PreMedTextTheme().heading5.copyWith(fontSize: 18, color: PreMedColorTheme().black,fontWeight: FontWeight.w800,)),
+                                  Text('QBank', style: TextStyle(fontSize: 16, color: PreMedColorTheme().black)),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBoxes.horizontalMicro,
+                        Container(
+                          decoration: BoxDecoration(
+                            color: PreMedColorTheme().white,
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                                color: PreMedColorTheme().white, width: 3),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 3,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          width: 180,
+                          height: 130,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Image.asset(
+                                  PremedAssets.Flashcards,
+                                  width: 38,
+                                  height: 38,
+                                ),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Flashcards', style: PreMedTextTheme().heading5.copyWith(fontSize: 22, color: PreMedColorTheme().black,fontWeight: FontWeight.w800,)),
+                                  Text('Fast-paced \n revision!', style: TextStyle(fontSize: 16, color: PreMedColorTheme().black)),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBoxes.verticalLarge,
+                    Material(
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(15),
+                      child: NotesTile(
+                        heading: "Revision Notes",
+                        description:
+                            "Comprehensive study notes for Biology, Physics and Chemistry",
+                        icon: PremedAssets.RevisionNotes,
+                        bgColor: PreMedColorTheme().white,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const RevisionNotes(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                     SizedBoxes.verticalMedium,
-                    NotesTile(
-                      heading: "Chapter Guides",
+                    Material(
+                    elevation: 3,
+                    borderRadius: BorderRadius.circular(15),
+                    child: NotesTile(
+                      heading: "Study Guides",
                       description:
-                          "Comprehensive study guides for Biology, Chemistry, and Physics, specifically designed to help you in your MDCAT, NUMS and Private University exams.",
+                          "Comprehensive study guides for Biology, Physics and Chemistry",
                       icon: PremedAssets.ProvisionalGuides,
-                      bgColor: PreMedColorTheme().primaryColorBlue100,
-                      btnColor: PreMedColorTheme().primaryColorBlue,
+                      bgColor: PreMedColorTheme().white,
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -73,6 +168,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         );
                       },
+                    ),
                     ),
                   ],
                 );

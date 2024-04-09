@@ -119,6 +119,13 @@ flutter:
     - assets/images/Vector.png
     - assets/images/content.png
     - assets/images/uploadimage.png
+    - assets/images/Bell Icon.png
+    - assets/images/Question Bank.png
+    - assets/images/Flashcards.png
+    - assets/images/Dashboard.png
+    - assets/images/Expert Solutions.png
+    - assets/images/Settings.png
+    - assets/images/Shop.png
 
     #icons
     - assets/icons/editprofile.png
