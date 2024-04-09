@@ -39,8 +39,10 @@ class QbankHome extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const Qbank(deckCategory: 'MDCAT QBank')));
+                                builder: (context) => const Qbank(
+                                      deckCategory: 'MDCAT QBank',
+                                      deckGroupName: 'MDCAT QBANK',
+                                    )));
                       }),
                   BankCard(
                       image: 'assets/images/NUMS qbank.png',
@@ -48,8 +50,10 @@ class QbankHome extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const Qbank(deckCategory: 'NUMS QBank')));
+                                builder: (context) => const Qbank(
+                                      deckCategory: 'NUMS QBank',
+                                      deckGroupName: 'NUMS QBANK',
+                                    )));
                       }),
                   BankCard(
                       image: 'assets/images/pu_qbank.png',
@@ -58,6 +62,7 @@ class QbankHome extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const Qbank(
+                                    deckGroupName: 'PU Qbank',
                                     deckCategory:
                                         'Private Universities QBank')));
                       })

@@ -5,6 +5,7 @@ import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/customised_buttons/qbank
 import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/build_error.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/qbank_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/sub_bank_tile.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/test_mode_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/deck_model.dart';
 import 'package:premedpk_mobile_app/providers/decks_provider.dart';
@@ -13,9 +14,11 @@ import 'package:provider/provider.dart';
 import '../mdcat_qb/mdcat_yearly_papers/federal_mdcat_papers.dart';
 
 class Qbank extends StatelessWidget {
-  const Qbank({Key? key, required this.deckCategory}) : super(key: key);
+  const Qbank(
+      {Key? key, required this.deckCategory, required this.deckGroupName})
+      : super(key: key);
   final String deckCategory;
-
+  final String deckGroupName;
   @override
   Widget build(BuildContext context) {
     final deckPro = Provider.of<DecksProvider>(context, listen: false);
@@ -168,6 +171,10 @@ class Qbank extends StatelessWidget {
     );
   }
 
+  void pop(context) {
+    Navigator.pop(context);
+  }
+
   Widget _buildDecksList(List<DeckModel> deckList) {
     return ListView.builder(
       itemCount: deckList.length,
@@ -183,7 +190,19 @@ class Qbank extends StatelessWidget {
                       child: ListView.builder(
                           itemCount: deckList[index].subDeckDetails.length,
                           itemBuilder: (context, index) => SubBankTile(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TestModeInterface(
+                                              deckGroupName: deckGroupName,
+                                              deckGroup: deck.deckGrpName,
+                                              deckDetails:
+                                                  deck.subDeckDetails[index],
+                                            ))).then(
+                                    (value) => Navigator.of(context).pop());
+                                // Navigator.of(context).pop();
+                              },
                               details: deck.subDeckDetails[index])),
                     ));
             // Handle tap event if needed

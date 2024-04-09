@@ -15,9 +15,7 @@ class DeckModel {
       required this.deckGroupImage,
       required this.deckGroupLenght,
       required this.subDeckDetails,
-        required this.deckType
-
-      });
+      required this.deckType});
 
   factory DeckModel.fromJson(Map<String, dynamic> json) {
     return DeckModel(
@@ -37,3 +35,8 @@ class SubDeckModel {
   final String deckLogo;
   SubDeckModel({required this.deckTitle, required this.deckLogo});
 }
+
+//
+// class DeckDetails{
+//  final bool isTutorMode;
+// }

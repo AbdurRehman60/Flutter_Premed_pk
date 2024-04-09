@@ -57,8 +57,13 @@ class Endpoints {
 
   static const String GetWebNotifications = '/GetNotifications';
   //stat Points
-  static const String UserStatistics= '/api/statistics/compute-statistics';
+  static const String UserStatistics = '/api/statistics/compute-statistics';
 
   //deckPoint
-  static const String Deckspoints= '/api/get-all-published-decks';
+  static const String Deckspoints = '/api/get-all-published-decks';
+  static const String getDeckInfo =
+      'https://prodapi.premed.pk/api/decks/get-deck-information/';
+
+  static const String sindhPoints = 'Sindh%20MDCAT%202023';
+
 }
