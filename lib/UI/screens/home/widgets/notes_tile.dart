@@ -53,13 +53,17 @@ class NotesTile extends StatelessWidget {
                     ),
                   ),
                   SizedBoxes.vertical2Px,
-                  Text(
-                    description,
-                    style: PreMedTextTheme().subtext.copyWith(
-                          fontWeight: FontWeights.regular,
-                          fontSize: 14,
 
-                        ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      description,
+                      style: PreMedTextTheme().subtext.copyWith(
+                            fontWeight: FontWeights.regular,
+                            fontSize: 14,
+
+                          ),
+                    ),
                   ),
                   SizedBoxes.horizontalBig,
                 ],

@@ -126,6 +126,7 @@ flutter:
     - assets/images/Expert Solutions.png
     - assets/images/Settings.png
     - assets/images/Shop.png
+    - assets/images/youtube.png
 
     #icons
     - assets/icons/editprofile.png

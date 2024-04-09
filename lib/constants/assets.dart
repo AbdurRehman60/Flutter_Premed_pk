@@ -27,6 +27,8 @@ class PremedAssets {
   static String Slashed = 'assets/images/Slashed.png';
   static String QuestionBank = 'assets/images/Question Bank.png';
   static String Flashcards = 'assets/images/Flashcards.png';
+  static String Youtube = 'assets/images/youtube.png';
+
   //icons
 
   static String EditProfile = 'assets/icons/User Circle.png';
