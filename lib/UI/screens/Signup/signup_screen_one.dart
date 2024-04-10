@@ -1,6 +1,6 @@
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/login.dart';
-import 'package:premedpk_mobile_app/UI/screens/Login/signin.dart';
+import 'package:premedpk_mobile_app/UI/screens/Login/login_screen_one.dart';
 import 'package:premedpk_mobile_app/UI/screens/Signup/Signup.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
