@@ -13,11 +13,12 @@ class CouponCodeTF extends StatefulWidget {
 }
 
 class _CouponCodeTFState extends State<CouponCodeTF> {
+  Timer? _debounceTimer;
   @override
   void initState() {
     super.initState();
     final CartProvider cartProvider =
-        Provider.of<CartProvider>(context, listen: false);
+    Provider.of<CartProvider>(context, listen: false);
     cartProvider.couponCode = "";
     cartProvider.couponAmount = 0;
   }
@@ -34,16 +35,16 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
       cartProvider.clearCoupon();
     }
 
-    void onApplyCouponPressed() {
+    void onApplyCouponPressed(String couponCode) {
       final form = formKey.currentState!;
       if (form.validate()) {
         handleRemovePromoCode();
         final Future<Map<String, dynamic>> response =
-            cartProvider.verifyCouponCode(
+        cartProvider.verifyCouponCode(
           couponText.text,
         );
         response.then(
-          (response) {
+              (response) {
             if (response['status']) {
             } else {
               showError(context, response);
@@ -53,16 +54,26 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
       }
     }
 
+    void onCouponTextChanged(String text) {
+      if (_debounceTimer != null && _debounceTimer!.isActive) {
+        _debounceTimer!.cancel();
+      }
+
+      _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+        onApplyCouponPressed(text);
+      });
+    }
+
     return Form(
       key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Coupon',
+            'Coupon Code',
             style: PreMedTextTheme().heading6.copyWith(
-                  color: PreMedColorTheme().primaryColorRed,
-                ),
+              color: PreMedColorTheme().black,
+            ),
           ),
           SizedBoxes.verticalTiny,
           Row(
@@ -72,8 +83,12 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
                 flex: 4,
                 child: CustomTextField(
                   inputFormatters: [UpperCaseTextFormatter()],
-                  hintText: 'Enter Code',
+                  //hintText: 'Enter Code',
                   controller: couponText,
+                  prefixIcon: Icon(Icons.percent, color: PreMedColorTheme().primaryColorRed,),
+                  suffixIcon: Icon(Icons.clear
+                    ,color: PreMedColorTheme().primaryColorRed,),
+                  onChanged: onCouponTextChanged,
                   validator: (value) =>
                       validateIsNotEmpty(value, "Coupon Code"),
                 ),
@@ -90,13 +105,6 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
                         strokeWidth: 2.5,
                       )),
                 )
-              else
-                Expanded(
-                  child: CustomButton(
-                    buttonText: '→',
-                    onPressed: onApplyCouponPressed,
-                  ),
-                ),
             ],
           ),
           SizedBoxes.verticalMicro,
@@ -108,8 +116,8 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
                   child: Text(
                     "Promo Code: ${cartProvider.couponCode} is applied",
                     style: PreMedTextTheme().subtext.copyWith(
-                          color: PreMedColorTheme().neutral400,
-                        ),
+                      color: PreMedColorTheme().neutral400,
+                    ),
                   ),
                 ),
                 IconButton(
@@ -135,9 +143,9 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
+      TextEditingValue oldValue,
+      TextEditingValue newValue,
+      ) {
     return TextEditingValue(
       text: newValue.text.toUpperCase(),
       selection: newValue.selection,

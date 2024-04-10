@@ -28,15 +28,15 @@ class ModalSheetWidget extends StatelessWidget {
                   text: TextSpan(
                     text: bundle.bundleName.split(' ').first,
                     style: PreMedTextTheme().heading5.copyWith(
-                          color: PreMedColorTheme().primaryColorRed,
-                        ),
+                      color: PreMedColorTheme().primaryColorRed,
+                    ),
                     children: <TextSpan>[
                       TextSpan(
                         text:
-                            ' ${bundle.bundleName.split(' ').skip(1).join(' ')}',
+                        ' ${bundle.bundleName.split(' ').skip(1).join(' ')}',
                         style: PreMedTextTheme().heading5.copyWith(
-                              color: PreMedColorTheme().black,
-                            ),
+                          color: PreMedColorTheme().black,
+                        ),
                       ),
                     ],
                   ),
@@ -48,9 +48,9 @@ class ModalSheetWidget extends StatelessWidget {
           Text(
             bundle.bundleDescription,
             style: PreMedTextTheme().body.copyWith(
-                  height: 1.5,
-                  color: PreMedColorTheme().neutral600,
-                ),
+              height: 1.5,
+              color: PreMedColorTheme().neutral600,
+            ),
           ),
           SizedBoxes.verticalMedium,
           Column(
@@ -58,21 +58,21 @@ class ModalSheetWidget extends StatelessWidget {
             children: bundle.bundlePoints
                 .map(
                   (point) => Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          '✅ $point',
-                          style: PreMedTextTheme().small.copyWith(
-                                color: PreMedColorTheme().neutral600,
-                                height: 1.5,
-                              ),
-                          maxLines: 1, // Set the maximum number of lines to 1
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                children: [
+                  Flexible(
+                    child: Text(
+                      '✅ $point',
+                      style: PreMedTextTheme().small.copyWith(
+                        color: PreMedColorTheme().neutral600,
+                        height: 1.5,
                       ),
-                    ],
+                      maxLines: 1, // Set the maximum number of lines to 1
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                )
+                ],
+              ),
+            )
                 .toList(),
           ),
           SizedBoxes.verticalMedium,
@@ -81,9 +81,9 @@ class ModalSheetWidget extends StatelessWidget {
               Text(
                 'Rs. ${(bundle.bundlePrice - bundle.bundleDiscount).round()}',
                 style: PreMedTextTheme().heading4.copyWith(
-                      fontWeight: FontWeights.bold,
-                      color: PreMedColorTheme().primaryColorRed,
-                    ),
+                  fontWeight: FontWeights.bold,
+                  color: PreMedColorTheme().primaryColorRed,
+                ),
               ),
               SizedBoxes.horizontalMicro,
               SizedBoxes.horizontalMicro,

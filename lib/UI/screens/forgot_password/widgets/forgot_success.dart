@@ -1,3 +1,5 @@
+import 'package:premedpk_mobile_app/UI/screens/Login/login.dart';
+import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class ForgotPasswordSuccess extends StatelessWidget {
@@ -6,72 +8,77 @@ class ForgotPasswordSuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          'Forgot Password',
-          style: PreMedTextTheme().heading6.copyWith(
-                color: PreMedColorTheme().black,
-              ),
-        ),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: const Color(
-                    0xFFDDF6E9), // Set your desired background color
-                borderRadius: BorderRadius.circular(12.0), // Set border radius
-                border: Border.all(
-                  color: const Color(0xFF153424), // Set border color
-                  width: 0, // Set border thickness
-                ),
-              ),
+            child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        PremedAssets.Check,
-                        width: 24,
-                        height: 24,
-                        fit: BoxFit.contain,
-                      ),
-                      SizedBoxes.horizontalMicro,
-                      const Text(
-                        'Success',
-                        style: TextStyle(
-                          color: Color(0xFF153424),
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBoxes.verticalMedium,
-                  const Text(
-                    'Recovery instructions have \nbeen sent to your email, you \ncan safely close this tab',
-                    style: TextStyle(
-                      color: Color(0xFF153424),
-                      fontSize: 16.0,
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: PreMedColorTheme().customCheckboxColor,
+                        borderRadius: BorderRadius.circular(25),
+                        border: Border.all(
+                            color: PreMedColorTheme().tickcolor, width: 3)),
+                    child: Icon(
+                      Icons.check,
+                      color: PreMedColorTheme().tickcolor,
+                      size: 30,
                     ),
                   ),
+                  SizedBoxes.verticalMedium,
+                  Text(
+                    'Email Sent',
+                    style: PreMedTextTheme().heading2.copyWith(
+                      color: PreMedColorTheme().primaryColorRed,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 34,
+                    ),
+                  ),
+                  SizedBoxes.verticalMedium,
+                  Text(
+                    textAlign: TextAlign.center,
+                    "Check your email for instructions to reset your password.",
+                    style: PreMedTextTheme().subtext.copyWith(
+                      color: PreMedColorTheme().black,
+                    ),
+                  ),
+                  SizedBoxes.verticalBig,
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Note',
+                          style: PreMedTextTheme().subtext.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            color: PreMedColorTheme().black,
+                          ),
+                        ),
+                        TextSpan(
+                          text:
+                          ', you will only receive an email if you have a PreMed account.',
+                          style: PreMedTextTheme().subtext.copyWith(
+                            fontStyle: FontStyle.italic,
+                            color: PreMedColorTheme().black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBoxes.verticalBig,
+                  CustomButton(buttonText: 'Done', onPressed: () {Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );})
                 ],
               ),
             ),

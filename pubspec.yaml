@@ -127,6 +127,9 @@ flutter:
     - assets/images/Settings.png
     - assets/images/Shop.png
     - assets/images/youtube.png
+    -  assets/images/premedanimation.png
+    - assets/images/firework.png
+
 
     #icons
     - assets/icons/editprofile.png
@@ -146,6 +149,8 @@ flutter:
     - assets/icons/Privacy Shield Tick.png
     - assets/icons/file.png
     - assets/icons/cross.png
+    - assets/icons/add_circle_outline.png
+    - assets/icons/Button.png
   fonts:
     - family: Inter
       fonts:

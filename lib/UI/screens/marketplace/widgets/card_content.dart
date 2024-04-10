@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offers_widget.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -27,8 +28,6 @@ class CardContent extends StatelessWidget {
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
     final bool isBundleInCart = cartProvider.selectedBundles.contains(bundle);
 
-
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -48,17 +47,17 @@ class CardContent extends StatelessWidget {
                 text: TextSpan(
                   text: bundle.bundleName.split(' ').first,
                   style: PreMedTextTheme().heading5.copyWith(
-                        color: PreMedColorTheme().primaryColorRed,
-                        fontSize: small ? 16 : 20,
-                      ),
+                    color: PreMedColorTheme().primaryColorRed,
+                    fontSize: small ? 16 : 20,
+                  ),
                   children: <TextSpan>[
                     TextSpan(
                       text:
-                          ' ${bundle.bundleName.split(' ').skip(1).join(' ')}',
+                      ' ${bundle.bundleName.split(' ').skip(1).join(' ')}',
                       style: PreMedTextTheme().heading5.copyWith(
-                            color: PreMedColorTheme().black,
-                            fontSize: small ? 16 : 20,
-                          ),
+                        color: PreMedColorTheme().black,
+                        fontSize: small ? 16 : 20,
+                      ),
                     ),
                   ],
                 ),
@@ -70,9 +69,9 @@ class CardContent extends StatelessWidget {
           Text(
             bundle.bundleDescription,
             style: PreMedTextTheme().body.copyWith(
-                  height: 1.5,
-                  color: PreMedColorTheme().neutral600,
-                ),
+              height: 1.5,
+              color: PreMedColorTheme().neutral600,
+            ),
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
           )
@@ -85,23 +84,23 @@ class CardContent extends StatelessWidget {
                 .take(5) // Take the first 5 points
                 .map(
                   (point) => Row(
-                    children: [
-                      // Text('✅'),
-                      // SizedBoxes.verticalMicro,
-                      Flexible(
-                        child: Text(
-                          '✅ $point',
-                          style: PreMedTextTheme().small.copyWith(
-                                color: PreMedColorTheme().neutral600,
-                                height: 1.5,
-                              ),
-                          maxLines: 1, // Set the maximum number of lines to 1
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                children: [
+                  // Text('✅'),
+                  // SizedBoxes.verticalMicro,
+                  Flexible(
+                    child: Text(
+                      '✅ $point',
+                      style: PreMedTextTheme().small.copyWith(
+                        color: PreMedColorTheme().neutral600,
+                        height: 1.5,
                       ),
-                    ],
+                      maxLines: 1, // Set the maximum number of lines to 1
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                )
+                ],
+              ),
+            )
                 .toList(),
           )
         else
@@ -112,10 +111,10 @@ class CardContent extends StatelessWidget {
             Text(
               'Rs. ${(bundle.bundlePrice - bundle.bundleDiscount).round()}',
               style: PreMedTextTheme().heading4.copyWith(
-                    fontWeight: FontWeights.bold,
-                    color: PreMedColorTheme().primaryColorRed,
-                    fontSize: small ? 16 : 20,
-                  ),
+                fontWeight: FontWeights.bold,
+                color: PreMedColorTheme().primaryColorRed,
+                fontSize: small ? 16 : 20,
+              ),
             ),
             SizedBoxes.horizontalMicro,
             SizedBoxes.horizontalMicro,
@@ -132,77 +131,93 @@ class CardContent extends StatelessWidget {
         if (!small) SizedBoxes.verticalMedium,
         if (bundle.bundleName.contains("Course") ||
             bundle.bundleName.contains("Counselling")) ...{
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            alignment: WrapAlignment.center,
-            children: [
-              SizedBox(
-                width: double.infinity,
-                height: 40,
-                child: CustomButton(
-                  buttonText: 'Buy Now ->',
-                  onPressed: () {
-                    launchUrl(
-                      mode: LaunchMode.inAppBrowserView,
-                      Uri.parse(bundle.purchaseFormLink!),
-                    );
-                  },
-                ),
+          SizedBox(
+            height: 90,
+            child:
+            SingleChildScrollView(
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                alignment: WrapAlignment.start,
+                children: [
+                  SizedBox(
+                    width:120,
+                    height: 40,
+                    child: CustomButton(
+                      buttonText: 'Buy Now',
+                      onPressed: () {
+                        launchUrl(
+                          mode: LaunchMode.inAppBrowserView,
+                          Uri.parse(bundle.purchaseFormLink!),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 130,
+                    height: 40,
+                    child: CustomButton(
+                      isIconButton: true,
+                      color: Colors.transparent,
+                      textColor: PreMedColorTheme().neutral800,
+                      leftIcon: false,
+                      isOutlined: true,
+                      fontSize: 16,
+                      iconSize: 0,
+                      buttonText: "I'm interested",
+                      fontWeight: FontWeights.medium,
+                      onPressed: () {
+                        launchUrl(
+                          mode: LaunchMode.inAppBrowserView,
+                          Uri.parse(bundle.interestedFormLink!),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: CustomButton(
+                      color: Colors.transparent,
+                      fontSize: 16,
+                      fontWeight: FontWeights.medium,
+                      textColor: PreMedColorTheme().neutral800,
+                      buttonText: 'View Details',
+                      onPressed: () {
+                        launchUrl(
+                          mode: LaunchMode.inAppBrowserView,
+                          Uri.parse(bundle.bundlePDF!),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                width: double.infinity,
-                height: 40,
-                child: CustomButton(
-                  isIconButton: true,
-                  color: Colors.transparent,
-                  textColor: PreMedColorTheme().neutral800,
-                  leftIcon: false,
-                  isOutlined: true,
-                  fontSize: 16,
-                  iconSize: 0,
-                  buttonText: "I'm interested",
-                  fontWeight: FontWeights.medium,
-                  onPressed: () {
-                    launchUrl(
-                      mode: LaunchMode.inAppBrowserView,
-                      Uri.parse(bundle.interestedFormLink!),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 40,
-                child: CustomButton(
-                  color: Colors.transparent,
-                  fontSize: 16,
-                  fontWeight: FontWeights.medium,
-                  textColor: PreMedColorTheme().neutral800,
-                  buttonText: 'View Details',
-                  onPressed: () {
-                    launchUrl(
-                      mode: LaunchMode.inAppBrowserView,
-                      Uri.parse(bundle.bundlePDF!),
-                    );
-                  },
-                ),
-              ),
-            ],
+            ),
           )
         } else if (!isBundleInCart)
-          SizedBox(
-            width: 140,
-            height: 40,
-            child: CustomButton(
-              buttonText: 'Buy Now ->',
-              onPressed: () {
-                launchUrl(
-                  mode: LaunchMode.inAppBrowserView,
-                  Uri.parse("https://premed.pk/pricing"),
-                );
-              },
-            ),
+          Row(
+            children: [
+              SizedBox(
+                width: 100,
+                height: 40,
+                child: CustomButton(
+                  buttonText: 'Buy Now',
+                  onPressed: () {
+                    cartProvider.addToCart(bundle);
+                    MarketPlace.openDrawer();
+                  },
+                ),
+              ),
+              // SizedBox(width: 24,),
+              // SizedBox(
+              //   width: 110,
+              //   height: 60,
+              //   child: Image.asset('assets/images/Card Ribbon.png',
+              //   fit: BoxFit.cover,),
+              // )
+
+            ],
           ),
       ],
     );

@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/account.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution_home.dart';
-import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/mdcat_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/bottom_nav.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({Key? key}) : super(key: key);
@@ -65,12 +64,20 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   void onTap(int index) {
-    final int currentIndex = navigationStack.last;
-    if (currentIndex != index) {
-      setState(() {
-        navigationStack.remove(index);
-        navigationStack.add(index);
-      });
+    if (index == 1) {
+      launchUrl(
+        mode: LaunchMode.inAppBrowserView,
+        Uri.parse("https://premed.pk/dashboard"),
+      );
+    } else {
+      final int currentIndex = navigationStack.last;
+      if (currentIndex != index) {
+        setState(() {
+          navigationStack.remove(index);
+          navigationStack.add(index);
+        });
+      }
     }
   }
 }
+

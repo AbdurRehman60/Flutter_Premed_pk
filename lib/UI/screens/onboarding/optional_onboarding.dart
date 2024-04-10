@@ -10,45 +10,69 @@ class OptionalOnboarding extends StatelessWidget {
     return Scaffold(
         body: SafeArea(
             child: Stack(
-      children: [
-        Container(
-          decoration:
-              BoxDecoration(gradient: PreMedColorTheme().primaryGradient),
-        ),
-        SizedBox(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: CustomPaint(
-              painter: CurvePainter(),
-            )),
-        Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  SizedBoxes.verticalBig,
-                  Text(
-                    'You are Almost there!',
-                    style: PreMedTextTheme()
-                        .heading3
-                        .copyWith(color: PreMedColorTheme().primaryColorRed),
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: CustomPaint(
+                    painter: CurvePainter(),
                   ),
-                  SizedBoxes.verticalTiny,
-                  Text(
-                    'Complete the Final Form and Get Started',
-                    style: PreMedTextTheme()
-                        .subtext
-                        .copyWith(color: PreMedColorTheme().neutral500),
+                ),
+                Center(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(children: [
+                        SizedBoxes.verticalExtraGargangua,
+                        Column(
+                          children: [
+                            SizedBoxes.verticalExtraGargangua,
+                            Text(
+                              'Sign Up',
+                              textAlign: TextAlign.center,
+                              style: PreMedTextTheme().heading1.copyWith(
+                                  color: PreMedColorTheme().primaryColorRed,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBoxes.verticalTiny,
+                            RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                style: PreMedTextTheme()
+                                    .subtext
+                                    .copyWith(color: PreMedColorTheme().black),
+                                children: [
+                                  const TextSpan(
+                                    text: 'A warm welcome to the ',
+                                  ),
+                                  TextSpan(
+                                    text: 'Pre',
+                                    style: PreMedTextTheme().subtext1,
+                                  ),
+                                  TextSpan(
+                                    text: 'M',
+                                    style: PreMedTextTheme().subtext1.copyWith(
+                                        color: PreMedColorTheme().primaryColorRed),
+                                  ),
+                                  TextSpan(
+                                    text: 'ed',
+                                    style: PreMedTextTheme().subtext1,
+                                  ),
+                                  const TextSpan(
+                                    text:
+                                    " family! We're delighted to have you here. Let the magic begin!",
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const OptionalOnboardingForm(),
+                          ],
+                        ),
+                      ]),
+                    ),
                   ),
-                  SizedBoxes.verticalExtraGargangua,
-                  const OptionalOnboardingForm(),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    )));
+                )
+              ],
+            )));
   }
 }

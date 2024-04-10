@@ -1,13 +1,14 @@
+import 'package:flutter/gestures.dart';
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/check_box.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
-import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/UI/widgets/phone_dropdown.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
+import '../../account/widgets/privacy_policy.dart';
+import '../../account/widgets/terms_conditions.dart';
 
 class OptionalOnboardingForm extends StatefulWidget {
   const OptionalOnboardingForm({super.key});
@@ -24,6 +25,7 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
 
   String error = "";
   bool hasErrors = false;
+
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
@@ -56,7 +58,7 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
       hasErrors = false;
 
       if ((auth.parentFullName.isEmpty &&
-              auth.parentContactNumber.isNotEmpty) ||
+          auth.parentContactNumber.isNotEmpty) ||
           (auth.parentFullName.isNotEmpty &&
               auth.parentContactNumber.isEmpty)) {
         setState(() {
@@ -78,12 +80,12 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
         final Future<Map<String, dynamic>> response = auth.optionalOnboarding();
 
         response.then(
-          (response) {
+              (response) {
             if (response['status']) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const MainNavigationScreen(),
+                  builder: (context) => const RequiredOnboarding(),
                 ),
               );
             } else {
@@ -96,177 +98,199 @@ class _OptionalOnboardingFormState extends State<OptionalOnboardingForm> {
 
     return Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: PreMedColorTheme().white,
-            border: Border.all(
-              color: PreMedColorTheme().neutral300,
-            ),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              children: [
-                SizedBoxes.verticalMedium,
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Parents Name:',
-                    style: PreMedTextTheme().subtext,
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Parent's Information",
+                  style: PreMedTextTheme().subtext1,
+                ),
+              ),
+              SizedBoxes.verticalTiny,
+              CustomTextField(
+                controller: parentNameController,
+                prefixIcon: const Icon(Icons.person_outline_rounded),
+                labelText: "Parent/Guardian's Name",
+              ),
+              SizedBoxes.verticalTiny,
+              PhoneDropdown(
+                onPhoneNumberSelected: onPhoneNumberSelected,
+                hintText: "",
+                initialValue: auth.phoneNumber,
+              ),
+              SizedBoxes.verticalBig,
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Your plans',
+                  style: PreMedTextTheme().subtext1,
+                ),
+              ),
+              SizedBoxes.verticalLarge,
+              Text(
+                'What do you intend to use PreMed.PK for ?',
+                style: PreMedTextTheme().subtext,
+              ),
+              SizedBoxes.verticalLarge,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                    child: CustomCheckBox(
+                      label: "MDCAT",
+                      initialValue: mdcatChecked,
+                      onChanged: (value) {
+                        setState(() {
+                          mdcatChecked = value;
+                          updateIntendFor();
+                        });
+                      },
+                    ),
                   ),
-                ),
-                SizedBoxes.verticalMedium,
-                CustomTextField(
-                  controller: parentNameController,
-                  hintText: 'Enter Parents name',
-                ),
-                SizedBoxes.verticalMedium,
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Parents Phone Number',
-                    style: PreMedTextTheme().subtext,
+                  Flexible(
+                    child: CustomCheckBox(
+                      label: "Private",
+                      initialValue: privateChecked,
+                      onChanged: (value) {
+                        setState(() {
+                          privateChecked = value;
+                          updateIntendFor();
+                        });
+                      },
+                    ),
                   ),
-                ),
-                SizedBoxes.verticalMedium,
-                PhoneDropdown(
-                  onPhoneNumberSelected: onPhoneNumberSelected,
-                  hintText: "Enter your parent's phone number",
-                ),
-                SizedBoxes.verticalLarge,
-                Text(
-                  'What did you intend to use PreMed.PK for ?',
+                  Flexible(
+                    child: CustomCheckBox(
+                      label: "NUMS",
+                      initialValue: numsChecked,
+                      onChanged: (value) {
+                        setState(() {
+                          numsChecked = value;
+                          updateIntendFor();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBoxes.verticalGargangua,
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Have you joined any academy?',
                   style: PreMedTextTheme().subtext,
                 ),
-                SizedBoxes.verticalMedium,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      child: CustomCheckBox(
-                        label: "MDCAT",
-                        initialValue: mdcatChecked,
+              ),
+              SizedBoxes.verticalLarge,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: options.map((option) {
+                  return Row(
+                    children: [
+                      Radio(
+                        value: option,
+                        groupValue: auth.academyJoined,
                         onChanged: (value) {
-                          setState(() {
-                            mdcatChecked = value;
-                            updateIntendFor();
-                          });
+                          auth.academyJoined = value!;
                         },
+                        activeColor: PreMedColorTheme().tickcolor,
+                        visualDensity: VisualDensity.compact,
                       ),
-                    ),
-                    Flexible(
-                      child: CustomCheckBox(
-                        label: "Private",
-                        initialValue: privateChecked,
-                        onChanged: (value) {
-                          setState(() {
-                            privateChecked = value;
-                            updateIntendFor();
-                          });
-                        },
+                      Text(
+                        option,
+                        style: PreMedTextTheme().subtext,
                       ),
-                    ),
-                    Flexible(
-                      child: CustomCheckBox(
-                        label: "NUMS",
-                        initialValue: numsChecked,
-                        onChanged: (value) {
-                          setState(() {
-                            numsChecked = value;
-                            updateIntendFor();
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBoxes.verticalGargangua,
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Have you joined any academy?',
-                    style: PreMedTextTheme().subtext,
+                      SizedBoxes.horizontalExtraGargangua,
+                      SizedBoxes.horizontalExtraGargangua,
+                    ],
+                  );
+                }).toList(),
+              ),
+              SizedBoxes.verticalMedium,
+              if (hasErrors)
+                Text(
+                  error,
+                  textAlign: TextAlign.center,
+                  style: PreMedTextTheme().subtext1.copyWith(
+                    color: Colors.redAccent,
+                    fontWeight: FontWeight.bold,
                   ),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: options.map((option) {
-                    return Row(
-                      children: [
-                        Radio(
-                          value: option,
-                          groupValue: auth.academyJoined,
-                          onChanged: (value) {
-                            auth.academyJoined = value!;
-                          },
-                          activeColor: PreMedColorTheme().primaryColorRed,
-                          visualDensity: VisualDensity.compact,
-                        ),
-                        Text(
-                          option,
-                          style: PreMedTextTheme().subtext,
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                ),
-                SizedBoxes.verticalMedium,
-                if (hasErrors)
-                  Text(
-                    error,
-                    textAlign: TextAlign.center,
-                    style: PreMedTextTheme().subtext1.copyWith(
-                          color: Colors.redAccent,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  )
-                else
-                  const SizedBox(),
-              ],
-            ),
+                )
+              else
+                const SizedBox(),
+            ],
           ),
         ),
-        SizedBoxes.verticalGargangua,
-        Row(
+        SizedBoxes.verticalTiny,
+        Column(
           children: [
-            Expanded(
-              flex: 2,
-              child: CustomButton(
-                buttonText: '',
-                isOutlined: true,
-                isIconButton: true,
-                icon: Icons.arrow_back,
-                leftIcon: false,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RequiredOnboarding(),
-                    ),
-                  );
-                },
-              ),
+            CustomButton(
+              buttonText: 'Next',
+              color: PreMedColorTheme().primaryColorRed,
+              textColor: PreMedColorTheme().white,
+              onPressed: onNextPressed,
             ),
-            SizedBoxes.horizontalMedium,
-            Expanded(
-              flex: 7,
-              child: CustomButton(
-                buttonText: "Let's Start Learning!",
-                isIconButton: true,
-                color: PreMedColorTheme().white,
-                textColor: PreMedColorTheme().neutral600,
-                icon: Icons.arrow_forward,
-                leftIcon: false,
-                onPressed: onNextPressed,
-              ),
-            )
+            SizedBoxes.verticalTiny,
+            CustomButton(
+              buttonText: 'Skip',
+              color: PreMedColorTheme().white,
+              textColor: PreMedColorTheme().primaryColorRed,
+              onPressed: onNextPressed,
+            ),
           ],
         ),
-        SizedBoxes.verticalBig,
-        const HubspotHelpButton(
-          light: true,
+        SizedBoxes.verticalMicro,
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            style: PreMedTextTheme().body.copyWith(
+              color: PreMedColorTheme().neutral500,
+            ),
+            children: [
+              TextSpan(
+                text: "By signing up, you agree to our ",
+                style: PreMedTextTheme().body.copyWith(
+                  color: PreMedColorTheme().neutral500,
+                ),
+              ),
+              TextSpan(
+                text: "Privacy Policy",
+                style: PreMedTextTheme().body.copyWith(
+                    color: PreMedColorTheme().neutral500,
+                    fontWeight: FontWeight.bold),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PrivacyPolicy()));
+                  },
+              ),
+              TextSpan(
+                text: " and ",
+                style: PreMedTextTheme().body.copyWith(
+                  color: PreMedColorTheme().neutral500,
+                ),
+              ),
+              TextSpan(
+                text: "Terms of Use",
+                style: PreMedTextTheme().body.copyWith(
+                    color: PreMedColorTheme().neutral500,
+                    fontWeight: FontWeight.bold),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TermsCondition()));
+                  },
+              ),
+            ],
+          ),
         ),
       ],
     );

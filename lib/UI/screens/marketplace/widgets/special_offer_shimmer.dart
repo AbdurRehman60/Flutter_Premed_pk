@@ -22,7 +22,7 @@ class SpecialOffersShimmer extends StatelessWidget {
           return Container(
             margin: tabCard
                 ? EdgeInsets.only(
-                    left: 20, right: 20, top: index == 0 ? 16 : 8)
+                left: 20, right: 20, top: index == 0 ? 16 : 8)
                 : EdgeInsets.only(left: index == 0 ? 20 : 0, right: 20),
             child: ShimmerSpecialOfferCard(
               tabCard: tabCard,

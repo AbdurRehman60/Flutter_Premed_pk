@@ -26,10 +26,10 @@ class SpecialOffers extends StatelessWidget {
             style: PreMedTextTheme().heading6,
           ),
         ),
-        SizedBoxes.verticalBig,
+        //SizedBoxes.verticalBig,
         SizedBox(
           // height: MediaQuery.of(context).size.height * 0.3,
-          height: 280,
+          height: 324,
           child: Consumer<BundleProvider>(
             builder: (context, bundleProvider, _) {
               final List<BundleModel> filteredList = bundleProvider.bundleList
@@ -38,16 +38,16 @@ class SpecialOffers extends StatelessWidget {
               filteredList.sort((a, b) => a.position.compareTo(b.position));
               return bundleProvider.loadingStatus == Status.Success
                   ? ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: filteredList.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.only(
-                              left: index == 0 ? 20 : 0, right: 20),
-                          child: SpecialOfferCard(bundle: filteredList[index]),
-                        );
-                      },
-                    )
+                scrollDirection: Axis.horizontal,
+                itemCount: filteredList.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.only(
+                        left: index == 0 ? 20 : 0, right: 20),
+                    child: SpecialOfferCard(bundle: filteredList[index]),
+                  );
+                },
+              )
                   : const SpecialOffersShimmer();
             },
           ),
@@ -76,24 +76,31 @@ class SpecialOfferCard extends StatelessWidget {
           },
         );
       },
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        // margin: const EdgeInsets.symmetric(horizontal: 20.0),
-        decoration: BoxDecoration(
-          color: PreMedColorTheme().white,
-          border: GradientBoxBorder(
-              gradient: LinearGradient(colors: [
-                PreMedColorTheme().primaryColorBlue,
-                PreMedColorTheme().primaryColorRed,
-              ]),
-              width: 1.5),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: CardContent(
-            bundle: bundle,
-            renderPoints: false,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.7,
+          // margin: const EdgeInsets.symmetric(horizontal: 20.0),
+          decoration: BoxDecoration(
+            color: PreMedColorTheme().white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: Offset(0, 0),
+              ),
+            ],
+            //border: Border.all(color: Colors.white, width: 4, ),
+          ),
+
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: CardContent(
+              bundle: bundle,
+              renderPoints: false,
+            ),
           ),
         ),
       ),

@@ -17,22 +17,35 @@ class MarketplaceTabView extends StatelessWidget {
       child: SliverFillRemaining(
         child: Column(
           children: [
-            TabBar(
-              isScrollable: true,
-              indicatorColor: PreMedColorTheme().primaryColorRed,
-              labelColor: PreMedColorTheme().primaryColorRed,
-              unselectedLabelColor: PreMedColorTheme().neutral400,
-              dividerColor: PreMedColorTheme().neutral600,
-              tabs: const [
-                Tab(text: 'All Bundles'),
-                Tab(text: 'Special Offers'),
-                Tab(text: 'Private Universities'),
-                Tab(text: 'MDCAT'),
-                Tab(text: 'NUMS'),
-                Tab(text: 'Courses'),
-                Tab(text: 'Counselling'),
-                Tab(text: 'Coins'),
-              ],
+            Container(
+              width: 350,
+              decoration: BoxDecoration(
+                  color: PreMedColorTheme().white,
+                  border: Border(
+                      bottom: BorderSide(
+                          color: PreMedColorTheme().neutral300,
+                          width: 1
+                      )
+                  )
+              ),
+              child: TabBar(
+                isScrollable: true,
+                indicatorColor: PreMedColorTheme().primaryColorRed,
+                indicatorSize: TabBarIndicatorSize.label,
+                labelColor: PreMedColorTheme().primaryColorRed,
+                unselectedLabelColor: PreMedColorTheme().neutral400,
+                //dividerColor: PreMedColorTheme().neutral600,
+                tabs: const [
+                  Tab(text: 'All Bundles'),
+                  Tab(text: 'Special Offers'),
+                  Tab(text: 'Private Universities'),
+                  Tab(text: 'MDCAT'),
+                  Tab(text: 'NUMS'),
+                  Tab(text: 'Courses'),
+                  Tab(text: 'Counselling'),
+                  Tab(text: 'Coins'),
+                ],
+              ),
             ),
             // TabBarView
             Expanded(
@@ -89,56 +102,62 @@ class MarketplaceTabView extends StatelessWidget {
 
         return bundleProvider.loadingStatus == Status.Success
             ? filteredList.isNotEmpty
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: filteredList.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return ModalSheetWidget(
-                                  bundle: filteredList[index]);
-                            },
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            decoration: BoxDecoration(
-                                color: PreMedColorTheme().white,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: PreMedColorTheme().neutral200,
-                                  width: 2,
-                                )),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: CardContent(
-                                bundle: filteredList[index],
-                                renderPoints: true,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  )
-                : SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(80.0),
-                      child: EmptyState(
-                        displayImage: PremedAssets.Notfoundemptystate,
-                        title: 'LAUNCHING SOON',
-                        body: "",
+            ? ListView.builder(
+          shrinkWrap: true,
+          itemCount: filteredList.length,
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ModalSheetWidget(
+                        bundle: filteredList[index]);
+                  },
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  decoration: BoxDecoration(
+                    color: PreMedColorTheme().white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 3,
+                        blurRadius: 5,
+                        offset: Offset(0, 0),
                       ),
+                    ],
+                    //border: Border.all(color: Colors.white, width: 4, ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: CardContent(
+                      bundle: filteredList[index],
+                      renderPoints: true,
                     ),
-                  )
+                  ),
+                ),
+              ),
+            );
+          },
+        )
+            : SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(80.0),
+            child: EmptyState(
+              displayImage: PremedAssets.Notfoundemptystate,
+              title: 'LAUNCHING SOON',
+              body: "",
+            ),
+          ),
+        )
             : const SpecialOffersShimmer(
-                tabCard: true,
-              );
+          tabCard: true,
+        );
       },
     );
   }

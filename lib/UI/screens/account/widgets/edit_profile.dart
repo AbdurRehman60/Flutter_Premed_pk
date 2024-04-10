@@ -21,17 +21,18 @@ class _EditProfileState extends State<EditProfile> {
   final UserProvider userProvider = UserProvider();
   final AuthProvider auth = AuthProvider();
   final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController parentNameController = TextEditingController();
 
   @override
   void initState() {
     fullNameController.text = userProvider.user!.fullName;
+    emailController.text = userProvider.user!.userName;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController();
-
     final TextEditingController parentNameController = TextEditingController();
     final formKey = GlobalKey<FormState>();
 

@@ -1,7 +1,10 @@
+import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/discount_row.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../Widgets/global_widgets_export.dart';
 
 class CartSummary extends StatelessWidget {
   const CartSummary({super.key});
@@ -12,12 +15,6 @@ class CartSummary extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Cart Summary',
-          style: PreMedTextTheme().body.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-        ),
         SizedBoxes.verticalTiny,
         DiscountRow(
           title: 'Subtotal',
@@ -27,10 +24,10 @@ class CartSummary extends StatelessWidget {
         DiscountRow(
           title: 'Discount',
           discountPercentage: (cartProvider.totalOriginalPrice -
-                  cartProvider.afterDiscountPrice) /
+              cartProvider.afterDiscountPrice) /
               cartProvider.totalOriginalPrice,
           price:
-              cartProvider.totalOriginalPrice - cartProvider.afterDiscountPrice,
+          cartProvider.totalOriginalPrice - cartProvider.afterDiscountPrice,
         ),
         SizedBoxes.verticalTiny,
         DiscountRow(
@@ -38,10 +35,7 @@ class CartSummary extends StatelessWidget {
           discountPercentage: cartProvider.couponAmount,
           price: cartProvider.couponDiscount,
         ),
-        SizedBoxes.verticalTiny,
-        Divider(
-          color: PreMedColorTheme().neutral200,
-        ),
+        SizedBoxes.verticalMedium,
         Text(
           'Total',
           style: PreMedTextTheme().heading5,
@@ -52,16 +46,16 @@ class CartSummary extends StatelessWidget {
             Text(
               'Rs. ${cartProvider.calculateTotalDiscount}',
               style: PreMedTextTheme().heading3.copyWith(
-                    color: PreMedColorTheme().primaryColorRed,
-                  ),
+                color: PreMedColorTheme().primaryColorRed,
+              ),
             ),
             SizedBoxes.horizontalMedium,
             Text(
               'Rs. ${cartProvider.totalOriginalPrice}',
               style: PreMedTextTheme().heading7.copyWith(
-                    color: PreMedColorTheme().neutral400,
-                    decoration: TextDecoration.lineThrough,
-                  ),
+                color: PreMedColorTheme().neutral400,
+                decoration: TextDecoration.lineThrough,
+              ),
             ),
           ],
         )

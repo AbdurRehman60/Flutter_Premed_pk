@@ -53,8 +53,9 @@ class CartWidget extends StatelessWidget {
                     TextSpan(
                       text: 'Courses in Cart',
                       style: PreMedTextTheme().heading5.copyWith(
-                            fontSize: 16,
-                          ),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ],
                 ),
@@ -66,7 +67,7 @@ class CartWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(
-                      Icons.delete,
+                      Icons.delete_outline_outlined,
                       color: PreMedColorTheme().neutral400,
                       size: 16, // Set icon color
                     ),
@@ -92,61 +93,62 @@ class CartWidget extends StatelessWidget {
           Expanded(
             child: cartProvider.selectedBundles.isNotEmpty
                 ? ListView.separated(
-                    itemCount: cartProvider.selectedBundles.length,
-                    separatorBuilder: (context, index) => SizedBox(
-                      width: double.infinity,
-                      child: Divider(
-                        color: PreMedColorTheme().neutral300,
+              itemCount: cartProvider.selectedBundles.length,
+              separatorBuilder: (context, index) => SizedBox(
+                width: double.infinity,
+                child: Divider(
+                  color: PreMedColorTheme().neutral300,
+                ),
+              ), // Add a divider between items
+              itemBuilder: (context, index) {
+                final BundleModel bundle =
+                cartProvider.selectedBundles[index];
+                return Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: CardContent(
+                          bundle: bundle,
+                          renderPoints: false,
+                          renderDescription: false,
+                          small: true,
+                        ),
                       ),
-                    ), // Add a divider between items
-                    itemBuilder: (context, index) {
-                      final BundleModel bundle =
-                          cartProvider.selectedBundles[index];
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: CardContent(
-                                bundle: bundle,
-                                renderPoints: false,
-                                renderDescription: false,
-                                small: true,
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.close_rounded,
-                              size: 16,
-                              color: PreMedColorTheme().neutral400,
-                            ),
-                            onPressed: () {
-                              cartProvider.removeFromCart(bundle);
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  )
+                    ),
+                    IconButton(
+                      icon: ImageIcon(
+                        const AssetImage('assets/icons/add_circle_outline.png'),
+                        size: 16,
+                        color: PreMedColorTheme().neutral400,
+                      ),
+                      onPressed: () {
+                        cartProvider.removeFromCart(bundle);
+                      },
+                    ),
+
+                  ],
+                );
+              },
+            )
                 : EmptyState(
-                    displayImage: PremedAssets.EmptyCart,
-                    title: "YOUR CART IS EMPTY",
-                    body: ""),
+                displayImage: PremedAssets.EmptyCart,
+                title: "YOUR CART IS EMPTY",
+                body: ""),
           ),
-          SizedBox(
+          const SizedBox(
             width: double.infinity,
-            child: Divider(
-              color: PreMedColorTheme().neutral300,
-            ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBoxes.verticalMicro,
               Text(
-                'Total',
-                style: PreMedTextTheme().heading5,
+                  'Total',
+                  style: PreMedTextTheme().heading5.copyWith(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  )
               ),
               SizedBoxes.verticalMedium,
               Wrap(
@@ -154,15 +156,19 @@ class CartWidget extends StatelessWidget {
                 children: [
                   Text('Rs. ${cartProvider.afterDiscountPrice}',
                       style: PreMedTextTheme().heading3.copyWith(
-                            color: PreMedColorTheme().primaryColorRed,
-                          )),
+                        color: PreMedColorTheme().primaryColorRed,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                      )),
                   SizedBoxes.horizontalMicro,
                   Text(
                     'Rs. ${cartProvider.totalOriginalPrice}',
                     style: PreMedTextTheme().heading7.copyWith(
-                          color: PreMedColorTheme().neutral400,
-                          decoration: TextDecoration.lineThrough,
-                        ),
+                      color: PreMedColorTheme().neutral400,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      decoration: TextDecoration.lineThrough,
+                    ),
                   ),
                 ],
               ),
@@ -172,7 +178,7 @@ class CartWidget extends StatelessWidget {
                 child: SizedBox(
                   height: 50,
                   child: CustomButton(
-                    buttonText: 'Go to Cart ->',
+                    buttonText: 'Checkout                               ',
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -182,6 +188,9 @@ class CartWidget extends StatelessWidget {
                         ),
                       );
                     },
+                    isIconButton: true,
+                    icon: Icons.arrow_forward_outlined,
+                    leftIcon: false,
                   ),
                 ),
               ),

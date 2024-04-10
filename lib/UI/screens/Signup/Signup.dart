@@ -11,10 +11,8 @@ class SignUpScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: 120,
-              ),
-              const SignupForm()
+              SizedBox(height: 120,),
+              SignupForm()
             ],
           ),
         ),

@@ -23,16 +23,16 @@ class DiscountRow extends StatelessWidget {
           text: TextSpan(
             text: '$title ',
             style: PreMedTextTheme().body.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
+              fontWeight: FontWeight.w500,
+            ),
             children: <TextSpan>[
               if (discountPercentage != null)
                 TextSpan(
                   text: '(${(discountPercentage! * 100).roundToDouble()}% off)',
                   style: PreMedTextTheme().body.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: PreMedColorTheme().primaryColorRed,
-                      ),
+                    fontWeight: FontWeight.w500,
+                    color: PreMedColorTheme().primaryColorRed,
+                  ),
                 ),
             ],
           ),
@@ -40,8 +40,8 @@ class DiscountRow extends StatelessWidget {
         Text(
           '${discountPercentage != null && price > 0 ? '-' : ''}Rs.${price.abs()}',
           style: PreMedTextTheme().body.copyWith(
-                fontWeight: FontWeight.w500,
-              ),
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ],
     );

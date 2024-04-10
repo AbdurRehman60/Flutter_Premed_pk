@@ -7,25 +7,6 @@ class ForgotPasswordError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          'Forgot Password',
-          style: PreMedTextTheme().heading6.copyWith(
-                color: PreMedColorTheme().black,
-              ),
-        ),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -33,26 +14,17 @@ class ForgotPasswordError extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Container(
               padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF6DDDD),
-                borderRadius: BorderRadius.circular(12.0),
-                border: Border.all(
-                  color: const Color(0xFF153424),
-                  width: 0,
-                ),
-              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Icon(
+                    Icons.cancel_outlined,
+                    color: PreMedColorTheme().primaryColorRed,
+                    size: 50,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        PremedAssets.Error,
-                        width: 24,
-                        height: 24,
-                        fit: BoxFit.contain,
-                      ),
                       SizedBoxes.horizontalMicro,
                       const Text(
                         'Error',
@@ -64,13 +36,38 @@ class ForgotPasswordError extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBoxes.verticalMedium,
+                  SizedBoxes.verticalMicro,
                   Text(
-                    errorText,
-                    style: const TextStyle(
-                      color: Color(0xFF153424),
-                      fontSize: 16.0,
+                      errorText,
+                      style: PreMedTextTheme(
+                      ).subtext1.copyWith(
+                          color: PreMedColorTheme().black,
+                          fontWeight: FontWeight.normal
+                      )
+                  ),
+                  SizedBoxes.verticalBig,
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Note',
+                          style: PreMedTextTheme().subtext.copyWith(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            color: PreMedColorTheme().black,
+                          ),
+                        ),
+                        TextSpan(
+                          text:
+                          ', you will only receive an email if you have a PreMed account.',
+                          style: PreMedTextTheme().subtext.copyWith(
+                            fontStyle: FontStyle.italic,
+                            color: PreMedColorTheme().black,
+                          ),
+                        ),
+                      ],
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),

@@ -1,6 +1,7 @@
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_error.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_success.dart';
+import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
@@ -23,10 +24,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       final form = _formKey.currentState!;
       if (form.validate()) {
         final Future<Map<String, dynamic>> response =
-            auth.forgotPassword(emailController.text);
+        auth.forgotPassword(emailController.text);
 
         response.then(
-          (response) {
+              (response) {
             if (response['status']) {
               Navigator.pushReplacement(
                 context,
@@ -50,25 +51,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          'Forgot Password',
-          style: PreMedTextTheme().heading6.copyWith(
-                color: PreMedColorTheme().black,
-              ),
-        ),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: Form(
         key: _formKey,
         child: Padding(
@@ -76,43 +58,71 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Reset Your Password',
-                style: PreMedTextTheme().heading5.copyWith(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Forgot',
+                    style: PreMedTextTheme().heading2.copyWith(
                       color: PreMedColorTheme().primaryColorRed,
+                      fontWeight: FontWeight.bold,
                     ),
+                  ),
+                  Text(
+                    ' Password?',
+                    style: PreMedTextTheme().heading2.copyWith(
+                      color: PreMedColorTheme().black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
               SizedBoxes.verticalMedium,
               Text(
-                'Please provide the email address \nassociated with your PreMed.PK account.',
+                "Don’t worry, we got you! Just enter the email associated with your account and we’ll send you instructions to reset your password!",
                 textAlign: TextAlign.center,
-                style: PreMedTextTheme().body.copyWith(
-                      color: PreMedColorTheme().neutral600,
-                    ),
+                style: PreMedTextTheme().subtext.copyWith(
+                  color: PreMedColorTheme().black,
+                ),
               ),
               SizedBoxes.verticalBig,
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: PreMedColorTheme().neutral400,
-                  ),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('E-mail*'),
                     SizedBoxes.verticalMicro,
                     CustomTextField(
                       controller: emailController,
+                      prefixIcon: const Icon(Icons.mail_outline),
+                      labelText: 'Email address',
                       hintText: 'Enter your email',
                     ),
                     SizedBoxes.verticalBig,
-                    CustomButton(
-                      buttonText: 'Reset Password',
-                      onPressed: onResetPasswordPressed,
+                    Center(
+                      child: Column(
+                        children: [
+                          CustomButton(
+                            buttonText: 'Send Email',
+                            onPressed: onResetPasswordPressed,
+                          ),
+                          SizedBoxes.verticalTiny,
+                          CustomButton(
+                            buttonText: 'Cancel',
+                            color: PreMedColorTheme().white,
+                            textColor: PreMedColorTheme().primaryColorRed,
+                            onPressed: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

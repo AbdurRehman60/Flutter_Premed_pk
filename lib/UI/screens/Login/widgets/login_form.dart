@@ -1,4 +1,4 @@
-import 'package:premedpk_mobile_app/UI/screens/Signup/signup1.dart';
+import 'package:premedpk_mobile_app/UI/screens/Signup/signup_screen_one.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';

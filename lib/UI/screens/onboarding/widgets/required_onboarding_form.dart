@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:premedpk_mobile_app/UI/screens/onboarding/optional_onboarding.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
+import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/optional_checkbox.dart';
 import 'package:premedpk_mobile_app/UI/widgets/cities_data_widget.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
-import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/UI/widgets/phone_dropdown.dart';
 import 'package:premedpk_mobile_app/UI/widgets/school_data_widget.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -20,11 +22,31 @@ class RequiredOnboardingForm extends StatefulWidget {
 }
 
 class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
+  TextEditingController parentNameController = TextEditingController();
+  bool mdcatChecked = false;
+  bool privateChecked = false;
+  bool numsChecked = false;
   String error = "";
   bool hasErrors = false;
+
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
+
+    void updateIntendFor() {
+      final List<String> intendFor = [];
+      if (mdcatChecked) {
+        intendFor.add('MDCAT');
+      }
+      if (privateChecked) {
+        intendFor.add('Private');
+      }
+      if (numsChecked) {
+        intendFor.add('NUMS');
+      }
+
+      auth.intendFor = intendFor;
+    }
 
     void onPhoneNumberSelected(PhoneNumber phoneNumber) {
       auth.phoneNumber = phoneNumber.completeNumber;
@@ -50,19 +72,13 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
         });
       }
 
-      if (auth.city.isEmpty) {
-        setState(() {
-          error = 'City can not be empty.';
-          hasErrors = true;
-        });
-      }
+      // if (auth.city.isEmpty) {
+      //   setState(() {
+      //     error = 'City can not be empty.';
+      //     hasErrors = true;
+      //   });
+      // }
 
-      if (auth.school.isEmpty) {
-        setState(() {
-          error = 'School can not be empty.';
-          hasErrors = true;
-        });
-      }
       return !hasErrors;
     }
 
@@ -71,7 +87,7 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
         final Future<Map<String, dynamic>> response = auth.requiredOnboarding();
 
         response.then(
-          (response) {
+              (response) {
             if (response['status']) {
               // User user = response['user'];
 
@@ -80,7 +96,7 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const OptionalOnboarding(),
+                  builder: (context) => const HomeScreen(),
                 ),
               );
             } else {
@@ -93,132 +109,149 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
 
     return Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: PreMedColorTheme().white,
-            border: Border.all(
-              color: PreMedColorTheme().neutral300,
-            ),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Phone Number',
-                    style: PreMedTextTheme().subtext,
-                  ),
+        Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16,),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Educational Information',
+                  textAlign: TextAlign.start,
+                  style: PreMedTextTheme().subtext1,
                 ),
-                SizedBoxes.verticalTiny,
-                PhoneDropdown(
-                  onPhoneNumberSelected: onPhoneNumberSelected,
-                  hintText: "Enter Your Phone Number",
-                  initialValue: auth.phoneNumber,
-                ),
-                SizedBoxes.verticalMedium,
-                PhoneFieldWithCheckbox(
-                  onWhatsAppNumberSelected: (whatsappNumber) {
-                    auth.whatsappNumber = whatsappNumber;
-                  },
-                  isPhoneFieldEnabled: auth.whatsappNumber.isEmpty ||
-                      auth.whatsappNumber == auth.phoneNumber,
-                  initialValue: auth.whatsappNumber,
-                ),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'City',
-                    style: PreMedTextTheme().subtext,
-                  ),
-                ),
-                SizedBoxes.verticalTiny,
-                CityDropdownList(
+              ),
+              SizedBoxes.verticalLarge,
+              CityDropdownList(
                   items: cities,
                   selectedItem: auth.city,
-                  onChanged: onCitySelected,
-                ),
-                SizedBoxes.verticalLarge,
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'School Name',
-                    textAlign: TextAlign.start,
-                    style: PreMedTextTheme().subtext,
-                  ),
-                ),
-                SizedBoxes.verticalLarge,
-                SchoolDropdownList(
-                  items: schoolsdata,
-                  selectedItem: auth.school,
-                  onChanged: onSchoolSelected, // Pass the callback function
-                ),
-                SizedBoxes.verticalLarge,
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Which year are you in?',
-                    style: PreMedTextTheme().body,
-                  ),
-                ),
-                SizedBoxes.verticalMicro,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: options.map(
-                    (option) {
-                      return Row(
-                        children: [
-                          Radio(
-                            value: option,
-                            groupValue: auth.intendedYear,
-                            onChanged: (value) {
-                              auth.intendedYear = value!;
-                            },
-                            visualDensity: VisualDensity.compact,
-                            activeColor: PreMedColorTheme().primaryColorRed,
-                          ),
-                          Flexible(
-                            child: Text(
-                              option,
-                              style: PreMedTextTheme().subtext,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ).toList(),
-                ),
-                SizedBoxes.verticalMedium,
-                if (hasErrors)
-                  Text(
-                    error,
-                    textAlign: TextAlign.center,
-                    style: PreMedTextTheme().subtext1.copyWith(
-                          color: Colors.redAccent,
-                          fontWeight: FontWeight.bold,
+                  onChanged: onCitySelected),
+              SizedBoxes.verticalLarge,
+              SchoolDropdownList(
+                items: schoolsdata,
+                selectedItem: auth.school,
+                onChanged: onSchoolSelected,
+              ),
+              SizedBoxes.verticalLarge,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: options.map(
+                      (option) {
+                    return Row(
+                      children: [
+                        Radio(
+                          value: option,
+                          groupValue: auth.intendedYear,
+                          onChanged: (value) {
+                            auth.intendedYear = value!;
+                          },
+                          visualDensity: VisualDensity.compact,
+                          activeColor: PreMedColorTheme().tickcolor,
                         ),
-                  )
-                else
-                  const SizedBox(),
-              ],
-            ),
+                        Flexible(
+                          child: Text(
+                            option,
+                            style: PreMedTextTheme().subtext,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ).toList(),
+              ),
+              SizedBoxes.verticalLarge,
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Contact Information',
+                  style: PreMedTextTheme().subtext1,
+                ),
+              ),
+              SizedBoxes.verticalTiny,
+              PhoneDropdown(
+                onPhoneNumberSelected: onPhoneNumberSelected,
+                hintText: "",
+                initialValue: auth.phoneNumber,
+              ),
+              SizedBoxes.verticalMedium,
+              PhoneFieldWithCheckbox(
+                onWhatsAppNumberSelected: (whatsappNumber) {
+                  auth.whatsappNumber = whatsappNumber;
+                },
+                isPhoneFieldEnabled: auth.whatsappNumber.isEmpty ||
+                    auth.whatsappNumber == auth.phoneNumber,
+                initialValue: auth.whatsappNumber,
+              ),
+              if (hasErrors)
+                Text(
+                  error,
+                  textAlign: TextAlign.center,
+                  style: PreMedTextTheme().subtext1.copyWith(
+                    color: Colors.redAccent,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              else
+                const SizedBox(),
+            ],
           ),
         ),
-        SizedBoxes.verticalBig,
         CustomButton(
-          buttonText: 'Next',
-          isIconButton: true,
-          icon: Icons.arrow_forward,
-          leftIcon: false,
-          color: PreMedColorTheme().white,
-          textColor: PreMedColorTheme().neutral600,
+          buttonText: 'Create Account',
+          color: PreMedColorTheme().primaryColorRed,
+          textColor: PreMedColorTheme().white,
           onPressed: onNextPressed,
         ),
-        SizedBoxes.verticalBig,
-        const HubspotHelpButton(
-          light: true,
+        SizedBoxes.verticalTiny,
+
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            style: PreMedTextTheme().body.copyWith(
+              color: PreMedColorTheme().neutral500,
+            ),
+            children: [
+              TextSpan(
+                text: "By signing up, you agree to our ",
+                style: PreMedTextTheme().body.copyWith(
+                  color: PreMedColorTheme().neutral500,
+                ),
+              ),
+              TextSpan(
+                text: "Privacy Policy",
+                style: PreMedTextTheme().body.copyWith(
+                    color: PreMedColorTheme().neutral500,
+                    fontWeight: FontWeight.bold
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PrivacyPolicy()));
+                  },
+              ),
+              TextSpan(
+                text: " and ",
+                style: PreMedTextTheme().body.copyWith(
+                  color: PreMedColorTheme().neutral500,
+                ),
+              ),
+              TextSpan(
+                text: "Terms of Use",
+                style: PreMedTextTheme()
+                    .body
+                    .copyWith(color: PreMedColorTheme().neutral500, fontWeight: FontWeight.bold),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TermsCondition()));
+                  },
+              ),
+            ],
+          ),
         ),
       ],
     );

@@ -6,7 +6,7 @@ class CountdownTimerWidget extends StatefulWidget {
   const CountdownTimerWidget({super.key});
 
   @override
-  State<CountdownTimerWidget> createState() => _CountdownTimerWidgetState();
+  _CountdownTimerWidgetState createState() => _CountdownTimerWidgetState();
 }
 
 class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
@@ -18,7 +18,8 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
   @override
   void initState() {
     super.initState();
-    final bundleProvider = Provider.of<BundleProvider>(context, listen: false);
+    final bundleProvider =
+    Provider.of<BundleProvider>(context, listen: false);
     bundleProvider.fetchDiscount();
 
     _resetTimer();
@@ -66,69 +67,99 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final bundleProvider = Provider.of<BundleProvider>(context, listen: false);
+    final bundleProvider =
+    Provider.of<BundleProvider>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 20,
       ),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.only(left: 20, right: 20),
         decoration: BoxDecoration(
           gradient: PreMedColorTheme().primaryGradient,
           borderRadius: const BorderRadius.all(
-            Radius.circular(8),
+            Radius.circular(12),
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            Text(
-              '${bundleProvider.discount} OFF',
-              style: PreMedTextTheme().heading1.copyWith(
+            Positioned.fill(
+              child: Opacity(
+                opacity: 0.3,
+                child: Transform.scale(
+                  scale: 1,
+                  child: Image.asset(
+                    'assets/images/firework.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                gradient: PreMedColorTheme().primaryGradient,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(8),
+                ),
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBoxes.verticalExtraGargangua,
+                Text(
+                  '${bundleProvider.discount} OFF',
+                  style: PreMedTextTheme().heading1.copyWith(
                     color: PreMedColorTheme().white,
                     fontSize: 40,
                     height: 0.8,
                     fontWeight: FontWeight.w800,
                   ),
-            ),
-            SizedBoxes.verticalMicro,
-            Text('On all bundles',
-                style: PreMedTextTheme().heading5.copyWith(
-                      color: PreMedColorTheme().white,
-                      fontWeight: FontWeight.w400,
-                    )),
-            SizedBoxes.verticalBig,
-            Stack(
-              children: [
-                const CustomTitleWidget(
-                    height: 102,
-                    width: double.infinity,
-                    title: 'This offer will expire in',
-                    radius: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildTimerColumn('Hours', '$hours'),
-                      Text(
-                        ":",
-                        style: PreMedTextTheme().heading1.copyWith(
-                              color: PreMedColorTheme().white,
-                            ),
-                      ),
-                      _buildTimerColumn('Minutes', _formatTime(minutes)),
-                      Text(
-                        ":",
-                        style: PreMedTextTheme().heading1.copyWith(
-                              color: PreMedColorTheme().white,
-                            ),
-                      ),
-                      _buildTimerColumn('Seconds', _formatTime(seconds)),
-                    ],
+                ),
+                SizedBoxes.verticalMicro,
+                Text(
+                  'On all bundles',
+                  style: PreMedTextTheme().heading5.copyWith(
+                    color: PreMedColorTheme().white,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
+                SizedBoxes.verticalBig,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: PreMedColorTheme().white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildTimerColumn('Hours', '$hours'),
+                          Text(
+                            ":",
+                            style: PreMedTextTheme().heading1.copyWith(
+                              color: PreMedColorTheme().primaryColorBlue,
+                            ),
+                          ),
+                          _buildTimerColumn('Minutes', _formatTime(minutes)),
+                          Text(
+                            ":",
+                            style: PreMedTextTheme().heading1.copyWith(
+                              color: PreMedColorTheme().primaryColorBlue,
+                            ),
+                          ),
+                          _buildTimerColumn('Seconds', _formatTime(seconds)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 25,)
               ],
             ),
           ],
@@ -140,17 +171,11 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
   Widget _buildTimerColumn(String label, String value) {
     return Column(
       children: [
-        SizedBoxes.verticalBig,
         Text(value,
             style: PreMedTextTheme().subtext1.copyWith(
-                  fontSize: 36.0,
-                  color: PreMedColorTheme().white,
-                )),
-        SizedBoxes.vertical2Px,
-        Text(label,
-            style: PreMedTextTheme().headline.copyWith(
-                  color: PreMedColorTheme().white,
-                )),
+              fontSize: 25.0,
+              color: PreMedColorTheme().primaryColorRed,
+            )),
       ],
     );
   }
@@ -159,6 +184,7 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
     return time < 10 ? '0$time' : '$time';
   }
 }
+
 
 class CustomDraw extends CustomPainter {
   CustomDraw(Color color, this.textWidth, {this.radius = 0}) {
@@ -200,11 +226,11 @@ class CustomDraw extends CustomPainter {
 class CustomTitleWidget extends StatefulWidget {
   const CustomTitleWidget(
       {super.key,
-      required this.height,
-      required this.width,
-      required this.title,
-      this.color,
-      this.radius});
+        required this.height,
+        required this.width,
+        required this.title,
+        this.color,
+        this.radius});
   final double height;
   final double width;
   final double? radius;
@@ -261,8 +287,8 @@ class _CustomTitleWidgetState extends State<CustomTitleWidget> {
             child: Text(
               widget.title,
               style: PreMedTextTheme().headline.copyWith(
-                    color: PreMedColorTheme().white,
-                  ),
+                color: PreMedColorTheme().white,
+              ),
             ),
           ),
         )
