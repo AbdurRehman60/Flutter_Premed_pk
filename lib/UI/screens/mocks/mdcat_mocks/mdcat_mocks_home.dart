@@ -1,21 +1,22 @@
 import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
+import 'package:premedpk_mobile_app/UI/screens/mocks/widgets/bottom_sheet.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/mdcat_mocks_provider.dart';
 import 'package:provider/provider.dart';
 
-class MocksHome extends StatefulWidget {
-  const MocksHome({super.key});
+class MdcatMocksHome extends StatefulWidget {
+  const MdcatMocksHome({super.key});
 
   @override
-  State<MocksHome> createState() => _MocksHomeState();
+  State<MdcatMocksHome> createState() => _MdcatMocksHomeState();
 }
 
-class _MocksHomeState extends State<MocksHome> {
+class _MdcatMocksHomeState extends State<MdcatMocksHome> {
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      Provider.of<MocksProvider>(context, listen: false).fetchDeckGroups();
+      Provider.of<MdcatMocksProvider>(context, listen: false).fetchDeckGroups();
     });
   }
 
@@ -93,9 +94,9 @@ class _MocksHomeState extends State<MocksHome> {
             ),
           ),
           Expanded(
-            child: Consumer<MocksProvider>(
-              builder: (context, mocksProvider, _) {
-                switch (mocksProvider.fetchStatus) {
+            child: Consumer<MdcatMocksProvider>(
+              builder: (context, mdcatmocksProvider, _) {
+                switch (mdcatmocksProvider.fetchStatus) {
                   case FetchStatus.init:
                   case FetchStatus.fetching:
                     return const Center(
@@ -103,12 +104,12 @@ class _MocksHomeState extends State<MocksHome> {
                     );
                   case FetchStatus.success:
                     return ListView.builder(
-                      itemCount: mocksProvider.deckGroups.length,
+                      itemCount: mdcatmocksProvider.deckGroups.length,
                       itemBuilder: (context, index) {
-                        final deckGroup = mocksProvider.deckGroups[index];
+                        final deckGroup = mdcatmocksProvider.deckGroups[index];
                         return Container(
                           height: 110,
-                          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             color: Colors.white,
@@ -152,6 +153,7 @@ class _MocksHomeState extends State<MocksHome> {
                               trailing: IconButton(
                                 icon: Icon(Icons.arrow_forward_ios_rounded, color: PreMedColorTheme().primaryColorRed),
                                 onPressed: () {
+                                  _openBottomSheet(context);
                                 },
                               ),
                               onTap: () {},
@@ -174,4 +176,21 @@ class _MocksHomeState extends State<MocksHome> {
       ),
     );
   }
+}
+
+void _openBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20.0),
+        topRight: Radius.circular(20.0),
+      ),
+    ),
+    backgroundColor: Colors.white,
+    isScrollControlled: true,
+    builder: (BuildContext context) {
+      return CustomBottomSheet(); // Call your CustomBottomSheet widget
+    },
+  );
 }

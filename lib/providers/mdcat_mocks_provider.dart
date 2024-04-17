@@ -6,7 +6,7 @@ import '../api_manager/dio client/endpoints.dart';
 
 enum FetchStatus { init, fetching, success, error }
 
-class MocksProvider extends ChangeNotifier {
+class MdcatMocksProvider extends ChangeNotifier {
   FetchStatus _fetchStatus = FetchStatus.init;
   FetchStatus get fetchStatus => _fetchStatus;
 
@@ -34,8 +34,8 @@ class MocksProvider extends ChangeNotifier {
           final List<dynamic> deckGroupsData = mdcatMocksCategory['deckGroups'];
           _deckGroups = deckGroupsData.map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
-            final Set<String> uniqueDeckNames = Set<String>();
-            for (var deck in decks) {
+            final Set<String> uniqueDeckNames = <String>{};
+            for (final deck in decks) {
               uniqueDeckNames.add(deck['deckName']);
             }
             final int deckNameCount = uniqueDeckNames.length;
@@ -61,4 +61,3 @@ class MocksProvider extends ChangeNotifier {
     }
   }
 }
-

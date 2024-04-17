@@ -1,24 +1,23 @@
 import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/providers/mdcat_mocks_provider.dart';
+import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
 import 'package:provider/provider.dart';
 
-class MocksHome extends StatefulWidget {
-  const MocksHome({super.key});
+class NumsMocksHome extends StatefulWidget {
+  const NumsMocksHome({super.key});
 
   @override
-  State<MocksHome> createState() => _MocksHomeState();
+  State<NumsMocksHome> createState() => _NumsMocksHomeState();
 }
 
-class _MocksHomeState extends State<MocksHome> {
+class _NumsMocksHomeState extends State<NumsMocksHome> {
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      Provider.of<MocksProvider>(context, listen: false).fetchDeckGroups();
+      Provider.of<NumsMocksProvider>(context, listen: false).fetchDeckGroups();
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,9 +92,9 @@ class _MocksHomeState extends State<MocksHome> {
             ),
           ),
           Expanded(
-            child: Consumer<MocksProvider>(
-              builder: (context, mocksProvider, _) {
-                switch (mocksProvider.fetchStatus) {
+            child: Consumer<NumsMocksProvider>(
+              builder: (context, numsmocksProvider, _) {
+                switch (numsmocksProvider.fetchStatus) {
                   case FetchStatus.init:
                   case FetchStatus.fetching:
                     return const Center(
@@ -103,12 +102,12 @@ class _MocksHomeState extends State<MocksHome> {
                     );
                   case FetchStatus.success:
                     return ListView.builder(
-                      itemCount: mocksProvider.deckGroups.length,
+                      itemCount: numsmocksProvider.deckGroups.length,
                       itemBuilder: (context, index) {
-                        final deckGroup = mocksProvider.deckGroups[index];
+                        final deckGroup = numsmocksProvider.deckGroups[index];
                         return Container(
                           height: 110,
-                          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             color: Colors.white,

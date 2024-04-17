@@ -10,14 +10,19 @@ import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.d
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_success.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
-import 'package:premedpk_mobile_app/UI/screens/splash_screen/splash_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/mocks/mdcat_mocks/mdcat_mocks_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/mocks/nums_mocks/nums_mocks.dart';
+import 'package:premedpk_mobile_app/UI/screens/mocks/pu_mocks/pu_mocks_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
+import 'package:premedpk_mobile_app/providers/mdcat_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
+import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
+import 'package:premedpk_mobile_app/providers/pu_mocks-provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
@@ -65,6 +70,9 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => MdcatMocksProvider()),
+        ChangeNotifierProvider(create: (_) => NumsMocksProvider()),
+        ChangeNotifierProvider(create: (_) => PrivuniMocksProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => AskAnExpertProvider()),
         ChangeNotifierProvider(create: (_) => FlashcardProvider()),
@@ -86,7 +94,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const SplashScreen(),
+        home: const PrivuniMocksHome(),
         navigatorKey: navigatorKey,
       ),
     );

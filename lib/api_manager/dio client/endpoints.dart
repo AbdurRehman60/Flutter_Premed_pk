@@ -61,4 +61,9 @@ class Endpoints {
 
   //delete account
   static const String DeleteAccount = '/api/user/DeleteAccount';
+
+  //mdcat nums and pu mocks endpoints
+  static const String Deckspoints = '/api/get-all-published-decks';
+  static const String Privuni= '/api/get-all-published-decks';
+  static const String Nums = '/api/get-all-published-decks';
 }
