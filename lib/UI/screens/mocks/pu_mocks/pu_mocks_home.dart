@@ -1,9 +1,10 @@
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/widgets/bottom_sheet.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/pu_mocks-provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../models/deck_group_model.dart';
 
 class PrivuniMocksHome extends StatefulWidget {
   const PrivuniMocksHome({super.key});
@@ -48,12 +49,7 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
               icon: Icon(Icons.arrow_back_ios_new_rounded,
                   color: PreMedColorTheme().primaryColorRed),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
-                  ),
-                );
+                Navigator.pop(context);
               },
             ),
           ),
@@ -175,7 +171,7 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
                               trailing: IconButton(
                                 icon: Icon(Icons.arrow_forward_ios_rounded, color: PreMedColorTheme().primaryColorRed),
                                 onPressed: () {
-                                  _openBottomSheet(context);
+                                  _openBottomSheet(context, deckGroup);
                                 },
                               ),
                               onTap: () {},
@@ -198,11 +194,10 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
   }
 }
 
-
-void _openBottomSheet(BuildContext context) {
+void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
   showModalBottomSheet(
     context: context,
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(20.0),
         topRight: Radius.circular(20.0),
@@ -211,7 +206,7 @@ void _openBottomSheet(BuildContext context) {
     backgroundColor: Colors.white,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return CustomBottomSheet(); // Call your CustomBottomSheet widget
+      return CustomBottomSheet(deckGroup: deckGroup);
     },
   );
 }

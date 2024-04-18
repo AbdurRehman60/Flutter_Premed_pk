@@ -1,7 +1,9 @@
-import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../models/deck_group_model.dart';
+import '../widgets/bottom_sheet.dart';
 
 class NumsMocksHome extends StatefulWidget {
   const NumsMocksHome({super.key});
@@ -44,12 +46,8 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
               icon: Icon(Icons.arrow_back_ios_new_rounded,
                   color: PreMedColorTheme().primaryColorRed),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
-                  ),
-                );
+                Navigator.pop(context);
+
               },
             ),
           ),
@@ -151,6 +149,7 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
                               trailing: IconButton(
                                 icon: Icon(Icons.arrow_forward_ios_rounded, color: PreMedColorTheme().primaryColorRed),
                                 onPressed: () {
+                                  _openBottomSheet(context, deckGroup);
                                 },
                               ),
                               onTap: () {},
@@ -173,4 +172,22 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
       ),
     );
   }
+}
+
+
+void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
+  showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20.0),
+        topRight: Radius.circular(20.0),
+      ),
+    ),
+    backgroundColor: Colors.white,
+    isScrollControlled: true,
+    builder: (BuildContext context) {
+      return CustomBottomSheet(deckGroup: deckGroup);
+    },
+  );
 }

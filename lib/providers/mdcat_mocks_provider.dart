@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
+import 'package:premedpk_mobile_app/api_manager/dio client/dio_client.dart';
 import 'package:premedpk_mobile_app/models/deck_group_model.dart';
-
 import '../api_manager/dio client/endpoints.dart';
 
 enum FetchStatus { init, fetching, success, error }
@@ -34,14 +33,19 @@ class MdcatMocksProvider extends ChangeNotifier {
           final List<dynamic> deckGroupsData = mdcatMocksCategory['deckGroups'];
           _deckGroups = deckGroupsData.map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
-            final Set<String> uniqueDeckNames = <String>{};
-            for (final deck in decks) {
-              uniqueDeckNames.add(deck['deckName']);
-            }
-            final int deckNameCount = uniqueDeckNames.length;
+            final List<DeckItem> deckItems = decks.map((deck) {
+              return DeckItem(
+                  deckName: deck['deckName'] as String,
+                  deckLogo: deck['deckLogo'] as String,
+                  premiumTag: deck['premiumTags'][0] as String,
+                  deckInstructions: deck['deckInstructions'] as String
+              );
+            }).toList();
+            final int deckNameCount = deckItems.length;
             final String deckGroupImage = deckGroupData['deckGroupImage'];
             return DeckGroupModel(
               deckGroupName: deckGroupData['deckGroupName'],
+              deckItems: deckItems,
               deckNameCount: deckNameCount,
               deckGroupImage: deckGroupImage,
             );

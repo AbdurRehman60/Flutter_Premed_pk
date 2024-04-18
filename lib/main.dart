@@ -11,6 +11,7 @@ import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_su
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/mdcat_mocks/mdcat_mocks_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/mocks/mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/nums_mocks/nums_mocks.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/pu_mocks/pu_mocks_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -94,7 +95,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const PrivuniMocksHome(),
+        home: const MocksHome(),
         navigatorKey: navigatorKey,
       ),
     );

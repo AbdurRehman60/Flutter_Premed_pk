@@ -34,14 +34,19 @@ class PrivuniMocksProvider extends ChangeNotifier {
           final List<dynamic> deckGroupsData = privuniMocksCategory['deckGroups'];
           _deckGroups = deckGroupsData.map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
-            final Set<String> uniqueDeckNames = <String>{};
-            for (final deck in decks) {
-              uniqueDeckNames.add(deck['deckName']);
-            }
-            final int deckNameCount = uniqueDeckNames.length;
+            final List<DeckItem> deckItems = decks.map((deck) {
+              return DeckItem(
+                  deckName: deck['deckName'] as String,
+                  deckLogo: deck['deckLogo'] as String,
+                  premiumTag: deck['premiumTags'][0] as String,
+                  deckInstructions: deck['deckInstructions'] as String
+              );
+            }).toList();
+            final int deckNameCount = deckItems.length;
             final String deckGroupImage = deckGroupData['deckGroupImage'];
             return DeckGroupModel(
               deckGroupName: deckGroupData['deckGroupName'],
+              deckItems: deckItems,
               deckNameCount: deckNameCount,
               deckGroupImage: deckGroupImage,
             );
@@ -60,4 +65,20 @@ class PrivuniMocksProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+//   void printDeckNames(String deckGroupName) {
+//     final deckGroup = _deckGroups.firstWhere(
+//           (group) => group.deckGroupName == deckGroupName,
+//       orElse: () => DeckGroupModel(deckGroupName: '', deckItems: [], deckGroupImage: '', deckNameCount: 0),
+//     );
+//
+//     if (deckGroup.deckItems.isEmpty) {
+//       print('No deck names found for $deckGroupName');
+//     } else {
+//       print('Deck Names for $deckGroupName:');
+//       for (final deckItem in deckGroup.deckItems) {
+//         print('${deckItem.deckName} - Deck Logo: ${deckItem.deckLogo}');
+//       }
+//     }
+//   }
 }
