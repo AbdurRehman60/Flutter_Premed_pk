@@ -1,25 +1,28 @@
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/question_banks/recent_activity_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/notes_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/qbanks_container.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/question_of_day.dart';
+import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/recent_activity_widget.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/question_of_day_model.dart';
 import 'package:premedpk_mobile_app/providers/question_of_day_provider.dart';
 import 'package:provider/provider.dart';
 
-class QbankHomePage extends StatefulWidget {
+import '../../../models/recent_activity_model.dart';
+import '../../../providers/recent_activity_provider.dart';
+
+class QbankHomePage extends StatelessWidget {
   const QbankHomePage({super.key});
 
   @override
-  State<QbankHomePage> createState() => _QbankHomePageState();
-}
-
-class _QbankHomePageState extends State<QbankHomePage> {
-  late QuestionOfTheDayModel questionOfTheDay;
-  @override
   Widget build(BuildContext context) {
+    late QuestionOfTheDayModel questionOfTheDay;
+    final recentActivityPro =
+        Provider.of<RecentActivityProvider>(context, listen: false);
     final questionOfDayProvider =
         Provider.of<QuestionOfTheDayProvider>(context, listen: false);
+    late List<RecentActivityModel> recentActivityList;
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -79,7 +82,8 @@ class _QbankHomePageState extends State<QbankHomePage> {
                         child: Text('Error fetching data'),
                       );
                     } else {
-                      questionOfTheDay = questionOfDayProvider.questionOfTheDay!;
+                      questionOfTheDay =
+                          questionOfDayProvider.questionOfTheDay!;
                       return QuestionOfDay(question: questionOfTheDay);
                     }
                   },
@@ -105,18 +109,62 @@ class _QbankHomePageState extends State<QbankHomePage> {
                                 height: 1.3,
                               ),
                             ),
-                            Spacer(),
-                            Text(
-                              'View All',
-                              style: GoogleFonts.rubik(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w800,
-                                color: const Color(0xFFEC5863),
-                                height: 1.3,
+                            const Spacer(),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (ctx) => const RecentActivityPage()));
+                              },
+                              child: Text(
+                                'View All',
+                                style: GoogleFonts.rubik(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                  color: const Color(0xFFEC5863),
+                                  height: 1.3,
+                                ),
                               ),
                             ),
                           ],
-                        )
+                        ),
+                        SizedBoxes.vertical15Px,
+                        FutureBuilder(
+                          future: recentActivityPro.fetchRecentActivity(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (snapshot.hasError) {
+                              return const Center(
+                                child: Text('Error fetching data'),
+                              );
+                            } else {
+                              recentActivityList =
+                                  recentActivityPro.recentActivityList;
+                              if (recentActivityList.isNotEmpty) {
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: 1,
+                                  itemBuilder: (context, index) {
+                                    return RecentActivityWidget(
+                                      topPadding: const EdgeInsets.only(top: 1),
+                                      recent: recentActivityList.first,
+                                      line: const SizedBox(
+                                        height: 1,
+                                      ),
+                                    );
+                                  },
+                                );
+                              } else {
+                                return const Center(
+                                  child: Text('No recent activity'),
+                                );
+                              }
+                            }
+                          },
+                        ),
                       ],
                     ),
                   ),

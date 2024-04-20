@@ -61,5 +61,6 @@ class Endpoints {
   static const statistics = 'api/statistics/compute-statistics';
   static const String Deckspoints= '/api/get-all-published-decks';
   static const String QuestionOfTheDay= '/api/question/getRandomQuestions';
+  static const String RecentActivityURL = '/api/attempts/get-recent-attempts';
 
 }

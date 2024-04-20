@@ -9,6 +9,7 @@ import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dar
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/qbank_homepage.dart';
+import 'package:premedpk_mobile_app/UI/screens/question_banks/recent_activity_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
@@ -18,6 +19,7 @@ import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/question_of_day_provider.dart';
+import 'package:premedpk_mobile_app/providers/recent_activity_provider.dart';
 import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
@@ -76,6 +78,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserStatProvider()),
         ChangeNotifierProvider(create: (_) => DecksProvider()),
         ChangeNotifierProvider(create: (_) => QuestionOfTheDayProvider()),
+        ChangeNotifierProvider(create: (_) => RecentActivityProvider()),
       ],
       child: MaterialApp(
         routes: {
