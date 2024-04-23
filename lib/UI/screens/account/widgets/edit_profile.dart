@@ -23,28 +23,38 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController parentNameController = TextEditingController();
+  String initialPhoneNumber = '';
+  String city = '';
+  String university = '';
+  String parentnumber = '';
 
   @override
   void initState() {
     fullNameController.text = userProvider.user!.fullName;
     emailController.text = userProvider.user!.userName;
+    parentNameController.text = userProvider.user!.parentFullname;
+    initialPhoneNumber = userProvider.user!.phoneNumber;
+    city = userProvider.user!.city;
+    university = userProvider.user!.school;
+    parentnumber = userProvider.user!.parentContactNumber;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController parentNameController = TextEditingController();
     final formKey = GlobalKey<FormState>();
 
     Future<void> onEditDetailsPressed() async {
       final form = formKey.currentState!;
       if (form.validate()) {
-        print(fullNameController.text);
         final Future<Map<String, dynamic>> response =
-            userProvider.updateUserDetails(fullNameController.text);
-
+        userProvider.updateUserDetails(
+            fullNameController.text,
+            userProvider.phoneNumber,
+            city,
+            university);
         response.then(
-          (response) {
+              (response) {
             if (response['status']) {
               auth.getLoggedInUser();
               showSnackbar(
@@ -60,16 +70,27 @@ class _EditProfileState extends State<EditProfile> {
       }
     }
 
+
     void onPhoneNumberSelected(PhoneNumber phoneNumber) {
       userProvider.phoneNumber = phoneNumber.completeNumber;
     }
 
+    void onParentPhoneNumberSelected(PhoneNumber phoneNumber) {
+      parentnumber = phoneNumber.completeNumber;
+    }
+
     void onCitySelected(String? selectedCity) {
-      userProvider.setCity(selectedCity!);
+      if (selectedCity != null) {
+        setState(() {
+          city = selectedCity;
+        });
+      }
     }
 
     void onSchoolSelected(String selectedSchool) {
-      auth.setSchool(selectedSchool);
+      setState(() {
+        university = selectedSchool;
+      });
     }
 
     return Scaffold(
@@ -106,18 +127,15 @@ class _EditProfileState extends State<EditProfile> {
             Text(
               'Your Account',
               style: PreMedTextTheme().heading6.copyWith(
-                color: PreMedColorTheme().black,
-                fontWeight: FontWeight.bold
-              ),
+                  color: PreMedColorTheme().black, fontWeight: FontWeight.bold),
             ),
             SizedBoxes.vertical2Px,
-            Text(
-                'SETTINGS',
+            Text('SETTINGS',
                 style: PreMedTextTheme().subtext.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: PreMedColorTheme().black,)
-            )
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: PreMedColorTheme().black,
+                    ))
           ],
         ),
       ),
@@ -145,7 +163,6 @@ class _EditProfileState extends State<EditProfile> {
                     labelText: 'Email',
                     validator: (value) => validateEmail(value),
                   ),
-
                   SizedBoxes.verticalLarge,
                   Align(
                     alignment: Alignment.topLeft,
@@ -158,7 +175,7 @@ class _EditProfileState extends State<EditProfile> {
                   PhoneDropdown(
                     onPhoneNumberSelected: onPhoneNumberSelected,
                     hintText: "",
-                    initialValue: auth.phoneNumber,
+                    initialValue: initialPhoneNumber,
                   ),
                   SizedBoxes.verticalLarge,
                   Align(
@@ -172,12 +189,12 @@ class _EditProfileState extends State<EditProfile> {
                   SizedBoxes.verticalLarge,
                   CityDropdownList(
                       items: cities,
-                      selectedItem: auth.city,
+                      selectedItem: city,
                       onChanged: onCitySelected),
                   SizedBoxes.verticalMedium,
                   SchoolDropdownList(
                     items: schoolsdata,
-                    selectedItem: auth.school,
+                    selectedItem: university,
                     onChanged: onSchoolSelected,
                   ),
                   SizedBoxes.verticalLarge,
@@ -196,19 +213,16 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   SizedBoxes.verticalTiny,
                   PhoneDropdown(
-                    onPhoneNumberSelected: onPhoneNumberSelected,
+                    onPhoneNumberSelected: onParentPhoneNumberSelected,
                     hintText: "",
-                    initialValue: auth.phoneNumber,
+                    initialValue: parentnumber,
                   ),
-
                   SizedBoxes.verticalGargangua,
                   CustomButton(
                     buttonText: 'Save Changes',
                     onPressed: onEditDetailsPressed,
                   ),
-
                 ],
-
               ),
             ),
           ),
@@ -217,7 +231,6 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 }
-
 
 String? validateFullname(String? value) {
   if (value == null || value.isEmpty) {

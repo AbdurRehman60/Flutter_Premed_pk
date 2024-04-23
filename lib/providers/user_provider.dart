@@ -51,13 +51,16 @@ class UserProvider extends ChangeNotifier {
   // Update full name
   Future<Map<String, dynamic>> updateUserDetails(
     String fullname,
+      String phoneNumber,
+      String city,
+      String school,
   ) async {
     Map<String, dynamic> result;
     final Map<String, dynamic> updateData = {
       'fullname': fullname.isEmpty ? user?.fullName : fullname,
       'phonenumber': phoneNumber.isNotEmpty ? phoneNumber : user?.phoneNumber,
-      'city': city.isNotEmpty ? city : user?.city,
-      'school': _user?.school,
+      'city': city.isEmpty ? city : user?.city,
+      'school': school.isNotEmpty ? school : _user?.school,
     };
 
     try {
@@ -92,7 +95,7 @@ class UserProvider extends ChangeNotifier {
       result = {
         'status': false,
         'message': 'Network error updating user details: ${e.message}',
-      };
+    };
     }
 
     notify();

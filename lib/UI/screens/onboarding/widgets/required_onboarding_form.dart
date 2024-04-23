@@ -89,10 +89,6 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
         response.then(
               (response) {
             if (response['status']) {
-              // User user = response['user'];
-
-              // Provider.of<UserProvider>(context, listen: false).setUser(user);
-
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
