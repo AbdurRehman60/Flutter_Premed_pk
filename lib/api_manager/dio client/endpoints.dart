@@ -64,6 +64,6 @@ class Endpoints {
   static const String getDeckInfo =
       'https://prodapi.premed.pk/api/decks/get-deck-information/';
 
-  static const String sindhPoints = 'Sindh%20MDCAT%202023';
-
+  static const String getQuestions =
+      'https://prodapi.premed.pk/api/decks/get-all-deck-questions/';
 }

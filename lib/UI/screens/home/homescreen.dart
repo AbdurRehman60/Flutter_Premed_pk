@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
@@ -8,6 +9,7 @@ import 'package:premedpk_mobile_app/UI/screens/qbanks/qbank_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/decks_provider.dart';
+import 'package:premedpk_mobile_app/providers/questions_proivder.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -31,9 +33,16 @@ class HomeScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "👋🏼 Welcome Back",
-                              style: PreMedTextTheme().subtext,
+                            GestureDetector(
+                              onTap: (){
+                                final pro = context.read<QuestionsProvider>();
+                                pro.fetchQuestions();
+
+                              },
+                              child: Text(
+                                "👋🏼 Welcome Back",
+                                style: PreMedTextTheme().subtext,
+                              ),
                             ),
                             SizedBoxes.vertical2Px,
                             Text(

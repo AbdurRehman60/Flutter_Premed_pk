@@ -36,19 +36,14 @@ class ModeDescription extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Image.asset(
-                      height: 45,
-                      'assets/images/QuestionMarkDocument.png'),
+                      height: 45, 'assets/images/QuestionMarkDocument.png'),
                   SizedBoxes.verticalTiny,
                   Center(
                     child: Text(
                       'Tutor Mode',
-                      style: PreMedTextTheme()
-                          .heading2
-                          .copyWith(
-                          color: PreMedColorTheme()
-                              .primaryColorRed,
-                          fontWeight:
-                          FontWeight.bold,
+                      style: PreMedTextTheme().heading2.copyWith(
+                          color: PreMedColorTheme().primaryColorRed,
+                          fontWeight: FontWeight.bold,
                           fontSize: 15),
                     ),
                   ),
@@ -66,19 +61,15 @@ class ModeDescription extends StatelessWidget {
                   SizedBoxes.verticalMedium,
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
                         backgroundColor: PreMedColorTheme().primaryColorRed),
-                    onPressed: () {
-
-                    },
+                    onPressed: () {},
                     child: Text(
                       'Start Test',
-                      style: PreMedTextTheme()
-                          .heading2
-                          .copyWith(
-                        color: Colors.white,
-                          fontWeight:
-                          FontWeight.w600,
+                      style: PreMedTextTheme().heading2.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
                           fontSize: 14),
                     ),
                   )
@@ -89,19 +80,14 @@ class ModeDescription extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Image.asset(
-                      height: 45,
-                      'assets/images/QuestionMarkDocument.png'),
+                      height: 45, 'assets/images/QuestionMarkDocument.png'),
                   SizedBoxes.verticalTiny,
                   Center(
                     child: Text(
                       'Timed Test Mode',
-                     style:  PreMedTextTheme()
-                          .heading2
-                          .copyWith(
-                          color: PreMedColorTheme()
-                              .primaryColorRed,
-                          fontWeight:
-                          FontWeight.bold,
+                      style: PreMedTextTheme().heading2.copyWith(
+                          color: PreMedColorTheme().primaryColorRed,
+                          fontWeight: FontWeight.bold,
                           fontSize: 15),
                     ),
                   ),
@@ -120,17 +106,15 @@ class ModeDescription extends StatelessWidget {
                   SizedBoxes.verticalMedium,
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
                         backgroundColor: PreMedColorTheme().primaryColorRed),
                     onPressed: () {},
                     child: Text(
                       'Start Test',
-                      style: PreMedTextTheme()
-                          .heading2
-                          .copyWith(
+                      style: PreMedTextTheme().heading2.copyWith(
                           color: Colors.white,
-                          fontWeight:
-                          FontWeight.w600,
+                          fontWeight: FontWeight.w600,
                           fontSize: 14),
                     ),
                   )

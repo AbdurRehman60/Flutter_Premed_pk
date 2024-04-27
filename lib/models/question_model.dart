@@ -2,22 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 class QuestionModel {
-  final bool isMock, isTutorModeFree, timedTestMode;
-  final int timedTestMinutes;
-  final List Questions;
-  QuestionModel(
-      {required this.isMock,
-      required this.isTutorModeFree,
-      required this.timedTestMode,
-      required this.timedTestMinutes,
-      required this.Questions});
+  final String questionText;
+  final String? questionImage;
+  final List options;
+  final bool published;
+  QuestionModel({
+    required this.questionText,
+    required this.questionImage,
+    required this.options,
+    required this.published,
+  });
 
-  factory QuestionModel.fromJson(json) {
+  factory QuestionModel.fromJson(Map<String, dynamic> jsonResponse) {
     return QuestionModel(
-        isTutorModeFree: json['isTutorModeFree'],
-        isMock: json['isMock'],
-        timedTestMode: json['timedTestMode'],
-        timedTestMinutes: json['timedTestMinutes'],
-        Questions: json['questions']);
+      questionText: jsonResponse['ExplanationText'],
+      questionImage: jsonResponse['QuestionImage'],
+      options: jsonResponse['Options'],
+      published: jsonResponse['Published'],
+    );
   }
 }
