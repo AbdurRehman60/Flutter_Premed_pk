@@ -15,16 +15,19 @@ import 'package:premedpk_mobile_app/UI/screens/mocks/mdcat_mocks/mdcat_mocks_hom
 import 'package:premedpk_mobile_app/UI/screens/mocks/mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/nums_mocks/nums_mocks.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/pu_mocks/pu_mocks_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/test_interface/questions.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
+import 'package:premedpk_mobile_app/providers/handle_saved_ques_provider.dart';
 import 'package:premedpk_mobile_app/providers/mdcat_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/pu_mocks-provider.dart';
+import 'package:premedpk_mobile_app/providers/test_interface_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
@@ -84,6 +87,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UplaodImageProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => WebNotificationsProvider()),
+        ChangeNotifierProvider(create: (_) => QuestionProvider()),
+        ChangeNotifierProvider(create: (_) => SaveQuestionProvider(userId: "65b113ba761bb53e12fb7fe6")),
       ],
       child: MaterialApp(
         routes: {
@@ -96,7 +101,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const SplashScreen(),
+        home:  QuestionScreen(),
         navigatorKey: navigatorKey,
       ),
     );

@@ -22,21 +22,17 @@ class _EditProfileState extends State<EditProfile> {
   final AuthProvider auth = AuthProvider();
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController parentNameController = TextEditingController();
   String initialPhoneNumber = '';
   String city = '';
   String university = '';
-  String parentnumber = '';
 
   @override
   void initState() {
     fullNameController.text = userProvider.user!.fullName;
     emailController.text = userProvider.user!.userName;
-    parentNameController.text = userProvider.user!.parentFullname;
     initialPhoneNumber = userProvider.user!.phoneNumber;
     city = userProvider.user!.city;
     university = userProvider.user!.school;
-    parentnumber = userProvider.user!.parentContactNumber;
     super.initState();
   }
 
@@ -48,13 +44,14 @@ class _EditProfileState extends State<EditProfile> {
       final form = formKey.currentState!;
       if (form.validate()) {
         final Future<Map<String, dynamic>> response =
-        userProvider.updateUserDetails(
-            fullNameController.text,
-            userProvider.phoneNumber,
-            city,
-            university);
+            userProvider.updateUserDetails(
+                fullNameController.text,
+                emailController.text,
+                userProvider.phoneNumber,
+                city,
+                university);
         response.then(
-              (response) {
+          (response) {
             if (response['status']) {
               auth.getLoggedInUser();
               showSnackbar(
@@ -70,14 +67,10 @@ class _EditProfileState extends State<EditProfile> {
       }
     }
 
-
     void onPhoneNumberSelected(PhoneNumber phoneNumber) {
       userProvider.phoneNumber = phoneNumber.completeNumber;
     }
 
-    void onParentPhoneNumberSelected(PhoneNumber phoneNumber) {
-      parentnumber = phoneNumber.completeNumber;
-    }
 
     void onCitySelected(String? selectedCity) {
       if (selectedCity != null) {
@@ -197,26 +190,7 @@ class _EditProfileState extends State<EditProfile> {
                     selectedItem: university,
                     onChanged: onSchoolSelected,
                   ),
-                  SizedBoxes.verticalLarge,
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Parent's Information",
-                      style: PreMedTextTheme().subtext1,
-                    ),
-                  ),
                   SizedBoxes.verticalTiny,
-                  CustomTextField(
-                    controller: parentNameController,
-                    prefixIcon: const Icon(Icons.person_outline_rounded),
-                    labelText: "Parent/Guardian's Name",
-                  ),
-                  SizedBoxes.verticalTiny,
-                  PhoneDropdown(
-                    onPhoneNumberSelected: onParentPhoneNumberSelected,
-                    hintText: "",
-                    initialValue: parentnumber,
-                  ),
                   SizedBoxes.verticalGargangua,
                   CustomButton(
                     buttonText: 'Save Changes',

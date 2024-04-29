@@ -13,18 +13,6 @@ class CouponCodeTF extends StatefulWidget {
 }
 
 class _CouponCodeTFState extends State<CouponCodeTF> {
-  Timer? _debounceTimer;
-  @override
-  void initState() {
-    super.initState();
-    final CartProvider cartProvider =
-    Provider.of<CartProvider>(context, listen: false);
-    cartProvider.couponCode = "";
-    cartProvider.couponAmount = 0;
-  }
-
-  final formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
@@ -34,6 +22,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
     void handleRemovePromoCode() {
       cartProvider.clearCoupon();
     }
+    final formKey = GlobalKey<FormState>();
 
     void onApplyCouponPressed(String couponCode) {
       final form = formKey.currentState!;
@@ -46,6 +35,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
         response.then(
               (response) {
             if (response['status']) {
+              // Coupon code verified successfully
             } else {
               showError(context, response);
             }
@@ -54,15 +44,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
       }
     }
 
-    void onCouponTextChanged(String text) {
-      if (_debounceTimer != null && _debounceTimer!.isActive) {
-        _debounceTimer!.cancel();
-      }
 
-      _debounceTimer = Timer(const Duration(milliseconds: 500), () {
-        onApplyCouponPressed(text);
-      });
-    }
 
     return Form(
       key: formKey,
@@ -81,16 +63,34 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
             children: [
               Expanded(
                 flex: 4,
-                child: CustomTextField(
-                  inputFormatters: [UpperCaseTextFormatter()],
-                  //hintText: 'Enter Code',
-                  controller: couponText,
-                  prefixIcon: Icon(Icons.percent, color: PreMedColorTheme().primaryColorRed,),
-                  suffixIcon: Icon(Icons.clear
-                    ,color: PreMedColorTheme().primaryColorRed,),
-                  onChanged: onCouponTextChanged,
-                  validator: (value) =>
-                      validateIsNotEmpty(value, "Coupon Code"),
+                child: Material(
+                  elevation: 3,
+                  borderRadius: BorderRadius.circular(15),
+                  child: TextFormField(
+                    inputFormatters: [UpperCaseTextFormatter()],
+                    controller: couponText,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      prefixIcon: Icon(
+                        Icons.percent,
+                        color: PreMedColorTheme().primaryColorRed,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.clear,
+                          color: PreMedColorTheme().primaryColorRed,
+                        ),
+                        onPressed: () {
+                          couponText.clear();
+                        },
+                      ),
+                    ),
+                    onChanged: (text) {
+                    },
+                    validator: (value) =>
+                        validateIsNotEmpty(value, "Coupon Code"),
+                    onFieldSubmitted: onApplyCouponPressed,
+                  ),
                 ),
               ),
               SizedBoxes.horizontalTiny,
@@ -99,11 +99,12 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
                 const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.5,
-                      )),
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                    ),
+                  ),
                 )
             ],
           ),

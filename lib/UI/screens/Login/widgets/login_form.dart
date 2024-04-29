@@ -1,16 +1,14 @@
+import 'package:flutter/gestures.dart';
 import 'package:premedpk_mobile_app/UI/screens/Signup/signup_screen_one.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
-import 'package:premedpk_mobile_app/UI/screens/signup/signup.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
-import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/gestures.dart';
-import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
-import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -26,6 +24,9 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
+    // if (auth.loggedInStatus == Status.LoggedIn) {
+    //   showError(context, {"message": "You are already loggedIn"},);
+    // }
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
@@ -48,7 +49,7 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               );
             } else {
-              showError(context, response);
+              showError(context, {"message": "You are already logged in on another device."},);
             }
           },
         );
@@ -60,9 +61,8 @@ class _LoginFormState extends State<LoginForm> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
+            SizedBoxes.verticalBig,
             Column(
               children: [
                 SizedBoxes.verticalBig,
@@ -81,7 +81,7 @@ class _LoginFormState extends State<LoginForm> {
                         .subtext
                         .copyWith(color: PreMedColorTheme().black),
                     children: [
-                      TextSpan(
+                      const TextSpan(
                         text: 'Welcome back to ',
                       ),
                       TextSpan(
@@ -97,7 +97,7 @@ class _LoginFormState extends State<LoginForm> {
                         text: 'ed',
                         style: PreMedTextTheme().subtext1,
                       ),
-                      TextSpan(
+                      const TextSpan(
                         text: '! Where’ve you been? Let’s resume your journey!',
                       ),
                     ],
@@ -106,7 +106,7 @@ class _LoginFormState extends State<LoginForm> {
                 SizedBoxes.verticalExtraGargangua,
                 CustomTextField(
                   controller: emailController,
-                  prefixIcon: Icon(Icons.mail_outline),
+                  prefixIcon: const Icon(Icons.mail_outline),
                   labelText: 'Email address',
                   hintText: 'Enter your email',
                   validator: (value) => validateEmail(value),
@@ -114,7 +114,7 @@ class _LoginFormState extends State<LoginForm> {
                 SizedBoxes.verticalMedium,
                 CustomTextField(
                   controller: passwordController,
-                  prefixIcon: Icon(Icons.lock_outline),
+                  prefixIcon: const Icon(Icons.lock_outline),
                   labelText: "Password",
                   hintText: "Enter your password",
                   obscureText: true,
@@ -193,7 +193,7 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   ),
                   RichText(
@@ -219,7 +219,7 @@ class _LoginFormState extends State<LoginForm> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => PrivacyPolicy()));
+                                      builder: (context) => const PrivacyPolicy()));
                             },
                         ),
                         TextSpan(
@@ -238,7 +238,7 @@ class _LoginFormState extends State<LoginForm> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => TermsCondition()));
+                                      builder: (context) => const TermsCondition()));
                             },
                         ),
                       ],

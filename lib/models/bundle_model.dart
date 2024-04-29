@@ -35,7 +35,7 @@ class BundleModel {
       position: json['Position'],
       bundlePDF: json['BundlePDF'],
       interestedFormLink: json['InterestedFormLink'],
-      purchaseFormLink: json['PurchaseFormLink'],
+      purchaseFormLink: json['PurchaseFormLink'] ,
     );
   }
   final String id;

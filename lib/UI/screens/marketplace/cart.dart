@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
-
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/card_content.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/cart_summary.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/coupon_code.dart';
@@ -19,19 +16,21 @@ class Cart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
+    final bool containsCounselling = cartProvider.selectedBundles.any((bundle) =>
+        bundle.includedTags.contains('Counselling'));
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().white,
         leading: Container(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),
                 spreadRadius: 1,
                 blurRadius: 3,
-                offset: Offset(0, 2),
+                offset: const Offset(0, 2),
               ),
             ],
             color: Colors.white,
@@ -148,7 +147,8 @@ class Cart extends StatelessWidget {
                     ),
                   ),
                   SizedBoxes.verticalLarge,
-                  const CouponCodeTF(),
+                  if (!containsCounselling)
+                    const CouponCodeTF(),
                   SizedBoxes.verticalLarge,
                   SingleChildScrollView(
                     child: Container(
@@ -160,14 +160,13 @@ class Cart extends StatelessWidget {
                             color: Colors.black.withOpacity(0.1),
                             spreadRadius: 3,
                             blurRadius: 5,
-                            offset: Offset(0, 0),
                           ),
                         ],
                         //border: Border.all(color: Colors.white, width: 4, ),
                       ),
                       child: const Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: const CartSummary(),
+                        padding: EdgeInsets.all(8.0),
+                        child: CartSummary(),
                       ),
                     ),
                   ),

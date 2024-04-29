@@ -23,8 +23,7 @@ class MarketplaceTabView extends StatelessWidget {
                   color: PreMedColorTheme().white,
                   border: Border(
                       bottom: BorderSide(
-                          color: PreMedColorTheme().neutral300,
-                          width: 1
+                          color: PreMedColorTheme().neutral300
                       )
                   )
               ),
@@ -93,7 +92,13 @@ class MarketplaceTabView extends StatelessWidget {
               .where((bundle) => bundle.includedTags.contains('Course'))
               .toList();
           filteredList.sort((a, b) => a.position.compareTo(b.position));
-        } else {
+        } else if (tabName == 'Counselling') {
+          filteredList = bundleProvider.bundleList
+              .where((bundle) => bundle.includedTags.contains('Counselling'))
+              .toList();
+          filteredList.sort((a, b) => a.position.compareTo(b.position));
+        }
+        else {
           filteredList = bundleProvider.bundleList
               .where((bundle) => bundle.bundleName.contains(tabName))
               .toList();
@@ -127,8 +132,7 @@ class MarketplaceTabView extends StatelessWidget {
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),
                         spreadRadius: 3,
-                        blurRadius: 5,
-                        offset: Offset(0, 0),
+                        blurRadius: 5 ,
                       ),
                     ],
                     //border: Border.all(color: Colors.white, width: 4, ),

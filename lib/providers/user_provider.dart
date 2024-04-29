@@ -15,6 +15,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
   User? _user;
   User? get user => _user;
   set user(User? value) {
@@ -51,6 +52,7 @@ class UserProvider extends ChangeNotifier {
   // Update full name
   Future<Map<String, dynamic>> updateUserDetails(
     String fullname,
+      String email,
       String phoneNumber,
       String city,
       String school,
@@ -58,9 +60,10 @@ class UserProvider extends ChangeNotifier {
     Map<String, dynamic> result;
     final Map<String, dynamic> updateData = {
       'fullname': fullname.isEmpty ? user?.fullName : fullname,
+      'email' : email.isNotEmpty ? email : user?.userName,
       'phonenumber': phoneNumber.isNotEmpty ? phoneNumber : user?.phoneNumber,
-      'city': city.isEmpty ? city : user?.city,
-      'school': school.isNotEmpty ? school : _user?.school,
+      'city': city.isNotEmpty ? city : user?.city,
+      'school': school.isNotEmpty ? school : user?.school,
     };
 
     try {

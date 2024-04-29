@@ -27,6 +27,8 @@ class CardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
     final bool isBundleInCart = cartProvider.selectedBundles.contains(bundle);
+    Uri? purchaseLink =
+    bundle.purchaseFormLink != null ? Uri.parse(bundle.purchaseFormLink!) : null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,6 +130,7 @@ class CardContent extends StatelessWidget {
             ),
           ],
         ),
+
         if (!small) SizedBoxes.verticalMedium,
         if (bundle.bundleName.contains("Course") ||
             bundle.bundleName.contains("Counselling")) ...{
@@ -148,7 +151,7 @@ class CardContent extends StatelessWidget {
                       onPressed: () {
                         launchUrl(
                           mode: LaunchMode.inAppBrowserView,
-                          Uri.parse(bundle.purchaseFormLink!),
+                          purchaseLink!,
                         );
                       },
                     ),
@@ -209,14 +212,6 @@ class CardContent extends StatelessWidget {
                   },
                 ),
               ),
-              // SizedBox(width: 24,),
-              // SizedBox(
-              //   width: 110,
-              //   height: 60,
-              //   child: Image.asset('assets/images/Card Ribbon.png',
-              //   fit: BoxFit.cover,),
-              // )
-
             ],
           ),
       ],

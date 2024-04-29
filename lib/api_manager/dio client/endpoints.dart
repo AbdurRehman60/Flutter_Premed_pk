@@ -66,4 +66,12 @@ class Endpoints {
   static const String Deckspoints = '/api/get-all-published-decks';
   static const String Privuni= '/api/get-all-published-decks';
   static const String Nums = '/api/get-all-published-decks';
+
+  //test_interface
+  static const String GetAllDeckQuestions = '/api/decks/get-all-deck-questions/NUMS%20Mock%20Paper%202';
+
+  //saved ques
+
+  static const String handleSavedQuestion ='/api/saveQuestion/handleSavedQuestion';
 }
+

@@ -52,10 +52,10 @@ class BundleProvider extends ChangeNotifier {
 
       if (response['data'] != null) {
         final List<Map<String, dynamic>> responseData =
-            List<Map<String, dynamic>>.from(response['data']);
+        List<Map<String, dynamic>>.from(response['data']);
 
         final List<BundleModel> bundleList =
-            responseData.map((json) => BundleModel.fromJson(json)).toList();
+        responseData.map((json) => BundleModel.fromJson(json)).toList();
 
         _bundleList = bundleList;
         loadingStatus = Status.Success;
@@ -65,7 +65,13 @@ class BundleProvider extends ChangeNotifier {
           'status': true,
           'message': 'Data fetched successfully',
         };
-      } else {
+        for (var bundle in bundleList) {
+          print('Bundle Name: ${bundle.bundleName}');
+          print('PurchaseLink URL: ${bundle.purchaseFormLink}');
+        }
+      }
+
+     else {
         _loadingStatus = Status.Init;
         notify();
         result = {

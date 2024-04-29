@@ -99,7 +99,7 @@ class FirebaseMessagingAPI {
     final fCMToken = await _firebaseMessaging.getToken();
     if (fCMToken != null) {
       if (kDebugMode) {
-        print('Token $fCMToken');
+        print('This is the Token $fCMToken');
       }
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('fcmToken', fCMToken);
