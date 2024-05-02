@@ -1,6 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/recent_activity_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/flash_card_container.dart';
