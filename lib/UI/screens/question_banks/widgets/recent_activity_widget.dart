@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/constants/assets.dart';
 import 'package:premedpk_mobile_app/models/recent_activity_model.dart';
 import '../../../../constants/sized_boxes.dart';
 
@@ -26,7 +27,7 @@ class RecentActivityWidget extends StatelessWidget {
                 width: 28,
                 height: 35,
                 child: SvgPicture.asset(
-                  'assets/icons/QuestionMarkDocument.svg',
+                  PremedAssets.DocumentIcon,
                 ),
               ),
               SizedBoxes.horizontal15Px,

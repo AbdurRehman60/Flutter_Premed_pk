@@ -40,4 +40,8 @@ class PremedAssets {
   static String QA = 'assets/icons/QA.png';
   static String YT = 'assets/icons/YT.png';
   static String RightArrow = 'assets/icons/right-arrow.svg';
+  static String BellIcon = 'assets/icons/bell.svg';
+  static String BellIconWithNotification = 'assets/icons/bellwithnoti.svg';
+  static String DocumentIcon = 'assets/icons/QuestionMarkDocument.svg';
+  static String FlashCardsIcon = 'assets/icons/Flashcards.svg';
 }

@@ -37,7 +37,6 @@ class RecentActivityProvider extends ChangeNotifier {
         recentActivityEndpoint,
         data: {"userId": '64c68bc9f093d0bd25c026de'},
       );
-      print(response);
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
         Map<String, dynamic>.from(response.data);

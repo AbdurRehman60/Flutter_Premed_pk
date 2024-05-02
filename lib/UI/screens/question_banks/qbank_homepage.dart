@@ -1,6 +1,11 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/recent_activity_page.dart';
+import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/flash_card_container.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/notes_widget.dart';
+import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/notification_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/qbanks_container.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/question_of_day.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/recent_activity_widget.dart';
@@ -31,14 +36,20 @@ class QbankHomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Hi, Fateh!',
-                  style: GoogleFonts.rubik(
-                    fontSize: 34,
-                    fontWeight: FontWeight.w800,
-                    color: const Color(0xFF000000),
-                    height: 1.3,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Hi, Rizz!',
+                      style: GoogleFonts.rubik(
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                        color: const Color(0xFF000000),
+                        height: 1.3,
+                      ),
+                    ),
+                    const NotificationIconWidget()
+                  ],
                 ),
                 const SizedBox(height: 3),
                 Text(
@@ -49,6 +60,19 @@ class QbankHomePage extends StatelessWidget {
                     fontWeight: FontWeight.normal,
                     color: const Color(0xFF000000),
                   ),
+                ),
+                SizedBoxes.verticalBig,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    QbankFlashCardContainer(
+                      icon: PremedAssets.DocumentIcon,
+                      activityText: 'PREVIOUS ACTIVITY',
+                      title: 'MDCAT',
+                      subTitle: 'QBank',
+                    ),
+                    QbankFlashCardContainer(icon: PremedAssets.FlashCardsIcon,activityText: '', title: 'Flashcards', subTitle: 'Fast-paced revision!',),
+                  ],
                 ),
                 SizedBoxes.verticalBig,
                 const Row(
@@ -113,7 +137,8 @@ class QbankHomePage extends StatelessWidget {
                             InkWell(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (ctx) => const RecentActivityPage()));
+                                    builder: (ctx) =>
+                                        const RecentActivityPage()));
                               },
                               child: Text(
                                 'View All',
