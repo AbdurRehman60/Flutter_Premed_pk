@@ -10,9 +10,12 @@ enum FetchStatus { init, fetching, success, error }
 enum DeckType { yearly, topical }
 
 class DecksProvider extends ChangeNotifier {
-
   bool _changeColor = true;
   bool get changeColor => _changeColor;
+
+  void resetState() {
+    _changeColor = true;
+  }
 
   FetchStatus _fetchstatus = FetchStatus.init;
   FetchStatus get fetchstatus => _fetchstatus;
@@ -49,19 +52,19 @@ class DecksProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> fetchDecks(String deckType) async {
+    resetState();
     Map<String, dynamic> result;
     _fetchstatus = FetchStatus.fetching;
     final DioClient dio = DioClient();
     try {
       final responseData =
           await dio.get(Endpoints.serverURL + Endpoints.Deckspoints);
-      if (responseData['success']) {
 
+      if (responseData['success']) {
         final List deckCategories = responseData['data'];
-        final mdcatQBankCategory = deckCategories.firstWhere(
-          (category) => category['categoryName'] == deckType);
-        print(mdcatQBankCategory);
-        final List mdcatDeckGroups = mdcatQBankCategory['deckGroups'];
+        final requiredDeckBank = deckCategories
+            .firstWhere((category) => category['categoryName'] == deckType);
+        final List mdcatDeckGroups = requiredDeckBank['deckGroups'];
         final yearlyDecks = mdcatDeckGroups.where((category) {
           return category['deckType'] == 'Yearly';
         }).toList();
@@ -78,7 +81,7 @@ class DecksProvider extends ChangeNotifier {
           decks.add(deckModel);
         }
         _allDecks = decks;
-        print(_deckList.length);
+        // print(_deckList.length);
         notify();
       } else {
         result = {

@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbanks/mdcat_qbank.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbanks/nums_qbank.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbanks/qbank_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
+import 'package:premedpk_mobile_app/UI/test_interface/test_interface_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/decks_provider.dart';
 import 'package:premedpk_mobile_app/providers/questions_proivder.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../global_qbank/qbank_home.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -34,10 +35,14 @@ class HomeScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             GestureDetector(
-                              onTap: (){
-                                final pro = context.read<QuestionsProvider>();
-                                pro.fetchQuestions();
-
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => QbankHome()));
+                                // final pro =
+                                //     Provider.of<QuestionsProvider>(context,listen: false);
+                                // pro.fetchQuestions();
                               },
                               child: Text(
                                 "👋🏼 Welcome Back",

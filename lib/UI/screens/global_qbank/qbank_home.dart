@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbanks/mdcat_qbank.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbanks/nums_qbank.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbanks/private_universties_qbank.dart';
+import 'package:premedpk_mobile_app/UI/screens/global_qbank/qbank_ground.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
 

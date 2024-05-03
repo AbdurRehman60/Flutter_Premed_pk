@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/question_model.dart';
-import 'package:premedpk_mobile_app/providers/decks_provider.dart';
 
 import '../constants/constants_export.dart';
 
@@ -11,61 +10,75 @@ enum FetchStatus { init, fetching, success, error }
 class QuestionsProvider extends ChangeNotifier {
   FetchStatus _loadingStatus = FetchStatus.init;
   FetchStatus get loadingStatus => _loadingStatus;
+
+  int _questionBankLenght = 0;
+  int questionIndex = 0;
+  int get _questionIndex => questionIndex;
+
+  void getNextQuestion() {
+    questionIndex <= _questionBankLenght - 1 ? questionIndex++ : null;
+    notify();
+  }
+
   set loadingStatus(FetchStatus value) {
     _loadingStatus = value;
   }
 
-  List _deckQuestions = [];
-  List get qids => _deckQuestions;
+  List<QuestionModel> _deckQuestions = [];
+  List<QuestionModel> get questions => _deckQuestions;
+
+  late QuestionModel _model;
+  QuestionModel get qmode => _model;
+
+  FetchStatus _fetchstatus = FetchStatus.init;
+  FetchStatus get fetchstatus => _fetchstatus;
+
+  resetIndex() {
+    questionIndex = 0;
+    notify();
+  }
 
   void notify() {
     notifyListeners();
   }
 
-  Future<Map<String, dynamic>> fetchQuestions() async {
+  Future<Map<String, dynamic>> fetchQuestions(String deckName) async {
+    resetIndex();
     Map<String, dynamic> result;
-    final DioClient _client = DioClient();
+    _fetchstatus = FetchStatus.fetching;
+    final DioClient dio = DioClient();
     try {
-      // print('fetching');
-      final response = await _client.get(
-        '${Endpoints.getQuestions}NUMS Mock Paper 2',
+      final responseData = await dio.get(
+        '${Endpoints.getQuestions}$deckName',
       );
 
-      // print(responseData);
-      if (response["success"]) {
-        final List rawQuestion = response["questions"];
-        // print(rawQuestion);
-        // print(rawQuestion.length);
-        // final question = rawQuestion[1];
-        // print(question);
-        // final againQuestion = QuestionModel.fromJson(question);
-        // print('choices are here ${againQuestion.questionText}');
-        final List<QuestionModel> questions = rawQuestion.map((eQuestion) {
-          return QuestionModel.fromJson(eQuestion);
-        }).toList();
+      if (responseData['success']) {
+        final List rawQuestion = responseData["questions"];
+        final List<QuestionModel> questions = [];
+        for (var q in rawQuestion) {
+          final QuestionModel model = QuestionModel.fromJson(q);
+          // print(model.questionText);
+          questions.add(model);
+        }
         _deckQuestions = questions;
-        notifyListeners();
-        // print(questions[2].questionText);
-        // final deckQuestions = json['questions'];
-        // _questionsIds = deckQuestions;
-        // notifyListeners();
-        // print(_questionsIds);
-
-        // _userStatModel = UserStatModel.fromJson(json);
-        // notify();
-        result = {
-          'status': true,
-          'message': response["message"],
-        };
+        _questionBankLenght = questions.length;
+        // print(_deckQuestions[0].questionText);
+        // print(questionModelList[0].questionText);
+        // _deckQuestions = questionModelList;
+        notify();
       } else {
         result = {
           'status': false,
-          'message': response["message"],
+          'message': responseData["message"],
         };
       }
+      result = {
+        'status': true,
+        'message': responseData["message"],
+      };
     } on DioError catch (e) {
-      _loadingStatus = FetchStatus.error;
-      // notify();
+      _fetchstatus = FetchStatus.error;
+      notify();
       result = {
         'status': false,
         'message': e.response?.data['message'],
@@ -73,16 +86,4 @@ class QuestionsProvider extends ChangeNotifier {
     }
     return result;
   }
-
-  // void fetchdeckQuestions() async {
-  //   Map<String, dynamic> result;
-  //   final DioClient _client = DioClient();
-  //   try {
-  //     final Response response = await _client.post(
-  //       Endpoints.getDeckInfo + Endpoints.sindhPoints,
-  //       data: {"userId": '65e060e0776e8c06b77b198d'},
-  //     );
-  //     print(response);
-  //   } catch (e) {}
-  // }
 }

@@ -10,11 +10,10 @@ import 'package:html/parser.dart' as htmlParser;
 
 class TestModeInterface extends StatefulWidget {
   const TestModeInterface(
-      {super.key, required this.deckDetails, required this.deckGroup, required this.deckGroupName});
-  final String deckGroup;
+      {super.key, required this.deckDetails, required this.deckGroupName});
+
   final Map<String, dynamic> deckDetails;
   final String deckGroupName;
-
 
   @override
   State<TestModeInterface> createState() => _TestModeInterfaceState();
@@ -43,7 +42,9 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
 
   @override
   Widget build(BuildContext context) {
-    final instructions = htmlParser.parse(widget.deckDetails['deckInstructions']).body!.text;
+    final instructions = widget.deckDetails['deckInstructions'] != null
+        ? htmlParser.parse(widget.deckDetails['deckInstructions']).body!.text
+        : '';
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -83,7 +84,7 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                         )),
                 SizedBoxes.verticalLarge,
                 Text(
-                  widget.deckGroup,
+                  widget.deckGroupName,
                   textAlign: TextAlign.start,
                   style: PreMedTextTheme().heading6.copyWith(
                         fontWeight: FontWeight.w600,
@@ -247,6 +248,7 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                 ),
                 SizedBoxes.verticalBig,
                 ModeDescription(
+                  deckName: widget.deckDetails['deckName'],
                   mode: tutorModeButton,
                 ),
                 SizedBoxes.verticalBig,
@@ -258,7 +260,8 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                     padding: const EdgeInsets.all(12),
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),),
+                      borderRadius: BorderRadius.circular(24),
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -272,7 +275,8 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                           ),
                         ),
                         SizedBoxes.verticalTiny,
-                        Text(instructions,
+                        Text(
+                          instructions,
                           style: GoogleFonts.rubik(
                               color: const Color(0xFF5A6169), fontSize: 14),
                         )

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/build_error.dart';
+import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/qbank_tile.dart';
+import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/sub_bank_tile.dart';
+import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/test_mode_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/customised_buttons/qbank_button_y.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/build_error.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/qbank_tile.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/sub_bank_tile.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbanks/widgets/test_mode_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/deck_model.dart';
 import 'package:premedpk_mobile_app/providers/decks_provider.dart';
@@ -25,16 +25,21 @@ class Qbank extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: Material(
             elevation: 4,
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
             clipBehavior: Clip.hardEdge,
-            child: SizedBox(
-              width: 37,
+            child: const SizedBox(
               height: 37,
-              child: Image.asset('assets/icons/Vector.png'),
+              width: 37,
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Color(0xFFEC5863),
+              ),
             ),
           ),
         ),
@@ -190,12 +195,13 @@ class Qbank extends StatelessWidget {
                           itemCount: deckList[index].subDeckDetails.length,
                           itemBuilder: (context, index) => SubBankTile(
                               onTap: () {
+                                print(
+                                    'Group Name : ${deck.subDeckDetails[index]['deckName']}');
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => TestModeInterface(
                                               deckGroupName: deckGroupName,
-                                              deckGroup: deck.deckGrpName,
                                               deckDetails:
                                                   deck.subDeckDetails[index],
                                             ))).then(

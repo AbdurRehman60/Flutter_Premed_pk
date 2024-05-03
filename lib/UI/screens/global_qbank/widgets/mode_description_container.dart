@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbanks/test_i.dart';
+import 'package:premedpk_mobile_app/UI/test_interface/test_interface_page.dart';
 import 'package:premedpk_mobile_app/providers/questions_proivder.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/color_theme.dart';
@@ -9,11 +9,12 @@ import '../../../../constants/sized_boxes.dart';
 import '../../../../constants/text_theme.dart';
 
 class ModeDescription extends StatelessWidget {
-  const ModeDescription({super.key, required this.mode});
+  const ModeDescription(
+      {super.key, required this.mode, required this.deckName});
   final bool mode;
+  final String deckName;
   @override
   Widget build(BuildContext context) {
-    final qPro = Provider.of<QuestionsProvider>(context);
     return Material(
       borderRadius: BorderRadius.circular(24),
       clipBehavior: Clip.hardEdge,
@@ -64,7 +65,13 @@ class ModeDescription extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
                         backgroundColor: PreMedColorTheme().primaryColorRed),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  TestInterfacePage(deckName: deckName)));
+                    },
                     child: Text(
                       'Start Test',
                       style: PreMedTextTheme().heading2.copyWith(
@@ -109,7 +116,13 @@ class ModeDescription extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
                         backgroundColor: PreMedColorTheme().primaryColorRed),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  TestInterfacePage(deckName: deckName)));
+                    },
                     child: Text(
                       'Start Test',
                       style: PreMedTextTheme().heading2.copyWith(
