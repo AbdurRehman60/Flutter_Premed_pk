@@ -30,8 +30,7 @@ class _SignInState extends State<SignIn> {
                         decoration: BoxDecoration(
                           color: PreMedColorTheme().white,
                         ),
-                        child: MovingRowAnimation()
-                    ),
+                        child: const MovingRowAnimation()),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 20.0),
@@ -45,14 +44,17 @@ class _SignInState extends State<SignIn> {
                                 'Sign In',
                                 textAlign: TextAlign.center,
                                 style: PreMedTextTheme().heading1.copyWith(
-                                    color: PreMedColorTheme().primaryColorRed,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 34,
+                                    color: PreMedColorTheme().primaryColorRed),
                               ),
                               SizedBoxes.verticalTiny,
                               RichText(
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
                                   style: PreMedTextTheme().subtext.copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14,
                                       color: PreMedColorTheme().black),
                                   children: [
                                     const TextSpan(
@@ -67,8 +69,8 @@ class _SignInState extends State<SignIn> {
                                       style: PreMedTextTheme()
                                           .subtext1
                                           .copyWith(
-                                          color: PreMedColorTheme()
-                                              .primaryColorRed),
+                                              color: PreMedColorTheme()
+                                                  .primaryColorRed),
                                     ),
                                     TextSpan(
                                       text: 'ed',
@@ -76,7 +78,7 @@ class _SignInState extends State<SignIn> {
                                     ),
                                     const TextSpan(
                                       text:
-                                      '! Where’ve you been? Let’s resume your journey!',
+                                          '! Where’ve you been? Let’s resume your journey!',
                                     ),
                                   ],
                                 ),
@@ -84,9 +86,12 @@ class _SignInState extends State<SignIn> {
                             ],
                           ),
                           SizedBoxes.verticalExtraGargangua,
-                          const GoogleLogin(),
+                         GoogleLogin(),
                           SizedBoxes.verticalBig,
-                          const OrDivider(),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 64, right: 64),
+                            child: OrDivider(),
+                          ),
                           SizedBoxes.verticalBig,
                           Center(
                             child: SizedBox(
@@ -104,13 +109,13 @@ class _SignInState extends State<SignIn> {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: PreMedColorTheme().white,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   elevation: 3,
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
                                       child: Align(
@@ -123,10 +128,10 @@ class _SignInState extends State<SignIn> {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                'Sign In with Email',
+                                                'Sign in with Email',
                                                 textAlign: TextAlign.center,
                                                 style:
-                                                PreMedTextTheme().subtext,
+                                                    PreMedTextTheme().subtext,
                                               ),
                                             ),
                                           ],
@@ -144,14 +149,16 @@ class _SignInState extends State<SignIn> {
                             children: [
                               Text(
                                 "Don't have an account?",
-                                style: PreMedTextTheme().subtext,
+                                style: PreMedTextTheme().subtext.copyWith(
+                                    fontWeight: FontWeight.w400, fontSize: 14),
                               ),
                               TextButton(
                                 child: Text(
                                   'Sign Up',
                                   style: PreMedTextTheme().subtext1.copyWith(
-                                      color:
-                                      PreMedColorTheme().primaryColorRed),
+                                      color: PreMedColorTheme().primaryColorRed,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14),
                                 ),
                                 onPressed: () {
                                   Navigator.push(

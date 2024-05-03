@@ -71,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
                   textAlign: TextAlign.center,
                   style: PreMedTextTheme()
                       .heading1
-                      .copyWith(color: PreMedColorTheme().primaryColorRed),
+                      .copyWith(fontWeight: FontWeight.w800,fontSize: 34,color: PreMedColorTheme().primaryColorRed),
                 ),
                 SizedBoxes.verticalTiny,
                 RichText(
@@ -79,7 +79,7 @@ class _LoginFormState extends State<LoginForm> {
                   text: TextSpan(
                     style: PreMedTextTheme()
                         .subtext
-                        .copyWith(color: PreMedColorTheme().black),
+                        .copyWith(fontWeight: FontWeight.w400,fontSize: 14,color: PreMedColorTheme().black),
                     children: [
                       const TextSpan(
                         text: 'Welcome back to ',
@@ -120,7 +120,28 @@ class _LoginFormState extends State<LoginForm> {
                   obscureText: true,
                   validator: (value) => validatePassword(value),
                 ),
-                SizedBoxes.verticalBig,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      child: Text(
+                        'Forgot Password?',
+                        style: PreMedTextTheme().subtext.copyWith(
+                          color: PreMedColorTheme().primaryColorRed,
+                          fontWeight: FontWeight.w700,fontSize: 14.5,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ForgotPassword(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
                 if (auth.loggedInStatus == Status.Authenticating) ...{
                   SizedBoxes.verticalBig,
                   Row(
@@ -150,37 +171,16 @@ class _LoginFormState extends State<LoginForm> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextButton(
-                        child: Text(
-                          'Forgot Password?',
-                          style: PreMedTextTheme().subtext.copyWith(
-                                color: PreMedColorTheme().neutral600,
-                                fontWeight: FontWeights.regular,
-                              ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ForgotPassword(),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
                       Text(
                         "Don't have an account?",
-                        style: PreMedTextTheme().subtext,
+                        style: PreMedTextTheme().subtext.copyWith(fontWeight: FontWeight.w400, fontSize: 14),
                       ),
                       TextButton(
                         child: Text(
                           'Sign Up',
                           style: PreMedTextTheme().subtext1.copyWith(
-                              color: PreMedColorTheme().primaryColorRed),
+                              color: PreMedColorTheme().primaryColorRed,
+                              fontWeight: FontWeight.w700, fontSize: 14.5),
                         ),
                         onPressed: () {
                           Navigator.push(
@@ -194,7 +194,7 @@ class _LoginFormState extends State<LoginForm> {
                     ],
                   ),
                   const SizedBox(
-                    height: 80,
+                    height: 60,
                   ),
                   RichText(
                     textAlign: TextAlign.center,
@@ -207,12 +207,14 @@ class _LoginFormState extends State<LoginForm> {
                           text: "By signing in, you agree to our ",
                           style: PreMedTextTheme().body.copyWith(
                                 color: PreMedColorTheme().neutral500,
+                              fontWeight: FontWeight.w400, fontSize: 11
                               ),
                         ),
                         TextSpan(
                           text: "Privacy Policy",
                           style: PreMedTextTheme().body1.copyWith(
                                 color: PreMedColorTheme().neutral500,
+                              fontWeight: FontWeight.w700, fontSize: 11
                               ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
@@ -226,13 +228,15 @@ class _LoginFormState extends State<LoginForm> {
                           text: " and ",
                           style: PreMedTextTheme().body.copyWith(
                                 color: PreMedColorTheme().neutral500,
+                              fontWeight: FontWeight.w400, fontSize: 11
                               ),
                         ),
                         TextSpan(
                           text: "Terms of Use",
                           style: PreMedTextTheme()
                               .body1
-                              .copyWith(color: PreMedColorTheme().neutral500),
+                              .copyWith(color: PreMedColorTheme().neutral500,
+                              fontWeight: FontWeight.w700, fontSize: 11),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               Navigator.push(

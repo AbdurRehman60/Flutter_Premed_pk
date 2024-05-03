@@ -1,10 +1,4 @@
 class Question {
-  final String questionId;
-  final String questionText;
-  final List<Tag> tags;
-  late String subject;
-  late String deckName;
-  late String topic;
 
   Question({required this.questionId,required this.questionText, required this.tags}) {
     if (tags.length >= 2) {
@@ -40,6 +34,13 @@ class Question {
       tags: tags,
     );
   }
+
+  final String questionId;
+  final String questionText;
+  final List<Tag> tags;
+  late String subject;
+  late String deckName;
+  late String topic;
 
 
 }

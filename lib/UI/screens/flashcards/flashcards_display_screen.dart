@@ -58,13 +58,31 @@ class FlashcardDisplayScreen extends StatelessWidget {
             )
           ],
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color:PreMedColorTheme().primaryColorRed,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: IconButton(icon: Image.asset('assets/icons/bin.png'),
+                onPressed: () {
+                },)
+            ),
+          ),
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: FlashcardCarouselView(
-              selectedSubject: subject,
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: FlashcardCarouselView(
+                selectedSubject: subject,
+              ),
             ),
           ),
           SizedBoxes.verticalBig

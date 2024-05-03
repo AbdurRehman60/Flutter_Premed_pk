@@ -1,5 +1,6 @@
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/school_data_widget.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/delete_account.dart';
 import 'package:premedpk_mobile_app/UI/widgets/cities_data_widget.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/UI/widgets/phone_dropdown.dart';
@@ -71,7 +72,6 @@ class _EditProfileState extends State<EditProfile> {
       userProvider.phoneNumber = phoneNumber.completeNumber;
     }
 
-
     void onCitySelected(String? selectedCity) {
       if (selectedCity != null) {
         setState(() {
@@ -139,67 +139,105 @@ class _EditProfileState extends State<EditProfile> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomTextField(
-                    controller: fullNameController,
-                    prefixIcon: const Icon(Icons.person_outline_rounded),
-                    hintText: 'Enter your full name',
-                    labelText: 'Full Name',
-                    validator: validateFullname,
-                  ),
-                  SizedBoxes.verticalMedium,
-                  CustomTextField(
-                    controller: emailController,
-                    prefixIcon: const Icon(Icons.mail_outline),
-                    hintText: 'Enter your email',
-                    labelText: 'Email',
-                    validator: (value) => validateEmail(value),
-                  ),
-                  SizedBoxes.verticalLarge,
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Contact Information',
-                      style: PreMedTextTheme().subtext1,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomTextField(
+                      controller: fullNameController,
+                      prefixIcon: const Icon(Icons.person_outline_rounded),
+                      hintText: 'Enter your full name',
+                      labelText: 'Full Name',
+                      validator: validateFullname,
                     ),
-                  ),
-                  SizedBoxes.verticalTiny,
-                  PhoneDropdown(
-                    onPhoneNumberSelected: onPhoneNumberSelected,
-                    hintText: "",
-                    initialValue: initialPhoneNumber,
-                  ),
-                  SizedBoxes.verticalLarge,
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Educational Information',
-                      textAlign: TextAlign.start,
-                      style: PreMedTextTheme().subtext1,
+                    SizedBoxes.verticalMedium,
+                    CustomTextField(
+                      controller: emailController,
+                      prefixIcon: const Icon(Icons.mail_outline),
+                      hintText: 'Enter your email',
+                      labelText: 'Email',
+                      validator: (value) => validateEmail(value),
                     ),
-                  ),
-                  SizedBoxes.verticalLarge,
-                  CityDropdownList(
+                    SizedBoxes.verticalLarge,
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Contact Information',
+                        style: PreMedTextTheme().subtext1,
+                      ),
+                    ),
+                    SizedBoxes.verticalTiny,
+                    PhoneDropdown(
+                      onPhoneNumberSelected: onPhoneNumberSelected,
+                      hintText: "",
+                      initialValue: initialPhoneNumber,
+                    ),
+                    SizedBoxes.verticalLarge,
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Educational Information',
+                        textAlign: TextAlign.start,
+                        style: PreMedTextTheme().subtext1,
+                      ),
+                    ),
+                    SizedBoxes.verticalLarge,
+                    CityDropdownList(
                       items: cities,
                       selectedItem: city,
-                      onChanged: onCitySelected),
-                  SizedBoxes.verticalMedium,
-                  SchoolDropdownList(
-                    items: schoolsdata,
-                    selectedItem: university,
-                    onChanged: onSchoolSelected,
-                  ),
-                  SizedBoxes.verticalTiny,
-                  SizedBoxes.verticalGargangua,
-                  CustomButton(
-                    buttonText: 'Save Changes',
-                    onPressed: onEditDetailsPressed,
-                  ),
-                ],
-              ),
+                      onChanged: onCitySelected,
+                    ),
+                    SizedBoxes.verticalMedium,
+                    SchoolDropdownList(
+                      items: schoolsdata,
+                      selectedItem: university,
+                      onChanged: onSchoolSelected,
+                    ),
+                  ]),
             ),
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            CustomButton(
+              buttonText: 'Save Changes',
+              onPressed: onEditDetailsPressed,
+            ),
+            SizedBoxes.verticalBig,
+            Padding(
+              padding: const EdgeInsets.only(left: 64, right: 64),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Divider(
+                  color: PreMedColorTheme().neutral300,
+                  thickness: 1.5,
+                ),
+              ),
+            ),
+            SizedBoxes.verticalBig,
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: PreMedColorTheme().bordercolor, width: 2),
+                    borderRadius: BorderRadius.circular(11)),
+                child: CustomButton(
+                  buttonText: 'Delete account',
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const DeleteAccount(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,4 +1,3 @@
-import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
@@ -42,11 +41,7 @@ class ProvincialGuides extends StatelessWidget {
                   child: IconButton(
                     icon: Icon(Icons.arrow_back_ios_new_rounded,
                         color: PreMedColorTheme().primaryColorRed),
-                    onPressed: () {Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>const HomeScreen()),
-                    );
+                    onPressed: () {Navigator.of(context).pop();
                     },
                   ),
                 ),

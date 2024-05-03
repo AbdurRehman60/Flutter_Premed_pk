@@ -138,7 +138,7 @@ class MarketplaceTabView extends StatelessWidget {
                     //border: Border.all(color: Colors.white, width: 4, ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.only(top: 16, bottom: 16),
                     child: CardContent(
                       bundle: filteredList[index],
                       renderPoints: true,

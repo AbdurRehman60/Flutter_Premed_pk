@@ -31,7 +31,7 @@ class _CityDropdownListState extends State<CityDropdownList> {
   Widget build(BuildContext context) {
     return Material(
       elevation: 3,
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(8),
       child: TypeAheadField<String?>(
         getImmediateSuggestions: true,
         textFieldConfiguration: TextFieldConfiguration(
@@ -40,7 +40,7 @@ class _CityDropdownListState extends State<CityDropdownList> {
             prefixIcon: const Icon(Icons.location_city_sharp),
             hintText: 'City',
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide(
                 color: PreMedColorTheme().white,
               ),

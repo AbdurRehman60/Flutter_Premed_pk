@@ -39,7 +39,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       onWillPop: () async {
         if (navigationStack.length > 1) {
           navigationStack.removeLast();
-          int previousIndex = navigationStack.last;
+          final int previousIndex = navigationStack.last;
           setState(() {
             navigationStack.removeLast();
             navigationStack.add(previousIndex);
@@ -54,7 +54,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         bottomNavigationBar: PremedBottomNav(
           currentIndex: navigationStack.last,
           onTapHome: () => onTap(0),
-          onTapQbank: () => onTap(1),
+          //onTapQbank: () => onTap(1),
           onTapExpertSolution: () => onTap(2),
           onTapMarketplace: () => onTap(3),
           onTapProfile: () => onTap(4),

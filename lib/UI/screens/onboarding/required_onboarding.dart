@@ -32,35 +32,32 @@ class RequiredOnboarding extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: PreMedTextTheme().heading1.copyWith(
                               color: PreMedColorTheme().primaryColorRed,
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.w800,
+                          fontSize: 34),
                         ),
                         SizedBoxes.verticalTiny,
                         RichText(
                           textAlign: TextAlign.center,
                           text: TextSpan(
-                            style: PreMedTextTheme()
-                                .subtext
-                                .copyWith(color: PreMedColorTheme().black),
+                            style: PreMedTextTheme().subtext.copyWith(color: PreMedColorTheme().black, fontSize: 14, fontWeight: FontWeight.w400),
                             children: [
                               const TextSpan(
                                 text: 'A warm welcome to the ',
                               ),
                               TextSpan(
                                 text: 'Pre',
-                                style: PreMedTextTheme().subtext1,
+                                style: PreMedTextTheme().subtext1.copyWith(fontWeight: FontWeight.w700, fontSize: 14),
                               ),
                               TextSpan(
                                 text: 'M',
-                                style: PreMedTextTheme().subtext1.copyWith(
-                                    color: PreMedColorTheme().primaryColorRed),
+                                style: PreMedTextTheme().subtext1.copyWith(color: PreMedColorTheme().primaryColorRed,fontWeight: FontWeight.w700, fontSize: 14),
                               ),
                               TextSpan(
                                 text: 'ed',
-                                style: PreMedTextTheme().subtext1,
+                                style: PreMedTextTheme().subtext1.copyWith(fontWeight: FontWeight.w700, fontSize: 14),
                               ),
                               const TextSpan(
-                                text:
-                                " family! We're delighted to have you here. Let the magic begin!",
+                                text:  " family! We're delighted to have you here. Let the magic begin!",
                               ),
                             ],
                           ),

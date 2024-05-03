@@ -34,7 +34,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    buttonSize = Size(MediaQuery.of(context).size.width * 1, 54);
+    buttonSize = Size(MediaQuery.of(context).size.width * 0.9, 52);
     return isOutlined
         ? TextButton(
             onPressed: isActive ? onPressed ?? () {} : null,
@@ -69,15 +69,15 @@ class CustomButton extends StatelessWidget {
                             ? PreMedTextTheme().heading5.copyWith(
                                   color: textColor ??
                                       PreMedColorTheme().primaryColorRed,
-                                  fontSize: fontSize ?? 20,
+                                  fontSize: fontSize ?? 16,
                                   fontWeight:
-                                      fontWeight ?? FontWeights.semiBold,
+                                      fontWeight ?? FontWeight.w700,
                                 )
                             : PreMedTextTheme().heading6.copyWith(
-                                  color: PreMedColorTheme().primaryColorRed,
-                                  fontSize: fontSize ?? 20,
-                                  fontWeight:
-                                      fontWeight ?? FontWeights.semiBold,
+                                  color:       PreMedColorTheme().primaryColorRed,
+                          fontSize: fontSize ?? 16,
+                          fontWeight:
+                          fontWeight ?? FontWeight.w700,
                                 ),
                       ),
                       if (leftIcon)
@@ -101,13 +101,13 @@ class CustomButton extends StatelessWidget {
                     style: isActive
                         ? PreMedTextTheme().heading6.copyWith(
                               color: textColor ?? PreMedColorTheme().white,
-                              fontSize: fontSize ?? 20,
-                              fontWeight: fontWeight ?? FontWeights.semiBold,
+                              fontSize: fontSize ?? 16,
+                              fontWeight: fontWeight ?? FontWeight.w700,
                             )
                         : PreMedTextTheme().heading6.copyWith(
                               color: PreMedColorTheme().primaryColorRed,
-                              fontSize: fontSize ?? 20,
-                              fontWeight: fontWeight ?? FontWeights.semiBold,
+                              fontSize: fontSize ?? 16,
+                              fontWeight: fontWeight ?? FontWeight.w700,
                             ),
                   ),
           )
@@ -142,16 +142,16 @@ class CustomButton extends StatelessWidget {
                         style: isActive
                             ? PreMedTextTheme().heading6.copyWith(
                                   color: textColor ?? PreMedColorTheme().white,
-                                  fontSize: fontSize ?? 20,
+                                  fontSize: fontSize ?? 16,
                                   fontWeight:
-                                      fontWeight ?? FontWeights.semiBold,
+                                      fontWeight ?? FontWeight.w700,
                                 )
                             : PreMedTextTheme().heading6.copyWith(
                                   color: textColor ??
                                       PreMedColorTheme().primaryColorRed,
-                                  fontSize: fontSize ?? 20,
+                                  fontSize: fontSize ?? 16,
                                   fontWeight:
-                                      fontWeight ?? FontWeights.semiBold,
+                                      fontWeight ?? FontWeight.w700,
                                 ),
                       ),
                       if (leftIcon)
@@ -175,8 +175,8 @@ class CustomButton extends StatelessWidget {
                     style: isActive
                         ? PreMedTextTheme().heading6.copyWith(
                             color: textColor ?? PreMedColorTheme().white,
-                            fontSize: fontSize ?? 20,
-                            fontWeight: fontWeight ?? FontWeights.semiBold)
+                            fontSize: fontSize ?? 16,
+                            fontWeight: fontWeight ?? FontWeight.w700)
                         : PreMedTextTheme().heading6.copyWith(
                             color: PreMedColorTheme().primaryColorRed),
                   ),

@@ -23,61 +23,64 @@ class NotesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: PreMedColorTheme().white),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            Image.asset(
-              icon,
-              fit: BoxFit.contain,
-              width: 32,
-              height: 32,
-            ),
-            SizedBoxes.horizontalMedium,
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBoxes.horizontalMedium,
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      heading,
-                      style: PreMedTextTheme().heading5,
-                    ),
-                  ),
-                  SizedBoxes.vertical2Px,
-
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      description,
-                      style: PreMedTextTheme().subtext.copyWith(
-                            fontWeight: FontWeights.regular,
-                            fontSize: 14,
-
-                          ),
-                    ),
-                  ),
-                  SizedBoxes.horizontalBig,
-                ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: PreMedColorTheme().white),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              Image.asset(
+                icon,
+                fit: BoxFit.contain,
+                width: 32,
+                height: 32,
               ),
-            ),
+              SizedBoxes.horizontalMedium,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBoxes.horizontalMedium,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        heading,
+                        style: PreMedTextTheme().heading5,
+                      ),
+                    ),
+                    SizedBoxes.vertical2Px,
 
-            IconButton(
-              onPressed: onTap,
-              icon: Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: PreMedColorTheme().primaryColorRed,
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        description,
+                        style: PreMedTextTheme().subtext.copyWith(
+                              fontWeight: FontWeights.regular,
+                              fontSize: 14,
+
+                            ),
+                      ),
+                    ),
+                    SizedBoxes.horizontalBig,
+                  ],
+                ),
               ),
-            )
-          ],
+
+              IconButton(
+                onPressed: onTap,
+                icon: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: PreMedColorTheme().primaryColorRed,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

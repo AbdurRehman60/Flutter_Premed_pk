@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: PreMedColorTheme().white,
                   ),
-                  child: MovingRowAnimation()
+                  child: const MovingRowAnimation()
               ),
               const LoginForm(),
             ],

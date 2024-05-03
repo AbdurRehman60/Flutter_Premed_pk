@@ -1,5 +1,4 @@
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_card.dart';
-import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/flashcard_model.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
@@ -119,31 +118,86 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: Material(
-                  elevation: 3,
-                  borderRadius: BorderRadius.circular(12),
-                  child: CustomButton(
-                    color: Colors.white30,
-                    isOutlined: true,
-                    onPressed: goToPreviousCard,
-                    buttonText: 'Previous',
-                    textColor: PreMedColorTheme().neutral500,
-                    isIconButton: true,
-                    icon: Icons.arrow_back_ios_rounded,
+                child: Container(
+                  height: 50, // Adjust height as needed
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      goToPreviousCard();
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: PreMedColorTheme().black,
+                      size: 18,
+                    ),
+                    label: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          'Previous',
+                          style: PreMedTextTheme().body1.copyWith(
+                                color: PreMedColorTheme().black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                              ),
+                        )),
+                    style: ElevatedButton.styleFrom(
+                        elevation: 3,
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8))),
                   ),
                 ),
+
+                // child: Material(
+                //   elevation: 3,
+                //   borderRadius: BorderRadius.circular(12),
+                //   child: CustomButton(
+                //     color: Colors.white30,
+                //     isOutlined: true,
+                //     onPressed: goToPreviousCard,
+                //     buttonText: 'Previous',
+                //     textColor: PreMedColorTheme().neutral500,
+                //     // isIconButton: true,
+                //     // icon: Icons.arrow_back_ios_rounded,
+                //   ),
+                // ),
               ),
               SizedBoxes.horizontalMedium,
               Expanded(
-                child: Material(
-                  elevation: 3,
-                  borderRadius: BorderRadius.circular(12),
-                  child: CustomButton(
-                    onPressed: goToNextCard,
-                    buttonText: 'Next',
-                    isIconButton: true,
-                    icon: Icons.arrow_forward_ios_rounded,
-                    leftIcon: false,
+                child: Container(
+                  height: 50, // Adjust height as needed
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      goToNextCard();
+                    },
+                    label: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Next',
+                          style: PreMedTextTheme().body1.copyWith(
+                            color: PreMedColorTheme().white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: PreMedColorTheme().white,
+                          size: 18,
+                        ),
+                      ],
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        elevation: 3,
+                        backgroundColor: PreMedColorTheme().primaryColorRed,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8))),
                   ),
                 ),
               ),

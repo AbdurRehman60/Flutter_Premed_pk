@@ -16,8 +16,8 @@ class Cart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
-    final bool containsCounselling = cartProvider.selectedBundles.any((bundle) =>
-        bundle.includedTags.contains('Counselling'));
+    final bool containsCounselling = cartProvider.selectedBundles
+        .any((bundle) => bundle.includedTags.contains('Counselling'));
 
     return Scaffold(
       appBar: AppBar(
@@ -53,17 +53,16 @@ class Cart extends StatelessWidget {
             Text(
               'Order Overview',
               style: PreMedTextTheme().heading6.copyWith(
-                color: PreMedColorTheme().black,
-              ),
+                    color: PreMedColorTheme().black,
+                  ),
             ),
             SizedBoxes.vertical2Px,
-            Text(
-                'CART',
+            Text('CART',
                 style: PreMedTextTheme().subtext.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: PreMedColorTheme().black,)
-            )
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: PreMedColorTheme().black,
+                    ))
           ],
         ),
         iconTheme: IconThemeData(
@@ -72,6 +71,7 @@ class Cart extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -99,56 +99,58 @@ class Cart extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: cartProvider.selectedBundles.isNotEmpty
                             ? ListView.separated(
-                          itemCount: cartProvider.selectedBundles.length,
-                          separatorBuilder: (context, index) => Divider(
-                            color: PreMedColorTheme().neutral300,
-                          ),
-                          itemBuilder: (context, index) {
-                            final BundleModel bundle =
-                            cartProvider.selectedBundles[index];
-                            return Padding(
-                              padding: index ==
-                                  cartProvider.selectedBundles.length -
-                                      1
-                                  ? const EdgeInsets.fromLTRB(
-                                  16, 16, 16, 96)
-                                  : const EdgeInsets.all(16.0),
-                              child: Row(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: CardContent(
-                                      bundle: bundle,
-                                      renderPoints: true,
-                                      renderDescription: false,
+                                itemCount: cartProvider.selectedBundles.length,
+                                separatorBuilder: (context, index) => Divider(
+                                  color: PreMedColorTheme().neutral300,
+                                ),
+                                itemBuilder: (context, index) {
+                                  final BundleModel bundle =
+                                      cartProvider.selectedBundles[index];
+                                  return Padding(
+                                    padding: index ==
+                                            cartProvider
+                                                    .selectedBundles.length -
+                                                1
+                                        ? const EdgeInsets.fromLTRB(
+                                            16, 16, 16, 96)
+                                        : const EdgeInsets.all(16.0),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: CardContent(
+                                            bundle: bundle,
+                                            renderPoints: true,
+                                            renderDescription: false,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: ImageIcon(
+                                            const AssetImage(
+                                                'assets/icons/add_circle_outline.png'),
+                                            size: 16,
+                                            color:
+                                                PreMedColorTheme().neutral400,
+                                          ),
+                                          onPressed: () {
+                                            cartProvider.removeFromCart(bundle);
+                                          },
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  IconButton(
-                                    icon: ImageIcon(
-                                      const AssetImage('assets/icons/add_circle_outline.png'),
-                                      size: 16,
-                                      color: PreMedColorTheme().neutral400,
-                                    ),
-                                    onPressed: () {
-                                      cartProvider.removeFromCart(bundle);
-                                    },
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        )
+                                  );
+                                },
+                              )
                             : EmptyState(
-                            displayImage: PremedAssets.EmptyCart,
-                            title: "YOUR CART IS EMPTY",
-                            body: ""),
+                                displayImage: PremedAssets.EmptyCart,
+                                title: "YOUR CART IS EMPTY",
+                                body: ""),
                       ),
                     ),
                   ),
                   SizedBoxes.verticalLarge,
-                  if (!containsCounselling)
-                    const CouponCodeTF(),
+                  if (!containsCounselling) const CouponCodeTF(),
                   SizedBoxes.verticalLarge,
                   SingleChildScrollView(
                     child: Container(
@@ -173,27 +175,27 @@ class Cart extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBoxes.verticalLarge,
-            Center(
-              child: SizedBox(
-                width: 245,
-                child: CustomButton(
-                  buttonText: 'Proceed to Payment      ',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Checkout(),
-                      ),
-                    );
-                  },
-                  isIconButton: true,
-                  icon: Icons.arrow_forward_outlined,
-                  leftIcon: false,
-                ),
-              ),
-            ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SizedBox(
+          width: double.infinity,
+          child: CustomButton(
+            buttonText: 'Proceed to Payment                                  ',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Checkout(),
+                ),
+              );
+            },
+            isIconButton: true,
+            icon: Icons.arrow_forward_outlined,
+            leftIcon: false,
+          ),
         ),
       ),
     );

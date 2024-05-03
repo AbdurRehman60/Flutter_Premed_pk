@@ -26,7 +26,6 @@ class _ChangePasswordState extends State<ChangePassword> {
       if (form.validate()) {
         final String oldPassword = oldPasswordController.text.trim();
         final String newPassword = newPasswordController.text.trim();
-
         final Future<Map<String, dynamic>> response =
             userProvider.changePassword(
           oldPassword,
@@ -131,6 +130,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           validator: newPasswordValidator,
                           obscureText: true,
                         ),
+
                         SizedBoxes.verticalMedium,
 
                         CustomTextField(
@@ -143,6 +143,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           ),
                           obscureText: true,
                         ),
+
                         SizedBoxes.verticalGargangua,
                         CustomButton(
                           buttonText: 'Save Changes',

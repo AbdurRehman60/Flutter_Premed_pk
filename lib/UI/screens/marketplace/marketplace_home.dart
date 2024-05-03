@@ -31,6 +31,7 @@ class MarketPlace extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.only(top: 20) ,
           child: AppBar(
+              automaticallyImplyLeading: false,
               title: Padding(
                 padding: const EdgeInsets.only(left: 6.0, top: 28, bottom: 28),
                 child: Row(

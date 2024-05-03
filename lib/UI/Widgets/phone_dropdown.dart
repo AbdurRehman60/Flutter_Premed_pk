@@ -17,7 +17,7 @@ class PhoneDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 3,
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(8),
       child: IntlPhoneField(
         initialValue: initialValue ?? "",
         initialCountryCode: 'PK',
@@ -35,23 +35,23 @@ class PhoneDropdown extends StatelessWidget {
           hintText: hintText,
           counterText: "",
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
               color: PreMedColorTheme().white,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
               color: PreMedColorTheme().neutral900,
             ),
           ),
           errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(color: Colors.red),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(8),
             borderSide: const BorderSide(color: Colors.red),
           ),
           contentPadding: const EdgeInsets.fromLTRB(16, 16, 16, 16),

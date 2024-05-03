@@ -1,4 +1,3 @@
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/card_content.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/modal_bottom_sheet.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/special_offer_shimmer.dart';
@@ -29,7 +28,7 @@ class SpecialOffers extends StatelessWidget {
         //SizedBoxes.verticalBig,
         SizedBox(
           // height: MediaQuery.of(context).size.height * 0.3,
-          height: 324,
+          height: 330,
           child: Consumer<BundleProvider>(
             builder: (context, bundleProvider, _) {
               final List<BundleModel> filteredList = bundleProvider.bundleList
@@ -95,12 +94,9 @@ class SpecialOfferCard extends StatelessWidget {
             //border: Border.all(color: Colors.white, width: 4, ),
           ),
 
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: CardContent(
-              bundle: bundle,
-              renderPoints: false,
-            ),
+          child: CardContent(
+            bundle: bundle,
+            renderPoints: false,
           ),
         ),
       ),

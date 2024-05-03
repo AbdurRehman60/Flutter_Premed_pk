@@ -48,6 +48,18 @@ class UserProvider extends ChangeNotifier {
   int getCoins() {
     return _user?.coins ?? 0;
   }
+  String getIntendFor() {
+    final List<dynamic>? intendForList = _user?.intendFor;
+    if (intendForList != null && intendForList.isNotEmpty) {
+      final List<String> stringList = intendForList.map((e) => e.toString()).toList();
+      return stringList.join(', ');
+    } else {
+      return '';
+    }
+  }
+
+
+
 
   // Update full name
   Future<Map<String, dynamic>> updateUserDetails(

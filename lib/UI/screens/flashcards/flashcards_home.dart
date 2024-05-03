@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_screen_data.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_display_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/widgets/flashcard_shimmer.dart';
-import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
@@ -41,10 +40,7 @@ class FlashcardHome extends StatelessWidget {
               icon: Icon(Icons.arrow_back_ios_new_rounded,
                   color: PreMedColorTheme().primaryColorRed),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
+                Navigator.of(context).pop();
               },
             ),
           ),

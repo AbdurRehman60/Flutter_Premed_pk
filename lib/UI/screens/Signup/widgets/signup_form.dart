@@ -1,7 +1,4 @@
-import 'package:flutter/gestures.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/login_screen_one.dart';
-import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
-import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/optional_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -65,164 +62,115 @@ class _SignupFormState extends State<SignupForm> {
     return Form(
       key: _formKey,
       child: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-                children: [
-                  SizedBoxes.verticalBig,
-                  Column(
-                    children: [
-                      SizedBoxes.verticalLarge,
-                      Text(
-                        'Sign Up',
-                        textAlign: TextAlign.center,
-                        style: PreMedTextTheme()
-                            .heading1
-                            .copyWith(color: PreMedColorTheme().primaryColorRed,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBoxes.verticalTiny,
-                      RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          style: PreMedTextTheme().subtext.copyWith(color: PreMedColorTheme().black),
-                          children: [
-                            const TextSpan(
-                              text: 'A warm welcome to the ',
-                            ),
-                            TextSpan(
-                              text: 'Pre',
-                              style: PreMedTextTheme().subtext1,
-                            ),
-                            TextSpan(
-                              text: 'M',
-                              style: PreMedTextTheme().subtext1.copyWith(color: PreMedColorTheme().primaryColorRed),
-                            ),
-                            TextSpan(
-                              text: 'ed',
-                              style: PreMedTextTheme().subtext1,
-                            ),
-                            const TextSpan(
-                              text:  " family! We're delighted to have you here. Let the magic begin!",
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBoxes.verticalGargangua,
-                      CustomTextField(
-                        controller: fullNameController,
-                        prefixIcon: const Icon(Icons.person_outline_rounded),
-                        hintText: 'Enter your full name',
-                        labelText: 'Full Name',
-                        validator: validateFullname,
-                      ),
-                      SizedBoxes.verticalMedium,
-                      CustomTextField(
-                        controller: emailController,
-                        prefixIcon: const Icon(Icons.mail_outline),
-                        hintText: 'Enter your email',
-                        labelText: 'Email',
-                        validator: (value) => validateEmail(value),
-                      ),
-                      SizedBoxes.verticalMedium,
-                      CustomTextField(
-                        controller: passwordController,
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        hintText: 'Enter your password',
-                        labelText: 'Password',
-                        obscureText: true,
-                        validator: validatePassword,
-                      ),
-                      SizedBoxes.verticalMedium,
-                      CustomTextField(
-                        controller: confirmPasswordController,
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        hintText: 'Re-enter your password',
-                        labelText: 'Confirm Password',
-                        obscureText: true,
-                        validator: validatePassword,
-                      ),
-                      SizedBoxes.verticalMedium,
-                      CustomButton(
-                        buttonText: 'Sign Up',
-                        onPressed: onSignupPressed,
-                      ),
-                      SizedBoxes.verticalMedium,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+              children: [
+                //SizedBoxes.verticalBig,
+                Column(
+                  children: [
+                    Text(
+                      'Sign Up',
+                      textAlign: TextAlign.center,
+                      style: PreMedTextTheme()
+                          .heading1
+                          .copyWith(color: PreMedColorTheme().primaryColorRed,
+                          fontWeight: FontWeight.w800,
+                      fontSize: 34),
+                    ),
+                    SizedBoxes.verticalTiny,
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: PreMedTextTheme().subtext.copyWith(color: PreMedColorTheme().black, fontSize: 14, fontWeight: FontWeight.w400),
                         children: [
-                          Text(
-                            'Already have an account?',
-                            style: PreMedTextTheme().subtext,
+                          const TextSpan(
+                            text: 'A warm welcome to the ',
                           ),
-                          SizedBoxes.horizontalMicro,
-                          TextButton(
-                            child: Text(
-                              'Sign In',
-                              style: PreMedTextTheme().subtext1.copyWith(
-                                  color: PreMedColorTheme().primaryColorRed),
-                            ),
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SignIn(),
-                                ),
-                              );
-                            },
+                          TextSpan(
+                            text: 'Pre',
+                            style: PreMedTextTheme().subtext1.copyWith(fontWeight: FontWeight.w700, fontSize: 14),
+                          ),
+                          TextSpan(
+                            text: 'M',
+                            style: PreMedTextTheme().subtext1.copyWith(color: PreMedColorTheme().primaryColorRed,fontWeight: FontWeight.w700, fontSize: 14),
+                          ),
+                          TextSpan(
+                            text: 'ed',
+                            style: PreMedTextTheme().subtext1.copyWith(fontWeight: FontWeight.w700, fontSize: 14),
+                          ),
+                          const TextSpan(
+                            text:  " family! We're delighted to have you here. Let the magic begin!",
                           ),
                         ],
                       ),
-                      const SizedBox(height: 80,),
-                      RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          style: PreMedTextTheme().body.copyWith(
-                            color: PreMedColorTheme().neutral500,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: "By signing up, you agree to our ",
-                              style: PreMedTextTheme().body.copyWith(
-                                color: PreMedColorTheme().neutral500,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "Privacy Policy",
-                              style: PreMedTextTheme().body.copyWith(
-                                  color: PreMedColorTheme().neutral500,
-                                  fontWeight: FontWeight.bold
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const PrivacyPolicy() ));
-                                },
-                            ),
-                            TextSpan(
-                              text: " and ",
-                              style: PreMedTextTheme().body.copyWith(
-                                color: PreMedColorTheme().neutral500,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "Terms of Use",
-                              style: PreMedTextTheme().body.copyWith(
-                                  color: PreMedColorTheme().neutral500,
-                                  fontWeight: FontWeight.bold
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const TermsCondition() ));
-                                },
-                            ),
-                          ],
+                    ),
+                    SizedBoxes.verticalGargangua,
+                    CustomTextField(
+                      controller: fullNameController,
+                      prefixIcon: const Icon(Icons.person_outline_rounded),
+                      hintText: 'Enter your full name',
+                      labelText: 'Full Name',
+                      validator: validateFullname,
+                    ),
+                    SizedBoxes.verticalBig,
+                    CustomTextField(
+                      controller: emailController,
+                      prefixIcon: const Icon(Icons.mail_outline),
+                      hintText: 'Enter your email',
+                      labelText: 'Email',
+                      validator: (value) => validateEmail(value),
+                    ),
+                    SizedBoxes.verticalBig,
+                    CustomTextField(
+                      controller: passwordController,
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      hintText: 'Enter your password',
+                      labelText: 'Password',
+                      obscureText: true,
+                      validator: validatePassword,
+                    ),
+                    SizedBoxes.verticalBig,
+                    CustomTextField(
+                      controller: confirmPasswordController,
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      hintText: 'Re-enter your password',
+                      labelText: 'Confirm Password',
+                      obscureText: true,
+                      validator: validatePassword,
+                    ),
+                    SizedBoxes.verticalBig,
+                    CustomButton(
+                      buttonText: 'Sign Up',
+                      onPressed: onSignupPressed,
+                    ),
+                    SizedBoxes.verticalMedium,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Already have an account?",
+                          style: PreMedTextTheme().subtext.copyWith(fontWeight: FontWeight.w400, fontSize: 14),
                         ),
-                      ),
-                    ],
-                  ),
-                ]
-            ),
+                        TextButton(
+                          child: Text(
+                            'Sign In',
+                            style: PreMedTextTheme().subtext1.copyWith(color: PreMedColorTheme().primaryColorRed, fontWeight: FontWeight.w700, fontSize: 14),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SignIn(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ]
           ),
         ),
       ),

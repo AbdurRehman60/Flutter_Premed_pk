@@ -53,7 +53,7 @@ class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         CustomCheckBox(
-          label: "Is this number available on WhatsApp?",
+          label: "Is this number on WhatsApp?",
           initialValue: !showTF,
           onChanged: togglePhoneField,
         ),
@@ -67,7 +67,11 @@ class _PhoneFieldWithCheckboxState extends State<PhoneFieldWithCheckbox> {
             hintText: 'Enter your WhatsApp Number',
             initialValue: widget.initialValue,
           ),
-        )
+        ),
+        Visibility(
+          visible: showTF,
+          child: const SizedBox(height: 16),
+        ),
       ],
     );
   }

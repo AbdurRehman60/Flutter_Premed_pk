@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 class GoogleLogin extends StatelessWidget {
   const GoogleLogin({super.key});
-
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
@@ -41,13 +40,12 @@ class GoogleLogin extends StatelessWidget {
           backgroundColor: PreMedColorTheme().white,
           elevation: 3,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Image.asset(
                 PremedAssets.GoogleLogo,
@@ -58,7 +56,7 @@ class GoogleLogin extends StatelessWidget {
               // SizedBoxes.horizontalMedium,
               Expanded(
                 child: Text(
-                  'Sign In with Google',
+                  'Continue with Google',
                   textAlign: TextAlign.center,
                   style: PreMedTextTheme().subtext,
                 ),

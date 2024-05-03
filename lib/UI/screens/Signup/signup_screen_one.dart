@@ -43,31 +43,33 @@ class _SignInState extends State<SignUp> {
                               Text(
                                 'Sign Up',
                                 textAlign: TextAlign.center,
-                                style: PreMedTextTheme().heading1.copyWith(color: PreMedColorTheme().primaryColorRed, fontWeight: FontWeight.bold),
+                                style: PreMedTextTheme().heading1.copyWith(color: PreMedColorTheme().primaryColorRed, fontWeight: FontWeight.w800, fontSize: 34),
                               ),
                               SizedBoxes.verticalTiny,
                               RichText(
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
-                                  style: PreMedTextTheme().subtext.copyWith(color: PreMedColorTheme().black),
+                                  style: PreMedTextTheme().subtext.copyWith(color: PreMedColorTheme().black, fontSize: 14,),
                                   children: [
-                                    const TextSpan(
+                                    TextSpan(
                                       text: 'A warm welcome to the ',
+                                      style: PreMedTextTheme().subtext1.copyWith(fontWeight: FontWeight.w400, fontSize: 14),
                                     ),
                                     TextSpan(
                                       text: 'Pre',
-                                      style: PreMedTextTheme().subtext1,
+                                      style: PreMedTextTheme().subtext1.copyWith(fontWeight: FontWeight.w700, fontSize: 14),
                                     ),
                                     TextSpan(
                                       text: 'M',
-                                      style: PreMedTextTheme().subtext1.copyWith(color: PreMedColorTheme().primaryColorRed),
+                                      style: PreMedTextTheme().subtext1.copyWith(color: PreMedColorTheme().primaryColorRed,fontWeight: FontWeight.w700, fontSize: 14),
                                     ),
                                     TextSpan(
-                                      text: 'ed',
-                                      style: PreMedTextTheme().subtext1,
+                                      text: 'ed ',
+                                      style: PreMedTextTheme().subtext1.copyWith(fontWeight: FontWeight.w700, fontSize: 14),
                                     ),
-                                    const TextSpan(
+                                    TextSpan(
                                       text: "family! We're delighted to have you here. Let the magic begin!",
+                                      style: PreMedTextTheme().subtext1.copyWith(fontWeight: FontWeight.w400, fontSize: 14),
                                     ),
                                   ],
                                 ),
@@ -77,7 +79,10 @@ class _SignInState extends State<SignUp> {
                           SizedBoxes.verticalExtraGargangua,
                           const GoogleLogin(),
                           SizedBoxes.verticalBig,
-                          const OrDivider(),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 64, right: 64),
+                            child: OrDivider(),
+                          ),
                           SizedBoxes.verticalBig,
                           Center(
                             child: SizedBox(
@@ -95,7 +100,7 @@ class _SignInState extends State<SignUp> {
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: PreMedColorTheme().white,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   elevation: 3,
                                 ),
@@ -113,7 +118,7 @@ class _SignInState extends State<SignUp> {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                'Sign Up with Email',
+                                                'Sign up with Email',
                                                 textAlign: TextAlign.center,
                                                 style: PreMedTextTheme().subtext,
                                               ),
@@ -133,12 +138,12 @@ class _SignInState extends State<SignUp> {
                             children: [
                               Text(
                                 "Already have an account?",
-                                style: PreMedTextTheme().subtext,
+                                style: PreMedTextTheme().subtext.copyWith(fontWeight: FontWeight.w400, fontSize: 14),
                               ),
                               TextButton(
                                 child: Text(
                                   'Sign In',
-                                  style: PreMedTextTheme().subtext1.copyWith(color: PreMedColorTheme().primaryColorRed),
+                                  style: PreMedTextTheme().subtext1.copyWith(color: PreMedColorTheme().primaryColorRed, fontWeight: FontWeight.w700, fontSize: 14),
                                 ),
                                 onPressed: () {
                                   Navigator.push(

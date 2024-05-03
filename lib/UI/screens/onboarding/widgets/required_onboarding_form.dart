@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
-import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
+import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/optional_checkbox.dart';
 import 'package:premedpk_mobile_app/UI/widgets/cities_data_widget.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
@@ -22,32 +22,12 @@ class RequiredOnboardingForm extends StatefulWidget {
 }
 
 class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
-  TextEditingController parentNameController = TextEditingController();
-  bool mdcatChecked = false;
-  bool privateChecked = false;
-  bool numsChecked = false;
   String error = "";
   bool hasErrors = false;
 
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
-
-    void updateIntendFor() {
-      final List<String> intendFor = [];
-      if (mdcatChecked) {
-        intendFor.add('MDCAT');
-      }
-      if (privateChecked) {
-        intendFor.add('Private');
-      }
-      if (numsChecked) {
-        intendFor.add('NUMS');
-      }
-
-      auth.intendFor = intendFor;
-    }
-
     void onPhoneNumberSelected(PhoneNumber phoneNumber) {
       auth.phoneNumber = phoneNumber.completeNumber;
       auth.country = phoneNumber.countryCode;
@@ -89,11 +69,12 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
         response.then(
               (response) {
             if (response['status']) {
-              Navigator.pushReplacement(
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const HomeScreen(),
+                  builder: (context) => const MainNavigationScreen(),
                 ),
+                  (route) => false,
               );
             } else {
               showError(context, response);
@@ -122,13 +103,14 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
                   items: cities,
                   selectedItem: auth.city,
                   onChanged: onCitySelected),
-              SizedBoxes.verticalLarge,
+
+              SizedBoxes.verticalBig,
               SchoolDropdownList(
                 items: schoolsdata,
                 selectedItem: auth.school,
                 onChanged: onSchoolSelected,
               ),
-              SizedBoxes.verticalLarge,
+              SizedBoxes.verticalBig,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: options.map(
@@ -155,7 +137,8 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
                   },
                 ).toList(),
               ),
-              SizedBoxes.verticalLarge,
+
+              SizedBoxes.verticalBig,
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
@@ -163,13 +146,13 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
                   style: PreMedTextTheme().subtext1,
                 ),
               ),
-              SizedBoxes.verticalTiny,
+              SizedBoxes.verticalLarge,
               PhoneDropdown(
                 onPhoneNumberSelected: onPhoneNumberSelected,
                 hintText: "",
                 initialValue: auth.phoneNumber,
               ),
-              SizedBoxes.verticalMedium,
+              SizedBoxes.verticalBig,
               PhoneFieldWithCheckbox(
                 onWhatsAppNumberSelected: (whatsappNumber) {
                   auth.whatsappNumber = whatsappNumber;
@@ -187,8 +170,6 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
                     fontWeight: FontWeight.bold,
                   ),
                 )
-              else
-                const SizedBox(),
             ],
           ),
         ),
@@ -198,7 +179,7 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
           textColor: PreMedColorTheme().white,
           onPressed: onNextPressed,
         ),
-        SizedBoxes.verticalTiny,
+        SizedBoxes.verticalBig,
 
         RichText(
           textAlign: TextAlign.center,
@@ -208,16 +189,17 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
             ),
             children: [
               TextSpan(
-                text: "By signing up, you agree to our ",
+                text: "By signing in, you agree to our ",
                 style: PreMedTextTheme().body.copyWith(
-                  color: PreMedColorTheme().neutral500,
+                    color: PreMedColorTheme().neutral500,
+                    fontWeight: FontWeight.w400, fontSize: 11
                 ),
               ),
               TextSpan(
                 text: "Privacy Policy",
-                style: PreMedTextTheme().body.copyWith(
+                style: PreMedTextTheme().body1.copyWith(
                     color: PreMedColorTheme().neutral500,
-                    fontWeight: FontWeight.bold
+                    fontWeight: FontWeight.w700, fontSize: 11
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
@@ -230,14 +212,16 @@ class _RequiredOnboardingFormState extends State<RequiredOnboardingForm> {
               TextSpan(
                 text: " and ",
                 style: PreMedTextTheme().body.copyWith(
-                  color: PreMedColorTheme().neutral500,
+                    color: PreMedColorTheme().neutral500,
+                    fontWeight: FontWeight.w400, fontSize: 11
                 ),
               ),
               TextSpan(
                 text: "Terms of Use",
                 style: PreMedTextTheme()
-                    .body
-                    .copyWith(color: PreMedColorTheme().neutral500, fontWeight: FontWeight.bold),
+                    .body1
+                    .copyWith(color: PreMedColorTheme().neutral500,
+                    fontWeight: FontWeight.w700, fontSize: 11),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     Navigator.push(

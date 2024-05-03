@@ -6,14 +6,14 @@ class PremedBottomNav extends StatelessWidget {
       required this.currentIndex,
       required this.onTapHome,
       required this.onTapMarketplace,
-      required this.onTapQbank,
+      //required this.onTapQbank,
       required this.onTapExpertSolution,
       required this.onTapProfile});
 
   final int currentIndex;
   final VoidCallback onTapHome;
   final VoidCallback onTapMarketplace;
-  final VoidCallback onTapQbank;
+  //final VoidCallback onTapQbank;
   final VoidCallback onTapExpertSolution;
   final VoidCallback onTapProfile;
 
@@ -50,19 +50,19 @@ class PremedBottomNav extends StatelessWidget {
           // ),
           _MainBottomNavBarItem(
             icon: 'assets/images/Expert Solutions.png',
-            isSelected: 1 == currentIndex,
+            isSelected: 2 == currentIndex,
             label: 'Expert Solutions',
             onTap: onTapExpertSolution,
           ),
           _BottomNavBarItem(
             icon: 'assets/images/Shop.png',
-            isSelected: 2 == currentIndex,
+            isSelected: 3 == currentIndex,
             label: 'Shop',
             onTap: onTapMarketplace,
           ),
           _BottomNavBarItem(
             icon: 'assets/images/Settings.png',
-            isSelected: 3 == currentIndex,
+            isSelected: 4 == currentIndex,
             label: 'Settings',
             onTap: onTapProfile,
           ),

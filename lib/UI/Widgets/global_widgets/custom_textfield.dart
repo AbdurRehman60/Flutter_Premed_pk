@@ -96,8 +96,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       alignment: Alignment.centerRight,
       children: [
         Material(
-          elevation: 4,
-          borderRadius: BorderRadius.circular(18),
+          elevation:4,
+          borderRadius: BorderRadius.circular(8),
           child: TextFormField(
             enabled: widget.enabled,
             initialValue: widget.initialValue,
@@ -107,35 +107,36 @@ class _CustomTextFieldState extends State<CustomTextField> {
               fillColor: widget.fillColor,
               border: widget.border,
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
                   color: PreMedColorTheme().neutral200,
                 ),
               ),
               enabledBorder: widget.enabledBorder ??
                   OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(
                       color: PreMedColorTheme().white,
                     ),
                   ),
               focusedBorder: widget.focusedBorder ??
                   OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: BorderSide(
                       color: PreMedColorTheme().black,
                     ),
                   ),
               errorBorder: widget.errorBorder ??
                   OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: const BorderSide(color: Colors.red),
                   ),
               focusedErrorBorder: widget.focusedErrorBorder ??
-                  OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
+                   OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
                     borderSide: const BorderSide(color: Colors.red),
                   ),
+
               errorText: widget.errorText,
               errorStyle: widget.errorStyle,
               hintText: widget.hintText,
@@ -169,7 +170,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
             inputFormatters: widget.inputFormatters,
           ),
         ),
-        if (widget.obscureText)
+        if (widget.validator != null && widget.errorText != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 4.0, left: 12.0),
+            child: Text(
+              widget.errorText!,
+              style: widget.errorStyle,
+            ),
+          ),        if (widget.obscureText)
           IconButton(
             icon: Icon(
               _obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,

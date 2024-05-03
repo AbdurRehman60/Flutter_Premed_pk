@@ -76,9 +76,20 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
         padding: const EdgeInsets.only(left: 20, right: 20),
-        decoration: BoxDecoration(
-          gradient: PreMedColorTheme().primaryGradient,
-          borderRadius: const BorderRadius.all(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+            stops: [0.0, 0.9, 0.6, 1.0],
+            colors: [
+              Color(0xFFFF99CC),
+              Color(0xFF99B3FF),
+              Color(0xFF99B3FF),
+              Color(0xFF99B3FF),
+            ],
+
+          ),
+    borderRadius: BorderRadius.all(
             Radius.circular(12),
           ),
         ),
@@ -107,9 +118,9 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBoxes.verticalExtraGargangua,
+                SizedBoxes.verticalGargangua,
                 Text(
-                  '${bundleProvider.discount} OFF',
+                  'FLAT ${bundleProvider.discount} OFF',
                   style: PreMedTextTheme().heading1.copyWith(
                     color: PreMedColorTheme().white,
                     fontSize: 40,
@@ -122,19 +133,19 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
                   'On all bundles',
                   style: PreMedTextTheme().heading5.copyWith(
                     color: PreMedColorTheme().white,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
-                SizedBoxes.verticalBig,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: PreMedColorTheme().white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5.0),
+                SizedBoxes.verticalLarge,
+                Stack(
+                  children: [
+                    const CustomTitleWidget(
+                        height: 64,
+                        width: double.infinity,
+                        title: 'This offer will expire in',
+                        radius: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -142,24 +153,24 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
                           Text(
                             ":",
                             style: PreMedTextTheme().heading1.copyWith(
-                              color: PreMedColorTheme().primaryColorBlue,
+                              color: PreMedColorTheme().white,
                             ),
                           ),
                           _buildTimerColumn('Minutes', _formatTime(minutes)),
                           Text(
                             ":",
                             style: PreMedTextTheme().heading1.copyWith(
-                              color: PreMedColorTheme().primaryColorBlue,
+                              color: PreMedColorTheme().white,
                             ),
                           ),
                           _buildTimerColumn('Seconds', _formatTime(seconds)),
                         ],
                       ),
                     ),
-                  ),
+                  ],
                 ),
 
-                SizedBox(height: 25,)
+                const SizedBox(height: 25,)
               ],
             ),
           ],
@@ -173,8 +184,15 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
       children: [
         Text(value,
             style: PreMedTextTheme().subtext1.copyWith(
-              fontSize: 25.0,
-              color: PreMedColorTheme().primaryColorRed,
+              fontSize: 28.0,
+              fontWeight: FontWeight.w800,
+              color: PreMedColorTheme().white,
+            )),
+        SizedBoxes.vertical2Px,
+        Text(label,
+            style: PreMedTextTheme().headline.copyWith(
+              fontSize: 16,
+              color: PreMedColorTheme().white,
             )),
       ],
     );
@@ -243,8 +261,8 @@ class CustomTitleWidget extends StatefulWidget {
 
 class _CustomTitleWidgetState extends State<CustomTitleWidget> {
   GlobalKey textKey = GlobalKey();
-  double textHeight = 0.0;
-  double textWidth = 0.0;
+  double textHeight = 4.0;
+  double textWidth = 4.0;
 
   @override
   void initState() {
@@ -283,11 +301,13 @@ class _CustomTitleWidgetState extends State<CustomTitleWidget> {
           top: -textHeight / 2,
           child: Padding(
             key: textKey,
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 3.0),
             child: Text(
               widget.title,
               style: PreMedTextTheme().headline.copyWith(
                 color: PreMedColorTheme().white,
+                fontWeight: FontWeight.w600,
+                fontSize: 18
               ),
             ),
           ),

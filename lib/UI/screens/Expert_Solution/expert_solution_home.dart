@@ -23,7 +23,7 @@ class ExpertSolutionHome extends StatelessWidget {
         body: Column(children: [
           SizedBoxes.verticalExtraGargangua,
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(16.0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Column(
@@ -54,7 +54,7 @@ class ExpertSolutionHome extends StatelessWidget {
           ),
           SizedBoxes.verticalMedium,
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8),
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0),
             child: Container(
               decoration: BoxDecoration(
                 color: PreMedColorTheme().white,
@@ -84,11 +84,14 @@ class ExpertSolutionHome extends StatelessWidget {
             ),
           ),
           const Expanded(
-            child: TabBarView(
-              children: [
-                DoubtListView(solved: true),
-                DoubtListView(solved: false),
-              ],
+            child: Padding(
+              padding: EdgeInsets.only(left: 16.0, right: 16.0),
+              child: TabBarView(
+                children: [
+                  DoubtListView(solved: true),
+                  DoubtListView(solved: false),
+                ],
+              ),
             ),
           ),
         ]),

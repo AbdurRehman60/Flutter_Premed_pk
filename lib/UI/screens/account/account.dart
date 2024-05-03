@@ -1,6 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/change_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/contact_us.dart';
-import 'package:premedpk_mobile_app/UI/screens/account/widgets/delete_account.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/edit_profile.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/menu_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
@@ -24,7 +23,7 @@ class Account extends StatelessWidget {
       final Future<Map<String, dynamic>> response = auth.logout();
 
       response.then(
-        (response) {
+            (response) {
           if (response['status']) {
             Navigator.pushReplacement(
               context,
@@ -46,32 +45,33 @@ class Account extends StatelessWidget {
           padding: const EdgeInsets.only(top: 20),
           child: AppBar(
             backgroundColor: PreMedColorTheme().white,
-            title: Padding(
-              padding: const EdgeInsets.only(left: 6.0, top: 28, bottom: 28),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Settings',
-                    style: PreMedTextTheme().heading6.copyWith(
-                          color: PreMedColorTheme().black,
-                          fontSize: 34,
-                          fontWeight: FontWeight.w800,
-                        ),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Settings',
+                  style: PreMedTextTheme().heading6.copyWith(
+                    color: PreMedColorTheme().black,
+                    fontSize: 34,
+                    fontWeight: FontWeight.w800,
                   ),
-                  SizedBoxes.vertical2Px,
-                  Text('Your App and Account Preferences',
-                      style: PreMedTextTheme().subtext.copyWith(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w400,
-                            color: PreMedColorTheme().black,
-                          ))
-                ],
-              ),
+                ),
+                SizedBoxes.vertical2Px,
+                Text(
+                  'Your App and Account Preferences',
+                  style: PreMedTextTheme().subtext.copyWith(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    color: PreMedColorTheme().black,
+                  ),
+                )
+              ],
             ),
+            automaticallyImplyLeading: false,
           ),
         ),
       ),
+
       body: SafeArea(
         child: Consumer<UserProvider>(
           builder: (context, userProvider, child) {
@@ -80,9 +80,17 @@ class Account extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                          color: PreMedColorTheme().primaryColorRed, width: 8)),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                        color: PreMedColorTheme().primaryColorRed, width: 8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 3,
+                        blurRadius: 5,
+                      ),
+                    ],
+                  ),
                   child: CircleAvatar(
                     backgroundColor: PreMedColorTheme().primaryColorRed100,
                     maxRadius: 55,
@@ -95,40 +103,105 @@ class Account extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBoxes.verticalTiny,
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MarketPlace(),
+                SizedBoxes.verticalLarge,
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MarketPlace(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 90,
+                          decoration: BoxDecoration(
+                            color: PreMedColorTheme().neutral100,
+                            borderRadius: BorderRadius.circular(15),
+                            border:
+                            Border.all(color: PreMedColorTheme().white, width: 2),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  PremedAssets.Coins,
+                                  width: 16,
+                                  height: 16,
+                                  fit: BoxFit.fill,
+                                ),
+                                SizedBoxes.horizontalMicro,
+                                Text(
+                                  userProvider.getCoins().toString(),
+                                  style: PreMedTextTheme().body.copyWith(fontSize: 15, fontWeight: FontWeight.w800),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          PremedAssets.Coins,
-                          width: 16,
-                          height: 16,
-                          fit: BoxFit.fill,
+                      SizedBoxes.horizontalMedium,
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MarketPlace(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          decoration: BoxDecoration(
+                            color: PreMedColorTheme().neutral100,
+                            borderRadius: BorderRadius.circular(15),
+                            border:
+                            Border.all(color: PreMedColorTheme().white, width: 2),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBoxes.horizontalMicro,
+                                Text(
+                                    userProvider.getIntendFor(),
+                                    style: PreMedTextTheme().body.copyWith(fontWeight: FontWeight.w800, fontSize: 13),
+                                ),
+                                const Spacer(),
+                                Text('ACTIVE',style: PreMedTextTheme().body.copyWith(color: PreMedColorTheme().tickcolor, fontSize:10, fontWeight: FontWeight.w600 ),)
+                              ],
+                            ),
+                          ),
                         ),
-                        SizedBoxes.horizontalMicro,
-                        Text(
-                          userProvider.getCoins().toString(),
-                          style: PreMedTextTheme().body,
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBoxes.verticalMedium,
                 Expanded(
                   child: ListView.builder(
-                    itemCount: 7,
+                    itemCount: 6,
                     itemBuilder: (context, index) {
                       String heading = '';
                       String imagePath = '';
@@ -146,7 +219,7 @@ class Account extends StatelessWidget {
                         case 3: // Logout Button
                           return Padding(
                             padding: const EdgeInsets.only(
-                              top: 10,
+                              top: 20,
                               bottom: 20,
                               left: 20,
                               right: 20,
@@ -154,30 +227,34 @@ class Account extends StatelessWidget {
                             child: SizedBox(
                               width: double.infinity,
                               height: 50,
-                              child:
-                                  auth.loggedInStatus == Status.Authenticating
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(
-                                              width: 16,
-                                              height: 16,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2.0,
-                                              ),
-                                            ),
-                                            SizedBoxes.horizontalMedium,
-                                            Text(
-                                              'Logging Out',
-                                              style: PreMedTextTheme().subtext,
-                                            ),
-                                          ],
-                                        )
-                                      : CustomButton(
-                                          buttonText: 'Sign out',
-                                          onPressed: onLogoutPressed,
-                                        ),
+                              child: auth.loggedInStatus ==
+                                  Status.Authenticating
+                                  ? Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                children: [
+                                  const SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.0,
+                                    ),
+                                  ),
+                                  SizedBoxes.horizontalMedium,
+                                  Text(
+                                    'Signing Out',
+                                    style: PreMedTextTheme().subtext,
+                                  ),
+                                ],
+                              )
+                                  : Material(
+                                elevation: 3,
+                                borderRadius: BorderRadius.circular(8),
+                                child: CustomButton(
+                                  buttonText: 'Sign out',
+                                  onPressed: onLogoutPressed,
+                                ),
+                              ),
                             ),
                           );
                         case 4:
@@ -186,9 +263,9 @@ class Account extends StatelessWidget {
                         case 5:
                           heading = 'Terms of Use';
                           imagePath = PremedAssets.Terms;
-                        case 6:
-                          heading = 'Delete Account';
-                          imagePath = PremedAssets.Cross;
+                        // case 6:
+                        //   heading = 'Delete Account';
+                        //   imagePath = PremedAssets.Cross;
                       }
 
                       return Container(
@@ -204,7 +281,7 @@ class Account extends StatelessWidget {
                           ],
                         ),
                         margin: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 8),
+                            vertical: 10, horizontal: 16),
                         child: MenuTile(
                           heading: heading,
                           icon: imagePath,
@@ -220,7 +297,7 @@ class Account extends StatelessWidget {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const ChangePassword(),
+                                    const ChangePassword(),
                                   ),
                                 );
                               case 2:
@@ -237,22 +314,20 @@ class Account extends StatelessWidget {
                                   ),
                                 );
                               case 5:
-                                // Handle Terms & Condition tap
+                              // Handle Terms & Condition tap
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const TermsCondition(),
+                                    const TermsCondition(),
                                   ),
                                 );
-
-                              case 6:
-                                //for deletion of acc
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                    const DeleteAccount(),
-                                  ),
-                                );
+                              // case 6:
+                              // //for deletion of acc
+                              //   Navigator.of(context).push(
+                              //     MaterialPageRoute(
+                              //       builder: (context) => const DeleteAccount(),
+                              //     ),
+                              //   );
                             }
                           },
                         ),

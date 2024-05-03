@@ -10,22 +10,28 @@ class OrDivider extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Divider(
-            color: PreMedColorTheme().neutral400,
-            thickness: 1.5,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Divider(
+              color: PreMedColorTheme().neutral400,
+              thickness: 1.5,
+            ),
           ),
         ),
         SizedBoxes.horizontalMicro,
-        Text('OR',
+        Text('or',
             style: PreMedTextTheme().heading6.copyWith(
-                  fontWeight: FontWeights.medium,
-                  color: PreMedColorTheme().neutral400,
-                )),
+                fontWeight: FontWeight.w500,
+                color: PreMedColorTheme().black,
+                fontSize: 15)),
         SizedBoxes.horizontalMicro,
         Expanded(
-          child: Divider(
-            color: PreMedColorTheme().neutral400,
-            thickness: 1.5,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Divider(
+              color: PreMedColorTheme().neutral400,
+              thickness: 1.5,
+            ),
           ),
         ),
       ],

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 
 class MovingRowAnimation extends StatefulWidget {
+  const MovingRowAnimation({super.key});
+
   @override
   _MovingRowAnimationState createState() => _MovingRowAnimationState();
 }
@@ -18,8 +20,8 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
       vsync: this,
       duration: const Duration(seconds: 15),
     );
-    _animation = Tween<double>(begin: 0, end: 2).animate(_controller);
-    _controller.repeat();
+    _animation = Tween<double>(begin: 0.0, end: 1).animate(_controller);
+   _controller.repeat();
   }
 
   @override
@@ -33,9 +35,7 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            width: double.infinity,
-            height: double.infinity,
+          SizedBox.expand(
             child: Stack(
               children: [
                 AnimatedBuilder(
@@ -52,6 +52,13 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
                           Tile(color: PreMedColorTheme().primaryColorBlue, text: 'NUMS', textColor: PreMedColorTheme().white),
                           Tile(color: PreMedColorTheme().primaryColorRed, text: 'Study Notes', textColor: PreMedColorTheme().white),
                           Tile(color: PreMedColorTheme().customCheckboxColor, text: 'NUMS', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().primaryColorBlue, text: 'MDCAT', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().neutral100, text: 'Test Sessions', textColor: PreMedColorTheme().primaryColorRed),
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'The Vault', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().primaryColorBlue, text: 'Guide', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().neutral100, text: 'Shortlistings', textColor: PreMedColorTheme().primaryColorRed),
+                          Tile(color: PreMedColorTheme().primaryColorRed, text: 'F.Sc', textColor: PreMedColorTheme().white),
+
                         ],
                       ),
                     );
@@ -65,6 +72,12 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
                       top: 40,
                       child: Row(
                         children: [
+                          Tile(color: PreMedColorTheme().primaryColorRed, text: 'Pre-Medical', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Private Universities', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().neutral100, text: 'Study Notes', textColor: PreMedColorTheme().primaryColorRed),
+                          Tile(color: PreMedColorTheme().primaryColorBlue, text: 'NUMS', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().primaryColorRed, text: 'Study Notes', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'NUMS', textColor: PreMedColorTheme().tickcolor),
                           Tile(color: PreMedColorTheme().primaryColorBlue, text: 'MDCAT', textColor: PreMedColorTheme().white),
                           Tile(color: PreMedColorTheme().neutral100, text: 'Test Sessions', textColor: PreMedColorTheme().primaryColorRed),
                           Tile(color: PreMedColorTheme().customCheckboxColor, text: 'The Vault', textColor: PreMedColorTheme().tickcolor),
@@ -84,6 +97,12 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
                       top: 80,
                       child: Row(
                         children: [
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Real-time Satistics', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().primaryColorRed, text: 'AKU', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().neutral100, text: 'Solution', textColor: PreMedColorTheme().primaryColorRed),
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Flashcards', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().primaryColorBlue, text: 'Expert Solutions', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().primaryColorRed, text: 'Study Notes', textColor: PreMedColorTheme().white),
                           Tile(color: PreMedColorTheme().neutral100, text: 'AKU', textColor: PreMedColorTheme().primaryColorRed),
                           Tile(color: PreMedColorTheme().primaryColorRed, text: 'Doubt Solve', textColor: PreMedColorTheme().white),
                           Tile(color: PreMedColorTheme().primaryColorBlue, text: 'Flashcards', textColor: PreMedColorTheme().white),
@@ -109,6 +128,12 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
                           Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Flashcards', textColor: PreMedColorTheme().tickcolor),
                           Tile(color: PreMedColorTheme().primaryColorBlue, text: 'Expert Solutions', textColor: PreMedColorTheme().white),
                           Tile(color: PreMedColorTheme().primaryColorRed, text: 'Study Notes', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().neutral100, text: 'AKU', textColor: PreMedColorTheme().primaryColorRed),
+                          Tile(color: PreMedColorTheme().primaryColorRed, text: 'Doubt Solve', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().primaryColorBlue, text: 'Flashcards', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'NUMS', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().neutral100, text: 'Study Notes', textColor: PreMedColorTheme().primaryColorRed),
+                          Tile(color: PreMedColorTheme().primaryColorBlue, text: 'Qbank', textColor: PreMedColorTheme().white),
                         ],
                       ),
                     );
@@ -128,6 +153,13 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
                           Tile(color: PreMedColorTheme().primaryColorBlue, text: 'NUMS', textColor: PreMedColorTheme().white),
                           Tile(color: PreMedColorTheme().neutral100, text: 'Study Notes', textColor: PreMedColorTheme().primaryColorRed),
                           Tile(color: PreMedColorTheme().customCheckboxColor, text: 'NUMS', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().primaryColorBlue, text: 'NUMS', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().primaryColorRed, text: 'Study Notes', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'NUMS', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().primaryColorBlue, text: 'MDCAT', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().neutral100, text: 'Test Sessions', textColor: PreMedColorTheme().primaryColorRed),
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'The Vault', textColor: PreMedColorTheme().tickcolor),
+
                         ],
                       ),
                     );
@@ -141,6 +173,12 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
                       top: 200,
                       child: Row(
                         children: [
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Real-time Satistics', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().primaryColorRed, text: 'AKU', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().neutral100, text: 'Solution', textColor: PreMedColorTheme().primaryColorRed),
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Flashcards', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().primaryColorBlue, text: 'Expert Solutions', textColor: PreMedColorTheme().white),
+                          Tile(color: PreMedColorTheme().primaryColorRed, text: 'Study Notes', textColor: PreMedColorTheme().white),
                           Tile(color: PreMedColorTheme().primaryColorBlue, text: 'Pre-Medical', textColor: PreMedColorTheme().white),
                           Tile(color: PreMedColorTheme().neutral100, text: 'Private Universities', textColor: PreMedColorTheme().primaryColorRed),
                           Tile(color: PreMedColorTheme().primaryColorRed, text: 'Study Notes', textColor: PreMedColorTheme().white),
@@ -160,13 +198,10 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
               Positioned(
                 top: 90,
                 left: 60,
-                child: Opacity(
-                  opacity: 0.75,
-                  child: Container(
-                    width: 260,
-                    height: 70,
-                    color: Colors.white,
-                  ),
+                child: Container(
+                  width: 260,
+                  height: 70,
+                  color: Colors.transparent,
                 ),
               ),
               Positioned(
@@ -188,17 +223,17 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
 }
 
 class Tile extends StatelessWidget {
+
+  const Tile({super.key, required this.color, required this.text, required this.textColor});
   final Color color;
   final String text;
   final Color textColor;
 
-  const Tile({required this.color, required this.text, required this.textColor});
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8),
-      padding: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(8),

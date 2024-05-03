@@ -130,6 +130,8 @@ flutter:
     - assets/images/youtube.png
     -  assets/images/premedanimation.png
     - assets/images/firework.png
+    - assets/images/Subtract.png
+    - assets/images/gradient.png
 
 
     #icons
@@ -152,6 +154,7 @@ flutter:
     - assets/icons/cross.png
     - assets/icons/add_circle_outline.png
     - assets/icons/Button.png
+    - assets/icons/bin.png
   fonts:
     - family: Inter
       fonts:

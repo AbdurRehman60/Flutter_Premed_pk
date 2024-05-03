@@ -61,7 +61,7 @@ class ModalSheetWidget extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      '✅ $point',
+                      ' ✔ $point',
                       style: PreMedTextTheme().small.copyWith(
                         color: PreMedColorTheme().neutral600,
                         height: 1.5,

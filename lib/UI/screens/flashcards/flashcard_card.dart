@@ -1,4 +1,6 @@
 import 'package:flip_card/flip_card.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/flashcard_model.dart';
@@ -39,14 +41,22 @@ class _FlashcardCardState extends State<FlashcardCard> {
   }
 
   Widget buildFrontContent() {
-    return Material(
-      color: Colors.white30,
-      elevation: 3,
-      borderRadius: BorderRadius.circular(12.0),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 7,
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.6,
         decoration: BoxDecoration(
-          color: Colors.white24,
+          color: Colors.white10,
           borderRadius: BorderRadius.circular(12.0),
           border: Border.all(color: PreMedColorTheme().white, width: 3),
           boxShadow: const [
@@ -64,9 +74,11 @@ class _FlashcardCardState extends State<FlashcardCard> {
             child: Column(
               children: [
                 Text(
-                  'Question',
+                  'QUESTION',
                   style: PreMedTextTheme().heading6.copyWith(
-                        color: PreMedColorTheme().primaryColorBlue,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 17,
+                        color: PreMedColorTheme().neutral300,
                       ),
                 ),
                 Html(
@@ -89,14 +101,22 @@ class _FlashcardCardState extends State<FlashcardCard> {
   }
 
   Widget buildBackContent() {
-    return Material(
-      color: Colors.white30,
-      elevation: 3,
-      borderRadius: BorderRadius.circular(12.0),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 7,
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.6,
         decoration: BoxDecoration(
-          color: Colors.white24,
+          color: Colors.white10,
           borderRadius: BorderRadius.circular(12.0),
           border: Border.all(color: PreMedColorTheme().white, width: 3),
           boxShadow: const [
@@ -114,10 +134,12 @@ class _FlashcardCardState extends State<FlashcardCard> {
             child: Column(
               children: [
                 Text(
-                  'Answer',
-                  style: PreMedTextTheme()
-                      .heading6
-                      .copyWith(color: PreMedColorTheme().primaryColorRed),
+                  'ANSWER',
+                  style: PreMedTextTheme().heading6.copyWith(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 17,
+                        color: PreMedColorTheme().neutral300,
+                      ),
                 ),
                 Html(
                   data: widget.flashcard.correctOptionText,
