@@ -44,4 +44,6 @@ class PremedAssets {
   static String BellIconWithNotification = 'assets/icons/bellwithnoti.svg';
   static String DocumentIcon = 'assets/icons/QuestionMarkDocument.svg';
   static String FlashCardsIcon = 'assets/icons/Flashcards.svg';
+  static String LeftArrowIcon = 'assets/icons/left-arrow.svg';
+
 }

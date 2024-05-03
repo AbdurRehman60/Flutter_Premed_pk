@@ -1,8 +1,5 @@
-import 'package:premedpk_mobile_app/UI/screens/notifications/notifications.dart';
+import 'package:premedpk_mobile_app/UI/screens/notifications/notification_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/providers/cart_provider.dart';
-import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
-import 'package:provider/provider.dart';
 
 class NotificationIcon extends StatelessWidget {
   const NotificationIcon({super.key});
@@ -13,7 +10,7 @@ class NotificationIcon extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const NotificationsScreen(),
+            builder: (context) => const NotificationPage(),
           ),
         );
       },
