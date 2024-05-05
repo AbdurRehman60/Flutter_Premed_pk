@@ -20,6 +20,14 @@ class QuestionsProvider extends ChangeNotifier {
     notify();
   }
 
+  void getPreviousQuestion() {
+    if (questionIndex > 0) {
+      questionIndex--;
+      notifyListeners();
+    }
+  }
+
+
   set loadingStatus(FetchStatus value) {
     _loadingStatus = value;
   }

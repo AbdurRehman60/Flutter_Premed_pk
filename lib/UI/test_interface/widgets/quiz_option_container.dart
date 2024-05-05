@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
 
@@ -28,26 +29,28 @@ class QuizOptionContainer extends StatelessWidget {
           ),
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              optionNumber,
-              style: GoogleFonts.rubik(
-                fontWeight: FontWeight.w800,
-                fontSize: 15,
-                color: const Color(0xFFEC5863),
-              ),
-            ),
-            SizedBoxes.horizontal12Px,
-            Expanded(
+            Padding(
+              padding: const EdgeInsets.only(right: 6),
               child: Text(
-                quizOptionDetails,
+                optionNumber,
                 style: GoogleFonts.rubik(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 14,
-                  color: const Color(0xFF000000),
+                  fontWeight: FontWeight.w800,
+                  fontSize: 15,
+                  color: const Color(0xFFEC5863),
                 ),
               ),
+            ),
+            //SizedBoxes.horizontal12Px,
+            Expanded(
+              child: Text(
+                  quizOptionDetails,
+                  style: GoogleFonts.rubik(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                    color: const Color(0xFF000000),
+                  ),
+                ),
             ),
           ],
         ),

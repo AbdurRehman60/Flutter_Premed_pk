@@ -1,21 +1,17 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:premedpk_mobile_app/UI/test_interface/widgets/material_button.dart';
+import 'package:html/parser.dart' as htmlParser;
 import 'package:premedpk_mobile_app/UI/test_interface/widgets/quiz_option_container.dart';
 import 'package:premedpk_mobile_app/UI/test_interface/widgets/report_question.dart';
 import 'package:premedpk_mobile_app/models/question_model.dart';
 import 'package:provider/provider.dart';
-import 'package:html/parser.dart' as htmlParser;
 import '../../constants/constants_export.dart';
 import '../../providers/questions_proivder.dart';
 import '../../providers/save_question_provider.dart';
-import '../Widgets/global_widgets/custom_button.dart';
 import '../screens/global_qbank/widgets/build_error.dart';
 
-import 'package:flutter/material.dart'; // Import necessary packages
-
 class TestInterfacePage extends StatefulWidget {
-  TestInterfacePage({Key? key, required this.deckName}) : super(key: key);
+ const TestInterfacePage({super.key, required this.deckName});
   final String deckName;
 
   @override
@@ -23,7 +19,8 @@ class TestInterfacePage extends StatefulWidget {
 }
 
 class _TestInterfacePageState extends State<TestInterfacePage> {
-  int currentIndex = 0; // Maintain the current index
+
+  int currentIndex = 0;
   String? parse(String toParse) {
     return htmlParser.parse(toParse).body?.text;
   }
@@ -31,10 +28,95 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
   @override
   Widget build(BuildContext context) {
     final questionPro = Provider.of<QuestionsProvider>(context, listen: false);
+    final int currentQuestionNumber = questionPro.questionIndex + 1;
     return Scaffold(
-      appBar: AppBar(
-          // Your app bar code here
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(70.0),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: AppBar(
+            backgroundColor: PreMedColorTheme().white,
+            leading: Container(
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 3,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              alignment: Alignment.center,
+              child: Center(
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back,
+                      color: PreMedColorTheme().primaryColorRed),
+                  onPressed: () {
+                    setState(() {
+                      Provider.of<QuestionsProvider>(context, listen: false).getPreviousQuestion();
+                    });                  },
+                ),
+              ),
+            ),
+            title: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'QUESTION $currentQuestionNumber',
+                    style: PreMedTextTheme().heading6.copyWith(
+                      color: PreMedColorTheme().black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  // Text(
+                  //   '',
+                  //   style: PreMedTextTheme().heading6.copyWith(
+                  //     color: PreMedColorTheme().black,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.all(10),
+                width: 40,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                alignment: Alignment.center,
+                child: Center(
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_forward,
+                        color: PreMedColorTheme().primaryColorRed),
+                    onPressed: () {
+                      setState(() {
+                        Provider.of<QuestionsProvider>(context, listen: false).getNextQuestion();
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ],
+            automaticallyImplyLeading: false,
           ),
+        ),
+      ),
       body: FutureBuilder(
         future: Provider.of<QuestionsProvider>(context, listen: false)
             .fetchQuestions(widget.deckName),
@@ -44,18 +126,13 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
-            print('!!!');
             return buildError(); // Show error message
           } else {
-            print('object');
             final Map<String, dynamic>? data = snapshot.data;
             if (data != null && data['status'] == true) {
-              print('???');
 
               final List<QuestionModel> questions =
                   Provider.of<QuestionsProvider>(context).questions;
-              print(questions.length);
-              print('dddd ${questions[0].published}');
               // Data loaded successfully
               return PageView.builder(
                 itemCount: questions.length,
@@ -74,13 +151,12 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                       .questionText) ??
                                   '',
                               style: GoogleFonts.rubik(
-                                  fontWeight: FontWeight.normal,
+                                  fontWeight: FontWeight.w400,
                                   fontSize: 17,
                                   color: const Color(0xFF000000)),
                             ),
-                            SizedBoxes.vertical15Px,
+                            SizedBoxes.verticalTiny,
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Consumer<SaveQuestionProvider>(
                                   builder:
@@ -107,16 +183,10 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                         ),
                                       ),
                                       onPressed: () {
-                                        print('Button pressed');
-                                        print(
-                                            'Question ID: $questionId, Subject: $subject, Status: ${saveQuestionProvider.status}');
-
                                         if (isSaved) {
-                                          print('Removing question...');
                                           saveQuestionProvider.removeQuestion(
                                               questionId, subject);
                                         } else {
-                                          print('Saving question...');
                                           saveQuestionProvider.saveQuestion(
                                               questionId, subject);
                                         }
@@ -125,13 +195,9 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                     );
                                   },
                                 ),
-                                const MaterialOptionButton(
-                                  title: 'Elimination Tool',
-                                  iconName: 'elimination',
-                                  color: Color(0xFF0C5ABC),
-                                ),
+                                SizedBoxes.horizontalMedium,
                                 ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
+                                    style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.redAccent,
                                       foregroundColor: Colors.white,
                                       elevation: 4,
@@ -141,14 +207,19 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                       ),
                                   ),
                                     onPressed: () {
+                                      final String currentQuestionId = questions[questionPro.questionIndex].questionId;
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const ReportQuestion(),
+                                              ReportQuestion(
+                                                questionId: currentQuestionId,
+                                              ),
                                         ),
                                       );
                                     },
-                                    child: Text('Report'))
+
+                                    child: const Text('Report')
+                                )
                               ],
                             ),
                             SizedBoxes.vertical15Px,
@@ -313,7 +384,7 @@ class NavigationBar extends StatelessWidget {
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: const Color(0xFFEC5863), width: 1),
+                  border: Border.all(color: const Color(0xFFEC5863)),
                 ),
                 child: SvgPicture.asset('assets/icons/flask-icon.svg'),
               ),

@@ -71,6 +71,6 @@ class Endpoints {
   static const String handleSavedQuestion ='/api/saveQuestion/handleSavedQuestion';
 
   //report quest
-  static const String addReport ='/api/reports/addReport';
+  static const String addReport ='https://prodapi.premed.pk/api/reports/addReport';
 
 }
