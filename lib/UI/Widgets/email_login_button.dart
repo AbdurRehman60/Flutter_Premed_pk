@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/login.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
-import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
-
 class EmailLogin extends StatelessWidget {
   const EmailLogin({Key? key});
 

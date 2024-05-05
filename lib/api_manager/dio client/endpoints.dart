@@ -66,4 +66,11 @@ class Endpoints {
 
   static const String getQuestions =
       'https://prodapi.premed.pk/api/decks/get-all-deck-questions/';
+
+  //save question endpoint
+  static const String handleSavedQuestion ='/api/saveQuestion/handleSavedQuestion';
+
+  //report quest
+  static const String addReport ='/api/reports/addReport';
+
 }

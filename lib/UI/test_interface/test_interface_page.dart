@@ -2,11 +2,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/test_interface/widgets/material_button.dart';
 import 'package:premedpk_mobile_app/UI/test_interface/widgets/quiz_option_container.dart';
+import 'package:premedpk_mobile_app/UI/test_interface/widgets/report_question.dart';
 import 'package:premedpk_mobile_app/models/question_model.dart';
 import 'package:provider/provider.dart';
 import 'package:html/parser.dart' as htmlParser;
 import '../../constants/constants_export.dart';
 import '../../providers/questions_proivder.dart';
+import '../../providers/save_question_provider.dart';
+import '../Widgets/global_widgets/custom_button.dart';
 import '../screens/global_qbank/widgets/build_error.dart';
 
 import 'package:flutter/material.dart'; // Import necessary packages
@@ -76,25 +79,76 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                   color: const Color(0xFF000000)),
                             ),
                             SizedBoxes.vertical15Px,
-                            const Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                MaterialOptionButton(
-                                  title: 'Save',
-                                  iconName: 'save',
-                                  color: Color(0xFFF96D28),
+                                Consumer<SaveQuestionProvider>(
+                                  builder:
+                                      (context, saveQuestionProvider, child) {
+                                    final String questionId = questionPro
+                                        .questions[questionPro.questionIndex]
+                                        .questionId;
+                                    final String subject = questionPro
+                                        .questions[questionPro.questionIndex]
+                                        .subject;
+                                    final bool isSaved = saveQuestionProvider
+                                        .isQuestionSaved(questionId, subject);
+                                    final buttonText = isSaved
+                                        ? 'Remove Question'
+                                        : 'Save Question';
+                                    return ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white,
+                                        foregroundColor: Colors.orange,
+                                        elevation: 4,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        print('Button pressed');
+                                        print(
+                                            'Question ID: $questionId, Subject: $subject, Status: ${saveQuestionProvider.status}');
+
+                                        if (isSaved) {
+                                          print('Removing question...');
+                                          saveQuestionProvider.removeQuestion(
+                                              questionId, subject);
+                                        } else {
+                                          print('Saving question...');
+                                          saveQuestionProvider.saveQuestion(
+                                              questionId, subject);
+                                        }
+                                      },
+                                      child: Text(buttonText),
+                                    );
+                                  },
                                 ),
-                                MaterialOptionButton(
+                                const MaterialOptionButton(
                                   title: 'Elimination Tool',
                                   iconName: 'elimination',
                                   color: Color(0xFF0C5ABC),
                                 ),
-                                MaterialOptionButton(
-                                  title: 'Report',
-                                  iconName: 'alert',
-                                  color: Color(0xFFFFFFFF),
-                                  bgColor: Color(0xFFEC5863),
-                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.redAccent,
+                                      foregroundColor: Colors.white,
+                                      elevation: 4,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(24),
+                                      ),
+                                  ),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ReportQuestion(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text('Report'))
                               ],
                             ),
                             SizedBoxes.vertical15Px,
@@ -183,6 +237,7 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
 
 class NavigationBar extends StatelessWidget {
   const NavigationBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     final questionProvider = Provider.of<QuestionsProvider>(context);
@@ -258,8 +313,7 @@ class NavigationBar extends StatelessWidget {
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  border:
-                  Border.all(color: const Color(0xFFEC5863), width: 1),
+                  border: Border.all(color: const Color(0xFFEC5863), width: 1),
                 ),
                 child: SvgPicture.asset('assets/icons/flask-icon.svg'),
               ),
