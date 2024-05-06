@@ -1,5 +1,15 @@
 
 class QuestionModel {
+  final String questionId;
+  final String questionText;
+  final String? questionImage;
+  final String explanationText;
+  final List options;
+  final bool published;
+  final List<Tag> tags;
+  late String subject;
+  late String deckName;
+  late String topic;
 
   QuestionModel({
     required this.questionId,
@@ -42,16 +52,6 @@ class QuestionModel {
       tags: tags,
     );
   }
-  final String questionId;
-  final String questionText;
-  final String? questionImage;
-  final String explanationText;
-  final List options;
-  final bool published;
-  final List<Tag> tags;
-  late String subject;
-  late String deckName;
-  late String topic;
 
 
   Map<String, dynamic> toJson() {

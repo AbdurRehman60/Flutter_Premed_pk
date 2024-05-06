@@ -15,10 +15,49 @@ class QuestionsProvider extends ChangeNotifier {
   int questionIndex = 0;
   int get _questionIndex => questionIndex;
 
-  void getNextQuestion() {
-    questionIndex <= _questionBankLenght - 1 ? questionIndex++ : null;
-    notify();
+  String? _selectedOption;
+
+  final Map<String, String> selectedOptions = {};
+
+  void setSelectedOption(String optionLetter) {
+    selectedOptions[questionIndex.toString()] = optionLetter;
+    _selectedOption = optionLetter;
+    notifyListeners();
   }
+
+  String? get selectedOption {
+    if (selectedOptions.containsKey(questionIndex.toString())) {
+      return selectedOptions[questionIndex.toString()];
+    }
+    return null;
+  }
+
+  void getNextQuestion() {
+    if (questionIndex <= _questionBankLenght - 1) {
+      questionIndex++;
+      _selectedOption = selectedOptions[questionIndex.toString()]; // Use previously selected option if available
+      notifyListeners();
+    }
+  }
+
+  void getPreviousQuestion() {
+    if (questionIndex > 0) {
+      questionIndex--;
+      _selectedOption = selectedOptions[questionIndex.toString()]; // Use previously selected option if available
+      notifyListeners();
+    }
+  }
+
+  void resetSelectedOption() {
+    _selectedOption = null;
+    notifyListeners();
+  }
+
+  void markQuestionAttempted(int index) {
+    _deckQuestions[index].isAttempted = true;
+    notifyListeners();
+  }
+
 
   set loadingStatus(FetchStatus value) {
     _loadingStatus = value;

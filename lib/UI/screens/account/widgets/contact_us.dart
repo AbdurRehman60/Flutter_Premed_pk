@@ -11,7 +11,7 @@ class ContactUs extends StatelessWidget {
     final Uri whatsApp = Uri.parse('https://wa.me/923061289229');
     final Uri messenger = Uri.parse('https://m.me/PreMed.PK');
     final Uri gmail = Uri.parse('mailto:contact@premed.pk');
-    final Uri hubspot = Uri.parse('https://premed.pk/support');
+    final Uri hubspot = Uri.parse('https://premed.pk/about/contact');
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().white,

@@ -93,6 +93,23 @@ class HomeScreen extends StatelessWidget {
                         );
                       },
                     ),
+
+                    SizedBoxes.verticalMedium,
+                    NotesTile(
+                      heading: "Qbank",
+                      description:
+                      "Qbank",
+                      icon: PremedAssets.ProvisionalGuides,
+                      bgColor: PreMedColorTheme().primaryColorBlue100,
+                      btnColor: PreMedColorTheme().primaryColorBlue,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const QbankHome(),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 );
               },
