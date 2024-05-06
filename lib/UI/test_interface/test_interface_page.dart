@@ -56,6 +56,7 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                   Provider.of<QuestionsProvider>(context).questions;
               print(questions.length);
               print('dddd ${questions[0].published}');
+
               // Data loaded successfully
               return PageView.builder(
                 itemCount: questions.length,
@@ -169,9 +170,13 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     image: DecorationImage(
-                                        image: NetworkImage(
-                                            questions[questionPro.questionIndex]
-                                                .questionImage!)),
+                                      image: MemoryImage(
+                                        base64Decode(
+                                          questions[questionPro.questionIndex].questionImage!.split(',').last,
+                                        ),
+                                      ),
+                                      fit: BoxFit.cover, // adjust this based on your requirement
+                                    ),
                                   ),
                                 ),
                               ),
