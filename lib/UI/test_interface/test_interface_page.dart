@@ -16,10 +16,10 @@ class TestInterfacePage extends StatefulWidget {
 
   @override
   _TestInterfacePageState createState() => _TestInterfacePageState();
+
 }
 
 class _TestInterfacePageState extends State<TestInterfacePage> {
-
   int currentIndex = 0;
   String? parse(String toParse) {
     return htmlParser.parse(toParse).body?.text;
@@ -28,7 +28,6 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
   @override
   Widget build(BuildContext context) {
     final questionPro = Provider.of<QuestionsProvider>(context, listen: false);
-    final int currentQuestionNumber = questionPro.questionIndex + 1;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70.0),
@@ -56,31 +55,23 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                   icon: Icon(Icons.arrow_back,
                       color: PreMedColorTheme().primaryColorRed),
                   onPressed: () {
-                    setState(() {
-                      Provider.of<QuestionsProvider>(context, listen: false).getPreviousQuestion();
-                    });                  },
+                    questionPro.getPreviousQuestion();
+                  },
                 ),
               ),
             ),
             title: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'QUESTION $currentQuestionNumber',
+              child: Consumer<QuestionsProvider>(
+                builder: (context, questionProvider, child) {
+                  final questionNumber = questionProvider.questionIndex + 1;
+                  return Text(
+                    'QUESTION $questionNumber',
                     style: PreMedTextTheme().heading6.copyWith(
                       color: PreMedColorTheme().black,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  // Text(
-                  //   '',
-                  //   style: PreMedTextTheme().heading6.copyWith(
-                  //     color: PreMedColorTheme().black,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-                ],
+                  );
+                },
               ),
             ),
             actions: [
@@ -105,9 +96,7 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                     icon: Icon(Icons.arrow_forward,
                         color: PreMedColorTheme().primaryColorRed),
                     onPressed: () {
-                      setState(() {
-                        Provider.of<QuestionsProvider>(context, listen: false).getNextQuestion();
-                      });
+                        questionPro.getNextQuestion();
                     },
                   ),
                 ),
@@ -247,45 +236,20 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                 ),
                               ),
                             SizedBoxes.vertical15Px,
-                            Column(
-                              children: [
-                                QuizOptionContainer(
-                                    optionNumber: 'A',
-                                    quizOptionDetails: parse(
-                                            questions[questionPro.questionIndex]
-                                                .options[0]['OptionText']) ??
-                                        '',
-                                    onTap: () {
-                                      questionPro.getNextQuestion();
-                                    }),
-                                QuizOptionContainer(
-                                    optionNumber: 'B',
-                                    quizOptionDetails: parse(
-                                            questions[questionPro.questionIndex]
-                                                .options[1]['OptionText']) ??
-                                        '',
-                                    onTap: () {
-                                      questionPro.getNextQuestion();
-                                    }),
-                                QuizOptionContainer(
-                                    optionNumber: 'C',
-                                    quizOptionDetails: parse(
-                                            questions[questionPro.questionIndex]
-                                                .options[2]['OptionText']) ??
-                                        '',
-                                    onTap: () {
-                                      questionPro.getNextQuestion();
-                                    }),
-                                QuizOptionContainer(
-                                    optionNumber: 'D',
-                                    quizOptionDetails: parse(
-                                            questions[questionPro.questionIndex]
-                                                .options[3]['OptionText']) ??
-                                        '',
-                                    onTap: () {
-                                      questionPro.getNextQuestion();
-                                    }),
-                              ],
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: questions[questionPro.questionIndex].options.length,
+                              itemBuilder: (context, index) {
+                                final option = questions[questionPro.questionIndex].options[index];
+                                return QuizOptionContainer(
+                                  optionNumber: option.optionLetter,
+                                  quizOptionDetails: parse(option.optionText)?? '',
+                                  onTap: () {
+                                  },
+                                  isCorrect: option.isCorrect,
+                                );
+                              },
                             ),
                           ],
                         ),
@@ -306,12 +270,15 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
   }
 }
 
+
 class NavigationBar extends StatelessWidget {
-  const NavigationBar({super.key});
+  const NavigationBar({Key? key});
 
   @override
   Widget build(BuildContext context) {
     final questionProvider = Provider.of<QuestionsProvider>(context);
+    final questionCount = questionProvider.questions.length;
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Material(
@@ -320,73 +287,125 @@ class NavigationBar extends StatelessWidget {
         elevation: 4,
         clipBehavior: Clip.hardEdge,
         child: Container(
-          height: 55,
+          height: 100,
           padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: [
-              Container(
-                height: 35,
-                width: 35,
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: const Color(0xFFEC5863),
+              Expanded(
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: questionCount,
+                  itemBuilder: (context, index) {
+                    final question = questionProvider.questions[index];
+                    final isAttempted = questionProvider.selectedOptions.containsKey(index.toString());
+                    final isCorrect = isAttempted && question.options.any((option) => option.isCorrect && questionProvider.selectedOptions[index.toString()] == option.optionLetter);
+                    return GestureDetector(
+                      onTap: () {
+                        questionProvider.questionIndex = index;
+                        questionProvider.notifyListeners();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: CircleAvatar(
+                          backgroundColor: isAttempted
+                              ? (isCorrect
+                              ? Colors.blue // Correct and attempted
+                              : Colors.red) // Incorrect and attempted
+                              : Colors.transparent, // Not attempted
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: index == questionProvider.questionIndex ? Colors.blue : Colors.transparent,
+                                width: 2,
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                '${index + 1}',
+                                style: TextStyle(
+                                  color: index == questionProvider.questionIndex ? Colors.blue : Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                child: SvgPicture.asset('assets/icons/dots-menu.svg'),
               ),
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${questionProvider.questionIndex} of ${Provider.of<QuestionsProvider>(context, listen: false).questions.length}',
-                    style: GoogleFonts.rubik(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        height: 1.3,
-                        color: const Color(0xFF000000)),
-                  ),
-                  Text(
-                    'ATTEMPTED',
-                    style: GoogleFonts.rubik(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 8,
-                      height: 1.3,
-                      color: const Color(0x80000000),
+                  Container(
+                    height: 35,
+                    width: 35,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: const Color(0xFFEC5863),
                     ),
-                  )
-                ],
-              ),
-              Column(
-                children: [
-                  Text(
-                    '45:56',
-                    style: GoogleFonts.rubik(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        height: 1.3,
-                        color: const Color(0xFF000000)),
+                    child: SvgPicture.asset('assets/icons/dots-menu.svg'),
                   ),
-                  SizedBoxes.horizontalMicro,
-                  Text(
-                    'TIME LEFT',
-                    style: GoogleFonts.rubik(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 8,
-                      height: 1.3,
-                      color: const Color(0x80000000),
+                  Column(
+                    children: [
+                      Text(
+                        '${questionProvider.questionIndex + 1} of ${Provider.of<QuestionsProvider>(context, listen: false).questions.length}',
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          height: 1.3,
+                          color: const Color(0xFF000000),
+                        ),
+                      ),
+                      Text(
+                        'ATTEMPTED',
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 8,
+                          height: 1.3,
+                          color: const Color(0x80000000),
+                        ),
+                      )
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        '45:56',
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          height: 1.3,
+                          color: const Color(0xFF000000),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        'TIME LEFT',
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 8,
+                          height: 1.3,
+                          color: const Color(0x80000000),
+                        ),
+                      )
+                    ],
+                  ),
+                  Container(
+                    height: 35,
+                    width: 35,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: const Color(0xFFEC5863)),
                     ),
-                  )
+                    child: SvgPicture.asset('assets/icons/flask-icon.svg'),
+                  ),
                 ],
-              ),
-              Container(
-                height: 35,
-                width: 35,
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: const Color(0xFFEC5863)),
-                ),
-                child: SvgPicture.asset('assets/icons/flask-icon.svg'),
               ),
             ],
           ),
@@ -395,3 +414,5 @@ class NavigationBar extends StatelessWidget {
     );
   }
 }
+
+
