@@ -53,10 +53,7 @@ class QuestionsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void markQuestionAttempted(int index) {
-    _deckQuestions[index].isAttempted = true;
-    notifyListeners();
-  }
+
 
 
   set loadingStatus(FetchStatus value) {

@@ -1,28 +1,26 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:premedpk_mobile_app/UI/test_interface/widgets/material_button.dart';
+import 'package:html/parser.dart' as htmlParser;
 import 'package:premedpk_mobile_app/UI/test_interface/widgets/quiz_option_container.dart';
 import 'package:premedpk_mobile_app/UI/test_interface/widgets/report_question.dart';
 import 'package:premedpk_mobile_app/models/question_model.dart';
 import 'package:provider/provider.dart';
-import 'package:html/parser.dart' as htmlParser;
 import '../../constants/constants_export.dart';
 import '../../providers/questions_proivder.dart';
 import '../../providers/save_question_provider.dart';
 import '../screens/global_qbank/widgets/build_error.dart';
 
-import 'package:flutter/material.dart'; // Import necessary packages
-
 class TestInterfacePage extends StatefulWidget {
-  TestInterfacePage({Key? key, required this.deckName}) : super(key: key);
+ const TestInterfacePage({super.key, required this.deckName});
   final String deckName;
 
   @override
   _TestInterfacePageState createState() => _TestInterfacePageState();
+
 }
 
 class _TestInterfacePageState extends State<TestInterfacePage> {
-  int currentIndex = 0; // Maintain the current index
+  int currentIndex = 0;
   String? parse(String toParse) {
     return htmlParser.parse(toParse).body?.text;
   }
@@ -31,9 +29,84 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
   Widget build(BuildContext context) {
     final questionPro = Provider.of<QuestionsProvider>(context, listen: false);
     return Scaffold(
-      appBar: AppBar(
-          // Your app bar code here
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(70.0),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: AppBar(
+            backgroundColor: PreMedColorTheme().white,
+            leading: Container(
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 3,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              alignment: Alignment.center,
+              child: Center(
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back,
+                      color: PreMedColorTheme().primaryColorRed),
+                  onPressed: () {
+                    questionPro.getPreviousQuestion();
+                  },
+                ),
+              ),
+            ),
+            title: Center(
+              child: Consumer<QuestionsProvider>(
+                builder: (context, questionProvider, child) {
+                  final questionNumber = questionProvider.questionIndex + 1;
+                  final totalQuestions = questionProvider.questions.length;
+                  return Text(
+                    'QUESTION $questionNumber / $totalQuestions',
+                    style: PreMedTextTheme().heading6.copyWith(
+                      color: PreMedColorTheme().black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                },
+              ),
+            ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.all(10),
+                width: 40,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                alignment: Alignment.center,
+                child: Center(
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_forward,
+                        color: PreMedColorTheme().primaryColorRed),
+                    onPressed: () {
+                        questionPro.getNextQuestion();
+                    },
+                  ),
+                ),
+              ),
+            ],
+            automaticallyImplyLeading: false,
           ),
+        ),
+      ),
       body: FutureBuilder(
         future: Provider.of<QuestionsProvider>(context, listen: false)
             .fetchQuestions(widget.deckName),
@@ -43,19 +116,13 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
-            print('!!!');
             return buildError(); // Show error message
           } else {
-            print('object');
             final Map<String, dynamic>? data = snapshot.data;
             if (data != null && data['status'] == true) {
-              print('???');
 
               final List<QuestionModel> questions =
                   Provider.of<QuestionsProvider>(context).questions;
-              print(questions.length);
-              print('dddd ${questions[0].published}');
-
               // Data loaded successfully
               return PageView.builder(
                 itemCount: questions.length,
@@ -74,13 +141,12 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                       .questionText) ??
                                   '',
                               style: GoogleFonts.rubik(
-                                  fontWeight: FontWeight.normal,
+                                  fontWeight: FontWeight.w400,
                                   fontSize: 17,
                                   color: const Color(0xFF000000)),
                             ),
-                            SizedBoxes.vertical15Px,
+                            SizedBoxes.verticalTiny,
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Consumer<SaveQuestionProvider>(
                                   builder:
@@ -107,16 +173,10 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                         ),
                                       ),
                                       onPressed: () {
-                                        print('Button pressed');
-                                        print(
-                                            'Question ID: $questionId, Subject: $subject, Status: ${saveQuestionProvider.status}');
-
                                         if (isSaved) {
-                                          print('Removing question...');
                                           saveQuestionProvider.removeQuestion(
                                               questionId, subject);
                                         } else {
-                                          print('Saving question...');
                                           saveQuestionProvider.saveQuestion(
                                               questionId, subject);
                                         }
@@ -125,13 +185,9 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                     );
                                   },
                                 ),
-                                const MaterialOptionButton(
-                                  title: 'Elimination Tool',
-                                  iconName: 'elimination',
-                                  color: Color(0xFF0C5ABC),
-                                ),
+                                SizedBoxes.horizontalMedium,
                                 ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
+                                    style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.redAccent,
                                       foregroundColor: Colors.white,
                                       elevation: 4,
@@ -141,14 +197,19 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                       ),
                                   ),
                                     onPressed: () {
+                                      final String currentQuestionId = questions[questionPro.questionIndex].questionId;
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const ReportQuestion(),
+                                              ReportQuestion(
+                                                questionId: currentQuestionId,
+                                              ),
                                         ),
                                       );
                                     },
-                                    child: Text('Report'))
+
+                                    child: const Text('Report')
+                                )
                               ],
                             ),
                             SizedBoxes.vertical15Px,
@@ -169,56 +230,27 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     image: DecorationImage(
-                                      image: MemoryImage(
-                                        base64Decode(
-                                          questions[questionPro.questionIndex].questionImage!.split(',').last,
-                                        ),
-                                      ),
-                                      fit: BoxFit.cover, // adjust this based on your requirement
-                                    ),
+                                        image: NetworkImage(
+                                            questions[questionPro.questionIndex]
+                                                .questionImage!)),
                                   ),
                                 ),
                               ),
                             SizedBoxes.vertical15Px,
-                            Column(
-                              children: [
-                                QuizOptionContainer(
-                                    optionNumber: 'A',
-                                    quizOptionDetails: parse(
-                                            questions[questionPro.questionIndex]
-                                                .options[0]['OptionText']) ??
-                                        '',
-                                    onTap: () {
-                                      questionPro.getNextQuestion();
-                                    }),
-                                QuizOptionContainer(
-                                    optionNumber: 'B',
-                                    quizOptionDetails: parse(
-                                            questions[questionPro.questionIndex]
-                                                .options[1]['OptionText']) ??
-                                        '',
-                                    onTap: () {
-                                      questionPro.getNextQuestion();
-                                    }),
-                                QuizOptionContainer(
-                                    optionNumber: 'C',
-                                    quizOptionDetails: parse(
-                                            questions[questionPro.questionIndex]
-                                                .options[2]['OptionText']) ??
-                                        '',
-                                    onTap: () {
-                                      questionPro.getNextQuestion();
-                                    }),
-                                QuizOptionContainer(
-                                    optionNumber: 'D',
-                                    quizOptionDetails: parse(
-                                            questions[questionPro.questionIndex]
-                                                .options[3]['OptionText']) ??
-                                        '',
-                                    onTap: () {
-                                      questionPro.getNextQuestion();
-                                    }),
-                              ],
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: questions[questionPro.questionIndex].options.length,
+                              itemBuilder: (context, index) {
+                                final option = questions[questionPro.questionIndex].options[index];
+                                return QuizOptionContainer(
+                                  optionNumber: option.optionLetter,
+                                  quizOptionDetails: parse(option.optionText)?? '',
+                                  onTap: () {
+                                  },
+                                  isCorrect: option.isCorrect,
+                                );
+                              },
                             ),
                           ],
                         ),
@@ -239,12 +271,15 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
   }
 }
 
+
 class NavigationBar extends StatelessWidget {
-  const NavigationBar({super.key});
+  const NavigationBar({Key? key});
 
   @override
   Widget build(BuildContext context) {
     final questionProvider = Provider.of<QuestionsProvider>(context);
+    final questionCount = questionProvider.questions.length;
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Material(
@@ -253,73 +288,125 @@ class NavigationBar extends StatelessWidget {
         elevation: 4,
         clipBehavior: Clip.hardEdge,
         child: Container(
-          height: 55,
+          height: 100,
           padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: [
-              Container(
-                height: 35,
-                width: 35,
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: const Color(0xFFEC5863),
+              Expanded(
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: questionCount,
+                  itemBuilder: (context, index) {
+                    final question = questionProvider.questions[index];
+                    final isAttempted = questionProvider.selectedOptions.containsKey(index.toString());
+                    final isCorrect = isAttempted && question.options.any((option) => option.isCorrect && questionProvider.selectedOptions[index.toString()] == option.optionLetter);
+                    return GestureDetector(
+                      onTap: () {
+                        questionProvider.questionIndex = index;
+                        questionProvider.notifyListeners();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: CircleAvatar(
+                          backgroundColor: isAttempted
+                              ? (isCorrect
+                              ? Colors.blue
+                              : Colors.red)
+                              : Colors.transparent,
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: index == questionProvider.questionIndex ? Colors.blue : Colors.transparent,
+                                width: 2,
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                '${index + 1}',
+                                style: TextStyle(
+                                  color: index == questionProvider.questionIndex ? Colors.blue : Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                child: SvgPicture.asset('assets/icons/dots-menu.svg'),
               ),
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${questionProvider.questionIndex} of ${Provider.of<QuestionsProvider>(context, listen: false).questions.length}',
-                    style: GoogleFonts.rubik(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        height: 1.3,
-                        color: const Color(0xFF000000)),
-                  ),
-                  Text(
-                    'ATTEMPTED',
-                    style: GoogleFonts.rubik(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 8,
-                      height: 1.3,
-                      color: const Color(0x80000000),
+                  Container(
+                    height: 35,
+                    width: 35,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: const Color(0xFFEC5863),
                     ),
-                  )
-                ],
-              ),
-              Column(
-                children: [
-                  Text(
-                    '45:56',
-                    style: GoogleFonts.rubik(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                        height: 1.3,
-                        color: const Color(0xFF000000)),
+                    child: SvgPicture.asset('assets/icons/dots-menu.svg'),
                   ),
-                  SizedBoxes.horizontalMicro,
-                  Text(
-                    'TIME LEFT',
-                    style: GoogleFonts.rubik(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 8,
-                      height: 1.3,
-                      color: const Color(0x80000000),
+                  Column(
+                    children: [
+                      Text(
+                        '${questionProvider.questionIndex + 1} of ${Provider.of<QuestionsProvider>(context, listen: false).questions.length}',
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          height: 1.3,
+                          color: const Color(0xFF000000),
+                        ),
+                      ),
+                      Text(
+                        'ATTEMPTED',
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 8,
+                          height: 1.3,
+                          color: const Color(0x80000000),
+                        ),
+                      )
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        '45:56',
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          height: 1.3,
+                          color: const Color(0xFF000000),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        'TIME LEFT',
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 8,
+                          height: 1.3,
+                          color: const Color(0x80000000),
+                        ),
+                      )
+                    ],
+                  ),
+                  Container(
+                    height: 35,
+                    width: 35,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: const Color(0xFFEC5863)),
                     ),
-                  )
+                    child: SvgPicture.asset('assets/icons/flask-icon.svg'),
+                  ),
                 ],
-              ),
-              Container(
-                height: 35,
-                width: 35,
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: const Color(0xFFEC5863), width: 1),
-                ),
-                child: SvgPicture.asset('assets/icons/flask-icon.svg'),
               ),
             ],
           ),
@@ -328,3 +415,5 @@ class NavigationBar extends StatelessWidget {
     );
   }
 }
+
+
