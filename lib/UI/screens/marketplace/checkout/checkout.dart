@@ -9,13 +9,19 @@ final Map<String, dynamic> meezanNumbers = {
   'Fahad Niaz Sheikh': '99170105642737'
 };
 
+final Map<String, dynamic> hblNumbers = {
+  'MOHD HASNAIN': '05417988872303',
+  'IBAN #': "PK90HABB0005417988872303"
+};
+
 final Map<String, dynamic> easyPaisaNumbers = {
-  'Khwaja Muhammed Haiyaan': '0331-2176647',
+  'ABBAS ALI MANKANI': '0336-2541727',
   'Fahd Niaz Shaikh': '0336-2542685',
 };
 
 final Map<String, dynamic> jazzCashNumbers = {
-  'Khwaja Muhammed Haiyaan': '0331-2176647',
+  'PreMedPK': '0302-8609690',
+  'Khwaja Muhammed Heean': '0331-2176647',
 };
 
 class Checkout extends StatefulWidget {
@@ -34,17 +40,49 @@ class _CheckoutState extends State<Checkout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Checkout',
-          style: PreMedTextTheme().heading6.copyWith(
-                color: PreMedColorTheme().black,
-              ),
-        ),
-        centerTitle: true,
-        iconTheme: IconThemeData(
-          color: PreMedColorTheme().black,
-        ),
         backgroundColor: PreMedColorTheme().white,
+        leading: Container(
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 1,
+                blurRadius: 3,
+                offset: const Offset(0, 2),
+              ),
+            ],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          alignment: Alignment.center,
+          child: Center(
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios_new_rounded,
+                  color: PreMedColorTheme().primaryColorRed),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Payment',
+              style: PreMedTextTheme().heading6.copyWith(
+                  color: PreMedColorTheme().black, fontWeight: FontWeight.bold),
+            ),
+            SizedBoxes.vertical2Px,
+            Text('CHOOSE METHOD OF PAYMENT',
+                style: PreMedTextTheme().subtext.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: PreMedColorTheme().black,
+                ))
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -52,8 +90,9 @@ class _CheckoutState extends State<Checkout> {
           child: Column(
             children: [
               PaymentTile(
+                transferAmountText: 'Transfer the Grand Total to one of these Bank Accounts, the details of which are provided below. Then upload the Paid Receipt below.',
                 selected: paymentRadioGroup.selectedValue == 0,
-                paymentProvider: "Bank Transfer",
+                paymentProvider: "Meezan Bank",
                 image: PremedAssets.Meezan,
                 numbers: meezanNumbers,
                 onTap: () {
@@ -65,10 +104,11 @@ class _CheckoutState extends State<Checkout> {
                 },
               ),
               PaymentTile(
+                transferAmountText: 'Transfer the Grand Total to one of these Bank Accounts, the details of which are provided below. Then upload the Paid Receipt below.',
                 selected: paymentRadioGroup.selectedValue == 1,
-                paymentProvider: "Easy Paisa",
-                image: PremedAssets.EasyPaisa,
-                numbers: easyPaisaNumbers,
+                paymentProvider: "Habib Bank Limited",
+                image: PremedAssets.HBL,
+                numbers: hblNumbers,
                 onTap: () {
                   setState(() {
                     paymentRadioGroup.selectedValue != 1
@@ -78,14 +118,29 @@ class _CheckoutState extends State<Checkout> {
                 },
               ),
               PaymentTile(
+                transferAmountText: 'Transfer the Grand Total to the one of the following Easypaisa Accounts, the details of which are provided below. Then upload the Paid Receipt below.',
                 selected: paymentRadioGroup.selectedValue == 2,
+                paymentProvider: "Easy Paisa",
+                image: PremedAssets.EasyPaisa,
+                numbers: easyPaisaNumbers,
+                onTap: () {
+                  setState(() {
+                    paymentRadioGroup.selectedValue != 2
+                        ? paymentRadioGroup.setSelectedValue(2)
+                        : paymentRadioGroup.setSelectedValue(-1);
+                  });
+                },
+              ),
+              PaymentTile(
+                transferAmountText: 'Transfer the Grand Total to one of the following JazzCash Accounts, the details of which are provided below. Then upload the Paid Receipt below.',
+                selected: paymentRadioGroup.selectedValue == 3,
                 paymentProvider: "Jazz Cash",
                 image: PremedAssets.JazzCash,
                 numbers: jazzCashNumbers,
                 onTap: () {
                   setState(() {
-                    paymentRadioGroup.selectedValue != 2
-                        ? paymentRadioGroup.setSelectedValue(2)
+                    paymentRadioGroup.selectedValue != 3
+                        ? paymentRadioGroup.setSelectedValue(3)
                         : paymentRadioGroup.setSelectedValue(-1);
                   });
                 },

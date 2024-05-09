@@ -17,6 +17,7 @@ class PaymentTile extends StatelessWidget {
     required this.image,
     required this.numbers,
     required this.onTap,
+    required this.transferAmountText,
   });
 
   final bool selected;
@@ -24,6 +25,7 @@ class PaymentTile extends StatelessWidget {
   final String image;
   final Map<String, dynamic> numbers;
   final VoidCallback onTap;
+  final String transferAmountText;
 
   @override
   Widget build(BuildContext context) {
@@ -192,99 +194,103 @@ class PaymentTile extends StatelessWidget {
         ),
         if (selected) SizedBoxes.verticalBig else const SizedBox(),
         if (selected)
-          Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(
-                color: PreMedColorTheme().neutral400,
-                width: 1.5,
+          Material(
+            borderRadius: BorderRadius.circular(10.0),
+            elevation: 6,
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                border: Border.all(
+                  color: PreMedColorTheme().white,
+                  width: 1.5,
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    image,
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.contain,
-                  ),
-                  SizedBoxes.verticalMedium,
-                  const Text(
-                    'Transfer the amount to these accounts and upload the screenshot of the receipt',
-                  ),
-                  SizedBoxes.verticalMedium,
-                  SelectableText(
-                    numbers.entries
-                        .map((entry) => '${entry.value} (${entry.key})')
-                        .join(' '),
-                  ),
-                  SizedBoxes.verticalMedium,
-                  SizedBox(
-                    width: 72,
-                    height: 32,
-                    child: CustomButton(
-                        buttonText: "Copy",
-                        isIconButton: true,
-                        isOutlined: true,
-                        icon: Icons.copy,
-                        textColor: PreMedColorTheme().neutral500,
-                        iconSize: 12,
-                        fontSize: 12,
-                        onPressed: () {
-                          if (numbers.isNotEmpty) {
-                            final phoneNumber = numbers.entries.first.value;
-                            copyToClipboard(phoneNumber);
-                          }
-                        }),
-                  ),
-                  SizedBoxes.verticalExtraGargangua,
-                  SizedBox(
-                    width: double.infinity,
-                    height: 256,
-                    child: DottedBorder(
-                      borderType: BorderType.RRect,
-                      radius: const Radius.circular(12),
-                      strokeCap: StrokeCap.round,
-                      color: PreMedColorTheme().primaryColorBlue500,
-                      dashPattern: const [10, 10],
-                      strokeWidth: 4,
-                      child: const UploadPaymentImage(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      image,
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.contain,
                     ),
-                  ),
-                  SizedBoxes.verticalExtraGargangua,
-                  const CartSummary(),
-                  SizedBoxes.verticalMedium,
-                  if (cartProvider.orderStatus == OrderStatus.processing)
-                    Column(
-                      children: [
-                        SizedBoxes.verticalMedium,
-                        SizedBoxes.verticalMedium,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2.5,
-                                )),
-                            SizedBoxes.horizontalMedium,
-                            const Text("Placing Order"),
-                          ],
-                        ),
-                      ],
-                    )
-                  else
-                    CustomButton(
-                      buttonText: 'Place Order ->',
-                      onPressed: onPlaceOrder,
+                    SizedBoxes.verticalMedium,
+                    Text(
+                      transferAmountText
                     ),
-                ],
+                    SizedBoxes.verticalMedium,
+                    SelectableText(
+                      numbers.entries
+                          .map((entry) => '${entry.value} (${entry.key})')
+                          .join(' '),
+                    ),
+                    SizedBoxes.verticalMedium,
+                    SizedBox(
+                      width: 72,
+                      height: 32,
+                      child: CustomButton(
+                          buttonText: "Copy",
+                          isIconButton: true,
+                          isOutlined: true,
+                          icon: Icons.copy,
+                          textColor: PreMedColorTheme().neutral500,
+                          iconSize: 12,
+                          fontSize: 12,
+                          onPressed: () {
+                            if (numbers.isNotEmpty) {
+                              final phoneNumber = numbers.entries.first.value;
+                              copyToClipboard(phoneNumber);
+                            }
+                          }),
+                    ),
+                    SizedBoxes.verticalExtraGargangua,
+                    SizedBox(
+                      width: double.infinity,
+                      height: 256,
+                      child: DottedBorder(
+                        borderType: BorderType.RRect,
+                        radius: const Radius.circular(12),
+                        strokeCap: StrokeCap.round,
+                        color: PreMedColorTheme().primaryColorBlue500,
+                        dashPattern: const [10, 10],
+                        strokeWidth: 4,
+                        child: const UploadPaymentImage(),
+                      ),
+                    ),
+                    SizedBoxes.verticalExtraGargangua,
+                    const CartSummary(),
+                    SizedBoxes.verticalMedium,
+                    if (cartProvider.orderStatus == OrderStatus.processing)
+                      Column(
+                        children: [
+                          SizedBoxes.verticalMedium,
+                          SizedBoxes.verticalMedium,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2.5,
+                                  )),
+                              SizedBoxes.horizontalMedium,
+                              const Text("Placing Order"),
+                            ],
+                          ),
+                        ],
+                      )
+                    else
+                      CustomButton(
+                        buttonText: 'Place Order ->',
+                        onPressed: onPlaceOrder,
+                      ),
+                  ],
+                ),
               ),
             ),
           )

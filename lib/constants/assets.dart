@@ -15,6 +15,7 @@ class PremedAssets {
   static String Payment = 'assets/images/payment.png';
   static String Paymentupload = 'assets/images/upload.png';
   static String Meezan = 'assets/images/meezan.jpg';
+  static String HBL= 'assets/images/HBL.png';
   static String JazzCash = 'assets/images/jazzcash.png';
   static String EasyPaisa = 'assets/images/easypaisa.jpg';
   static String NotificationIcon = 'assets/images/Bell Icon.png';
