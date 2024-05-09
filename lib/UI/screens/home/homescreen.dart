@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/global_qbank/qbank_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
@@ -55,10 +56,15 @@ class HomeScreen extends StatelessWidget {
                         icon: PremedAssets.QuestionBank,
                         bgColor: PreMedColorTheme().white,
                         onTap: () {
-                          launchUrl(
-                            mode: LaunchMode.inAppBrowserView,
-                            Uri.parse("https://premed.pk/dashboard"),
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const QbankHome(),
+                            ),
                           );
+                          // launchUrl(
+                          //   mode: LaunchMode.inAppBrowserView,
+                          //   Uri.parse("https://premed.pk/dashboard"),
+                          // );
                         },
                       ),
                     ),

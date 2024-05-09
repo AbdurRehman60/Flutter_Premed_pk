@@ -9,16 +9,16 @@ enum Status {
 }
 
 class SaveQuestionProvider extends ChangeNotifier {
+
+  SaveQuestionProvider({required this.userId});
   final Dio dio = Dio();
   Status status = Status.init;
   String message = '';
   final String userId;
-  List<Map<String, String>> savedQuestions = []; // List to store saved questions
-
-  SaveQuestionProvider({required this.userId});
+  List<Map<String, String>> savedQuestions = [];
 
   Future<void> saveQuestion(String questionId, String subject) async {
-    status = Status.fetching; // Set status to fetching before making the request
+    status = Status.fetching;
     notifyListeners();
 
     try {
@@ -32,25 +32,24 @@ class SaveQuestionProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        status = Status.success; // Update status to success if request succeeds
+        status = Status.success;
         message = 'Question saved successfully';
 
-        // Update savedQuestions list if the question is successfully saved
         savedQuestions.add({'questionId': questionId, 'subject': subject});
       } else {
-        status = Status.init; // Reset status to init if request fails
+        status = Status.init;
         message = 'Failed to save question';
       }
     } catch (error) {
-      status = Status.init; // Reset status to init in case of error
+      status = Status.init;
       message = 'Error: $error';
     } finally {
-      notifyListeners(); // Notify listeners after updating status
+      notifyListeners();
     }
   }
 
   Future<void> removeQuestion(String questionId, String subject) async {
-    status = Status.fetching; // Set status to fetching before making the request
+    status = Status.fetching;
     notifyListeners();
 
     try {
@@ -65,19 +64,18 @@ class SaveQuestionProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        status = Status.init; // Update status to indicate question is not saved
+        status = Status.init;
         message = 'Question removed successfully';
 
-        // Remove the question from savedQuestions list
         savedQuestions.removeWhere((savedQuestion) =>
         savedQuestion['questionId'] == questionId &&
             savedQuestion['subject'] == subject);
       } else {
-        status = Status.init; // Reset status to init even if removal fails
+        status = Status.init;
         message = 'Failed to remove question';
       }
     } catch (error) {
-      status = Status.init; // Reset status to init in case of error
+      status = Status.init;
       message = 'Error: $error';
     } finally {
       notifyListeners();
@@ -85,7 +83,6 @@ class SaveQuestionProvider extends ChangeNotifier {
   }
 
   bool isQuestionSaved(String questionId, String subject) {
-    // Check if the question is already saved in the savedQuestions list
     return savedQuestions.any((savedQuestion) =>
     savedQuestion['questionId'] == questionId &&
         savedQuestion['subject'] == subject);

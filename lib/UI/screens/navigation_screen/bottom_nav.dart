@@ -3,17 +3,17 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 class PremedBottomNav extends StatelessWidget {
   const PremedBottomNav(
       {super.key,
-      required this.currentIndex,
-      required this.onTapHome,
-      required this.onTapMarketplace,
-      //required this.onTapQbank,
-      required this.onTapExpertSolution,
-      required this.onTapProfile});
+        required this.currentIndex,
+        required this.onTapHome,
+        required this.onTapMarketplace,
+        required this.onTapQbank,
+        required this.onTapExpertSolution,
+        required this.onTapProfile});
 
   final int currentIndex;
   final VoidCallback onTapHome;
   final VoidCallback onTapMarketplace;
-  //final VoidCallback onTapQbank;
+  final VoidCallback onTapQbank;
   final VoidCallback onTapExpertSolution;
   final VoidCallback onTapProfile;
 

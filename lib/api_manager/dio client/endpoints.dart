@@ -67,11 +67,21 @@ class Endpoints {
   static const String Privuni= '/api/get-all-published-decks';
   static const String Nums = '/api/get-all-published-decks';
 
+  //deck point
+  static const String getDeckInfo =
+      'https://prodapi.premed.pk/api/decks/get-deck-information/';
+
+  static const String getQuestions =
+      'https://prodapi.premed.pk/api/decks/get-all-deck-questions/';
+
   //test_interface
   static const String GetAllDeckQuestions = '/api/decks/get-all-deck-questions/NUMS%20Mock%20Paper%202';
 
   //saved ques
 
   static const String handleSavedQuestion ='/api/saveQuestion/handleSavedQuestion';
+
+  //report ques
+  static const String addReport ='https://prodapi.premed.pk/api/reports/addReport';
 }
 

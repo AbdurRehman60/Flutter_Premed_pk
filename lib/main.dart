@@ -15,14 +15,16 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
+import 'package:premedpk_mobile_app/providers/decks_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
-import 'package:premedpk_mobile_app/providers/handle_saved_ques_provider.dart';
 import 'package:premedpk_mobile_app/providers/mdcat_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/pu_mocks-provider.dart';
-import 'package:premedpk_mobile_app/providers/test_interface_provider.dart';
+import 'package:premedpk_mobile_app/providers/questions_proivder.dart';
+import 'package:premedpk_mobile_app/providers/report_question_provider.dart';
+import 'package:premedpk_mobile_app/providers/save_question_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
@@ -82,8 +84,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UplaodImageProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => WebNotificationsProvider()),
-        ChangeNotifierProvider(create: (_) => QuestionProvider()),
+        ChangeNotifierProvider(create: (_) => QuestionsProvider()),
+        // ChangeNotifierProvider(create: (_) => SaveQuestionProvider(userId: "65b113ba761bb53e12fb7fe6")),
         ChangeNotifierProvider(create: (_) => SaveQuestionProvider(userId: "65b113ba761bb53e12fb7fe6")),
+        ChangeNotifierProvider(create: (_) => ReportQuestionProvider()),
+        ChangeNotifierProvider(create: (_) => DecksProvider()),
       ],
       child: MaterialApp(
         routes: {
