@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:premedpk_mobile_app/UI/screens/global_qbank/bank_or_mock.dart';
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/qbank_ground.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
@@ -36,10 +37,9 @@ class QbankHome extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Qbank(
-                                      deckCategory: 'MDCAT QBank',
-                                      deckGroupName: 'MDCAT QBANK',
-                                    )));
+                                builder: (context) => Qbank(
+                                    deckCategory: 'MDCAT QBank',
+                                    deckGroupName: 'MDCAT QBANK')));
                       }),
                   BankCard(
                       image: 'assets/images/NUMS qbank.png',
@@ -59,9 +59,8 @@ class QbankHome extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const Qbank(
-                                    deckGroupName: 'PU Qbank',
-                                    deckCategory:
-                                        'Private Universities QBank')));
+                                    deckCategory: 'Private Universities QBank',
+                                    deckGroupName: 'PU QBank')));
                       })
                 ],
               )
