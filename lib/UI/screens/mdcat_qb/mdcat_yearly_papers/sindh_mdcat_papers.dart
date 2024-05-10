@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class MDCAT_Papers_5 extends StatelessWidget {
@@ -13,7 +10,7 @@ Widget build(BuildContext context) {
     backgroundColor: PreMedColorTheme().white,
     body: SafeArea(
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -31,7 +28,7 @@ Widget build(BuildContext context) {
                 future: fetchMDCAT2023Decks(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else {
@@ -43,7 +40,7 @@ Widget build(BuildContext context) {
                         return Column(
                           children: [
                             Container(
-                              margin: EdgeInsets.only(bottom: 10),
+                              margin: const EdgeInsets.only(bottom: 10),
                               decoration: BoxDecoration(
                                 color: PreMedColorTheme().white,
                                 borderRadius: BorderRadius.circular(10),
@@ -66,7 +63,7 @@ Widget build(BuildContext context) {
                                             Text(deck['deckName'], style: PreMedTextTheme().heading5,),
                                             SizedBoxes.verticalTiny,
                                             Container(
-                                              padding: EdgeInsets.all(8),
+                                              padding: const EdgeInsets.all(8),
                                               decoration: BoxDecoration(
                                                 color: PreMedColorTheme().primaryColorBlue,
                                                 borderRadius: BorderRadius.circular(8),
