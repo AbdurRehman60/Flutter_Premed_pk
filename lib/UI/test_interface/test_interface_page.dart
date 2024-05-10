@@ -9,6 +9,7 @@ import '../../constants/constants_export.dart';
 import '../../providers/questions_proivder.dart';
 import '../../providers/save_question_provider.dart';
 
+import '../../providers/user_provider.dart';
 import '../screens/global_qbank/widgets/build_error.dart';
 
 class TestInterfacePage extends StatefulWidget {
@@ -29,6 +30,7 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
   @override
   Widget build(BuildContext context) {
     final questionPro = Provider.of<QuestionsProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70.0),
@@ -175,10 +177,11 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                       ),
                                       onPressed: () {
                                         if (isSaved) {
-                                          saveQuestionProvider.removeQuestion(questionId, subject);
+                                          saveQuestionProvider.removeQuestion(questionId, subject, userProvider.user?.userId ?? '');
                                         } else {
-                                          saveQuestionProvider.saveQuestion(questionId, subject);
+                                          saveQuestionProvider.saveQuestion(questionId, subject, userProvider.user?.userId ?? '');
                                         }
+                                        print('User ID of the user is: ${userProvider.user?.userId}');
                                       },
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

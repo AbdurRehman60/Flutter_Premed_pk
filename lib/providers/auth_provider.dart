@@ -210,6 +210,8 @@ class AuthProvider extends ChangeNotifier {
         Endpoints.getLoggedInUser,
       );
 
+      print('Raw response data: $response');
+
       if (response["isloggedin"]) {
         final User user = User.fromJson(response);
         await UserPreferences().saveUser(user);

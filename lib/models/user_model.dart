@@ -1,6 +1,7 @@
 class User {
 
   User({
+    required this.userId,
     required this.status,
     required this.isLoggedin,
     required this.userName,
@@ -38,6 +39,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> responseData) {
     return User(
+      userId: responseData['id'],
       status: responseData['status'] ?? "",
       isLoggedin: responseData['isloggedin'] ?? false,
       userName: responseData['username'] ?? "",
@@ -74,7 +76,7 @@ class User {
       freeTrial: FreeTrial.fromJson(responseData['freeTrial'] ?? {}),
     );
   }
-
+  String userId;
   String status;
   bool isLoggedin;
   String userName;
@@ -111,6 +113,7 @@ class User {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
+    data['id'] = userId;
     data['status'] = status;
     data['isloggedin'] = isLoggedin;
     data['email'] = userName;

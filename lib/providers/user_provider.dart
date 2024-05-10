@@ -57,8 +57,10 @@ class UserProvider extends ChangeNotifier {
       return '';
     }
   }
-
-
+  //
+  // void printUserId() {
+  //   print(user?.userId);
+  // }
 
 
   // Update full name

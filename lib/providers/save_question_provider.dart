@@ -9,15 +9,15 @@ enum Status {
 }
 
 class SaveQuestionProvider extends ChangeNotifier {
+  SaveQuestionProvider();
 
-  SaveQuestionProvider({required this.userId});
   final Dio dio = Dio();
   Status status = Status.init;
   String message = '';
-  final String userId;
   List<Map<String, String>> savedQuestions = [];
 
-  Future<void> saveQuestion(String questionId, String subject) async {
+  // Method to save a question
+  Future<void> saveQuestion(String questionId, String subject, String userId) async {
     status = Status.fetching;
     notifyListeners();
 
@@ -25,7 +25,7 @@ class SaveQuestionProvider extends ChangeNotifier {
       final response = await dio.post(
         Endpoints.serverURL + Endpoints.handleSavedQuestion,
         data: {
-          'userId': userId,
+          'userId': userId, // Use the provided userId
           'questionId': questionId,
           'subject': subject,
         },
@@ -48,7 +48,8 @@ class SaveQuestionProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> removeQuestion(String questionId, String subject) async {
+  // Method to remove a question
+  Future<void> removeQuestion(String questionId, String subject, String userId) async {
     status = Status.fetching;
     notifyListeners();
 
@@ -56,7 +57,7 @@ class SaveQuestionProvider extends ChangeNotifier {
       final response = await dio.post(
         Endpoints.serverURL + Endpoints.handleSavedQuestion,
         data: {
-          'userId': userId,
+          'userId': userId, // Use the provided userId
           'questionId': questionId,
           'subject': subject,
           'remove': true,
@@ -82,6 +83,7 @@ class SaveQuestionProvider extends ChangeNotifier {
     }
   }
 
+  // Method to check if a question is saved
   bool isQuestionSaved(String questionId, String subject) {
     return savedQuestions.any((savedQuestion) =>
     savedQuestion['questionId'] == questionId &&
