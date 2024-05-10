@@ -45,5 +45,9 @@ class PremedAssets {
   static String DocumentIcon = 'assets/icons/QuestionMarkDocument.svg';
   static String FlashCardsIcon = 'assets/icons/Flashcards.svg';
   static String LeftArrowIcon = 'assets/icons/left-arrow.svg';
-
+  static String Dashboard = 'assets/icons/dashboard.svg';
+  static String QbankNav = 'assets/icons/questionbank.svg';
+  static String ExpertSolutions = 'assets/icons/expertsolutions.svg';
+  static String Shop = 'assets/icons/shop.svg';
+  static String Settings = 'assets/icons/settings.svg';
 }

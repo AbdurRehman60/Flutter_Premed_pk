@@ -1,5 +1,7 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/recent_activity_page.dart';
+import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/bottom_navigation.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/flash_card_container.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/notes_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/notification_widget.dart';
@@ -26,8 +28,8 @@ class QbankHomePage extends StatelessWidget {
         Provider.of<QuestionOfTheDayProvider>(context, listen: false);
     late List<RecentActivityModel> recentActivityList;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 15, 16, 0),
             child: Column(
@@ -68,7 +70,12 @@ class QbankHomePage extends StatelessWidget {
                       title: 'MDCAT',
                       subTitle: 'QBank',
                     ),
-                    QbankFlashCardContainer(icon: PremedAssets.FlashCardsIcon,activityText: '', title: 'Flashcards', subTitle: 'Fast-paced revision!',),
+                    QbankFlashCardContainer(
+                      icon: PremedAssets.FlashCardsIcon,
+                      activityText: '',
+                      title: 'Flashcards',
+                      subTitle: 'Fast-paced revision!',
+                    ),
                   ],
                 ),
                 SizedBoxes.verticalBig,

@@ -9,6 +9,7 @@ import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dar
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/splash_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/bottom_navigation.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
@@ -26,6 +27,7 @@ import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
 import 'package:premedpk_mobile_app/utils/services/notifications/firebase_messaging_api.dart';
 import 'package:provider/provider.dart';
 
+import 'UI/screens/question_banks/qbank_homepage.dart';
 import 'firebase_options.dart';
 
 List<CameraDescription> cameras = [];
@@ -90,7 +92,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const SplashScreen(),
+        home: const QbankBottomNavigation(),
         navigatorKey: navigatorKey,
       ),
     );
