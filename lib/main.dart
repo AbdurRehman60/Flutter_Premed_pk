@@ -6,7 +6,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
-import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/splash_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/bottom_navigation.dart';
@@ -26,8 +25,6 @@ import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
 import 'package:premedpk_mobile_app/utils/services/notifications/firebase_messaging_api.dart';
 import 'package:provider/provider.dart';
-
-import 'UI/screens/question_banks/qbank_homepage.dart';
 import 'firebase_options.dart';
 
 List<CameraDescription> cameras = [];

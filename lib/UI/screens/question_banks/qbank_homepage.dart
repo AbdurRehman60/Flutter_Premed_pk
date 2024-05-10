@@ -1,7 +1,5 @@
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/recent_activity_page.dart';
-import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/bottom_navigation.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/flash_card_container.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/notes_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/notification_widget.dart';
