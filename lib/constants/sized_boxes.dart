@@ -27,6 +27,7 @@ class SizedBoxes {
   static SizedBox horizontal15Px = const SizedBox(width: 15,);
   static SizedBox horizontalLarge = const SizedBox(width: 16);
   static SizedBox horizontalBig = const SizedBox(width: 20);
+  static SizedBox horizontal24Px = const SizedBox(width: 24);
   static SizedBox horizontalGargangua = const SizedBox(width: 30);
   static SizedBox horizontalExtraGargangua = const SizedBox(width: 40);
 }

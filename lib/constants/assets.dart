@@ -50,4 +50,5 @@ class PremedAssets {
   static String ExpertSolutions = 'assets/icons/expertsolutions.svg';
   static String Shop = 'assets/icons/shop.svg';
   static String Settings = 'assets/icons/settings.svg';
+  static String MDCATQbankLogo = 'assets/icons/mdcatqbank.png';
 }

@@ -9,6 +9,7 @@ import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dar
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/bottom_navigation.dart';
+import 'package:premedpk_mobile_app/UI/screens/statistics/qbanks_stats.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
@@ -89,7 +90,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const QbankBottomNavigation(),
+        home: const QbanksStatsPage(),
         navigatorKey: navigatorKey,
       ),
     );
