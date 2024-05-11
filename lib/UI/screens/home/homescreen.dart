@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
+import 'package:premedpk_mobile_app/UI/screens/question_banks/qbank_homepage.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/UI/test_interface/test_interface_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -11,8 +12,6 @@ import 'package:premedpk_mobile_app/providers/decks_provider.dart';
 import 'package:premedpk_mobile_app/providers/questions_proivder.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
-
-import '../global_qbank/qbank_home.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -39,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => QbankHome()));
+                                        builder: (context) => QbankHomePage()));
                                 // final pro =
                                 //     Provider.of<QuestionsProvider>(context,listen: false);
                                 // pro.fetchQuestions();
@@ -105,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const QbankHome(),
+                            builder: (context) => const QbankHomePage(),
                           ),
                         );
                       },

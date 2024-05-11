@@ -32,7 +32,7 @@ class DeckInfoContainer extends StatelessWidget {
                   backgroundImage:
                   NetworkImage(qbank.deckGroupImage),
                 ),
-                SizedBoxes.horizontal10Px,
+                SizedBoxes.horizontal12Px,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

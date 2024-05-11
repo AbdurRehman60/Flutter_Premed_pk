@@ -8,7 +8,7 @@ enum RecentActivityStatus { Init, Fetching, Success, Error }
 
 class RecentActivityProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
-  final String recentActivityEndpoint = Endpoints.serverURL + Endpoints.RecentActivityURL;
+  final String recentActivityEndpoint = Endpoints.serverURL + Endpoints.UserStatistics;
 
   RecentActivityStatus _loadingStatus = RecentActivityStatus.Init;
   RecentActivityStatus get loadingStatus => _loadingStatus;

@@ -6,6 +6,7 @@ import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/notificati
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/qbanks_container.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/question_of_day.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/recent_activity_widget.dart';
+import 'package:premedpk_mobile_app/UI/screens/statistics/qbanks_stats.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/question_of_day_model.dart';
 import 'package:premedpk_mobile_app/providers/question_of_day_provider.dart';
@@ -16,6 +17,14 @@ import '../../../providers/recent_activity_provider.dart';
 
 class QbankHomePage extends StatelessWidget {
   const QbankHomePage({super.key});
+
+  void navigateToMockOrDeck(BuildContext context, deckGroup) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                QbanksStatsPage(deckGroupName: deckGroup)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,12 +86,25 @@ class QbankHomePage extends StatelessWidget {
                   ],
                 ),
                 SizedBoxes.verticalBig,
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    QbankContainerWidget(iconName: 'mdcatqbank'),
-                    QbankContainerWidget(iconName: 'numsqbank'),
-                    QbankContainerWidget(iconName: 'priuniqbank'),
+                    QbankContainerWidget(onTap: () {
+                      navigateToMockOrDeck(context, 'MDCAT QBANK');
+
+                    }, iconName: 'mdcatqbank'),
+                    QbankContainerWidget(
+                      iconName: 'numsqbank',
+                      onTap: () {
+                        navigateToMockOrDeck(context, 'NUMS QBANK');
+                      },
+                    ),
+                    QbankContainerWidget(
+                      iconName: 'priuniqbank',
+                      onTap: () {
+                        navigateToMockOrDeck(context, 'PU QBank');
+                      },
+                    ),
                   ],
                 ),
                 SizedBoxes.verticalBig,

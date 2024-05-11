@@ -27,7 +27,7 @@ class QbankFlashCardContainer extends StatelessWidget {
         child: Row(
           children: [
             SvgPicture.asset(icon),
-            SizedBoxes.horizontal10Px,
+            SizedBoxes.horizontal2Px,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

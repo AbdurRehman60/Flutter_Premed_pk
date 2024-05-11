@@ -2,14 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/global_qbank/qbank_ground.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/qbank_stats_widget.dart';
 import 'package:premedpk_mobile_app/constants/assets.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 import '../../../constants/sized_boxes.dart';
 
-class QbanksStatsPage extends StatelessWidget {
-  const QbanksStatsPage({super.key});
+
+
+class QbanksStatsPage extends StatefulWidget {
+  QbanksStatsPage({Key? key, required this.deckGroupName}) : super(key: key);
+  final String deckGroupName;
+
+  @override
+  State<QbanksStatsPage> createState() => _QbanksStatsPageState();
+}
+
+class _QbanksStatsPageState extends State<QbanksStatsPage> {
+  String bankCategory = '';
+  String mockCategory = '';
+
+  @override
+  void initState() {
+    super.initState();
+    navigateWithBankorMock(widget.deckGroupName);
+  }
+
+  void navigateWithBankorMock(String deckGroupName) {
+    print(deckGroupName);
+    if (deckGroupName == 'MDCAT QBANK') {
+      setState(() {
+        bankCategory = 'MDCAT QBank';
+        mockCategory = 'MDCAT Mocks';
+      });
+    } else if (deckGroupName == 'NUMS QBANK') {
+      setState(() {
+        bankCategory = 'NUMS QBank';
+        mockCategory = 'NUMS Mocks';
+      });
+    } else {
+      setState(() {
+        bankCategory = 'Private Universities QBank';
+        mockCategory = 'Private Universities Mocks';
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +56,9 @@ class QbanksStatsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: Material(
             elevation: 4,
             color: Colors.white,
@@ -58,16 +99,41 @@ class QbanksStatsPage extends StatelessWidget {
                   color: const Color(0xFF000000),
                 ),
               ),
-              SizedBoxes.vertical26Px,
-              const QbankStatsContainer(
+              SizedBoxes.vertical26,
+              QbankStatsContainer(
+                onTap: () {
+                  print(bankCategory);
+                  print('bank Category : $bankCategory');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Qbank(
+                              deckCategory: bankCategory,
+                              deckGroupName: widget.deckGroupName)));
+                },
                 title: 'Question Bank',
                 totalMcqs: '25K MCQs',
                 completedPercentage: '100',
                 MCQSDone: '2353',
                 totalMCQS: '25000',
               ),
-              SizedBoxes.vertical26Px,
-              const QbankStatsContainer(
+              SizedBoxes.vertical26,
+              QbankStatsContainer(
+                onTap: () {
+                  print('Mock Category : $mockCategory');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Qbank(
+                              deckCategory: mockCategory,
+                              deckGroupName: widget.deckGroupName)));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => Qbank(
+                  //             deckCategory: bankCategory,
+                  //             deckGroupName: deckGroupName)));
+                },
                 title: 'Mocks',
                 totalMcqs: '29 Mocks',
                 completedPercentage: '100',

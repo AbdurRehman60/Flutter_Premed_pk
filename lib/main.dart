@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_success.dart';
-import 'package:premedpk_mobile_app/UI/screens/global_qbank/qbank_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/splash_screen/splash_screen.dart';
@@ -21,7 +20,9 @@ import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/nums_qbank_proivder.dart';
+import 'package:premedpk_mobile_app/providers/question_of_day_provider.dart';
 import 'package:premedpk_mobile_app/providers/questions_proivder.dart';
+import 'package:premedpk_mobile_app/providers/recent_activity_provider.dart';
 import 'package:premedpk_mobile_app/providers/report_question_provider.dart';
 import 'package:premedpk_mobile_app/providers/save_question_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
@@ -85,6 +86,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => QuestionsProvider()),
         ChangeNotifierProvider(create: (_) => SaveQuestionProvider(userId: "64c68bc9f093d0bd25c026de")),
         ChangeNotifierProvider(create: (_) => ReportQuestionProvider()),
+        ChangeNotifierProvider(create: (_)=> RecentActivityProvider()),
+        ChangeNotifierProvider(create: (_)=> QuestionOfTheDayProvider())
       ],
       child: MaterialApp(
         routes: {

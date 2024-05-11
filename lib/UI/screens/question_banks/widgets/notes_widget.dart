@@ -27,7 +27,7 @@ class NotesContainerWidget extends StatelessWidget {
               height: 32,
               width: 32,
             ),
-            SizedBoxes.horizontal10Px,
+            SizedBoxes.horizontal12Px,
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +54,7 @@ class NotesContainerWidget extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBoxes.horizontal10Px,
+            SizedBoxes.horizontal12Px,
             SvgPicture.asset(
               'assets/icons/right-arrow.svg',
               height: 16,

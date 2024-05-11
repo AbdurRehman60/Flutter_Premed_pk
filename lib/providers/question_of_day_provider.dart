@@ -32,7 +32,7 @@ class QuestionOfTheDayProvider extends ChangeNotifier {
     Map<String, dynamic> result;
     try {
       final responseData =
-          await _client.get(Endpoints.serverURL + Endpoints.QuestionOfTheDay);
+          await _client.get(Endpoints.serverURL + Endpoints.UserStatistics);
       if (responseData['success'] == true) {
         _questionOfTheDay = QuestionOfTheDayModel.fromJson(responseData);
         notify();

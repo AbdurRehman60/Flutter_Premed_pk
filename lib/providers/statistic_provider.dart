@@ -9,7 +9,7 @@ enum UserStatStatus { Init, Fetching, Success, Error }
 
 class UserStatProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
-  final String statsEndpoint = Endpoints.serverURL + Endpoints.statistics;
+  final String statsEndpoint = Endpoints.serverURL + Endpoints.UserStatistics;
 
   UserStatStatus _loadingStatus = UserStatStatus.Init;
   UserStatStatus get loadingStatus => _loadingStatus;

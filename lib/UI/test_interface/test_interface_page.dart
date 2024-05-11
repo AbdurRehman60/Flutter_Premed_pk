@@ -10,17 +10,12 @@ import '../../providers/questions_proivder.dart';
 import '../../providers/save_question_provider.dart';
 import '../screens/global_qbank/widgets/build_error.dart';
 
-class TestInterfacePage extends StatefulWidget {
- const TestInterfacePage({super.key, required this.deckName});
+class TestInterfacePage extends StatelessWidget {
+   TestInterfacePage({super.key, required this.deckName});
   final String deckName;
 
-  @override
-  _TestInterfacePageState createState() => _TestInterfacePageState();
-
-}
-
-class _TestInterfacePageState extends State<TestInterfacePage> {
   int currentIndex = 0;
+
   String? parse(String toParse) {
     return htmlParser.parse(toParse).body?.text;
   }
@@ -68,9 +63,9 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                   return Text(
                     'QUESTION $questionNumber / $totalQuestions',
                     style: PreMedTextTheme().heading6.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontWeight: FontWeight.bold,
-                    ),
+                          color: PreMedColorTheme().black,
+                          fontWeight: FontWeight.bold,
+                        ),
                   );
                 },
               ),
@@ -97,7 +92,7 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                     icon: Icon(Icons.arrow_forward,
                         color: PreMedColorTheme().primaryColorRed),
                     onPressed: () {
-                        questionPro.getNextQuestion();
+                      questionPro.getNextQuestion();
                     },
                   ),
                 ),
@@ -109,7 +104,7 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
       ),
       body: FutureBuilder(
         future: Provider.of<QuestionsProvider>(context, listen: false)
-            .fetchQuestions(widget.deckName),
+            .fetchQuestions(deckName),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -120,7 +115,6 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
           } else {
             final Map<String, dynamic>? data = snapshot.data;
             if (data != null && data['status'] == true) {
-
               final List<QuestionModel> questions =
                   Provider.of<QuestionsProvider>(context).questions;
               // Data loaded successfully
@@ -192,24 +186,22 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                       foregroundColor: Colors.white,
                                       elevation: 4,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(24),
+                                        borderRadius: BorderRadius.circular(24),
                                       ),
-                                  ),
+                                    ),
                                     onPressed: () {
-                                      final String currentQuestionId = questions[questionPro.questionIndex].questionId;
+                                      final String currentQuestionId =
+                                          questions[questionPro.questionIndex]
+                                              .questionId;
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              ReportQuestion(
-                                                questionId: currentQuestionId,
-                                              ),
+                                          builder: (context) => ReportQuestion(
+                                            questionId: currentQuestionId,
+                                          ),
                                         ),
                                       );
                                     },
-
-                                    child: const Text('Report')
-                                )
+                                    child: const Text('Report'))
                               ],
                             ),
                             SizedBoxes.vertical15Px,
@@ -240,14 +232,18 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                             ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: questions[questionPro.questionIndex].options.length,
+                              itemCount: questions[questionPro.questionIndex]
+                                  .options
+                                  .length,
                               itemBuilder: (context, index) {
-                                final option = questions[questionPro.questionIndex].options[index];
+                                final option =
+                                    questions[questionPro.questionIndex]
+                                        .options[index];
                                 return QuizOptionContainer(
                                   optionNumber: option.optionLetter,
-                                  quizOptionDetails: parse(option.optionText)?? '',
-                                  onTap: () {
-                                  },
+                                  quizOptionDetails:
+                                      parse(option.optionText) ?? '',
+                                  onTap: () {},
                                   isCorrect: option.isCorrect,
                                 );
                               },
@@ -270,7 +266,6 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
     );
   }
 }
-
 
 class NavigationBar extends StatelessWidget {
   const NavigationBar({Key? key});
@@ -298,8 +293,14 @@ class NavigationBar extends StatelessWidget {
                   itemCount: questionCount,
                   itemBuilder: (context, index) {
                     final question = questionProvider.questions[index];
-                    final isAttempted = questionProvider.selectedOptions.containsKey(index.toString());
-                    final isCorrect = isAttempted && question.options.any((option) => option.isCorrect && questionProvider.selectedOptions[index.toString()] == option.optionLetter);
+                    final isAttempted = questionProvider.selectedOptions
+                        .containsKey(index.toString());
+                    final isCorrect = isAttempted &&
+                        question.options.any((option) =>
+                            option.isCorrect &&
+                            questionProvider
+                                    .selectedOptions[index.toString()] ==
+                                option.optionLetter);
                     return GestureDetector(
                       onTap: () {
                         questionProvider.questionIndex = index;
@@ -309,9 +310,7 @@ class NavigationBar extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: CircleAvatar(
                           backgroundColor: isAttempted
-                              ? (isCorrect
-                              ? Colors.blue
-                              : Colors.red)
+                              ? (isCorrect ? Colors.blue : Colors.red)
                               : Colors.transparent,
                           child: Container(
                             width: 50,
@@ -319,7 +318,9 @@ class NavigationBar extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: index == questionProvider.questionIndex ? Colors.blue : Colors.transparent,
+                                color: index == questionProvider.questionIndex
+                                    ? Colors.blue
+                                    : Colors.transparent,
                                 width: 2,
                               ),
                             ),
@@ -327,7 +328,9 @@ class NavigationBar extends StatelessWidget {
                               child: Text(
                                 '${index + 1}',
                                 style: TextStyle(
-                                  color: index == questionProvider.questionIndex ? Colors.blue : Colors.black,
+                                  color: index == questionProvider.questionIndex
+                                      ? Colors.blue
+                                      : Colors.black,
                                 ),
                               ),
                             ),
@@ -415,5 +418,3 @@ class NavigationBar extends StatelessWidget {
     );
   }
 }
-
-
