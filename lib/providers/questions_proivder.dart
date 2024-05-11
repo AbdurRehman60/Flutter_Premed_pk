@@ -79,6 +79,7 @@ class QuestionsProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> fetchQuestions(String deckName) async {
+    print('deckNameFromPro : $deckName');
     resetIndex();
     Map<String, dynamic> result;
     _fetchstatus = FetchStatus.fetching;

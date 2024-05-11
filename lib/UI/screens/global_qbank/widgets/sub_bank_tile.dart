@@ -1,3 +1,5 @@
+import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/logo_avatar.dart';
+
 import '../../../../constants/constants_export.dart';
 
 class SubBankTile extends StatelessWidget {
@@ -17,11 +19,8 @@ class SubBankTile extends StatelessWidget {
           tileColor: Colors.grey.shade200,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(details['deckLogo']),
-          ),
-          title: Text(details['deckName']),
-          // subtitle: Text('${qbank.deckGroupLenght.toString()} Papers'),
+          leading: GetLogo(url: details['deckLogo']),
+          title: Text(details['deckName']), // subtitle: Text('${qbank.deckGroupLenght.toString()} Papers'),
           trailing: const Icon(
             Icons.arrow_forward_ios_rounded,
             color: Colors.red,

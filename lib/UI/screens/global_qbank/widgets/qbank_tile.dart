@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/logo_avatar.dart';
 
 import '../../../../constants/constants_export.dart';
 import '../../../../models/deck_model.dart';
 
 class QbankTile extends StatelessWidget {
-  const QbankTile({Key? key, required this.qbank, required this.onTap})
-      : super(key: key);
+  const QbankTile({super.key, required this.qbank, required this.onTap});
 
   final DeckModel qbank;
   final void Function() onTap;
@@ -27,10 +27,7 @@ class QbankTile extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
             child: Row(
               children: [
-                CircleAvatar(
-                  radius: 25,
-                  backgroundImage: NetworkImage(qbank.deckGroupImage),
-                ),
+                GetLogo(url: qbank.deckGroupImage),
                 SizedBoxes.horizontalBig,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,20 +35,20 @@ class QbankTile extends StatelessWidget {
                     Text(
                       qbank.deckGrpName,
                       style: PreMedTextTheme().heading2.copyWith(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 20,
-                            color: const Color(0xFF000000),
-                            height: 1.3,
-                          ),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        color: const Color(0xFF000000),
+                        height: 1.3,
+                      ),
                     ),
                     Text(
-                      '${qbank.deckGroupLenght.toString()} Papers',
+                      '${qbank.deckGroupLenght} Papers',
                       style: PreMedTextTheme().heading2.copyWith(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15,
-                            color: const Color(0xFF000000),
-                            height: 1.3,
-                          ),
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15,
+                        color: const Color(0xFF000000),
+                        height: 1.3,
+                      ),
                     ),
                   ],
                 ),
