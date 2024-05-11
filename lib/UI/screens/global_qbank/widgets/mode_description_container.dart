@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/test_interface/test_interface_page.dart';
-import 'package:premedpk_mobile_app/providers/questions_proivder.dart';
-import 'package:provider/provider.dart';
 import '../../../../constants/color_theme.dart';
 import '../../../../constants/sized_boxes.dart';
 import '../../../../constants/text_theme.dart';
