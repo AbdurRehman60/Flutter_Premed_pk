@@ -4,13 +4,11 @@ import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/build_error.
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/qbank_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/sub_bank_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/test_mode_page.dart';
-import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/customised_buttons/qbank_button_y.dart';
+
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/deck_model.dart';
 import 'package:premedpk_mobile_app/providers/decks_provider.dart';
 import 'package:provider/provider.dart';
-
-import '../mdcat_qb/mdcat_yearly_papers/federal_mdcat_papers.dart';
 
 class Qbank extends StatelessWidget {
   const Qbank(

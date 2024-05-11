@@ -33,7 +33,7 @@ class QuestionsProvider extends ChangeNotifier {
   }
 
   void getNextQuestion() {
-    if (questionIndex <= _questionBankLenght - 1) {
+    if (questionIndex < _questionBankLenght - 1) {
       questionIndex++;
       _selectedOption = selectedOptions[questionIndex.toString()]; // Use previously selected option if available
       notifyListeners();
