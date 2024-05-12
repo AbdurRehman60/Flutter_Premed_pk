@@ -35,7 +35,8 @@ class QuestionsProvider extends ChangeNotifier {
   void getNextQuestion() {
     if (questionIndex < _questionBankLenght - 1) {
       questionIndex++;
-      _selectedOption = selectedOptions[questionIndex.toString()]; // Use previously selected option if available
+      _selectedOption = selectedOptions[questionIndex
+          .toString()]; // Use previously selected option if available
       notifyListeners();
     }
   }
@@ -43,7 +44,8 @@ class QuestionsProvider extends ChangeNotifier {
   void getPreviousQuestion() {
     if (questionIndex > 0) {
       questionIndex--;
-      _selectedOption = selectedOptions[questionIndex.toString()]; // Use previously selected option if available
+      _selectedOption = selectedOptions[questionIndex
+          .toString()]; // Use previously selected option if available
       notifyListeners();
     }
   }
@@ -52,9 +54,6 @@ class QuestionsProvider extends ChangeNotifier {
     _selectedOption = null;
     notifyListeners();
   }
-
-
-
 
   set loadingStatus(FetchStatus value) {
     _loadingStatus = value;
@@ -91,13 +90,17 @@ class QuestionsProvider extends ChangeNotifier {
 
       if (responseData['success']) {
         final List rawQuestion = responseData["questions"];
+        print('rwQuestiosns : $rawQuestion');
         final List<QuestionModel> questions = [];
         for (var q in rawQuestion) {
           final QuestionModel model = QuestionModel.fromJson(q);
           // print(model.questionText);
           questions.add(model);
         }
+        print('lastquestion : ${questions[0]}');
+        print('deckQuestions FroProvider :$questions');
         _deckQuestions = questions;
+
         _questionBankLenght = questions.length;
         // print(_deckQuestions[0].questionText);
         // print(questionModelList[0].questionText);
