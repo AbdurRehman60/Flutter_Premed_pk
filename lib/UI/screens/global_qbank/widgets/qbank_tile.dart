@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/logo_avatar.dart';
 
 import '../../../../constants/constants_export.dart';
@@ -22,37 +24,37 @@ class QbankTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           color: const Color(0xBFFFFFFF),
           child: Container(
-            height: 110,
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
             child: Row(
               children: [
                 GetLogo(url: qbank.deckGroupImage),
                 SizedBoxes.horizontalBig,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      qbank.deckGrpName,
-                      style: PreMedTextTheme().heading2.copyWith(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 20,
-                        color: const Color(0xFF000000),
-                        height: 1.3,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        qbank.deckGrpName,
+                        style: PreMedTextTheme().heading2.copyWith(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 20,
+                          color: const Color(0xFF000000),
+                          height: 1.3,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '${qbank.deckGroupLenght} Papers',
-                      style: PreMedTextTheme().heading2.copyWith(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15,
-                        color: const Color(0xFF000000),
-                        height: 1.3,
+                      Text(
+                        '${qbank.deckGroupLenght} Papers',
+                        style: PreMedTextTheme().heading2.copyWith(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 15,
+                          color: const Color(0xFF000000),
+                          height: 1.3,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                const Spacer(),
                 const Icon(
                   Icons.arrow_forward_ios_rounded,
                   color: Colors.red,

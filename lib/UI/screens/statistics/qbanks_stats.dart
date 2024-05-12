@@ -1,18 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/qbank_ground.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/qbank_stats_widget.dart';
-import 'package:premedpk_mobile_app/constants/assets.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
-import '../../../constants/sized_boxes.dart';
 
 
 
 class QbanksStatsPage extends StatefulWidget {
-  QbanksStatsPage({Key? key, required this.deckGroupName}) : super(key: key);
+  const QbanksStatsPage({super.key, required this.deckGroupName});
   final String deckGroupName;
 
   @override
@@ -30,7 +26,6 @@ class _QbanksStatsPageState extends State<QbanksStatsPage> {
   }
 
   void navigateWithBankorMock(String deckGroupName) {
-    print(deckGroupName);
     if (deckGroupName == 'MDCAT QBANK') {
       setState(() {
         bankCategory = 'MDCAT QBank';
@@ -99,11 +94,9 @@ class _QbanksStatsPageState extends State<QbanksStatsPage> {
                   color: const Color(0xFF000000),
                 ),
               ),
-              SizedBoxes.vertical26,
+              SizedBoxes.vertical26Px,
               QbankStatsContainer(
                 onTap: () {
-                  print(bankCategory);
-                  print('bank Category : $bankCategory');
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -117,10 +110,9 @@ class _QbanksStatsPageState extends State<QbanksStatsPage> {
                 MCQSDone: '2353',
                 totalMCQS: '25000',
               ),
-              SizedBoxes.vertical26,
+              SizedBoxes.vertical26Px,
               QbankStatsContainer(
                 onTap: () {
-                  print('Mock Category : $mockCategory');
                   Navigator.push(
                       context,
                       MaterialPageRoute(

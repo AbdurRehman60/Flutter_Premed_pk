@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/build_error.dart';
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/qbank_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/sub_bank_tile.dart';
@@ -12,8 +11,7 @@ import 'package:provider/provider.dart';
 
 class Qbank extends StatelessWidget {
   const Qbank(
-      {Key? key, required this.deckCategory, required this.deckGroupName})
-      : super(key: key);
+      {super.key, required this.deckCategory, required this.deckGroupName});
   final String deckCategory;
   final String deckGroupName;
   @override
@@ -46,6 +44,7 @@ class Qbank extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 15, 16, 0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 deckCategory,
@@ -53,6 +52,7 @@ class Qbank extends StatelessWidget {
                     .heading2
                     .copyWith(fontSize: 34, fontWeight: FontWeight.w800),
               ),
+              SizedBoxes.vertical26Px,
               Material(
                 elevation: 4,
                 borderRadius: BorderRadius.circular(10),
@@ -129,13 +129,13 @@ class Qbank extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBoxes.vertical26,
+              SizedBoxes.vertical26Px,
               Text(
                 'Attempt a Full-Length Yearly Paper today and experience the feeling of giving the exam on the actual test day!',
                 textAlign: TextAlign.center,
                 style: PreMedTextTheme().heading2.copyWith(fontSize: 12),
               ),
-              SizedBoxes.vertical26,
+              SizedBoxes.vertical26Px,
               Expanded(
                 child: FutureBuilder<Map<String, dynamic>>(
                   future: Provider.of<DecksProvider>(context, listen: false)
@@ -185,28 +185,35 @@ class Qbank extends StatelessWidget {
         return QbankTile(
           qbank: deck,
           onTap: () {
-            print('object');
             showModalBottomSheet(
+              clipBehavior: Clip.hardEdge,
                 context: context,
                 builder: (context) => Container(
-                      child: ListView.builder(
-                          itemCount: deckList[index].subDeckDetails.length,
-                          itemBuilder: (context, index) => SubBankTile(
-                              onTap: () {
-                                print(
-                                    'Group Name : ${deck.subDeckDetails[index]['deckName']}');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => TestModeInterface(
-                                              deckGroupName: deckGroupName,
-                                              deckDetails:
-                                                  deck.subDeckDetails[index],
-                                            ))).then(
-                                    (value) => Navigator.of(context).pop());
-                                // Navigator.of(context).pop();
-                              },
-                              details: deck.subDeckDetails[index])),
+                  padding: const EdgeInsets.only(top: 10),
+                      child: Column(
+                        children: [
+                          SvgPicture.asset('assets/icons/line.svg',width: 40,),
+                          SizedBoxes.verticalMedium,
+                          Expanded(
+                            child: ListView.builder(
+                                itemCount: deckList[index].subDeckDetails.length,
+                                itemBuilder: (context, index) => SubBankTile(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => TestModeInterface(
+                                                    deckGroupName: deckGroupName,
+                                                    deckDetails:
+                                                        deck.subDeckDetails[index],
+                                                  ))).then(
+                                          (value) => Navigator.of(context).pop());
+                                      // Navigator.of(context).pop();
+                                    },
+                                    details: deck.subDeckDetails[index])),
+                          ),
+                        ],
+                      ),
                     ));
             // Handle tap event if needed
           },
