@@ -1,4 +1,4 @@
-import 'package:premedpk_mobile_app/UI/screens/notifications/notifications.dart';
+import 'package:premedpk_mobile_app/UI/screens/notifications/notification_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class NotificationIcon extends StatelessWidget {
@@ -10,7 +10,7 @@ class NotificationIcon extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => const NotificationsScreen(),
+            builder: (context) => const NotificationPage(),
           ),
         );
       },

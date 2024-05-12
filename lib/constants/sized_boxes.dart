@@ -5,24 +5,26 @@ class SizedBoxes {
 
   //vertical sized boxes
   static SizedBox vertical2Px = const SizedBox(height: 2);
+  static SizedBox vertical3Px = const SizedBox(height: 3);
   static SizedBox verticalMicro = const SizedBox(height: 4);
   static SizedBox verticalTiny = const SizedBox(height: 8);
-  static SizedBox vertical10Px = const SizedBox(height: 10);
-
-  static SizedBox vertical15px = const SizedBox(height: 15);
+  static SizedBox vertical12Px = const SizedBox(height:12);
   static SizedBox verticalMedium = const SizedBox(height: 14);
+  static SizedBox vertical15Px = const SizedBox(height:15);
   static SizedBox verticalLarge = const SizedBox(height: 16);
   static SizedBox verticalBig = const SizedBox(height: 20);
-  static SizedBox vertical26 = const SizedBox(height: 26);
-
+  static SizedBox vertical26Px = const SizedBox(height: 26);
   static SizedBox verticalGargangua = const SizedBox(height: 30);
   static SizedBox verticalExtraGargangua = const SizedBox(height: 40);
+  static SizedBox vertical10Px = const SizedBox(height:10);
 
   //Horizontal sized boxes
   static SizedBox horizontal2Px = const SizedBox(width: 2);
   static SizedBox horizontalMicro = const SizedBox(width: 4);
   static SizedBox horizontalTiny = const SizedBox(width: 8);
+  static SizedBox horizontal12Px = const SizedBox(height:12);
   static SizedBox horizontalMedium = const SizedBox(width: 14);
+  static SizedBox horizontal15Px = const SizedBox(height:15);
   static SizedBox horizontalLarge = const SizedBox(width: 16);
   static SizedBox horizontalBig = const SizedBox(width: 20);
   static SizedBox horizontalGargangua = const SizedBox(width: 30);

@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../constants/constants_export.dart';
 import '../../providers/questions_proivder.dart';
 import '../../providers/save_question_provider.dart';
+<<<<<<< HEAD
 
 import '../../providers/user_provider.dart';
 import '../screens/global_qbank/widgets/build_error.dart';
@@ -18,6 +19,15 @@ class TestInterfacePage extends StatelessWidget {
   final String deckName;
 
   final int currentIndex = 0;
+=======
+import '../screens/global_qbank/widgets/build_error.dart';
+
+class TestInterfacePage extends StatelessWidget {
+   TestInterfacePage({super.key, required this.deckName});
+  final String deckName;
+
+  int currentIndex = 0;
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
 
   String? parse(String toParse) {
     return htmlParser.parse(toParse).body?.text;
@@ -26,6 +36,7 @@ class TestInterfacePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final questionPro = Provider.of<QuestionsProvider>(context, listen: false);
+<<<<<<< HEAD
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     void nextQuestion() {
@@ -36,6 +47,8 @@ class TestInterfacePage extends StatelessWidget {
       questionPro.getPreviousQuestion();
     }
 
+=======
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70.0),
@@ -63,7 +76,11 @@ class TestInterfacePage extends StatelessWidget {
                   icon: Icon(Icons.arrow_back,
                       color: PreMedColorTheme().primaryColorRed),
                   onPressed: () {
+<<<<<<< HEAD
                     previousQuestion();
+=======
+                    questionPro.getPreviousQuestion();
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
                   },
                 ),
               ),
@@ -105,7 +122,11 @@ class TestInterfacePage extends StatelessWidget {
                     icon: Icon(Icons.arrow_forward,
                         color: PreMedColorTheme().primaryColorRed),
                     onPressed: () {
+<<<<<<< HEAD
                      nextQuestion();
+=======
+                      questionPro.getNextQuestion();
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
                     },
                   ),
                 ),
@@ -124,7 +145,10 @@ class TestInterfacePage extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
+<<<<<<< HEAD
             print('errorrrr in fetching ques');
+=======
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
             return buildError(); // Show error message
           } else {
             final Map<String, dynamic>? data = snapshot.data;
@@ -143,7 +167,10 @@ class TestInterfacePage extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(16, 15, 16, 0),
                         child: Column(
+<<<<<<< HEAD
                           crossAxisAlignment: CrossAxisAlignment.start,
+=======
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
                           children: [
                             Text(
                               parse(questions[questionPro.questionIndex]
@@ -168,8 +195,14 @@ class TestInterfacePage extends StatelessWidget {
                                         .subject;
                                     final bool isSaved = saveQuestionProvider
                                         .isQuestionSaved(questionId, subject);
+<<<<<<< HEAD
                                     final buttonText =
                                         isSaved ? 'Remove' : 'Save';
+=======
+                                    final buttonText = isSaved
+                                        ? 'Remove Question'
+                                        : 'Save Question';
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
                                     return ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white,
@@ -183,6 +216,7 @@ class TestInterfacePage extends StatelessWidget {
                                       onPressed: () {
                                         if (isSaved) {
                                           saveQuestionProvider.removeQuestion(
+<<<<<<< HEAD
                                               questionId,
                                               subject,
                                               userProvider.user?.userId ?? '');
@@ -208,6 +242,15 @@ class TestInterfacePage extends StatelessWidget {
                                           Text(buttonText),
                                         ],
                                       ),
+=======
+                                              questionId, subject);
+                                        } else {
+                                          saveQuestionProvider.saveQuestion(
+                                              questionId, subject);
+                                        }
+                                      },
+                                      child: Text(buttonText),
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
                                     );
                                   },
                                 ),
@@ -233,6 +276,7 @@ class TestInterfacePage extends StatelessWidget {
                                         ),
                                       );
                                     },
+<<<<<<< HEAD
                                     child: const Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -245,6 +289,12 @@ class TestInterfacePage extends StatelessWidget {
                               ],
                             ),
                             SizedBoxes.vertical15px,
+=======
+                                    child: const Text('Report'))
+                              ],
+                            ),
+                            SizedBoxes.vertical15Px,
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
                             if (questions[questionPro.questionIndex]
                                         .questionImage ==
                                     null ||
@@ -268,7 +318,11 @@ class TestInterfacePage extends StatelessWidget {
                                   ),
                                 ),
                               ),
+<<<<<<< HEAD
                             SizedBoxes.vertical15px,
+=======
+                            SizedBoxes.vertical15Px,
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
                             ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
@@ -307,6 +361,7 @@ class TestInterfacePage extends StatelessWidget {
   }
 }
 
+<<<<<<< HEAD
 class NavigationBar extends StatefulWidget {
   const NavigationBar({super.key});
 
@@ -322,16 +377,23 @@ class _NavigationBarState extends State<NavigationBar> {
     super.initState();
     _scrollController = ScrollController();
   }
+=======
+class NavigationBar extends StatelessWidget {
+  const NavigationBar({Key? key});
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
 
   @override
   Widget build(BuildContext context) {
     final questionProvider = Provider.of<QuestionsProvider>(context);
     final questionCount = questionProvider.questions.length;
+<<<<<<< HEAD
     final Set<int> correctAnswerIndices = {};
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _scrollToCurrentIndex();
     });
+=======
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -348,6 +410,7 @@ class _NavigationBarState extends State<NavigationBar> {
               Expanded(
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
+<<<<<<< HEAD
                   controller: _scrollController,
                   itemCount: questionCount,
                   itemBuilder: (context, index) {
@@ -369,6 +432,30 @@ class _NavigationBarState extends State<NavigationBar> {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: CircleAvatar(
                           backgroundColor: correctAnswerIndices.contains(index) ? Colors.blue : Colors.transparent,
+=======
+                  itemCount: questionCount,
+                  itemBuilder: (context, index) {
+                    final question = questionProvider.questions[index];
+                    final isAttempted = questionProvider.selectedOptions
+                        .containsKey(index.toString());
+                    final isCorrect = isAttempted &&
+                        question.options.any((option) =>
+                            option.isCorrect &&
+                            questionProvider
+                                    .selectedOptions[index.toString()] ==
+                                option.optionLetter);
+                    return GestureDetector(
+                      onTap: () {
+                        questionProvider.questionIndex = index;
+                        questionProvider.notifyListeners();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: CircleAvatar(
+                          backgroundColor: isAttempted
+                              ? (isCorrect ? Colors.blue : Colors.red)
+                              : Colors.transparent,
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
                           child: Container(
                             width: 50,
                             height: 50,
@@ -377,9 +464,13 @@ class _NavigationBarState extends State<NavigationBar> {
                               border: Border.all(
                                 color: index == questionProvider.questionIndex
                                     ? Colors.blue
+<<<<<<< HEAD
                                     : (index == questionProvider.questionIndex && isCorrect
                                     ? Colors.blue
                                     : (isAttempted && !isCorrect ? Colors.red : Colors.transparent)),
+=======
+                                    : Colors.transparent,
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
                                 width: 2,
                               ),
                             ),
@@ -387,7 +478,13 @@ class _NavigationBarState extends State<NavigationBar> {
                               child: Text(
                                 '${index + 1}',
                                 style: TextStyle(
+<<<<<<< HEAD
                                   color: index == questionProvider.questionIndex && isCorrect ? Colors.white : Colors.black,
+=======
+                                  color: index == questionProvider.questionIndex
+                                      ? Colors.blue
+                                      : Colors.black,
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
                                 ),
                               ),
                             ),
@@ -474,6 +571,7 @@ class _NavigationBarState extends State<NavigationBar> {
       ),
     );
   }
+<<<<<<< HEAD
 
   void _onQuestionIndexTap(int index, QuestionsProvider provider) {
     provider.questionIndex = index;
@@ -497,3 +595,6 @@ class _NavigationBarState extends State<NavigationBar> {
     super.dispose();
   }
 }
+=======
+}
+>>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e

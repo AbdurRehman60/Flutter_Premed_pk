@@ -1,3 +1,4 @@
+export 'package:premedpk_mobile_app/UI/widgets/email_login_button.dart';
 export 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 export 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_dropdown.dart';
 export 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_snackbar.dart';
