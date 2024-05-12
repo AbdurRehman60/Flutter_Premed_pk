@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/question_model.dart';
@@ -35,7 +34,7 @@ class QuestionsProvider extends ChangeNotifier {
   void getNextQuestion() {
     if (questionIndex <= _questionBankLenght - 1) {
       questionIndex++;
-      _selectedOption = selectedOptions[questionIndex.toString()]; // Use previously selected option if available
+      _selectedOption = selectedOptions[questionIndex.toString()];
       notifyListeners();
     }
   }
@@ -43,7 +42,7 @@ class QuestionsProvider extends ChangeNotifier {
   void getPreviousQuestion() {
     if (questionIndex > 0) {
       questionIndex--;
-      _selectedOption = selectedOptions[questionIndex.toString()]; // Use previously selected option if available
+      _selectedOption = selectedOptions[questionIndex.toString()];
       notifyListeners();
     }
   }
