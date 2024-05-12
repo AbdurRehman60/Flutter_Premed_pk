@@ -66,6 +66,8 @@ dependencies:
   camera_avfoundation: ^0.9.13
   flutter_svg: ^2.0.10+1
   google_fonts: ^6.2.1
+  intl: ^0.19.0
+  fl_chart: ^0.68.0
 
 dev_dependencies:
   flutter_test:
@@ -161,6 +163,7 @@ flutter:
     - assets/icons/add_circle_outline.png
     - assets/icons/Button.png
     - assets/icons/bin.png
+    - assets/icons/
   fonts:
     - family: Inter
       fonts:

@@ -45,6 +45,18 @@ class PremedAssets {
   static String Error = 'assets/icons/Error.png';
   static String Cross ='assets/icons/cross.png';
   static String Cart = 'assets/icons/Button.png';
+  static String RightArrow = 'assets/icons/right-arrow.svg';
+  static String BellIcon = 'assets/icons/bell.svg';
+  static String BellIconWithNotification = 'assets/icons/bellwithnoti.svg';
+  static String DocumentIcon = 'assets/icons/QuestionMarkDocument.svg';
+  static String FlashCardsIcon = 'assets/icons/Flashcards.svg';
+  static String LeftArrowIcon = 'assets/icons/left-arrow.svg';
+  static String Dashboard = 'assets/icons/dashboard.svg';
+  static String QbankNav = 'assets/icons/questionbank.svg';
+  static String ExpertSolutions = 'assets/icons/expertsolutions.svg';
+  static String Shop = 'assets/icons/shop.svg';
+  static String Settings = 'assets/icons/settings.svg';
+  static String MDCATQbankLogo = 'assets/icons/mdcatqbank.png';
 }
 
 

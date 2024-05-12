@@ -83,5 +83,9 @@ class Endpoints {
 
   //report ques
   static const String addReport ='https://prodapi.premed.pk/api/reports/addReport';
+
+
+  //user stats
+  static const String UserStatistics = '/api/statistics/compute-statistics';
 }
 

@@ -23,7 +23,9 @@ import 'package:premedpk_mobile_app/providers/mdcat_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/pu_mocks-provider.dart';
+import 'package:premedpk_mobile_app/providers/question_of_day_provider.dart';
 import 'package:premedpk_mobile_app/providers/questions_proivder.dart';
+import 'package:premedpk_mobile_app/providers/recent_activity_provider.dart';
 import 'package:premedpk_mobile_app/providers/report_question_provider.dart';
 import 'package:premedpk_mobile_app/providers/save_question_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
@@ -90,6 +92,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SaveQuestionProvider()),
         ChangeNotifierProvider(create: (_) => ReportQuestionProvider()),
         ChangeNotifierProvider(create: (_) => DecksProvider()),
+        ChangeNotifierProvider(create: (_)=> RecentActivityProvider()),
+        ChangeNotifierProvider(create: (_)=> QuestionOfTheDayProvider())
       ],
       child: MaterialApp(
         routes: {
@@ -108,3 +112,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+

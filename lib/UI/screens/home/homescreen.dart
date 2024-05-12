@@ -1,17 +1,15 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/global_qbank/qbank_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
-import 'package:premedpk_mobile_app/UI/screens/question_banks/qbank_homepage.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
-import 'package:premedpk_mobile_app/UI/test_interface/test_interface_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/providers/decks_provider.dart';
-import 'package:premedpk_mobile_app/providers/questions_proivder.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../question_banks/qbank_homepage.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -33,81 +31,116 @@ class HomeScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => QbankHomePage()));
-                                // final pro =
-                                //     Provider.of<QuestionsProvider>(context,listen: false);
-                                // pro.fetchQuestions();
-                              },
-                              child: Text(
-                                "👋🏼 Welcome Back",
-                                style: PreMedTextTheme().subtext,
-                              ),
-                            ),
                             SizedBoxes.vertical2Px,
                             Text(
-                              userProvider.getUserName().split(' ').length > 1
-                                  ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}'
-                                  : userProvider.getUserName().split(' ').first,
-                              style: PreMedTextTheme().heading4,
+                              'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
+                              style: PreMedTextTheme().heading4.copyWith(
+                                  fontWeight: FontWeight.w800, fontSize: 28),
                             ),
+                            Text(
+                              'Ready to continue your journey?',
+                              style:
+                              PreMedTextTheme().body.copyWith(fontSize: 17),
+                            )
                           ],
                         ),
                         const NotificationIcon()
                       ],
                     ),
                     SizedBoxes.verticalLarge,
-                    NotesTile(
-                      heading: "Revision Notes",
-                      description:
-                          "Comprehensive study notes for Biology, Chemistry, Physics, and Mathematics, specifically designed to help you excel in your MDCAT exams.",
-                      icon: PremedAssets.RevisionNotes,
-                      bgColor: PreMedColorTheme().primaryColorRed100,
-                      btnColor: PreMedColorTheme().primaryColorRed,
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const RevisionNotes(),
-                          ),
-                        );
-                      },
+                    Material(
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(15),
+                      child: NotesTile(
+                        heading: "The Question Bank",
+                        description:
+                        "Attempt over 50,000 Questions on our website to prepare for the MDCAT, AKU and NUMS exam. This feature will be launched on the app very soon.",
+                        icon: PremedAssets.QuestionBank,
+                        bgColor: PreMedColorTheme().white,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => QbankHomePage()));
+                          // launchUrl(
+                          //   mode: LaunchMode.inAppBrowserView,
+                          //   Uri.parse("https://premed.pk/dashboard"),
+                          // );
+                        },
+                      ),
                     ),
                     SizedBoxes.verticalMedium,
-                    NotesTile(
-                      heading: "Chapter Guides",
-                      description:
-                          "Comprehensive study guides for Biology, Chemistry, and Physics, specifically designed to help you in your MDCAT, NUMS and Private University exams.",
-                      icon: PremedAssets.ProvisionalGuides,
-                      bgColor: PreMedColorTheme().primaryColorBlue100,
-                      btnColor: PreMedColorTheme().primaryColorBlue,
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const ProvincialGuides(),
-                          ),
-                        );
-                      },
+                    Material(
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(15),
+                      child: NotesTile(
+                        heading: "Revision Notes",
+                        description:
+                        "Comprehensive study notes for Biology, Physics and Chemistry",
+                        icon: PremedAssets.RevisionNotes,
+                        bgColor: PreMedColorTheme().white,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const RevisionNotes(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-
                     SizedBoxes.verticalMedium,
-                    NotesTile(
-                      heading: "Qbank",
-                      description:
-                      "Qbank",
-                      icon: PremedAssets.ProvisionalGuides,
-                      bgColor: PreMedColorTheme().primaryColorBlue100,
-                      btnColor: PreMedColorTheme().primaryColorBlue,
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const QbankHomePage(),
-                          ),
-                        );
-                      },
+                    Material(
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(15),
+                      child: NotesTile(
+                        heading: "Study Guides",
+                        description:
+                        "Comprehensive study guides for Biology, Physics and Chemistry",
+                        icon: PremedAssets.ProvisionalGuides,
+                        bgColor: PreMedColorTheme().white,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const ProvincialGuides(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBoxes.verticalMedium,
+                    Material(
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(15),
+                      child: NotesTile(
+                        heading: "Flashcards",
+                        description: "Fast-paced Revision",
+                        icon: PremedAssets.Flashcards,
+                        bgColor: PreMedColorTheme().white,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const FlashcardHome(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBoxes.verticalMedium,
+                    Material(
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(15),
+                      child: NotesTile(
+                        heading: "Youtube",
+                        description: "Latest updates on \nMDCAT!",
+                        icon: PremedAssets.Youtube,
+                        bgColor: PreMedColorTheme().white,
+                        onTap: () {
+                          launchUrl(
+                            mode: LaunchMode.inAppBrowserView,
+                            Uri.parse("https://www.youtube.com/@premedpk"),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 );

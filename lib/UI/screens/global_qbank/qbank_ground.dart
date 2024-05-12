@@ -1,35 +1,16 @@
-<<<<<<< HEAD
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-=======
 import 'package:flutter_svg/flutter_svg.dart';
->>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/build_error.dart';
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/qbank_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/sub_bank_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/test_mode_page.dart';
-<<<<<<< HEAD
-import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/customised_buttons/qbank_button_y.dart';
-=======
-
->>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/deck_model.dart';
 import 'package:premedpk_mobile_app/providers/decks_provider.dart';
 import 'package:provider/provider.dart';
 
-<<<<<<< HEAD
-import '../mdcat_qb/mdcat_yearly_papers/federal_mdcat_papers.dart';
-
-class Qbank extends StatelessWidget {
-  const Qbank(
-      {Key? key, required this.deckCategory, required this.deckGroupName})
-      : super(key: key);
-=======
 class Qbank extends StatelessWidget {
   const Qbank(
       {super.key, required this.deckCategory, required this.deckGroupName});
->>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
   final String deckCategory;
   final String deckGroupName;
   @override
@@ -62,10 +43,7 @@ class Qbank extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 15, 16, 0),
           child: Column(
-<<<<<<< HEAD
-=======
             crossAxisAlignment: CrossAxisAlignment.start,
->>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
             children: [
               Text(
                 deckCategory,
@@ -73,10 +51,7 @@ class Qbank extends StatelessWidget {
                     .heading2
                     .copyWith(fontSize: 34, fontWeight: FontWeight.w800),
               ),
-<<<<<<< HEAD
-=======
               SizedBoxes.vertical26Px,
->>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
               Material(
                 elevation: 4,
                 borderRadius: BorderRadius.circular(10),
@@ -98,12 +73,12 @@ class Qbank extends StatelessWidget {
                               width: double.infinity,
                               decoration: decksProvider.changeColor
                                   ? BoxDecoration(
-                                      color: const Color(0xFFEC5863),
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color: const Color(0x80FFFFFF),
-                                          width: 3),
-                                    )
+                                color: const Color(0xFFEC5863),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                    color: const Color(0x80FFFFFF),
+                                    width: 3),
+                              )
                                   : const BoxDecoration(),
                               child: Center(
                                 child: Text('YEARLY',
@@ -130,12 +105,12 @@ class Qbank extends StatelessWidget {
                               decoration: decksProvider.changeColor
                                   ? const BoxDecoration()
                                   : BoxDecoration(
-                                      color: const Color(0xFFEC5863),
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color: const Color(0x80FFFFFF),
-                                          width: 3),
-                                    ),
+                                color: const Color(0xFFEC5863),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                    color: const Color(0x80FFFFFF),
+                                    width: 3),
+                              ),
                               child: Center(
                                 child: Text('TOPICAL',
                                     style: PreMedTextTheme().heading2.copyWith(
@@ -153,21 +128,13 @@ class Qbank extends StatelessWidget {
                   ),
                 ),
               ),
-<<<<<<< HEAD
-              SizedBoxes.vertical26,
-=======
               SizedBoxes.vertical26Px,
->>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
               Text(
                 'Attempt a Full-Length Yearly Paper today and experience the feeling of giving the exam on the actual test day!',
                 textAlign: TextAlign.center,
                 style: PreMedTextTheme().heading2.copyWith(fontSize: 12),
               ),
-<<<<<<< HEAD
-              SizedBoxes.vertical26,
-=======
               SizedBoxes.vertical26Px,
->>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
               Expanded(
                 child: FutureBuilder<Map<String, dynamic>>(
                   future: Provider.of<DecksProvider>(context, listen: false)
@@ -217,61 +184,36 @@ class Qbank extends StatelessWidget {
         return QbankTile(
           qbank: deck,
           onTap: () {
-<<<<<<< HEAD
-            print('object');
             showModalBottomSheet(
-                context: context,
-                builder: (context) => Container(
-                      child: ListView.builder(
-                          itemCount: deckList[index].subDeckDetails.length,
-                          itemBuilder: (context, index) => SubBankTile(
-                              onTap: () {
-                                print(
-                                    'Group Name : ${deck.subDeckDetails[index]['deckName']}');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => TestModeInterface(
-                                              deckGroupName: deckGroupName,
-                                              deckDetails:
-                                                  deck.subDeckDetails[index],
-                                            ))).then(
-                                    (value) => Navigator.of(context).pop());
-                                // Navigator.of(context).pop();
-                              },
-                              details: deck.subDeckDetails[index])),
-=======
-            showModalBottomSheet(
-              clipBehavior: Clip.hardEdge,
+                clipBehavior: Clip.hardEdge,
                 context: context,
                 builder: (context) => Container(
                   padding: const EdgeInsets.only(top: 10),
-                      child: Column(
-                        children: [
-                          SvgPicture.asset('assets/icons/line.svg',width: 40,),
-                          SizedBoxes.verticalMedium,
-                          Expanded(
-                            child: ListView.builder(
-                                itemCount: deckList[index].subDeckDetails.length,
-                                itemBuilder: (context, index) => SubBankTile(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => TestModeInterface(
-                                                    deckGroupName: deckGroupName,
-                                                    deckDetails:
-                                                        deck.subDeckDetails[index],
-                                                  ))).then(
+                  child: Column(
+                    children: [
+                      SvgPicture.asset('assets/icons/line.svg',width: 40,),
+                      SizedBoxes.verticalMedium,
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: deckList[index].subDeckDetails.length,
+                            itemBuilder: (context, index) => SubBankTile(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TestModeInterface(
+                                            deckGroupName: deckGroupName,
+                                            deckDetails:
+                                            deck.subDeckDetails[index],
+                                          ))).then(
                                           (value) => Navigator.of(context).pop());
-                                      // Navigator.of(context).pop();
-                                    },
-                                    details: deck.subDeckDetails[index])),
-                          ),
-                        ],
+                                  // Navigator.of(context).pop();
+                                },
+                                details: deck.subDeckDetails[index])),
                       ),
->>>>>>> 43a05c43aad6c8ce088d4ecd9acc5da9d40fe66e
-                    ));
+                    ],
+                  ),
+                ));
             // Handle tap event if needed
           },
         );
