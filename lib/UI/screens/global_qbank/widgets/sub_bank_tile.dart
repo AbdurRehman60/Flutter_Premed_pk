@@ -3,8 +3,7 @@ import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/logo_avatar.
 import '../../../../constants/constants_export.dart';
 
 class SubBankTile extends StatelessWidget {
-  const SubBankTile({Key? key, required this.onTap, required this.details})
-      : super(key: key);
+  const SubBankTile({super.key, required this.onTap, required this.details});
   final Map<String, dynamic> details;
   final void Function() onTap;
 

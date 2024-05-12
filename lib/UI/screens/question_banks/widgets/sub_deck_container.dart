@@ -1,11 +1,7 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
-import '../../../../constants/assets.dart';
 
 class SubDeckContainer extends StatelessWidget {
   const SubDeckContainer(
