@@ -12,17 +12,13 @@ import '../../providers/save_question_provider.dart';
 import '../../providers/user_provider.dart';
 import '../screens/global_qbank/widgets/build_error.dart';
 
-class TestInterfacePage extends StatefulWidget {
- const TestInterfacePage({super.key, required this.deckName});
+class TestInterfacePage extends StatelessWidget {
+  const TestInterfacePage({super.key, required this.deckName});
+
   final String deckName;
 
-  @override
-  _TestInterfacePageState createState() => _TestInterfacePageState();
+  final int currentIndex = 0;
 
-}
-
-class _TestInterfacePageState extends State<TestInterfacePage> {
-  int currentIndex = 0;
   String? parse(String toParse) {
     return htmlParser.parse(toParse).body?.text;
   }
@@ -31,6 +27,15 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
   Widget build(BuildContext context) {
     final questionPro = Provider.of<QuestionsProvider>(context, listen: false);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    void nextQuestion() {
+      questionPro.getNextQuestion();
+    }
+
+    void previousQuestion() {
+      questionPro.getPreviousQuestion();
+    }
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70.0),
@@ -58,7 +63,7 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                   icon: Icon(Icons.arrow_back,
                       color: PreMedColorTheme().primaryColorRed),
                   onPressed: () {
-                    questionPro.getPreviousQuestion();
+                    previousQuestion();
                   },
                 ),
               ),
@@ -71,9 +76,9 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                   return Text(
                     'QUESTION $questionNumber / $totalQuestions',
                     style: PreMedTextTheme().heading6.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontWeight: FontWeight.bold,
-                    ),
+                          color: PreMedColorTheme().black,
+                          fontWeight: FontWeight.bold,
+                        ),
                   );
                 },
               ),
@@ -100,7 +105,7 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                     icon: Icon(Icons.arrow_forward,
                         color: PreMedColorTheme().primaryColorRed),
                     onPressed: () {
-                        questionPro.getNextQuestion();
+                     nextQuestion();
                     },
                   ),
                 ),
@@ -112,18 +117,18 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
       ),
       body: FutureBuilder(
         future: Provider.of<QuestionsProvider>(context, listen: false)
-            .fetchQuestions(widget.deckName),
+            .fetchQuestions(deckName),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
+            print('errorrrr in fetching ques');
             return buildError(); // Show error message
           } else {
             final Map<String, dynamic>? data = snapshot.data;
             if (data != null && data['status'] == true) {
-
               final List<QuestionModel> questions =
                   Provider.of<QuestionsProvider>(context).questions;
               // Data loaded successfully
@@ -163,39 +168,47 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                         .subject;
                                     final bool isSaved = saveQuestionProvider
                                         .isQuestionSaved(questionId, subject);
-                                    final buttonText = isSaved
-                                        ? 'Remove'
-                                        : 'Save';
+                                    final buttonText =
+                                        isSaved ? 'Remove' : 'Save';
                                     return ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white,
                                         foregroundColor: Colors.orange,
                                         elevation: 4,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(24),
+                                          borderRadius:
+                                              BorderRadius.circular(24),
                                         ),
                                       ),
                                       onPressed: () {
                                         if (isSaved) {
-                                          saveQuestionProvider.removeQuestion(questionId, subject, userProvider.user?.userId ?? '');
+                                          saveQuestionProvider.removeQuestion(
+                                              questionId,
+                                              subject,
+                                              userProvider.user?.userId ?? '');
                                         } else {
-                                          saveQuestionProvider.saveQuestion(questionId, subject, userProvider.user?.userId ?? '');
+                                          saveQuestionProvider.saveQuestion(
+                                              questionId,
+                                              subject,
+                                              userProvider.user?.userId ?? '');
                                         }
-                                        print('User ID of the user is: ${userProvider.user?.userId}');
+                                        print(
+                                            'User ID of the user is: ${userProvider.user?.userId}');
                                       },
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           if (buttonText == 'Save')
-                                            const Icon(Icons.bookmark_border_rounded)
+                                            const Icon(
+                                                Icons.bookmark_border_rounded)
                                           else
                                             const Icon(Icons.bookmark),
                                           const SizedBox(width: 8),
                                           Text(buttonText),
                                         ],
                                       ),
-                                    )
-                                    ;
+                                    );
                                   },
                                 ),
                                 SizedBoxes.horizontalMedium,
@@ -205,31 +218,30 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                                       foregroundColor: Colors.white,
                                       elevation: 4,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(24),
+                                        borderRadius: BorderRadius.circular(24),
                                       ),
-                                  ),
+                                    ),
                                     onPressed: () {
-                                      final String currentQuestionId = questions[questionPro.questionIndex].questionId;
+                                      final String currentQuestionId =
+                                          questions[questionPro.questionIndex]
+                                              .questionId;
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              ReportQuestion(
-                                                questionId: currentQuestionId,
-                                              ),
+                                          builder: (context) => ReportQuestion(
+                                            questionId: currentQuestionId,
+                                          ),
                                         ),
                                       );
                                     },
-
                                     child: const Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Icon(Icons.report_problem_outlined),
                                         SizedBox(width: 8),
                                         Text('Report'),
                                       ],
-                                    )
-                                )
+                                    ))
                               ],
                             ),
                             SizedBoxes.vertical15px,
@@ -260,14 +272,18 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
                             ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: questions[questionPro.questionIndex].options.length,
+                              itemCount: questions[questionPro.questionIndex]
+                                  .options
+                                  .length,
                               itemBuilder: (context, index) {
-                                final option = questions[questionPro.questionIndex].options[index];
+                                final option =
+                                    questions[questionPro.questionIndex]
+                                        .options[index];
                                 return QuizOptionContainer(
                                   optionNumber: option.optionLetter,
-                                  quizOptionDetails: parse(option.optionText)?? '',
-                                  onTap: () {
-                                  },
+                                  quizOptionDetails:
+                                      parse(option.optionText) ?? '',
+                                  onTap: () {},
                                   isCorrect: option.isCorrect,
                                 );
                               },
@@ -291,16 +307,31 @@ class _TestInterfacePageState extends State<TestInterfacePage> {
   }
 }
 
+class NavigationBar extends StatefulWidget {
+  const NavigationBar({super.key});
 
-class NavigationBar extends StatelessWidget {
-  const NavigationBar({Key? key});
+  @override
+  _NavigationBarState createState() => _NavigationBarState();
+}
+
+class _NavigationBarState extends State<NavigationBar> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
 
   @override
   Widget build(BuildContext context) {
     final questionProvider = Provider.of<QuestionsProvider>(context);
     final questionCount = questionProvider.questions.length;
-
     final Set<int> correctAnswerIndices = {};
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _scrollToCurrentIndex();
+    });
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -317,21 +348,23 @@ class NavigationBar extends StatelessWidget {
               Expanded(
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
+                  controller: _scrollController,
                   itemCount: questionCount,
                   itemBuilder: (context, index) {
                     final question = questionProvider.questions[index];
                     final isAttempted = questionProvider.selectedOptions.containsKey(index.toString());
-                    final isCorrect = isAttempted && question.options.any((option) => option.isCorrect && questionProvider.selectedOptions[index.toString()] == option.optionLetter);
+                    final isCorrect = isAttempted &&
+                        question.options.any((option) =>
+                        option.isCorrect &&
+                            questionProvider.selectedOptions[index.toString()] ==
+                                option.optionLetter);
 
                     if (isCorrect) {
                       correctAnswerIndices.add(index);
                     }
 
                     return GestureDetector(
-                      onTap: () {
-                        questionProvider.questionIndex = index;
-                        questionProvider.notifyListeners();
-                      },
+                      onTap: () => _onQuestionIndexTap(index, questionProvider),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: CircleAvatar(
@@ -441,7 +474,26 @@ class NavigationBar extends StatelessWidget {
       ),
     );
   }
+
+  void _onQuestionIndexTap(int index, QuestionsProvider provider) {
+    provider.questionIndex = index;
+    provider.notifyListeners();
+    _scrollToCurrentIndex();
+  }
+
+  void _scrollToCurrentIndex() {
+    if (mounted && _scrollController.hasClients) {
+      _scrollController.animateTo(
+        (Provider.of<QuestionsProvider>(context, listen: false).questionIndex * 56).toDouble(),
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 }
-
-
-
