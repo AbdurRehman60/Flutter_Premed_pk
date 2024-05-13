@@ -17,6 +17,7 @@ class Qbank extends StatelessWidget {
   Widget build(BuildContext context) {
     final deckPro = Provider.of<DecksProvider>(context, listen: false);
     return Scaffold(
+      backgroundColor: const Color(0xFFFFF7FB),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
@@ -28,12 +29,13 @@ class Qbank extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
             clipBehavior: Clip.hardEdge,
-            child: const SizedBox(
-              height: 37,
+            child: SizedBox(
               width: 37,
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Color(0xFFEC5863),
+              height: 37,
+              child: SvgPicture.asset(
+                'assets/icons/left-arrow.svg',
+                width: 9.33,
+                height: 18.67,
               ),
             ),
           ),
@@ -188,7 +190,7 @@ class Qbank extends StatelessWidget {
                 clipBehavior: Clip.hardEdge,
                 context: context,
                 builder: (context) => Container(
-                  padding: const EdgeInsets.only(top: 10),
+                  padding: const EdgeInsets.only(top: 10,left:16,right: 16,bottom: 2 ),
                   child: Column(
                     children: [
                       SvgPicture.asset('assets/icons/line.svg',width: 40,),

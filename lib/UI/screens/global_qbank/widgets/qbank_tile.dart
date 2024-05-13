@@ -17,15 +17,15 @@ class QbankTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 26.0),
+        padding: const EdgeInsets.only(bottom: 16.0),
         child: Material(
-          elevation: 1,
+          elevation: 1.5,
           clipBehavior: Clip.hardEdge,
           borderRadius: BorderRadius.circular(15),
-          color: const Color(0xBFFFFFFF),
+          color: const Color(0xFFFFFFFF),
           child: Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
             child: Row(
               children: [
                 GetLogo(url: qbank.deckGroupImage),

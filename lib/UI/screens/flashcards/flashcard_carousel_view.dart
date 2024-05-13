@@ -172,6 +172,7 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: ElevatedButton.icon(
+                    icon: Icon(Icons.add),
                     onPressed: () {
                       goToNextCard();
                     },

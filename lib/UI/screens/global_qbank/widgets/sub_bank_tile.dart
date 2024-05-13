@@ -1,29 +1,73 @@
-import 'package:premedpk_mobile_app/UI/screens/global_qbank/widgets/logo_avatar.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
-import '../../../../constants/constants_export.dart';
+import '../../../../constants/assets.dart';
 
 class SubBankTile extends StatelessWidget {
-  const SubBankTile({super.key, required this.onTap, required this.details});
+  const SubBankTile(
+      {super.key, required this.details, required this.onTap});
   final Map<String, dynamic> details;
   final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.only(bottom: 20.0),
       child: GestureDetector(
         onTap: onTap,
-        child: ListTile(
-          contentPadding: const EdgeInsets.all(8),
-          tileColor: Colors.grey.shade200,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          leading: GetLogo(url: details['deckLogo']),
-          title: Text(details['deckName']), // subtitle: Text('${qbank.deckGroupLenght.toString()} Papers'),
-          trailing: const Icon(
-            Icons.arrow_forward_ios_rounded,
-            color: Colors.red,
-          ),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 25,
+              backgroundImage: NetworkImage(details['deckLogo']),
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    details['deckName'],
+                    style: GoogleFonts.rubik(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      height: 1.3,
+                      color: const Color(0xFF000000),
+                    ),
+                  ),
+                  Container(
+                    width: 48,
+                    height: 27,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: const Color(0xFF5898FF),
+                    ),
+                    child: Text(
+                      'Free',
+                      style: GoogleFonts.rubik(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                        color: const Color(0xFFFFFFFF),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const Spacer(),
+            SvgPicture.asset(
+              PremedAssets.RightArrow,
+              width: 28,
+              height: 28,
+            ),
+          ],
         ),
       ),
     );
