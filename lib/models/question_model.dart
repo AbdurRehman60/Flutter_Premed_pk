@@ -13,11 +13,11 @@ class QuestionModel {
   QuestionModel({
     required this.questionId,
     required this.questionText,
-    required this.questionImage,
+    required this.explanationText,
     required this.options,
     required this.published,
-    required this.explanationText,
     required this.tags,
+    this.questionImage,
   }) {
     if (tags.length >= 1) {
       deckName = tags[0].name;
@@ -86,7 +86,7 @@ class Option {
     return Option(
       optionLetter: json['OptionLetter'],
       optionText: json['OptionText'],
-      isCorrect: json['IsCorrect'],
+      isCorrect: json['IsCorrect'] ?? false, // Handle nullable boolean value
       explanationText: json['ExplanationText'],
       id: json['_id'],
     );
@@ -107,8 +107,8 @@ class Tag {
   Tag({required this.id, required this.name});
 
   factory Tag.fromJson(Map<String, dynamic> json) => Tag(
-    id: json['id'] is int ? json['id'].toString() : json['id'],
-    name: json['name'],
+    id: json['id']?.toString() ?? '', // Handle nullable and type conversion
+    name: json['name'] ?? '',
   );
 
   final String id;
