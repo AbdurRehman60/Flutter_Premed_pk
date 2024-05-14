@@ -1,15 +1,13 @@
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
-import 'package:premedpk_mobile_app/UI/screens/global_qbank/qbank_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
+import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/bottom_navigation.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../question_banks/qbank_homepage.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -61,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => QbankHomePage()));
+                                  builder: (context) => const QbankBottomNavigation()));
                           // launchUrl(
                           //   mode: LaunchMode.inAppBrowserView,
                           //   Uri.parse("https://premed.pk/dashboard"),

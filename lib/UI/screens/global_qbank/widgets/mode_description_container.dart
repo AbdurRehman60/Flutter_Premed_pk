@@ -8,9 +8,10 @@ import '../../../../constants/text_theme.dart';
 
 class ModeDescription extends StatelessWidget {
   const ModeDescription(
-      {super.key, required this.mode, required this.deckName});
+      {super.key, required this.mode, required this.deckName, required this.timedTestMinutes});
   final bool mode;
   final String deckName;
+  final int timedTestMinutes;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -67,8 +68,10 @@ class ModeDescription extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  TestInterfacePage(deckName: deckName)));
+                              builder: (context) => TestInterfacePage(
+                                    deckName: deckName,
+                                    timedTestMinutes: timedTestMinutes,
+                                  )));
                     },
                     child: Text(
                       'Start Test',
@@ -118,8 +121,10 @@ class ModeDescription extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  TestInterfacePage(deckName: deckName)));
+                              builder: (context) => TestInterfacePage(
+                                    deckName: deckName,
+                                    timedTestMinutes: timedTestMinutes,
+                                  )));
                     },
                     child: Text(
                       'Start Test',

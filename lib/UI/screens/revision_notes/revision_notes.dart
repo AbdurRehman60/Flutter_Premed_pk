@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
@@ -22,26 +23,24 @@ class RevisionNotes extends StatelessWidget {
               preferredSize: const Size.fromHeight(60.0),
               child: AppBar(
                 backgroundColor: PreMedColorTheme().white,
-                leading: Container(
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 1,
-                        blurRadius: 3,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
+                leading: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Material(
+                    elevation: 4,
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
-                  ),
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_back_ios_new_rounded,
-                        color: PreMedColorTheme().primaryColorRed),
-                    onPressed: () {Navigator.of(context).pop();
-                    },
+                    clipBehavior: Clip.hardEdge,
+                    child: SizedBox(
+                      width: 37,
+                      height: 37,
+                      child: SvgPicture.asset(
+                        'assets/icons/left-arrow.svg',
+                        width: 9.33,
+                        height: 18.67,
+                      ),
+                    ),
                   ),
                 ),
                 automaticallyImplyLeading: false,

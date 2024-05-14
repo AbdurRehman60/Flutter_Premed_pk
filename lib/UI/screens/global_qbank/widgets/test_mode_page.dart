@@ -1,12 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:premedpk_mobile_app/models/deck_model.dart';
+import 'package:html/parser.dart' as htmlParser;
 
 import '../../../../constants/constants_export.dart';
-import 'mode_container.dart';
 import 'mode_description_container.dart';
-
-import 'package:html/parser.dart' as htmlParser;
 
 class TestModeInterface extends StatefulWidget {
   const TestModeInterface(
@@ -249,7 +245,7 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                 SizedBoxes.verticalBig,
                 ModeDescription(
                   deckName: widget.deckDetails['deckName'],
-                  mode: tutorModeButton,
+                  mode: tutorModeButton, timedTestMinutes:  widget.deckDetails['timedTestMinutes'],
                 ),
                 SizedBoxes.verticalBig,
                 Material(

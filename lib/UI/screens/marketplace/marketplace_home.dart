@@ -12,7 +12,7 @@ class MarketPlace extends StatelessWidget {
   const MarketPlace({super.key});
 
   static final GlobalKey<ScaffoldState> scaffoldKey =
-  GlobalKey<ScaffoldState>();
+      GlobalKey<ScaffoldState>();
 
   static void openDrawer() {
     scaffoldKey.currentState?.openEndDrawer();
@@ -21,7 +21,7 @@ class MarketPlace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final BundleProvider bundleProvider =
-    Provider.of<BundleProvider>(context, listen: false);
+        Provider.of<BundleProvider>(context, listen: false);
     bundleProvider.fetchBundles();
     bundleProvider.fetchDiscount();
     return Scaffold(
@@ -29,25 +29,28 @@ class MarketPlace extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
         child: Container(
-          padding: const EdgeInsets.only(top: 20) ,
+          padding: const EdgeInsets.only(top: 20),
           child: AppBar(
               automaticallyImplyLeading: false,
               title: Padding(
                 padding: const EdgeInsets.only(left: 6.0, top: 28, bottom: 28),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Shop',
-                            style: PreMedTextTheme().heading3.copyWith(
-                                fontSize: 34, fontWeight: FontWeight.w800)),
-                        Text('Explore and Buy PreMed Bundles!',
-                            style: PreMedTextTheme().body.copyWith(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w400,
-                            )),
+                        Text(
+                          'Shop',
+                          style: PreMedTextTheme().heading3.copyWith(
+                              fontSize: 34, fontWeight: FontWeight.w800),
+                        ),
+                        Text(
+                          'Explore and Buy PreMed Bundles!',
+                          style: PreMedTextTheme().body.copyWith(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                              ),
+                        ),
                       ],
                     ),
                     SizedBoxes.verticalLarge,
@@ -62,7 +65,7 @@ class MarketPlace extends StatelessWidget {
                   ),
                 ),
               ],
-              centerTitle:false,
+              centerTitle: false,
               backgroundColor: Colors.transparent,
               systemOverlayStyle: const SystemUiOverlayStyle(
                 statusBarColor: Color.fromARGB(14, 0, 0, 0),

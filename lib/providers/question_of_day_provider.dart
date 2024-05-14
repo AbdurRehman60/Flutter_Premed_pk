@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import '../api_manager/dio client/dio_client.dart';
 import '../constants/constants_export.dart';
@@ -32,7 +31,7 @@ class QuestionOfTheDayProvider extends ChangeNotifier {
     Map<String, dynamic> result;
     try {
       final responseData =
-          await _client.get(Endpoints.serverURL + Endpoints.UserStatistics);
+          await _client.get(Endpoints.serverURL + Endpoints.QuestionOfTheDay);
       if (responseData['success'] == true) {
         _questionOfTheDay = QuestionOfTheDayModel.fromJson(responseData);
         notify();

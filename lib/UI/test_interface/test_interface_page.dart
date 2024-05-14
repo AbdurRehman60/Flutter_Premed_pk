@@ -11,10 +11,73 @@ import '../../providers/save_question_provider.dart';
 import '../../providers/user_provider.dart';
 import '../screens/global_qbank/widgets/build_error.dart';
 
-class TestInterfacePage extends StatelessWidget {
-  const TestInterfacePage({super.key, required this.deckName});
+class TestInterfacePage extends StatefulWidget {
+  const TestInterfacePage(
+      {super.key, required this.deckName, required this.timedTestMinutes});
 
   final String deckName;
+  final int timedTestMinutes;
+
+  @override
+  State<TestInterfacePage> createState() => _TestInterfacePageState();
+}
+
+class _TestInterfacePageState extends State<TestInterfacePage> {
+  late int hours;
+
+  late int minutes;
+
+  late int seconds;
+
+  late Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+    initializeTimer();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  void initializeTimer() {
+    final totalSeconds = widget.timedTestMinutes * 60;
+    hours = totalSeconds ~/ 3600;
+    final remainingSeconds = totalSeconds % 3600;
+    minutes = remainingSeconds ~/ 60;
+    seconds = remainingSeconds % 60;
+
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (seconds > 0) {
+          seconds--;
+        } else {
+          if (minutes > 0) {
+            minutes--;
+            seconds = 59;
+          } else {
+            if (hours > 0) {
+              hours--;
+              minutes = 59;
+              seconds = 59;
+            } else {
+              timer.cancel(); // Stop the timer when time is up
+            }
+          }
+        }
+      });
+    });
+  }
+
+  String formatTime() {
+    final String hoursStr = hours.toString().padLeft(2, '0');
+    final String minutesStr = minutes.toString().padLeft(2, '0');
+    final String secondsStr = seconds.toString().padLeft(2, '0');
+    return '$hoursStr:$minutesStr:$secondsStr';
+  }
 
   final int currentIndex = 0;
 
@@ -75,9 +138,9 @@ class TestInterfacePage extends StatelessWidget {
                   return Text(
                     'QUESTION $questionNumber / $totalQuestions',
                     style: PreMedTextTheme().heading6.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontWeight: FontWeight.bold,
-                    ),
+                          color: PreMedColorTheme().black,
+                          fontWeight: FontWeight.bold,
+                        ),
                   );
                 },
               ),
@@ -116,7 +179,7 @@ class TestInterfacePage extends StatelessWidget {
       ),
       body: FutureBuilder(
         future: Provider.of<QuestionsProvider>(context, listen: false)
-            .fetchQuestions(deckName),
+            .fetchQuestions(widget.deckName),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -146,7 +209,7 @@ class TestInterfacePage extends StatelessWidget {
                           children: [
                             Text(
                               parse(questions[questionPro.questionIndex]
-                                  .questionText) ??
+                                      .questionText) ??
                                   '',
                               style: GoogleFonts.rubik(
                                   fontWeight: FontWeight.w400,
@@ -168,7 +231,7 @@ class TestInterfacePage extends StatelessWidget {
                                     final bool isSaved = saveQuestionProvider
                                         .isQuestionSaved(questionId, subject);
                                     final buttonText =
-                                    isSaved ? 'Remove' : 'Save';
+                                        isSaved ? 'Remove' : 'Save';
                                     return ElevatedButton(
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white,
@@ -176,7 +239,7 @@ class TestInterfacePage extends StatelessWidget {
                                         elevation: 4,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(24),
+                                              BorderRadius.circular(24),
                                         ),
                                       ),
                                       onPressed: () {
@@ -196,7 +259,7 @@ class TestInterfacePage extends StatelessWidget {
                                       },
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           if (buttonText == 'Save')
                                             const Icon(
@@ -234,7 +297,7 @@ class TestInterfacePage extends StatelessWidget {
                                     },
                                     child: const Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Icon(Icons.report_problem_outlined),
                                         SizedBox(width: 8),
@@ -245,10 +308,10 @@ class TestInterfacePage extends StatelessWidget {
                             ),
                             SizedBoxes.vertical15Px,
                             if (questions[questionPro.questionIndex]
-                                .questionImage ==
-                                null ||
+                                        .questionImage ==
+                                    null ||
                                 questions[questionPro.questionIndex]
-                                    .questionImage ==
+                                        .questionImage ==
                                     '')
                               const SizedBox()
                             else
@@ -276,12 +339,12 @@ class TestInterfacePage extends StatelessWidget {
                                   .length,
                               itemBuilder: (context, index) {
                                 final option =
-                                questions[questionPro.questionIndex]
-                                    .options[index];
+                                    questions[questionPro.questionIndex]
+                                        .options[index];
                                 return QuizOptionContainer(
                                   optionNumber: option.optionLetter,
                                   quizOptionDetails:
-                                  parse(option.optionText) ?? '',
+                                      parse(option.optionText) ?? '',
                                   onTap: () {},
                                   isCorrect: option.isCorrect,
                                 );
@@ -301,13 +364,14 @@ class TestInterfacePage extends StatelessWidget {
           }
         },
       ),
-      bottomNavigationBar: const NavigationBar(),
+      bottomNavigationBar: NavigationBar(timedTestMinutes: formatTime(),),
     );
   }
 }
 
 class NavigationBar extends StatefulWidget {
-  const NavigationBar({super.key});
+  const NavigationBar({super.key, required this.timedTestMinutes});
+  final String timedTestMinutes;
 
   @override
   _NavigationBarState createState() => _NavigationBarState();
@@ -351,11 +415,13 @@ class _NavigationBarState extends State<NavigationBar> {
                   itemCount: questionCount,
                   itemBuilder: (context, index) {
                     final question = questionProvider.questions[index];
-                    final isAttempted = questionProvider.selectedOptions.containsKey(index.toString());
+                    final isAttempted = questionProvider.selectedOptions
+                        .containsKey(index.toString());
                     final isCorrect = isAttempted &&
                         question.options.any((option) =>
-                        option.isCorrect &&
-                            questionProvider.selectedOptions[index.toString()] ==
+                            option.isCorrect &&
+                            questionProvider
+                                    .selectedOptions[index.toString()] ==
                                 option.optionLetter);
 
                     if (isCorrect) {
@@ -367,7 +433,9 @@ class _NavigationBarState extends State<NavigationBar> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: CircleAvatar(
-                          backgroundColor: correctAnswerIndices.contains(index) ? Colors.blue : Colors.transparent,
+                          backgroundColor: correctAnswerIndices.contains(index)
+                              ? Colors.blue
+                              : Colors.transparent,
                           child: Container(
                             width: 50,
                             height: 50,
@@ -376,9 +444,14 @@ class _NavigationBarState extends State<NavigationBar> {
                               border: Border.all(
                                 color: index == questionProvider.questionIndex
                                     ? Colors.blue
-                                    : (index == questionProvider.questionIndex && isCorrect
-                                    ? Colors.blue
-                                    : (isAttempted && !isCorrect ? Colors.red : Colors.transparent)),
+                                    : (index ==
+                                                questionProvider
+                                                    .questionIndex &&
+                                            isCorrect
+                                        ? Colors.blue
+                                        : (isAttempted && !isCorrect
+                                            ? Colors.red
+                                            : Colors.transparent)),
                                 width: 2,
                               ),
                             ),
@@ -386,7 +459,11 @@ class _NavigationBarState extends State<NavigationBar> {
                               child: Text(
                                 '${index + 1}',
                                 style: TextStyle(
-                                  color: index == questionProvider.questionIndex && isCorrect ? Colors.white : Colors.black,
+                                  color:
+                                      index == questionProvider.questionIndex &&
+                                              isCorrect
+                                          ? Colors.white
+                                          : Colors.black,
                                 ),
                               ),
                             ),
@@ -435,7 +512,7 @@ class _NavigationBarState extends State<NavigationBar> {
                   Column(
                     children: [
                       Text(
-                        '45:56',
+                        widget.timedTestMinutes,
                         style: GoogleFonts.rubik(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -483,7 +560,9 @@ class _NavigationBarState extends State<NavigationBar> {
   void _scrollToCurrentIndex() {
     if (mounted && _scrollController.hasClients) {
       _scrollController.animateTo(
-        (Provider.of<QuestionsProvider>(context, listen: false).questionIndex * 56).toDouble(),
+        (Provider.of<QuestionsProvider>(context, listen: false).questionIndex *
+                56)
+            .toDouble(),
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );

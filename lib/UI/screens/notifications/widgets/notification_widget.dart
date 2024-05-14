@@ -28,7 +28,7 @@ class NotificationWidget extends StatelessWidget {
                 );
               },
             ),
-            SizedBoxes.horizontal15Px,
+            const SizedBox(width: 15,),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/ask_an_expert_form.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
@@ -11,28 +12,23 @@ class AskanExpert extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().white,
-        leading: Container(
-          margin: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: const Offset(0, 2),
-              ),
-            ],
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Material(
+            elevation: 4,
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
-          ),
-          alignment: Alignment.center,
-          child: Center(
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios_new_rounded,
-                  color: PreMedColorTheme().primaryColorRed),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+            clipBehavior: Clip.hardEdge,
+            child: SizedBox(
+              width: 37,
+              height: 37,
+              child: SvgPicture.asset(
+                'assets/icons/left-arrow.svg',
+                width: 9.33,
+                height: 18.67,
+              ),
             ),
           ),
         ),
@@ -42,18 +38,15 @@ class AskanExpert extends StatelessWidget {
             Text(
               'Ask an Expert',
               style: PreMedTextTheme().heading6.copyWith(
-                  color: PreMedColorTheme().black,
-                  fontWeight: FontWeight.bold
-              ),
+                  color: PreMedColorTheme().black, fontWeight: FontWeight.bold),
             ),
             SizedBoxes.vertical2Px,
-            Text(
-                'EXPERT SOLUIONS',
+            Text('EXPERT SOLUIONS',
                 style: PreMedTextTheme().subtext.copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: PreMedColorTheme().black,)
-            )
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: PreMedColorTheme().black,
+                    ))
           ],
         ),
       ),
