@@ -249,7 +249,7 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                 SizedBoxes.verticalBig,
                 ModeDescription(
                   deckName: widget.deckDetails['deckName'],
-                  mode: tutorModeButton,
+                  mode: tutorModeButton, timedTestMinutes:  widget.deckDetails['timedTestMinutes'],
                 ),
                 SizedBoxes.verticalBig,
                 Material(

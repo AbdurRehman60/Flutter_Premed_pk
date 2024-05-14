@@ -8,7 +8,8 @@ enum RecentActivityStatus { Init, Fetching, Success, Error }
 
 class RecentActivityProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
-  final String recentActivityEndpoint = Endpoints.serverURL + Endpoints.RecentActivityURL;
+  final String recentActivityEndpoint =
+      Endpoints.serverURL + Endpoints.RecentActivityURL;
 
   RecentActivityStatus _loadingStatus = RecentActivityStatus.Init;
   RecentActivityStatus get loadingStatus => _loadingStatus;
@@ -39,7 +40,7 @@ class RecentActivityProvider extends ChangeNotifier {
       );
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-        Map<String, dynamic>.from(response.data);
+            Map<String, dynamic>.from(response.data);
         if (responseData["success"]) {
           final List<dynamic> activityData = responseData["Result"];
           _recentActivityList = activityData

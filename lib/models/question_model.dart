@@ -1,15 +1,4 @@
 class QuestionModel {
-  final String questionId;
-  final String questionText;
-  final String? questionImage;
-  final String explanationText;
-  final List<Option> options;
-  final bool published;
-  final List<Tag> tags;
-  late String subject;
-  late String deckName;
-  late String topic;
-
   QuestionModel({
     required this.questionId,
     required this.questionText,
@@ -18,6 +7,7 @@ class QuestionModel {
     required this.published,
     required this.explanationText,
     required this.tags,
+    required this.timedTestMinutes,
   }) {
     if (tags.length >= 1) {
       deckName = tags[0].name;
@@ -35,12 +25,14 @@ class QuestionModel {
   factory QuestionModel.fromJson(Map<String, dynamic> jsonResponse) {
     List<Tag> tags = [];
     if (jsonResponse['Tags'] != null) {
-      tags = List<Tag>.from(jsonResponse['Tags'].map((tagJson) => Tag.fromJson(tagJson)));
+      tags = List<Tag>.from(
+          jsonResponse['Tags'].map((tagJson) => Tag.fromJson(tagJson)));
     }
 
     List<Option> options = [];
     if (jsonResponse['Options'] != null) {
-      options = List<Option>.from(jsonResponse['Options'].map((optionJson) => Option.fromJson(optionJson)));
+      options = List<Option>.from(jsonResponse['Options']
+          .map((optionJson) => Option.fromJson(optionJson)));
     }
 
     return QuestionModel(
@@ -51,8 +43,20 @@ class QuestionModel {
       options: options,
       published: jsonResponse['Published'],
       tags: tags,
+      timedTestMinutes: jsonResponse['TimedTestMinutes'] ?? 0,
     );
   }
+  final String questionId;
+  final String questionText;
+  final String? questionImage;
+  final String explanationText;
+  final List<Option> options;
+  final bool published;
+  final List<Tag> tags;
+  late String subject;
+  late String deckName;
+  late String topic;
+  final int timedTestMinutes;
 
   Map<String, dynamic> toJson() {
     return {
@@ -68,12 +72,6 @@ class QuestionModel {
 }
 
 class Option {
-  final String optionLetter;
-  final String optionText;
-  final bool isCorrect;
-  final String explanationText;
-  final String id;
-
   Option({
     required this.optionLetter,
     required this.optionText,
@@ -91,6 +89,11 @@ class Option {
       id: json['_id'],
     );
   }
+  final String optionLetter;
+  final String optionText;
+  final bool isCorrect;
+  final String explanationText;
+  final String id;
 
   Map<String, dynamic> toJson() {
     return {
@@ -107,15 +110,15 @@ class Tag {
   Tag({required this.id, required this.name});
 
   factory Tag.fromJson(Map<String, dynamic> json) => Tag(
-    id: json['id'] is int ? json['id'].toString() : json['id'],
-    name: json['name'],
-  );
+        id: json['id'] is int ? json['id'].toString() : json['id'],
+        name: json['name'],
+      );
 
   final String id;
   final String name;
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-  };
+        'id': id,
+        'name': name,
+      };
 }
