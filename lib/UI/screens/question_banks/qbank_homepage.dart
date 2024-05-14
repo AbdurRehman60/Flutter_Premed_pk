@@ -1,8 +1,9 @@
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/recent_activity_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/flash_card_container.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/notes_widget.dart';
-import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/notification_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/qbanks_container.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/question_of_day.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/recent_activity_widget.dart';
@@ -10,10 +11,12 @@ import 'package:premedpk_mobile_app/UI/screens/statistics/qbanks_stats.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/question_of_day_model.dart';
 import 'package:premedpk_mobile_app/providers/question_of_day_provider.dart';
+import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/recent_activity_model.dart';
 import '../../../providers/recent_activity_provider.dart';
+import '../revision_notes/revision_notes.dart';
 
 class QbankHomePage extends StatelessWidget {
   const QbankHomePage({super.key});
@@ -22,8 +25,7 @@ class QbankHomePage extends StatelessWidget {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                QbanksStatsPage(deckGroupName: deckGroup)));
+            builder: (context) => QbanksStatsPage(deckGroupName: deckGroup)));
   }
 
   @override
@@ -38,25 +40,21 @@ class QbankHomePage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 15, 16, 0),
+            padding: const EdgeInsets.fromLTRB(16, 15, 16, 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Hi, Rizz!',
-                      style: GoogleFonts.rubik(
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                        color: const Color(0xFF000000),
-                        height: 1.3,
-                      ),
+                Consumer<UserProvider>(builder: (context, userProvider, child) {
+                  return Text(
+                    'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
+                    style: GoogleFonts.rubik(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w800,
+                      color: const Color(0xFF000000),
+                      height: 1.3,
                     ),
-                    const NotificationIconWidget()
-                  ],
-                ),
+                  );
+                }),
                 const SizedBox(height: 3),
                 Text(
                   'Ready to continue your journey?',
@@ -76,12 +74,23 @@ class QbankHomePage extends StatelessWidget {
                       activityText: 'PREVIOUS ACTIVITY',
                       title: 'MDCAT',
                       subTitle: 'QBank',
+                      onTap: () {
+                        navigateToMockOrDeck(context, 'MDCAT QBANK');
+                      },
                     ),
                     QbankFlashCardContainer(
                       icon: PremedAssets.FlashCardsIcon,
                       activityText: '',
                       title: 'Flashcards',
                       subTitle: 'Fast-paced revision!',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FlashcardHome(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -89,10 +98,11 @@ class QbankHomePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    QbankContainerWidget(onTap: () {
-                      navigateToMockOrDeck(context, 'MDCAT QBANK');
-
-                    }, iconName: 'mdcatqbank'),
+                    QbankContainerWidget(
+                        onTap: () {
+                          navigateToMockOrDeck(context, 'MDCAT QBANK');
+                        },
+                        iconName: 'mdcatqbank'),
                     QbankContainerWidget(
                       iconName: 'numsqbank',
                       onTap: () {
@@ -108,14 +118,29 @@ class QbankHomePage extends StatelessWidget {
                   ],
                 ),
                 SizedBoxes.verticalBig,
-                const NotesContainerWidget(
+                NotesContainerWidget(
                   iconName: 'revisionnotes',
                   title: 'Revision Notes',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RevisionNotes(),
+                      ),
+                    );
+                  },
                 ),
                 SizedBoxes.verticalBig,
-                const NotesContainerWidget(
+                NotesContainerWidget(
                   iconName: 'studyquide',
                   title: 'Study Guides',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const ProvincialGuides(),
+                      ),
+                    );
+                  },
                 ),
                 SizedBoxes.verticalBig,
                 FutureBuilder(

@@ -20,7 +20,9 @@ class RecentActivityPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           icon: Material(
             elevation: 4,
             color: Colors.white,

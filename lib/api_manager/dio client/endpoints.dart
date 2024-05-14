@@ -87,5 +87,7 @@ class Endpoints {
 
   //user stats
   static const String UserStatistics = '/api/statistics/compute-statistics';
+  static const String QuestionOfTheDay= '/api/question/getRandomQuestions';
+  static const String RecentActivityURL = '/api/attempts/get-recent-attempts';
 }
 
