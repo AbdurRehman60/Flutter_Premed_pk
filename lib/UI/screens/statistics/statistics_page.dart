@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/chart_circle.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/material_card.dart';
@@ -40,8 +41,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
     if (enteredSubject.totalQuestionsAttempted == 0) {
       return '0';
     }
-    final subjectPercentage = ((enteredSubject.totalQuestionsCorrect /
-                enteredSubject.totalQuestionsAttempted) *
+    final subjectPercentage = ((enteredSubject.totalQuestionsAttempted /
+                userStatModel.totalQuestionAttempted) *
             100)
         .toStringAsFixed(0);
     return subjectPercentage;
@@ -187,11 +188,26 @@ class _StatisticsPageState extends State<StatisticsPage> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SizedBox(
-                                  height: 75,
-                                  child:
-                                      Image.asset('assets/images/infocell.png'),
-                                ),
+                                Stack(children: [
+                                  SizedBox(
+                                    height: 75,
+                                    child: SvgPicture.asset(
+                                        'assets/images/infocell.svg'),
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    left: 51,
+                                    child: Text(
+                                      '${((userStatModel.totalQuestionCorrect / userStatModel.totalQuestionAttempted) * 100).toStringAsFixed(2)}%',
+                                      style: GoogleFonts.rubik(
+                                        height: 1.3,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 20,
+                                        color: const Color(0xFFEC5863),
+                                      ),
+                                    ),
+                                  ),
+                                ]),
                                 SizedBoxes.vertical10Px,
                                 Text(
                                   'Accuracy',
@@ -225,7 +241,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
                                   style: GoogleFonts.rubik(
                                     height: 1.3,
                                     fontWeight: FontWeight.w800,
-                                    fontSize: 35,
+                                    fontSize: 24,
                                     color: const Color(0xFFEC5863),
                                   ),
                                 ),

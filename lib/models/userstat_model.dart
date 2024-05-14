@@ -2,11 +2,11 @@ class UserStatModel {
   UserStatModel(
       {required this.decksAttempted,
       required this.testAttempted,
-      this.totalQuestionCorrect,
+      required this.totalQuestionCorrect,
       required this.paracticeTestAttempted,
       required this.totalTimeTaken,
       required this.avgTimePerQuestion,
-      this.totalQuestionAttempted,
+      required this.totalQuestionAttempted,
       required this.userStatid,
       required this.userId,
       required this.subjectAttempts});
@@ -34,8 +34,8 @@ class UserStatModel {
 
   final String userStatid;
   final String userId;
-  final int? totalQuestionAttempted;
-  final int? totalQuestionCorrect;
+  final int totalQuestionAttempted;
+  final int totalQuestionCorrect;
   final int decksAttempted;
   final int testAttempted;
   final int paracticeTestAttempted;

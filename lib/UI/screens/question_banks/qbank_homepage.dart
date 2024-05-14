@@ -1,13 +1,16 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/notifications/widgets/notification_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/recent_activity_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/flash_card_container.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/notes_widget.dart';
+import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/notification_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/qbanks_container.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/question_of_day.dart';
 import 'package:premedpk_mobile_app/UI/screens/question_banks/widgets/recent_activity_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/qbanks_stats.dart';
+import 'package:premedpk_mobile_app/UI/screens/statistics/statistics_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/question_of_day_model.dart';
 import 'package:premedpk_mobile_app/providers/question_of_day_provider.dart';
@@ -45,14 +48,20 @@ class QbankHomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Consumer<UserProvider>(builder: (context, userProvider, child) {
-                  return Text(
-                    'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
-                    style: GoogleFonts.rubik(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w800,
-                      color: const Color(0xFF000000),
-                      height: 1.3,
-                    ),
+                  return Row(
+                    children: [
+                      Text(
+                        'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
+                        style: GoogleFonts.rubik(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w800,
+                          color: const Color(0xFF000000),
+                          height: 1.3,
+                        ),
+                      ),
+                      const Spacer(),
+                      const NotificationIconWidget()
+                    ],
                   );
                 }),
                 const SizedBox(height: 3),
@@ -70,17 +79,21 @@ class QbankHomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     QbankFlashCardContainer(
-                      icon: PremedAssets.DocumentIcon,
-                      activityText: 'PREVIOUS ACTIVITY',
-                      title: 'MDCAT',
-                      subTitle: 'QBank',
+                      icon: PremedAssets.StatsIcon,
+                      title: 'Statistics',
+                      subTitle: 'Your Performance!',
                       onTap: () {
-                        navigateToMockOrDeck(context, 'MDCAT QBANK');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const StatisticsPage(),
+                          ),
+                        );
+                        // navigateToMockOrDeck(context, 'MDCAT QBANK');
                       },
                     ),
                     QbankFlashCardContainer(
                       icon: PremedAssets.FlashCardsIcon,
-                      activityText: '',
                       title: 'Flashcards',
                       subTitle: 'Fast-paced revision!',
                       onTap: () {
