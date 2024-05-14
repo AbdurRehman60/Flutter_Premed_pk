@@ -42,10 +42,8 @@ class UserStatProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
         Map<String, dynamic>.from(response.data);
-        print(responseData);
         if (responseData["success"]) {
           final Map<String, dynamic> json = responseData["return"];
-          print(json);
           _userStatModel = UserStatModel.fromJson(json);
           notify();
           result = {
