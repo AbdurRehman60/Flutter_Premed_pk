@@ -9,8 +9,6 @@ import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../question_banks/qbank_homepage.dart';
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
