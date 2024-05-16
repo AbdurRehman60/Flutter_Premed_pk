@@ -5,6 +5,7 @@ import 'package:premedpk_mobile_app/UI/test_interface/test_interface_page.dart';
 import '../../../../constants/color_theme.dart';
 import '../../../../constants/sized_boxes.dart';
 import '../../../../constants/text_theme.dart';
+import '../../../../providers/user_provider.dart';
 
 class ModeDescription extends StatelessWidget {
   const ModeDescription(
@@ -53,11 +54,11 @@ class ModeDescription extends StatelessWidget {
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
                       descriptionText:
-                          'The Correct answer and explanation will be shown instantly once you select any option'),
+                      'The Correct answer and explanation will be shown instantly once you select any option'),
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
                       descriptionText:
-                          "Timer and detailed score report are not available in 'Tutor Mode' and can be accessed in 'Time Test Mode'"),
+                      "Timer and detailed score report are not available in 'Tutor Mode' and can be accessed in 'Time Test Mode'"),
                   SizedBoxes.verticalMedium,
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -65,22 +66,48 @@ class ModeDescription extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8)),
                         backgroundColor: PreMedColorTheme().primaryColorRed),
                     onPressed: () {
-                      Navigator.push(
+                      String bundle = UserProvider().getBundle();
+                      print('Bundle Purchased: $bundle');
+                      if (bundle.contains('MDCAT-QBank')) {
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TestInterfacePage(
-                                    deckName: deckName,
-                                    timedTestMinutes: timedTestMinutes,
-                                  )));
+                            builder: (context) => TestInterfacePage(
+                              deckName: deckName,
+                              timedTestMinutes: timedTestMinutes,
+                            ),
+                          ),
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Premium Feature'),
+                              content: Text('Your current plan does not have access to this paper. Purchase our MDCAT-QBank Plan to access this feature!'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                     child: Text(
                       'Start Test',
                       style: PreMedTextTheme().heading2.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14),
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
                     ),
                   )
+
                 ],
               ),
             if (!mode)
@@ -102,15 +129,15 @@ class ModeDescription extends StatelessWidget {
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
                       descriptionText:
-                          'Paper will be timed according to the original time given for the paper.'),
+                      'Paper will be timed according to the original time given for the paper.'),
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
                       descriptionText:
-                          'Scored Report will be shown once you press the ‘Finish’ button.'),
+                      'Scored Report will be shown once you press the ‘Finish’ button.'),
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
                       descriptionText:
-                          "Correct answers and detailed explanations will be shown once you press the ‘Finish’ button."),
+                      "Correct answers and detailed explanations will be shown once you press the ‘Finish’ button."),
                   SizedBoxes.verticalMedium,
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -118,22 +145,48 @@ class ModeDescription extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8)),
                         backgroundColor: PreMedColorTheme().primaryColorRed),
                     onPressed: () {
-                      Navigator.push(
+                      String bundle = UserProvider().getBundle();
+                      print('Bundle Purchased: $bundle');
+                      if (bundle.contains('MDCAT-QBank')) {
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TestInterfacePage(
-                                    deckName: deckName,
-                                    timedTestMinutes: timedTestMinutes,
-                                  )));
+                            builder: (context) => TestInterfacePage(
+                              deckName: deckName,
+                              timedTestMinutes: timedTestMinutes,
+                            ),
+                          ),
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Premium Feature'),
+                              content: Text('Your current plan does not have access to this paper. Purchase our MDCAT-QBank Plan to access this feature!'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                     child: Text(
                       'Start Test',
                       style: PreMedTextTheme().heading2.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14),
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
                     ),
                   )
+
                 ],
               ),
           ],

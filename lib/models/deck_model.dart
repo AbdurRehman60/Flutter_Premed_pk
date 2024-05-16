@@ -33,7 +33,18 @@ class DeckModel {
 }
 
 class SubDeckModel {
-  SubDeckModel({required this.deckTitle, required this.deckLogo});
+  SubDeckModel({required this.deckTitle, required this.deckLogo, required this.premiumTag,});
+
+  factory SubDeckModel.fromJson(Map<String, dynamic> json) {
+    return SubDeckModel(
+      deckTitle: json['deckTitle'] as String,
+      deckLogo: json['deckLogo'] as String,
+      premiumTag: json['premiumTags'][0] as String,
+    );
+  }
+
   final String deckTitle;
   final String deckLogo;
+  final String premiumTag;
+
 }

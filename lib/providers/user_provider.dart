@@ -41,6 +41,17 @@ class UserProvider extends ChangeNotifier {
     return _user?.fullName ?? '';
   }
 
+  String getBundle() {
+    final bundle = _user?.bundlesPurchased;
+    if (bundle != null) {
+      print('bundlesPurchased: $bundle');
+      return bundle;
+    } else {
+      print('bundlesPurchased is empty');
+      return '';
+    }
+  }
+
   String getEmail() {
     return _user?.userName ?? '';
   }

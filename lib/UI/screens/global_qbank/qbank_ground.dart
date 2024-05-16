@@ -11,8 +11,10 @@ import 'package:provider/provider.dart';
 class Qbank extends StatelessWidget {
   const Qbank(
       {super.key, required this.deckCategory, required this.deckGroupName});
+
   final String deckCategory;
   final String deckGroupName;
+
   @override
   Widget build(BuildContext context) {
     final deckPro = Provider.of<DecksProvider>(context, listen: false);
@@ -75,12 +77,12 @@ class Qbank extends StatelessWidget {
                               width: double.infinity,
                               decoration: decksProvider.changeColor
                                   ? BoxDecoration(
-                                color: const Color(0xFFEC5863),
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: const Color(0x80FFFFFF),
-                                    width: 3),
-                              )
+                                      color: const Color(0xFFEC5863),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: const Color(0x80FFFFFF),
+                                          width: 3),
+                                    )
                                   : const BoxDecoration(),
                               child: Center(
                                 child: Text('YEARLY',
@@ -107,12 +109,12 @@ class Qbank extends StatelessWidget {
                               decoration: decksProvider.changeColor
                                   ? const BoxDecoration()
                                   : BoxDecoration(
-                                color: const Color(0xFFEC5863),
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                    color: const Color(0x80FFFFFF),
-                                    width: 3),
-                              ),
+                                      color: const Color(0xFFEC5863),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: const Color(0x80FFFFFF),
+                                          width: 3),
+                                    ),
                               child: Center(
                                 child: Text('TOPICAL',
                                     style: PreMedTextTheme().heading2.copyWith(
@@ -190,33 +192,39 @@ class Qbank extends StatelessWidget {
                 clipBehavior: Clip.hardEdge,
                 context: context,
                 builder: (context) => Container(
-                  padding: const EdgeInsets.only(top: 10,left:16,right: 16,bottom: 2 ),
-                  child: Column(
-                    children: [
-                      SvgPicture.asset('assets/icons/line.svg',width: 40,),
-                      SizedBoxes.verticalMedium,
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: deckList[index].subDeckDetails.length,
-                            itemBuilder: (context, index) => SubBankTile(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => TestModeInterface(
-                                            deckGroupName: deckGroupName,
-                                            deckDetails:
-                                            deck.subDeckDetails[index],
-                                          ))).then(
-                                          (value) => Navigator.of(context).pop());
-                                  // Navigator.of(context).pop();
-                                },
-                                details: deck.subDeckDetails[index])),
+                      padding: const EdgeInsets.only(
+                          top: 10, left: 16, right: 16, bottom: 2),
+                      child: Column(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/icons/line.svg',
+                            width: 40,
+                          ),
+                          SizedBoxes.verticalMedium,
+                          Expanded(
+                            child: ListView.builder(
+                                itemCount:
+                                    deckList[index].subDeckDetails.length,
+                                itemBuilder: (context, index) => SubBankTile(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TestModeInterface(
+                                                    deckGroupName:
+                                                        deckGroupName,
+                                                    deckDetails: deck
+                                                        .subDeckDetails[index],
+                                                  ))).then((value) =>
+                                          Navigator.of(context).pop());
+                                      // Navigator.of(context).pop();
+                                    },
+                                    details: deck.subDeckDetails[index])),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ));
-            // Handle tap event if needed
+                    ));
           },
         );
       },

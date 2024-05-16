@@ -2,11 +2,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:html/parser.dart' as htmlParser;
 
 import '../../../../constants/constants_export.dart';
+import '../../../../models/user_model.dart';
 import 'mode_description_container.dart';
 
 class TestModeInterface extends StatefulWidget {
   const TestModeInterface(
-      {super.key, required this.deckDetails, required this.deckGroupName});
+      {super.key, required this.deckDetails, required this.deckGroupName,});
 
   final Map<String, dynamic> deckDetails;
   final String deckGroupName;
@@ -19,6 +20,7 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
   late bool tutorModeButton;
   bool timeTestModeButton = false;
   String mode = 'tutorMode';
+
 
   @override
   void initState() {

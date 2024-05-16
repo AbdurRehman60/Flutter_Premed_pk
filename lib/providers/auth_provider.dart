@@ -12,6 +12,7 @@ import 'package:premedpk_mobile_app/utils/dialCode_to_country.dart';
 import 'package:premedpk_mobile_app/utils/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 enum Status {
   NotLoggedIn,
   LoggedIn,
@@ -214,6 +215,9 @@ class AuthProvider extends ChangeNotifier {
 
       if (response["isloggedin"]) {
         final User user = User.fromJson(response);
+
+        print('Notifications Read: ${response["BundlesPurchased"]}');
+
         await UserPreferences().saveUser(user);
 
         UserProvider().user = user;

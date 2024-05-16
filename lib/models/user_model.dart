@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 class User {
+  String bundlesPurchased;
 
   User({
     required this.userId,
@@ -32,9 +35,9 @@ class User {
     required this.milestones,
     required this.notificationsRead,
     required this.otherInfo,
-    // required this.bundlesPurchased,
     required this.coins,
     required this.freeTrial,
+    required this.bundlesPurchased, // Updated type to String
   });
 
   factory User.fromJson(Map<String, dynamic> responseData) {
@@ -70,12 +73,12 @@ class User {
       milestones: List<dynamic>.from(responseData['milestones'] ?? []),
       notificationsRead: List<dynamic>.from(responseData['notificationsread'] ?? []),
       otherInfo: responseData['otherinfo'] ?? {},
-      // bundlesPurchased:
-      //     BundlesPurchased.fromJson(responseData['BundlesPurchased'] ?? {}),
       coins: responseData['coins'] ?? 0,
       freeTrial: FreeTrial.fromJson(responseData['freeTrial'] ?? {}),
+      bundlesPurchased: responseData['BundlesPurchased'] != null ? json.encode(responseData['BundlesPurchased']) : "",
     );
   }
+
   String userId;
   String status;
   bool isLoggedin;
@@ -107,7 +110,6 @@ class User {
   List<dynamic> milestones;
   List<dynamic> notificationsRead;
   Map<String, dynamic> otherInfo;
-  // BundlesPurchased bundlesPurchased;
   int coins;
   FreeTrial freeTrial;
 
@@ -151,7 +153,6 @@ class User {
     return data;
   }
 }
-
 
 class BundlesPurchased {
 
