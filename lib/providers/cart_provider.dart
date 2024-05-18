@@ -142,7 +142,7 @@ class CartProvider extends ChangeNotifier {
     notify();
   }
 
-  Future<Map<String, dynamic>> placeOrder() async {
+  Future<Map<String, dynamic>> placeOrder(String transactionId) async {
     Map<String, Object?> result;
 
     _orderStatus = OrderStatus.processing;
@@ -156,6 +156,7 @@ class CartProvider extends ChangeNotifier {
         "BundleId": bundleIds,
         "PaymentProof": await imageToDataUri(
             UplaodImageProvider().uploadedImage!, "image/jpeg"),
+        "TransactionID": transactionId,
       };
 
       if (couponCode.isNotEmpty) {

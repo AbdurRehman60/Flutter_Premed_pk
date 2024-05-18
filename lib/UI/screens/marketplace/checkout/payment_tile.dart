@@ -10,7 +10,7 @@ import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:provider/provider.dart';
 
 class PaymentTile extends StatelessWidget {
-  const PaymentTile({
+   PaymentTile({
     super.key,
     required this.selected,
     required this.paymentProvider,
@@ -27,6 +27,7 @@ class PaymentTile extends StatelessWidget {
   final VoidCallback onTap;
   final String transferAmountText;
 
+  final TextEditingController transactionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
@@ -62,7 +63,8 @@ class PaymentTile extends StatelessWidget {
 
     void onPlaceOrder() {
       if (validateOrder()) {
-        final Future<Map<String, dynamic>> response = cartProvider.placeOrder();
+        final String transactionId = transactionController.text;
+        final Future<Map<String, dynamic>> response = cartProvider.placeOrder(transactionId);
         response.then(
           (response) {
             if (response['status']) {
@@ -207,7 +209,8 @@ class PaymentTile extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -219,16 +222,13 @@ class PaymentTile extends StatelessWidget {
                       fit: BoxFit.contain,
                     ),
                     SizedBoxes.verticalMedium,
-                    Text(
-                      transferAmountText
-                    ),
+                    Text(transferAmountText),
                     SizedBoxes.verticalMedium,
                     SelectableText(
                       numbers.entries
-                          .map((entry) => '${entry.value} (${entry.key})')
+                          .map((entry) => '${entry.value} (${entry.key})\n')
                           .join(' '),
                     ),
-                    SizedBoxes.verticalMedium,
                     SizedBox(
                       width: 72,
                       height: 32,
@@ -246,6 +246,29 @@ class PaymentTile extends StatelessWidget {
                               copyToClipboard(phoneNumber);
                             }
                           }),
+                    ),
+                    SizedBoxes.verticalMedium,
+                    Text(
+                      'Enter your payment transaction ID (Optional)',
+                      style: PreMedTextTheme()
+                          .body
+                          .copyWith(fontWeight: FontWeight.w400, fontSize: 14),
+                    ),
+                    SizedBoxes.verticalMicro,
+                    Text(
+                      'Note: Entering transaction ID helps us accept your orders faster.',
+                      style: PreMedTextTheme().body.copyWith(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          color: PreMedColorTheme().neutral400),
+                    ),
+                    SizedBoxes.verticalMedium,
+                    CustomTextField(
+                      controller: transactionController,
+                      hintText: 'Enter Transaction ID',
+                      hintStyle: PreMedTextTheme()
+                          .body
+                          .copyWith(color: PreMedColorTheme().neutral400),
                     ),
                     SizedBoxes.verticalExtraGargangua,
                     SizedBox(
