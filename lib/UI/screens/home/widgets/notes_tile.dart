@@ -51,7 +51,9 @@ class NotesTile extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         heading,
-                        style: PreMedTextTheme().heading5,
+                        style: PreMedTextTheme().heading5.copyWith(
+                            fontWeight: FontWeight.w800, fontSize: 16
+                        ),
                       ),
                     ),
                     SizedBoxes.vertical2Px,
@@ -61,8 +63,7 @@ class NotesTile extends StatelessWidget {
                       child: Text(
                         description,
                         style: PreMedTextTheme().subtext.copyWith(
-                              fontWeight: FontWeights.regular,
-                              fontSize: 14,
+                            fontWeight: FontWeight.w400, fontSize: 13
 
                             ),
                       ),

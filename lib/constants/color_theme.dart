@@ -7,6 +7,7 @@ class PreMedColorTheme {
   Color get primaryColorRed300 => const Color(0xFFF07982);
   Color get primaryColorRed200 => const Color(0xFFF49BA1);
   Color get primaryColorRed100 => const Color(0xFFFFE8E9);
+  Color get primaryColorRedLighter => const Color(0xFFFFFBFB);
   Color get primaryColorRed800 => const Color(0xFF2F1214);
   Color get bordercolor => const Color(0xFFC30052);
 

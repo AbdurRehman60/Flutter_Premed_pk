@@ -6,28 +6,21 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
+import 'package:premedpk_mobile_app/UI/screens/popups/free_flashcard_popup.dart';
+import 'package:premedpk_mobile_app/UI/screens/popups/marketing_campaign_popup.dart';
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/splash_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_success.dart';
+import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
-import 'package:premedpk_mobile_app/providers/decks_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
-import 'package:premedpk_mobile_app/providers/mdcat_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
-import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
-import 'package:premedpk_mobile_app/providers/pu_mocks-provider.dart';
-import 'package:premedpk_mobile_app/providers/question_of_day_provider.dart';
-import 'package:premedpk_mobile_app/providers/questions_proivder.dart';
-import 'package:premedpk_mobile_app/providers/recent_activity_provider.dart';
-import 'package:premedpk_mobile_app/providers/report_question_provider.dart';
-import 'package:premedpk_mobile_app/providers/save_question_provider.dart';
-import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
@@ -75,9 +68,6 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => MdcatMocksProvider()),
-        ChangeNotifierProvider(create: (_) => NumsMocksProvider()),
-        ChangeNotifierProvider(create: (_) => PrivuniMocksProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => AskAnExpertProvider()),
         ChangeNotifierProvider(create: (_) => FlashcardProvider()),
@@ -87,14 +77,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UplaodImageProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => WebNotificationsProvider()),
-        ChangeNotifierProvider(create: (_) => QuestionsProvider()),
-        // ChangeNotifierProvider(create: (_) => SaveQuestionProvider(userId: "65b113ba761bb53e12fb7fe6")),
-        ChangeNotifierProvider(create: (_) => SaveQuestionProvider()),
-        ChangeNotifierProvider(create: (_) => ReportQuestionProvider()),
-        ChangeNotifierProvider(create: (_) => DecksProvider()),
-        ChangeNotifierProvider(create: (_)=> RecentActivityProvider()),
-        ChangeNotifierProvider(create: (_)=> QuestionOfTheDayProvider()),
-        ChangeNotifierProvider(create: (_)=> UserStatProvider())
       ],
       child: MaterialApp(
         routes: {
