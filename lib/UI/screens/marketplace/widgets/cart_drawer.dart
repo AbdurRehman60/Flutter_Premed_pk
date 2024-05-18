@@ -7,6 +7,9 @@ import 'package:premedpk_mobile_app/models/bundle_model.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../providers/user_provider.dart';
+import '../../Login/login_screen_one.dart';
+
 class CartDrawer extends StatelessWidget {
   const CartDrawer({super.key});
 
@@ -22,6 +25,8 @@ class CartDrawer extends StatelessWidget {
   }
 }
 
+
+
 class CartWidget extends StatelessWidget {
   const CartWidget({
     super.key,
@@ -29,6 +34,54 @@ class CartWidget extends StatelessWidget {
   });
 
   final CartProvider cartProvider;
+
+  void showLoginPopup(BuildContext context) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Login Required"),
+            content: const Text("To use this feature, you need to log in."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child:  Text("Cancel", style: PreMedTextTheme().body.copyWith(
+                  color: PreMedColorTheme().primaryColorRed,
+
+                ),),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const SignIn(),
+                    ),
+                  );
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(PreMedColorTheme().primaryColorRed),
+                  foregroundColor: MaterialStateProperty.all<Color>(PreMedColorTheme().white),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                child: const Text("Login"),
+              )
+            ],
+          );
+        },
+      );
+    }
+
+
+  Future<bool> checkIfUserLoggedIn() async {
+    final UserProvider userProvider = UserProvider();
+    return userProvider.isLoggedIn();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,14 +232,20 @@ class CartWidget extends StatelessWidget {
                   height: 50,
                   child: CustomButton(
                     buttonText: 'Checkout                               ',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Cart(),
-                          settings: RouteSettings(arguments: cartProvider),
-                        ),
-                      );
+                    onPressed: () async {
+                      final isLoggedIn = checkIfUserLoggedIn();
+                      if (await isLoggedIn) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Cart(),
+                            settings: RouteSettings(arguments: cartProvider),
+                          ),
+                        );
+                      }
+                      else{
+                        showLoginPopup(context);
+                      }
                     },
                     isIconButton: true,
                     icon: Icons.arrow_forward_outlined,

@@ -2,7 +2,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class PreMedTextTheme {
   PreMedTextTheme({
-    this.fontFamily = "Inter",
+    this.fontFamily = "Rubik",
   }) : _baseTextStyle = TextStyle(
             fontFamily: fontFamily,
             fontWeight: FontWeights.regular,

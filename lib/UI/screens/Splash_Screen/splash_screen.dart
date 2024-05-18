@@ -33,14 +33,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   MaterialPageRoute(
                     builder: (context) => onboarding
                         ? const MainNavigationScreen()
-                        : const RequiredOnboarding(),
+                        : const MainNavigationScreen(),
                   ),
                 );
               } else {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const SignIn(),
+                    builder: (context) => const MainNavigationScreen(),
                   ),
                 );
               }
@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const SignIn(),
+              builder: (context) => const MainNavigationScreen(),
             ),
           );
         }

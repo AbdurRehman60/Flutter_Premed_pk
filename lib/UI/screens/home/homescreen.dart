@@ -1,17 +1,101 @@
-import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/popups/activate_freetrial.dart';
-
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../providers/auth_provider.dart';
+import '../Login/login_screen_one.dart';
+import '../flashcards/flashcards_home.dart';
+import '../popups/marketing_campaign_popup.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      _showMarketingCampaignPopup();
+    });
+  }
+
+  void _showMarketingCampaignPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const MarketingCampaignPopup();
+      },
+    );
+  }
+
+  void showLoginPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Login Required"),
+          content: const Text("To use this feature, you need to log in."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child:  Text("Cancel", style: PreMedTextTheme().body.copyWith(
+                color: PreMedColorTheme().primaryColorRed,
+
+              ),),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SignIn(),
+                  ),
+                );
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(PreMedColorTheme().primaryColorRed),
+                foregroundColor: MaterialStateProperty.all<Color>(PreMedColorTheme().white),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              child: const Text("Login"),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  Future<bool> checkIfUserLoggedIn() async {
+    final UserProvider userProvider = UserProvider();
+    return userProvider.isLoggedIn();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,62 +119,55 @@ class HomeScreen extends StatelessWidget {
                             Text(
                               // 'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
                               'Welcome,',
-                              style: PreMedTextThemeRubik().heading4.copyWith(
-                                  fontWeight: FontWeight.w900, fontSize: 30),
+                              style: PreMedTextTheme().heading4.copyWith(
+                                  fontWeight: FontWeight.w800, fontSize: 30),
                             ),
                             RichText(
                               text: TextSpan(
-                                  style: PreMedTextThemeRubik()
+                                  style: PreMedTextTheme()
                                       .body
                                       .copyWith(fontSize: 17),
                                   children: [
                                     TextSpan(
                                       text: 'To the ',
-                                      style: PreMedTextThemeRubik()
-                                          .body
-                                          .copyWith(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400),
+                                      style: PreMedTextTheme().body.copyWith(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w400),
                                     ),
                                     TextSpan(
                                       text: 'Pre',
-                                      style: PreMedTextThemeRubik()
-                                          .body
-                                          .copyWith(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w800),
+                                      style: PreMedTextTheme().body.copyWith(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w800),
                                     ),
                                     TextSpan(
                                       text: 'M',
-                                      style: PreMedTextThemeRubik()
-                                          .body
-                                          .copyWith(
-                                              fontSize: 17,
-                                              color: PreMedColorTheme()
-                                                  .primaryColorRed,
-                                              fontWeight: FontWeight.w800),
+                                      style: PreMedTextTheme().body.copyWith(
+                                          fontSize: 17,
+                                          color: PreMedColorTheme()
+                                              .primaryColorRed,
+                                          fontWeight: FontWeight.w800),
                                     ),
                                     TextSpan(
                                       text: 'ed',
-                                      style: PreMedTextThemeRubik()
-                                          .body
-                                          .copyWith(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w800),
+                                      style: PreMedTextTheme().body.copyWith(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w800),
                                     ),
                                     TextSpan(
                                       text: ' App',
-                                      style: PreMedTextThemeRubik()
-                                          .body
-                                          .copyWith(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400),
+                                      style: PreMedTextTheme().body.copyWith(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w400),
                                     ),
                                   ]),
                             )
                           ],
                         ),
-                        const NotificationIcon()
+                        Visibility(
+                          visible: userProvider.isLoggedIn(),
+                          child: const NotificationIcon(),
+                        )
                       ],
                     ),
                     SizedBoxes.verticalLarge,
@@ -157,12 +234,11 @@ class HomeScreen extends StatelessWidget {
                                 height: 70,
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: PreMedColorTheme().neutral100,
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: PreMedColorTheme().white,
-                                      width: 2),
-                                ),
+                                    color: PreMedColorTheme().neutral100,
+                                    borderRadius: BorderRadius.circular(15),
+                                    border: Border.all(
+                                        color: PreMedColorTheme().white,
+                                        width: 2)),
                                 child: Row(
                                   children: [
                                     Image.asset(PremedAssets.RevisionNotes),
@@ -225,29 +301,43 @@ class HomeScreen extends StatelessWidget {
                     ),
                     SizedBoxes.verticalGargangua,
                     SizedBoxes.horizontal15Px,
-                    Material(
-                      elevation: 4,
-                      borderRadius: BorderRadius.circular(15),
-                      child: Container(
-                        decoration: BoxDecoration(
+                    Consumer<UserProvider>(
+                      builder: (context, userProvider, child) {
+                        return Material(
+                          elevation: 4,
                           borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                              color: PreMedColorTheme().white, width: 2),
-                        ),
-                        child: NotesTile(
-                          heading: "Flashcards",
-                          description: "Fast-paced Revision",
-                          icon: PremedAssets.Flashcards,
-                          bgColor: PreMedColorTheme().neutral100,
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const FlashcardHome(),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                color: PreMedColorTheme().white,
+                                width: 2,
                               ),
-                            );
-                          },
-                        ),
-                      ),
+                            ),
+                            child: NotesTile(
+                              heading: "Flashcards",
+                              description: "Fast-paced Revision",
+                              icon: PremedAssets.Flashcards,
+                              bgColor: PreMedColorTheme().neutral100,
+                              onTap: () async {
+                                final isLoggedIn = checkIfUserLoggedIn();
+                                print('$isLoggedIn');
+
+                                if (await isLoggedIn) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const FlashcardHome()),
+                                  );
+                                } else {
+                                  showLoginPopup();
+                                }
+                              },
+                            ),
+                          ),
+                        );
+                      },
                     ),
                     SizedBoxes.verticalGargangua,
                     Material(
@@ -280,17 +370,20 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          color: PreMedColorTheme().neutral100,
-          borderRadius: const BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
-          border:  Border.all(
-            width: 3,
-            color: const Color(0xFFFFFFFF),
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            color: PreMedColorTheme().neutral100,
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(18), topRight: Radius.circular(18)),
+            border: Border.all(
+              width: 3,
+              color: const Color(0xFFFFFFFF),
+            ),
           ),
-        ),
-        child: const PremedFreeTrailText(fontSizeLineI: 13, fontSizeLineII: 10,)
-      ),
+          child: const PremedFreeTrailText(
+            fontSizeLineI: 13,
+            fontSizeLineII: 10,
+          )),
     );
   }
 }

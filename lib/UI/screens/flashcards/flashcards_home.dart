@@ -92,7 +92,7 @@ class FlashcardHome extends StatelessWidget {
                             .getFilteredFlashcards(subject)
                             .length;
                         final page =
-                            '$flashcardCount Questions'; // Update page based on count
+                            '$flashcardCount Questions';
                         return FlashcardItem(
                           image: gridData[index]['image'] ?? '',
                           text: gridData[index]['text'] ?? '',

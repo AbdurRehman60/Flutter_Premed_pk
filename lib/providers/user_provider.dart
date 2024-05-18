@@ -41,6 +41,8 @@ class UserProvider extends ChangeNotifier {
     return _user?.fullName ?? '';
   }
 
+
+
   String getBundle() {
     final bundle = _user?.bundlesPurchased;
     if (bundle != null) {
@@ -50,6 +52,10 @@ class UserProvider extends ChangeNotifier {
       print('bundlesPurchased is empty');
       return '';
     }
+  }
+
+  bool isLoggedIn() {
+    return _user != null && _user!.isLoggedin;
   }
 
   String getEmail() {

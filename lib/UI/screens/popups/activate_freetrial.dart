@@ -1,6 +1,7 @@
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/timer.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ActivateFreeTrial extends StatefulWidget {
   const ActivateFreeTrial({super.key});
@@ -13,7 +14,12 @@ class _ActivateFreeTrialState extends State<ActivateFreeTrial> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        launchUrl(
+          mode: LaunchMode.inAppBrowserView,
+          Uri.parse('https://premed.pk/auth/signup'),
+        );
+      },
       child: Container(
         decoration: BoxDecoration(
           color: PreMedColorTheme().white,
@@ -44,7 +50,10 @@ class _ActivateFreeTrialState extends State<ActivateFreeTrial> {
                       fontWeight: FontWeight.w800),
                 ),
               ),
-              const PremedFreeTrailText(fontSizeLineI: 18, fontSizeLineII: 15,),
+              const PremedFreeTrailText(
+                fontSizeLineI: 18,
+                fontSizeLineII: 15,
+              ),
               SizedBoxes.verticalTiny
             ],
           ),
@@ -55,7 +64,9 @@ class _ActivateFreeTrialState extends State<ActivateFreeTrial> {
 }
 
 class PremedFreeTrailText extends StatelessWidget {
-  const PremedFreeTrailText({super.key, required this.fontSizeLineI, required this.fontSizeLineII});
+  const PremedFreeTrailText(
+      {super.key, required this.fontSizeLineI, required this.fontSizeLineII});
+
   final double fontSizeLineI;
   final double fontSizeLineII;
 
@@ -72,13 +83,15 @@ class PremedFreeTrailText extends StatelessWidget {
             children: [
               RichText(
                 text: TextSpan(
-                    style: PreMedTextThemeRubik().body.copyWith(fontSize: fontSizeLineI),
+                    style: PreMedTextThemeRubik()
+                        .body
+                        .copyWith(fontSize: fontSizeLineI),
                     children: [
                       TextSpan(
                         text: 'Pre',
-                        style: PreMedTextThemeRubik()
-                            .body
-                            .copyWith(fontSize: fontSizeLineI, fontWeight: FontWeight.w900),
+                        style: PreMedTextThemeRubik().body.copyWith(
+                            fontSize: fontSizeLineI,
+                            fontWeight: FontWeight.w900),
                       ),
                       TextSpan(
                         text: 'M',
@@ -89,9 +102,9 @@ class PremedFreeTrailText extends StatelessWidget {
                       ),
                       TextSpan(
                         text: 'ed',
-                        style: PreMedTextThemeRubik()
-                            .body
-                            .copyWith(fontSize: fontSizeLineI, fontWeight: FontWeight.w800),
+                        style: PreMedTextThemeRubik().body.copyWith(
+                            fontSize: fontSizeLineI,
+                            fontWeight: FontWeight.w800),
                       ),
                       const TextSpan(text: ' is'),
                       TextSpan(
@@ -114,8 +127,11 @@ class PremedFreeTrailText extends StatelessWidget {
         ),
         SizedBoxes.verticalMicro,
         Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8,),
-          child: Text('Activate Your Trial Now!',
+          padding: const EdgeInsets.only(
+            left: 8.0,
+            right: 8,
+          ),
+          child: Text('Tap Here To Activate Your Trial Now!',
               style: PreMedTextThemeRubik().body.copyWith(
                   fontSize: fontSizeLineII,
                   fontWeight: FontWeight.w900,

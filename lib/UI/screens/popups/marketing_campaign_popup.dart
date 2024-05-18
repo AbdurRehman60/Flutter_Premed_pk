@@ -1,5 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/timer.dart';
-import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
+import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,9 +21,8 @@ class MarketingCampaignPopup extends StatelessWidget {
               size: 34,
             ),
             onPressed: () {
-              Navigator.of(context).pop();
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+                  MaterialPageRoute(builder: (context) => const MainNavigationScreen()));
             },
           ),
         ],
@@ -126,7 +125,12 @@ class MarketingCampaignPopup extends StatelessWidget {
                   width: 160,
                   height: 40,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      launchUrl(
+                        mode: LaunchMode.inAppBrowserView,
+                        Uri.parse("https://premed.pk/auth/login"),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PreMedColorTheme().primaryColorRed,
                       shape: RoundedRectangleBorder(
@@ -167,7 +171,7 @@ class MarketingCampaignPopup extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      'Avail 50% Off',
+                      'Avail 70% Off',
                       textAlign: TextAlign.center,
                       style: PreMedTextTheme().body.copyWith(
                             fontSize: 16,
@@ -189,14 +193,14 @@ class MarketingCampaignPopup extends StatelessWidget {
                         fontSize: 18,
                         color: Colors.blueAccent),
                     children: [
-                      TextSpan(text: 'The '),
+                      const TextSpan(text: 'The '),
                       TextSpan(
                           text: 'Free Trial ',
                           style: PreMedTextTheme().body.copyWith(
                               fontWeight: FontWeight.w800,
                               fontSize: 18,
                               color: Colors.blueAccent)),
-                      TextSpan(text: 'Ends In')
+                      const TextSpan(text: 'Ends In')
                     ])),
             SizedBoxes.verticalMedium,
             const TimerWidget(),

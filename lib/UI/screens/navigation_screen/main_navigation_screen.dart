@@ -8,8 +8,11 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../providers/user_provider.dart';
+import '../Login/login_screen_one.dart';
+
 class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({Key? key}) : super(key: key);
+  const MainNavigationScreen({super.key});
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
@@ -23,7 +26,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     return dsrID;
   }
 
-  List<int> navigationStack = [0]; // Initialize with the home screen index
+  List<int> navigationStack = [0];
 
   final screens = [
     const HomeScreen(),
@@ -32,6 +35,48 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     const MarketPlace(),
     const Account(),
   ];
+
+  void showLoginPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Login Required"),
+          content: const Text("To use this feature, you need to log in."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child:  Text("Cancel", style: PreMedTextTheme().body.copyWith(
+                color: PreMedColorTheme().primaryColorRed,
+
+              ),),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SignIn(),
+                  ),
+                );
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(PreMedColorTheme().primaryColorRed),
+                foregroundColor: MaterialStateProperty.all<Color>(PreMedColorTheme().white),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              child: const Text("Login"),
+            )
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,20 +108,36 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     );
   }
 
-  void onTap(int index) {
-    if (index == 1) {
+  Future<bool> checkIfUserLoggedIn() async {
+    final UserProvider userProvider = UserProvider();
+    return userProvider.isLoggedIn();
+  }
+
+  void onTap(int index) async {
+    if (index == 4) {
+      final isLoggedIn = await checkIfUserLoggedIn();
+      if (isLoggedIn) {
+        navigateTo(index);
+      } else {
+        showLoginPopup();
+      }
+    } else if (index == 1) {
       launchUrl(
         mode: LaunchMode.inAppBrowserView,
         Uri.parse("https://premed.pk/dashboard"),
       );
     } else {
-      final int currentIndex = navigationStack.last;
-      if (currentIndex != index) {
-        setState(() {
-          navigationStack.remove(index);
-          navigationStack.add(index);
-        });
-      }
+      navigateTo(index);
+    }
+  }
+
+  void navigateTo(int index) {
+    final int currentIndex = navigationStack.last;
+    if (currentIndex != index) {
+      setState(() {
+        navigationStack.remove(index);
+        navigationStack.add(index);
+      });
     }
   }
 }

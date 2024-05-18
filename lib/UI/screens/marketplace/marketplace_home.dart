@@ -18,6 +18,7 @@ class MarketPlace extends StatelessWidget {
     scaffoldKey.currentState?.openEndDrawer();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final BundleProvider bundleProvider =
