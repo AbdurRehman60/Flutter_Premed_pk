@@ -1,6 +1,7 @@
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
+import 'package:premedpk_mobile_app/UI/screens/popups/activate_freetrial.dart';
 import 'package:premedpk_mobile_app/UI/screens/popups/ifactivated_offer.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
@@ -85,7 +86,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBoxes.verticalLarge,
-                    const Offer(),
+                    const ActivateFreeTrial(),
                     SizedBoxes.verticalLarge,
                     Material(
                       elevation: 4,

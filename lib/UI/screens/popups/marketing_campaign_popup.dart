@@ -1,6 +1,6 @@
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/timer.dart';
-import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/countdown_timer.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MarketingCampaignPopup extends StatelessWidget {
   const MarketingCampaignPopup({super.key});
@@ -148,7 +148,13 @@ class MarketingCampaignPopup extends StatelessWidget {
                   width: 160,
                   height: 40,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      launchUrl(
+                        mode: LaunchMode.inAppBrowserView,
+                        Uri.parse("https://premed.pk/pricing/all"),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PreMedColorTheme().white,
                       shape: RoundedRectangleBorder(

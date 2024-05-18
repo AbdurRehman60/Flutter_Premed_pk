@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home:  const SplashScreen(),
+        home:  const MarketingCampaignPopup(),
         navigatorKey: navigatorKey,
       ),
     );
