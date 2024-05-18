@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                               // 'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
                               'Welcome,',
                               style: PreMedTextThemeRubik().heading4.copyWith(
-                                  fontWeight: FontWeight.w800, fontSize: 30),
+                                  fontWeight: FontWeight.w900, fontSize: 30),
                             ),
                             RichText(
                               text: TextSpan(
@@ -280,8 +280,16 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.all(15),
-        decoration: BoxDecoration(color: Colors.white), child: Text('Hello World'),
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          color: PreMedColorTheme().neutral100,
+          borderRadius: const BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
+          border:  Border.all(
+            width: 3,
+            color: const Color(0xFFFFFFFF),
+          ),
+        ),
+        child: PremedFreeTrailText(fontSizeLineI: 13, fontSizeLineII: 10,)
       ),
     );
   }
