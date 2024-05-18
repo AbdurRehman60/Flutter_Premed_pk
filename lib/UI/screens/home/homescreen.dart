@@ -33,52 +33,60 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             SizedBoxes.vertical2Px,
                             Text(
-                             // 'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
-                             'Welcome,',
-                              style: PreMedTextTheme().heading4.copyWith(
+                              // 'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
+                              'Welcome,',
+                              style: PreMedTextThemeRubik().heading4.copyWith(
                                   fontWeight: FontWeight.w800, fontSize: 30),
                             ),
-                            RichText(text: TextSpan(
-
-                              style: PreMedTextTheme().body.copyWith(fontSize: 17),
-                            children: [
-                              TextSpan(
-                                text:
-                                  'To the ',
-                                  style:
-                                  PreMedTextTheme().body.copyWith(fontSize: 17,fontWeight: FontWeight.w400),
-
-                              ),
-                              TextSpan(
-                                text:
-                                'Pre',
-                                style:
-                                PreMedTextTheme().body.copyWith(fontSize: 17,fontWeight: FontWeight.w800),
-
-                              ),
-                              TextSpan(
-                                text:
-                                'M',
-                                style:
-                                PreMedTextTheme().body.copyWith(fontSize: 17, color: PreMedColorTheme().primaryColorRed,fontWeight: FontWeight.w800),
-
-                              ),
-                              TextSpan(
-                                text:
-                                'ed',
-                                style:
-                                PreMedTextTheme().body.copyWith(fontSize: 17,fontWeight: FontWeight.w800),
-
-                              ),
-                              TextSpan(
-                                text:
-                                ' App',
-                                style:
-                                PreMedTextTheme().body.copyWith(fontSize: 17,fontWeight: FontWeight.w400),
-
-                              ),
-                            ]
-                            ),
+                            RichText(
+                              text: TextSpan(
+                                  style: PreMedTextThemeRubik()
+                                      .body
+                                      .copyWith(fontSize: 17),
+                                  children: [
+                                    TextSpan(
+                                      text: 'To the ',
+                                      style: PreMedTextThemeRubik()
+                                          .body
+                                          .copyWith(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w400),
+                                    ),
+                                    TextSpan(
+                                      text: 'Pre',
+                                      style: PreMedTextThemeRubik()
+                                          .body
+                                          .copyWith(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w800),
+                                    ),
+                                    TextSpan(
+                                      text: 'M',
+                                      style: PreMedTextThemeRubik()
+                                          .body
+                                          .copyWith(
+                                              fontSize: 17,
+                                              color: PreMedColorTheme()
+                                                  .primaryColorRed,
+                                              fontWeight: FontWeight.w800),
+                                    ),
+                                    TextSpan(
+                                      text: 'ed',
+                                      style: PreMedTextThemeRubik()
+                                          .body
+                                          .copyWith(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w800),
+                                    ),
+                                    TextSpan(
+                                      text: ' App',
+                                      style: PreMedTextThemeRubik()
+                                          .body
+                                          .copyWith(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w400),
+                                    ),
+                                  ]),
                             )
                           ],
                         ),
@@ -94,14 +102,12 @@ class HomeScreen extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                            color: PreMedColorTheme().white, width: 2
-                          )
-                        ),
+                            border: Border.all(
+                                color: PreMedColorTheme().white, width: 2)),
                         child: NotesTile(
                           heading: "The Question Bank",
                           description:
-                          "QBank of MDCAT, NUMS and Private Universities.",
+                              "QBank of MDCAT, NUMS and Private Universities.",
                           icon: PremedAssets.QuestionBank,
                           bgColor: PreMedColorTheme().neutral100,
                           onTap: () {
@@ -110,17 +116,19 @@ class HomeScreen extends StatelessWidget {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: const Text("Access the Question Bank"),
-                                  content: const Text("You'll be redirected to the web, Sign in and access the QBank."),
+                                  content: const Text(
+                                      "You'll be redirected to the web, Sign in and access the QBank."),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                         launchUrl(
                                           mode: LaunchMode.inAppBrowserView,
-                                          Uri.parse("https://premed.pk/dashboard"),
+                                          Uri.parse(
+                                              "https://premed.pk/dashboard"),
                                         );
                                       },
-                                      child: Text("OK"),
+                                      child: const Text("OK"),
                                     ),
                                   ],
                                 );
@@ -130,7 +138,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     SizedBoxes.verticalGargangua,
                     Row(
                       children: [
@@ -148,26 +155,24 @@ class HomeScreen extends StatelessWidget {
                               },
                               child: Container(
                                 height: 70,
-                                padding: EdgeInsets.all(16),
+                                padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                    color: PreMedColorTheme().neutral100,
-                                    borderRadius: BorderRadius.circular(15),
-                                    border: Border.all(
-                                        color: PreMedColorTheme().white, width: 2
-                                    )
-
+                                  color: PreMedColorTheme().neutral100,
+                                  borderRadius: BorderRadius.circular(15),
+                                  border: Border.all(
+                                      color: PreMedColorTheme().white,
+                                      width: 2),
                                 ),
                                 child: Row(
                                   children: [
-                                    Image.asset(
-                                        PremedAssets.RevisionNotes
-                                    ),
-                                    SizedBox(width: 16),
+                                    Image.asset(PremedAssets.RevisionNotes),
+                                    const SizedBox(width: 16),
                                     Text(
                                       "Revision\nNotes",
                                       style: PreMedTextTheme().body.copyWith(
-                                          fontWeight: FontWeight.w800, fontSize: 16
-                                      ), // Adjust text style as needed
+                                          fontWeight: FontWeight.w800,
+                                          fontSize:
+                                              16), // Adjust text style as needed
                                     ),
                                   ],
                                 ),
@@ -184,32 +189,31 @@ class HomeScreen extends StatelessWidget {
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => const ProvincialGuides(),
+                                    builder: (context) =>
+                                        const ProvincialGuides(),
                                   ),
                                 );
                               },
                               child: Container(
                                 height: 70,
-                                padding: EdgeInsets.all(16), // Adjust padding as needed
+                                padding: const EdgeInsets.all(
+                                    16), // Adjust padding as needed
                                 decoration: BoxDecoration(
                                     color: PreMedColorTheme().neutral100,
                                     borderRadius: BorderRadius.circular(15),
                                     border: Border.all(
-                                        color: PreMedColorTheme().white, width: 2
-                                    )
-
-                                ),
+                                        color: PreMedColorTheme().white,
+                                        width: 2)),
                                 child: Row(
                                   children: [
-                                    Image.asset(
-                                        PremedAssets.ProvisionalGuides
-                                    ),
-                                    SizedBox(width: 16),
+                                    Image.asset(PremedAssets.ProvisionalGuides),
+                                    const SizedBox(width: 16),
                                     Text(
                                       "Study\nGuides",
                                       style: PreMedTextTheme().body.copyWith(
-                                          fontWeight: FontWeight.w800, fontSize: 16
-                                      ), // Adjust text style as needed
+                                          fontWeight: FontWeight.w800,
+                                          fontSize:
+                                              16), // Adjust text style as needed
                                     ),
                                   ],
                                 ),
@@ -226,10 +230,9 @@ class HomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       child: Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                                color: PreMedColorTheme().white, width: 2
-                            )
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                              color: PreMedColorTheme().white, width: 2),
                         ),
                         child: NotesTile(
                           heading: "Flashcards",
@@ -254,9 +257,7 @@ class HomeScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             border: Border.all(
-                                color: PreMedColorTheme().white, width: 2
-                            )
-                        ),
+                                color: PreMedColorTheme().white, width: 2)),
                         child: NotesTile(
                           heading: "Youtube",
                           description: "Latest updates on \nMDCAT!",
@@ -277,6 +278,10 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.all(15),
+        decoration: BoxDecoration(color: Colors.white),
       ),
     );
   }

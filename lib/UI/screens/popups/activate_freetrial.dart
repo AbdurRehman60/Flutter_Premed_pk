@@ -13,8 +13,7 @@ class _ActivateFreeTrialState extends State<ActivateFreeTrial> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-      },
+      onTap: () {},
       child: Container(
         decoration: BoxDecoration(
           color: PreMedColorTheme().white,
@@ -29,7 +28,8 @@ class _ActivateFreeTrialState extends State<ActivateFreeTrial> {
           borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8, bottom: 8),
+          padding:
+              const EdgeInsets.only(left: 8.0, right: 8, top: 8, bottom: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -38,7 +38,7 @@ class _ActivateFreeTrialState extends State<ActivateFreeTrial> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   'FREE TRIAL WEEK',
-                  style: PreMedTextTheme().body.copyWith(
+                  style: PreMedTextThemeRubik().body.copyWith(
                       color: PreMedColorTheme().neutral400,
                       fontSize: 11,
                       fontWeight: FontWeight.w800),
@@ -51,45 +51,50 @@ class _ActivateFreeTrialState extends State<ActivateFreeTrial> {
                   children: [
                     RichText(
                       text: TextSpan(
-                          style: PreMedTextTheme().body.copyWith(fontSize: 17),
+                          style: PreMedTextThemeRubik().body.copyWith(fontSize: 18),
                           children: [
                             TextSpan(
                               text: 'Pre',
-                              style: PreMedTextTheme().body.copyWith(fontSize: 17, fontWeight: FontWeight.w800),
+                              style: PreMedTextThemeRubik().body.copyWith(
+                                  fontSize: 18, fontWeight: FontWeight.w900),
                             ),
                             TextSpan(
                               text: 'M',
-                              style: PreMedTextTheme().body.copyWith(fontSize: 17, color: PreMedColorTheme().primaryColorRed, fontWeight: FontWeight.w800),
+                              style: PreMedTextThemeRubik().body.copyWith(
+                                  fontSize: 18,
+                                  color: PreMedColorTheme().primaryColorRed,
+                                  fontWeight: FontWeight.w800),
                             ),
                             TextSpan(
                               text: 'ed',
-                              style: PreMedTextTheme().body.copyWith(fontSize: 17, fontWeight: FontWeight.w800),
+                              style: PreMedTextThemeRubik().body.copyWith(
+                                  fontSize: 18, fontWeight: FontWeight.w800),
                             ),
                             const TextSpan(text: ' is'),
                             TextSpan(
                               text: ' FREE',
-                              style: PreMedTextTheme().body.copyWith(fontSize: 17, fontWeight: FontWeight.w800, color: Colors.blueAccent),
+                              style: PreMedTextThemeRubik().body.copyWith(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.blueAccent),
                             ),
                             const TextSpan(text: ' for a few days!'),
-                          ]
-                      ),
+                          ]),
                     ),
                     Icon(
                       Icons.keyboard_arrow_right_rounded,
                       color: PreMedColorTheme().primaryColorRed,
-
                     ),
                   ],
                 ),
               ),
-
               SizedBoxes.verticalMicro,
               Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8,bottom: 8),
+                padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 8),
                 child: Text('Activate Your Trial Now!',
-                    style: PreMedTextTheme().body.copyWith(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w800,
+                    style: PreMedTextThemeRubik().body.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
                         color: PreMedColorTheme().primaryColorRed)),
               )
             ],

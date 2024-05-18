@@ -39,7 +39,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       onWillPop: () async {
         if (navigationStack.length > 1) {
           navigationStack.removeLast();
-          int previousIndex = navigationStack.last;
+          final int previousIndex = navigationStack.last;
           setState(() {
             navigationStack.removeLast();
             navigationStack.add(previousIndex);
