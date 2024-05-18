@@ -281,7 +281,7 @@ class HomeScreen extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(15),
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: BoxDecoration(color: Colors.white), child: Text('Hello World'),
       ),
     );
   }
