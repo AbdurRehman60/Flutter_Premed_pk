@@ -1,6 +1,6 @@
-class ProvincialGuides {
+class ProvincialGuidesModel {
 
-  ProvincialGuides({
+  ProvincialGuidesModel({
     required this.id,
     required this.title,
     required this.subject,

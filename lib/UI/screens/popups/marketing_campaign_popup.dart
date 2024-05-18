@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/timer.dart';
+import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,6 +22,8 @@ class MarketingCampaignPopup extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.of(context).pop();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
             },
           ),
         ],
@@ -165,10 +168,12 @@ class MarketingCampaignPopup extends StatelessWidget {
                     ),
                     child: Text(
                       'Avail 50% Off',
+                      textAlign: TextAlign.center,
                       style: PreMedTextTheme().body.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: PreMedColorTheme().primaryColorRed,
+
                           ),
                     ),
                   ),
@@ -215,9 +220,12 @@ class MarketingCampaignPopup extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                  'PreMed is offering many of its features for free from 19th May till 25th May. Terms and Conditions Apply.',
-                  textAlign: TextAlign.center,
-              style: PreMedTextTheme().body.copyWith(color: PreMedColorTheme().neutral500),),
+                'PreMed is offering many of its features for free from 19th May till 25th May. Terms and Conditions Apply.',
+                textAlign: TextAlign.center,
+                style: PreMedTextTheme()
+                    .body
+                    .copyWith(color: PreMedColorTheme().neutral500),
+              ),
             )
           ],
         ),

@@ -1,17 +1,53 @@
-import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
+import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
-import 'package:premedpk_mobile_app/UI/screens/popups/activate_freetrial.dart';
-import 'package:premedpk_mobile_app/UI/screens/popups/ifactivated_offer.dart';
-import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
-import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../flashcards/flashcards_home.dart';
+import '../popups/activate_freetrial.dart';
+import '../popups/marketing_campaign_popup.dart';
+import '../provincialguides/provincial_guides.dart';
+import '../revision_notes/revision_notes.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      _showMarketingCampaignPopup();
+    });
+  }
+
+  void _showMarketingCampaignPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MarketingCampaignPopup();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,51 +69,51 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             SizedBoxes.vertical2Px,
                             Text(
-                             // 'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
-                             'Welcome,',
+                              // 'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
+                              'Welcome,',
                               style: PreMedTextTheme().heading4.copyWith(
                                   fontWeight: FontWeight.w800, fontSize: 30),
                             ),
                             RichText(text: TextSpan(
 
-                              style: PreMedTextTheme().body.copyWith(fontSize: 17),
-                            children: [
-                              TextSpan(
-                                text:
-                                  'To the ',
-                                  style:
-                                  PreMedTextTheme().body.copyWith(fontSize: 17,fontWeight: FontWeight.w400),
+                                style: PreMedTextTheme().body.copyWith(fontSize: 17),
+                                children: [
+                                  TextSpan(
+                                    text:
+                                    'To the ',
+                                    style:
+                                    PreMedTextTheme().body.copyWith(fontSize: 17,fontWeight: FontWeight.w400),
 
-                              ),
-                              TextSpan(
-                                text:
-                                'Pre',
-                                style:
-                                PreMedTextTheme().body.copyWith(fontSize: 17,fontWeight: FontWeight.w800),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                    'Pre',
+                                    style:
+                                    PreMedTextTheme().body.copyWith(fontSize: 17,fontWeight: FontWeight.w800),
 
-                              ),
-                              TextSpan(
-                                text:
-                                'M',
-                                style:
-                                PreMedTextTheme().body.copyWith(fontSize: 17, color: PreMedColorTheme().primaryColorRed,fontWeight: FontWeight.w800),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                    'M',
+                                    style:
+                                    PreMedTextTheme().body.copyWith(fontSize: 17, color: PreMedColorTheme().primaryColorRed,fontWeight: FontWeight.w800),
 
-                              ),
-                              TextSpan(
-                                text:
-                                'ed',
-                                style:
-                                PreMedTextTheme().body.copyWith(fontSize: 17,fontWeight: FontWeight.w800),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                    'ed',
+                                    style:
+                                    PreMedTextTheme().body.copyWith(fontSize: 17,fontWeight: FontWeight.w800),
 
-                              ),
-                              TextSpan(
-                                text:
-                                ' App',
-                                style:
-                                PreMedTextTheme().body.copyWith(fontSize: 17,fontWeight: FontWeight.w400),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                    ' App',
+                                    style:
+                                    PreMedTextTheme().body.copyWith(fontSize: 17,fontWeight: FontWeight.w400),
 
-                              ),
-                            ]
+                                  ),
+                                ]
                             ),
                             )
                           ],
@@ -94,9 +130,9 @@ class HomeScreen extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                            color: PreMedColorTheme().white, width: 2
-                          )
+                            border: Border.all(
+                                color: PreMedColorTheme().white, width: 2
+                            )
                         ),
                         child: NotesTile(
                           heading: "The Question Bank",
@@ -184,7 +220,7 @@ class HomeScreen extends StatelessWidget {
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => const ProvincialGuides(),
+                                    builder: (context) => ProvincialGuides(),
                                   ),
                                 );
                               },
