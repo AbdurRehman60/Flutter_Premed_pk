@@ -289,7 +289,7 @@ class HomeScreen extends StatelessWidget {
             color: const Color(0xFFFFFFFF),
           ),
         ),
-        child: PremedFreeTrailText(fontSizeLineI: 13, fontSizeLineII: 10,)
+        child: const PremedFreeTrailText(fontSizeLineI: 13, fontSizeLineII: 10,)
       ),
     );
   }
