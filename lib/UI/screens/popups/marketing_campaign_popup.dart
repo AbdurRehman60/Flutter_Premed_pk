@@ -1,4 +1,4 @@
-import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/timer.dart';
+import 'package:premedpk_mobile_app/UI/screens/popups/timer.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:url_launcher/url_launcher.dart';
