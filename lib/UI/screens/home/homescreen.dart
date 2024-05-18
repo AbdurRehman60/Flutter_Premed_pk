@@ -1,4 +1,6 @@
-import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/UI/screens/Signup/signup_screen_one.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
 import 'package:premedpk_mobile_app/UI/screens/popups/activate_freetrial.dart';
@@ -8,10 +10,57 @@ import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dar
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../flashcards/flashcards_home.dart';
+import '../popups/activate_freetrial.dart';
+import '../popups/marketing_campaign_popup.dart';
+import '../provincialguides/provincial_guides.dart';
+import '../revision_notes/revision_notes.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      _showMarketingCampaignPopup();
+    });
+  }
+
+  void _showMarketingCampaignPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MarketingCampaignPopup();
+      },
+    );
+  }
+
+  Future<bool> checkIfUserExists() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.containsKey('isLoggedin') &&
+        (prefs.getBool('isLoggedin') ?? false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,56 +84,46 @@ class HomeScreen extends StatelessWidget {
                             Text(
                               // 'Hi, ${userProvider.getUserName().split(' ').length > 1 ? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
                               'Welcome,',
-                              style: PreMedTextThemeRubik().heading4.copyWith(
-                                  fontWeight: FontWeight.w900, fontSize: 30),
+                              style: PreMedTextTheme().heading4.copyWith(
+                                  fontWeight: FontWeight.w800, fontSize: 30),
                             ),
                             RichText(
                               text: TextSpan(
-                                  style: PreMedTextThemeRubik()
+                                  style: PreMedTextTheme()
                                       .body
                                       .copyWith(fontSize: 17),
                                   children: [
                                     TextSpan(
                                       text: 'To the ',
-                                      style: PreMedTextThemeRubik()
-                                          .body
-                                          .copyWith(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400),
+                                      style: PreMedTextTheme().body.copyWith(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w400),
                                     ),
                                     TextSpan(
                                       text: 'Pre',
-                                      style: PreMedTextThemeRubik()
-                                          .body
-                                          .copyWith(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w800),
+                                      style: PreMedTextTheme().body.copyWith(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w800),
                                     ),
                                     TextSpan(
                                       text: 'M',
-                                      style: PreMedTextThemeRubik()
-                                          .body
-                                          .copyWith(
-                                              fontSize: 17,
-                                              color: PreMedColorTheme()
-                                                  .primaryColorRed,
-                                              fontWeight: FontWeight.w800),
+                                      style: PreMedTextTheme().body.copyWith(
+                                          fontSize: 17,
+                                          color: PreMedColorTheme()
+                                              .primaryColorRed,
+                                          fontWeight: FontWeight.w800),
                                     ),
                                     TextSpan(
                                       text: 'ed',
-                                      style: PreMedTextThemeRubik()
-                                          .body
-                                          .copyWith(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w800),
+                                      style: PreMedTextTheme().body.copyWith(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w800),
                                     ),
                                     TextSpan(
                                       text: ' App',
-                                      style: PreMedTextThemeRubik()
-                                          .body
-                                          .copyWith(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400),
+                                      style: PreMedTextTheme().body.copyWith(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w400),
                                     ),
                                   ]),
                             )
@@ -107,7 +146,7 @@ class HomeScreen extends StatelessWidget {
                         child: NotesTile(
                           heading: "The Question Bank",
                           description:
-                              "QBank of MDCAT, NUMS and Private Universities.",
+                          "QBank of MDCAT, NUMS and Private Universities.",
                           icon: PremedAssets.QuestionBank,
                           bgColor: PreMedColorTheme().neutral100,
                           onTap: () {
@@ -128,7 +167,7 @@ class HomeScreen extends StatelessWidget {
                                               "https://premed.pk/dashboard"),
                                         );
                                       },
-                                      child: const Text("OK"),
+                                      child: Text("OK"),
                                     ),
                                   ],
                                 );
@@ -155,24 +194,23 @@ class HomeScreen extends StatelessWidget {
                               },
                               child: Container(
                                 height: 70,
-                                padding: const EdgeInsets.all(16),
+                                padding: EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: PreMedColorTheme().neutral100,
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                      color: PreMedColorTheme().white,
-                                      width: 2),
-                                ),
+                                    color: PreMedColorTheme().neutral100,
+                                    borderRadius: BorderRadius.circular(15),
+                                    border: Border.all(
+                                        color: PreMedColorTheme().white,
+                                        width: 2)),
                                 child: Row(
                                   children: [
                                     Image.asset(PremedAssets.RevisionNotes),
-                                    const SizedBox(width: 16),
+                                    SizedBox(width: 16),
                                     Text(
                                       "Revision\nNotes",
                                       style: PreMedTextTheme().body.copyWith(
                                           fontWeight: FontWeight.w800,
                                           fontSize:
-                                              16), // Adjust text style as needed
+                                          16), // Adjust text style as needed
                                     ),
                                   ],
                                 ),
@@ -189,14 +227,13 @@ class HomeScreen extends StatelessWidget {
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ProvincialGuides(),
+                                    builder: (context) => ProvincialGuides(),
                                   ),
                                 );
                               },
                               child: Container(
                                 height: 70,
-                                padding: const EdgeInsets.all(
+                                padding: EdgeInsets.all(
                                     16), // Adjust padding as needed
                                 decoration: BoxDecoration(
                                     color: PreMedColorTheme().neutral100,
@@ -207,13 +244,13 @@ class HomeScreen extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Image.asset(PremedAssets.ProvisionalGuides),
-                                    const SizedBox(width: 16),
+                                    SizedBox(width: 16),
                                     Text(
                                       "Study\nGuides",
                                       style: PreMedTextTheme().body.copyWith(
                                           fontWeight: FontWeight.w800,
                                           fontSize:
-                                              16), // Adjust text style as needed
+                                          16), // Adjust text style as needed
                                     ),
                                   ],
                                 ),
@@ -230,21 +267,26 @@ class HomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                              color: PreMedColorTheme().white, width: 2),
-                        ),
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                                color: PreMedColorTheme().white, width: 2)),
                         child: NotesTile(
                           heading: "Flashcards",
                           description: "Fast-paced Revision",
                           icon: PremedAssets.Flashcards,
                           bgColor: PreMedColorTheme().neutral100,
-                          onTap: () {
-                            Navigator.of(context).push(
+                          onTap: () async {
+                            await checkIfUserExists()
+                                ? Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const FlashcardHome(),
+                                builder: (context) =>
+                                const FlashcardHome(),
                               ),
-                            );
+                            )
+                                : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignUp()));
                           },
                         ),
                       ),
@@ -278,18 +320,6 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          color: PreMedColorTheme().neutral100,
-          borderRadius: const BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),
-          border:  Border.all(
-            width: 3,
-            color: const Color(0xFFFFFFFF),
-          ),
-        ),
-        child: PremedFreeTrailText(fontSizeLineI: 13, fontSizeLineII: 10,)
       ),
     );
   }
