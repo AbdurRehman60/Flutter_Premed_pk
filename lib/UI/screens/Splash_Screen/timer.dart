@@ -8,7 +8,7 @@ class TimerWidget extends StatefulWidget {
 }
 
 class _TimerWidgetState extends State<TimerWidget> {
-  int days=0;
+  int days = 0;
   int hours = 0;
   int minutes = 0;
   int seconds = 10;
@@ -89,40 +89,43 @@ class _TimerWidgetState extends State<TimerWidget> {
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 20,
-        ), child: Stack(
-              children: [
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildTimerColumn('Days', '0$days'),
-                      Text(
-                        ":",
-                        style: PreMedTextTheme().heading1.copyWith(
+        ),
+        child: Stack(
+          children: [
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildTimerColumn('Days', '0$days'),
+                  Text(
+                    ":",
+                    style: PreMedTextThemeRubik().heading1.copyWith(
                           color: Colors.blueAccent,
+                          fontSize: 55,
                         ),
-                      ),
-                      _buildTimerColumn('Hours', '$hours'),
-                      Text(
-
-                        ":",
-                        style: PreMedTextTheme().heading1.copyWith(
-                          color: Colors.blueAccent,
-                        ),
-                      ),
-                      _buildTimerColumn('Minutes', _formatTime(minutes)),
-                      Text(
-                        ":",
-                        style: PreMedTextTheme().heading1.copyWith(
-                          color:Colors.blueAccent,
-                        ),
-                      ),
-                      _buildTimerColumn('Seconds', _formatTime(seconds)),
-                    ],
                   ),
-                ),
-              ],
+                  _buildTimerColumn('Hours', '$hours'),
+                  Text(
+                    ":",
+                    style: PreMedTextThemeRubik().heading1.copyWith(
+                          color: Colors.blueAccent,
+                          fontSize: 55,
+                        ),
+                  ),
+                  _buildTimerColumn('Minutes', _formatTime(minutes)),
+                  Text(
+                    ":",
+                    style: PreMedTextThemeRubik().heading1.copyWith(
+                          color: Colors.blueAccent,
+                          fontSize: 55,
+                        ),
+                  ),
+                  _buildTimerColumn('Seconds', _formatTime(seconds)),
+                ],
+              ),
             ),
+          ],
+        ),
       ),
     );
   }
@@ -132,17 +135,16 @@ class _TimerWidgetState extends State<TimerWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(value,
-            style: PreMedTextTheme().subtext1.copyWith(
-              fontSize: 28.0,
-              fontWeight: FontWeight.w800,
-              color: PreMedColorTheme().primaryColorRed,
-            )),
+            style: PreMedTextThemeRubik().subtext1.copyWith(
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.bold,
+                  color: PreMedColorTheme().primaryColorRed,
+                )),
         SizedBoxes.vertical2Px,
         Text(label,
-            style: PreMedTextTheme().headline.copyWith(
-              fontSize: 16,
-              color: PreMedColorTheme().black
-            )),
+            style: PreMedTextThemeRubik()
+                .headline
+                .copyWith(fontSize: 16, color: PreMedColorTheme().black)),
       ],
     );
   }
@@ -151,7 +153,6 @@ class _TimerWidgetState extends State<TimerWidget> {
     return time < 10 ? '0$time' : '$time';
   }
 }
-
 
 class CustomDraw extends CustomPainter {
   CustomDraw(Color color, this.textWidth, {this.radius = 0}) {
@@ -193,11 +194,11 @@ class CustomDraw extends CustomPainter {
 class CustomTitleWidget extends StatefulWidget {
   const CustomTitleWidget(
       {super.key,
-        required this.height,
-        required this.width,
-        required this.title,
-        this.color,
-        this.radius});
+      required this.height,
+      required this.width,
+      required this.title,
+      this.color,
+      this.radius});
   final double height;
   final double width;
   final double? radius;
@@ -256,8 +257,7 @@ class _CustomTitleWidgetState extends State<CustomTitleWidget> {
               style: PreMedTextTheme().headline.copyWith(
                   color: PreMedColorTheme().white,
                   fontWeight: FontWeight.w600,
-                  fontSize: 18
-              ),
+                  fontSize: 18),
             ),
           ),
         )
