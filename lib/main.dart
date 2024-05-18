@@ -6,9 +6,12 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
+import 'package:premedpk_mobile_app/UI/screens/popups/free_flashcard_popup.dart';
+import 'package:premedpk_mobile_app/UI/screens/popups/marketing_campaign_popup.dart';
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/splash_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_success.dart';
+import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -86,7 +89,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home:  const SplashScreen(),
+        home: const MarketingCampaignPopup(),
         navigatorKey: navigatorKey,
       ),
     );

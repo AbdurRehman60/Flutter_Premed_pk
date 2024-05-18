@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/timer.dart';
+import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,7 +13,7 @@ class MarketingCampaignPopup extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
-        actions: [
+        actions: <Widget>[
           IconButton(
             icon: Icon(
               Icons.close,
@@ -21,49 +22,44 @@ class MarketingCampaignPopup extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.of(context).pop();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
             },
           ),
         ],
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(
-                'assets/images/market-logo.png',
-              ),
-              fit: BoxFit.fitWidth),
-        ),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             RichText(
               textAlign: TextAlign.center,
               text: TextSpan(
-                style: PreMedTextThemeRubik().subtext.copyWith(
-                    fontWeight: FontWeight.w900,
-                    fontSize: 45,
+                style: PreMedTextTheme().subtext.copyWith(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 36,
                     color: PreMedColorTheme().black),
                 children: [
                   TextSpan(
                     text: 'Pre',
-                    style: PreMedTextThemeRubik().subtext1.copyWith(
-                          fontSize: 45,
-                          fontWeight: FontWeight.w900,
+                    style: PreMedTextTheme().subtext1.copyWith(
+                          fontSize: 36,
+                          fontWeight: FontWeight.w800,
                         ),
                   ),
                   TextSpan(
                     text: 'M',
-                    style: PreMedTextThemeRubik().subtext1.copyWith(
+                    style: PreMedTextTheme().subtext1.copyWith(
                           color: PreMedColorTheme().primaryColorRed,
-                          fontSize: 45,
-                          fontWeight: FontWeight.w900,
+                          fontSize: 36,
+                          fontWeight: FontWeight.w800,
                         ),
                   ),
                   TextSpan(
                     text: 'ed:',
-                    style: PreMedTextThemeRubik().subtext1.copyWith(
-                          fontSize: 45,
-                          fontWeight: FontWeight.w900,
+                    style: PreMedTextTheme().subtext1.copyWith(
+                          fontSize: 36,
+                          fontWeight: FontWeight.w800,
                         ),
                   ),
                   const TextSpan(
@@ -72,63 +68,57 @@ class MarketingCampaignPopup extends StatelessWidget {
                 ],
               ),
             ),
-            Text(
-              '100% Free',
-              style: PreMedTextThemeRubik().body.copyWith(
-                  fontSize: 60,
-                  fontWeight: FontWeight.w900,
-                  color: PreMedColorTheme().primaryColorRed,
-                  height: 1.5),
-            ),
+            SizedBoxes.verticalMedium,
+            Text('100% Free',
+                style: PreMedTextTheme().body.copyWith(
+                    fontSize: 48,
+                    fontWeight: FontWeight.w900,
+                    color: PreMedColorTheme().primaryColorRed)),
+            SizedBoxes.verticalMedium,
             Center(
               child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                      style: PreMedTextThemeRubik().subtext.copyWith(
+                      style: PreMedTextTheme().subtext.copyWith(
                           fontWeight: FontWeight.w800,
-                          fontSize: 25,
-                          height: 1.5,
+                          fontSize: 24,
                           color: Colors.blueAccent),
                       children: [
                         const TextSpan(text: 'Notes'),
                         TextSpan(
                           text: ', ',
-                          style: PreMedTextThemeRubik().subtext1.copyWith(
+                          style: PreMedTextTheme().subtext1.copyWith(
                               fontWeight: FontWeight.w800,
-                              fontSize: 25,
-                              height: 1.5,
+                              fontSize: 24,
                               color: PreMedColorTheme().black),
                         ),
                         const TextSpan(text: 'QBank'),
                         TextSpan(
                           text: ', ',
-                          style: PreMedTextThemeRubik().subtext1.copyWith(
+                          style: PreMedTextTheme().subtext1.copyWith(
                               fontWeight: FontWeight.w800,
-                              fontSize: 25,
-                              height: 1.5,
+                              fontSize: 24,
                               color: PreMedColorTheme().black),
                         ),
                         const TextSpan(text: 'Mocks '),
                         TextSpan(
                           text: 'and ',
-                          style: PreMedTextThemeRubik().subtext1.copyWith(
+                          style: PreMedTextTheme().subtext1.copyWith(
                               fontWeight: FontWeight.w800,
-                              fontSize: 25,
-                              height: 1.5,
+                              fontSize: 24,
                               color: PreMedColorTheme().black),
                         ),
                         const TextSpan(text: 'Guidance videos'),
                         TextSpan(
                           text: '!',
-                          style: PreMedTextThemeRubik().subtext1.copyWith(
+                          style: PreMedTextTheme().subtext1.copyWith(
                               fontWeight: FontWeight.w800,
-                              fontSize: 25,
-                              height: 1.5,
+                              fontSize: 24,
                               color: PreMedColorTheme().black),
                         )
                       ])),
             ),
-            SizedBoxes.vertical26Px,
+            SizedBoxes.verticalMedium,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -142,16 +132,15 @@ class MarketingCampaignPopup extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: BorderSide(
-                          color: PreMedColorTheme().primaryColorRed200,
-                          width: 2,
-                        ),
+                            color: PreMedColorTheme().primaryColorRed200,
+                            width: 2),
                       ),
                     ),
                     child: Text(
                       'Avail Free Trial',
-                      style: PreMedTextThemeRubik().body.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
+                      style: PreMedTextTheme().body.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
                             color: PreMedColorTheme().white,
                           ),
                     ),
@@ -179,10 +168,12 @@ class MarketingCampaignPopup extends StatelessWidget {
                     ),
                     child: Text(
                       'Avail 50% Off',
-                      style: PreMedTextThemeRubik().body.copyWith(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
+                      textAlign: TextAlign.center,
+                      style: PreMedTextTheme().body.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
                             color: PreMedColorTheme().primaryColorRed,
+
                           ),
                     ),
                   ),
@@ -193,22 +184,23 @@ class MarketingCampaignPopup extends StatelessWidget {
             RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                    style: PreMedTextThemeRubik().subtext.copyWith(
-                        fontWeight: FontWeight.w500,
+                    style: PreMedTextTheme().subtext.copyWith(
+                        fontWeight: FontWeight.w600,
                         fontSize: 18,
                         color: Colors.blueAccent),
                     children: [
-                      const TextSpan(text: 'The '),
+                      TextSpan(text: 'The '),
                       TextSpan(
                           text: 'Free Trial ',
-                          style: PreMedTextThemeRubik().body.copyWith(
-                              fontWeight: FontWeight.bold,
+                          style: PreMedTextTheme().body.copyWith(
+                              fontWeight: FontWeight.w800,
                               fontSize: 18,
                               color: Colors.blueAccent)),
-                      const TextSpan(text: 'Ends In')
+                      TextSpan(text: 'Ends In')
                     ])),
             SizedBoxes.verticalMedium,
             const TimerWidget(),
+            SizedBoxes.verticalExtraGargangua,
             SizedBoxes.verticalExtraGargangua,
             Container(
               width: double.infinity,
@@ -218,7 +210,7 @@ class MarketingCampaignPopup extends StatelessWidget {
                   child: Text(
                 'LIMITED TIME ONLY',
                 textAlign: TextAlign.center,
-                style: PreMedTextThemeRubik().body.copyWith(
+                style: PreMedTextTheme().body.copyWith(
                     color: PreMedColorTheme().tickcolor,
                     fontWeight: FontWeight.w900,
                     fontSize: 20),
@@ -230,7 +222,7 @@ class MarketingCampaignPopup extends StatelessWidget {
               child: Text(
                 'PreMed is offering many of its features for free from 19th May till 25th May. Terms and Conditions Apply.',
                 textAlign: TextAlign.center,
-                style: PreMedTextThemeRubik()
+                style: PreMedTextTheme()
                     .body
                     .copyWith(color: PreMedColorTheme().neutral500),
               ),
