@@ -1,4 +1,3 @@
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/timer.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
