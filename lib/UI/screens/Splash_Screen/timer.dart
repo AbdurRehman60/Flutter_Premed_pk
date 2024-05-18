@@ -92,37 +92,35 @@ class _TimerWidgetState extends State<TimerWidget> {
         ),
         child: Stack(
           children: [
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildTimerColumn('Days', '0$days'),
-                  Text(
-                    ":",
-                    style: PreMedTextThemeRubik().heading1.copyWith(
-                          color: Colors.blueAccent,
-                          fontSize: 55,
-                        ),
-                  ),
-                  _buildTimerColumn('Hours', '$hours'),
-                  Text(
-                    ":",
-                    style: PreMedTextThemeRubik().heading1.copyWith(
-                          color: Colors.blueAccent,
-                          fontSize: 55,
-                        ),
-                  ),
-                  _buildTimerColumn('Minutes', _formatTime(minutes)),
-                  Text(
-                    ":",
-                    style: PreMedTextThemeRubik().heading1.copyWith(
-                          color: Colors.blueAccent,
-                          fontSize: 55,
-                        ),
-                  ),
-                  _buildTimerColumn('Seconds', _formatTime(seconds)),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildTimerColumn('Days', '0$days'),
+                Text(
+                  ":",
+                  style: PreMedTextThemeRubik().heading1.copyWith(
+                        color: Colors.blueAccent,
+                        fontSize: 55,
+                      ),
+                ),
+                _buildTimerColumn('Hours', '$hours'),
+                Text(
+                  ":",
+                  style: PreMedTextThemeRubik().heading1.copyWith(
+                        color: Colors.blueAccent,
+                        fontSize: 55,
+                      ),
+                ),
+                _buildTimerColumn('Minutes', _formatTime(minutes)),
+                Text(
+                  ":",
+                  style: PreMedTextThemeRubik().heading1.copyWith(
+                        color: Colors.blueAccent,
+                        fontSize: 55,
+                      ),
+                ),
+                _buildTimerColumn('Seconds', _formatTime(seconds)),
+              ],
             ),
           ],
         ),
@@ -134,17 +132,18 @@ class _TimerWidgetState extends State<TimerWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(value,
-            style: PreMedTextThemeRubik().subtext1.copyWith(
-                  fontSize: 28.0,
-                  fontWeight: FontWeight.bold,
-                  color: PreMedColorTheme().primaryColorRed,
-                )),
-        SizedBoxes.vertical2Px,
+        Text(
+          value,
+          style: PreMedTextThemeRubik().subtext1.copyWith(
+                fontSize: 25.0,
+                fontWeight: FontWeight.bold,
+                color: PreMedColorTheme().primaryColorRed,
+              ),
+        ),
         Text(label,
             style: PreMedTextThemeRubik()
                 .headline
-                .copyWith(fontSize: 16, color: PreMedColorTheme().black)),
+                .copyWith(fontSize: 8, color: PreMedColorTheme().black)),
       ],
     );
   }
