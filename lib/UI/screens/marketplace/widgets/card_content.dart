@@ -28,8 +28,6 @@ class CardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
     final bool isBundleInCart = cartProvider.selectedBundles.contains(bundle);
-    Uri? purchaseLink =
-    bundle.purchaseFormLink != null ? Uri.parse(bundle.purchaseFormLink!) : null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,18 +50,18 @@ class CardContent extends StatelessWidget {
                   text: TextSpan(
                     text: bundle.bundleName.split(' ').first,
                     style: PreMedTextTheme().heading5.copyWith(
-                      color: PreMedColorTheme().primaryColorRed,
-                      fontSize: small ? 16 : 20,
-                      fontWeight: FontWeight.w600,
-                    ),
+                          color: PreMedColorTheme().primaryColorRed,
+                          fontSize: small ? 16 : 20,
+                          fontWeight: FontWeight.w600,
+                        ),
                     children: <TextSpan>[
                       TextSpan(
                         text:
-                        ' ${bundle.bundleName.split(' ').skip(1).join(' ')}',
+                            ' ${bundle.bundleName.split(' ').skip(1).join(' ')}',
                         style: PreMedTextTheme().heading5.copyWith(
-                          color: PreMedColorTheme().black,
-                          fontSize: small ? 16 : 20,
-                        ),
+                              color: PreMedColorTheme().black,
+                              fontSize: small ? 16 : 20,
+                            ),
                       ),
                     ],
                   ),
@@ -78,9 +76,9 @@ class CardContent extends StatelessWidget {
             child: Text(
               bundle.bundleDescription,
               style: PreMedTextTheme().body.copyWith(
-                height: 1.5,
-                color: PreMedColorTheme().neutral600,
-              ),
+                    height: 1.5,
+                    color: PreMedColorTheme().neutral600,
+                  ),
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
@@ -96,23 +94,23 @@ class CardContent extends StatelessWidget {
                   .take(5)
                   .map(
                     (point) => Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        '✔ $point',
-                        style: PreMedTextTheme().small.copyWith(
-                          color: PreMedColorTheme().neutral600,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          height: 1.5,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            '✔ $point',
+                            style: PreMedTextTheme().small.copyWith(
+                                  color: PreMedColorTheme().neutral600,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.5,
+                                ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              )
+                  )
                   .toList(),
             ),
           )
@@ -126,10 +124,10 @@ class CardContent extends StatelessWidget {
               Text(
                 'Rs. ${(bundle.bundlePrice - bundle.bundleDiscount).round()}',
                 style: PreMedTextTheme().heading4.copyWith(
-                  fontWeight: FontWeights.bold,
-                  color: PreMedColorTheme().primaryColorRed,
-                  fontSize: small ? 16 : 20,
-                ),
+                      fontWeight: FontWeights.bold,
+                      color: PreMedColorTheme().primaryColorRed,
+                      fontSize: small ? 16 : 20,
+                    ),
               ),
               SizedBoxes.horizontalMicro,
               SizedBoxes.horizontalMicro,
@@ -144,30 +142,27 @@ class CardContent extends StatelessWidget {
             ],
           ),
         ),
-
         if (!small) SizedBoxes.verticalMedium,
-        if (bundle.bundleName.contains("Course") ||
-            bundle.bundleName.contains("Counselling")) ...{
+        if (bundle.bundleName.toLowerCase().contains("course") ||
+            bundle.bundleName.toLowerCase().contains("counselling")) ...{
           SizedBox(
             height: 90,
-            child:
-            SingleChildScrollView(
+            child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  alignment: WrapAlignment.start,
                   children: [
                     SizedBox(
-                      width:120,
+                      width: MediaQuery.of(context).size.width * 0.25,
                       height: 40,
                       child: CustomButton(
                         buttonText: 'Buy Now',
                         onPressed: () {
                           launchUrl(
                             mode: LaunchMode.inAppBrowserView,
-                            purchaseLink!,
+                            Uri.parse('https://premed.pk/pricing/counselling'),
                           );
                         },
                       ),
@@ -187,8 +182,8 @@ class CardContent extends StatelessWidget {
                         fontWeight: FontWeights.medium,
                         onPressed: () {
                           launchUrl(
-                            mode: LaunchMode.inAppBrowserView,
                             Uri.parse(bundle.interestedFormLink!),
+                            mode: LaunchMode.inAppWebView,
                           );
                         },
                       ),
@@ -204,8 +199,8 @@ class CardContent extends StatelessWidget {
                         buttonText: 'View Details',
                         onPressed: () {
                           launchUrl(
-                            mode: LaunchMode.inAppBrowserView,
                             Uri.parse(bundle.bundlePDF!),
+                            mode: LaunchMode.inAppWebView,
                           );
                         },
                       ),
@@ -215,15 +210,14 @@ class CardContent extends StatelessWidget {
               ),
             ),
           )
-        } else if (!isBundleInCart)
+        } else if (!isBundleInCart) ...{
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: SizedBox(
-                  width: 100,
+                  width: MediaQuery.of(context).size.width * 0.25,
                   height: 40,
                   child: CustomButton(
                     buttonText: 'Buy Now',
@@ -234,17 +228,17 @@ class CardContent extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
+              const SizedBox(
                 width: 120,
                 height: 50,
-                child: const RibbonTag(
+                child: RibbonTag(
                   imagePath: 'assets/images/Subtract.png',
                   text: 'Best Value',
                 ),
               ),
-
             ],
           ),
+        },
       ],
     );
   }

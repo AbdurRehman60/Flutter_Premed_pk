@@ -4,11 +4,9 @@ import 'package:premedpk_mobile_app/UI/screens/popups/activate_freetrial.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
 import 'package:premedpk_mobile_app/UI/screens/revision_notes/revision_notes.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../providers/auth_provider.dart';
 import '../Login/login_screen_one.dart';
 import '../flashcards/flashcards_home.dart';
 import '../popups/marketing_campaign_popup.dart';
@@ -62,10 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child:  Text("Cancel", style: PreMedTextTheme().body.copyWith(
-                color: PreMedColorTheme().primaryColorRed,
-
-              ),),
+              child: Text(
+                "Cancel",
+                style: PreMedTextTheme().body.copyWith(
+                      color: PreMedColorTheme().primaryColorRed,
+                    ),
+              ),
             ),
             ElevatedButton(
               onPressed: () {
@@ -76,8 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(PreMedColorTheme().primaryColorRed),
-                foregroundColor: MaterialStateProperty.all<Color>(PreMedColorTheme().white),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    PreMedColorTheme().primaryColorRed),
+                foregroundColor:
+                    MaterialStateProperty.all<Color>(PreMedColorTheme().white),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -321,8 +323,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               bgColor: PreMedColorTheme().neutral100,
                               onTap: () async {
                                 final isLoggedIn = checkIfUserLoggedIn();
-                                print('$isLoggedIn');
-
                                 if (await isLoggedIn) {
                                   Navigator.push(
                                     context,
@@ -369,21 +369,29 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-          padding: const EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            color: PreMedColorTheme().neutral100,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(18), topRight: Radius.circular(18)),
-            border: Border.all(
-              width: 3,
-              color: const Color(0xFFFFFFFF),
+      bottomNavigationBar: GestureDetector(
+        onTap: () {
+          launchUrl(
+            mode: LaunchMode.inAppBrowserView,
+            Uri.parse('https://premed.pk/auth/signup'),
+          );
+        },
+        child: Container(
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: PreMedColorTheme().neutral100,
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(18), topRight: Radius.circular(18)),
+              border: Border.all(
+                width: 3,
+                color: const Color(0xFFFFFFFF),
+              ),
             ),
-          ),
-          child: const PremedFreeTrailText(
-            fontSizeLineI: 13,
-            fontSizeLineII: 10,
-          )),
+            child: const PremedFreeTrailText(
+              fontSizeLineI: 13,
+              fontSizeLineII: 10,
+            )),
+      ),
     );
   }
 }
