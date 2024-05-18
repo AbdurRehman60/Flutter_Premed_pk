@@ -44,7 +44,8 @@ class _ActivateFreeTrialState extends State<ActivateFreeTrial> {
                       fontWeight: FontWeight.w800),
                 ),
               ),
-              const PremedFreeTrailText(fontSizeLineI: 18, fontSizeLineII: 15,)
+              const PremedFreeTrailText(fontSizeLineI: 18, fontSizeLineII: 15,),
+              SizedBoxes.verticalTiny
             ],
           ),
         ),
@@ -104,6 +105,7 @@ class PremedFreeTrailText extends StatelessWidget {
                     ]),
               ),
               Icon(
+                size: 26,
                 Icons.keyboard_arrow_right_rounded,
                 color: PreMedColorTheme().primaryColorRed,
               ),
@@ -112,7 +114,7 @@ class PremedFreeTrailText extends StatelessWidget {
         ),
         SizedBoxes.verticalMicro,
         Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 8),
+          padding: const EdgeInsets.only(left: 8.0, right: 8,),
           child: Text('Activate Your Trial Now!',
               style: PreMedTextThemeRubik().body.copyWith(
                   fontSize: fontSizeLineII,
