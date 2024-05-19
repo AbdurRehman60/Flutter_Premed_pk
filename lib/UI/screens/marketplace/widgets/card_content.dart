@@ -162,7 +162,7 @@ class CardContent extends StatelessWidget {
                         onPressed: () {
                           launchUrl(
                             mode: LaunchMode.inAppBrowserView,
-                            Uri.parse('https://premed.pk/pricing/counselling'),
+                            Uri.parse(bundle.purchaseFormLink!),
                           );
                         },
                       ),
