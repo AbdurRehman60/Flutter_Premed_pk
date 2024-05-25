@@ -178,21 +178,21 @@ class Account extends StatelessWidget {
                               ),
                             ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBoxes.horizontalMicro,
-                                Text(
-                                    userProvider.getIntendFor(),
-                                    style: PreMedTextTheme().body.copyWith(fontWeight: FontWeight.w800, fontSize: 13),
-                                ),
-                                const Spacer(),
-                                Text('ACTIVE',style: PreMedTextTheme().body.copyWith(color: PreMedColorTheme().tickcolor, fontSize:10, fontWeight: FontWeight.w600 ),)
-                              ],
-                            ),
-                          ),
+                          // child: Padding(
+                          //   padding: const EdgeInsets.all(12.0),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       SizedBoxes.horizontalMicro,
+                          //       Text(
+                          //           userProvider.getIntendFor(),
+                          //           style: PreMedTextTheme().body.copyWith(fontWeight: FontWeight.w800, fontSize: 13),
+                          //       ),
+                          //       const Spacer(),
+                          //       Text('ACTIVE',style: PreMedTextTheme().body.copyWith(color: PreMedColorTheme().tickcolor, fontSize:10, fontWeight: FontWeight.w600 ),)
+                          //     ],
+                          //   ),
+                          // ),
                         ),
                       ),
                     ],

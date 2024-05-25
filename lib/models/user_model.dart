@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 class User {
-  String bundlesPurchased;
 
   User({
-    required this.userId,
     required this.status,
     required this.isLoggedin,
     required this.userName,
@@ -35,14 +31,13 @@ class User {
     required this.milestones,
     required this.notificationsRead,
     required this.otherInfo,
+    // required this.bundlesPurchased,
     required this.coins,
     required this.freeTrial,
-    required this.bundlesPurchased, // Updated type to String
   });
 
   factory User.fromJson(Map<String, dynamic> responseData) {
     return User(
-      userId: responseData['id'],
       status: responseData['status'] ?? "",
       isLoggedin: responseData['isloggedin'] ?? false,
       userName: responseData['username'] ?? "",
@@ -51,13 +46,18 @@ class User {
       city: responseData['city'] ?? "",
       school: responseData['school'] ?? "",
       academyJoined: responseData['academyJoined'] ?? "",
-      onBoarding: responseData['onboarding'] == "" ? false : responseData['onboarding'],
-      optionalOnboarding: responseData['optionalOnboarding'] == "" ? false : responseData['optionalOnboarding'],
+      onBoarding:
+      responseData['onboarding'] == "" ? false : responseData['onboarding'],
+      optionalOnboarding: responseData['optionalOnboarding'] == ""
+          ? false
+          : responseData['optionalOnboarding'],
       accountType: responseData['accountType'] ?? "",
       intendFor: List<String>.from(responseData['intendFor'] ?? []),
       whichYear: responseData['whichYear'] ?? "",
       country: responseData['country'] ?? "",
-      availableOnWhatsapp: responseData['availableOnWhatsapp'] == "" ? false : responseData['availableOnWhatsapp'],
+      availableOnWhatsapp: responseData['availableOnWhatsapp'] == ""
+          ? false
+          : responseData['availableOnWhatsapp'],
       parentFullname: responseData['parentFullName'] ?? "",
       parentContactNumber: responseData['parentContactNumber'] ?? "",
       whatsappNumber: responseData['whatsappNumber'] ?? "",
@@ -66,20 +66,23 @@ class User {
       subscriptionStatus: responseData['subscriptionstatus'] ?? "",
       subscriptionStartDate: responseData['subscriptionstartdate'] ?? "",
       subscriptionEndDate: responseData['subscriptionenddate'] ?? "",
-      freeUser: responseData['freeuser'] == "" ? false : responseData['freeuser'],
-      purchaseMocks: responseData['purchasedmocks'] == "" ? false : responseData['purchasedmocks'],
+      freeUser:
+      responseData['freeuser'] == "" ? false : responseData['freeuser'],
+      purchaseMocks: responseData['purchasedmocks'] == ""
+          ? false
+          : responseData['purchasedmocks'],
       addonsPurchased: List<String>.from(responseData['addonspurchased'] ?? []),
       referral: responseData['referal'] ?? "",
       milestones: List<dynamic>.from(responseData['milestones'] ?? []),
-      notificationsRead: List<dynamic>.from(responseData['notificationsread'] ?? []),
+      notificationsRead:
+      List<dynamic>.from(responseData['notificationsread'] ?? []),
       otherInfo: responseData['otherinfo'] ?? {},
-      coins: responseData['coins'] ?? 0,
+      // bundlesPurchased:
+      //     BundlesPurchased.fromJson(responseData['BundlesPurchased'] ?? {}),
+      coins: responseData['coins'] ??0,
       freeTrial: FreeTrial.fromJson(responseData['freeTrial'] ?? {}),
-      bundlesPurchased: responseData['BundlesPurchased'] != null ? json.encode(responseData['BundlesPurchased']) : "",
     );
   }
-
-  String userId;
   String status;
   bool isLoggedin;
   String userName;
@@ -110,12 +113,12 @@ class User {
   List<dynamic> milestones;
   List<dynamic> notificationsRead;
   Map<String, dynamic> otherInfo;
+  // BundlesPurchased bundlesPurchased;
   int coins;
   FreeTrial freeTrial;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['id'] = userId;
     data['status'] = status;
     data['isloggedin'] = isLoggedin;
     data['email'] = userName;
@@ -164,7 +167,7 @@ class BundlesPurchased {
   factory BundlesPurchased.fromJson(Map<String, dynamic> responseData) {
     final List<BundleItem> bundleItems = List<BundleItem>.from(
       (responseData['tags'] as List<dynamic>).map(
-        (value) => BundleItem.fromJson(value as Map<String, dynamic>),
+            (value) => BundleItem.fromJson(value as Map<String, dynamic>),
       ),
     );
 

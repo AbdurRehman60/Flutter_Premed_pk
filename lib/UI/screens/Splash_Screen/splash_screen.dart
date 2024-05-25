@@ -1,5 +1,5 @@
 import 'package:lottie/lottie.dart';
-import 'package:premedpk_mobile_app/UI/screens/Login/login_screen_one.dart';
+import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
       checkIfUserExists().then((userExists) {
         if (userExists) {
           final AuthProvider auth =
-              Provider.of<AuthProvider>(context, listen: false);
+          Provider.of<AuthProvider>(context, listen: false);
 
           auth.getLoggedInUser().then((response) {
             checkIfOnboardingComplete().then((onboarding) {
@@ -33,14 +33,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   MaterialPageRoute(
                     builder: (context) => onboarding
                         ? const MainNavigationScreen()
-                        : const MainNavigationScreen(),
+                        : const RequiredOnboarding(),
                   ),
                 );
               } else {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MainNavigationScreen(),
+                    builder: (context) => const LoginScreen(),
                   ),
                 );
               }
@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const MainNavigationScreen(),
+              builder: (context) => const LoginScreen(),
             ),
           );
         }

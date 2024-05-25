@@ -15,7 +15,6 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   User? _user;
   User? get user => _user;
   set user(User? value) {
@@ -37,22 +36,23 @@ class UserProvider extends ChangeNotifier {
     notify();
   }
 
+
   String getUserName() {
     return _user?.fullName ?? '';
   }
 
 
 
-  String getBundle() {
-    final bundle = _user?.bundlesPurchased;
-    if (bundle != null) {
-      print('bundlesPurchased: $bundle');
-      return bundle;
-    } else {
-      print('bundlesPurchased is empty');
-      return '';
-    }
-  }
+  // String getBundle() {
+  //   final bundle = _user?.bundlesPurchased;
+  //   if (bundle != null) {
+  //     print('bundlesPurchased: $bundle');
+  //     return bundle;
+  //   } else {
+  //     print('bundlesPurchased is empty');
+  //     return '';
+  //   }
+  // }
 
   bool isLoggedIn() {
     return _user != null && _user!.isLoggedin;
@@ -74,20 +74,16 @@ class UserProvider extends ChangeNotifier {
       return '';
     }
   }
-  //
-  // void printUserId() {
-  //   print(user?.userId);
-  // }
 
 
   // Update full name
   Future<Map<String, dynamic>> updateUserDetails(
-    String fullname,
+      String fullname,
       String email,
       String phoneNumber,
       String city,
       String school,
-  ) async {
+      ) async {
     Map<String, dynamic> result;
     final Map<String, dynamic> updateData = {
       'fullname': fullname.isEmpty ? user?.fullName : fullname,
@@ -105,7 +101,7 @@ class UserProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData['Error'] == false) {
           notify();
@@ -129,7 +125,7 @@ class UserProvider extends ChangeNotifier {
       result = {
         'status': false,
         'message': 'Network error updating user details: ${e.message}',
-    };
+      };
     }
 
     notify();
@@ -152,7 +148,7 @@ class UserProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData['Error'] == false) {
           notify();

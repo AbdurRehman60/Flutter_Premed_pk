@@ -1,4 +1,3 @@
-import 'package:premedpk_mobile_app/UI/screens/Login/login_screen_one.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/local_image_display.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/dropdown_form.dart';
@@ -6,11 +5,8 @@ import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
-import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/utils/validators.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../providers/auth_provider.dart' as auth;
 
 class AskanExpertForm extends StatelessWidget {
   AskanExpertForm({
@@ -56,57 +52,6 @@ class AskanExpertForm extends StatelessWidget {
         });
       }
     }
-
-
-
-    Future<bool> checkIfUserLoggedIn() async {
-      final UserProvider userProvider = UserProvider();
-      return userProvider.isLoggedIn();
-    }
-
-
-    void showLoginPopup() {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Login Required"),
-            content: const Text("To use this feature, you need to log in."),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child:  Text("Cancel", style: PreMedTextTheme().body.copyWith(
-                  color: PreMedColorTheme().primaryColorRed,
-
-                ),),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const SignIn(),
-                    ),
-                  );
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(PreMedColorTheme().primaryColorRed),
-                  foregroundColor: MaterialStateProperty.all<Color>(PreMedColorTheme().white),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                child: const Text("Login"),
-              )
-            ],
-          );
-        },
-      );
-    }
-
 
     return Form(
       key: _formKey,
@@ -186,18 +131,13 @@ class AskanExpertForm extends StatelessWidget {
                   ),
                   SizedBoxes.verticalBig,
                   CustomButton(
-                    isActive: askAnExpertProvider.doubtUploadStatus != Status.Sending,
-                    buttonText: askAnExpertProvider.doubtUploadStatus == Status.Sending
-                        ? 'Submitting'
-                        : 'Submit for 5 Coins',
-                    onPressed: () async {
-                      final isLoggedIn = checkIfUserLoggedIn();
-                      if (await isLoggedIn) {
-                        onSubmitPressed();
-                      } else {
-                        showLoginPopup();
-                      }
-                    },
+                    isActive:
+                        askAnExpertProvider.doubtUploadStatus != Status.Sending,
+                    buttonText:
+                        askAnExpertProvider.doubtUploadStatus == Status.Sending
+                            ? 'Submitting'
+                            : 'Submit for 5 Coins',
+                    onPressed: onSubmitPressed,
                   ),
                 ],
               ),

@@ -82,10 +82,6 @@ class UserPreferences {
     return prefs.commit();
   }
 
-  Future<User?> getUser() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool? isLoggedin = prefs.getBool('isLoggedin');
-  }
 
   // Future<void> initNetworkCheck() async {
   //   final SharedPreferences prefs = await SharedPreferences.getInstance();

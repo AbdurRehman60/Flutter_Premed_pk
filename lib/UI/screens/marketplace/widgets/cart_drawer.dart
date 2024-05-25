@@ -7,9 +7,6 @@ import 'package:premedpk_mobile_app/models/bundle_model.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../providers/user_provider.dart';
-import '../../Login/login_screen_one.dart';
-
 class CartDrawer extends StatelessWidget {
   const CartDrawer({super.key});
 
@@ -25,8 +22,6 @@ class CartDrawer extends StatelessWidget {
   }
 }
 
-
-
 class CartWidget extends StatelessWidget {
   const CartWidget({
     super.key,
@@ -34,54 +29,6 @@ class CartWidget extends StatelessWidget {
   });
 
   final CartProvider cartProvider;
-
-  void showLoginPopup(BuildContext context) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Login Required"),
-            content: const Text("To use this feature, you need to log in."),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child:  Text("Cancel", style: PreMedTextTheme().body.copyWith(
-                  color: PreMedColorTheme().primaryColorRed,
-
-                ),),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const SignIn(),
-                    ),
-                  );
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(PreMedColorTheme().primaryColorRed),
-                  foregroundColor: MaterialStateProperty.all<Color>(PreMedColorTheme().white),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                child: const Text("Login"),
-              )
-            ],
-          );
-        },
-      );
-    }
-
-
-  Future<bool> checkIfUserLoggedIn() async {
-    final UserProvider userProvider = UserProvider();
-    return userProvider.isLoggedIn();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,8 +53,7 @@ class CartWidget extends StatelessWidget {
                     TextSpan(
                       text: 'Courses in Cart',
                       style: PreMedTextTheme().heading5.copyWith(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
                       ),
                     ),
                   ],
@@ -120,7 +66,7 @@ class CartWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(
-                      Icons.delete_outline_outlined,
+                      Icons.delete,
                       color: PreMedColorTheme().neutral400,
                       size: 16, // Set icon color
                     ),
@@ -170,8 +116,8 @@ class CartWidget extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      icon: ImageIcon(
-                        const AssetImage('assets/icons/add_circle_outline.png'),
+                      icon: Icon(
+                        Icons.close_rounded,
                         size: 16,
                         color: PreMedColorTheme().neutral400,
                       ),
@@ -179,7 +125,6 @@ class CartWidget extends StatelessWidget {
                         cartProvider.removeFromCart(bundle);
                       },
                     ),
-
                   ],
                 );
               },
@@ -189,19 +134,19 @@ class CartWidget extends StatelessWidget {
                 title: "YOUR CART IS EMPTY",
                 body: ""),
           ),
-          const SizedBox(
+          SizedBox(
             width: double.infinity,
+            child: Divider(
+              color: PreMedColorTheme().neutral300,
+            ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBoxes.verticalMicro,
               Text(
-                  'Total',
-                  style: PreMedTextTheme().heading5.copyWith(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  )
+                'Total',
+                style: PreMedTextTheme().heading5,
               ),
               SizedBoxes.verticalMedium,
               Wrap(
@@ -210,16 +155,12 @@ class CartWidget extends StatelessWidget {
                   Text('Rs. ${cartProvider.afterDiscountPrice}',
                       style: PreMedTextTheme().heading3.copyWith(
                         color: PreMedColorTheme().primaryColorRed,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w600,
                       )),
                   SizedBoxes.horizontalMicro,
                   Text(
                     'Rs. ${cartProvider.totalOriginalPrice}',
                     style: PreMedTextTheme().heading7.copyWith(
                       color: PreMedColorTheme().neutral400,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
                       decoration: TextDecoration.lineThrough,
                     ),
                   ),
@@ -231,25 +172,16 @@ class CartWidget extends StatelessWidget {
                 child: SizedBox(
                   height: 50,
                   child: CustomButton(
-                    buttonText: 'Checkout                               ',
-                    onPressed: () async {
-                      final isLoggedIn = checkIfUserLoggedIn();
-                      if (await isLoggedIn) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Cart(),
-                            settings: RouteSettings(arguments: cartProvider),
-                          ),
-                        );
-                      }
-                      else{
-                        showLoginPopup(context);
-                      }
+                    buttonText: 'Go to Cart ->',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Cart(),
+                          settings: RouteSettings(arguments: cartProvider),
+                        ),
+                      );
                     },
-                    isIconButton: true,
-                    icon: Icons.arrow_forward_outlined,
-                    leftIcon: false,
                   ),
                 ),
               ),

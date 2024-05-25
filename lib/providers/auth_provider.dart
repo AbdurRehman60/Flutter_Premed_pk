@@ -1,3 +1,4 @@
+
 // ignore_for_file: constant_identifier_names, unnecessary_getters_setters, deprecated_member_use
 
 import 'dart:convert';
@@ -11,7 +12,6 @@ import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/utils/dialCode_to_country.dart';
 import 'package:premedpk_mobile_app/utils/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 enum Status {
   NotLoggedIn,
@@ -140,7 +140,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData["success"]) {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
@@ -211,13 +211,8 @@ class AuthProvider extends ChangeNotifier {
         Endpoints.getLoggedInUser,
       );
 
-      print('Raw response data: $response');
-
       if (response["isloggedin"]) {
         final User user = User.fromJson(response);
-
-        print('Notifications Read: ${response["BundlesPurchased"]}');
-
         await UserPreferences().saveUser(user);
 
         UserProvider().user = user;
@@ -253,11 +248,11 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> signup(
-    String email,
-    String password,
-    String fullName,
-    String? referralCode,
-  ) async {
+      String email,
+      String password,
+      String fullName,
+      String? referralCode,
+      ) async {
     Map<String, Object?> result;
     final Map<String, dynamic> signupData = {
       "fullname": fullName,
@@ -278,7 +273,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
         if (responseData["success"]) {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
 
@@ -343,7 +338,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         await getLoggedInUser();
 
@@ -390,7 +385,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         await getLoggedInUser();
 
@@ -493,13 +488,13 @@ class AuthProvider extends ChangeNotifier {
 
         if (response.statusCode == 200) {
           final Map<String, dynamic> responseData =
-              Map<String, dynamic>.from(response.data);
+          Map<String, dynamic>.from(response.data);
 
           if (responseData["success"]) {
             final Map<String, dynamic> userResponse = await getLoggedInUser();
 
             final SharedPreferences prefs =
-                await SharedPreferences.getInstance();
+            await SharedPreferences.getInstance();
 
             final String? fcmToken = prefs.getString('fcmToken');
 
@@ -564,7 +559,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData["success"] != null) {
           result = {
