@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -9,8 +10,6 @@ class UserProvider extends ChangeNotifier {
   UserProvider._internal();
   static final UserProvider _instance = UserProvider._internal();
   final DioClient _client = DioClient();
-
-
   void notify() {
     notifyListeners();
   }
@@ -36,26 +35,8 @@ class UserProvider extends ChangeNotifier {
     notify();
   }
 
-
   String getUserName() {
     return _user?.fullName ?? '';
-  }
-
-
-
-  // String getBundle() {
-  //   final bundle = _user?.bundlesPurchased;
-  //   if (bundle != null) {
-  //     print('bundlesPurchased: $bundle');
-  //     return bundle;
-  //   } else {
-  //     print('bundlesPurchased is empty');
-  //     return '';
-  //   }
-  // }
-
-  bool isLoggedIn() {
-    return _user != null && _user!.isLoggedin;
   }
 
   String getEmail() {
@@ -65,16 +46,6 @@ class UserProvider extends ChangeNotifier {
   int getCoins() {
     return _user?.coins ?? 0;
   }
-  String getIntendFor() {
-    final List<dynamic>? intendForList = _user?.intendFor;
-    if (intendForList != null && intendForList.isNotEmpty) {
-      final List<String> stringList = intendForList.map((e) => e.toString()).toList();
-      return stringList.join(', ');
-    } else {
-      return '';
-    }
-  }
-
 
   // Update full name
   Future<Map<String, dynamic>> updateUserDetails(
@@ -179,7 +150,7 @@ class UserProvider extends ChangeNotifier {
     return result;
   }
 
-//account deletion
+  //account deletion
   Future<Map<String, dynamic>> deleteAccount(
       String username, String password) async {
     Map<String, dynamic> result;

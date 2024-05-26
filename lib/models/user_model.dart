@@ -1,3 +1,4 @@
+
 class User {
 
   User({
@@ -79,9 +80,10 @@ class User {
       otherInfo: responseData['otherinfo'] ?? {},
       // bundlesPurchased:
       //     BundlesPurchased.fromJson(responseData['BundlesPurchased'] ?? {}),
-      coins: responseData['coins'] ??0,
-      freeTrial: FreeTrial.fromJson(responseData['freeTrial'] ?? {}),
-    );
+      coins: responseData['coins'] ?? 0,
+      freeTrial: responseData['freeTrial'] != null
+          ? FreeTrial.fromJson(responseData['freeTrial'])
+          : FreeTrial(complete: false, daysLeft: 0),    );
   }
   String status;
   bool isLoggedin;
