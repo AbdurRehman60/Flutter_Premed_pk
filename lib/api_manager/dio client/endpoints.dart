@@ -27,6 +27,9 @@ class Endpoints {
   static const String continueWithGoogle = '/api/auth/google-login';
   static const String forgotPassword = '/Forgot-Password';
 
+  //mocks
+
+
   //onboarding endpoints
   static const String OptionalOnboarding = '/api/auth/optional-onboarding';
   static const String RequiredOnboarding = '/api/auth/required-onboarding';
@@ -63,9 +66,9 @@ class Endpoints {
   static const String DeleteAccount = '/api/user/DeleteAccount';
 
   //mdcat nums and pu mocks endpoints
-  static const String Deckspoints = '/api/get-all-published-decks';
-  static const String Privuni= '/api/get-all-published-decks';
-  static const String Nums = '/api/get-all-published-decks';
+  static const String Deckspoints = '/api/get-category-decks/MDCAT Mocks';
+  static const String Privuni= '/api/get-category-decks/Private Universities Mocks';
+   static const String Nums = '/api/get-category-decks/NUMS Mocks';
 
   //deck point
   static const String getDeckInfo =

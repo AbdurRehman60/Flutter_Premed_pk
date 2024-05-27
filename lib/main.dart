@@ -6,6 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
+import 'package:premedpk_mobile_app/UI/screens/mocks/mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/popups/free_flashcard_popup.dart';
 import 'package:premedpk_mobile_app/UI/screens/popups/marketing_campaign_popup.dart';
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/splash_screen.dart';
@@ -20,7 +21,10 @@ import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
+import 'package:premedpk_mobile_app/providers/mdcat_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
+import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
+import 'package:premedpk_mobile_app/providers/pu_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
@@ -77,6 +81,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UplaodImageProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => WebNotificationsProvider()),
+        ChangeNotifierProvider(create: (_) => MdcatMocksProvider()),
+        ChangeNotifierProvider(create: (_) => NumsMocksProvider()),
+        ChangeNotifierProvider(create: (_) => PrivuniMocksProvider()),
       ],
       child: MaterialApp(
         routes: {
@@ -89,7 +96,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const SplashScreen(),
+        home: const MocksHome(),
         navigatorKey: navigatorKey,
       ),
     );

@@ -127,14 +127,24 @@ class AuthProvider extends ChangeNotifier {
     final Map<String, dynamic> loginData = {
       "username": email,
       "password": password,
+
     };
     _loggedInStatus = Status.Authenticating;
     notify();
 
     try {
+
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? sessionId = prefs.getString('sessionId');
       final Response response = await _client.post(
         Endpoints.login,
         data: loginData,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Cookie': sessionId != null ? 'connect.sid=$sessionId' : null,
+          },
+        ),
       );
 
       if (response.statusCode == 200) {
