@@ -47,6 +47,7 @@ class NumsMocksProvider extends ChangeNotifier {
             final int deckNameCount = deckItems.length;
             final String deckGroupImage = deckGroupData['deckGroupImage'];
             return DeckGroupModel(
+              deckType: deckGroupData['deckType'],
               deckGroupName: deckGroupData['deckGroupName'],
               deckItems: deckItems,
               deckNameCount: deckNameCount,

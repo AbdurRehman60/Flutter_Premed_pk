@@ -7,6 +7,7 @@ class DeckGroupModel {
     required this.deckNameCount,
     required this.deckItems,
     this.deckGroupImage,
+    required this.deckType,
   });
 
 
@@ -17,6 +18,7 @@ class DeckGroupModel {
     final String? deckGroupImage = json['deckGroupImage'];
 
     return DeckGroupModel(
+      deckType: json['deckType'],
       deckGroupName: json['deckGroupName'],
       deckItems: deckItems,
       deckNameCount: deckNameCount,
@@ -27,6 +29,7 @@ class DeckGroupModel {
   final List<DeckItem> deckItems;
   final int deckNameCount;
   final String? deckGroupImage;
+  final String deckType;
 }
 
 class DeckItem {
