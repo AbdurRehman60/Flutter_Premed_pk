@@ -35,6 +35,7 @@ class User {
     // required this.bundlesPurchased,
     required this.coins,
     required this.freeTrial,
+    required this.feedbackSubmitted,
   });
 
   factory User.fromJson(Map<String, dynamic> responseData) {
@@ -81,9 +82,11 @@ class User {
       // bundlesPurchased:
       //     BundlesPurchased.fromJson(responseData['BundlesPurchased'] ?? {}),
       coins: responseData['coins'] ?? 0,
-      freeTrial: responseData['freeTrial'] != null
+      freeTrial: responseData['freeTrial'] != null && responseData['freeTrial'] is Map<String, dynamic>
           ? FreeTrial.fromJson(responseData['freeTrial'])
-          : FreeTrial(complete: false, daysLeft: 0),    );
+          : FreeTrial(complete: false, daysLeft: 0),
+      feedbackSubmitted: responseData['feedbackSubmitted'] ?? false,
+    );
   }
   String status;
   bool isLoggedin;
@@ -118,6 +121,7 @@ class User {
   // BundlesPurchased bundlesPurchased;
   int coins;
   FreeTrial freeTrial;
+  bool feedbackSubmitted;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
