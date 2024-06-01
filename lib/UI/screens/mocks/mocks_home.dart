@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/screens/Qbank/mdcat_qbank_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/mdcat_mocks/mdcat_mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/nums_mocks/nums_mocks.dart';
@@ -115,6 +116,23 @@ class MocksHome extends StatelessWidget {
                   },
                 ),
               ),
+              // Material(
+              //   elevation: 3,
+              //   borderRadius: BorderRadius.circular(15),
+              //   child: NotesTile(
+              //     heading: "MdCatQbank",
+              //     description:
+              //     "Go to Private MdCatQbank",
+              //     icon: PremedAssets.QuestionBank,
+              //     bgColor: PreMedColorTheme().white,
+              //     onTap: () {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(builder: (context) => const MdcatQbankHome()),
+              //       );
+              //     },
+              //   ),
+              // ),
             ],
           ),
         ),
