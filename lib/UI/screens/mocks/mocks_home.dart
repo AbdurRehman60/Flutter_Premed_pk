@@ -1,4 +1,3 @@
-import 'package:premedpk_mobile_app/UI/screens/Qbank/mdcat_qbank_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/mdcat_mocks/mdcat_mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/nums_mocks/nums_mocks.dart';
