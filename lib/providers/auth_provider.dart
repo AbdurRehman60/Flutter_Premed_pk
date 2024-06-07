@@ -127,24 +127,14 @@ class AuthProvider extends ChangeNotifier {
     final Map<String, dynamic> loginData = {
       "username": email,
       "password": password,
-
     };
     _loggedInStatus = Status.Authenticating;
     notify();
 
     try {
-
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? sessionId = prefs.getString('sessionId');
       final Response response = await _client.post(
         Endpoints.login,
         data: loginData,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Cookie': sessionId != null ? 'connect.sid=$sessionId' : null,
-          },
-        ),
       );
 
       if (response.statusCode == 200) {
@@ -384,7 +374,7 @@ class AuthProvider extends ChangeNotifier {
     };
 
     _loggedInStatus = Status.Authenticating;
-    notify();
+    notifyListeners();
 
     try {
       final Response response = await _client.post(
@@ -397,18 +387,25 @@ class AuthProvider extends ChangeNotifier {
         Map<String, dynamic>.from(response.data);
 
         await getLoggedInUser();
-
+        _loggedInStatus = Status.LoggedIn;
+        _signUpStatus = Status.LoggedIn;
+        notifyListeners();
         result = {
           'status': responseData["success"],
           'message': responseData["status"],
         };
       } else {
+        _loggedInStatus = Status.NotLoggedIn;
+        _signUpStatus = Status.NotLoggedIn;
+        notifyListeners();
         result = {
           'status': false,
           'message': json.decode(response.data),
         };
       }
     } on DioException catch (e) {
+      _loggedInStatus = Status.NotLoggedIn;
+      notifyListeners();
       result = {
         'status': false,
         'message': e.message,
@@ -440,7 +437,18 @@ class AuthProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         await UserPreferences().logOut();
         _loggedInStatus = Status.LoggedOut;
-        notify();
+        _phoneNumber = '';
+        _whatsappNumber = '';
+        _intendedYear = 'FSc 1st Year/AS Level';
+        _city = '';
+        _country = '';
+        _school = '';
+        _parentContactNumber = '';
+        _academyJoined = 'No';
+        _parentFullName = '';
+        _intendFor = [];
+
+        notifyListeners();
 
         result = {
           'status': true,

@@ -106,6 +106,7 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
                       itemBuilder: (context, index) {
                         final deckGroup =
                             privunimocksProvider.deckGroups[index];
+                        print(deckGroup.deckGroupName);
                         return Container(
                           height: 110,
                           margin: const EdgeInsets.symmetric(
@@ -145,6 +146,7 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
                                         fontWeight: FontWeight.w800,
                                         fontSize: 20),
                                   ),
+
                                   SizedBoxes.vertical2Px,
                                   Text.rich(
                                     TextSpan(

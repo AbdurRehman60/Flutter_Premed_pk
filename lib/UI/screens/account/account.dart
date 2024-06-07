@@ -19,11 +19,13 @@ class Account extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
+    //print('Logged In Status: ${auth.loggedInStatus}');
+
     Future<void> onLogoutPressed() async {
       final Future<Map<String, dynamic>> response = auth.logout();
 
       response.then(
-            (response) {
+        (response) {
           if (response['status']) {
             Navigator.pushReplacement(
               context,
@@ -51,19 +53,19 @@ class Account extends StatelessWidget {
                 Text(
                   'Settings',
                   style: PreMedTextTheme().heading6.copyWith(
-                    color: PreMedColorTheme().black,
-                    fontSize: 34,
-                    fontWeight: FontWeight.w800,
-                  ),
+                        color: PreMedColorTheme().black,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                      ),
                 ),
                 SizedBoxes.vertical2Px,
                 Text(
                   'Your App and Account Preferences',
                   style: PreMedTextTheme().subtext.copyWith(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w400,
-                    color: PreMedColorTheme().black,
-                  ),
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        color: PreMedColorTheme().black,
+                      ),
                 )
               ],
             ),
@@ -71,7 +73,6 @@ class Account extends StatelessWidget {
           ),
         ),
       ),
-
       body: SafeArea(
         child: Consumer<UserProvider>(
           builder: (context, userProvider, child) {
@@ -122,8 +123,8 @@ class Account extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: PreMedColorTheme().neutral100,
                             borderRadius: BorderRadius.circular(15),
-                            border:
-                            Border.all(color: PreMedColorTheme().white, width: 2),
+                            border: Border.all(
+                                color: PreMedColorTheme().white, width: 2),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.1),
@@ -146,7 +147,9 @@ class Account extends StatelessWidget {
                                 SizedBoxes.horizontalMicro,
                                 Text(
                                   userProvider.getCoins().toString(),
-                                  style: PreMedTextTheme().body.copyWith(fontSize: 15, fontWeight: FontWeight.w800),
+                                  style: PreMedTextTheme().body.copyWith(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w800),
                                 ),
                               ],
                             ),
@@ -168,8 +171,8 @@ class Account extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: PreMedColorTheme().neutral100,
                             borderRadius: BorderRadius.circular(15),
-                            border:
-                            Border.all(color: PreMedColorTheme().white, width: 2),
+                            border: Border.all(
+                                color: PreMedColorTheme().white, width: 2),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.1),
@@ -185,8 +188,8 @@ class Account extends StatelessWidget {
                           //     children: [
                           //       SizedBoxes.horizontalMicro,
                           //       Text(
-                          //           userProvider.getIntendFor(),
-                          //           style: PreMedTextTheme().body.copyWith(fontWeight: FontWeight.w800, fontSize: 13),
+                          //         userProvider.getIntendFor(),
+                          //         style: PreMedTextTheme().body.copyWith(fontWeight: FontWeight.w800, fontSize: 13),
                           //       ),
                           //       const Spacer(),
                           //       Text('ACTIVE',style: PreMedTextTheme().body.copyWith(color: PreMedColorTheme().tickcolor, fontSize:10, fontWeight: FontWeight.w600 ),)
@@ -228,33 +231,33 @@ class Account extends StatelessWidget {
                               width: double.infinity,
                               height: 50,
                               child: auth.loggedInStatus ==
-                                  Status.Authenticating
+                                      Status.Authenticating
                                   ? Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
-                                children: [
-                                  const SizedBox(
-                                    width: 16,
-                                    height: 16,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2.0,
-                                    ),
-                                  ),
-                                  SizedBoxes.horizontalMedium,
-                                  Text(
-                                    'Signing Out',
-                                    style: PreMedTextTheme().subtext,
-                                  ),
-                                ],
-                              )
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const SizedBox(
+                                          width: 16,
+                                          height: 16,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2.0,
+                                          ),
+                                        ),
+                                        SizedBoxes.horizontalMedium,
+                                        Text(
+                                          'Signing Out',
+                                          style: PreMedTextTheme().subtext,
+                                        ),
+                                      ],
+                                    )
                                   : Material(
-                                elevation: 3,
-                                borderRadius: BorderRadius.circular(8),
-                                child: CustomButton(
-                                  buttonText: 'Sign out',
-                                  onPressed: onLogoutPressed,
-                                ),
-                              ),
+                                      elevation: 3,
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: CustomButton(
+                                        buttonText: 'Sign out',
+                                        onPressed: onLogoutPressed,
+                                      ),
+                                    ),
                             ),
                           );
                         case 4:
@@ -297,7 +300,7 @@ class Account extends StatelessWidget {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                    const ChangePassword(),
+                                        const ChangePassword(),
                                   ),
                                 );
                               case 2:
@@ -314,11 +317,11 @@ class Account extends StatelessWidget {
                                   ),
                                 );
                               case 5:
-                              // Handle Terms & Condition tap
+                                // Handle Terms & Condition tap
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                    const TermsCondition(),
+                                        const TermsCondition(),
                                   ),
                                 );
                               // case 6:

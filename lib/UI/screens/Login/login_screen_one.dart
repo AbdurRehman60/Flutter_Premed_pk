@@ -4,7 +4,6 @@ import 'package:premedpk_mobile_app/UI/screens/Signup/signup_screen_one.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -162,9 +161,11 @@ class _SignInState extends State<SignIn> {
                                       fontSize: 14),
                                 ),
                                 onPressed: () {
-                                  launchUrl(
-                                    mode: LaunchMode.inAppBrowserView,
-                                    Uri.parse('https://premed.pk/auth/signup'),
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const SignUp(),
+                                    ),
                                   );
                                 },
                               ),
@@ -172,21 +173,6 @@ class _SignInState extends State<SignIn> {
                           ),
                         ],
                       ),
-                    ),
-                    SizedBoxes.verticalGargangua,
-                    Container(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.05,
-                      color: PreMedColorTheme().customCheckboxColor,
-                      child: Center(
-                          child: Text(
-                            'SIGN UP USING THE WEBSITE AND AVAIL 70% OFF',
-                            textAlign: TextAlign.center,
-                            style: PreMedTextTheme().body.copyWith(
-                                color: PreMedColorTheme().tickcolor,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 16),
-                          )),
                     ),
                   ],
                 ),
