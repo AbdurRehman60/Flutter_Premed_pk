@@ -44,7 +44,7 @@ class DeckItem {
     return DeckItem(
       deckName: json['deckName'] as String,
       deckLogo: json['deckLogo'] as String,
-      premiumTag: json['premiumTags'][0] as String,
+      premiumTag: 1.toString(),
       deckInstructions: json['deckInstructions'] as String,
     );
   }

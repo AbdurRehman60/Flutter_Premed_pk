@@ -1,9 +1,11 @@
-import 'package:premedpk_mobile_app/UI/screens/mocks/widgets/bottom_sheet.dart';
-import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/providers/mdcat_mocks_provider.dart';
+
 import 'package:provider/provider.dart';
 
+import '../../../../constants/constants_export.dart';
 import '../../../../models/deck_group_model.dart';
+import '../../../../providers/mdcat_mocks_provider.dart';
+import '../../qbank/mdcat_mock_proivder.dart';
+import '../widgets/bottom_sheet.dart';
 
 class MdcatMocksHome extends StatefulWidget {
   const MdcatMocksHome({super.key});
@@ -17,7 +19,7 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      Provider.of<MdcatMocksProvider>(context, listen: false).fetchDeckGroups();
+      Provider.of<MdcatMocksProviderr>(context, listen: false).fetchDeckGroups();
     });
   }
 
@@ -90,15 +92,15 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
             ),
           ),
           Expanded(
-            child: Consumer<MdcatMocksProvider>(
+            child: Consumer<MdcatMocksProviderr>(
               builder: (context, mdcatmocksProvider, _) {
                 switch (mdcatmocksProvider.fetchStatus) {
-                  case FetchStatus.init:
-                  case FetchStatus.fetching:
+                  case FetchhStatus.init:
+                  case FetchhStatus.fetching:
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  case FetchStatus.success:
+                  case FetchhStatus.success:
                     return ListView.builder(
                       itemCount: mdcatmocksProvider.deckGroups.length,
                       itemBuilder: (context, index) {
@@ -172,7 +174,7 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
                         );
                       },
                     );
-                  case FetchStatus.error:
+                  case FetchhStatus.error:
                     return const Center(
                       child: Text('Error fetching deck groups'),
                     );

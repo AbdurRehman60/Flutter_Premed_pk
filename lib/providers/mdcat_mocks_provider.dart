@@ -3,12 +3,12 @@ import 'package:premedpk_mobile_app/api_manager/dio client/dio_client.dart';
 import 'package:premedpk_mobile_app/models/deck_group_model.dart';
 import '../api_manager/dio client/endpoints.dart';
 
-enum FetchStatus { init, fetching, success, error }
+enum FetchhStatus { init, fetching, success, error }
 
-class MdcatMocksProvider extends ChangeNotifier {
-  FetchStatus _fetchStatus = FetchStatus.init;
+class MdcatMocksProviderr extends ChangeNotifier {
+  FetchhStatus _fetchStatus = FetchhStatus.init;
 
-  FetchStatus get fetchStatus => _fetchStatus;
+  FetchhStatus get fetchStatus => _fetchStatus;
 
   List<DeckGroupModel> _deckGroups = [];
 
@@ -16,7 +16,7 @@ class MdcatMocksProvider extends ChangeNotifier {
 
   Future<void> fetchDeckGroups() async {
     try {
-      _fetchStatus = FetchStatus.fetching;
+      _fetchStatus = FetchhStatus.fetching;
       notifyListeners();
       final DioClient dio = DioClient();
       final responseData = await dio.get(Endpoints.Deckspoints);
@@ -54,15 +54,15 @@ class MdcatMocksProvider extends ChangeNotifier {
             );
           }).toList();
 
-          _fetchStatus = FetchStatus.success;
+          _fetchStatus = FetchhStatus.success;
         } else {
-          _fetchStatus = FetchStatus.error;
+          _fetchStatus = FetchhStatus.error;
         }
       } else {
-        _fetchStatus = FetchStatus.error;
+        _fetchStatus = FetchhStatus.error;
       }
     } catch (e) {
-      _fetchStatus = FetchStatus.error;
+      _fetchStatus = FetchhStatus.error;
     } finally {
       notifyListeners();
     }

@@ -29,7 +29,6 @@ class Endpoints {
 
   //mocks
 
-
   //onboarding endpoints
   static const String OptionalOnboarding = '/api/auth/optional-onboarding';
   static const String RequiredOnboarding = '/api/auth/required-onboarding';
@@ -67,10 +66,11 @@ class Endpoints {
 
   //mdcat nums and pu mocks endpoints
   static const String Deckspoints = '/api/get-category-decks/MDCAT Mocks';
-  static const String Privuni= '/api/get-category-decks/Private Universities Mocks';
-   static const String Nums = '/api/get-category-decks/NUMS Mocks';
+  static const String Privuni =
+      '/api/get-category-decks/Private Universities Mocks';
+  static const String Nums = '/api/get-category-decks/NUMS Mocks';
 
-   //QbankPoints
+  //QbankPoints
   static const String GetmdcatQBank = 'api/get-category-decks/MDCAT QBank';
 
   //deck point
@@ -81,19 +81,29 @@ class Endpoints {
       'https://prodapi.premed.pk/api/decks/get-all-deck-questions/';
 
   //test_interface
-  static const String GetAllDeckQuestions = '/api/decks/get-all-deck-questions/NUMS%20Mock%20Paper%202';
+  static const String GetAllDeckQuestions =
+      '/api/decks/get-all-deck-questions/NUMS%20Mock%20Paper%202';
 
   //saved ques
 
-  static const String handleSavedQuestion ='/api/saveQuestion/handleSavedQuestion';
+  static const String handleSavedQuestion =
+      '/api/saveQuestion/handleSavedQuestion';
 
   //report ques
-  static const String addReport ='https://prodapi.premed.pk/api/reports/addReport';
-
+  static const String addReport =
+      'https://prodapi.premed.pk/api/reports/addReport';
 
   //user stats
   static const String UserStatistics = '/api/statistics/compute-statistics';
-  static const String QuestionOfTheDay= '/api/question/getRandomQuestions';
+  static const String QuestionOfTheDay = '/api/question/getRandomQuestions';
   static const String RecentActivityURL = '/api/attempts/get-recent-attempts';
-}
 
+  static const String MdcatQbank = '/api/get-category-decks/MDCAT QBank';
+  static const String MdcatMocks = '/api/get-category-decks/MDCAT Mocks';
+  static const String NUMSQbank = '/api/get-category-decks/NUMS QBank';
+  static const String NUMSMocks = '/api/get-category-decks/NUMS Mocks';
+  static const String PRVUQbank =
+      '/api/get-category-decks/Private Universities QBank';
+  static const String PUMocks =
+      '/api/get-category-decks/Private Universities Mocks';
+}
