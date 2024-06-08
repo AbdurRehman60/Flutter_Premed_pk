@@ -1,5 +1,6 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/mocks/mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/mdcat/mdcatMock.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
@@ -41,7 +42,7 @@ class MDcatMockorBankStats extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'MDCAT',
+                'Question Bank',
                 style: GoogleFonts.rubik(
                   color: const Color(0xFF000000),
                   fontWeight: FontWeight.w800,
@@ -65,7 +66,7 @@ class MDcatMockorBankStats extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => const MDCATQbankHome()));
                 },
-                title: 'Question Bank',
+                title: 'MDCAT Qbank',
                 totalMcqs: '25K MCQs',
                 completedPercentage: '100',
                 MCQSDone: '2353',
@@ -77,7 +78,7 @@ class MDcatMockorBankStats extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MdcatMockHome()));
+                          builder: (context) => const MocksHome()));
                   // Navigator.push(
                   //     context,
                   //     MaterialPageRoute(
