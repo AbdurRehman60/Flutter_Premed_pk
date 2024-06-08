@@ -2,6 +2,7 @@ import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/mdcat_mocks/mdcat_mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/nums_mocks/nums_mocks.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/pu_mocks/pu_mocks_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/mdcat/mocks&bank_statistics.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import '../home/widgets/notes_tile.dart';
 
@@ -37,7 +38,7 @@ class MocksHome extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
+                    builder: (context) => const MDcatMockorBankStats(),
                   ),
                 );
               },

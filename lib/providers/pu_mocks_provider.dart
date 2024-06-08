@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/models/deck_group_model.dart';
@@ -39,7 +38,10 @@ class PrivuniMocksProvider extends ChangeNotifier {
               return DeckItem(
                   deckName: deck['deckName'] as String,
                   deckLogo: deck['deckLogo'] as String,
-                  premiumTag: deck['premiumTags'][0] as String,
+                  premiumTag: deck['premiumTags'] != null &&
+                      (deck['premiumTags'] as List).isNotEmpty
+                      ? (deck['premiumTags'][0] as String)
+                      : 'Free',
                   deckInstructions: deck['deckInstructions'] as String
               );
             }).toList();

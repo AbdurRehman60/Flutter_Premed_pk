@@ -6,6 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
+import 'package:premedpk_mobile_app/UI/screens/mocks/mdcat_mocks/mdcat_mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/popups/free_flashcard_popup.dart';
 import 'package:premedpk_mobile_app/UI/screens/popups/marketing_campaign_popup.dart';
@@ -23,6 +24,7 @@ import 'package:premedpk_mobile_app/UI/screens/qbank/nums/nums_qbank.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/nums_mock_provider.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/nums_qbank_provider.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/private_uni_mock_pro.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_mock.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_mock_or_bank_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/pu_qbank_provider.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -41,6 +43,7 @@ import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
 import 'package:premedpk_mobile_app/utils/services/notifications/firebase_messaging_api.dart';
 import 'package:provider/provider.dart';
 
+import 'UI/screens/qbank/mdcat/mdcatMock.dart';
 import 'firebase_options.dart';
 
 List<CameraDescription> cameras = [];
@@ -112,7 +115,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const MDcatMockorBankStats(),
+        home: const SplashScreen(),
         navigatorKey: navigatorKey,
       ),
     );
