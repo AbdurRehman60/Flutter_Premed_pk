@@ -26,7 +26,7 @@ class BundleModel {
       isPublished: json['isPublished'],
       bundleName: json['BundleName'],
       bundlePrice: json['BundlePrice'].toDouble(),
-      discountPercentage: json['discountPercentage'].toDouble(),
+      discountPercentage: json['discountPercentage']?.toDouble(),
       bundleDescription: json['BundleDescription'],
       bundleIcon: json['BundleIcon'],
       bundleDiscount: json['BundleDiscount'].toDouble(),
@@ -44,7 +44,7 @@ class BundleModel {
   final bool isPublished;
   final String bundleName;
   final double bundlePrice;
-  final double discountPercentage;
+  final double? discountPercentage;
   final String bundleDescription;
   final String bundleIcon;
   final double bundleDiscount;

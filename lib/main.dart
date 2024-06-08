@@ -112,7 +112,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const MDcatMockorBankStats(),
+        home: const SplashScreen(),
         navigatorKey: navigatorKey,
       ),
     );
