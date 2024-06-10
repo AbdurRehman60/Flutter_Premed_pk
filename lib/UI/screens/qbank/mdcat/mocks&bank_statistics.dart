@@ -75,10 +75,10 @@ class MDcatMockorBankStats extends StatelessWidget {
               SizedBoxes.vertical26Px,
               QbankStatsContainer(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MocksHome()));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const MocksHome()));
                   // Navigator.push(
                   //     context,
                   //     MaterialPageRoute(

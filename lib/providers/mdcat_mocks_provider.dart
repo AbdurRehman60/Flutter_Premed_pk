@@ -41,7 +41,12 @@ class MdcatMocksProviderr extends ChangeNotifier {
                   deckName: deck['deckName'] as String,
                   deckLogo: deck['deckLogo'] as String,
                   premiumTag: deck['premiumTags'][0] as String,
-                  deckInstructions: deck['deckInstructions'] as String);
+                  deckInstructions: deck['deckInstructions'] as String,
+                isTutorModeFree: deck['isTutorModeFree'],
+                timedTestMode: deck['timedTestMode'],
+                timesTestminutes: deck['timedTestMinutes'],
+
+              );
             }).toList();
             final int deckNameCount = deckItems.length;
             final String deckGroupImage = deckGroupData['deckGroupImage'];

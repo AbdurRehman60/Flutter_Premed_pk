@@ -1,4 +1,4 @@
-import 'package:premedpk_mobile_app/UI/screens/qbank/mcatqbankprovider.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/providers/mcatqbankprovider.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/deckgroup_maker.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
@@ -99,6 +99,10 @@ class _MDCATQbankHomeState extends State<MDCATQbankHome>
               indicator: BoxDecoration(
                 color: const Color(0xFFEC5863),
                 borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: const Color(0x80FFFFFF),
+                  width:3,
+                ),
               ),
               labelColor: Colors.white,
               unselectedLabelColor: Colors.black,
@@ -159,13 +163,13 @@ class _MDCATQbankHomeState extends State<MDCATQbankHome>
                           deckGroups: qbankProvider.deckGroups
                               .where(
                                   (deckGroup) => deckGroup.deckType == 'Yearly')
-                              .toList(),
+                              .toList(), qbankGroupname: 'MDCAT QBank',
                         ),
                         DeckGroupList(
                           deckGroups: qbankProvider.deckGroups
                               .where((deckGroup) =>
                                   deckGroup.deckType == 'Topical')
-                              .toList(),
+                              .toList(), qbankGroupname: 'MDCAT QBank',
                         ),
                       ],
                     );

@@ -1,5 +1,7 @@
+import 'dart:convert';
 
 class User {
+  String bundlesPurchased;
 
   User({
     required this.status,
@@ -32,7 +34,7 @@ class User {
     required this.milestones,
     required this.notificationsRead,
     required this.otherInfo,
-    // required this.bundlesPurchased,
+    required this.bundlesPurchased,
     required this.coins,
     required this.freeTrial,
     required this.feedbackSubmitted,
@@ -49,7 +51,7 @@ class User {
       school: responseData['school'] ?? "",
       academyJoined: responseData['academyJoined'] ?? "",
       onBoarding:
-      responseData['onboarding'] == "" ? false : responseData['onboarding'],
+          responseData['onboarding'] == "" ? false : responseData['onboarding'],
       optionalOnboarding: responseData['optionalOnboarding'] == ""
           ? false
           : responseData['optionalOnboarding'],
@@ -69,7 +71,7 @@ class User {
       subscriptionStartDate: responseData['subscriptionstartdate'] ?? "",
       subscriptionEndDate: responseData['subscriptionenddate'] ?? "",
       freeUser:
-      responseData['freeuser'] == "" ? false : responseData['freeuser'],
+          responseData['freeuser'] == "" ? false : responseData['freeuser'],
       purchaseMocks: responseData['purchasedmocks'] == ""
           ? false
           : responseData['purchasedmocks'],
@@ -77,15 +79,19 @@ class User {
       referral: responseData['referal'] ?? "",
       milestones: List<dynamic>.from(responseData['milestones'] ?? []),
       notificationsRead:
-      List<dynamic>.from(responseData['notificationsread'] ?? []),
+          List<dynamic>.from(responseData['notificationsread'] ?? []),
       otherInfo: responseData['otherinfo'] ?? {},
       // bundlesPurchased:
       //     BundlesPurchased.fromJson(responseData['BundlesPurchased'] ?? {}),
       coins: responseData['coins'] ?? 0,
-      freeTrial: responseData['freeTrial'] != null && responseData['freeTrial'] is Map<String, dynamic>
+      freeTrial: responseData['freeTrial'] != null &&
+              responseData['freeTrial'] is Map<String, dynamic>
           ? FreeTrial.fromJson(responseData['freeTrial'])
           : FreeTrial(complete: false, daysLeft: 0),
       feedbackSubmitted: responseData['feedbackSubmitted'] ?? false,
+      bundlesPurchased: responseData['BundlesPurchased'] != null
+          ? json.encode(responseData['BundlesPurchased'])
+          : "",
     );
   }
   String status;
@@ -164,7 +170,6 @@ class User {
 }
 
 class BundlesPurchased {
-
   BundlesPurchased({
     required this.bundleItems,
     required this.tags,
@@ -173,7 +178,7 @@ class BundlesPurchased {
   factory BundlesPurchased.fromJson(Map<String, dynamic> responseData) {
     final List<BundleItem> bundleItems = List<BundleItem>.from(
       (responseData['tags'] as List<dynamic>).map(
-            (value) => BundleItem.fromJson(value as Map<String, dynamic>),
+        (value) => BundleItem.fromJson(value as Map<String, dynamic>),
       ),
     );
 
@@ -200,7 +205,6 @@ class BundlesPurchased {
 }
 
 class BundleItem {
-
   BundleItem({
     required this.bundleDetails,
     required this.bundleId,
@@ -233,7 +237,6 @@ class BundleItem {
 }
 
 class BundleDetails {
-
   BundleDetails({
     required this.id,
     required this.bundlePoints,
@@ -298,7 +301,6 @@ class BundleDetails {
 }
 
 class FreeTrial {
-
   FreeTrial({
     required this.complete,
     required this.daysLeft,

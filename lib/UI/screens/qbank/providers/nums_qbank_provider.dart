@@ -1,11 +1,11 @@
-import '../../../api_manager/dio client/dio_client.dart';
-import '../../../api_manager/dio client/endpoints.dart';
-import '../../../constants/constants_export.dart';
-import '../../../models/deck_group_model.dart';
+import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/api_manager/dio client/dio_client.dart';
+import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
+import 'package:premedpk_mobile_app/models/deck_group_model.dart';
 
 enum FetchStatus { init, fetching, success, error }
 
-class PUQbankProvider extends ChangeNotifier {
+class NUMSQbankProvider extends ChangeNotifier {
   FetchStatus _fetchStatus = FetchStatus.init;
 
   FetchStatus get fetchStatus => _fetchStatus;
@@ -20,27 +20,28 @@ class PUQbankProvider extends ChangeNotifier {
       notifyListeners();
 
       final DioClient dio = DioClient();
-      final responseData = await dio.get(Endpoints.PRVUQbank);
+      final responseData = await dio.get(Endpoints.NUMSQbank);
       print(
           'Response Data: $responseData'); // Print response data for debugging
 
       final bool success = responseData['success'] ?? false;
       if (success) {
         final List<Map<String, dynamic>> data =
-            List<Map<String, dynamic>>.from(responseData['data']);
-        Map<String, dynamic>? pu;
+        List<Map<String, dynamic>>.from(responseData['data']);
+        Map<String, dynamic>? nums;
         try {
-          pu = data.firstWhere(
-            (category) =>
-                category['categoryName'] == 'Private Universities QBank',
+          nums = data.firstWhere(
+                (category) => category['categoryName'] == 'NUMS QBank',
           );
         } catch (e) {
-          pu = null;
+          nums = null;
         }
 
-        if (pu != null) {
-          final List<dynamic> deckGroupsData = pu['deckGroups'];
-          _deckGroups = deckGroupsData.map((deckGroupData) {
+        if (nums != null) {
+          final List<dynamic> deckGroupsData = nums['deckGroups'];
+          _deckGroups = deckGroupsData
+              .where((deckGroupData) => deckGroupData['isPublished'] == true) // Filter out unpublished deck groups
+              .map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
             final List<DeckItem> deckItems = decks.map((deck) {
               print('Deck Data: $deck');
@@ -48,10 +49,13 @@ class PUQbankProvider extends ChangeNotifier {
                 deckName: deck['deckName'],
                 deckLogo: deck['deckLogo'],
                 premiumTag: deck['premiumTags'] != null &&
-                        (deck['premiumTags'] as List).isNotEmpty
+                    (deck['premiumTags'] as List).isNotEmpty
                     ? (deck['premiumTags'][0] as String)
-                    : '1', // Handle possible null or empty list
+                    : '', // Handle possible null or empty list
                 deckInstructions: deck['deckInstructions'] ?? '',
+                isTutorModeFree: deck['isTutorModeFree'],
+                timedTestMode: deck['timedTestMode'],
+                timesTestminutes: deck['timedTestMinutes'],
               );
             }).toList();
 
@@ -68,7 +72,7 @@ class PUQbankProvider extends ChangeNotifier {
             );
           }).toList();
 
-          _fetchStatus = FetchStatus.success;
+        _fetchStatus = FetchStatus.success;
         } else {
           _fetchStatus = FetchStatus.error;
         }

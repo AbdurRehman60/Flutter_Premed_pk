@@ -1,7 +1,7 @@
 import 'package:provider/provider.dart';
 
 import '../../../../constants/constants_export.dart';
-import '../pu_qbank_provider.dart';
+import '../providers/pu_qbank_provider.dart';
 import '../widgets/deckgroup_maker.dart';
 
 class PUQbankHome extends StatefulWidget {
@@ -101,6 +101,10 @@ class _PUQbankHomeState extends State<PUQbankHome>
               indicator: BoxDecoration(
                 color: const Color(0xFFEC5863),
                 borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: const Color(0x80FFFFFF),
+                  width:3,
+                ),
               ),
               labelColor: Colors.white,
               unselectedLabelColor: Colors.black,
@@ -161,13 +165,13 @@ class _PUQbankHomeState extends State<PUQbankHome>
                           deckGroups: puqbankpro.deckGroups
                               .where(
                                   (deckGroup) => deckGroup.deckType == 'Yearly')
-                              .toList(),
+                              .toList(), qbankGroupname: 'PU QBank',
                         ),
                         DeckGroupList(
                           deckGroups: puqbankpro.deckGroups
                               .where((deckGroup) =>
                                   deckGroup.deckType == 'Topical')
-                              .toList(),
+                              .toList(), qbankGroupname: 'PU QBank',
                         ),
                       ],
                     );

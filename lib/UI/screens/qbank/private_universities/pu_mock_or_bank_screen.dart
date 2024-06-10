@@ -76,11 +76,11 @@ class PUmockorBankStats extends StatelessWidget {
               SizedBoxes.vertical26Px,
               QbankStatsContainer(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PUMockHome()));
                   // Navigator.push(
+                  // //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const PUMockHome()));
+                  // // Navigator.push(
                   //     context,
                   //     MaterialPageRoute(
                   //         builder: (context) => Qbank(

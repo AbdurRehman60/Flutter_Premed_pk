@@ -47,6 +47,18 @@ class UserProvider extends ChangeNotifier {
     return _user?.coins ?? 0;
   }
 
+  String getBundle() {
+    final bundle = _user?.bundlesPurchased;
+    if (bundle != null) {
+      print('bundlesPurchased: $bundle');
+      return bundle;
+    } else {
+      print('bundlesPurchased is empty');
+      return '';
+    }
+  }
+
+
   // Update full name
   Future<Map<String, dynamic>> updateUserDetails(
       String fullname,

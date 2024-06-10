@@ -1,7 +1,7 @@
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/deckgroup_maker.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
-import '../nums_qbank_provider.dart';
+import '../providers/nums_qbank_provider.dart';
 
 class NUMSQbankHome extends StatefulWidget {
   const NUMSQbankHome({super.key});
@@ -75,10 +75,10 @@ class _NUMSQbankHomeState extends State<NUMSQbankHome>
                     child: Text(
                       'NUMS QBank',
                       style: PreMedTextTheme().heading6.copyWith(
-                            color: PreMedColorTheme().black,
-                            fontSize: 34,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        color: PreMedColorTheme().black,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -96,38 +96,37 @@ class _NUMSQbankHomeState extends State<NUMSQbankHome>
               borderRadius: BorderRadius.circular(10),
             ),
             child: TabBar(
+              padding: EdgeInsets.zero,
               controller: _tabController,
               indicator: BoxDecoration(
                 color: const Color(0xFFEC5863),
                 borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: const Color(0x80FFFFFF),
+                  width:3,
+                ),
               ),
               labelColor: Colors.white,
               unselectedLabelColor: Colors.black,
               labelStyle: PreMedTextTheme().heading2.copyWith(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 12,
-                  ),
+                fontWeight: FontWeight.w800,
+                fontSize: 12,
+              ),
               unselectedLabelStyle: PreMedTextTheme().heading2.copyWith(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 12,
-                  ),
-              tabs: [
+                fontWeight: FontWeight.w800,
+                fontSize: 12,
+              ),
+              tabs: const [
                 Tab(
-                  child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: Center(
-                      child: Text('YEARLY'),
-                    ),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text('YEARLY'),
                   ),
                 ),
                 Tab(
-                  child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: Center(
-                      child: Text('TOPICAL'),
-                    ),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text('TOPICAL'),
                   ),
                 ),
               ],
@@ -138,10 +137,10 @@ class _NUMSQbankHomeState extends State<NUMSQbankHome>
             'Attempt a Full-Length Yearly Paper today and experience the feeling of giving the exam on the actual test day!',
             textAlign: TextAlign.center,
             style: PreMedTextTheme().subtext.copyWith(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: PreMedColorTheme().black,
-                ),
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: PreMedColorTheme().black,
+            ),
           ),
           Expanded(
             child: Consumer<NUMSQbankProvider>(
@@ -158,15 +157,13 @@ class _NUMSQbankHomeState extends State<NUMSQbankHome>
                       children: [
                         DeckGroupList(
                           deckGroups: numsqbankpro.deckGroups
-                              .where(
-                                  (deckGroup) => deckGroup.deckType == 'Yearly')
-                              .toList(),
+                              .where((deckGroup) => deckGroup.deckType == 'Yearly')
+                              .toList(), qbankGroupname: 'NUMS QBank',
                         ),
                         DeckGroupList(
                           deckGroups: numsqbankpro.deckGroups
-                              .where((deckGroup) =>
-                                  deckGroup.deckType == 'Topical')
-                              .toList(),
+                              .where((deckGroup) => deckGroup.deckType == 'Topical')
+                              .toList(), qbankGroupname: 'NUMS QBank',
                         ),
                       ],
                     );

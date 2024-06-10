@@ -13,7 +13,6 @@ class MDCATQbankpro extends ChangeNotifier {
   List<DeckGroupModel> _deckGroups = [];
 
   List<DeckGroupModel> get deckGroups => _deckGroups;
-
   Future<void> fetchDeckGroups() async {
     try {
       _fetchStatus = FetchStatus.fetching;
@@ -39,7 +38,9 @@ class MDCATQbankpro extends ChangeNotifier {
 
         if (mdcat != null) {
           final List<dynamic> deckGroupsData = mdcat['deckGroups'];
-          _deckGroups = deckGroupsData.map((deckGroupData) {
+          _deckGroups = deckGroupsData
+              .where((deckGroupData) => deckGroupData['isPublished'] == true) // Filter out unpublished deck groups
+              .map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
             final List<DeckItem> deckItems = decks.map((deck) {
               print('Deck Data: $deck');
@@ -47,10 +48,13 @@ class MDCATQbankpro extends ChangeNotifier {
                 deckName: deck['deckName'],
                 deckLogo: deck['deckLogo'],
                 premiumTag: deck['premiumTags'] != null &&
-                        (deck['premiumTags'] as List).isNotEmpty
+                    (deck['premiumTags'] as List).isNotEmpty
                     ? (deck['premiumTags'][0] as String)
-                    : '1', // Handle possible null or empty list
+                    : null, // Handle possible null or empty list
                 deckInstructions: deck['deckInstructions'] ?? '',
+                isTutorModeFree: deck['isTutorModeFree'],
+                timedTestMode: deck['timedTestMode'],
+                timesTestminutes: deck['timedTestMinutes'],
               );
             }).toList();
 
@@ -68,7 +72,8 @@ class MDCATQbankpro extends ChangeNotifier {
           }).toList();
 
           _fetchStatus = FetchStatus.success;
-        } else {
+        }
+        else {
           _fetchStatus = FetchStatus.error;
         }
       } else {

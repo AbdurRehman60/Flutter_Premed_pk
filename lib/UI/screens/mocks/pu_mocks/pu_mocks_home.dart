@@ -145,7 +145,6 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
                                         fontWeight: FontWeight.w800,
                                         fontSize: 20),
                                   ),
-
                                   SizedBoxes.vertical2Px,
                                   Text.rich(
                                     TextSpan(
@@ -207,7 +206,11 @@ void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
     backgroundColor: Colors.white,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return CustomBottomSheet(deckGroup: deckGroup);
+      return CustomBottomSheet(
+        deckGroup: deckGroup,
+        bankOrMock: 'Mocks',
+        qbankGroupName: null,
+      );
     },
   );
 }

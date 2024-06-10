@@ -42,7 +42,10 @@ class PrivuniMocksProvider extends ChangeNotifier {
                       (deck['premiumTags'] as List).isNotEmpty
                       ? (deck['premiumTags'][0] as String)
                       : 'Free',
-                  deckInstructions: deck['deckInstructions'] as String
+                  deckInstructions: deck['deckInstructions'] as String,
+                isTutorModeFree: deck['isTutorModeFree'],
+                timedTestMode: deck['timedTestMode'],
+                timesTestminutes: deck['timedTestMinutes'],
               );
             }).toList();
             final int deckNameCount = deckItems.length;

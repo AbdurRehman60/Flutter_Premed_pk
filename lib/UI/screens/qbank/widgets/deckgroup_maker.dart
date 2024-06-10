@@ -1,13 +1,13 @@
-import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/logo_avatar.dart';
-
 import '../../../../constants/constants_export.dart';
 import '../../../../models/deck_group_model.dart';
 import '../../mocks/widgets/bottom_sheet.dart';
+import 'logo_avatar.dart';
 
 class DeckGroupList extends StatelessWidget {
   final List<DeckGroupModel> deckGroups;
+  final String qbankGroupname;
 
-  const DeckGroupList({required this.deckGroups});
+  const DeckGroupList({required this.deckGroups, required this.qbankGroupname});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class DeckGroupList extends StatelessWidget {
           ),
           child: Center(
             child: ListTile(
-              leading: GetLogo(url: deckGroup.deckGroupImage ?? 'https://premedpk-cdn.sgp1.cdn.digitaloceanspaces.com/Logos/logo512.png'),
+              leading: GetLogo(url: deckGroup.deckGroupImage ?? ''),
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +66,7 @@ class DeckGroupList extends StatelessWidget {
                 icon: Icon(Icons.arrow_forward_ios_rounded,
                     color: PreMedColorTheme().primaryColorRed),
                 onPressed: () {
-                  _openBottomSheet(context, deckGroup);
+                  _openBottomSheet(context, deckGroup,qbankGroupname);
                 },
               ),
             ),
@@ -77,7 +77,7 @@ class DeckGroupList extends StatelessWidget {
   }
 }
 
-void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
+void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup, qbankgroupName) {
   showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
@@ -89,7 +89,7 @@ void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
     backgroundColor: Colors.white,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return CustomBottomSheet(deckGroup: deckGroup);
+      return CustomBottomSheet(deckGroup: deckGroup,bankOrMock: 'Bank', qbankGroupName: qbankgroupName,);
     },
   );
 }

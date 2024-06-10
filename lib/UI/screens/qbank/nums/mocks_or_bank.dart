@@ -76,10 +76,10 @@ class NumsorBankStats extends StatelessWidget {
               SizedBoxes.vertical26Px,
               QbankStatsContainer(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NUMSMockHome()));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => NUMSMockHome()));
                   // Navigator.push(
                   //     context,
                   //     MaterialPageRoute(

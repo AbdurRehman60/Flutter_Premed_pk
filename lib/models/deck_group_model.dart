@@ -38,6 +38,10 @@ class DeckItem {
     required this.deckLogo,
     required this.premiumTag,
     required this.deckInstructions,
+    required this.isTutorModeFree,
+    required this.timedTestMode,
+    required this.timesTestminutes,
+
   });
 
   factory DeckItem.fromJson(Map<String, dynamic> json) {
@@ -46,11 +50,18 @@ class DeckItem {
       deckLogo: json['deckLogo'] as String,
       premiumTag: 1.toString(),
       deckInstructions: json['deckInstructions'] as String,
+      isTutorModeFree: json['isTutorModeFree'],
+      timedTestMode: json['timedTestMode'],
+      timesTestminutes: json['timedTestMinutes'],
+
     );
   }
 
   final String deckName;
   final String deckLogo;
-  final String premiumTag;
+  final String? premiumTag;
   final String deckInstructions;
+  final bool? isTutorModeFree;
+  final bool? timedTestMode;
+  final int? timesTestminutes;
 }

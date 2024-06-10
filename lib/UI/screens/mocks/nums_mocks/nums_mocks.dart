@@ -198,7 +198,7 @@ void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
     backgroundColor: Colors.white,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return CustomBottomSheet(deckGroup: deckGroup);
+      return CustomBottomSheet(deckGroup: deckGroup, bankOrMock: 'Mocks',qbankGroupName: null,);
     },
   );
 }

@@ -51,6 +51,9 @@ class NUMSMocksProvider extends ChangeNotifier {
                     ? (deck['premiumTags'][0] as String)
                     : '1', // Handle possible null or empty list
                 deckInstructions: deck['deckInstructions'] ?? '',
+                isTutorModeFree: deck['isTutorModeFree'],
+                timedTestMode: deck['timedTestMode'],
+                timesTestminutes: deck['timesTestminutes'],
               );
             }).toList();
 
