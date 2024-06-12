@@ -66,7 +66,8 @@ class Endpoints {
 
   //mdcat nums and pu mocks endpoints
   static const String Deckspoints = '/api/get-category-decks/MDCAT Mocks';
-  static const String Privuni = '/api/get-category-decks/Private Universities Mocks';
+  static const String Privuni =
+      '/api/get-category-decks/Private Universities Mocks';
   static const String Nums = '/api/get-category-decks/NUMS Mocks';
 
   //QbankPoints
@@ -105,4 +106,7 @@ class Endpoints {
       '/api/get-category-decks/Private Universities QBank';
   static const String PUMocks =
       '/api/get-category-decks/Private Universities Mocks';
+
+  static const String RecentAttempts =
+      'https://prodapi.premed.pk/api/attempts/get-recent-attempts';
 }

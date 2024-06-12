@@ -15,7 +15,7 @@ class PremedAssets {
   static String Payment = 'assets/images/payment.png';
   static String Paymentupload = 'assets/images/upload.png';
   static String Meezan = 'assets/images/meezan.jpg';
-  static String HBL= 'assets/images/HBL.png';
+  static String HBL = 'assets/images/HBL.png';
   static String JazzCash = 'assets/images/jazzcash.png';
   static String EasyPaisa = 'assets/images/easypaisa.jpg';
   static String NotificationIcon = 'assets/images/Bell Icon.png';
@@ -43,7 +43,7 @@ class PremedAssets {
   static String Chat = 'assets/icons/chat.png';
   static String Check = 'assets/icons/check.png';
   static String Error = 'assets/icons/Error.png';
-  static String Cross ='assets/icons/cross.png';
+  static String Cross = 'assets/icons/cross.png';
   static String Cart = 'assets/icons/Button.png';
   static String RightArrow = 'assets/icons/right-arrow.svg';
   static String BellIcon = 'assets/icons/bell.svg';
@@ -58,7 +58,6 @@ class PremedAssets {
   static String Shop = 'assets/icons/shop.svg';
   static String Settings = 'assets/icons/settings.svg';
   static String MDCATQbankLogo = 'assets/icons/mdcatqbank.png';
+  static String priQbankLogo = 'assets/icons/priuniqbank.png';
+  static String numsQbankLogo = 'assets/icons/numsqbank.png';
 }
-
-
-

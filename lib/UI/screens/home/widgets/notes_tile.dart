@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class NotesTile extends StatelessWidget {
@@ -52,27 +50,22 @@ class NotesTile extends StatelessWidget {
                       child: Text(
                         heading,
                         style: PreMedTextTheme().heading5.copyWith(
-                            fontWeight: FontWeight.w800, fontSize: 16
-                        ),
+                            fontWeight: FontWeight.w800, fontSize: 16),
                       ),
                     ),
                     SizedBoxes.vertical2Px,
-
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         description,
                         style: PreMedTextTheme().subtext.copyWith(
-                            fontWeight: FontWeight.w400, fontSize: 13
-
-                            ),
+                            fontWeight: FontWeight.w400, fontSize: 13),
                       ),
                     ),
                     SizedBoxes.horizontalBig,
                   ],
                 ),
               ),
-
               IconButton(
                 onPressed: onTap,
                 icon: Icon(
@@ -87,5 +80,3 @@ class NotesTile extends StatelessWidget {
     );
   }
 }
-
-
