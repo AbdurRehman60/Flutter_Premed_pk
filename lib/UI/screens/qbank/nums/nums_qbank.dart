@@ -1,7 +1,8 @@
-import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/deckgroup_maker.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
-import '../providers/nums_qbank_provider.dart';
+import '../../../../providers/nums_qbank_provider.dart';
+import '../widgets/deckgroup_maker.dart';
 
 class NUMSQbankHome extends StatefulWidget {
   const NUMSQbankHome({super.key});
@@ -10,8 +11,7 @@ class NUMSQbankHome extends StatefulWidget {
   State<NUMSQbankHome> createState() => _NUMSQbankHomeState();
 }
 
-class _NUMSQbankHomeState extends State<NUMSQbankHome>
-    with SingleTickerProviderStateMixin {
+class _NUMSQbankHomeState extends State<NUMSQbankHome> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -92,48 +92,34 @@ class _NUMSQbankHomeState extends State<NUMSQbankHome>
             height: 50,
             margin: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-              color: Colors.grey[200],
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: TabBar(
-              padding: EdgeInsets.zero,
-              controller: _tabController,
-              indicator: BoxDecoration(
-                color: const Color(0xFFEC5863),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: const Color(0x80FFFFFF),
-                  width:3,
+            child: Material(
+              elevation: 4,
+              borderRadius: BorderRadius.circular(10),
+
+              child: TabBar(
+                controller: _tabController,
+                tabs: const [
+                  Tab(text: 'YEARLY'),
+                  Tab(text: 'TOPICAL'),
+                ],
+                unselectedLabelColor: Colors.black,
+                labelColor: PreMedColorTheme().white,
+                indicator: BoxDecoration(
+                  border: Border.all(
+                      width: 3,
+                      color: PreMedColorTheme().primaryColorRed200),
+                  borderRadius: BorderRadius.circular(10),
+                  color: PreMedColorTheme().primaryColorRed,
                 ),
+                indicatorSize: TabBarIndicatorSize.tab,
+                labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),
               ),
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.black,
-              labelStyle: PreMedTextTheme().heading2.copyWith(
-                fontWeight: FontWeight.w800,
-                fontSize: 12,
-              ),
-              unselectedLabelStyle: PreMedTextTheme().heading2.copyWith(
-                fontWeight: FontWeight.w800,
-                fontSize: 12,
-              ),
-              tabs: const [
-                Tab(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text('YEARLY'),
-                  ),
-                ),
-                Tab(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text('TOPICAL'),
-                  ),
-                ),
-              ],
             ),
           ),
-          SizedBoxes.verticalMedium,
-          Text(
+          SizedBoxes.verticalMedium,Text(
             'Attempt a Full-Length Yearly Paper today and experience the feeling of giving the exam on the actual test day!',
             textAlign: TextAlign.center,
             style: PreMedTextTheme().subtext.copyWith(

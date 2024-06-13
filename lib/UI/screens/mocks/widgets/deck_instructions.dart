@@ -1,7 +1,12 @@
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
+import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/test_interface_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../models/create_deck_attemot_model.dart';
 import '../../../../models/deck_group_model.dart';
+import '../../../../providers/create_deck_attempt_provider.dart';
+import '../../../../providers/user_provider.dart';
 
 class DeckInstructions extends StatefulWidget {
   const DeckInstructions(
@@ -124,8 +129,99 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                             ],
                           ),
                           SizedBoxes.verticalMedium,
+                          // ElevatedButton(
+                          //   style: ElevatedButton.styleFrom(
+                          //       shape: RoundedRectangleBorder(
+                          //           borderRadius: BorderRadius.circular(8)),
+                          //       backgroundColor: PreMedColorTheme().primaryColorRed),
+                          //   onPressed: () {
+                          //     String bundle = UserProvider().getBundle();
+                          //     print('Bundle Purchased: $bundle');
+                          //     if (bundle.contains('MDCAT-QBank')) {
+                          //       Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (context) => TestInterface(
+                          //             deckName: selectedDeckItem.deckName,
+                          //           ),
+                          //         ),
+                          //       );
+                          //     } else {
+                          //       showDialog(
+                          //         context: context,
+                          //         builder: (BuildContext context) {
+                          //           return AlertDialog(
+                          //             title: const Text('Premium Feature'),
+                          //             content: const Text('Your current plan does not have access to this paper. Purchase our MDCAT-QBank Plan to access this feature!'),
+                          //             actions: [
+                          //               TextButton(
+                          //                 onPressed: () {
+                          //                   Navigator.pop(context);
+                          //                 },
+                          //                 child: const Text('OK'),
+                          //               ),
+                          //             ],
+                          //           );
+                          //         },
+                          //       );
+                          //     }
+                          //   },
+                          //   child: Text(
+                          //     'Start Test',
+                          //     style: PreMedTextTheme().heading2.copyWith(
+                          //       color: Colors.white,
+                          //       fontWeight: FontWeight.w600,
+                          //       fontSize: 14,
+                          //     ),
+                          //   ),
+                          // ),
                           CustomButton(
-                              buttonText: 'Start Test', onPressed: () {}),
+                              buttonText: 'Start Test',onPressed: () async {
+                            final userProvider = Provider.of<UserProvider>(context, listen: false);
+                            final userId = userProvider.user?.userId ?? '';
+
+                            if (userId.isNotEmpty) {
+                              final attemptModel = CreateDeckAttemptModel(
+                                deckName: selectedDeckItem.deckName,
+                                attemptMode: 'testmode',
+                                user: userId,
+
+                              );
+                              print(userId);
+                              final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+                              await deckAttemptProvider.createDeckAttempt(attemptModel);
+
+                              if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TestInterface(
+                                      deckName: selectedDeckItem.deckName,
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Error'),
+                                      content: Text(deckAttemptProvider.responseMessage ?? 'Unknown error occurred'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            }
+                          },
+                          ),
                           SizedBoxes.verticalMedium,
                         ],
                       ),

@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/api_manager/dio client/dio_client.dart';
-import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
-import 'package:premedpk_mobile_app/models/deck_group_model.dart';
+import '../../../api_manager/dio client/dio_client.dart';
+import '../../../api_manager/dio client/endpoints.dart';
+import '../../../constants/constants_export.dart';
+import '../../../models/deck_group_model.dart';
 
 enum FetchStatus { init, fetching, success, error }
 
-class NUMSMocksProvider extends ChangeNotifier {
+class PUQbankProvider extends ChangeNotifier {
   FetchStatus _fetchStatus = FetchStatus.init;
 
   FetchStatus get fetchStatus => _fetchStatus;
@@ -20,7 +20,7 @@ class NUMSMocksProvider extends ChangeNotifier {
       notifyListeners();
 
       final DioClient dio = DioClient();
-      final responseData = await dio.get(Endpoints.NUMSMocks);
+      final responseData = await dio.get(Endpoints.PRVUQbank);
       print(
           'Response Data: $responseData'); // Print response data for debugging
 
@@ -28,18 +28,21 @@ class NUMSMocksProvider extends ChangeNotifier {
       if (success) {
         final List<Map<String, dynamic>> data =
             List<Map<String, dynamic>>.from(responseData['data']);
-        Map<String, dynamic>? nums;
+        Map<String, dynamic>? pu;
         try {
-          nums = data.firstWhere(
-            (category) => category['categoryName'] == 'NUMS Mocks',
+          pu = data.firstWhere(
+            (category) =>
+                category['categoryName'] == 'Private Universities QBank',
           );
         } catch (e) {
-          nums = null;
+          pu = null;
         }
 
-        if (nums != null) {
-          final List<dynamic> deckGroupsData = nums['deckGroups'];
-          _deckGroups = deckGroupsData.map((deckGroupData) {
+        if (pu != null) {
+          final List<dynamic> deckGroupsData = pu['deckGroups'];
+          _deckGroups = deckGroupsData
+              .where((deckGroupData) => deckGroupData['isPublished'] == true)
+              .map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
             final List<DeckItem> deckItems = decks.map((deck) {
               print('Deck Data: $deck');
@@ -47,13 +50,15 @@ class NUMSMocksProvider extends ChangeNotifier {
                 deckName: deck['deckName'],
                 deckLogo: deck['deckLogo'],
                 premiumTag: deck['premiumTags'] != null &&
-                        (deck['premiumTags'] as List).isNotEmpty
+                    (deck['premiumTags'] as List).isNotEmpty
                     ? (deck['premiumTags'][0] as String)
-                    : '1', // Handle possible null or empty list
+                    : '', // Handle possible null or empty list
+                isPublished: deck['isPublished'],
+
                 deckInstructions: deck['deckInstructions'] ?? '',
                 isTutorModeFree: deck['isTutorModeFree'],
                 timedTestMode: deck['timedTestMode'],
-                timesTestminutes: deck['timesTestminutes'],
+                timesTestminutes: deck['timedTestMinutes'],
               );
             }).toList();
 
@@ -67,11 +72,14 @@ class NUMSMocksProvider extends ChangeNotifier {
               deckItems: deckItems,
               deckNameCount: deckNameCount,
               deckGroupImage: deckGroupImage,
+              isPublished: deckGroupData['isPublished'],
+
             );
           }).toList();
 
           _fetchStatus = FetchStatus.success;
-        } else {
+        }
+        else {
           _fetchStatus = FetchStatus.error;
         }
       } else {

@@ -45,7 +45,6 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
         ? htmlParser.parse(widget.deckDetails['deckInstructions']).body!.text
         : '';
 
-    // Split the instructions into sentences
     final sentences = instructions.split('.').where((sentence) => sentence.trim().isNotEmpty).toList();
 
     return Scaffold(

@@ -122,6 +122,7 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
                           child: Center(
                             child: ListTile(
                               leading: CircleAvatar(
+                                backgroundColor: Colors.white,
                                 radius: 30,
                                 backgroundImage: NetworkImage(deckGroup
                                         .deckGroupImage ??

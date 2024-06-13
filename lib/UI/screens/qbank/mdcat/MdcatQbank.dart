@@ -1,6 +1,7 @@
-import 'package:premedpk_mobile_app/UI/screens/qbank/providers/mcatqbankprovider.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/deckgroup_maker.dart';
+import 'package:premedpk_mobile_app/providers/mcatqbankprovider.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../constants/constants_export.dart';
 class MDCATQbankHome extends StatefulWidget {
   const MDCATQbankHome({super.key});
@@ -91,49 +92,31 @@ class _MDCATQbankHomeState extends State<MDCATQbankHome>
             height: 50,
             margin: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-              color: Colors.grey[200],
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: TabBar(
-              controller: _tabController,
-              indicator: BoxDecoration(
-                color: const Color(0xFFEC5863),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: const Color(0x80FFFFFF),
-                  width:3,
+            child: Material(
+              elevation: 4,
+              borderRadius: BorderRadius.circular(10),
+
+              child: TabBar(
+                controller: _tabController,
+                tabs: const [
+                  Tab(text: 'YEARLY'),
+                  Tab(text: 'TOPICAL'),
+                ],
+                unselectedLabelColor: Colors.black,
+                labelColor: PreMedColorTheme().white,
+                indicator: BoxDecoration(
+                  border: Border.all(
+                      width: 3,
+                      color: PreMedColorTheme().primaryColorRed200),
+                  borderRadius: BorderRadius.circular(10),
+                  color: PreMedColorTheme().primaryColorRed,
                 ),
+                indicatorSize: TabBarIndicatorSize.tab,
+                labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),
               ),
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.black,
-              labelStyle: PreMedTextTheme().heading2.copyWith(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 12,
-                  ),
-              unselectedLabelStyle: PreMedTextTheme().heading2.copyWith(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 12,
-                  ),
-              tabs: [
-                Tab(
-                  child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: Center(
-                      child: Text('YEARLY'),
-                    ),
-                  ),
-                ),
-                Tab(
-                  child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: Center(
-                      child: Text('TOPICAL'),
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
           SizedBoxes.verticalMedium,

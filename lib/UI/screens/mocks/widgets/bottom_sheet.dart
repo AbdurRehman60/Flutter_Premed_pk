@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/providers/mcatqbankprovider.dart';
+import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/test_mode_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../models/deck_group_model.dart';
 import '../../qbank/widgets/logo_avatar.dart';
 import 'deck_instructions.dart';
@@ -50,17 +47,13 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                 itemCount: widget.deckGroup.deckItems.length,
                 itemBuilder: (context, index) {
                   final DeckItem item = widget.deckGroup.deckItems[index];
-                  print(item.deckName);
                   return Container(
-                    height: 80,
                     margin: const EdgeInsets.symmetric(vertical: 4),
                     decoration: const BoxDecoration(
                       color: Colors.white,
                     ),
                     child: ListTile(
-                      leading: GetLogo(
-                          url: widget.deckGroup.deckItems[index].deckLogo ??
-                              'https://premedpk-cdn.sgp1.cdn.digitaloceanspaces.com/Logos/logo512.png'),
+                      leading: GetLogo(url: widget.deckGroup.deckItems[index].deckLogo),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -73,24 +66,23 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                 fontSize: 17),
                           ),
                           SizedBoxes.verticalTiny,
-                          if (widget.deckGroup.deckItems[index].premiumTag !=
-                              null)
+                          if (widget.deckGroup.deckItems[index].premiumTag != null)
                             Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: PreMedColorTheme().primaryColorRed,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: PreMedColorTheme().primaryColorRed,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  widget.deckGroup.deckItems[index].premiumTag!,
+                                  style: PreMedTextTheme().body.copyWith(
+                                      color: PreMedColorTheme().white,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    widget
-                                        .deckGroup.deckItems[index].premiumTag!,
-                                    style: PreMedTextTheme().body.copyWith(
-                                        color: PreMedColorTheme().white,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 14),
-                                  ),
-                                ))
+                              ),
+                            )
                           else
                             const SizedBox(),
                         ],
@@ -102,49 +94,43 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           size: 20,
                         ),
                         onPressed: () {
-                          print(widget
-                              .deckGroup.deckItems[index].timesTestminutes);
-                          print(
-                              widget.deckGroup.deckItems[index].timedTestMode);
-                          print(widget
-                              .deckGroup.deckItems[index].isTutorModeFree);
                           setState(() {
                             selectedDeckItemIndex = index;
                           });
                           widget.bankOrMock == 'Bank'
                               ? Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => TestModeInterface(
-                                              deckDetails: {
-                                                'deckName': widget.deckGroup
-                                                    .deckItems[index].deckName,
-                                                'isTutorModeFree': widget
-                                                    .deckGroup
-                                                    .deckItems[index]
-                                                    .isTutorModeFree,
-                                                'deckInstructions': widget
-                                                    .deckGroup
-                                                    .deckItems[index]
-                                                    .deckInstructions,
-                                                'questions': '2',
-                                                'timedTestMinutes': widget
-                                                    .deckGroup
-                                                    .deckItems[index]
-                                                    .timesTestminutes,
-                                              },
-                                              deckGroupName: widget.qbankGroupName ??'')),
-                                )
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TestModeInterface(
+                                    deckDetails: {
+                                      'deckName': widget.deckGroup
+                                          .deckItems[index].deckName,
+                                      'isTutorModeFree': widget
+                                          .deckGroup
+                                          .deckItems[index]
+                                          .isTutorModeFree,
+                                      'deckInstructions': widget
+                                          .deckGroup
+                                          .deckItems[index]
+                                          .deckInstructions,
+                                      'questions': '2',
+                                      'timedTestMinutes': widget
+                                          .deckGroup
+                                          .deckItems[index]
+                                          .timesTestminutes,
+                                    },
+                                    deckGroupName: widget.qbankGroupName ?? '')),
+                          )
                               : Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DeckInstructions(
-                                      deckInstructions: item.deckInstructions,
-                                      deckGroup: widget.deckGroup,
-                                      selectedIndex: selectedDeckItemIndex,
-                                    ),
-                                  ),
-                                );
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DeckInstructions(
+                                deckInstructions: item.deckInstructions,
+                                deckGroup: widget.deckGroup,
+                                selectedIndex: selectedDeckItemIndex,
+                              ),
+                            ),
+                          );
                         },
                       ),
                       onTap: () {},

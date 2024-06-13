@@ -41,6 +41,7 @@ class MdcatMocksProviderr extends ChangeNotifier {
                   deckName: deck['deckName'] as String,
                   deckLogo: deck['deckLogo'] as String,
                   premiumTag: deck['premiumTags'][0] as String,
+                isPublished: deck['isPublished'],
                   deckInstructions: deck['deckInstructions'] as String,
                 isTutorModeFree: deck['isTutorModeFree'],
                 timedTestMode: deck['timedTestMode'],
@@ -56,6 +57,7 @@ class MdcatMocksProviderr extends ChangeNotifier {
               deckItems: deckItems,
               deckNameCount: deckNameCount,
               deckGroupImage: deckGroupImage,
+              isPublished: deckGroupData['isPublished'],
             );
           }).toList();
 

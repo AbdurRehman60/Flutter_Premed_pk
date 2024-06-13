@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/api_manager/dio client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/deck_group_model.dart';
 
+import '../api_manager/dio client/dio_client.dart';
+
 enum FetchStatus { init, fetching, success, error }
 
-class NUMSQbankProvider extends ChangeNotifier {
+class MDCATQbankpro extends ChangeNotifier {
   FetchStatus _fetchStatus = FetchStatus.init;
 
   FetchStatus get fetchStatus => _fetchStatus;
@@ -20,30 +21,29 @@ class NUMSQbankProvider extends ChangeNotifier {
       notifyListeners();
 
       final DioClient dio = DioClient();
-      final responseData = await dio.get(Endpoints.NUMSQbank);
-      print(
-          'Response Data: $responseData'); // Print response data for debugging
+      final responseData = await dio.get(Endpoints.MdcatQbank);
+      print('Response Data: $responseData'); // Print response data for debugging
 
       final bool success = responseData['success'] ?? false;
       if (success) {
         final List<Map<String, dynamic>> data =
         List<Map<String, dynamic>>.from(responseData['data']);
-        Map<String, dynamic>? nums;
+        Map<String, dynamic>? mdcat;
         try {
-          nums = data.firstWhere(
-                (category) => category['categoryName'] == 'NUMS QBank',
+          mdcat = data.firstWhere(
+                (category) => category['categoryName'] == 'MDCAT QBank',
           );
         } catch (e) {
-          nums = null;
+          mdcat = null;
         }
 
-        if (nums != null) {
-          final List<dynamic> deckGroupsData = nums['deckGroups'];
-          _deckGroups = deckGroupsData
-              .where((deckGroupData) => deckGroupData['isPublished'] == true) // Filter out unpublished deck groups
-              .map((deckGroupData) {
+        if (mdcat != null) {
+          final List<dynamic> deckGroupsData = mdcat['deckGroups'];
+          _deckGroups = deckGroupsData.map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
-            final List<DeckItem> deckItems = decks.map((deck) {
+            final List<DeckItem> deckItems = decks.where((deck) {
+              return deck['isPublished'] == true;
+            }).map((deck) {
               print('Deck Data: $deck');
               return DeckItem(
                 deckName: deck['deckName'],
@@ -51,7 +51,8 @@ class NUMSQbankProvider extends ChangeNotifier {
                 premiumTag: deck['premiumTags'] != null &&
                     (deck['premiumTags'] as List).isNotEmpty
                     ? (deck['premiumTags'][0] as String)
-                    : '', // Handle possible null or empty list
+                    : null,
+                isPublished: deck['isPublished'],
                 deckInstructions: deck['deckInstructions'] ?? '',
                 isTutorModeFree: deck['isTutorModeFree'],
                 timedTestMode: deck['timedTestMode'],
@@ -59,20 +60,24 @@ class NUMSQbankProvider extends ChangeNotifier {
               );
             }).toList();
 
-            print('Deck Items: $deckItems'); // Print
+            if (deckItems.isEmpty || !deckGroupData['isPublished']) {
+              return null;
+            }
 
             final int deckNameCount = deckItems.length;
-            final String deckGroupImage = deckGroupData['deckGroupImage'];
+            final String? deckGroupImage = deckGroupData['deckGroupImage'];
+
             return DeckGroupModel(
               deckType: deckGroupData['deckType'],
               deckGroupName: deckGroupData['deckGroupName'],
               deckItems: deckItems,
               deckNameCount: deckNameCount,
               deckGroupImage: deckGroupImage,
+              isPublished: deckGroupData['isPublished'],
             );
-          }).toList();
+          }).where((deckGroup) => deckGroup != null).cast<DeckGroupModel>().toList();
 
-        _fetchStatus = FetchStatus.success;
+          _fetchStatus = FetchStatus.success;
         } else {
           _fetchStatus = FetchStatus.error;
         }
@@ -80,7 +85,7 @@ class NUMSQbankProvider extends ChangeNotifier {
         _fetchStatus = FetchStatus.error;
       }
     } catch (e) {
-      print('Error: $e'); // Print error for debugging
+      print('Error: $e');
       _fetchStatus = FetchStatus.error;
     } finally {
       notifyListeners();

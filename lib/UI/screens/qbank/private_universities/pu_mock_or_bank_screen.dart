@@ -1,11 +1,8 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_mock.dart';
+import 'package:premedpk_mobile_app/UI/screens/mocks/pu_mocks/pu_mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_qbank.dart';
-
 import '../../../../constants/constants_export.dart';
-import '../nums/nums_mock.dart';
-import '../nums/nums_qbank.dart';
 import '../widgets/stat_group_container.dart';
 
 class PUmockorBankStats extends StatelessWidget {
@@ -76,22 +73,11 @@ class PUmockorBankStats extends StatelessWidget {
               SizedBoxes.vertical26Px,
               QbankStatsContainer(
                 onTap: () {
-                  // Navigator.push(
-                  // //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => const PUMockHome()));
-                  // // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => Qbank(
-                  //             deckCategory: mockCategory,
-                  //             deckGroupName: widget.deckGroupName)));
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => Qbank(
-                  //             deckCategory: bankCategory,
-                  //             deckGroupName: deckGroupName)));
+                  Navigator.push(
+                     context,
+                      MaterialPageRoute(
+                          builder: (context) => const PrivuniMocksHome()));
+
                 },
                 title: 'Mocks',
                 totalMcqs: '29 Mocks',

@@ -28,6 +28,9 @@ class PremedAssets {
   static String QuestionBank = 'assets/images/Question Bank.png';
   static String Flashcards = 'assets/images/Flashcards.png';
   static String Youtube = 'assets/images/youtube.png';
+  static String MDCAT ='assets/images/PU.png';
+  static String PU ='assets/images/MDCAT QBank 1.png';
+  static String NUMS ='assets/images/NUMS.png';
 
   //icons
 

@@ -98,11 +98,13 @@ class Endpoints {
   static const String RecentActivityURL = '/api/attempts/get-recent-attempts';
 
   static const String MdcatQbank = '/api/get-category-decks/MDCAT QBank';
-  static const String MdcatMocks = '/api/get-category-decks/MDCAT Mocks';
   static const String NUMSQbank = '/api/get-category-decks/NUMS QBank';
-  static const String NUMSMocks = '/api/get-category-decks/NUMS Mocks';
   static const String PRVUQbank =
       '/api/get-category-decks/Private Universities QBank';
-  static const String PUMocks =
-      '/api/get-category-decks/Private Universities Mocks';
+
+  //for test interface (1/2/3 and so on)
+  static String questions(int page) => '/api/decks/getlatestdeckquestion/$page';
+
+  //create deck attempt
+static const String DeckAttempt ='/api/attempts/create-deck-attempt';
 }

@@ -1,7 +1,6 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/nums_mocks/nums_mocks.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/nums/nums_mock.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/nums/nums_qbank.dart';
 
 import '../../../../constants/constants_export.dart';
@@ -76,22 +75,11 @@ class NumsorBankStats extends StatelessWidget {
               SizedBoxes.vertical26Px,
               QbankStatsContainer(
                 onTap: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => NUMSMockHome()));
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => Qbank(
-                  //             deckCategory: mockCategory,
-                  //             deckGroupName: widget.deckGroupName)));
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => Qbank(
-                  //             deckCategory: bankCategory,
-                  //             deckGroupName: deckGroupName)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NumsMocksHome()));
+
                 },
                 title: 'Mocks',
                 totalMcqs: '29 Mocks',

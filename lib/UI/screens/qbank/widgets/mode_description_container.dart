@@ -117,15 +117,7 @@ class ModeDescription extends StatelessWidget {
                       String bundle = UserProvider().getBundle();
                       print('Bundle Purchased: $bundle');
                       if (bundle.contains('MDCAT-QBank')) {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => TestInterfacePage(
-                        //       deckName: deckName,
-                        //       timedTestMinutes: timedTestMinutes,
-                        //     ),
-                        //   ),
-                        // );
+
                       } else {
                         showDialog(
                           context: context,
@@ -138,7 +130,7 @@ class ModeDescription extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Text('OK'),
+                                  child: const Text('OK'),
                                 ),
                               ],
                             );
@@ -154,7 +146,7 @@ class ModeDescription extends StatelessWidget {
                         fontSize: 14,
                       ),
                     ),
-                  )
+                  ),
 
                 ],
               ),

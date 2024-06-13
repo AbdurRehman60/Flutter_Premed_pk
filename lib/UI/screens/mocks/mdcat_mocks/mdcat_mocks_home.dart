@@ -1,10 +1,8 @@
 
 import 'package:provider/provider.dart';
-
 import '../../../../constants/constants_export.dart';
 import '../../../../models/deck_group_model.dart';
 import '../../../../providers/mdcat_mocks_provider.dart';
-import '../../qbank/mdcat_mock_proivder.dart';
 import '../widgets/bottom_sheet.dart';
 
 class MdcatMocksHome extends StatefulWidget {
@@ -124,6 +122,7 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
                           child: Center(
                             child: ListTile(
                               leading: CircleAvatar(
+                                backgroundColor: Colors.white,
                                 radius: 30,
                                 backgroundImage: NetworkImage(deckGroup
                                         .deckGroupImage ??

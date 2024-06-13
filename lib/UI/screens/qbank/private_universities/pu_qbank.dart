@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../constants/constants_export.dart';
-import '../providers/pu_qbank_provider.dart';
+import '../../../../providers/pu_qbank_provider.dart';
 import '../widgets/deckgroup_maker.dart';
 
 class PUQbankHome extends StatefulWidget {
@@ -11,8 +11,7 @@ class PUQbankHome extends StatefulWidget {
   State<PUQbankHome> createState() => _PUQbankHomeState();
 }
 
-class _PUQbankHomeState extends State<PUQbankHome>
-    with SingleTickerProviderStateMixin {
+class _PUQbankHomeState extends State<PUQbankHome> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -76,10 +75,10 @@ class _PUQbankHomeState extends State<PUQbankHome>
                     child: Text(
                       'PU QBank',
                       style: PreMedTextTheme().heading6.copyWith(
-                            color: PreMedColorTheme().black,
-                            fontSize: 34,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        color: PreMedColorTheme().black,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -93,49 +92,31 @@ class _PUQbankHomeState extends State<PUQbankHome>
             height: 50,
             margin: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-              color: Colors.grey[200],
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: TabBar(
-              controller: _tabController,
-              indicator: BoxDecoration(
-                color: const Color(0xFFEC5863),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: const Color(0x80FFFFFF),
-                  width:3,
+            child: Material(
+              elevation: 4,
+              borderRadius: BorderRadius.circular(10),
+
+              child: TabBar(
+                controller: _tabController,
+                tabs: const [
+                  Tab(text: 'YEARLY'),
+                  Tab(text: 'TOPICAL'),
+                ],
+                unselectedLabelColor: Colors.black,
+                labelColor: PreMedColorTheme().white,
+                indicator: BoxDecoration(
+                  border: Border.all(
+                      width: 3,
+                      color: PreMedColorTheme().primaryColorRed200),
+                  borderRadius: BorderRadius.circular(10),
+                  color: PreMedColorTheme().primaryColorRed,
                 ),
+                indicatorSize: TabBarIndicatorSize.tab,
+                labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),
               ),
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.black,
-              labelStyle: PreMedTextTheme().heading2.copyWith(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 12,
-                  ),
-              unselectedLabelStyle: PreMedTextTheme().heading2.copyWith(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 12,
-                  ),
-              tabs: [
-                Tab(
-                  child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: Center(
-                      child: Text('YEARLY'),
-                    ),
-                  ),
-                ),
-                Tab(
-                  child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: Center(
-                      child: Text('TOPICAL'),
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
           SizedBoxes.verticalMedium,
@@ -143,10 +124,10 @@ class _PUQbankHomeState extends State<PUQbankHome>
             'Attempt a Full-Length Yearly Paper today and experience the feeling of giving the exam on the actual test day!',
             textAlign: TextAlign.center,
             style: PreMedTextTheme().subtext.copyWith(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: PreMedColorTheme().black,
-                ),
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: PreMedColorTheme().black,
+            ),
           ),
           Expanded(
             child: Consumer<PUQbankProvider>(
@@ -170,7 +151,7 @@ class _PUQbankHomeState extends State<PUQbankHome>
                         DeckGroupList(
                           deckGroups: puqbankpro.deckGroups
                               .where((deckGroup) =>
-                                  deckGroup.deckType == 'Topical')
+                          deckGroup.deckType == 'Topical')
                               .toList(), qbankGroupname: 'PU QBank',
                         ),
                       ],
