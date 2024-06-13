@@ -7,11 +7,12 @@ class RecentActivityCard extends StatefulWidget {
   final double progressValue;
   final acivityname;
   final date;
-  const RecentActivityCard(
-      {super.key,
-      required this.acivityname,
-      required this.date,
-      required this.progressValue});
+  const RecentActivityCard({
+    super.key,
+    required this.acivityname,
+    required this.date,
+    required this.progressValue,
+  });
 
   @override
   _RecentActivityCardState createState() => _RecentActivityCardState();
