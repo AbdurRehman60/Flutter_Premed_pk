@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:premedpk_mobile_app/UI/new_home_page/new_home_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/recent_activity_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/home_page/home_page.dart';
@@ -30,6 +31,8 @@ import 'package:premedpk_mobile_app/UI/screens/qbank/private_uni_mock_pro.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_mock.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_mock_or_bank_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/providers/pu_qbank_provider.dart';
+import 'package:premedpk_mobile_app/UI/screens/statistics/statistics_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/statistics_w.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
@@ -120,9 +123,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        // home: const SplashScreen(),
-        // home: const Homepage(),
-        home: const Homepage(),
+        home: const NewHomePage(),
         navigatorKey: navigatorKey,
       ),
     );

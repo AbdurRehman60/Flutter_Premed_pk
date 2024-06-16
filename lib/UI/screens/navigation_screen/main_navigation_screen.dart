@@ -1,13 +1,13 @@
+import 'package:premedpk_mobile_app/UI/new_home_page/new_home_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/account.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution_home.dart';
-import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
+
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/mdcat_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/bottom_nav.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -27,13 +27,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   List<int> navigationStack = [0];
 
   final screens = [
-    const HomeScreen(),
+    const NewHomePage(),
     const MDCAT(),
     const ExpertSolutionHome(),
     const MarketPlace(),
     const Account(),
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +56,13 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           currentIndex: navigationStack.last,
           onTapHome: () => onTap(0),
           onTapQbank: () => onTap(1),
-          onTapExpertSolution: () => onTap(2),
+          ontapVault: () => onTap(2),
           onTapMarketplace: () => onTap(3),
           onTapProfile: () => onTap(4),
         ),
       ),
     );
   }
-
 
   void onTap(int index) async {
     if (index == 1) {

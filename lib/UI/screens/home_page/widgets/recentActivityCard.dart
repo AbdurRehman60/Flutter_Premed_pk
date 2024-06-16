@@ -21,14 +21,21 @@ class RecentActivityCard extends StatefulWidget {
 class _RecentActivityCardState extends State<RecentActivityCard> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.circular(20.0),
-      elevation: 3,
+    return Card(
+      elevation: 5,
       child: Container(
         height: 165,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10, top: 10),
@@ -103,6 +110,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                               ),
                               const SizedBox(
                                 height: 14,
+                                width: 7,
                               ),
                               Text(
                                 '${(widget.progressValue * 100).toInt()}% Complete',

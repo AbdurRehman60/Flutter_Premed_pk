@@ -3,18 +3,18 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 class PremedBottomNav extends StatelessWidget {
   const PremedBottomNav(
       {super.key,
-        required this.currentIndex,
-        required this.onTapHome,
-        required this.onTapMarketplace,
-        required this.onTapQbank,
-        required this.onTapExpertSolution,
-        required this.onTapProfile});
+      required this.currentIndex,
+      required this.onTapHome,
+      required this.onTapMarketplace,
+      required this.onTapQbank,
+      required this.ontapVault,
+      required this.onTapProfile});
 
   final int currentIndex;
   final VoidCallback onTapHome;
   final VoidCallback onTapMarketplace;
   final VoidCallback onTapQbank;
-  final VoidCallback onTapExpertSolution;
+  final VoidCallback ontapVault;
   final VoidCallback onTapProfile;
 
   @override
@@ -42,18 +42,19 @@ class PremedBottomNav extends StatelessWidget {
             label: 'Dashboard',
             onTap: onTapHome,
           ),
+
+          _MainBottomNavBarItem(
+            icon: 'assets/images/Vault.png',
+            isSelected: 2 == currentIndex,
+            label: 'Expert Solutions',
+            onTap: ontapVault,
+          ),
           // _BottomNavBarItem(
           //   icon: 'assets/images/Question Bank.png',
           //   isSelected: 1 == currentIndex,
           //   label: 'Qbank',
           //   onTap: onTapQbank,
           // ),
-          _MainBottomNavBarItem(
-            icon: 'assets/images/Expert Solutions.png',
-            isSelected: 2 == currentIndex,
-            label: 'Expert Solutions',
-            onTap: onTapExpertSolution,
-          ),
           _BottomNavBarItem(
             icon: 'assets/images/Shop.png',
             isSelected: 3 == currentIndex,

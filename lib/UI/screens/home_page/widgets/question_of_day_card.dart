@@ -31,7 +31,7 @@ class _QuestionCardState extends State<QuestionCard> {
           horizontal:
               MediaQuery.of(context).size.width * 0.03, // 3% of screen width
           vertical:
-              MediaQuery.of(context).size.height * 0.02, // 2% of screen height
+              MediaQuery.of(context).size.height * 0.03, // 2% of screen height
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +46,7 @@ class _QuestionCardState extends State<QuestionCard> {
             ),
             SizedBox(
                 height: MediaQuery.of(context).size.height *
-                    0.02), // 2% of screen height
+                    0.01), // 2% of screen height
             Text(
               widget.question,
               style: GoogleFonts.rubik(
@@ -57,7 +57,7 @@ class _QuestionCardState extends State<QuestionCard> {
             ),
             SizedBox(
                 height: MediaQuery.of(context).size.height *
-                    0.04), // 4% of screen height
+                    0.01), // 4% of screen height
             Wrap(
               spacing: MediaQuery.of(context).size.width *
                   0.02, // 2% of screen width
@@ -73,6 +73,14 @@ class _QuestionCardState extends State<QuestionCard> {
                     color:
                         widget.isResource ? Colors.red[100] : Colors.blue[100],
                     borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
                   ),
                   child: Text(tag,
                       style: PreMedTextTheme().small.copyWith(

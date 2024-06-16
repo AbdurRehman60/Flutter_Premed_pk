@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/widgets/recent_activity.dart';
 import 'package:premedpk_mobile_app/UI/screens/home_page/widgets/qbank_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/home_page/widgets/question_of_day_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/home_page/widgets/recentActivityCard.dart';
@@ -7,9 +6,6 @@ import 'package:premedpk_mobile_app/UI/screens/home_page/widgets/update_card.dar
 import 'package:premedpk_mobile_app/constants/assets.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
-import 'package:premedpk_mobile_app/models/recent_attempts_model.dart';
-import 'package:premedpk_mobile_app/providers/recent_atempts_provider.dart';
-
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -104,9 +100,9 @@ class _HomepageState extends State<Homepage> {
                     isResource: false,
                   ),
 
-                  Padding(
-                    padding: const EdgeInsets.only(left: 17, right: 17),
-                    child: const RecentActivityCard(
+                  const Padding(
+                    padding: EdgeInsets.only(left: 17, right: 17),
+                    child: RecentActivityCard(
                         acivityname: "Alkyl Halides and Amines Past Paper",
                         date: "26th Feb 2024",
                         progressValue: 0.0),
