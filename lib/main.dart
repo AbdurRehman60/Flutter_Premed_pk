@@ -32,7 +32,7 @@ import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_moc
 import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_mock_or_bank_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/providers/pu_qbank_provider.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/statistics_screen.dart';
-import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/statistics_w.dart';
+import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/piechart_w.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
@@ -44,6 +44,7 @@ import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/pu_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/recent_atempts_provider.dart';
+import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
@@ -110,7 +111,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => MDCATMocksProvider()),
         ChangeNotifierProvider(create: (_) => PUQbankProvider()),
         ChangeNotifierProvider(create: (_) => PUMocksProvider()),
-        ChangeNotifierProvider(create: (_) => RecentAttemptsProvider())
+        ChangeNotifierProvider(create: (_) => RecentAttemptsProvider()),
+        ChangeNotifierProvider(create: (_) => UserStatProvider())
       ],
       child: MaterialApp(
         routes: {
@@ -123,7 +125,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const NewHomePage(),
+        home: const SplashScreen(),
         navigatorKey: navigatorKey,
       ),
     );

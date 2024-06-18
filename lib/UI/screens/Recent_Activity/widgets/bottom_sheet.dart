@@ -86,7 +86,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                           left: 20,
                         ),
                         child: Text(
-                          '${(widget.progressValue ?? 0.0 * 100).toInt()}% Complete',
+                          '${(widget.progressValue ?? 0.1 * 100).toInt()}% Complete',
                           style: GoogleFonts.rubik(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,

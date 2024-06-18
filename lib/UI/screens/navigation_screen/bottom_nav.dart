@@ -42,19 +42,18 @@ class PremedBottomNav extends StatelessWidget {
             label: 'Dashboard',
             onTap: onTapHome,
           ),
-
+          _BottomNavBarItem(
+            icon: 'assets/images/Question Bank.png',
+            isSelected: 1 == currentIndex,
+            label: 'Qbank',
+            onTap: onTapQbank,
+          ),
           _MainBottomNavBarItem(
             icon: 'assets/images/Vault.png',
             isSelected: 2 == currentIndex,
-            label: 'Expert Solutions',
+            label: 'The Resource Vault',
             onTap: ontapVault,
           ),
-          // _BottomNavBarItem(
-          //   icon: 'assets/images/Question Bank.png',
-          //   isSelected: 1 == currentIndex,
-          //   label: 'Qbank',
-          //   onTap: onTapQbank,
-          // ),
           _BottomNavBarItem(
             icon: 'assets/images/Shop.png',
             isSelected: 3 == currentIndex,

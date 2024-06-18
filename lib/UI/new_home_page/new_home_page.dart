@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/new_home_page/widgets/Flash_card.dart';
@@ -8,7 +9,12 @@ import 'package:premedpk_mobile_app/UI/new_home_page/widgets/series_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/home_page/widgets/question_of_day_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/home_page/widgets/recentActivityCard.dart';
 import 'package:premedpk_mobile_app/UI/screens/notifications/notification_page.dart';
+import 'package:premedpk_mobile_app/UI/screens/statistics/statistics_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/Attempted_card.dart';
+import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/card_w.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/models/statistic_model.dart';
+import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -20,19 +26,52 @@ class NewHomePage extends StatefulWidget {
 }
 
 class _NewHomePageState extends State<NewHomePage> {
+  late UserStatModel userStatModel;
+  String subjectPercentage(String subject) {
+    final enteredSubject = userStatModel.subjectAttempts.firstWhere(
+      (subjectAttempt) => subjectAttempt.subject == subject,
+      orElse: () => SubjectAttempt(
+        subject: subject,
+        totalQuestionsAttempted: 0,
+        totalQuestionsCorrect: 0,
+        totalQuestionsIncorrect: 0,
+      ),
+    );
+    if (enteredSubject.totalQuestionsAttempted == 0) {
+      return '0';
+    }
+    final subjectPercentage = ((enteredSubject.totalQuestionsAttempted /
+                userStatModel.totalQuestionAttempted) *
+            100)
+        .toStringAsFixed(0);
+    return subjectPercentage;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final UserStatProvider userStatProvider =
+        Provider.of<UserStatProvider>(context, listen: false);
+    userStatProvider.fetchUserStatistics();
     return Scaffold(
-        backgroundColor: const Color(0xFFFBF0F3),
-        body: SafeArea(child: SingleChildScrollView(
-          child: Consumer<UserProvider>(
-            builder: (context, userProvider, child) {
+      backgroundColor: const Color(0xFFFBF0F3),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: FutureBuilder(
+            future: userStatProvider.fetchUserStatistics(),
+            builder: (context, snapshot) {
+              userStatModel = userStatProvider.userStatModel!;
+              subjectPercentage('Biology');
+              subjectPercentage('Physics');
+              subjectPercentage('Chemistry');
+              subjectPercentage('Logical Reasoning');
+              subjectPercentage('English');
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                      height: MediaQuery.of(context).size.height *
-                          0.02), // 2% of screen height
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
                   Padding(
                     padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.07),
@@ -42,11 +81,15 @@ class _NewHomePageState extends State<NewHomePage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              // 'Hi, ${userProvider.getUserName().split(' ').length > 1? '${userProvider.getUserName().split(' ').first} ${userProvider.getUserName().split(' ')[1]}' : userProvider.getUserName().split(' ').first}',
-                              'Hi,Fateh',
-                              style: PreMedTextTheme().heading4.copyWith(
-                                  fontWeight: FontWeight.w800, fontSize: 28),
+                            Consumer<UserProvider>(
+                              builder: (context, userProvider, child) {
+                                return Text(
+                                  'Hi, ${userProvider.getUserName()}',
+                                  style: PreMedTextTheme().heading4.copyWith(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 28),
+                                );
+                              },
                             ),
                             Text(
                               'Ready to continue your journey?',
@@ -214,10 +257,18 @@ class _NewHomePageState extends State<NewHomePage> {
                                   SizedBox(
                                     width: 18,
                                   ),
-                                  SvgPicture.asset(
-                                    PremedAssets.arrow,
-                                    width: 12,
-                                    height: 25,
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const StatisticsScreen()));
+                                    },
+                                    child: SvgPicture.asset(
+                                      PremedAssets.arrow,
+                                      width: 12,
+                                      height: 25,
+                                    ),
                                   )
                                 ],
                               ),
@@ -240,93 +291,40 @@ class _NewHomePageState extends State<NewHomePage> {
                                         ),
                                       ],
                                     ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 25),
-                                          child: Column(
+                                    child: MaterialCard(
+                                      height: 128,
+                                      width: 400,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 7),
-                                                child: Text(
-                                                  "3",
-                                                  style: GoogleFonts.rubik(
-                                                    fontWeight: FontWeight.w800,
-                                                    fontSize: 50,
-                                                    color: Color(0xff60CDBB),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                "     Decks \nAttempted",
-                                                style: GoogleFonts.rubik(
-                                                  fontWeight: FontWeight.w800,
-                                                  fontSize: 12,
-                                                  color: Colors.black,
-                                                ),
-                                              )
+                                              StatDetailHolder(
+                                                  textColor:
+                                                      const Color(0xFF60CDBB),
+                                                  count: userStatModel
+                                                      .decksAttempted,
+                                                  details: 'Decks\nAttempted'),
+                                              StatDetailHolder(
+                                                  textColor:
+                                                      const Color(0xFFEC5863),
+                                                  count: userStatModel
+                                                      .testAttempted,
+                                                  details: 'Test\nAttempted'),
+                                              StatDetailHolder(
+                                                  textColor:
+                                                      const Color(0xFFFFC372),
+                                                  count: userStatModel
+                                                      .paracticeTestAttempted,
+                                                  details:
+                                                      'Practice Tests\nAttempted'),
                                             ],
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 35,
-                                        ),
-                                        Column(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 7),
-                                              child: Text(
-                                                "45",
-                                                style: GoogleFonts.rubik(
-                                                  fontWeight: FontWeight.w800,
-                                                  fontSize: 50,
-                                                  color: Color(0xffEC5863),
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                              "     Test \nAttempted",
-                                              style: GoogleFonts.rubik(
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 12,
-                                                color: Colors.black,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          width: 30,
-                                        ),
-                                        Column(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 7),
-                                              child: Text(
-                                                "20",
-                                                style: GoogleFonts.rubik(
-                                                  fontWeight: FontWeight.w800,
-                                                  fontSize: 50,
-                                                  color: Color(0xffFFC372),
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                              " Practice Tests  \n    Attempted",
-                                              style: GoogleFonts.rubik(
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 12,
-                                                color: Colors.black,
-                                              ),
-                                            )
-                                          ],
-                                        )
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -341,6 +339,8 @@ class _NewHomePageState extends State<NewHomePage> {
               );
             },
           ),
-        )));
+        ),
+      ),
+    );
   }
 }

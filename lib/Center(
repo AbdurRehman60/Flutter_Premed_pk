@@ -1,0 +1,81 @@
+Center(
+                    child: Card(
+                      margin: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 300,
+                            child: PieChart(
+                              dataMap: chartData,
+                              animationDuration:
+                                  const Duration(milliseconds: 800),
+                              chartLegendSpacing: 32,
+                              chartRadius:
+                                  MediaQuery.of(context).size.width / 3,
+                              initialAngleInDegree: 0,
+                              chartType: ChartType.ring,
+                              colorList: const [
+                                Color(0xFF42C96B),
+                                Color(0Xff0383BB),
+                                Color(0XffC40052),
+                                Color(0Xff8800C3),
+                                Color(0XffFB9666),
+                              ],
+                              ringStrokeWidth: 30,
+                              chartValuesOptions: const ChartValuesOptions(
+                                showChartValueBackground: false,
+                                showChartValues: false,
+                                showChartValuesInPercentage: true,
+                                showChartValuesOutside: false,
+                                decimalPlaces: 1,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(
+                              children: chartData.entries.map((entry) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        entry.key,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        '${entry.value}%',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: entry.key == 'Biology'
+                                              ? const Color(0xFF42C96B)
+                                              : entry.key == 'Physics'
+                                                  ? const Color(0Xff0383BB)
+                                                  : entry.key == 'Chemistry'
+                                                      ? const Color(0XffC40052)
+                                                      : entry.key ==
+                                                              'Logical Reasoning'
+                                                          ? const Color(
+                                                              0Xff8800C3)
+                                                          : const Color(
+                                                              0XffFB9666),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
