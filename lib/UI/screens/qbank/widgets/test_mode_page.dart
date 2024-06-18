@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:html/parser.dart' as htmlParser;
-
 import '../../../../constants/constants_export.dart';
 import 'mode_description_container.dart';
 

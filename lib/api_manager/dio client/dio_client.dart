@@ -173,5 +173,36 @@ class DioClient {
     }
     return response;
   }
+  Future<dynamic> patch(
+      String uri, {
+        data,
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        CancelToken? cancelToken,
+        ProgressCallback? onSendProgress,
+        ProgressCallback? onReceiveProgress,
+      }) async {
+    final List<Cookie> cookies1 = await _loadCookies();
+    options ??= Options();
+    options.headers = {
+      'cookie':
+      cookies1.map((cookie) => '${cookie.name}=${cookie.value}').join('; ')
+    };
 
+    final Response response = await _dio.patch(
+      uri,
+      data: data,
+      queryParameters: queryParameters,
+      options: options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+    final List<Cookie> cookies =
+    await cookieJar.loadForRequest(response.requestOptions.uri);
+    if (cookies.isNotEmpty) {
+      await _saveCookies(cookies);
+    }
+    return response;
+  }
 }

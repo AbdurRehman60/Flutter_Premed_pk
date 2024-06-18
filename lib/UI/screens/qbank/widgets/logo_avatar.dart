@@ -14,6 +14,7 @@ class GetLogo extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               const CircleAvatar(
+                backgroundColor: Colors.white,
                 radius: 25,
               ),
               SvgPicture.network(
@@ -26,6 +27,7 @@ class GetLogo extends StatelessWidget {
             ],
           )
         : CircleAvatar(
+      backgroundColor: Colors.white,
             radius: 25,
             backgroundImage: url.isEmpty
                 ? Image.asset('assets/icons/premedIcon.png') as ImageProvider

@@ -1,19 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
-import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/test_interface_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/UI/screens/Test Interface/test_interface_home.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../models/create_deck_attemot_model.dart';
+import 'package:premedpk_mobile_app/models/create_deck_attemot_model.dart';
 import '../../../../models/deck_group_model.dart';
 import '../../../../providers/create_deck_attempt_provider.dart';
 import '../../../../providers/user_provider.dart';
 
 class DeckInstructions extends StatefulWidget {
-  const DeckInstructions(
-      {super.key,
-      required this.deckInstructions,
-      required this.deckGroup,
-      required this.selectedIndex});
+  const DeckInstructions({
+    super.key,
+    required this.deckInstructions,
+    required this.deckGroup,
+    required this.selectedIndex,
+  });
 
   final String deckInstructions;
   final DeckGroupModel deckGroup;
@@ -75,196 +76,152 @@ class _DeckInstructionsState extends State<DeckInstructions> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                selectedDeckItem.deckName,
-                style: PreMedTextTheme().heading6.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontSize: 34,
-                      fontWeight: FontWeight.w800,
-                    ),
-              ),
-              SizedBoxes.verticalMedium,
-              Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16),
-                child: Material(
-                  elevation: 3,
-                  borderRadius: BorderRadius.circular(10),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                              width: 34,
-                              height: 34,
-                              child: Image.asset(
-                                'assets/images/Question Bank.png',
-                              )),
-                          SizedBoxes.verticalMedium,
-                          Text(
-                            'MOCK MODE',
-                            style: PreMedTextTheme().body.copyWith(
-                                color: PreMedColorTheme().primaryColorRed,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 16),
-                          ),
-                          SizedBoxes.verticalTiny,
-                          Text(
-                            '200 Mcqs',
-                            style: PreMedTextTheme().body.copyWith(
-                                color: PreMedColorTheme().black,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 14),
-                          ),
-                          SizedBoxes.verticalTiny,
-                          const BulletedList(
-                            items: [
-                              'This paper is NOT timed',
-                              'The correct answer and explanation will be shown instantly once you select any option',
-                            ],
-                          ),
-                          SizedBoxes.verticalMedium,
-                          // ElevatedButton(
-                          //   style: ElevatedButton.styleFrom(
-                          //       shape: RoundedRectangleBorder(
-                          //           borderRadius: BorderRadius.circular(8)),
-                          //       backgroundColor: PreMedColorTheme().primaryColorRed),
-                          //   onPressed: () {
-                          //     String bundle = UserProvider().getBundle();
-                          //     print('Bundle Purchased: $bundle');
-                          //     if (bundle.contains('MDCAT-QBank')) {
-                          //       Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //           builder: (context) => TestInterface(
-                          //             deckName: selectedDeckItem.deckName,
-                          //           ),
-                          //         ),
-                          //       );
-                          //     } else {
-                          //       showDialog(
-                          //         context: context,
-                          //         builder: (BuildContext context) {
-                          //           return AlertDialog(
-                          //             title: const Text('Premium Feature'),
-                          //             content: const Text('Your current plan does not have access to this paper. Purchase our MDCAT-QBank Plan to access this feature!'),
-                          //             actions: [
-                          //               TextButton(
-                          //                 onPressed: () {
-                          //                   Navigator.pop(context);
-                          //                 },
-                          //                 child: const Text('OK'),
-                          //               ),
-                          //             ],
-                          //           );
-                          //         },
-                          //       );
-                          //     }
-                          //   },
-                          //   child: Text(
-                          //     'Start Test',
-                          //     style: PreMedTextTheme().heading2.copyWith(
-                          //       color: Colors.white,
-                          //       fontWeight: FontWeight.w600,
-                          //       fontSize: 14,
-                          //     ),
-                          //   ),
-                          // ),
-                          CustomButton(
-                              buttonText: 'Start Test',onPressed: () async {
-                            final userProvider = Provider.of<UserProvider>(context, listen: false);
-                            final userId = userProvider.user?.userId ?? '';
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  selectedDeckItem.deckName,
+                  style: PreMedTextTheme().heading6.copyWith(
+                    color: PreMedColorTheme().black,
+                    fontSize: 34,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                SizedBoxes.verticalMedium,
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  child: Material(
+                    elevation: 3,
+                    borderRadius: BorderRadius.circular(10),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                                width: 34,
+                                height: 34,
+                                child: Image.asset(
+                                  'assets/images/Question Bank.png',
+                                )),
+                            SizedBoxes.verticalMedium,
+                            Text(
+                              'MOCK MODE',
+                              style: PreMedTextTheme().body.copyWith(
+                                  color: PreMedColorTheme().primaryColorRed,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 16),
+                            ),
+                            SizedBoxes.verticalTiny,
+                            Text(
+                              '200 Mcqs',
+                              style: PreMedTextTheme().body.copyWith(
+                                  color: PreMedColorTheme().black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 14),
+                            ),
+                            SizedBoxes.verticalTiny,
+                            const BulletedList(
+                              items: [
+                                'This paper is NOT timed',
+                                'The correct answer and explanation will be shown instantly once you select any option',
+                              ],
+                            ),
+                            SizedBoxes.verticalMedium,
+                            CustomButton(
+                              buttonText: 'Start Test',
+                              onPressed: () async {
+                                final userProvider = Provider.of<UserProvider>(context, listen: false);
+                                final userId = userProvider.user?.userId ?? '';
 
-                            if (userId.isNotEmpty) {
-                              final attemptModel = CreateDeckAttemptModel(
-                                deckName: selectedDeckItem.deckName,
-                                attemptMode: 'testmode',
-                                user: userId,
+                                if (userId.isNotEmpty) {
+                                  final attemptModel = CreateDeckAttemptModel(
+                                    deckName: selectedDeckItem.deckName,
+                                    attemptMode: 'testmode',
+                                    user: userId,
+                                  );
+                                  print(userId);
+                                  final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+                                  await deckAttemptProvider.createDeckAttempt(attemptModel);
 
-                              );
-                              print(userId);
-                              final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
-                              await deckAttemptProvider.createDeckAttempt(attemptModel);
-
-                              if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => TestInterface(
-                                      deckName: selectedDeckItem.deckName,
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text('Error'),
-                                      content: Text(deckAttemptProvider.responseMessage ?? 'Unknown error occurred'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('OK'),
+                                  if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
+                                    final attemptId = deckAttemptProvider.attemptId;
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => TestInterface(
+                                          deckName: selectedDeckItem.deckName,
+                                          attemptId: attemptId,
                                         ),
-                                      ],
+                                      ),
                                     );
-                                  },
-                                );
-                              }
-                            }
-                          },
-                          ),
-                          SizedBoxes.verticalMedium,
-                        ],
+                                  } else {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Error'),
+                                          content: Text(deckAttemptProvider.responseMessage ?? 'Unknown error occurred'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
+                                }
+                              },
+                            ),
+                            SizedBoxes.verticalMedium,
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBoxes.verticalLarge,
-              Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16),
-                child: Material(
-                  elevation: 3,
-                  borderRadius: BorderRadius.circular(10),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'INSTRUCTIONS',
-                                style: PreMedTextTheme().body.copyWith(
-                                    fontWeight: FontWeight.w800, fontSize: 17),
-                              ),
-                              BulletedList(
-                                items: cleanInstructions.split('\n'),
-                              )
-                            ],
+                SizedBoxes.verticalLarge,
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  child: Material(
+                    elevation: 3,
+                    borderRadius: BorderRadius.circular(10),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'INSTRUCTIONS',
+                                  style: PreMedTextTheme().body.copyWith(
+                                      fontWeight: FontWeight.w800, fontSize: 17),
+                                ),
+                                BulletedList(
+                                  items: cleanInstructions.split('\n'),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ]),
+              ],
+            ),
           ),
         ),
       ),
@@ -302,7 +259,7 @@ class BulletedList extends StatelessWidget {
 
 String removeHtmlTags(String htmlString) {
   String result =
-      htmlString.replaceAllMapped(RegExp(r'<\/?ul[^>]*>'), (match) => '');
+  htmlString.replaceAllMapped(RegExp(r'<\/?ul[^>]*>'), (match) => '');
   result = result.replaceAllMapped(RegExp(r'<\/?li[^>]*>'), (match) => '');
   List<String> sections = result.split('.');
   sections = sections.where((section) => section.trim().isNotEmpty).toList();

@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/tutor_mode_test_interface.dart';
+import 'package:provider/provider.dart';
 import '../../../../constants/color_theme.dart';
 import '../../../../constants/sized_boxes.dart';
 import '../../../../constants/text_theme.dart';
+import '../../../../models/create_deck_attemot_model.dart';
+import '../../../../providers/create_deck_attempt_provider.dart';
 import '../../../../providers/user_provider.dart';
+import '../../../Widgets/global_widgets/custom_button.dart';
+import '../../Test Interface/test_interface_home.dart';
 
 class ModeDescription extends StatelessWidget {
-  const ModeDescription(
-      {super.key, required this.mode, required this.deckName, required this.timedTestMinutes});
+  const ModeDescription({
+    super.key,
+    required this.mode,
+    required this.deckName,
+    required this.timedTestMinutes,
+  });
   final bool mode;
   final String deckName;
   final int timedTestMinutes;
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -25,18 +35,15 @@ class ModeDescription extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image.asset(
-            //   // 'assets/icons/TutorModeIcon.png',
-            //   height: 48,
-            //   width: 48,
-            // ),
             SizedBoxes.verticalTiny,
             if (mode)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Image.asset(
-                      height: 45, 'assets/images/QuestionMarkDocument.png'),
+                    height: 45,
+                    'assets/images/QuestionMarkDocument.png',
+                  ),
                   SizedBoxes.verticalTiny,
                   Center(
                     child: Text(
@@ -49,34 +56,70 @@ class ModeDescription extends StatelessWidget {
                   ),
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
-                      descriptionText: 'This paper is NOT timed'),
+                    descriptionText: 'This paper is NOT timed',
+                  ),
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
-                      descriptionText:
-                      'The Correct answer and explanation will be shown instantly once you select any option'),
+                    descriptionText:
+                    'The Correct answer and explanation will be shown instantly once you select any option',
+                  ),
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
-                      descriptionText:
-                      "Timer and detailed score report are not available in 'Tutor Mode' and can be accessed in 'Time Test Mode'"),
+                    descriptionText:
+                    "Timer and detailed score report are not available in 'Tutor Mode' and can be accessed in 'Time Test Mode'",
+                  ),
                   SizedBoxes.verticalMedium,
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        backgroundColor: PreMedColorTheme().primaryColorRed),
-                    onPressed: () {
+                  CustomButton(
+                    buttonText: 'Start Test',
+                    onPressed: () async {
+                      final userProvider = Provider.of<UserProvider>(context, listen: false);
+                      final userId = userProvider.user?.userId ?? '';
 
+                      if (userId.isNotEmpty) {
+                        final attemptModel = CreateDeckAttemptModel(
+                          deckName: deckName,
+                          attemptMode: 'tutormode',
+                          user: userId,
+                        );
+                        print(userId);
+                        final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+                        await deckAttemptProvider.createDeckAttempt(attemptModel);
+
+                        if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
+                          final attemptId = deckAttemptProvider.attemptId;
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TutorMode(
+                                attemptId: attemptId,
+                                deckName: deckName,
+                              ),
+                            ),
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Error'),
+                                content: Text(deckAttemptProvider.responseMessage ?? 'Unknown error occurred'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      }
                     },
-                    child: Text(
-                      'Start Test',
-                      style: PreMedTextTheme().heading2.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                      ),
-                    ),
-                  )
-
+                  ),
+                  SizedBoxes.verticalMedium,
                 ],
               ),
             if (!mode)
@@ -84,7 +127,9 @@ class ModeDescription extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Image.asset(
-                      height: 45, 'assets/images/QuestionMarkDocument.png'),
+                    height: 45,
+                    'assets/images/QuestionMarkDocument.png',
+                  ),
                   SizedBoxes.verticalTiny,
                   Center(
                     child: Text(
@@ -97,57 +142,71 @@ class ModeDescription extends StatelessWidget {
                   ),
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
-                      descriptionText:
-                      'Paper will be timed according to the original time given for the paper.'),
+                    descriptionText:
+                    'Paper will be timed according to the original time given for the paper.',
+                  ),
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
-                      descriptionText:
-                      'Scored Report will be shown once you press the ‘Finish’ button.'),
+                    descriptionText:
+                    'Scored Report will be shown once you press the ‘Finish’ button.',
+                  ),
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
-                      descriptionText:
-                      "Correct answers and detailed explanations will be shown once you press the ‘Finish’ button."),
+                    descriptionText:
+                    "Correct answers and detailed explanations will be shown once you press the ‘Finish’ button.",
+                  ),
                   SizedBoxes.verticalMedium,
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        backgroundColor: PreMedColorTheme().primaryColorRed),
-                    onPressed: () {
-                      String bundle = UserProvider().getBundle();
-                      print('Bundle Purchased: $bundle');
-                      if (bundle.contains('MDCAT-QBank')) {
+                  CustomButton(
+                    buttonText: 'Start Test',
+                    onPressed: () async {
+                      final userProvider = Provider.of<UserProvider>(context, listen: false);
+                      final userId = userProvider.user?.userId ?? '';
 
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('Premium Feature'),
-                              content: const Text('Your current plan does not have access to this paper. Purchase our MDCAT-QBank Plan to access this feature!'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            );
-                          },
+                      if (userId.isNotEmpty) {
+                        final attemptModel = CreateDeckAttemptModel(
+                          deckName: deckName,
+                          attemptMode: 'testmode',
+                          user: userId,
                         );
+                        print(userId);
+                        final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+                        await deckAttemptProvider.createDeckAttempt(attemptModel);
+
+                        if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
+                          final attemptId = deckAttemptProvider.attemptId;
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TestInterface(
+                                attemptId: attemptId,
+                                deckName: deckName,
+                              ),
+                            ),
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Error'),
+                                content: Text(deckAttemptProvider.responseMessage ?? 'Unknown error occurred'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
                       }
                     },
-                    child: Text(
-                      'Start Test',
-                      style: PreMedTextTheme().heading2.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                      ),
-                    ),
                   ),
-
+                  SizedBoxes.verticalMedium,
                 ],
               ),
           ],
@@ -165,7 +224,7 @@ class DescriptionText extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('\u2022'),
+        const Text('\u2022'),
         SizedBoxes.horizontalTiny,
         Expanded(
           child: Text(

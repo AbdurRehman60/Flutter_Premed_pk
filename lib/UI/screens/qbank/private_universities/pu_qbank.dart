@@ -73,7 +73,7 @@ class _PUQbankHomeState extends State<PUQbankHome> with SingleTickerProviderStat
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'PU QBank',
+                      'Private Universities QBank',
                       style: PreMedTextTheme().heading6.copyWith(
                         color: PreMedColorTheme().black,
                         fontSize: 34,

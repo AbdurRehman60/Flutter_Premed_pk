@@ -28,6 +28,9 @@ import 'package:premedpk_mobile_app/providers/nums_qbank_provider.dart';
 import 'package:premedpk_mobile_app/providers/pu_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/pu_qbank_provider.dart';
 import 'package:premedpk_mobile_app/providers/question_provider.dart';
+import 'package:premedpk_mobile_app/providers/report_question_provider.dart';
+import 'package:premedpk_mobile_app/providers/save_question_provider.dart';
+import 'package:premedpk_mobile_app/providers/update_attempt_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
@@ -92,6 +95,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PUQbankProvider()),
         ChangeNotifierProvider(create: (_) => QuestionProvider()),
         ChangeNotifierProvider(create: (_) => CreateDeckAttemptProvider()),
+        ChangeNotifierProvider(create: (_) => SaveQuestionProvider()),
+        ChangeNotifierProvider(create: (_) => ReportQuestionProvider()),
+        ChangeNotifierProvider(create: (_) => AttemptProvider()),
       ],
       child: MaterialApp(
         routes: {

@@ -1,25 +1,23 @@
 import 'package:html/parser.dart' as htmlparser;
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.dart';
-import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/analytics.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:provider/provider.dart';
-import '../../../providers/question_provider.dart';
-import '../../../providers/save_question_provider.dart';
-import '../../../providers/update_attempt_provider.dart';
-import '../../../providers/user_provider.dart';
+import '../../../../providers/question_provider.dart';
+import '../../../../providers/save_question_provider.dart';
+import '../../../../providers/update_attempt_provider.dart';
+import '../../../../providers/user_provider.dart';
 
-class TestInterface extends StatefulWidget {
-  const TestInterface(
-      {super.key, required this.deckName, required this.attemptId});
+class TutorMode extends StatefulWidget {
+  const TutorMode({super.key, required this.deckName, required this.attemptId});
 
   final String attemptId;
   final String deckName;
 
   @override
-  State<TestInterface> createState() => _TestInterfaceState();
+  State<TutorMode> createState() => _TutorModeState();
 }
 
-class _TestInterfaceState extends State<TestInterface> {
+class _TutorModeState extends State<TutorMode> {
   int currentQuestionIndex = 0;
   int currentPage = 1;
   String? selectedOption;
@@ -72,14 +70,6 @@ class _TestInterfaceState extends State<TestInterface> {
     });
   }
 
-  String _formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final hours = twoDigits(duration.inHours);
-    final minutes = twoDigits(duration.inMinutes.remainder(60));
-    final seconds = twoDigits(duration.inSeconds.remainder(60));
-    return '$hours:$minutes:$seconds';
-  }
-
   String? parse(String toParse) {
     return htmlparser.parse(toParse).body?.text;
   }
@@ -111,7 +101,7 @@ class _TestInterfaceState extends State<TestInterface> {
         isCorrectlyAnswered[currentQuestionIndex] = null;
       }
 
-      print('this is the: $correctAttempts');
+      //print('this is the: $correctAttempts');
 
       final correctOption =
           question.options.singleWhere((option) => option.isCorrect);
@@ -182,11 +172,13 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 
   void selectOption(String optionLetter) {
-    setState(() {
-      selectedOption = optionLetter;
-      optionSelected = true;
-      selectedOptions[currentQuestionIndex] = selectedOption;
-    });
+    if (!optionSelected) {
+      setState(() {
+        selectedOption = optionLetter;
+        optionSelected = true;
+        selectedOptions[currentQuestionIndex] = selectedOption;
+      });
+    }
   }
 
   bool isBase64(String str) {
@@ -202,89 +194,6 @@ class _TestInterfaceState extends State<TestInterface> {
     setState(() {
       showNumberLine = !showNumberLine;
     });
-  }
-
-  void _togglePauseResume() {
-    setState(() {
-      isPaused = !isPaused;
-    });
-  }
-
-  Future<void> _showFinishDialog() async {
-    //final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
-    final attemptProvider =
-        Provider.of<AttemptProvider>(context, listen: false);
-    final unattemptedQuestions = 200 - correctAttempts - incorrectAttempts;
-
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Center(child: Text('Confirm!')),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                if (unattemptedQuestions > 0)
-                  Text(
-                    'You still have $unattemptedQuestions unattempted questions.',
-                    style: const TextStyle(fontSize: 15),
-                    textAlign: TextAlign.justify,
-                  ),
-                const Text(
-                  'Once you select the ‘Finish’ button, you will receive your score report and will be able to review your attempted answers.',
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(fontSize: 15),
-                ),
-                Text(
-                  'Please note that once you press the ‘Finish’ button, you will not be able to attempt this paper in Mock Mode again. However, you can review your answers and explanations at any time later.',
-                  textAlign: TextAlign.justify,
-                  style: PreMedTextTheme()
-                      .body
-                      .copyWith(fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Finish'),
-              onPressed: () {
-                final attempted = correctAttempts + incorrectAttempts;
-                attemptProvider.updateResult(
-                  attemptId: widget.attemptId,
-                  attempted: attempted,
-                  avgTimeTaken: totalTimeTaken / 200,
-                  deckName: widget.deckName,
-                  negativesDueToWrong: 0,
-                  noOfNegativelyMarked: 0,
-                  totalMarks: correctAttempts,
-                  totalQuestions: 200,
-                  totalTimeTaken: totalTimeTaken,
-                );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Analytics(
-                      attemptId: widget.attemptId,
-                      correct: correctAttempts,
-                      incorrect: incorrectAttempts,
-                      skipped: skippedAttempts,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -399,58 +308,6 @@ class _TestInterfaceState extends State<TestInterface> {
                           color: PreMedColorTheme().black,
                         ),
                   ),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                        onPressed: _showFinishDialog,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: PreMedColorTheme().tickcolor,
-                          foregroundColor: Colors.white,
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(
-                              Icons.check_circle_outline,
-                              color: PreMedColorTheme().white,
-                            ),
-                            const SizedBox(width: 8),
-                            const Text("Finish"),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: _togglePauseResume,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          foregroundColor: Colors.white,
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(
-                              isPaused
-                                  ? Icons.play_circle_outline
-                                  : Icons.pause_circle_outline,
-                              color: PreMedColorTheme().white,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(isPaused ? "Resume" : "Pause"),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
                   Row(
                     children: [
                       Consumer<SaveQuestionProvider>(
@@ -569,49 +426,148 @@ class _TestInterfaceState extends State<TestInterface> {
                   ...question.options.map((option) {
                     final parsedOptionText = parse(option.optionText);
                     final isSelected = option.optionLetter == selectedOption;
+                    final isCorrect = option.isCorrect;
                     final borderColor = isSelected
-                        ? Colors.blue
-                        : PreMedColorTheme().neutral400;
+                        ? (isCorrect ? Colors.green : Colors.red)
+                        : (optionSelected && isCorrect
+                            ? Colors.green
+                            : PreMedColorTheme().neutral400);
+                    final color = isSelected
+                        ? (isCorrect ? Colors.greenAccent : PreMedColorTheme().primaryColorRed200)
+                        : (optionSelected && isCorrect
+                            ? Colors.greenAccent
+                            : PreMedColorTheme().white);
+
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: GestureDetector(
                         onTap: () => selectOption(option.optionLetter),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: borderColor),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  '${option.optionLetter}. ',
-                                  style: PreMedTextTheme().body.copyWith(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 15,
-                                      color: PreMedColorTheme().primaryColorRed
-                                      ),
-                                ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: borderColor),
+                                borderRadius: BorderRadius.circular(8),
+                                color: color
                               ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    parsedOptionText ?? '',
-                                    style: PreMedTextTheme().body.copyWith(
-                                          color: PreMedColorTheme().black,
-                                        ),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      '${option.optionLetter}. ',
+                                      style: PreMedTextTheme().body.copyWith(
+                                            fontWeight: FontWeight.w800,
+                                        fontSize: 15,
+                                        color: PreMedColorTheme().primaryColorRed
+                                          ),
+                                    ),
                                   ),
-                                ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            parsedOptionText ?? '',
+                                            style: PreMedTextTheme()
+                                                .body
+                                                .copyWith(
+                                              fontWeight: FontWeight.w400,
+                                                  fontSize: 14,
+                                                  color:
+                                                      PreMedColorTheme().black,
+                                                ),
+                                          ),
+                                          SizedBoxes.verticalTiny,
+                                          if (optionSelected)
+                                            if (optionSelected)
+                                              ExplanationButton(
+                                                isCorrect: isCorrectlyAnswered[currentQuestionIndex],
+                                                explanationText: parse(option.explanationText ??
+                                                        'Refer to the explanation given at the bottom of the screen') ??
+                                                    '',
+                                              ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     );
                   }),
+                  if (optionSelected)
+                    Container(
+                      margin: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(color: PreMedColorTheme().neutral400),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Explanation',
+                            style: PreMedTextTheme().body.copyWith(
+                                fontSize: 16, fontWeight: FontWeight.w600),
+                          ),
+                          SizedBoxes.verticalMedium,
+                          Column(
+                            children: [
+                              Text(
+                                textAlign: TextAlign.justify,
+                                parse(question.explanationText ?? '') ?? '',
+                                style: PreMedTextTheme().body.copyWith(
+                                  color: PreMedColorTheme().black,
+                                ),
+                              ),
+                              // if (question.explanationImage != null &&
+                              //     question.explanationImage!.isNotEmpty)
+                              //   Padding(
+                              //     padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              //     child: isBase64(question.explanationImage!)
+                              //         ? Image.memory(
+                              //       base64Decode(
+                              //         question.explanationImage!.split(',').last,
+                              //       ),
+                              //       fit: BoxFit.contain,
+                              //       width: double.infinity,
+                              //       height: 200,
+                              //     )
+                              //         : Image.network(
+                              //       question.explanationImage!,
+                              //       fit: BoxFit.contain,
+                              //       width: double.infinity,
+                              //       height: 200,
+                              //     ),
+                              //   )
+                              // else
+                              //   const Padding(
+                              //     padding: EdgeInsets.all(8.0),
+                              //     child: Material(
+                              //       elevation: 4,
+                              //       child: Center(
+                              //         child: Padding(
+                              //           padding: EdgeInsets.only(top: 16.0),
+                              //           child: Text('Invalid image format'),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -752,33 +708,6 @@ class _TestInterfaceState extends State<TestInterface> {
                         ),
                       ],
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ValueListenableBuilder<Duration>(
-                          valueListenable: _durationNotifier,
-                          builder: (context, duration, child) {
-                            return Text(
-                              _formatDuration(duration),
-                              style: PreMedTextTheme().body.copyWith(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
-                                    color: PreMedColorTheme().neutral800,
-                                  ),
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          "TIME LEFT",
-                          style: PreMedTextTheme().body.copyWith(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                                color: PreMedColorTheme().neutral400,
-                              ),
-                        ),
-                      ],
-                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 8),
@@ -802,6 +731,92 @@ class _TestInterfaceState extends State<TestInterface> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class ExplanationButton extends StatefulWidget {
+
+  const ExplanationButton({
+    super.key,
+    this.explanationText,
+    required this.isCorrect
+  });
+  final String? explanationText;
+  final bool? isCorrect;
+
+  @override
+  _ExplanationButtonState createState() => _ExplanationButtonState();
+}
+
+class _ExplanationButtonState extends State<ExplanationButton> {
+  bool showExplanation = false;
+
+  @override
+  Widget build(BuildContext context) {
+
+    Color getButtonColor() {
+      if (widget.isCorrect == true) {
+        return Colors.greenAccent;
+      } else if (widget.isCorrect == false) {
+        return PreMedColorTheme().primaryColorRed300;
+      } else {
+        return Colors.white;
+      }
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 155,
+          child: ElevatedButton(
+            onPressed: () {
+              setState(() {
+                showExplanation = !showExplanation;
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: getButtonColor(),
+              foregroundColor: Colors.black,
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Explanation"),
+                const SizedBox(width: 8),
+                Icon(
+                  showExplanation
+                      ? Icons.arrow_drop_up_rounded
+                      : Icons.arrow_drop_down_rounded,
+                  color: PreMedColorTheme().black,
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (showExplanation &&
+            widget.explanationText != null &&
+            widget.explanationText!.isNotEmpty)
+          Container(
+            padding: const EdgeInsets.all(8),
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            decoration: BoxDecoration(
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white
+            ),
+            child: Text(
+              widget.explanationText!,
+              style: PreMedTextTheme().body.copyWith(
+                    color: PreMedColorTheme().black,
+                  ),
+            ),
+          ),
+      ],
     );
   }
 }

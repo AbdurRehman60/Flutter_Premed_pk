@@ -12,15 +12,16 @@ class CreateDeckAttemptProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
 
   String? _responseMessage;
+  String attemptId = '';
   String? get responseMessage => _responseMessage;
 
   Future<void> createDeckAttempt(CreateDeckAttemptModel attemptModel) async {
     try {
       if (attemptModel.user.isEmpty) {
-        throw Exception('User cannot be null or empty');  // Validation
+        throw Exception('User cannot be null or empty');
       }
 
-      print('Creating deck attempt with user: ${attemptModel.user}');  // Debug print
+      print('Creating deck attempt with user: ${attemptModel.user}');
 
       final response = await _client.post(
         Endpoints.DeckAttempt,
@@ -30,6 +31,7 @@ class CreateDeckAttemptProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         print("this is the attempt id made $response");
         _responseMessage = 'Attempt created successfully';
+        attemptId = response.data['attemptId'];
       } else {
         _responseMessage = 'Failed to create attempt: ${response.statusCode}';
       }

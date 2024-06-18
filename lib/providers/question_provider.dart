@@ -24,6 +24,13 @@ class QuestionProvider extends ChangeNotifier {
     notify();
   }
 
+
+
+  void clearQuestions() {
+    _questions = [];
+    notify();
+  }
+
   Future<void> fetchQuestions(String deckName, int page) async {
     try {
       final response = await _client.post(

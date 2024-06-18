@@ -46,6 +46,7 @@ dependencies:
   provider: ^6.0.5
   cookie_jar: ^4.0.8
   dio_cookie_manager: ^3.1.1
+  fl_chart: ^0.68.0
   flutter_cached_pdfview: ^0.4.2
   flutter_html: ^3.0.0-beta.2
   flip_card: ^0.7.0
@@ -162,6 +163,8 @@ flutter:
     - assets/icons/add_circle_outline.png
     - assets/icons/Button.png
     - assets/icons/bin.png
+    - assets/icons/Menu.png
+    - assets/icons/Icon.png
     - assets/icons/
   fonts:
     - family: Inter

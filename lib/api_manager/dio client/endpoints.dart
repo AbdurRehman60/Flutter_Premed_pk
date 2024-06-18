@@ -2,6 +2,7 @@
 
 class Endpoints {
   Endpoints._();
+
   //Ports
   static const String serverPort = "4002";
 
@@ -19,6 +20,7 @@ class Endpoints {
 
   // connectTimeout
   static const Duration connectionTimeout = Duration(milliseconds: 15000);
+
   //auth endpoints
   static const String login = '/login';
   static const String logout = '/logout';
@@ -32,9 +34,11 @@ class Endpoints {
   //onboarding endpoints
   static const String OptionalOnboarding = '/api/auth/optional-onboarding';
   static const String RequiredOnboarding = '/api/auth/required-onboarding';
+
   //notes endpoints
   static const String Guides = '/api/notes/allguides';
   static const String RevisionNotes = '/api/notes/all';
+
   //expertsolution endpoints
   static const String DoubtUpload = '/DoubtUpload';
   static const String UserSolved = '/GetDoubtsByUser';
@@ -45,6 +49,7 @@ class Endpoints {
   static const String UserSubmitted = '/UserSubmitted';
 
   static const String GetFlashcards = '/api/flashcard/GetFlashcards';
+
   //bundles endpoints
   static const String GetBundles = '/api/bundle/';
   static const String PurchaseBundles = '/api/purchase/Bundle';
@@ -66,7 +71,8 @@ class Endpoints {
 
   //mdcat nums and pu mocks endpoints
   static const String Deckspoints = '/api/get-category-decks/MDCAT Mocks';
-  static const String Privuni = '/api/get-category-decks/Private Universities Mocks';
+  static const String Privuni =
+      '/api/get-category-decks/Private Universities Mocks';
   static const String Nums = '/api/get-category-decks/NUMS Mocks';
 
   //QbankPoints
@@ -102,9 +108,19 @@ class Endpoints {
   static const String PRVUQbank =
       '/api/get-category-decks/Private Universities QBank';
 
-  //for test interface (1/2/3 and so on)
+  //for test interface (1/2/3 sets and so on)
   static String questions(int page) => '/api/decks/getlatestdeckquestion/$page';
 
   //create deck attempt
-static const String DeckAttempt ='/api/attempts/create-deck-attempt';
+  static const String DeckAttempt = '/api/attempts/create-deck-attempt';
+
+//update attempt
+  static String updateAttempt(String attemptId) =>
+      '/api/attempts/update-attempt/$attemptId';
+
+  //update result
+  static String updateResult(String attemptId) =>
+      '/api/attempts/update-result/$attemptId';
+
+  static String getAttemptInfo(String attemptId)=>'/api/attempts/get-attempt-info/$attemptId';
 }

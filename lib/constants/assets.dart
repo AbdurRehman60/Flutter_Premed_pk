@@ -61,6 +61,13 @@ class PremedAssets {
   static String Shop = 'assets/icons/shop.svg';
   static String Settings = 'assets/icons/settings.svg';
   static String MDCATQbankLogo = 'assets/icons/mdcatqbank.png';
+  static String MENU = 'assets/icons/Menu.png';
+  static String Flask = 'assets/icons/Icon.png';
+  static String PieChart = 'assets/icons/highlighticon1.png';
+  static String Timer = 'assets/icons/highlighticon2.png';
+  static String Graph = 'assets/icons/highlighticon3.png';
+
+
 }
 
 

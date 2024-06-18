@@ -6,6 +6,7 @@ class QuestionModel {
     required this.options,
     required this.published,
     required this.explanationText,
+    required this.explanationImage,
     required this.tags,
     required this.timedTestMinutes,
   }) {
@@ -38,6 +39,7 @@ class QuestionModel {
     return QuestionModel(
       questionId: jsonResponse['_id'],
       questionText: jsonResponse['QuestionText'],
+      explanationImage: jsonResponse['ExplanationImage'],
       explanationText: jsonResponse['ExplanationText'],
       questionImage: jsonResponse['QuestionImage'],
       options: options,
@@ -50,6 +52,7 @@ class QuestionModel {
   final String questionText;
   final String? questionImage;
   final String? explanationText;
+  final String? explanationImage;
   final List<Option> options;
   final bool published;
   final List<Tag> tags;
@@ -63,6 +66,7 @@ class QuestionModel {
       'questionId': questionId,
       'questionText': questionText,
       'questionImage': questionImage,
+      'explanationImage':explanationImage,
       'explanationText': explanationText,
       'options': options.map((option) => option.toJson()).toList(),
       'published': published,
@@ -94,6 +98,7 @@ class Option {
   final bool isCorrect;
   final String? explanationText;
   final String id;
+
 
   Map<String, dynamic> toJson() {
     return {
