@@ -101,6 +101,7 @@ class QbankHome extends StatelessWidget {
               },
               child: Material(
                 elevation: 4,
+                borderRadius: BorderRadius.circular(15),
                 child: Container(
                   decoration: BoxDecoration(
                     boxShadow: [
