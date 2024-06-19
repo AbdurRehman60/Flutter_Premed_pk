@@ -229,7 +229,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             Row(
                               children: [
                                 MaterialCard(
-                                  width: 200,
+                                  width: 216,
                                   height: 153,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -237,13 +237,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                       Stack(children: [
                                         SizedBox(
                                           height: 60,
-                                          width: 210,
+                                          width: 240,
                                           child: SvgPicture.asset(
                                               'assets/images/infocell.svg'),
                                         ),
                                         Positioned(
                                           bottom: 0,
-                                          left: 51,
+                                          left: 63,
                                           child: Text(
                                             '${((userStatModel.totalQuestionCorrect / userStatModel.totalQuestionAttempted) * 100).toStringAsFixed(2)}%',
                                             style: GoogleFonts.rubik(
@@ -278,7 +278,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  width: 25,
+                                  width: 10,
                                 ),
                                 MaterialCard(
                                   height: 150,
