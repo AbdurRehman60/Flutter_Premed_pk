@@ -165,6 +165,7 @@ flutter:
     - assets/icons/bin.png
     - assets/icons/Menu.png
     - assets/icons/Icon.png
+    - assets/icons/Grad.png
     - assets/icons/
   fonts:
     - family: Inter

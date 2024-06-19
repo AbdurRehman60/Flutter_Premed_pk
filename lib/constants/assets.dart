@@ -66,6 +66,7 @@ class PremedAssets {
   static String PieChart = 'assets/icons/highlighticon1.png';
   static String Timer = 'assets/icons/highlighticon2.png';
   static String Graph = 'assets/icons/highlighticon3.png';
+  static String Grad = 'assets/icons/Grad.png';
 
 
 }

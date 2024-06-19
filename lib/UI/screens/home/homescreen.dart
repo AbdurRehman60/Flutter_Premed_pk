@@ -1,6 +1,7 @@
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notes_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/home/widgets/notifications_icon.dart';
+import 'package:premedpk_mobile_app/UI/screens/home/widgets/qbank_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/provincialguides/provincial_guides.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/nums/mocks_or_bank.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_mock_or_bank_screen.dart';
@@ -49,118 +50,25 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBoxes.verticalLarge,
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.12,
-                      width: MediaQuery.of(context).size.width * 1,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const PUmockorBankStats(),
-                                  ),
-                                );
-                              },
-                              child: Material(
-                                elevation: 4,
-                                borderRadius: BorderRadius.circular(15),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Colors.transparent,
-                                  ),
-                                  margin: const EdgeInsets.all(5.0),
-                                  child: Center(
-                                    child: Image.asset(PremedAssets.PU),
-                                  ),
-                                ),
+                    Material(
+                      elevation: 3,
+                      borderRadius: BorderRadius.circular(15),
+                      child: NotesTile(
+                        heading: "The Question Bank",
+                        description:
+                        "Attempt over 50,000 Questions on our website to prepare for the MDCAT, AKU and NUMS exam. This feature will be launched on the app very soon.",
+                        icon: PremedAssets.QuestionBank,
+                        bgColor: PreMedColorTheme().white,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                              builder: (context) => const QbankHome(),
                               ),
-                            ),
-                          ),
-                          SizedBoxes.horizontal24Px,
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                    const NumsorBankStats(),
-                                  ),
-                                );
-                              },
-                              child: Material(
-                                elevation: 4,
-                                borderRadius: BorderRadius.circular(15),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Colors.transparent,
-                                  ),
-                                  margin: const EdgeInsets.all(5.0),
-                                  child: Center(
-                                    child: Image.asset(PremedAssets.NUMS),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBoxes.horizontal24Px,
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                    const MDcatMockorBankStats(),
-                                  ),
-                                );
-                              },
-                              child: Material(
-                                elevation: 4,
-                                borderRadius: BorderRadius.circular(15),
-                                child: Container(
-                                  width: 101,
-                                  height: 105,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Colors.transparent,
-                                  ),
-                                  margin: const EdgeInsets.all(5.0),
-                                  child: Center(
-                                    child: Image.asset(PremedAssets.MDCAT),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                          );
+                        },
                       ),
                     ),
-                    // Material(
-                    //   elevation: 3,
-                    //   borderRadius: BorderRadius.circular(15),
-                    //   child: NotesTile(
-                    //     heading: "The Question Bank",
-                    //     description:
-                    //     "Attempt over 50,000 Questions on our website to prepare for the MDCAT, AKU and NUMS exam. This feature will be launched on the app very soon.",
-                    //     icon: PremedAssets.QuestionBank,
-                    //     bgColor: PreMedColorTheme().white,
-                    //     onTap: () {
-                    //       Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //           builder: (context) => const MDcatMockorBankStats(),
-                    //           ),
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
                     SizedBoxes.verticalMedium,
                     Material(
                       elevation: 3,
