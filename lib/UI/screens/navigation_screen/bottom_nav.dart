@@ -3,18 +3,18 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 class PremedBottomNav extends StatelessWidget {
   const PremedBottomNav(
       {super.key,
-        required this.currentIndex,
-        required this.onTapHome,
-        required this.onTapMarketplace,
-        required this.onTapQbank,
-        required this.onTapExpertSolution,
-        required this.onTapProfile});
+      required this.currentIndex,
+      required this.onTapHome,
+      required this.onTapMarketplace,
+      required this.onTapQbank,
+      required this.ontapVault,
+      required this.onTapProfile});
 
   final int currentIndex;
   final VoidCallback onTapHome;
   final VoidCallback onTapMarketplace;
   final VoidCallback onTapQbank;
-  final VoidCallback onTapExpertSolution;
+  final VoidCallback ontapVault;
   final VoidCallback onTapProfile;
 
   @override
@@ -38,30 +38,38 @@ class PremedBottomNav extends StatelessWidget {
         children: [
           _BottomNavBarItem(
             icon: 'assets/images/Dashboard.png',
+            width: 24,
+            height: 24,
             isSelected: 0 == currentIndex,
             label: 'Dashboard',
             onTap: onTapHome,
           ),
-          // _BottomNavBarItem(
-          //   icon: 'assets/images/Question Bank.png',
-          //   isSelected: 1 == currentIndex,
-          //   label: 'Qbank',
-          //   onTap: onTapQbank,
-          // ),
+          _BottomNavBarItem(
+            icon: 'assets/images/Question Bank.png',
+            width: 24,
+            height: 24,
+            isSelected: 1 == currentIndex,
+            label: 'Qbank',
+            onTap: onTapQbank,
+          ),
           _MainBottomNavBarItem(
-            icon: 'assets/images/Expert Solutions.png',
+            icon: 'assets/images/Vault.png',
             isSelected: 2 == currentIndex,
-            label: 'Expert Solutions',
-            onTap: onTapExpertSolution,
+            label: 'The Resource Vault',
+            onTap: ontapVault,
           ),
           _BottomNavBarItem(
             icon: 'assets/images/Shop.png',
+            width: 24,
+            height: 24,
             isSelected: 3 == currentIndex,
             label: 'Shop',
             onTap: onTapMarketplace,
           ),
           _BottomNavBarItem(
             icon: 'assets/images/Settings.png',
+            width: 24,
+            height: 24,
             isSelected: 4 == currentIndex,
             label: 'Settings',
             onTap: onTapProfile,
@@ -78,12 +86,16 @@ class _BottomNavBarItem extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
     required this.label,
+    required this.width,
+    required this.height,
   });
 
   final bool isSelected;
   final VoidCallback onTap;
   final String label;
   final String icon;
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +109,8 @@ class _BottomNavBarItem extends StatelessWidget {
             children: [
               Image.asset(
                 icon,
-                width: 24,
-                height: 24,
+                width: width,
+                height: height,
                 color: isSelected
                     ? PreMedColorTheme().primaryColorRed
                     : PreMedColorTheme().neutral300,
@@ -142,8 +154,8 @@ class _MainBottomNavBarItem extends StatelessWidget {
             children: [
               Image.asset(
                 icon,
-                width: 28,
-                height: 28,
+                width: 93,
+                height: 40,
                 color: isSelected
                     ? PreMedColorTheme().primaryColorRed
                     : PreMedColorTheme().neutral300,

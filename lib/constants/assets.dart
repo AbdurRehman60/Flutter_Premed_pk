@@ -28,6 +28,7 @@ class PremedAssets {
   static String QuestionBank = 'assets/images/Question Bank.png';
   static String Flashcards = 'assets/images/Flashcards.png';
   static String Youtube = 'assets/images/youtube.png';
+  static String graph = 'assets/images/Chart.jpg';
 
   //icons
 
@@ -60,4 +61,10 @@ class PremedAssets {
   static String MDCATQbankLogo = 'assets/icons/mdcatqbank.png';
   static String priQbankLogo = 'assets/icons/priuniqbank.png';
   static String numsQbankLogo = 'assets/icons/numsqbank.png';
+  static String notesstudy = 'assets/images/studynotes.png';
+  static String seriesstudy = 'assets/icons/The 11th Hour Prep Series™️.svg';
+  static String qbankicon = 'assets/icons/Question Bank.svg';
+  static String falshcard = 'assets/icons/Flashcards copy.svg';
+  static String graphicion = 'assets/icons/Chart.svg';
+  static String arrow = 'assets/icons/Chevron Right.svg';
 }

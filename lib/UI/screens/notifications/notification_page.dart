@@ -14,6 +14,7 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFFBF0F3),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: IconButton(

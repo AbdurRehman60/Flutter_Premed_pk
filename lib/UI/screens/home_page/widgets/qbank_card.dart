@@ -3,19 +3,13 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 class Qbank extends StatelessWidget {
   const Qbank({
     super.key,
-    // required this.heading,
-    // required this.description,
     required this.icon,
-    // required this.route,
     this.bgColor = Colors.black12,
     required this.onTap,
   });
-  // final String heading;
-  // final String description;
+
   final String icon;
-  // final Route route;
   final Color bgColor;
-  // final Color btnColor;
   final VoidCallback onTap;
 
   @override
@@ -23,8 +17,9 @@ class Qbank extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 110,
-        height: 120,
+        width: MediaQuery.of(context).size.width * 0.26, // 25% of screen width
+        height:
+            MediaQuery.of(context).size.height * 0.13, // 20% of screen height
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(20),
@@ -36,8 +31,10 @@ class Qbank extends StatelessWidget {
               Image.asset(
                 icon,
                 fit: BoxFit.contain,
-                width: 110,
-                height: 120,
+                width: MediaQuery.of(context).size.width *
+                    0.25, // 25% of screen width
+                height: MediaQuery.of(context).size.height *
+                    0.13, // 20% of screen height
               )
             ])
           ],

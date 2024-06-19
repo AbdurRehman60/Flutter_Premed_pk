@@ -21,7 +21,7 @@ class PreMedColorTheme {
   Color get primaryColorBlue800 => const Color(0xFF1D2533);
   //checkbox color
   Color customCheckboxColor = const Color(0xFF77D9A5);
-  Color tickcolor= const Color(0xFF076445);
+  Color tickcolor = const Color(0xFF076445);
 
   //normal color list
   Color get white => const Color(0xFFFFFFFF);
@@ -39,7 +39,6 @@ class PreMedColorTheme {
   Color get neutral800 => const Color(0xFF27272A);
   Color get neutral900 => const Color(0xFF17171B);
   Color get green => const Color.fromARGB(1, 43, 177, 64);
-
 
   //Gradient colors
   LinearGradient get primaryGradient => LinearGradient(

@@ -3,13 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class UpdateCard extends StatelessWidget {
-  const UpdateCard({Key? key}) : super(key: key);
+  const UpdateCard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 3,
-      margin: const EdgeInsets.all(16.0),
+      margin: EdgeInsets.all(
+          MediaQuery.of(context).size.width * 0.04), // 4% of screen width
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -18,11 +19,12 @@ class UpdateCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   'UPDATES',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 15.0,
+                    fontSize: MediaQuery.of(context).size.width *
+                        0.035, // 3.5% of screen width
                   ),
                 ),
                 Align(
@@ -34,7 +36,9 @@ class UpdateCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16.0),
+            SizedBox(
+                height: MediaQuery.of(context).size.height *
+                    0.02), // 2% of screen height
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -42,11 +46,15 @@ class UpdateCard extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 12),
                   child: SvgPicture.asset(
                     "assets/icons/Sparkles.svg",
-                    width: 25,
-                    height: 25,
+                    width: MediaQuery.of(context).size.width *
+                        0.05, // 5% of screen width
+                    height: MediaQuery.of(context).size.width *
+                        0.05, // 5% of screen width
                   ),
                 ),
-                const SizedBox(width: 16.0),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width *
+                        0.03), // 3% of screen width
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,21 +62,27 @@ class UpdateCard extends StatelessWidget {
                       Text('New Course Added to Catalogue',
                           style: GoogleFonts.rubik(
                             fontWeight: FontWeight.w700,
-                            fontSize: 14,
+                            fontSize: MediaQuery.of(context).size.width *
+                                0.028, // 2.8% of screen width
                           )),
-                      const SizedBox(height: 5.0),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height *
+                              0.01), // 1% of screen height
                       Text(
                           'We have added a new course to our catalogue: "AKU Entry Test \'24 Course"',
                           style: GoogleFonts.rubik(
                             fontWeight: FontWeight.w400,
-                            fontSize: 12,
+                            fontSize: MediaQuery.of(context).size.width *
+                                0.024, // 2.4% of screen width
                           )),
                     ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16.0),
+            SizedBox(
+                height: MediaQuery.of(context).size.height *
+                    0.02), // 2% of screen height
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -76,11 +90,15 @@ class UpdateCard extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 25),
                   child: SvgPicture.asset(
                     "assets/icons/Video.svg",
-                    width: 25,
-                    height: 25,
+                    width: MediaQuery.of(context).size.width *
+                        0.05, // 5% of screen width
+                    height: MediaQuery.of(context).size.width *
+                        0.05, // 5% of screen width
                   ),
                 ),
-                SizedBox(width: 16.0),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width *
+                        0.03), // 3% of screen width
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,21 +107,27 @@ class UpdateCard extends StatelessWidget {
                           'Webinar: "AKU Stage-III: Acceptance" by Hasnain Mankani',
                           style: GoogleFonts.rubik(
                             fontWeight: FontWeight.w700,
-                            fontSize: 13,
+                            fontSize: MediaQuery.of(context).size.width *
+                                0.026, // 2.6% of screen width
                           )),
-                      SizedBox(height: 5.0),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height *
+                              0.01), // 1% of screen height
                       Text(
                           'Join us on 20th January for a Webinar related to the Stage-III of AKU Admission Process.',
                           style: GoogleFonts.rubik(
                             fontWeight: FontWeight.w400,
-                            fontSize: 12,
+                            fontSize: MediaQuery.of(context).size.width *
+                                0.024, // 2.4% of screen width
                           )),
                     ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16.0),
+            SizedBox(
+                height: MediaQuery.of(context).size.height *
+                    0.02), // 2% of screen height
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -111,11 +135,15 @@ class UpdateCard extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 25),
                   child: SvgPicture.asset(
                     "assets/icons/Video.svg",
-                    width: 25,
-                    height: 25,
+                    width: MediaQuery.of(context).size.width *
+                        0.05, // 5% of screen width
+                    height: MediaQuery.of(context).size.width *
+                        0.05, // 5% of screen width
                   ),
                 ),
-                SizedBox(width: 16.0),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width *
+                        0.03), // 3%of screen width
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,14 +152,18 @@ class UpdateCard extends StatelessWidget {
                           'Webinar: "KEMU: All You Need To Know" by Fateh Alam',
                           style: GoogleFonts.rubik(
                             fontWeight: FontWeight.w700,
-                            fontSize: 13,
+                            fontSize: MediaQuery.of(context).size.width *
+                                0.026, // 2.6% of screen width
                           )),
-                      SizedBox(height: 5.0),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height *
+                              0.01), // 1% of screen height
                       Text(
                           'Join us on 31st January for a Webinar related to the system and life at KEMU.',
                           style: GoogleFonts.rubik(
                             fontWeight: FontWeight.w400,
-                            fontSize: 12,
+                            fontSize: MediaQuery.of(context).size.width *
+                                0.024, // 2.4% of screen width
                           )),
                     ],
                   ),
