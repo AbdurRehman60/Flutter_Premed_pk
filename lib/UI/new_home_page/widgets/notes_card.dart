@@ -4,14 +4,14 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class NotesCard extends StatelessWidget {
   const NotesCard({
-    super.key,
+    Key? key,
     required this.icon,
     required this.text,
     required this.text1,
-    this.bgColor = Colors.blue, // default background color
     required this.onTap,
     required this.text2,
-  });
+    this.bgColor = Colors.blue, // default background color
+  }) : super(key: key);
 
   final String icon;
   final String text;
@@ -27,8 +27,10 @@ class NotesCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          width: 186,
-          height: 96,
+          width:
+              MediaQuery.of(context).size.width * 0.45, // 45% of screen width
+          height:
+              MediaQuery.of(context).size.height * 0.10, // 12% of screen height
           decoration: BoxDecoration(
             color: bgColor, // use the provided background color
             borderRadius: BorderRadius.circular(12),
@@ -36,7 +38,7 @@ class NotesCard extends StatelessWidget {
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),
                 spreadRadius: 2,
-                blurRadius: 5,
+                blurRadius: 2,
                 offset: const Offset(0, 3),
               ),
             ],
@@ -44,38 +46,52 @@ class NotesCard extends StatelessWidget {
           child: Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 12),
                 child: Image.asset(
                   icon,
-                  width: 70,
-                  height: 95,
+                  width: MediaQuery.of(context).size.width *
+                      0.15, // 20% of screen width
+                  height: MediaQuery.of(context).size.height *
+                      0.1, // 10% of screen height
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(text,
-                        style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 9,
-                            color: const Color.fromARGB(255, 74, 74, 74))),
-                    Text(text1,
-                        style: GoogleFonts.rubik(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 14,
-                        )),
-                    Text(text2,
-                        style: GoogleFonts.rubik(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                        ))
-                  ],
-                ),
-              )
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    text,
+                    style: GoogleFonts.rubik(
+                      fontWeight: FontWeight.w800,
+                      fontSize: MediaQuery.of(context).size.width *
+                          0.02, // Responsive font size
+                      color: const Color.fromARGB(255, 74, 74, 74),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    text1,
+                    style: GoogleFonts.rubik(
+                      fontWeight: FontWeight.w900,
+                      fontSize: MediaQuery.of(context).size.width *
+                          0.035, // Responsive font size
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    text2,
+                    style: GoogleFonts.rubik(
+                      fontWeight: FontWeight.w400,
+                      fontSize: MediaQuery.of(context).size.width *
+                          0.030, // Responsive font size
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ],
           ),
         ),

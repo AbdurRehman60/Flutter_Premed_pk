@@ -4,14 +4,14 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class QbankCard extends StatelessWidget {
   const QbankCard({
-    super.key,
+    Key? key,
     required this.icon,
     required this.text,
     required this.text1,
-    this.bgColor = Colors.blue, // default background color
     required this.onTap,
     required this.text2,
-  });
+    this.bgColor = Colors.blue, // default background color
+  }) : super(key: key);
 
   final String icon;
   final String text;
@@ -27,8 +27,10 @@ class QbankCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          width: 186,
-          height: 76,
+          width:
+              MediaQuery.of(context).size.width * 0.45, // 45% of screen width
+          height:
+              MediaQuery.of(context).size.height * 0.09, // 10% of screen height
           decoration: BoxDecoration(
             color: bgColor, // use the provided background color
             borderRadius: BorderRadius.circular(12),
@@ -44,36 +46,67 @@ class QbankCard extends StatelessWidget {
           child: Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 5, left: 10, bottom: 10),
+                padding: EdgeInsets.symmetric(
+                  vertical: MediaQuery.of(context).size.height *
+                      0.015, // Responsive vertical padding
+                  horizontal: MediaQuery.of(context).size.width *
+                      0.04, // Responsive horizontal padding
+                ),
                 child: Image.asset(
                   icon,
-                  width: 50,
-                  height: 50,
+                  width: MediaQuery.of(context).size.width *
+                      0.10, // 15% of screen width
+                  height: MediaQuery.of(context).size.height *
+                      0.06, // 8% of screen height
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, left: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(text,
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.height *
+                        0.010, // Responsive vertical padding
+                    horizontal: MediaQuery.of(context).size.width *
+                        0.00, // Responsive horizontal padding
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        text,
                         style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 9,
-                            color: const Color.fromARGB(255, 74, 74, 74))),
-                    Text(text1,
+                          fontWeight: FontWeight.w800,
+                          fontSize: MediaQuery.of(context).size.width *
+                              0.020, // Responsive font size
+                          color: const Color.fromARGB(255, 74, 74, 74),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        text1,
                         style: GoogleFonts.rubik(
                           fontWeight: FontWeight.w900,
-                          fontSize: 14,
-                        )),
-                    Text(text2,
+                          fontSize: MediaQuery.of(context).size.width *
+                              0.04, // Responsive font size
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        text2,
                         style: GoogleFonts.rubik(
                           fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                        ))
-                  ],
+                          fontSize: MediaQuery.of(context).size.width *
+                              0.035, // Responsive font size
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),
