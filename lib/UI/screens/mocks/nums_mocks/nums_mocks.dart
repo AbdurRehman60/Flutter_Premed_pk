@@ -165,7 +165,7 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
                                 icon: Icon(Icons.arrow_forward_ios_rounded,
                                     color: PreMedColorTheme().primaryColorRed),
                                 onPressed: () {
-                                  _openBottomSheet(context, deckGroup);
+                                  _openBottomSheet(context, deckGroup, 'NUMS Mocks');
                                 },
                               ),
                             ),
@@ -187,7 +187,7 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
   }
 }
 
-void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
+void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup, String qbankText) {
   showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
@@ -199,7 +199,7 @@ void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
     backgroundColor: Colors.white,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return CustomBottomSheet(deckGroup: deckGroup, bankOrMock: 'Mocks',qbankGroupName: null,);
+      return CustomBottomSheet(deckGroup: deckGroup, bankOrMock: 'Mocks',category:qbankText,);
     },
   );
 }

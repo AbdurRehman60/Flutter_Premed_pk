@@ -172,7 +172,7 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
                                 icon: Icon(Icons.arrow_forward_ios_rounded,
                                     color: PreMedColorTheme().primaryColorRed),
                                 onPressed: () {
-                                  _openBottomSheet(context, deckGroup);
+                                  _openBottomSheet(context, deckGroup, 'Private Universities Mocks');
                                 },
                               ),
                             ),
@@ -194,7 +194,7 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
   }
 }
 
-void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
+void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup, String qbankText) {
   showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
@@ -209,7 +209,7 @@ void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
       return CustomBottomSheet(
         deckGroup: deckGroup,
         bankOrMock: 'Mocks',
-        qbankGroupName: null,
+        category: qbankText,
       );
     },
   );

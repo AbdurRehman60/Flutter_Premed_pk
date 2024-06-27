@@ -50,7 +50,6 @@ class AuthProvider extends ChangeNotifier {
   String get academyJoined => _academyJoined;
   set academyJoined(String value) {
     _academyJoined = value;
-
     notify();
   }
 
@@ -69,7 +68,7 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-//required on boarding data from here
+  // required on boarding data from here
   String _phoneNumber = '';
   String get phoneNumber => _phoneNumber;
   set phoneNumber(String value) {
@@ -100,7 +99,6 @@ class AuthProvider extends ChangeNotifier {
 
   String _country = '';
   String get country => _country;
-
   set country(String value) {
     _country = value;
   }
@@ -112,7 +110,7 @@ class AuthProvider extends ChangeNotifier {
     notify();
   }
 
-  //GoogleSignin
+  // GoogleSignin
 
   final googleSignIn = GoogleSignIn();
   GoogleSignInAccount? _googleUser;
@@ -153,8 +151,6 @@ class AuthProvider extends ChangeNotifier {
             data: {'fcmToken': fcmToken},
           );
 
-          //TO-DO SAVE USER LOGIN DETAILS (MOBILE DEVICE ETC.)
-
           if (userResponse['status']) {
             _loggedInStatus = Status.LoggedIn;
             notify();
@@ -182,7 +178,6 @@ class AuthProvider extends ChangeNotifier {
         _loggedInStatus = Status.NotLoggedIn;
         notify();
 
-        //returning  results
         result = {
           'status': false,
           'message': json.decode(response.data),
@@ -206,22 +201,23 @@ class AuthProvider extends ChangeNotifier {
     Map<String, Object?> result;
 
     try {
-      final response = await _client.get(
-        Endpoints.getLoggedInUser,
-      );
+      final response = await _client.get(Endpoints.getLoggedInUser);
+      print('Response type: ${response.runtimeType}');
+      print('Response: $response');
 
-      if (response["isloggedin"]) {
-        final User user = User.fromJson(response);
+      final responseData = response is Map<String, dynamic> ? response : response.data;
+
+      if (responseData["isloggedin"] == true) {
+        final User user = User.fromJson(responseData);
         await UserPreferences().saveUser(user);
 
         UserProvider().user = user;
-        if (response["onboarding"]) {
+        if (responseData.containsKey("onboarding") && responseData["onboarding"] == true) {
           result = {
             'status': true,
             'message': "home",
           };
         } else {
-          // await UserPreferences().saveNewUser(response["onboarding"]);
           result = {
             'status': true,
             'message': "onboarding",
@@ -305,7 +301,7 @@ class AuthProvider extends ChangeNotifier {
     } on DioException catch (e) {
       _loggedInStatus = Status.NotLoggedIn;
       notify();
-      // print('error + $e.message');
+
       result = {
         'status': false,
         'message': e.message,

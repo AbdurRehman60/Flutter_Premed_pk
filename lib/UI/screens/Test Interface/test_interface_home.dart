@@ -10,10 +10,11 @@ import '../../../providers/user_provider.dart';
 
 class TestInterface extends StatefulWidget {
   const TestInterface(
-      {super.key, required this.deckName, required this.attemptId});
+      {super.key, required this.deckName, required this.attemptId, this.startFromQuestion = 0,});
 
   final String attemptId;
   final String deckName;
+  final int startFromQuestion;
 
   @override
   State<TestInterface> createState() => _TestInterfaceState();
@@ -44,6 +45,7 @@ class _TestInterfaceState extends State<TestInterface> {
   @override
   void initState() {
     super.initState();
+    currentQuestionIndex = widget.startFromQuestion;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final questionProvider =
           Provider.of<QuestionProvider>(context, listen: false);

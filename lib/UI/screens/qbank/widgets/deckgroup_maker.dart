@@ -4,10 +4,10 @@ import '../../mocks/widgets/bottom_sheet.dart';
 import 'logo_avatar.dart';
 
 class DeckGroupList extends StatelessWidget {
+
+  const DeckGroupList({super.key, required this.deckGroups, required this.qbankGroupname});
   final List<DeckGroupModel> deckGroups;
   final String qbankGroupname;
-
-  const DeckGroupList({required this.deckGroups, required this.qbankGroupname});
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +89,7 @@ void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup, qbankgroup
     backgroundColor: Colors.white,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return CustomBottomSheet(deckGroup: deckGroup,bankOrMock: 'Bank', qbankGroupName: qbankgroupName,);
+      return CustomBottomSheet(deckGroup: deckGroup,bankOrMock: 'Bank', category: qbankgroupName,);
     },
   );
 }

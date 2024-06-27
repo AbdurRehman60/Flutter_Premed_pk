@@ -14,61 +14,20 @@ class UserPreferences {
     prefs.setString('phoneNumber', user.phoneNumber);
     prefs.setString('city', user.city);
     prefs.setString('school', user.school);
-    prefs.setString('academyJoined', user.academyJoined);
-    prefs.setBool('onBoarding', user.onBoarding);
-    prefs.setBool('optionalOnboarding', user.optionalOnboarding);
-    prefs.setString('accountType', user.accountType);
-    prefs.setStringList('intendFor', List<String>.from(user.intendFor));
-    prefs.setString('whichYear', user.whichYear);
+    //prefs.setString('accountType', user.accountType);
     prefs.setString('country', user.country);
     prefs.setBool('availableOnWhatsapp', user.availableOnWhatsapp);
-    prefs.setString('parentFullname', user.parentFullname);
+    prefs.setString('parentFullname', user.parentFullName);
     prefs.setString('parentContactNumber', user.parentContactNumber);
     prefs.setString('whatsappNumber', user.whatsappNumber);
     prefs.setString('accountCreateDate', user.accountCreateDate);
-    prefs.setString('accountStatus', user.accountStatus ?? "");
-    prefs.setString('subscriptionStatus', user.subscriptionStatus);
-    prefs.setString('subscriptionStartDate', user.subscriptionStartDate);
-    prefs.setString('subscriptionEndDate', user.subscriptionEndDate);
-    prefs.setBool('freeUser', user.freeUser ?? false);
-    prefs.setBool('purchaseMocks', user.purchaseMocks);
-    prefs.setStringList('addonsPurchased', user.addonsPurchased);
-    prefs.setString('referral', user.referral);
     prefs.setStringList('milestones', List<String>.from(user.milestones));
     prefs.setStringList(
         'notificationsRead', List<String>.from(user.notificationsRead));
 
-    // prefs.setStringList('tags', user.bundlesPurchased.tags);
-
-    // for (int i = 0; i < user.bundlesPurchased.bundleItems.length; i++) {
-    //   BundleItem bundleItem = user.bundlesPurchased.bundleItems[i];
-    //   prefs.setString('$i.bundleId', bundleItem.bundleId);
-    //   prefs.setString('$i.purchaseDate', bundleItem.purchaseDate);
-    //   prefs.setString('$i.expiryDate', bundleItem.expiryDate);
-
-    //   BundleDetails bundleDetails = bundleItem.bundleDetails;
-    //   prefs.setString('$i.bundleDetails.id', bundleDetails.id);
-    //   prefs.setStringList(
-    //       '$i.bundleDetails.bundlePoints', bundleDetails.bundlePoints);
-    //   prefs.setStringList(
-    //       '$i.bundleDetails.includedTags', bundleDetails.includedTags);
-    //   prefs.setBool('$i.bundleDetails.isPublished', bundleDetails.isPublished);
-    //   prefs.setString('$i.bundleDetails.bundleName', bundleDetails.bundleName);
-    //   prefs.setInt('$i.bundleDetails.bundlePrice', bundleDetails.bundlePrice);
-    //   prefs.setDouble('$i.bundleDetails.discountPercentage',
-    //       bundleDetails.discountPercentage);
-    //   prefs.setString('$i.bundleDetails.bundleDescription',
-    //       bundleDetails.bundleDescription);
-    //   prefs.setString('$i.bundleDetails.bundleIcon', bundleDetails.bundleIcon);
-    //   prefs.setInt(
-    //       '$i.bundleDetails.bundleDiscount', bundleDetails.bundleDiscount);
-    //   prefs.setString('$i.bundleDetails.createdAt', bundleDetails.createdAt);
-    //   prefs.setString('$i.bundleDetails.updatedAt', bundleDetails.updatedAt);
-    // }
-
     // Save FreeTrial
-    prefs.setBool('freeTrial.complete', user.freeTrial.complete);
-    prefs.setInt('freeTrial.daysLeft', user.freeTrial.daysLeft);
+    // prefs.setBool('freeTrial.complete', user.freeTrial.complete);
+    // prefs.setInt('freeTrial.daysLeft', user.freeTrial.daysLeft);
 
     return prefs.commit();
   }

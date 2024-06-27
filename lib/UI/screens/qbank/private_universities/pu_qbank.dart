@@ -146,13 +146,13 @@ class _PUQbankHomeState extends State<PUQbankHome> with SingleTickerProviderStat
                           deckGroups: puqbankpro.deckGroups
                               .where(
                                   (deckGroup) => deckGroup.deckType == 'Yearly')
-                              .toList(), qbankGroupname: 'PU QBank',
+                              .toList(), qbankGroupname: 'Private Universities QBank',
                         ),
                         DeckGroupList(
                           deckGroups: puqbankpro.deckGroups
                               .where((deckGroup) =>
                           deckGroup.deckType == 'Topical')
-                              .toList(), qbankGroupname: 'PU QBank',
+                              .toList(), qbankGroupname: 'Private Universities QBank',
                         ),
                       ],
                     );

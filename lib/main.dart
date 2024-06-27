@@ -6,6 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
+import 'package:premedpk_mobile_app/UI/screens/Login/widgets/welcome_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/splash_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_success.dart';
@@ -18,6 +19,7 @@ import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:premedpk_mobile_app/providers/create_deck_attempt_provider.dart';
+import 'package:premedpk_mobile_app/providers/deck_info_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/mcatqbankprovider.dart';
@@ -98,6 +100,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SaveQuestionProvider()),
         ChangeNotifierProvider(create: (_) => ReportQuestionProvider()),
         ChangeNotifierProvider(create: (_) => AttemptProvider()),
+        ChangeNotifierProvider(create: (_) => DeckProvider()),
       ],
       child: MaterialApp(
         routes: {
@@ -110,7 +113,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const SplashScreen(),
+        home: const WelcomeScreen(),
         navigatorKey: navigatorKey,
       ),
     );

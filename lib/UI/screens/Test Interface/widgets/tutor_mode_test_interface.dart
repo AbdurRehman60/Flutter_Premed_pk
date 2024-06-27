@@ -8,10 +8,12 @@ import '../../../../providers/update_attempt_provider.dart';
 import '../../../../providers/user_provider.dart';
 
 class TutorMode extends StatefulWidget {
-  const TutorMode({super.key, required this.deckName, required this.attemptId});
+  const TutorMode({super.key, required this.deckName, required this.attemptId, this.startFromQuestion = 0,});
 
   final String attemptId;
   final String deckName;
+  final int startFromQuestion;
+
 
   @override
   State<TutorMode> createState() => _TutorModeState();
@@ -42,6 +44,8 @@ class _TutorModeState extends State<TutorMode> {
   @override
   void initState() {
     super.initState();
+    currentQuestionIndex = widget.startFromQuestion;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final questionProvider =
           Provider.of<QuestionProvider>(context, listen: false);

@@ -1,4 +1,3 @@
-
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
 import '../../../../models/deck_group_model.dart';
@@ -67,10 +66,10 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
                     child: Text(
                       'MDCAT Mocks',
                       style: PreMedTextTheme().heading6.copyWith(
-                            color: PreMedColorTheme().black,
-                            fontSize: 34,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        color: PreMedColorTheme().black,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -80,10 +79,10 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
                     'Attempt a Full-Length Yearly Paper today and experience the feeling of giving the exam on the actual test day!',
                     textAlign: TextAlign.center,
                     style: PreMedTextTheme().subtext.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: PreMedColorTheme().black,
-                        ),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: PreMedColorTheme().black,
+                    ),
                   ),
                 ],
               ),
@@ -125,7 +124,7 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
                                 backgroundColor: Colors.white,
                                 radius: 30,
                                 backgroundImage: NetworkImage(deckGroup
-                                        .deckGroupImage ??
+                                    .deckGroupImage ??
                                     'https://premedpk-cdn.sgp1.cdn.digitaloceanspaces.com/Logos/logo512.png'),
                               ),
                               title: Column(
@@ -147,8 +146,8 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
                                           style: PreMedTextTheme()
                                               .heading5
                                               .copyWith(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w700),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700),
                                         ),
                                         TextSpan(
                                           text: 'Papers',
@@ -165,7 +164,7 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
                                 icon: Icon(Icons.arrow_forward_ios_rounded,
                                     color: PreMedColorTheme().primaryColorRed),
                                 onPressed: () {
-                                  _openBottomSheet(context, deckGroup);
+                                  _openBottomSheet(context, deckGroup, 'MDCAT Mocks');
                                 },
                               ),
                             ),
@@ -187,7 +186,7 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
   }
 }
 
-void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
+void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup, String qbankText) {
   showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
@@ -199,7 +198,8 @@ void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
     backgroundColor: Colors.white,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return CustomBottomSheet(deckGroup: deckGroup, bankOrMock: 'Mocks', qbankGroupName: null,);
+      return CustomBottomSheet(deckGroup: deckGroup, bankOrMock: 'Mocks', category: qbankText);
     },
   );
 }
+

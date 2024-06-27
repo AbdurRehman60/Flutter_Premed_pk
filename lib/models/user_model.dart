@@ -1,6 +1,31 @@
 import 'dart:convert';
 
 class User {
+  String userId;
+  String status;
+  bool isLoggedin;
+  String userName;
+  String fullName;
+  String phoneNumber;
+  String city;
+  String school;
+  String country;
+  String accountType;
+  bool availableOnWhatsapp;
+  String parentFullName;
+  String parentContactNumber;
+  String whatsappNumber;
+  String accountCreateDate;
+  bool isAdmin;
+  List<dynamic> milestones;
+  List<dynamic> notificationsRead;
+  List<dynamic> subscriptions;
+  Map<String, dynamic> info;
+  List<dynamic> purposeOfUsage;
+  List<dynamic> featuresPurchased;
+  List<dynamic> access;
+  int coins;
+  Map<String, dynamic> otherInfo;
   String bundlesPurchased;
 
   User({
@@ -12,33 +37,24 @@ class User {
     required this.phoneNumber,
     required this.city,
     required this.school,
-    required this.academyJoined,
-    required this.onBoarding,
-    required this.optionalOnboarding,
     required this.accountType,
-    required this.intendFor,
-    required this.whichYear,
     required this.country,
     required this.availableOnWhatsapp,
-    required this.parentFullname,
+    required this.parentFullName,
     required this.parentContactNumber,
     required this.whatsappNumber,
     required this.accountCreateDate,
-    this.accountStatus,
-    required this.subscriptionStatus,
-    required this.subscriptionStartDate,
-    required this.subscriptionEndDate,
-    required this.freeUser,
-    required this.purchaseMocks,
-    required this.addonsPurchased,
-    required this.referral,
+    required this.isAdmin,
     required this.milestones,
     required this.notificationsRead,
+    required this.subscriptions,
+    required this.info,
+    required this.purposeOfUsage,
+    required this.featuresPurchased,
+    required this.access,
+    required this.coins,
     required this.otherInfo,
     required this.bundlesPurchased,
-    required this.coins,
-    required this.freeTrial,
-    required this.feedbackSubmitted,
   });
 
   factory User.fromJson(Map<String, dynamic> responseData) {
@@ -51,165 +67,65 @@ class User {
       phoneNumber: responseData['phonenumber'] ?? "",
       city: responseData['city'] ?? "",
       school: responseData['school'] ?? "",
-      academyJoined: responseData['academyJoined'] ?? "",
-      onBoarding:
-          responseData['onboarding'] == "" ? false : responseData['onboarding'],
-      optionalOnboarding: responseData['optionalOnboarding'] == ""
-          ? false
-          : responseData['optionalOnboarding'],
-      accountType: responseData['accountType'] ?? "",
-      intendFor: List<String>.from(responseData['intendFor'] ?? []),
-      whichYear: responseData['whichYear'] ?? "",
       country: responseData['country'] ?? "",
-      availableOnWhatsapp: responseData['availableOnWhatsapp'] == ""
-          ? false
-          : responseData['availableOnWhatsapp'],
-      parentFullname: responseData['parentFullName'] ?? "",
+      accountType: responseData['accountType'] ?? "",
+      availableOnWhatsapp: responseData['availableOnWhatsapp'] ?? false,
+      parentFullName: responseData['parentFullName'] ?? "",
       parentContactNumber: responseData['parentContactNumber'] ?? "",
       whatsappNumber: responseData['whatsappNumber'] ?? "",
       accountCreateDate: responseData['accountcreateddate'] ?? "",
-      accountStatus: responseData['accountstatus'] ?? "",
-      subscriptionStatus: responseData['subscriptionstatus'] ?? "",
-      subscriptionStartDate: responseData['subscriptionstartdate'] ?? "",
-      subscriptionEndDate: responseData['subscriptionenddate'] ?? "",
-      freeUser:
-          responseData['freeuser'] == "" ? false : responseData['freeuser'],
-      purchaseMocks: responseData['purchasedmocks'] == ""
-          ? false
-          : responseData['purchasedmocks'],
-      addonsPurchased: List<String>.from(responseData['addonspurchased'] ?? []),
-      referral: responseData['referal'] ?? "",
+      isAdmin: responseData['isadmin'] ?? false,
       milestones: List<dynamic>.from(responseData['milestones'] ?? []),
-      notificationsRead:
-          List<dynamic>.from(responseData['notificationsread'] ?? []),
-      otherInfo: responseData['otherinfo'] ?? {},
-      // bundlesPurchased:
-      //     BundlesPurchased.fromJson(responseData['BundlesPurchased'] ?? {}),
+      notificationsRead: List<dynamic>.from(
+          responseData['notificationsread'] ?? []),
+      subscriptions: List<dynamic>.from(responseData['subscriptions'] ?? []),
+      info: responseData['info'] ?? {},
+      purposeOfUsage: List<dynamic>.from(responseData['purposeOfUsage'] ?? []),
+      featuresPurchased: List<dynamic>.from(
+          responseData['featuresPurchased'] ?? []),
+      access: List<dynamic>.from(responseData['access'] ?? []),
       coins: responseData['coins'] ?? 0,
-      freeTrial: responseData['freeTrial'] != null &&
-              responseData['freeTrial'] is Map<String, dynamic>
-          ? FreeTrial.fromJson(responseData['freeTrial'])
-          : FreeTrial(complete: false, daysLeft: 0),
-      feedbackSubmitted: responseData['feedbackSubmitted'] ?? false,
+      otherInfo: responseData['otherinfo'] ?? {},
       bundlesPurchased: responseData['BundlesPurchased'] != null
           ? json.encode(responseData['BundlesPurchased'])
           : "",
     );
   }
 
-  String userId;
-  String status;
-  bool isLoggedin;
-  String userName;
-  String fullName;
-  String phoneNumber;
-  String city;
-  String school;
-  String academyJoined;
-  bool onBoarding;
-  bool optionalOnboarding;
-  String accountType;
-  List<dynamic> intendFor;
-  String whichYear;
-  String country;
-  bool availableOnWhatsapp;
-  String parentFullname;
-  String parentContactNumber;
-  String whatsappNumber;
-  String accountCreateDate;
-  String? accountStatus;
-  String subscriptionStatus;
-  String subscriptionStartDate;
-  String subscriptionEndDate;
-  bool? freeUser;
-  bool purchaseMocks;
-  List<String> addonsPurchased;
-  String referral;
-  List<dynamic> milestones;
-  List<dynamic> notificationsRead;
-  Map<String, dynamic> otherInfo;
-  // BundlesPurchased bundlesPurchased;
-  int coins;
-  FreeTrial freeTrial;
-  bool feedbackSubmitted;
-
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['id'] = userId;
     data['status'] = status;
     data['isloggedin'] = isLoggedin;
-    data['email'] = userName;
+    data['username'] = userName;
     data['fullname'] = fullName;
     data['phonenumber'] = phoneNumber;
     data['city'] = city;
     data['school'] = school;
-    data['academyJoined'] = academyJoined;
-    data['onboarding'] = onBoarding;
-    data['optionalOnboarding'] = optionalOnboarding;
-    data['accountType'] = accountType;
-    data['intendFor'] = intendFor;
-    data['whichYear'] = whichYear;
     data['country'] = country;
+    data['accountType'] = accountType;
     data['availableOnWhatsapp'] = availableOnWhatsapp;
-    data['parentFullname'] = parentFullname;
+    data['parentFullName'] = parentFullName;
     data['parentContactNumber'] = parentContactNumber;
     data['whatsappNumber'] = whatsappNumber;
-    data['accountCreateDate'] = accountCreateDate;
-    data['accountStatus'] = accountStatus;
-    data['subscriptionStatus'] = subscriptionStatus;
-    data['subscriptionStartDate'] = subscriptionStartDate;
-    data['subscriptionEndDate'] = subscriptionEndDate;
-    data['freeUser'] = freeUser;
-    data['purchasedmocks'] = purchaseMocks;
-    data['addonsPurchased'] = addonsPurchased;
-    data['referral'] = referral;
+    data['accountcreateddate'] = accountCreateDate;
+    data['isadmin'] = isAdmin;
     data['milestones'] = milestones;
-    data['notificationsRead'] = notificationsRead;
-    data['otherInfo'] = otherInfo;
-    // _data['bundlesPurchased'] = bundlesPurchased.toJson();
+    data['notificationsread'] = notificationsRead;
+    data['subscriptions'] = subscriptions;
+    data['info'] = info;
+    data['purposeOfUsage'] = purposeOfUsage;
+    data['featuresPurchased'] = featuresPurchased;
+    data['access'] = access;
     data['coins'] = coins;
-    data['freeTrial'] = freeTrial.toJson();
+    data['otherinfo'] = otherInfo;
+    data['BundlesPurchased'] = bundlesPurchased;
 
     return data;
   }
 }
 
-class BundlesPurchased {
-  BundlesPurchased({
-    required this.bundleItems,
-    required this.tags,
-  });
-
-  factory BundlesPurchased.fromJson(Map<String, dynamic> responseData) {
-    final List<BundleItem> bundleItems = List<BundleItem>.from(
-      (responseData['tags'] as List<dynamic>).map(
-        (value) => BundleItem.fromJson(value as Map<String, dynamic>),
-      ),
-    );
-
-    final List<String> tags = List<String>.from(responseData['tags'] ?? []);
-
-    return BundlesPurchased(
-      bundleItems: bundleItems,
-      tags: tags,
-    );
-  }
-  List<BundleItem> bundleItems;
-  List<String> tags;
-
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['tags'] = tags;
-
-    for (int i = 0; i < bundleItems.length; i++) {
-      data[i.toString()] = bundleItems[i].toJson();
-    }
-
-    return data;
-  }
-}
-
-class BundleItem {
+  class BundleItem {
   BundleItem({
     required this.bundleDetails,
     required this.bundleId,

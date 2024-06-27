@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/test_mode_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:provider/provider.dart';
 import '../../../../models/deck_group_model.dart';
+import '../../../../providers/create_deck_attempt_provider.dart';
+import '../../../../providers/deck_info_provider.dart';
+import '../../../../providers/question_provider.dart';
+import '../../../../providers/user_provider.dart';
+import '../../Test Interface/test_interface_home.dart';
+import '../../Test Interface/widgets/tutor_mode_test_interface.dart';
 import '../../qbank/widgets/logo_avatar.dart';
 import 'deck_instructions.dart';
 
 class CustomBottomSheet extends StatefulWidget {
-  const CustomBottomSheet(
-      {super.key, required this.deckGroup, required this.bankOrMock, required this.qbankGroupName});
+  const CustomBottomSheet({
+    super.key,
+    required this.deckGroup,
+    required this.bankOrMock,
+    required this.category,
+  });
   final String bankOrMock;
-
   final DeckGroupModel deckGroup;
-  final String? qbankGroupName;
+  final String? category;
 
   @override
   State<CustomBottomSheet> createState() => _CustomBottomSheetState();
@@ -19,6 +30,21 @@ class CustomBottomSheet extends StatefulWidget {
 
 class _CustomBottomSheetState extends State<CustomBottomSheet> {
   late int selectedDeckItemIndex;
+
+  Future<void> _fetchDeckInfo(int index, BuildContext context) async {
+    final userId = Provider.of<UserProvider>(context, listen: false).user?.userId;
+    final category = widget.category ?? '';
+    final deckGroup = widget.deckGroup.deckGroupName;
+    final deckName = widget.deckGroup.deckItems[index].deckName;
+
+    await Provider.of<DeckProvider>(context, listen: false)
+        .fetchDeckInformation(category, deckGroup, deckName, userId!);
+  }
+
+  Future<void> _fetchQuestions(String deckName, BuildContext context) async {
+    await Provider.of<QuestionProvider>(context, listen: false)
+        .fetchQuestions(deckName, 1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,44 +119,48 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           color: PreMedColorTheme().primaryColorRed,
                           size: 20,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           setState(() {
                             selectedDeckItemIndex = index;
                           });
-                          widget.bankOrMock == 'Bank'
-                              ? Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => TestModeInterface(
+                          await _fetchDeckInfo(index, context);
+                          await _fetchQuestions(widget.deckGroup.deckItems[index].deckName, context);
+
+                          final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+                          print('Updated Deck Info: ${deckInfo?.alreadyAttempted}');
+                          if (deckInfo?.alreadyAttempted == true) {
+                            _showAlreadyAttemptedPopup(context, item);
+                          } else {
+                            if (widget.bankOrMock == 'Bank') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TestModeInterface(
                                     deckDetails: {
-                                      'deckName': widget.deckGroup
-                                          .deckItems[index].deckName,
-                                      'isTutorModeFree': widget
-                                          .deckGroup
-                                          .deckItems[index]
-                                          .isTutorModeFree,
-                                      'deckInstructions': widget
-                                          .deckGroup
-                                          .deckItems[index]
-                                          .deckInstructions,
+                                      'deckName': widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+                                      'isTutorModeFree': widget.deckGroup.deckItems[selectedDeckItemIndex].isTutorModeFree,
+                                      'deckInstructions': widget.deckGroup.deckItems[selectedDeckItemIndex].deckInstructions,
                                       'questions': '2',
-                                      'timedTestMinutes': widget
-                                          .deckGroup
-                                          .deckItems[index]
-                                          .timesTestminutes,
+                                      'timedTestMinutes': widget.deckGroup.deckItems[selectedDeckItemIndex].timesTestminutes,
                                     },
-                                    deckGroupName: widget.qbankGroupName ?? '')),
-                          )
-                              : Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DeckInstructions(
-                                deckInstructions: item.deckInstructions,
-                                deckGroup: widget.deckGroup,
-                                selectedIndex: selectedDeckItemIndex,
-                              ),
-                            ),
-                          );
+                                    deckGroupName: widget.category ?? '',
+                                  ),
+                                ),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DeckInstructions(
+                                    deckInstructions: item.deckInstructions,
+                                    deckGroup: widget.deckGroup,
+                                    selectedIndex: selectedDeckItemIndex,
+                                  ),
+                                ),
+                              );
+                            }
+
+                          }
                         },
                       ),
                       onTap: () {},
@@ -142,6 +172,153 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
           )
         ],
       ),
+    );
+  }
+
+  void _navigateToNextScreen(BuildContext context, DeckItem item, {int? startFromQuestion, String? attemptId}) async {
+    print('Navigating to next screen with startFromQuestion: $startFromQuestion');
+    print('widget.bankOrMock: ${widget.bankOrMock}');
+
+    final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+
+    if (widget.bankOrMock == 'Bank' && attemptId != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TutorMode(
+            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            attemptId: attemptId,
+            startFromQuestion: startFromQuestion ?? 0,
+          ),
+        ),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TestInterface(
+            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            attemptId: attemptId ?? deckAttemptProvider.attemptId,
+            startFromQuestion: startFromQuestion ?? 0,
+          ),
+        ),
+      );
+    }
+  }
+
+  void _showAlreadyAttemptedPopup(BuildContext context, DeckItem item) {
+    final userName = Provider.of<UserProvider>(context, listen: false).getUserName();
+    final lastAttempt = Provider.of<DeckProvider>(context, listen: false).deckInformation?.attempts;
+    final lastAttemptId = Provider.of<DeckProvider>(context, listen: false).deckInformation?.lastAttemptId;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+            child: Text(
+              'Paper already attempted!',
+              style: PreMedTextTheme().body.copyWith(fontWeight: FontWeight.w600, fontSize: 18),
+            ),
+          ),
+          content: Text(
+            'Hey $userName, it looks like you have already attempted this paper. You can choose to review the answers and explanations from your previous attempt or re-attempt the same paper again. However, if you choose to re-attempt this paper, you will lose the scorecard and review session from your previous attempt.',
+          ),
+          actions: [
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      width: 120,
+                      child: CustomButton(
+                        buttonText: 'Re-Attempt',
+                        onPressed: () {
+                          Navigator.pop(context);
+                          if (widget.bankOrMock == 'Bank') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TestModeInterface(
+                                  deckDetails: {
+                                    'deckName': widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+                                    'isTutorModeFree': widget.deckGroup.deckItems[selectedDeckItemIndex].isTutorModeFree,
+                                    'deckInstructions': widget.deckGroup.deckItems[selectedDeckItemIndex].deckInstructions,
+                                    'questions': '2',
+                                    'timedTestMinutes': widget.deckGroup.deckItems[selectedDeckItemIndex].timesTestminutes,
+                                  },
+                                  deckGroupName: widget.category ?? '',
+                                ),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DeckInstructions(
+                                  deckInstructions: item.deckInstructions,
+                                  deckGroup: widget.deckGroup,
+                                  selectedIndex: selectedDeckItemIndex,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        color: Colors.amber[900],
+                        fontSize: 13,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    SizedBoxes.horizontalMicro,
+                    SizedBox(
+                      width: 130,
+                      child: CustomButton(
+                        buttonText: 'Continue Attempt',
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          if (lastAttempt != null && lastAttempt.isNotEmpty) {
+                            final latestAttempt = lastAttempt.last;
+                            final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+                            final startFromQuestion = questionProvider.questions
+                                ?.indexWhere((question) => question.questionId == latestAttempt['questionId']) ?? 0;
+
+                            print('Continue attempt with startFromQuestion: $startFromQuestion');
+                            if (startFromQuestion >= 0) {
+                              _navigateToNextScreen(context, item, startFromQuestion: startFromQuestion, attemptId: lastAttemptId);
+                            } else {
+                              _navigateToNextScreen(context, item, attemptId: lastAttemptId);
+                            }
+                          } else {
+                            _navigateToNextScreen(context, item, attemptId: lastAttemptId);
+                          }
+                        },
+                        color: Colors.blueAccent,
+                        fontSize: 13,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBoxes.verticalMedium,
+                SizedBox(
+                  width: 130,
+                  child: CustomButton(
+                    buttonText: 'Review Answers',
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _navigateToNextScreen(context, item);
+                    },
+                    color: Colors.green,
+                    fontSize: 13,
+                    fontWeight: FontWeight.normal,
+                  ),
+                )
+              ],
+            ),
+          ],
+        );
+      },
     );
   }
 }
