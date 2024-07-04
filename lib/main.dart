@@ -5,7 +5,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:premedpk_mobile_app/UI/new_home_page/new_home_page.dart';
+import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/deshboard_before_onboarding.dart';
+import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/timer_drop_down.dart';
+import 'package:premedpk_mobile_app/UI/screens/new_home_page/new_home_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/recent_activity_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/home_page/home_page.dart';
@@ -39,6 +41,7 @@ import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
+import 'package:premedpk_mobile_app/providers/lastest_attempts_provider.dart';
 import 'package:premedpk_mobile_app/providers/mdcat_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
@@ -112,7 +115,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PUQbankProvider()),
         ChangeNotifierProvider(create: (_) => PUMocksProvider()),
         ChangeNotifierProvider(create: (_) => RecentAttemptsProvider()),
-        ChangeNotifierProvider(create: (_) => UserStatProvider())
+        ChangeNotifierProvider(create: (_) => UserStatProvider()),
+        ChangeNotifierProvider(create: (_) => LatestAttemptProvider())
       ],
       child: MaterialApp(
         routes: {
@@ -125,7 +129,9 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const SplashScreen(),
+        home: const DropDown(
+          timeLeft: 'No time left',
+        ), // Pass the initial time left value
         navigatorKey: navigatorKey,
       ),
     );

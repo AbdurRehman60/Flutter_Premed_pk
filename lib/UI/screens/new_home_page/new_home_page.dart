@@ -404,13 +404,12 @@
 // }
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:premedpk_mobile_app/UI/new_home_page/widgets/Flash_card.dart';
-import 'package:premedpk_mobile_app/UI/new_home_page/widgets/Qbank_card.dart';
-import 'package:premedpk_mobile_app/UI/new_home_page/widgets/notes_card.dart';
-import 'package:premedpk_mobile_app/UI/new_home_page/widgets/series_card.dart';
+import 'package:premedpk_mobile_app/UI/screens/new_home_page/widgets/Flash_card.dart';
+import 'package:premedpk_mobile_app/UI/screens/new_home_page/widgets/Qbank_card.dart';
+import 'package:premedpk_mobile_app/UI/screens/new_home_page/widgets/notes_card.dart';
+import 'package:premedpk_mobile_app/UI/screens/new_home_page/widgets/series_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/home_page/widgets/question_of_day_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/home_page/widgets/recentActivityCard.dart';
