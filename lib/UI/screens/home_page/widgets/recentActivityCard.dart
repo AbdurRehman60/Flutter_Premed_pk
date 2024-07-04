@@ -51,9 +51,9 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                       padding: const EdgeInsets.only(left: 10),
                       child: Text('Recent Activity',
                           style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 13,
-                          )),
+                              fontWeight: FontWeight.w800,
+                              fontSize: 13,
+                              color: const Color.fromARGB(255, 74, 74, 74))),
                     ),
                     TextButton(
                       onPressed: () {
@@ -90,7 +90,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                               fontWeight: FontWeight.w600,
                               fontSize: 12,
                             )),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Padding(
@@ -125,7 +125,6 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 18),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(widget.date,
                                   style: GoogleFonts.rubik(

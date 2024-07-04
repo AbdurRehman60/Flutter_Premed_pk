@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:premedpk_mobile_app/UI/new_home_page/new_home_page.dart';
+import 'package:premedpk_mobile_app/UI/screens/new_home_page/new_home_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/account.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution_home.dart';
 

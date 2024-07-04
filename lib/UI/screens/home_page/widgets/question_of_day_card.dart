@@ -42,7 +42,7 @@ class _QuestionCardState extends State<QuestionCard> {
                   fontWeight: FontWeight.w800,
                   fontSize: MediaQuery.of(context).size.width *
                       0.028, // 2.8% of screen width
-                  color: const Color(0xFF000000)),
+                  color: const Color.fromARGB(255, 74, 74, 74)),
             ),
             SizedBox(
                 height: MediaQuery.of(context).size.height *

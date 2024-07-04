@@ -15,8 +15,16 @@ class MaterialCard extends StatelessWidget {
         height: height,
         width: width,
         padding: const EdgeInsets.symmetric(horizontal: 19, vertical: 25),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: Color(0xA6FFFFFF),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: child,
       ),

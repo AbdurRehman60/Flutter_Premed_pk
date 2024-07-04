@@ -59,15 +59,14 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
-        }
-   }
-
+signingConfigs {
+    release {
+        keyAlias keystoreProperties['key0']
+        keyPassword keystoreProperties['abc.123']
+        storeFile file('/Users/abdurrehman/Desktop/Flutter/premedkeystore.jks')
+        storePassword keystoreProperties['abc.123']
+    }
+}
     buildTypes {
         release {
 
@@ -76,7 +75,7 @@ android {
             proguardFiles getDefaultProguardFile(
                     'proguard-android-optimize.txt'),
                     'proguard-rules.pro'
-            // signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug
         }
     }
 
