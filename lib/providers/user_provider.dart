@@ -14,11 +14,19 @@ class UserProvider extends ChangeNotifier {
   }
 
   User? _user;
+  Info? _info;
   User? get user => _user;
   set user(User? value) {
     _user = value;
+    _info = value?.info;
     notify();
   }
+
+
+  String getlastOnboarding(){
+    return _info?.lastOnboardingPage ??'';
+  }
+
 
   String _phoneNumber = '';
   String get phoneNumber => _phoneNumber;
@@ -33,6 +41,8 @@ class UserProvider extends ChangeNotifier {
     _city = value;
     notify();
   }
+
+
 
   String getUserName() {
     return _user?.fullName ?? '';

@@ -31,6 +31,9 @@ class PremedAssets {
   static String MDCAT ='assets/images/PU.png';
   static String PU ='assets/images/MDCAT QBank 1.png';
   static String NUMS ='assets/images/NUMS.png';
+  static String Doctor ='assets/images/doctor.png';
+  static String Engineer ='assets/images/engineer.png';
+  static String Business ='assets/images/business.png';
 
   //icons
 
@@ -67,6 +70,8 @@ class PremedAssets {
   static String Timer = 'assets/icons/highlighticon2.png';
   static String Graph = 'assets/icons/highlighticon3.png';
   static String Grad = 'assets/icons/Grad.png';
+  static String Books = 'assets/icons/Books.png';
+
 
 
 }

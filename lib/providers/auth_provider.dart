@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names, unnecessary_getters_setters, deprecated_member_use
-
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -8,7 +6,6 @@ import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
-import 'package:premedpk_mobile_app/utils/dialCode_to_country.dart';
 import 'package:premedpk_mobile_app/utils/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,29 +25,41 @@ class AuthProvider extends ChangeNotifier {
   Status _signUpStatus = Status.NotLoggedIn;
 
   Status get loggedInStatus => _loggedInStatus;
-
   set loggedInStatus(Status value) {
     _loggedInStatus = value;
   }
 
   Status get signUpStatus => _signUpStatus;
-
   set signUpStatus(Status value) {
-    _loggedInStatus = value;
+    _signUpStatus = value;
+  }
+  User? _user;
+  Info? _info;
+
+  User? get user => _user;
+  set user(User? value) {
+    _user = value;
+    _info = value?.info;
+    notifyListeners();
+  }
+
+  String get lastOnboardingPage {
+    print("Getting lastOnboardingPage: ${_info?.lastOnboardingPage}");
+    return _info?.lastOnboardingPage ?? '';
   }
 
   String _parentContactNumber = '';
   String get parentContactNumber => _parentContactNumber;
   set parentContactNumber(String value) {
     _parentContactNumber = value;
-    notify();
+    notifyListeners();
   }
 
   String _academyJoined = 'No';
   String get academyJoined => _academyJoined;
   set academyJoined(String value) {
     _academyJoined = value;
-    notify();
+    notifyListeners();
   }
 
   String _parentFullName = '';
@@ -60,41 +69,38 @@ class AuthProvider extends ChangeNotifier {
   }
 
   List<String> _intendFor = [];
-
   List<String> get intendFor => _intendFor;
-
   set intendFor(List<String> value) {
     _intendFor = value;
     notifyListeners();
   }
 
-  // required on boarding data from here
   String _phoneNumber = '';
   String get phoneNumber => _phoneNumber;
   set phoneNumber(String value) {
     _phoneNumber = value;
-    notify();
+    notifyListeners();
   }
 
   String _whatsappNumber = '';
   String get whatsappNumber => _whatsappNumber;
   set whatsappNumber(String value) {
     _whatsappNumber = value;
-    notify();
+    notifyListeners();
   }
 
   String _intendedYear = 'FSc 1st Year/AS Level';
   String get intendedYear => _intendedYear;
   set intendedYear(String value) {
     _intendedYear = value;
-    notify();
+    notifyListeners();
   }
 
   String _city = '';
   String get city => _city;
   void setCity(String value) {
     _city = value;
-    notify();
+    notifyListeners();
   }
 
   String _country = '';
@@ -107,18 +113,54 @@ class AuthProvider extends ChangeNotifier {
   String get school => _school;
   void setSchool(String value) {
     _school = value;
-    notify();
+    notifyListeners();
   }
 
-  // GoogleSignin
+  String _exam = '';
+  String get exam => _exam;
+  set exam(String value) {
+    _exam = value;
+    notifyListeners();
+  }
+
+  List<String> _features = [];
+  List<String> get features => _features;
+  set features(List<String> value) {
+    _features = value;
+    notifyListeners();
+  }
+
+  String _year = '';
+  String get year => _year;
+  set year(String value) {
+    _year = value;
+    notifyListeners();
+  }
+
+  String _approach = '';
+  String get approach => _approach;
+  set approach(String value) {
+    _approach = value;
+    notifyListeners();
+  }
+
+  String _educationSystem = '';
+  String get educationSystem => _educationSystem;
+  set educationSystem(String value) {
+    _educationSystem = value;
+    notifyListeners();
+  }
+
+  String _institution = '';
+  String get institution => _institution;
+  set institution(String value) {
+    _institution = value;
+    notifyListeners();
+  }
 
   final googleSignIn = GoogleSignIn();
   GoogleSignInAccount? _googleUser;
   GoogleSignInAccount get googleUser => _googleUser!;
-
-  void notify() {
-    notifyListeners();
-  }
 
   Future<Map<String, dynamic>> login(String email, String password) async {
     Map<String, Object?> result;
@@ -127,7 +169,7 @@ class AuthProvider extends ChangeNotifier {
       "password": password,
     };
     _loggedInStatus = Status.Authenticating;
-    notify();
+    notifyListeners();
 
     try {
       final Response response = await _client.post(
@@ -141,9 +183,7 @@ class AuthProvider extends ChangeNotifier {
 
         if (responseData["success"]) {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
-
           final SharedPreferences prefs = await SharedPreferences.getInstance();
-
           final String? fcmToken = prefs.getString('fcmToken');
 
           await _client.post(
@@ -153,14 +193,14 @@ class AuthProvider extends ChangeNotifier {
 
           if (userResponse['status']) {
             _loggedInStatus = Status.LoggedIn;
-            notify();
+            notifyListeners();
             result = {
               'status': userResponse["status"],
               'message': userResponse["message"],
             };
           } else {
             _loggedInStatus = Status.NotLoggedIn;
-            notify();
+            notifyListeners();
             result = {
               'status': userResponse["status"],
               'message': userResponse["message"],
@@ -168,7 +208,7 @@ class AuthProvider extends ChangeNotifier {
           }
         } else {
           _loggedInStatus = Status.NotLoggedIn;
-          notify();
+          notifyListeners();
           result = {
             'status': responseData["success"],
             'message': responseData["status"],
@@ -176,8 +216,7 @@ class AuthProvider extends ChangeNotifier {
         }
       } else {
         _loggedInStatus = Status.NotLoggedIn;
-        notify();
-
+        notifyListeners();
         result = {
           'status': false,
           'message': json.decode(response.data),
@@ -185,15 +224,13 @@ class AuthProvider extends ChangeNotifier {
       }
     } on DioException catch (e) {
       _loggedInStatus = Status.NotLoggedIn;
-      notify();
-
+      notifyListeners();
       result = {
         'status': false,
         'message': e.message,
       };
     }
 
-    notify();
     return result;
   }
 
@@ -202,9 +239,6 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       final response = await _client.get(Endpoints.getLoggedInUser);
-      print('Response type: ${response.runtimeType}');
-      print('Response: $response');
-
       final responseData = response is Map<String, dynamic> ? response : response.data;
 
       if (responseData["isloggedin"] == true) {
@@ -231,8 +265,7 @@ class AuthProvider extends ChangeNotifier {
       }
     } on DioException catch (e) {
       _loggedInStatus = Status.NotLoggedIn;
-      notify();
-
+      notifyListeners();
       result = {
         'status': false,
         'message': e.message,
@@ -242,23 +275,15 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> signup(
-      String email,
-      String password,
-      String fullName,
-      String? referralCode,
-      ) async {
+  Future<Map<String, dynamic>> signup(String email, String password, String fullName) async {
     Map<String, Object?> result;
     final Map<String, dynamic> signupData = {
       "fullname": fullName,
       "username": email,
       "password": password,
     };
-    if (referralCode != null && referralCode.isNotEmpty) {
-      signupData["referralCode"] = referralCode;
-    }
     _signUpStatus = Status.Authenticating;
-    notify();
+    notifyListeners();
 
     try {
       final Response response = await _client.post(
@@ -291,7 +316,7 @@ class AuthProvider extends ChangeNotifier {
         }
       } else {
         _signUpStatus = Status.Authenticating;
-        notify();
+        notifyListeners();
 
         result = {
           'status': false,
@@ -300,8 +325,7 @@ class AuthProvider extends ChangeNotifier {
       }
     } on DioException catch (e) {
       _loggedInStatus = Status.NotLoggedIn;
-      notify();
-
+      notifyListeners();
       result = {
         'status': false,
         'message': e.message,
@@ -323,7 +347,7 @@ class AuthProvider extends ChangeNotifier {
     };
 
     _loggedInStatus = Status.Authenticating;
-    notify();
+    notifyListeners();
 
     try {
       final Response response = await _client.post(
@@ -357,16 +381,25 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> requiredOnboarding() async {
+  Future<Map<String, dynamic>> requiredOnboarding({
+    required String username,
+    required String lastOnboardingPage,
+  }) async {
     Map<String, Object?> result;
 
     final Map<String, dynamic> payload = {
-      "phonenumber": phoneNumber,
       "city": city,
-      "school": school,
-      "country": getCountryName(country.replaceFirst('+', '')),
-      "whichYear": intendedYear,
-      "whatsappNumber": whatsappNumber.isNotEmpty ? whatsappNumber : phoneNumber
+      "info": {
+        "lastOnboardingPage": lastOnboardingPage,
+        if (exam.isNotEmpty) "exam": exam,
+        if (features.isNotEmpty) "features": features,
+        if (year.isNotEmpty) "year": year,
+        if (approach.isNotEmpty) "approach": approach,
+        if (educationSystem.isNotEmpty) "educationSystem": educationSystem,
+        if (institution.isNotEmpty) "institution": institution,
+      },
+      "onboarding": true,
+      "optionalOnboarding": false,
     };
 
     _loggedInStatus = Status.Authenticating;
@@ -381,6 +414,11 @@ class AuthProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
         Map<String, dynamic>.from(response.data);
+
+        if (responseData.containsKey('info') && responseData['info'] != null) {
+          _info = Info.fromJson(responseData['info']);
+          notifyListeners();
+        }
 
         await getLoggedInUser();
         _loggedInStatus = Status.LoggedIn;
@@ -415,11 +453,10 @@ class AuthProvider extends ChangeNotifier {
     Map<String, Object?> result;
 
     _loggedInStatus = Status.Authenticating;
-    notify();
+    notifyListeners();
 
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-
       final String? fcmToken = prefs.getString('fcmToken');
       await _client.post(
         Endpoints.DeleteFCMToken,
@@ -452,7 +489,7 @@ class AuthProvider extends ChangeNotifier {
         };
       } else {
         _loggedInStatus = Status.LoggedIn;
-        notify();
+        notifyListeners();
         result = {
           'status': false,
           'message': response.data.toString(),
@@ -460,7 +497,7 @@ class AuthProvider extends ChangeNotifier {
       }
     } on DioError catch (e) {
       _loggedInStatus = Status.LoggedIn;
-      notify();
+      notifyListeners();
       result = {
         'status': false,
         'message': e.message,
@@ -505,10 +542,8 @@ class AuthProvider extends ChangeNotifier {
 
           if (responseData["success"]) {
             final Map<String, dynamic> userResponse = await getLoggedInUser();
-
             final SharedPreferences prefs =
             await SharedPreferences.getInstance();
-
             final String? fcmToken = prefs.getString('fcmToken');
 
             await _client.post(

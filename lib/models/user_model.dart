@@ -1,32 +1,34 @@
 import 'dart:convert';
 
+class Info {
+
+  Info({
+    required this.features,
+    required this.exam,
+    required this.lastOnboardingPage,
+  });
+
+  factory Info.fromJson(Map<String, dynamic> json) {
+    return Info(
+      features: List<dynamic>.from(json['features'] ?? []),
+      exam: List<dynamic>.from(json['exam'] ?? []),
+      lastOnboardingPage: json['lastOnboardingPage'],
+    );
+  }
+  List<dynamic> features;
+  List<dynamic> exam;
+  String lastOnboardingPage;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'features': features,
+      'exam': exam,
+      'lastOnboardingPage': lastOnboardingPage,
+    };
+  }
+}
+
 class User {
-  String userId;
-  String status;
-  bool isLoggedin;
-  String userName;
-  String fullName;
-  String phoneNumber;
-  String city;
-  String school;
-  String country;
-  String accountType;
-  bool availableOnWhatsapp;
-  String parentFullName;
-  String parentContactNumber;
-  String whatsappNumber;
-  String accountCreateDate;
-  bool isAdmin;
-  List<dynamic> milestones;
-  List<dynamic> notificationsRead;
-  List<dynamic> subscriptions;
-  Map<String, dynamic> info;
-  List<dynamic> purposeOfUsage;
-  List<dynamic> featuresPurchased;
-  List<dynamic> access;
-  int coins;
-  Map<String, dynamic> otherInfo;
-  String bundlesPurchased;
 
   User({
     required this.userId,
@@ -76,13 +78,11 @@ class User {
       accountCreateDate: responseData['accountcreateddate'] ?? "",
       isAdmin: responseData['isadmin'] ?? false,
       milestones: List<dynamic>.from(responseData['milestones'] ?? []),
-      notificationsRead: List<dynamic>.from(
-          responseData['notificationsread'] ?? []),
+      notificationsRead: List<dynamic>.from(responseData['notificationsread'] ?? []),
       subscriptions: List<dynamic>.from(responseData['subscriptions'] ?? []),
-      info: responseData['info'] ?? {},
+      info: Info.fromJson(responseData['info'] ?? {}),
       purposeOfUsage: List<dynamic>.from(responseData['purposeOfUsage'] ?? []),
-      featuresPurchased: List<dynamic>.from(
-          responseData['featuresPurchased'] ?? []),
+      featuresPurchased: List<dynamic>.from(responseData['featuresPurchased'] ?? []),
       access: List<dynamic>.from(responseData['access'] ?? []),
       coins: responseData['coins'] ?? 0,
       otherInfo: responseData['otherinfo'] ?? {},
@@ -91,6 +91,32 @@ class User {
           : "",
     );
   }
+  String userId;
+  String status;
+  bool isLoggedin;
+  String userName;
+  String fullName;
+  String phoneNumber;
+  String city;
+  String school;
+  String country;
+  String accountType;
+  bool availableOnWhatsapp;
+  String parentFullName;
+  String parentContactNumber;
+  String whatsappNumber;
+  String accountCreateDate;
+  bool isAdmin;
+  List<dynamic> milestones;
+  List<dynamic> notificationsRead;
+  List<dynamic> subscriptions;
+  Info info;
+  List<dynamic> purposeOfUsage;
+  List<dynamic> featuresPurchased;
+  List<dynamic> access;
+  int coins;
+  Map<String, dynamic> otherInfo;
+  String bundlesPurchased;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -113,7 +139,7 @@ class User {
     data['milestones'] = milestones;
     data['notificationsread'] = notificationsRead;
     data['subscriptions'] = subscriptions;
-    data['info'] = info;
+    data['info'] = info.toJson();
     data['purposeOfUsage'] = purposeOfUsage;
     data['featuresPurchased'] = featuresPurchased;
     data['access'] = access;

@@ -33,6 +33,7 @@ class _RowAnimationState extends State<RowAnimation>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: PreMedColorTheme().neutral60,
       body: Stack(
         children: [
           SizedBox.expand(

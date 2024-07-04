@@ -1,5 +1,5 @@
 import 'package:flutter/gestures.dart';
-import 'package:premedpk_mobile_app/UI/screens/Signup/signup_screen_one.dart';
+import 'package:premedpk_mobile_app/UI/screens/Login/widgets/welcome_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
@@ -186,7 +186,7 @@ class _LoginFormState extends State<LoginForm> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SignUp(),
+                              builder: (context) => const WelcomeScreen(),
                             ),
                           );
                         },

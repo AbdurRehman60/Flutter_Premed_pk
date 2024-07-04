@@ -297,12 +297,12 @@ class Account extends StatelessWidget {
                                   ),
                                 );
                               case 1:
-                                // Navigator.of(context).push(
-                                //   MaterialPageRoute(
-                                //     builder: (context) =>
-                                //         const ChangePassword(),
-                                //   ),
-                                // );
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ChangePassword(),
+                                  ),
+                                );
                               case 2:
                                 Navigator.of(context).push(
                                   MaterialPageRoute(

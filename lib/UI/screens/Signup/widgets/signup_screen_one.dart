@@ -1,24 +1,23 @@
 import 'package:flutter/gestures.dart';
+import 'package:premedpk_mobile_app/UI/Widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/animation.dart';
-import 'package:premedpk_mobile_app/UI/screens/Login/login.dart';
-import 'package:premedpk_mobile_app/UI/screens/Login/widgets/welcome_screen.dart';
-import 'package:premedpk_mobile_app/UI/screens/Signup/widgets/signup_screen_one.dart';
-import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/onboarding_screen_one.dart';
-import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
-import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
+import 'package:premedpk_mobile_app/UI/screens/Login/login_screen_one.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
-import '../account/widgets/privacy_policy.dart';
-import '../account/widgets/terms_conditions.dart';
+import '../../account/widgets/privacy_policy.dart';
+import '../../account/widgets/terms_conditions.dart';
+import '../Signup.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+class SignUp extends StatefulWidget {
+  final String lastOnboardingPage;
+
+  const SignUp({required this.lastOnboardingPage, super.key});
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     final buttonSize = MediaQuery.of(context).size.width * 0.7;
@@ -48,44 +47,64 @@ class _SignInState extends State<SignIn> {
                             children: [
                               SizedBoxes.verticalBig,
                               Text(
-                                'Sign In',
+                                'Sign Up',
                                 textAlign: TextAlign.center,
                                 style: PreMedTextTheme().heading1.copyWith(
+                                    color: PreMedColorTheme().primaryColorRed,
                                     fontWeight: FontWeight.w800,
-                                    fontSize: 34,
-                                    color: PreMedColorTheme().primaryColorRed),
+                                    fontSize: 34),
                               ),
                               SizedBoxes.verticalTiny,
                               RichText(
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
                                   style: PreMedTextTheme().subtext.copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      color: PreMedColorTheme().black),
+                                    color: PreMedColorTheme().black,
+                                    fontSize: 14,
+                                  ),
                                   children: [
-                                    const TextSpan(
-                                      text: 'Welcome back to ',
+                                    TextSpan(
+                                      text: 'A warm welcome to the ',
+                                      style: PreMedTextTheme()
+                                          .subtext1
+                                          .copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14),
                                     ),
                                     TextSpan(
                                       text: 'Pre',
-                                      style: PreMedTextTheme().subtext1,
+                                      style: PreMedTextTheme()
+                                          .subtext1
+                                          .copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14),
                                     ),
                                     TextSpan(
                                       text: 'M',
                                       style: PreMedTextTheme()
                                           .subtext1
                                           .copyWith(
-                                              color: PreMedColorTheme()
-                                                  .primaryColorRed),
+                                          color: PreMedColorTheme()
+                                              .primaryColorRed,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14),
                                     ),
                                     TextSpan(
-                                      text: 'ed',
-                                      style: PreMedTextTheme().subtext1,
+                                      text: 'ed ',
+                                      style: PreMedTextTheme()
+                                          .subtext1
+                                          .copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14),
                                     ),
-                                    const TextSpan(
+                                    TextSpan(
                                       text:
-                                          '! Where’ve you been? Let’s resume your journey!',
+                                      "family! We're delighted to have you here. Let the magic begin!",
+                                      style: PreMedTextTheme()
+                                          .subtext1
+                                          .copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14),
                                     ),
                                   ],
                                 ),
@@ -93,7 +112,7 @@ class _SignInState extends State<SignIn> {
                             ],
                           ),
                           SizedBoxes.verticalExtraGargangua,
-                         GoogleLogin(),
+                          const GoogleLogin(),
                           SizedBoxes.verticalBig,
                           const Padding(
                             padding: EdgeInsets.only(left: 64, right: 64),
@@ -109,9 +128,13 @@ class _SignInState extends State<SignIn> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const LoginScreen(),
+                                      builder: (context) => SignUpScreen(
+                                        lastOnboardingPage: widget.lastOnboardingPage,
+                                      ),
                                     ),
                                   );
+                                  final url = widget.lastOnboardingPage;
+                                  print("this is the lastonboarding url $url");
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: PreMedColorTheme().white,
@@ -122,7 +145,7 @@ class _SignInState extends State<SignIn> {
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
                                       child: Align(
@@ -135,10 +158,10 @@ class _SignInState extends State<SignIn> {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                'Sign in with Email',
+                                                'Sign up with Email',
                                                 textAlign: TextAlign.center,
                                                 style:
-                                                    PreMedTextTheme().subtext,
+                                                PreMedTextTheme().subtext,
                                               ),
                                             ),
                                           ],
@@ -155,13 +178,13 @@ class _SignInState extends State<SignIn> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Don't have an account?",
+                                "Already have an account?",
                                 style: PreMedTextTheme().subtext.copyWith(
                                     fontWeight: FontWeight.w400, fontSize: 14),
                               ),
                               TextButton(
                                 child: Text(
-                                  'Sign Up',
+                                  'Sign In',
                                   style: PreMedTextTheme().subtext1.copyWith(
                                       color: PreMedColorTheme().primaryColorRed,
                                       fontWeight: FontWeight.w700,
@@ -171,7 +194,7 @@ class _SignInState extends State<SignIn> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const WelcomeScreen(),
+                                      builder: (context) => const SignIn(),
                                     ),
                                   );
                                 },
@@ -198,50 +221,52 @@ class _SignInState extends State<SignIn> {
                         text: "By signing in, you agree to our ",
                         style: PreMedTextTheme().body.copyWith(
                             color: PreMedColorTheme().neutral500,
-                            fontWeight: FontWeight.w400, fontSize: 11
-                        ),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 11),
                       ),
                       TextSpan(
                         text: "Privacy Policy",
                         style: PreMedTextTheme().body1.copyWith(
                             color: PreMedColorTheme().neutral500,
-                            fontWeight: FontWeight.w700, fontSize: 11
-                        ),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 11),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const PrivacyPolicy()));
+                                    builder: (context) =>
+                                    const PrivacyPolicy()));
                           },
                       ),
                       TextSpan(
                         text: " and ",
                         style: PreMedTextTheme().body.copyWith(
                             color: PreMedColorTheme().neutral500,
-                            fontWeight: FontWeight.w400, fontSize: 11
-                        ),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 11),
                       ),
                       TextSpan(
                         text: "Terms of Use",
-                        style: PreMedTextTheme()
-                            .body1
-                            .copyWith(color: PreMedColorTheme().neutral500,
-                            fontWeight: FontWeight.w700, fontSize: 11),
+                        style: PreMedTextTheme().body1.copyWith(
+                            color: PreMedColorTheme().neutral500,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 11),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const TermsCondition()));
+                                    builder: (context) =>
+                                    const TermsCondition()));
                           },
                       ),
                     ],
                   ),
                 ),
-
               ],
-            ),          ],
+            ),
+          ],
         ),
       ),
     );
