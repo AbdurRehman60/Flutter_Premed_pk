@@ -1,7 +1,5 @@
 // latest_attempt_provider.dart
 
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/lastest_attempts.dart';
 

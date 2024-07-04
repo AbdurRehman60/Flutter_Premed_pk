@@ -129,9 +129,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const DropDown(
-          timeLeft: 'No time left',
-        ), // Pass the initial time left value
+        home: const BeforeLoginScreen(),
         navigatorKey: navigatorKey,
       ),
     );

@@ -1,8 +1,10 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/timer_drop_down.dart';
-import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class DateDialog extends StatefulWidget {
-  const DateDialog({super.key});
+  DateDialog({super.key, required this.uni});
+  final String uni;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -128,6 +130,7 @@ class _DateDialogState extends State<DateDialog> {
                       MaterialPageRoute(
                         builder: (context) {
                           return DropDown(
+                              uni: widget.uni,
                               timeLeft: _timeLeft); // Pass the time left value
                         },
                       ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -188,88 +189,92 @@ class _BeforeLoginScreenState extends State<BeforeLoginScreen> {
                   ],
                 ),
               ),
-              // const DropDown(),
 
-              // const QuestionCard(
-              //   question:
-              //       'What is the other name of the magnetic field intensity?',
-              //   tags: ['physics', 'Electromagnetism'],
-              //   isResource: false,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 10, right: 10),
-              //   child: ChangeNotifierProvider(
-              //     create: (_) => LatestAttemptProvider(),
-              //     child: Consumer<LatestAttemptProvider>(
-              //       builder: (context, provider, child) {
-              //         if (provider.latestAttempt == null) {
-              //           provider.fetchLatestAttempt('64c68bc9f093d0bd25c026de');
-              //           return const Center(child: CircularProgressIndicator());
-              //         } else if (provider.latestAttemptError != null) {
-              //           return Text('Error: ${provider.latestAttemptError}');
-              //         } else {
-              //           if (provider.latestAttempt!.results!.isNotEmpty) {
-              //             final result = provider.latestAttempt!.results![0];
-              //             return RecentActivityCard(
-              //               acivityname: result.deckName ?? '',
-              //               date: result.attemptedDate.toString(),
-              //               progressValue:
-              //                   result.totalAttempts! / result.totalQuestions!,
-              //             );
-              //           } else {
-              //             return const Text('No results found');
-              //           }
-              //         }
-              //       },
-              //     ),
-              //   ),
-              // ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    width: 400,
+                    height: 163,
+                    child: DropDown(timeLeft: "00", uni: "Not Select")),
+              ),
+
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Consumer<RecentAttemptsProvider>(
-                  builder: (context, recentAttemptsProvider, child) {
-                    if (kDebugMode) {
-                      print(
-                          'Recent attempts: ${recentAttemptsProvider.recentAttempts.length}');
-                    }
-
-                    RecentAttempt recentAttempt =
-                        recentAttemptsProvider.recentAttempts.isNotEmpty
-                            ? recentAttemptsProvider.recentAttempts.first
-                            : RecentAttempt(
-                                deckName: '',
-                                attemptedDate: DateTime.now(),
-                                totalAttempts: 0,
-                                totalQuestions: 0);
-
-                    if (kDebugMode) {
-                      print('Recent attempt: $recentAttempt');
-                    }
-
-                    double progressValue;
-                    if (recentAttempt.totalAttempts != null &&
-                        recentAttempt.totalQuestions != null &&
-                        recentAttempt.totalQuestions! > 0) {
-                      progressValue = (recentAttempt.totalAttempts! /
-                              recentAttempt.totalQuestions!.toDouble()) *
-                          1;
-                    } else {
-                      progressValue = 0;
-                    }
-
-                    if (kDebugMode) {
-                      print('Progress value: $progressValue');
-                    }
-
-                    return RecentActivityCard(
-                      acivityname: recentAttempt.deckName,
-                      date: recentAttempt.attemptedDate.toString(),
-                      progressValue: progressValue
-                          .toDouble(), // Convert to int before passing
-                    );
-                  },
+                child: ChangeNotifierProvider(
+                  create: (_) => LatestAttemptProvider(),
+                  child: Consumer<LatestAttemptProvider>(
+                    builder: (context, provider, child) {
+                      if (provider.latestAttempt == null) {
+                        provider.fetchLatestAttempt('64c68bc9f093d0bd25c026de');
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (provider.latestAttemptError != null) {
+                        return Text('Error: ${provider.latestAttemptError}');
+                      } else {
+                        if (provider.latestAttempt!.results!.isNotEmpty) {
+                          final result = provider.latestAttempt!.results![0];
+                          return RecentActivityCard(
+                            acivityname: result.deckName ?? '',
+                            date: result.attemptedDate.toString(),
+                            progressValue:
+                                result.totalAttempts! / result.totalQuestions!,
+                          );
+                        } else {
+                          return const Text('No results found');
+                        }
+                      }
+                    },
+                  ),
                 ),
               ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 10, right: 10),
+              //   child: Consumer<RecentAttemptsProvider>(
+              //     builder: (context, recentAttemptsProvider, child) {
+              //       if (kDebugMode) {
+              //         print(
+              //             'Recent attempts: ${recentAttemptsProvider.recentAttempts.length}');
+              //       }
+
+              //       RecentAttempt recentAttempt =
+              //           recentAttemptsProvider.recentAttempts.isNotEmpty
+              //               ? recentAttemptsProvider.recentAttempts.first
+              //               : RecentAttempt(
+              //                   deckName: '',
+              //                   attemptedDate: DateTime.now(),
+              //                   totalAttempts: 0,
+              //                   totalQuestions: 0);
+
+              //       if (kDebugMode) {
+              //         print('Recent attempt: $recentAttempt');
+              //       }
+
+              //       double progressValue;
+              //       if (recentAttempt.totalAttempts != null &&
+              //           recentAttempt.totalQuestions != null &&
+              //           recentAttempt.totalQuestions! > 0) {
+              //         progressValue = (recentAttempt.totalAttempts! /
+              //                 recentAttempt.totalQuestions!.toDouble()) *
+              //             1;
+              //       } else {
+              //         progressValue = 0;
+              //       }
+
+              //       if (kDebugMode) {
+              //         print('Progress value: $progressValue');
+              //       }
+
+              //       return RecentActivityCard(
+              //         acivityname: recentAttempt.deckName,
+              //         date: recentAttempt.attemptedDate.toString(),
+              //         progressValue: progressValue
+              //             .toDouble(), // Convert to int before passing
+              //       );
+              //     },
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.02,
