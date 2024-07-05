@@ -1,5 +1,4 @@
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:premedpk_mobile_app/UI/screens/popups/timer.dart';
 import 'package:premedpk_mobile_app/UI/screens/popups/free_flashcard_popup.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
@@ -35,8 +34,10 @@ class _OfferState extends State<Offer> {
           borderRadius: BorderRadius.circular(15),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8, bottom: 8),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          padding:
+              const EdgeInsets.only(left: 8.0, right: 8, top: 8, bottom: 8),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(

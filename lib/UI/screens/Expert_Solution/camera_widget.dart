@@ -22,24 +22,16 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen>
     with WidgetsBindingObserver {
   CameraController? controller;
-  // late Future<void> _initializeControllerFuture;
-  File? _imageFile;
-  // File? _videoFile;
-  // Initial values
+
   bool _isCameraInitialized = false;
   bool _isCameraPermissionGranted = false;
-  // bool _isRearCameraSelected = true;
-  // bool _isVideoCameraSelected = false;
+
   bool _isRecordingInProgress = false;
-  // double _minAvailableExposureOffset = 0.0;
-  // double _maxAvailableExposureOffset = 0.0;
+
   double _minAvailableZoom = 1.0;
   double _maxAvailableZoom = 1.0;
 
-  // Current values
   double _currentZoomLevel = 1.0;
-  // double _currentExposureOffset = 0.0;
-  // FlashMode? _currentFlashMode;
 
   List<File> allFileList = [];
   final resolutionPresets = ResolutionPreset.values;
@@ -80,11 +72,7 @@ class _CameraScreenState extends State<CameraScreen>
     }
 
     if (fileNames.isNotEmpty) {
-      final recentFile =
-          fileNames.reduce((curr, next) => curr[0] > next[0] ? curr : next);
-      final String recentFileName = recentFile[1];
-
-      _imageFile = File('${directory.path}/$recentFileName');
+      fileNames.reduce((curr, next) => curr[0] > next[0] ? curr : next);
     }
 
     setState(() {});

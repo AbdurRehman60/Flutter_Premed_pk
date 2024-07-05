@@ -1,40 +1,20 @@
-// ignore_for_file: avoid_print
-
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/deshboard_before_onboarding.dart';
-import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/timer_drop_down.dart';
-import 'package:premedpk_mobile_app/UI/screens/new_home_page/new_home_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
-import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/recent_activity_screen.dart';
-import 'package:premedpk_mobile_app/UI/screens/home_page/home_page.dart';
-import 'package:premedpk_mobile_app/UI/screens/mocks/mdcat_mocks/mdcat_mocks_home.dart';
-import 'package:premedpk_mobile_app/UI/screens/mocks/mocks_home.dart';
-import 'package:premedpk_mobile_app/UI/screens/popups/free_flashcard_popup.dart';
-import 'package:premedpk_mobile_app/UI/screens/popups/marketing_campaign_popup.dart';
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/splash_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_success.dart';
-import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/mdcat/MdcatQbank.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/providers/mcatqbankprovider.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/mdcat/mocks&bank_statistics.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/mdcat_mock_proivder.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/nums/mocks_or_bank.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/nums/nums_qbank.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/nums_mock_provider.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/providers/nums_qbank_provider.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/private_uni_mock_pro.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_mock.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_mock_or_bank_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/providers/mcatqbankprovider.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/providers/nums_qbank_provider.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/providers/pu_qbank_provider.dart';
-import 'package:premedpk_mobile_app/UI/screens/statistics/statistics_screen.dart';
-import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/piechart_w.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
@@ -54,7 +34,6 @@ import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
 import 'package:premedpk_mobile_app/utils/services/notifications/firebase_messaging_api.dart';
 import 'package:provider/provider.dart';
 
-import 'UI/screens/qbank/mdcat/mdcatMock.dart';
 import 'firebase_options.dart';
 
 List<CameraDescription> cameras = [];
@@ -74,7 +53,9 @@ Future<void> main() async {
     await FirebaseMessagingAPI().initNotifications();
     cameras = await availableCameras();
   } on CameraException catch (e) {
-    print('Error in fetching the cameras: $e');
+    if (kDebugMode) {
+      print('Error in fetching the cameras: $e');
+    }
   }
   runApp(
     MyApp(),
@@ -129,7 +110,7 @@ class MyApp extends StatelessWidget {
         title: 'PreMed.PK',
         debugShowCheckedModeBanner: false,
         theme: _preMedTheme.data,
-        home: const BeforeLoginScreen(),
+        home: const SplashScreen(),
         navigatorKey: navigatorKey,
       ),
     );

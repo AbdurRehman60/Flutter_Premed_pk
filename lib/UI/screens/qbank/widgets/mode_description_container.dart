@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../constants/color_theme.dart';
 import '../../../../constants/sized_boxes.dart';
@@ -8,7 +8,10 @@ import '../../../../providers/user_provider.dart';
 
 class ModeDescription extends StatelessWidget {
   const ModeDescription(
-      {super.key, required this.mode, required this.deckName, required this.timedTestMinutes});
+      {super.key,
+      required this.mode,
+      required this.deckName,
+      required this.timedTestMinutes});
   final bool mode;
   final String deckName;
   final int timedTestMinutes;
@@ -53,30 +56,27 @@ class ModeDescription extends StatelessWidget {
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
                       descriptionText:
-                      'The Correct answer and explanation will be shown instantly once you select any option'),
+                          'The Correct answer and explanation will be shown instantly once you select any option'),
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
                       descriptionText:
-                      "Timer and detailed score report are not available in 'Tutor Mode' and can be accessed in 'Time Test Mode'"),
+                          "Timer and detailed score report are not available in 'Tutor Mode' and can be accessed in 'Time Test Mode'"),
                   SizedBoxes.verticalMedium,
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
                         backgroundColor: PreMedColorTheme().primaryColorRed),
-                    onPressed: () {
-
-                    },
+                    onPressed: () {},
                     child: Text(
                       'Start Test',
                       style: PreMedTextTheme().heading2.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                      ),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
                     ),
                   )
-
                 ],
               ),
             if (!mode)
@@ -98,15 +98,15 @@ class ModeDescription extends StatelessWidget {
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
                       descriptionText:
-                      'Paper will be timed according to the original time given for the paper.'),
+                          'Paper will be timed according to the original time given for the paper.'),
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
                       descriptionText:
-                      'Scored Report will be shown once you press the ‘Finish’ button.'),
+                          'Scored Report will be shown once you press the ‘Finish’ button.'),
                   SizedBoxes.verticalTiny,
                   const DescriptionText(
                       descriptionText:
-                      "Correct answers and detailed explanations will be shown once you press the ‘Finish’ button."),
+                          "Correct answers and detailed explanations will be shown once you press the ‘Finish’ button."),
                   SizedBoxes.verticalMedium,
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -132,7 +132,8 @@ class ModeDescription extends StatelessWidget {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Text('Premium Feature'),
-                              content: const Text('Your current plan does not have access to this paper. Purchase our MDCAT-QBank Plan to access this feature!'),
+                              content: const Text(
+                                  'Your current plan does not have access to this paper. Purchase our MDCAT-QBank Plan to access this feature!'),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -149,13 +150,12 @@ class ModeDescription extends StatelessWidget {
                     child: Text(
                       'Start Test',
                       style: PreMedTextTheme().heading2.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                      ),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
                     ),
                   )
-
                 ],
               ),
           ],

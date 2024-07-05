@@ -1,9 +1,6 @@
-// ignore_for_file: deprecated_member_use
-
-import 'package:premedpk_mobile_app/UI/screens/new_home_page/new_home_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/account.dart';
+import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/dashboard_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution_home.dart';
-
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/mdcat_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/bottom_nav.dart';
@@ -29,7 +26,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   List<int> navigationStack = [0];
 
   final screens = [
-    const NewHomePage(),
+    const DashboardScreen(),
     const MDCAT(),
     const ExpertSolutionHome(),
     const MarketPlace(),
@@ -38,6 +35,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         if (navigationStack.length > 1) {
@@ -66,7 +64,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     );
   }
 
-  void onTap(int index) async {
+  Future<void> onTap(int index) async {
     if (index == 1) {
       launchUrl(
         mode: LaunchMode.inAppBrowserView,

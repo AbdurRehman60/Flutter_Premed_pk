@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
@@ -18,6 +16,7 @@ class BottomSheetWidget extends StatefulWidget {
   final VoidCallback? onTap;
 
   @override
+
   // ignore: library_private_types_in_public_api
   _BottomSheetWidgetState createState() => _BottomSheetWidgetState();
 }
@@ -30,11 +29,11 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
-        height: screenHeight * 0.4, // 30% of the screen height
-        width: screenWidth, // Full screen width
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
+        height: screenHeight * 0.4,
+        width: screenWidth,
+        decoration: BoxDecoration(
+          color: PreMedColorTheme().white,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
@@ -52,7 +51,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                       left: 60,
                     ),
                     child: Text(
-                      widget.acivityname ?? '', // Check for null value
+                      widget.acivityname ?? '',
                       style: GoogleFonts.rubik(
                         fontWeight: FontWeight.w600,
                         fontSize: 12,
@@ -74,9 +73,8 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                                 const BorderRadius.all(Radius.circular(25)),
                             backgroundColor: Colors.grey[300],
                             value: widget.progressValue?.clamp(0.0, 1.0),
-                            valueColor: AlwaysStoppedAnimation(_getColor(
-                                widget.progressValue ??
-                                    0.0)), // Check for null value
+                            valueColor: AlwaysStoppedAnimation(
+                                _getColor(widget.progressValue ?? 0.0)),
                             minHeight: 8,
                           ),
                         ),
@@ -101,7 +99,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.date ?? '', // Check for null value
+                          widget.date ?? '',
                           style: GoogleFonts.rubik(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,
@@ -109,28 +107,26 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                         ),
                         InkWell(
                           onTap: () {},
-                          child: Text(widget.mode ?? '', // Check for null value
+                          child: Text(widget.mode ?? '',
                               style: GoogleFonts.rubik(
                                   fontWeight: FontWeight.w800,
                                   fontSize: 12,
-                                  color: Colors.red)),
+                                  color: PreMedColorTheme().red)),
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-              SizedBox(
-                height: 40,
-              ),
+              SizedBoxes.horizontalExtraGargangua,
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   SizedBox(
-                    width: screenWidth * 0.8, // 80% of the screen width
+                    width: screenWidth * 0.8,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                        backgroundColor: PreMedColorTheme().red,
                         elevation: 10,
                       ), // Set the color to red
                       onPressed: () {
@@ -139,29 +135,27 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                       child: Text(
                         'Resume Test',
                         style: GoogleFonts.rubik(
-                          color: Colors.white,
+                          color: PreMedColorTheme().white,
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
                         ),
                       ),
                     ),
                   ),
+                  SizedBoxes.verticalBig,
                   SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: screenWidth * 0.8, // 80% of the screen width
+                    width: screenWidth * 0.8,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         elevation: 10,
-                      ), // Set the color to red
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                       child: Text(
                         'Restart',
                         style: GoogleFonts.rubik(
-                          color: Colors.red,
+                          color: PreMedColorTheme().red,
                           fontWeight: FontWeight.w700,
                           fontSize: 17,
                         ),

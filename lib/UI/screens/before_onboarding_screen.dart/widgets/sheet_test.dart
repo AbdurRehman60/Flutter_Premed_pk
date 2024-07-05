@@ -1,13 +1,14 @@
+// ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/datecard.dart';
+import 'package:premedpk_mobile_app/constants/color_theme.dart';
 
 class ExamSelectionDialog extends StatefulWidget {
   const ExamSelectionDialog({super.key, this.university});
   final String? university;
 
   @override
-  // ignore: library_private_types_in_public_api
   _ExamSelectionDialogState createState() => _ExamSelectionDialogState();
 }
 
@@ -137,17 +138,16 @@ class _ExamSelectionDialogState extends State<ExamSelectionDialog> {
           ),
           const SizedBox(height: 20),
           SizedBox(
-            width: 270, // Set the width of the button
+            width: 270,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.red, // Set the text color to white
+                foregroundColor: PreMedColorTheme().white,
+                backgroundColor: PreMedColorTheme().red,
               ),
               onPressed: () {
                 if (_provincialMDCAT || _akuTest || _numsTest || _other) {
-                  // Close the dialog
                   Navigator.of(context).pop();
-                  // Show the DateDialog
+
                   showDialog(
                     context: context,
                     builder: (context) {
@@ -157,10 +157,9 @@ class _ExamSelectionDialogState extends State<ExamSelectionDialog> {
                     },
                   );
                 } else {
-                  // Display an error message
                   if (kDebugMode) {
                     print('Please select an exam');
-                  } // Removed SnackBar
+                  }
                 }
               },
               child: const Text('Select'),

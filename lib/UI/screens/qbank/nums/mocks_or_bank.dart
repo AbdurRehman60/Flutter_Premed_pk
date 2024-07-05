@@ -1,11 +1,7 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:premedpk_mobile_app/UI/screens/mocks/nums_mocks/nums_mocks.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/nums/nums_mock.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/nums/nums_qbank.dart';
-
 import '../../../../constants/constants_export.dart';
-
 import '../widgets/stat_group_container.dart';
 
 class NumsorBankStats extends StatelessWidget {

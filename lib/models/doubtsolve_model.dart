@@ -60,7 +60,6 @@ class QuestionsResponse {
   });
 
   factory QuestionsResponse.fromJson(Map<String, dynamic> json) {
-    final bool success = json['success'] ?? false;
     final List<dynamic> doubtJson = json['QuestionsDetails'];
     final List<Doubt> questionsDetails =
         doubtJson.map((item) => Doubt.fromJson(item)).toList();

@@ -26,6 +26,7 @@ class PreMedColorTheme {
   //normal color list
   Color get white => const Color(0xFFFFFFFF);
   Color get black => const Color(0xFF000000);
+  Color get red => Colors.red;
 
   //Neutral Colors
   Color get neutral50 => const Color(0xFFFAFAFA);
@@ -39,6 +40,14 @@ class PreMedColorTheme {
   Color get neutral800 => const Color(0xFF27272A);
   Color get neutral900 => const Color(0xFF17171B);
   Color get green => const Color.fromARGB(1, 43, 177, 64);
+  Color get background => const Color(0xFFFBF0F3);
+  Color get yellowlight => const Color(0xFFFFC372);
+  Color get greenLight => const Color(0xFF60CDBB);
+  Color get purpulelight => const Color(0xFF8800C3);
+  Color get orangeLight => const Color(0xFFFB9666);
+  Color get redlight => const Color(0xFFC40052);
+  Color get greenL => const Color(0xFF42C96B);
+  Color get skyblue => const Color(0xFF0383BB);
 
   //Gradient colors
   LinearGradient get primaryGradient => LinearGradient(

@@ -1,10 +1,8 @@
-
 import 'package:provider/provider.dart';
 
 import '../../../../constants/constants_export.dart';
 import '../../../../models/deck_group_model.dart';
 import '../../../../providers/mdcat_mocks_provider.dart';
-import '../../qbank/mdcat_mock_proivder.dart';
 import '../widgets/bottom_sheet.dart';
 
 class MdcatMocksHome extends StatefulWidget {
@@ -19,7 +17,8 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      Provider.of<MdcatMocksProviderr>(context, listen: false).fetchDeckGroups();
+      Provider.of<MdcatMocksProviderr>(context, listen: false)
+          .fetchDeckGroups();
     });
   }
 
@@ -200,7 +199,11 @@ void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup) {
     backgroundColor: Colors.white,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return CustomBottomSheet(deckGroup: deckGroup, bankOrMock: 'Mocks', qbankGroupName: null,);
+      return CustomBottomSheet(
+        deckGroup: deckGroup,
+        bankOrMock: 'Mocks',
+        qbankGroupName: null,
+      );
     },
   );
 }

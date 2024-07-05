@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/widgets/or_divider.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/web_notification_model.dart';
-import 'package:premedpk_mobile_app/utils/HumanReadableTime.dart';
+import 'package:premedpk_mobile_app/utils/humanReadableTime.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({super.key, required this.notification});

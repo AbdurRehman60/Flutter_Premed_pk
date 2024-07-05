@@ -1,11 +1,11 @@
+// ignore: file_names
+
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:premedpk_mobile_app/UI/screens/mocks/mocks_home.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/mdcat/mdcatMock.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
-import 'MdcatQbank.dart';
 import '../widgets/stat_group_container.dart';
+import 'MdcatQbank.dart';
 
 class MDcatMockorBankStats extends StatelessWidget {
   const MDcatMockorBankStats({super.key});

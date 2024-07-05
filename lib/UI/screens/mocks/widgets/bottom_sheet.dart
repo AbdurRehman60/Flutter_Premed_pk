@@ -1,16 +1,15 @@
-import 'package:flutter/cupertino.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/providers/mcatqbankprovider.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/test_mode_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../models/deck_group_model.dart';
 import '../../qbank/widgets/logo_avatar.dart';
 import 'deck_instructions.dart';
 
 class CustomBottomSheet extends StatefulWidget {
   const CustomBottomSheet(
-      {super.key, required this.deckGroup, required this.bankOrMock, required this.qbankGroupName});
+      {super.key,
+      required this.deckGroup,
+      required this.bankOrMock,
+      required this.qbankGroupName});
   final String bankOrMock;
 
   final DeckGroupModel deckGroup;
@@ -59,8 +58,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                     ),
                     child: ListTile(
                       leading: GetLogo(
-                          url: widget.deckGroup.deckItems[index].deckLogo ??
-                              'https://premedpk-cdn.sgp1.cdn.digitaloceanspaces.com/Logos/logo512.png'),
+                          url: widget.deckGroup.deckItems[index].deckLogo),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -133,7 +131,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                                     .deckItems[index]
                                                     .timesTestminutes,
                                               },
-                                              deckGroupName: widget.qbankGroupName ??'')),
+                                              deckGroupName:
+                                                  widget.qbankGroupName ?? '')),
                                 )
                               : Navigator.push(
                                   context,

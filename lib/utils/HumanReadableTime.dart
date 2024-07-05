@@ -1,4 +1,3 @@
-// ignore: file_names
 String getTimeDifference(DateTime dateTime) {
   final DateTime now = DateTime.now();
   final Duration difference = now.difference(dateTime);

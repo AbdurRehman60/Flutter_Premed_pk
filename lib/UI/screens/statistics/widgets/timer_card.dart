@@ -20,7 +20,6 @@ class StatDetailHolder1 extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final double screenWidth = mediaQuery.size.width;
-    final double screenHeight = mediaQuery.size.height;
 
     double fontSizeCount = 24;
     double fontSizePreDetails = 12;

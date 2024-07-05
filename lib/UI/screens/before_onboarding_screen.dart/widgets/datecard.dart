@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/deshboard_before_onboarding.dart';
-import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/timer_drop_down.dart';
+import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/dashboard_screen.dart';
+import 'package:premedpk_mobile_app/constants/color_theme.dart';
 
 class DateDialog extends StatefulWidget {
-  DateDialog({super.key, required this.uni});
+  const DateDialog({super.key, required this.uni});
   final String uni;
 
   @override
@@ -62,7 +62,7 @@ class _DateDialogState extends State<DateDialog> {
               IconButton(
                 icon: const Icon(Icons.close, color: Colors.grey),
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -70,8 +70,8 @@ class _DateDialogState extends State<DateDialog> {
         ],
       ),
       content: SizedBox(
-        width: 300, // Adjust the width
-        height: 275, // Adjust the height
+        width: 300,
+        height: 275,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -121,17 +121,16 @@ class _DateDialogState extends State<DateDialog> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.red,
+                  foregroundColor: PreMedColorTheme().white,
+                  backgroundColor: PreMedColorTheme().red,
                 ),
                 onPressed: () {
                   if (_selectedDate != null) {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
-                          return BeforeLoginScreen(
-                              uni: widget.uni,
-                              timeLeft: _timeLeft); // Pass the time left value
+                          return DashboardScreen(
+                              uni: widget.uni, timeLeft: _timeLeft);
                         },
                       ),
                     );

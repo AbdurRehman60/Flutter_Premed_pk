@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
@@ -96,7 +95,7 @@ class _RecentActivityCard1State extends State<RecentActivityCard1> {
                       style: GoogleFonts.rubik(
                           fontWeight: FontWeight.w800,
                           fontSize: 12,
-                          color: Colors.red)),
+                          color: PreMedColorTheme().red)),
                 )
               ],
             ),

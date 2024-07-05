@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/sheet_test.dart';
+import 'package:premedpk_mobile_app/constants/color_theme.dart';
 
 class DropDown extends StatefulWidget {
   const DropDown({super.key, required this.timeLeft, required this.uni});
@@ -20,7 +21,9 @@ class _DropDownState extends State<DropDown> {
   @override
   void initState() {
     super.initState();
-    _timeLeftController.text = widget.timeLeft!; // Set the initial value
+    if (widget.timeLeft != null) {
+      _timeLeftController.text = widget.timeLeft!;
+    }
   }
 
   @override
@@ -45,8 +48,7 @@ class _DropDownState extends State<DropDown> {
                     controller: _timeLeftController,
                     decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey), // border color
+                        borderSide: BorderSide(color: Colors.grey),
                       ),
                       labelText: 'Time Left',
                     ),
@@ -55,7 +57,7 @@ class _DropDownState extends State<DropDown> {
                 const SizedBox(width: 5),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red, // background color
+                    backgroundColor: PreMedColorTheme().red,
                   ),
                   onPressed: () {
                     _showAlertDialog(context);
@@ -65,7 +67,7 @@ class _DropDownState extends State<DropDown> {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white, // text color
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -103,18 +105,17 @@ class _DropDownState extends State<DropDown> {
                 ],
               ),
               content: SizedBox(
-                width: 900, // Set the width
-                height: 400, // Set the height
+                width: 900,
+                height: 400,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(width: 0.5), // Add a border
-                        borderRadius:
-                            BorderRadius.circular(10), // Add a border radius
+                        border: Border.all(width: 0.5),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      padding: const EdgeInsets.all(10), // Add some padding
+                      padding: const EdgeInsets.all(10),
                       child: Text(
                         _tempSelectedValue ?? 'No university selected',
                         style: const TextStyle(
@@ -236,7 +237,6 @@ class _DropDownState extends State<DropDown> {
                                 });
                               },
                             ),
-                            // Add other ListTile options for universities
                           ],
                         ),
                       ),
@@ -247,16 +247,14 @@ class _DropDownState extends State<DropDown> {
               actions: [
                 Center(
                   child: SizedBox(
-                    width: 270, // Set the width of the button
+                    width: 270,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Colors.red, // Set the background color to red
+                        backgroundColor: PreMedColorTheme().red,
                       ),
                       onPressed: _selectedValue != null
                           ? () {
-                              Navigator.of(context)
-                                  .pop(); // Close the AlertDialog
+                              Navigator.of(context).pop();
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => ExamSelectionDialog(
                                   university: _selectedValue,
@@ -271,7 +269,7 @@ class _DropDownState extends State<DropDown> {
                         'SELECT',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 15, // Set the text color to white
+                          fontSize: 15,
                         ),
                       ),
                     ),
