@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/deshboard_before_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/timer_drop_down.dart';
 
 class DateDialog extends StatefulWidget {
@@ -125,11 +126,10 @@ class _DateDialogState extends State<DateDialog> {
                 ),
                 onPressed: () {
                   if (_selectedDate != null) {
-                    Navigator.of(context).pop(); // Remove the dialog
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
-                          return DropDown(
+                          return BeforeLoginScreen(
                               uni: widget.uni,
                               timeLeft: _timeLeft); // Pass the time left value
                         },

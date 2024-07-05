@@ -25,7 +25,9 @@ import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class BeforeLoginScreen extends StatefulWidget {
-  const BeforeLoginScreen({super.key});
+  const BeforeLoginScreen({super.key, this.uni,  this.timeLeft});
+  final String? uni;
+  final String? timeLeft;
 
   @override
   State<BeforeLoginScreen> createState() => _BeforeLoginScreenState();
@@ -198,7 +200,7 @@ class _BeforeLoginScreenState extends State<BeforeLoginScreen> {
                     ),
                     width: 400,
                     height: 163,
-                    child: DropDown(timeLeft: "00", uni: "Not Select")),
+                    child: DropDown(timeLeft: widget.timeLeft, uni: "Not Select")),
               ),
 
               Padding(

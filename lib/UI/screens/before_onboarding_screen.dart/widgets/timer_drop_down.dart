@@ -4,7 +4,7 @@ import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/wid
 
 class DropDown extends StatefulWidget {
   const DropDown({super.key, required this.timeLeft, required this.uni});
-  final String timeLeft;
+  final String? timeLeft;
   final String? uni;
 
   @override
@@ -20,7 +20,7 @@ class _DropDownState extends State<DropDown> {
   @override
   void initState() {
     super.initState();
-    _timeLeftController.text = widget.timeLeft; // Set the initial value
+    _timeLeftController.text = widget.timeLeft!; // Set the initial value
   }
 
   @override

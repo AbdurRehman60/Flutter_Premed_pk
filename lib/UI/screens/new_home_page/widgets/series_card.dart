@@ -26,7 +26,7 @@ class SeriesCard extends StatelessWidget {
           width:
               MediaQuery.of(context).size.width * 0.43, // 45% of screen width
           height:
-              MediaQuery.of(context).size.height * 0.10, // 10% of screen height
+              MediaQuery.of(context).size.height * 0.13, // 10% of screen height
           decoration: BoxDecoration(
             color: bgColor, // use the provided background color
             borderRadius: BorderRadius.circular(12),
