@@ -1,5 +1,4 @@
 import 'package:premedpk_mobile_app/UI/screens/popups/timer.dart';
-import 'package:premedpk_mobile_app/UI/screens/marketplace/widgets/countdown_timer.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class FreeFlashcardPopUp extends StatelessWidget {
@@ -39,10 +38,12 @@ class FreeFlashcardPopUp extends StatelessWidget {
             SizedBoxes.verticalExtraGargangua,
             SizedBoxes.verticalExtraGargangua,
             Center(
-              child:  RichText(
+              child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                    style: PreMedTextTheme().body.copyWith(fontSize: 24, fontWeight: FontWeight.w500),
+                    style: PreMedTextTheme()
+                        .body
+                        .copyWith(fontSize: 24, fontWeight: FontWeight.w500),
                     children: [
                       TextSpan(
                         text: 'Flashcards',
@@ -54,10 +55,10 @@ class FreeFlashcardPopUp extends StatelessWidget {
                       TextSpan(
                         text: ', ',
                         style: PreMedTextTheme().body.copyWith(
-                          fontSize: 24,
-                          color: PreMedColorTheme().black,
-                          fontWeight: FontWeight.w800,
-                        ),
+                              fontSize: 24,
+                              color: PreMedColorTheme().black,
+                              fontWeight: FontWeight.w800,
+                            ),
                       ),
                       TextSpan(
                         text: 'Saved\nQuestions',
@@ -101,17 +102,16 @@ class FreeFlashcardPopUp extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                     side: BorderSide(
-                        color: PreMedColorTheme().primaryColorRed200,
-                        width: 2),
+                        color: PreMedColorTheme().primaryColorRed200, width: 2),
                   ),
                 ),
                 child: Text(
                   'Avail 70% Off Now',
                   style: PreMedTextTheme().body.copyWith(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: PreMedColorTheme().white,
-                  ),
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: PreMedColorTheme().white,
+                      ),
                 ),
               ),
             ),
@@ -143,13 +143,13 @@ class FreeFlashcardPopUp extends StatelessWidget {
               color: PreMedColorTheme().customCheckboxColor,
               child: Center(
                   child: Text(
-                    'LIMITED TIME ONLY',
-                    textAlign: TextAlign.center,
-                    style: PreMedTextTheme().body.copyWith(
-                        color: PreMedColorTheme().tickcolor,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 20),
-                  )),
+                'LIMITED TIME ONLY',
+                textAlign: TextAlign.center,
+                style: PreMedTextTheme().body.copyWith(
+                    color: PreMedColorTheme().tickcolor,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 20),
+              )),
             ),
             SizedBoxes.verticalExtraGargangua,
             Padding(
@@ -157,7 +157,10 @@ class FreeFlashcardPopUp extends StatelessWidget {
               child: Text(
                 'PreMed is offering many of its features for free from 19th May till 25th May. Terms and Conditions Apply.',
                 textAlign: TextAlign.center,
-                style: PreMedTextTheme().body.copyWith(color: PreMedColorTheme().neutral500),),
+                style: PreMedTextTheme()
+                    .body
+                    .copyWith(color: PreMedColorTheme().neutral500),
+              ),
             )
           ],
         ),

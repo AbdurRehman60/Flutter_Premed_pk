@@ -1,7 +1,9 @@
+// ignore: file_names
+
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:premedpk_mobile_app/UI/screens/mocks/mdcat_mocks/mdcat_mocks_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+
 import '../widgets/stat_group_container.dart';
 import 'MdcatQbank.dart';
 
@@ -73,11 +75,22 @@ class MDcatMockorBankStats extends StatelessWidget {
               SizedBoxes.vertical26Px,
               QbankStatsContainer(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MdcatMocksHome()));
-
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const MocksHome()));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => Qbank(
+                  //             deckCategory: mockCategory,
+                  //             deckGroupName: widget.deckGroupName)));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => Qbank(
+                  //             deckCategory: bankCategory,
+                  //             deckGroupName: deckGroupName)));
                 },
                 title: 'Mocks',
                 totalMcqs: '29 Mocks',

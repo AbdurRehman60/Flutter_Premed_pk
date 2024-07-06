@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../constants/sized_boxes.dart';
 import '../../../../models/web_notification_model.dart';
-import '../../../../utils/HumanReadableTime.dart';
+import '../../../../utils/humanReadableTime.dart';
 
 class NotificationWidget extends StatelessWidget {
   const NotificationWidget({super.key, required this.notification});
@@ -28,7 +28,9 @@ class NotificationWidget extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(width: 15,),
+            const SizedBox(
+              width: 15,
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

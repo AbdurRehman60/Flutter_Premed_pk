@@ -2,21 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 
 class ControlsOverlay extends StatelessWidget {
-  static const double _playButtonIconSize = 80;
-  static const double _replayButtonIconSize = 100;
-  static const double _seekButtonIconSize = 48;
-
-  static const Duration _seekStepForward = Duration(seconds: 10);
-  static const Duration _seekStepBackward = Duration(seconds: -10);
-
-  static const Color _iconColor = Colors.white;
-
-  final VlcPlayerController controller;
-
   const ControlsOverlay({
     required this.controller,
     super.key,
   });
+  static const double _playButtonIconSize = 80;
+  static const double _replayButtonIconSize = 100;
+
+  static const Color _iconColor = Colors.white;
+
+  final VlcPlayerController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +44,6 @@ class ControlsOverlay extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        // IconButton(
-                        //   onPressed: () => _seekRelative(_seekStepBackward),
-                        //   color: _iconColor,
-                        //   iconSize: _seekButtonIconSize,
-                        //   icon: const Icon(Icons.replay_10),
-                        // ),
                         IconButton(
                           onPressed: _play,
                           color: _iconColor,
@@ -64,12 +53,6 @@ class ControlsOverlay extends StatelessWidget {
                             size: 8,
                           ),
                         ),
-                        // IconButton(
-                        //   onPressed: () => _seekRelative(_seekStepForward),
-                        //   color: _iconColor,
-                        //   iconSize: _seekButtonIconSize,
-                        //   icon: const Icon(Icons.forward_10),
-                        // ),
                       ],
                     ),
                   ),

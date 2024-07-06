@@ -1,4 +1,3 @@
-import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/mdcat_mocks/mdcat_mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/nums_mocks/nums_mocks.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/pu_mocks/pu_mocks_home.dart';
@@ -47,7 +46,8 @@ class MocksHome extends StatelessWidget {
           automaticallyImplyLeading: false,
         ),
       ),
-      body: SafeArea(child: SingleChildScrollView(
+      body: SafeArea(
+          child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -57,10 +57,10 @@ class MocksHome extends StatelessWidget {
                 child: Text(
                   'Mocks',
                   style: PreMedTextTheme().heading6.copyWith(
-                    color: PreMedColorTheme().black,
-                    fontSize: 34,
-                    fontWeight: FontWeight.w800,
-                  ),
+                        color: PreMedColorTheme().black,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                      ),
                 ),
               ),
               Material(
@@ -68,14 +68,14 @@ class MocksHome extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 child: NotesTile(
                   heading: "MDCAT Mocks",
-                  description:
-                  "Go to MDCAT Mocks",
+                  description: "Go to MDCAT Mocks",
                   icon: PremedAssets.QuestionBank,
                   bgColor: PreMedColorTheme().white,
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const MdcatMocksHome()),
+                      MaterialPageRoute(
+                          builder: (context) => const MdcatMocksHome()),
                     );
                   },
                 ),
@@ -86,14 +86,14 @@ class MocksHome extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 child: NotesTile(
                   heading: "Private Universities Mocks",
-                  description:
-                  "Go to Private Universities Mocks",
+                  description: "Go to Private Universities Mocks",
                   icon: PremedAssets.QuestionBank,
                   bgColor: PreMedColorTheme().white,
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const PrivuniMocksHome()),
+                      MaterialPageRoute(
+                          builder: (context) => const PrivuniMocksHome()),
                     );
                   },
                 ),
@@ -104,14 +104,14 @@ class MocksHome extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 child: NotesTile(
                   heading: "NUMS Mocks",
-                  description:
-                  "Go to Nums Mocks",
+                  description: "Go to Nums Mocks",
                   icon: PremedAssets.QuestionBank,
                   bgColor: PreMedColorTheme().white,
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const NumsMocksHome()),
+                      MaterialPageRoute(
+                          builder: (context) => const NumsMocksHome()),
                     );
                   },
                 ),

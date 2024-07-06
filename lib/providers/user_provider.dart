@@ -67,19 +67,18 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-
   // Update full name
   Future<Map<String, dynamic>> updateUserDetails(
-      String fullname,
-      String email,
-      String phoneNumber,
-      String city,
-      String school,
-      ) async {
+    String fullname,
+    String email,
+    String phoneNumber,
+    String city,
+    String school,
+  ) async {
     Map<String, dynamic> result;
     final Map<String, dynamic> updateData = {
       'fullname': fullname.isEmpty ? user?.fullName : fullname,
-      'email' : email.isNotEmpty ? email : user?.userName,
+      'email': email.isNotEmpty ? email : user?.userName,
       'phonenumber': phoneNumber.isNotEmpty ? phoneNumber : user?.phoneNumber,
       'city': city.isNotEmpty ? city : user?.city,
       'school': school.isNotEmpty ? school : user?.school,
@@ -93,7 +92,7 @@ class UserProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-        Map<String, dynamic>.from(response.data);
+            Map<String, dynamic>.from(response.data);
 
         if (responseData['Error'] == false) {
           notify();
@@ -140,7 +139,7 @@ class UserProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-        Map<String, dynamic>.from(response.data);
+            Map<String, dynamic>.from(response.data);
 
         if (responseData['Error'] == false) {
           notify();
@@ -186,7 +185,7 @@ class UserProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-        Map<String, dynamic>.from(response.data);
+            Map<String, dynamic>.from(response.data);
 
         if (responseData['message'] == "User deleted successfully") {
           notify();
