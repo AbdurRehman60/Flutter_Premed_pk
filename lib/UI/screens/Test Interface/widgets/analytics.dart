@@ -1,5 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/Test Interface/widgets/pie_chart.dart';
-import 'package:premedpk_mobile_app/UI/screens/home/homescreen.dart';
+import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/dashboard_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:provider/provider.dart';
 import '../../../../providers/update_attempt_provider.dart';
@@ -27,7 +27,7 @@ void navigateToHomeScreen(BuildContext context) {
         onWillPop: () async {
           return false;
         },
-        child: HomeScreen(),
+        child: DashboardScreen(),
       ),
     ),
   );

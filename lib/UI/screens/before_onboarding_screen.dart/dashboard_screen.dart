@@ -1,12 +1,12 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/Flash_card.dart';
+import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/Qbank_card.dart';
+import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/notes_card.dart';
+import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/recent_activity_card.dart';
+import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/series_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/timer_drop_down.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
-import 'package:premedpk_mobile_app/UI/screens/home_page/widgets/recentActivityCard.dart';
-import 'package:premedpk_mobile_app/UI/screens/new_home_page/widgets/Flash_card.dart';
-import 'package:premedpk_mobile_app/UI/screens/new_home_page/widgets/Qbank_card.dart';
-import 'package:premedpk_mobile_app/UI/screens/new_home_page/widgets/notes_card.dart';
-import 'package:premedpk_mobile_app/UI/screens/new_home_page/widgets/series_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/notifications/notification_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/mdcat/mocks&bank_statistics.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/statistics_screen.dart';
@@ -193,33 +193,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child:
                         DropDown(timeLeft: widget.timeLeft, uni: "Not Select")),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: ChangeNotifierProvider(
-                  create: (_) => LatestAttemptProvider(),
-                  child: Consumer<LatestAttemptProvider>(
-                    builder: (context, provider, child) {
-                      if (provider.isLoading) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (provider.latestAttemptError != null) {
-                        return Text('Error: ${provider.latestAttemptError}');
-                      } else {
-                        if (provider.latestAttempt!.results!.isNotEmpty) {
-                          final result = provider.latestAttempt!.results![0];
-                          return RecentActivityCard(
-                            acivityname: result.deckName ?? '',
-                            date: result.attemptedDate.toString(),
-                            progressValue:
-                                result.totalAttempts! / result.totalQuestions!,
-                          );
-                        } else {
-                          return const Text('No results found');
-                        }
-                      }
-                    },
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 10, right: 10),
+              //   child: ChangeNotifierProvider(
+              //     create: (_) => LatestAttemptProvider(),
+              //     child: Consumer<LatestAttemptProvider>(
+              //       builder: (context, provider, child) {
+              //         if (provider.isLoading) {
+              //           return const Center(child: CircularProgressIndicator());
+              //         } else if (provider.latestAttemptError != null) {
+              //           return Text('Error: ${provider.latestAttemptError}');
+              //         } else {
+              //           if (provider.latestAttempt!.results!.isNotEmpty) {
+              //             final result = provider.latestAttempt!.results![0];
+              //             return RecentActivityCard(
+              //               acivityname: result.deckName ?? '',
+              //               date: result.attemptedDate.toString(),
+              //               progressValue:
+              //                   result.totalAttempts! / result.totalQuestions!,
+              //             );
+              //           } else {
+              //             return const Text('No results found');
+              //           }
+              //         }
+              //       },
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.02,
@@ -296,8 +296,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                     builder: (context) =>
                                                         const StatisticsScreen()));
                                           },
+
                                           child: SvgPicture.asset(
-                                            PremedAssets.arrow,
+                                            PremedAssets.RightArrow,
                                             width: 12,
                                             height: 25,
                                           ),

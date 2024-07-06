@@ -34,6 +34,9 @@ class PremedAssets {
   static String Doctor ='assets/images/doctor.png';
   static String Engineer ='assets/images/engineer.png';
   static String Business ='assets/images/business.png';
+  static String graph ='assets/images/Chart.png';
+  static String notesstudy ='assets/images/studynotes.png';
+  static String arrow ='assets/images/Chevron Right.png';
 
   //icons
 

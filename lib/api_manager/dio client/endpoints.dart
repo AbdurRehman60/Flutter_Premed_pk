@@ -103,6 +103,9 @@ class Endpoints {
   static const String QuestionOfTheDay = '/api/question/getRandomQuestions';
   static const String RecentActivityURL = '/api/attempts/get-recent-attempts';
 
+  static const String RecentAttempts =
+      'https://prodapi.premed.pk/api/attempts/get-recent-attempts';
+
   static const String MdcatQbank = '/api/get-category-decks/MDCAT QBank';
   static const String NUMSQbank = '/api/get-category-decks/NUMS QBank';
   static const String PRVUQbank =

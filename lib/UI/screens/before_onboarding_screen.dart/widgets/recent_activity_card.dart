@@ -59,7 +59,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                                const RecentActivityScreen()));
+                            const RecentActivityScreen()));
                       },
                       child: const Text(
                         'View All',
