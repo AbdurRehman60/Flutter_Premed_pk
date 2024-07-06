@@ -1,35 +1,51 @@
 import 'dart:convert';
-
+// Info class
 class Info {
-
   Info({
     required this.features,
     required this.exam,
     required this.lastOnboardingPage,
+    required this.approach,
+    required this.year,
+    required this.educationSystem,
+    required this.institution
   });
 
   factory Info.fromJson(Map<String, dynamic> json) {
     return Info(
       features: List<dynamic>.from(json['features'] ?? []),
       exam: List<dynamic>.from(json['exam'] ?? []),
-      lastOnboardingPage: json['lastOnboardingPage'],
+      lastOnboardingPage: json['lastOnboardingPage'] ?? '',
+      institution: json['institution']??'',
+      year: json['year']??'',
+      educationSystem: json['educationSystem']??'',
+      approach: json['approach']??'',
     );
   }
+
   List<dynamic> features;
   List<dynamic> exam;
   String lastOnboardingPage;
+  String institution;
+  String year;
+  String educationSystem;
+  String approach;
 
   Map<String, dynamic> toJson() {
     return {
       'features': features,
       'exam': exam,
       'lastOnboardingPage': lastOnboardingPage,
+      'year':year,
+      'educationSystem': educationSystem,
+      'institution': institution,
+      'approach': approach
     };
   }
 }
 
+// User class
 class User {
-
   User({
     required this.userId,
     required this.status,
@@ -57,25 +73,27 @@ class User {
     required this.coins,
     required this.otherInfo,
     required this.bundlesPurchased,
+    required this.educationSystem,
+    required this.year,
   });
 
   factory User.fromJson(Map<String, dynamic> responseData) {
     return User(
-      userId: responseData['id'],
-      status: responseData['status'] ?? "",
+      userId: responseData['id'] ?? '',
+      status: responseData['status'] ?? '',
       isLoggedin: responseData['isloggedin'] ?? false,
-      userName: responseData['username'] ?? "",
-      fullName: responseData['fullname'] ?? "",
-      phoneNumber: responseData['phonenumber'] ?? "",
-      city: responseData['city'] ?? "",
-      school: responseData['school'] ?? "",
-      country: responseData['country'] ?? "",
-      accountType: responseData['accountType'] ?? "",
+      userName: responseData['username'] ?? '',
+      fullName: responseData['fullname'] ?? '',
+      phoneNumber: responseData['phonenumber'] ?? '',
+      city: responseData['city'] ?? '',
+      school: responseData['school'] ?? '',
+      country: responseData['country'] ?? '',
+      accountType: responseData['accountType'] ?? '',
       availableOnWhatsapp: responseData['availableOnWhatsapp'] ?? false,
-      parentFullName: responseData['parentFullName'] ?? "",
-      parentContactNumber: responseData['parentContactNumber'] ?? "",
-      whatsappNumber: responseData['whatsappNumber'] ?? "",
-      accountCreateDate: responseData['accountcreateddate'] ?? "",
+      parentFullName: responseData['parentFullName'] ?? '',
+      parentContactNumber: responseData['parentContactNumber'] ?? '',
+      whatsappNumber: responseData['whatsappNumber'] ?? '',
+      accountCreateDate: responseData['accountcreateddate'] ?? '',
       isAdmin: responseData['isadmin'] ?? false,
       milestones: List<dynamic>.from(responseData['milestones'] ?? []),
       notificationsRead: List<dynamic>.from(responseData['notificationsread'] ?? []),
@@ -88,9 +106,12 @@ class User {
       otherInfo: responseData['otherinfo'] ?? {},
       bundlesPurchased: responseData['BundlesPurchased'] != null
           ? json.encode(responseData['BundlesPurchased'])
-          : "",
+          : '',
+      educationSystem: responseData['educationSystem'] ?? '',
+      year: responseData['year'] ?? '',
     );
   }
+
   String userId;
   String status;
   bool isLoggedin;
@@ -117,6 +138,8 @@ class User {
   int coins;
   Map<String, dynamic> otherInfo;
   String bundlesPurchased;
+  String educationSystem;
+  String year;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -146,12 +169,16 @@ class User {
     data['coins'] = coins;
     data['otherinfo'] = otherInfo;
     data['BundlesPurchased'] = bundlesPurchased;
+    data['educationSystem'] = educationSystem;
+    data['year'] = year;
 
     return data;
   }
 }
 
-  class BundleItem {
+
+
+class BundleItem {
   BundleItem({
     required this.bundleDetails,
     required this.bundleId,

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/optional_checkbox.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -8,7 +7,6 @@ import '../../../providers/user_provider.dart';
 import '../../../utils/Data/citites_data.dart';
 import '../../../utils/Data/school_data.dart';
 import '../../Widgets/cities_data_widget.dart';
-import '../../Widgets/global_widgets/error_dialogue.dart';
 import '../../Widgets/phone_dropdown.dart';
 import '../../Widgets/school_data_widget.dart';
 import '../navigation_screen/main_navigation_screen.dart';
@@ -22,16 +20,15 @@ class OptionalOnboarding extends StatefulWidget {
 
 class _OptionalOnboardingState extends State<OptionalOnboarding> {
   final _formKey = GlobalKey<FormState>();
-  final UserProvider userProvider = UserProvider();
-  String initialPhoneNumber = '';
   bool hasErrors = false;
   String error = "";
   String city = '';
-  String university = '';
+  String institution = '';
   String educationSystem = '';
   String year = '';
   String knownVia = '';
   String parentContactNumber = '';
+  String phoneNumber = '';
 
   final List<String> educationSystems = [
     'Intermediate/Fsc',
@@ -56,112 +53,136 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
-    final String? lastOnboardingPage = userProvider.user?.info.lastOnboardingPage;
+    final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+    final String? lastob = userProvider.user?.info.lastOnboardingPage;
     final String? username = userProvider.user?.userName;
     final List<String> features = (userProvider.user?.info.features ?? []).cast<String>();
     final List<String> exams = (userProvider.user?.info.exam ?? []).cast<String>();
 
     void onPhoneNumberSelected(PhoneNumber phoneNumber) {
-      userProvider.phoneNumber = phoneNumber.completeNumber;
-    }
-
-    void onCitySelected(String? selectedCity) {
-      auth.setCity(selectedCity!);
       setState(() {
-        city = selectedCity;
+        this.phoneNumber = phoneNumber.completeNumber;
       });
     }
 
-    void onSchoolSelected(String selectedSchool) {
-      auth.setSchool(selectedSchool);
+    void onParentPhoneNumberSelected(PhoneNumber phoneNumber) {
       setState(() {
-        university = selectedSchool;
+        parentContactNumber = phoneNumber.completeNumber;
+      });
+    }
+
+    void onCitySelected(String? selectedCity) {
+      setState(() {
+        city = selectedCity ?? '';
+      });
+    }
+
+    void onSchoolSelected(String? selectedSchool) {
+      setState(() {
+        institution = selectedSchool ?? '';
       });
     }
 
     void onEducationSystemSelected(String? selectedSystem) {
       setState(() {
-        educationSystem = selectedSystem!;
+        educationSystem = selectedSystem ?? '';
       });
     }
 
     void onYearSelected(String? selectedYear) {
       setState(() {
-        year = selectedYear!;
+        year = selectedYear ?? '';
       });
     }
 
     void onKnownViaSelected(String? selectedOption) {
       setState(() {
-        knownVia = selectedOption!;
+        knownVia = selectedOption ?? '';
       });
     }
+
 
     bool validateInput() {
       error = '';
       hasErrors = false;
 
-      if (userProvider.phoneNumber.isEmpty) {
+      if (phoneNumber.isEmpty || city.isEmpty || institution.isEmpty ||
+          educationSystem.isEmpty || year.isEmpty || knownVia.isEmpty) {
         setState(() {
-          error = 'Phone number cannot be empty.';
+          error = "All fields are required.";
           hasErrors = true;
         });
+        return false;
+      } else {
+        setState(() {
+          hasErrors = false;
+        });
+        return true;
       }
-
-      return !hasErrors;
     }
 
-    void onNextPressed() {
-      if (validateInput()) {
-        final Future<Map<String, dynamic>> response = auth.requiredOnboarding( username: username!,
-          lastOnboardingPage: lastOnboardingPage!,
-          selectedExams: exams,
-          selectedFeatures: features,);
-
-        response.then(
-              (response) {
-            if (response['status']) {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MainNavigationScreen(),
-                ),
-                    (route) => false,
-              );
-            } else {
-              showError(context, response);
-            }
-          },
-        );
-      }
+    void showErrorDialog(String errorMessage) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text(errorMessage),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
     }
 
     Future<void> submitOnboardingData() async {
       if (!validateInput()) {
+        showErrorDialog(error);
         return;
       }
 
       try {
         final result = await auth.requiredOnboarding(
           username: username!,
-          lastOnboardingPage: lastOnboardingPage!,
+          lastOnboardingPage: '$lastob/additional-info',
           selectedExams: exams,
           selectedFeatures: features,
+          city: city,
+          educationSystem: educationSystem,
+          year: year,
+          parentContactNumber: parentContactNumber,
+          approach: knownVia,
+          phoneNumber: phoneNumber,
+          institution: institution,
         );
 
         if (result['status']) {
-          // Navigate to the next screen or show success message
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MainNavigationScreen(),
+            ),
+                (route) => false,
+          );
         } else {
           setState(() {
             error = 'Failed to submit data. Please try again.';
             hasErrors = true;
           });
+          showErrorDialog(error);
         }
       } catch (e) {
         setState(() {
           error = 'An error occurred. Please try again.';
           hasErrors = true;
         });
+        showErrorDialog(error);
       }
     }
 
@@ -239,15 +260,16 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                               PhoneDropdown(
                                 onPhoneNumberSelected: onPhoneNumberSelected,
                                 hintText: "",
-                                initialValue: initialPhoneNumber,
+                                initialValue: phoneNumber,
                               ),
                               SizedBoxes.verticalBig,
                               PhoneFieldWithCheckbox(
                                 onWhatsAppNumberSelected: (whatsappNumber) {
-                                  parentContactNumber = whatsappNumber;
+                                  auth.whatsappNumber = whatsappNumber;
                                 },
-                                isPhoneFieldEnabled: parentContactNumber.isEmpty || parentContactNumber == userProvider.phoneNumber,
-                                initialValue: parentContactNumber,
+                                isPhoneFieldEnabled: auth.whatsappNumber.isEmpty ||
+                                    auth.whatsappNumber == auth.phoneNumber,
+                                initialValue: auth.whatsappNumber,
                               ),
                               if (hasErrors)
                                 Text(
@@ -267,7 +289,7 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                               ),
                               SizedBoxes.verticalTiny,
                               PhoneDropdown(
-                                onPhoneNumberSelected: onPhoneNumberSelected,
+                                onPhoneNumberSelected: onParentPhoneNumberSelected,
                                 hintText: "",
                                 initialValue: parentContactNumber,
                               ),
@@ -289,7 +311,7 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                               SizedBoxes.verticalMedium,
                               SchoolDropdownList(
                                 items: schoolsdata,
-                                selectedItem: university,
+                                selectedItem: institution,
                                 onChanged: onSchoolSelected,
                               ),
                               SizedBoxes.verticalMedium,
@@ -439,7 +461,7 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                   ),
                   IconButton(
                     onPressed: () {
-                      onNextPressed();
+                      submitOnboardingData();
                     },
                     icon: Container(
                       decoration: BoxDecoration(

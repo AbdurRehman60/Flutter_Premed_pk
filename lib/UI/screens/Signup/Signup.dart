@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/auth_provider.dart';
@@ -43,6 +44,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               lastOnboardingPage: widget.lastOnboardingPage,
               selectedExams: [],
               selectedFeatures: [],
+              city: '',
+              educationSystem: '',
+              year: '',
+              parentContactNumber: '',
+              approach: '',
+              phoneNumber: '',
+              institution: '',
             );
 
             onboardingResponse.then((onboardingResponse) {
@@ -50,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const OptionalOnboarding(),
+                    builder: (context) => const RequiredOnboarding(),
                   ),
                 );
               } else {

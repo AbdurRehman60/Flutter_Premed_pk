@@ -34,7 +34,6 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final username = UserProvider().user?.fullName;
@@ -89,9 +88,9 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                       style: PreMedTextTheme()
                                           .subtext1
                                           .copyWith(
-                                          color: PreMedColorTheme().black,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 35),
+                                              color: PreMedColorTheme().black,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 35),
                                     ),
                                   ]),
                             ),
@@ -111,18 +110,18 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                         style: PreMedTextTheme()
                                             .heading3
                                             .copyWith(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 25,
-                                            color: PreMedColorTheme()
-                                                .primaryColorRed)),
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 25,
+                                                color: PreMedColorTheme()
+                                                    .primaryColorRed)),
                                     TextSpan(
                                       text: 'are you preparing for?',
                                       style:
-                                      PreMedTextTheme().subtext1.copyWith(
-                                        color: PreMedColorTheme().black,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 25,
-                                      ),
+                                          PreMedTextTheme().subtext1.copyWith(
+                                                color: PreMedColorTheme().black,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 25,
+                                              ),
                                     ),
                                   ]),
                             ),
@@ -130,15 +129,20 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                             Text(
                               'You can select more than one',
                               style: PreMedTextTheme().body.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                              ),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                             ),
                             SizedBoxes.verticalLarge,
                             Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () => _onContainerTap(0, lastob == 'auth/onboarding/entrance-exam/pre-medical' ? 'MDCAT' : 'FAST'),
+                                  onTap: () => _onContainerTap(
+                                      0,
+                                      lastob ==
+                                              'auth/onboarding/entrance-exam/pre-medical'
+                                          ? 'MDCAT'
+                                          : 'FAST'),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -154,21 +158,29 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                     height: 90,
                                     child: Center(
                                         child: Text(
-                                          textAlign: TextAlign.center,
-                                          lastob == 'auth/onboarding/entrance-exam/pre-medical' ? 'MDCAT' : 'FAST',
-                                          style: PreMedTextTheme()
-                                              .heading3
-                                              .copyWith(
+                                      textAlign: TextAlign.center,
+                                      lastob ==
+                                              'auth/onboarding/entrance-exam/pre-medical'
+                                          ? 'MDCAT'
+                                          : 'FAST',
+                                      style: PreMedTextTheme()
+                                          .heading3
+                                          .copyWith(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 20,
                                               color: PreMedColorTheme()
                                                   .primaryColorRed),
-                                        )),
+                                    )),
                                   ),
                                 ),
                                 SizedBoxes.horizontal24Px,
                                 GestureDetector(
-                                  onTap: () => _onContainerTap(1, lastob == 'auth/onboarding/entrance-exam/pre-medical' ? 'NUMS' : 'NUST'),
+                                  onTap: () => _onContainerTap(
+                                      1,
+                                      lastob ==
+                                              'auth/onboarding/entrance-exam/pre-medical'
+                                          ? 'NUMS'
+                                          : 'NUST'),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -184,16 +196,19 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                     height: 90,
                                     child: Center(
                                         child: Text(
-                                          textAlign: TextAlign.center,
-                                          lastob == 'auth/onboarding/entrance-exam/pre-medical' ? 'NUMS' : 'NUST',
-                                          style: PreMedTextTheme()
-                                              .heading3
-                                              .copyWith(
+                                      textAlign: TextAlign.center,
+                                      lastob ==
+                                              'auth/onboarding/entrance-exam/pre-medical'
+                                          ? 'NUMS'
+                                          : 'NUST',
+                                      style: PreMedTextTheme()
+                                          .heading3
+                                          .copyWith(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 20,
                                               color: PreMedColorTheme()
                                                   .primaryColorRed),
-                                        )),
+                                    )),
                                   ),
                                 ),
                               ],
@@ -202,7 +217,12 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                             Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () => _onContainerTap(2, lastob == 'auth/onboarding/entrance-exam/pre-medical' ? 'Private Universities' : 'GIKI'),
+                                  onTap: () => _onContainerTap(
+                                      2,
+                                      lastob ==
+                                              'auth/onboarding/entrance-exam/pre-medical'
+                                          ? 'Private Universities'
+                                          : 'GIKI'),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -218,20 +238,24 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                     height: 90,
                                     child: Center(
                                         child: Text(
-                                          textAlign: TextAlign.center,
-                                          lastob == 'auth/onboarding/entrance-exam/pre-medical' ? 'Private Universities' : 'GIKI',
-                                          style: PreMedTextTheme()
-                                              .heading3
-                                              .copyWith(
+                                      textAlign: TextAlign.center,
+                                      lastob ==
+                                              'auth/onboarding/entrance-exam/pre-medical'
+                                          ? 'Private Universities'
+                                          : 'GIKI',
+                                      style: PreMedTextTheme()
+                                          .heading3
+                                          .copyWith(
                                               fontWeight: FontWeight.w800,
                                               fontSize: 20,
                                               color: PreMedColorTheme()
                                                   .primaryColorRed),
-                                        )),
+                                    )),
                                   ),
                                 ),
                                 SizedBoxes.horizontal24Px,
-                                if (lastob == 'auth/onboarding/entrance-exam/pre-engineering')
+                                if (lastob ==
+                                    'auth/onboarding/entrance-exam/pre-engineering')
                                   GestureDetector(
                                     onTap: () => _onContainerTap(3, 'UET'),
                                     child: Container(
@@ -241,7 +265,8 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                         border: Border.all(
                                           width: 6,
                                           color: isTappedList[3]
-                                              ? PreMedColorTheme().primaryColorRed
+                                              ? PreMedColorTheme()
+                                                  .primaryColorRed
                                               : Colors.white,
                                         ),
                                       ),
@@ -249,20 +274,23 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                       height: 90,
                                       child: Center(
                                           child: Text(
-                                            textAlign: TextAlign.center,
-                                            'UET',
-                                            style: PreMedTextTheme().heading3.copyWith(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 20,
-                                              color: PreMedColorTheme().primaryColorRed,
-                                            ),
-                                          )),
+                                        textAlign: TextAlign.center,
+                                        'UET',
+                                        style:
+                                            PreMedTextTheme().heading3.copyWith(
+                                                  fontWeight: FontWeight.w800,
+                                                  fontSize: 20,
+                                                  color: PreMedColorTheme()
+                                                      .primaryColorRed,
+                                                ),
+                                      )),
                                     ),
                                   ),
                               ],
                             ),
                             SizedBoxes.verticalMedium,
-                            if (lastob == 'auth/onboarding/entrance-exam/pre-engineering')
+                            if (lastob ==
+                                'auth/onboarding/entrance-exam/pre-engineering')
                               GestureDetector(
                                 onTap: () => _onContainerTap(4, 'NED'),
                                 child: Container(
@@ -280,14 +308,15 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                   height: 90,
                                   child: Center(
                                       child: Text(
-                                        textAlign: TextAlign.center,
-                                        'NED',
-                                        style: PreMedTextTheme().heading3.copyWith(
+                                    textAlign: TextAlign.center,
+                                    'NED',
+                                    style: PreMedTextTheme().heading3.copyWith(
                                           fontWeight: FontWeight.w800,
                                           fontSize: 20,
-                                          color: PreMedColorTheme().primaryColorRed,
+                                          color: PreMedColorTheme()
+                                              .primaryColorRed,
                                         ),
-                                      )),
+                                  )),
                                 ),
                               ),
                           ],
@@ -310,14 +339,14 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                         fontWeight: FontWeight.w700,
                                         fontSize: 25,
                                         color:
-                                        PreMedColorTheme().highschoolblue)),
+                                            PreMedColorTheme().highschoolblue)),
                                 TextSpan(
                                   text: 'do you want?',
                                   style: PreMedTextTheme().subtext1.copyWith(
-                                    color: PreMedColorTheme().black,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 25,
-                                  ),
+                                        color: PreMedColorTheme().black,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 25,
+                                      ),
                                 ),
                               ]),
                         ),
@@ -325,9 +354,9 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                         Text(
                           'You can select more than one',
                           style: PreMedTextTheme().body.copyWith(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                          ),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                              ),
                         ),
                         SizedBoxes.verticalLarge,
                         Row(
@@ -359,42 +388,42 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                   height: 80,
                                   child: Center(
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                              PremedAssets.Books,
-                                              width: 24,
-                                              height: 24,
-                                            ),
-                                            SizedBoxes.horizontal10Px,
-                                            Text(
-                                              textAlign: TextAlign.center,
-                                              'Topicals',
-                                              style: PreMedTextTheme()
-                                                  .heading3
-                                                  .copyWith(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          PremedAssets.Books,
+                                          width: 24,
+                                          height: 24,
+                                        ),
+                                        SizedBoxes.horizontal10Px,
+                                        Text(
+                                          textAlign: TextAlign.center,
+                                          'Topicals',
+                                          style: PreMedTextTheme()
+                                              .heading3
+                                              .copyWith(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 15,
                                                   color:
-                                                  PreMedColorTheme().black),
-                                            ),
-                                          ],
+                                                      PreMedColorTheme().black),
                                         ),
-                                      )),
+                                      ],
+                                    ),
+                                  )),
                                 ),
                               ),
                             ),
-                            SizedBoxes.horizontal24Px,
+                            SizedBoxes.horizontal15Px,
                             IntrinsicWidth(
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
                                     isTappedList[6] = !isTappedList[6];
                                     if (isTappedList[6]) {
-                                      selectedFeatures.add('Yearly');
+                                      selectedFeatures.add('Flashcards');
                                     } else {
-                                      selectedFeatures.remove('Yearly');
+                                      selectedFeatures.remove('Flashcards');
                                     }
                                   });
                                 },
@@ -422,14 +451,14 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                         SizedBoxes.horizontal10Px,
                                         Text(
                                           textAlign: TextAlign.center,
-                                          'Yearly',
+                                          'Flashcards',
                                           style: PreMedTextTheme()
                                               .heading3
                                               .copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 15,
-                                              color:
-                                              PreMedColorTheme().black),
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 15,
+                                                  color:
+                                                      PreMedColorTheme().black),
                                         ),
                                       ],
                                     ),
@@ -469,42 +498,42 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                   height: 80,
                                   child: Center(
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                              PremedAssets.Books,
-                                              width: 24,
-                                              height: 24,
-                                            ),
-                                            SizedBoxes.horizontal10Px,
-                                            Text(
-                                              textAlign: TextAlign.center,
-                                              'Revision Notes',
-                                              style: PreMedTextTheme()
-                                                  .heading3
-                                                  .copyWith(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          PremedAssets.Books,
+                                          width: 24,
+                                          height: 24,
+                                        ),
+                                        SizedBoxes.horizontal10Px,
+                                        Text(
+                                          textAlign: TextAlign.center,
+                                          'Revision Notes',
+                                          style: PreMedTextTheme()
+                                              .heading3
+                                              .copyWith(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 15,
                                                   color:
-                                                  PreMedColorTheme().black),
-                                            ),
-                                          ],
+                                                      PreMedColorTheme().black),
                                         ),
-                                      )),
+                                      ],
+                                    ),
+                                  )),
                                 ),
                               ),
                             ),
-                            SizedBoxes.horizontal24Px,
+                            SizedBoxes.horizontal15Px,
                             IntrinsicWidth(
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
                                     isTappedList[8] = !isTappedList[8];
                                     if (isTappedList[8]) {
-                                      selectedFeatures.add('Mnemonics');
+                                      selectedFeatures.add('Statistics');
                                     } else {
-                                      selectedFeatures.remove('Mnemonics');
+                                      selectedFeatures.remove('Statistics');
                                     }
                                   });
                                 },
@@ -532,14 +561,14 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                         SizedBoxes.horizontal10Px,
                                         Text(
                                           textAlign: TextAlign.center,
-                                          'Mnemonics',
+                                          'Statistics',
                                           style: PreMedTextTheme()
                                               .heading3
                                               .copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 15,
-                                              color:
-                                              PreMedColorTheme().black),
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 15,
+                                                  color:
+                                                      PreMedColorTheme().black),
                                         ),
                                       ],
                                     ),
@@ -579,42 +608,42 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                   height: 80,
                                   child: Center(
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                              PremedAssets.Books,
-                                              width: 24,
-                                              height: 24,
-                                            ),
-                                            SizedBoxes.horizontal10Px,
-                                            Text(
-                                              textAlign: TextAlign.center,
-                                              'Mocks',
-                                              style: PreMedTextTheme()
-                                                  .heading3
-                                                  .copyWith(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          PremedAssets.Books,
+                                          width: 24,
+                                          height: 24,
+                                        ),
+                                        SizedBoxes.horizontal10Px,
+                                        Text(
+                                          textAlign: TextAlign.center,
+                                          'Mocks',
+                                          style: PreMedTextTheme()
+                                              .heading3
+                                              .copyWith(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 15,
                                                   color:
-                                                  PreMedColorTheme().black),
-                                            ),
-                                          ],
+                                                      PreMedColorTheme().black),
                                         ),
-                                      )),
+                                      ],
+                                    ),
+                                  )),
                                 ),
                               ),
                             ),
-                            SizedBoxes.horizontal24Px,
+                            SizedBoxes.horizontal15Px,
                             IntrinsicWidth(
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
                                     isTappedList[10] = !isTappedList[10];
                                     if (isTappedList[10]) {
-                                      selectedFeatures.add('Statistics');
+                                      selectedFeatures.add('Mnemonics');
                                     } else {
-                                      selectedFeatures.remove('Statistics');
+                                      selectedFeatures.remove('Mnemonics');
                                     }
                                   });
                                 },
@@ -642,14 +671,14 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                         SizedBoxes.horizontal10Px,
                                         Text(
                                           textAlign: TextAlign.center,
-                                          'Statistics',
+                                          'Mnemonics',
                                           style: PreMedTextTheme()
                                               .heading3
                                               .copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 15,
-                                              color:
-                                              PreMedColorTheme().black),
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 15,
+                                                  color:
+                                                      PreMedColorTheme().black),
                                         ),
                                       ],
                                     ),
@@ -689,33 +718,33 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                   height: 80,
                                   child: Center(
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                              PremedAssets.Books,
-                                              width: 24,
-                                              height: 24,
-                                            ),
-                                            SizedBoxes.horizontal10Px,
-                                            Text(
-                                              textAlign: TextAlign.center,
-                                              'Guides',
-                                              style: PreMedTextTheme()
-                                                  .heading3
-                                                  .copyWith(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          PremedAssets.Books,
+                                          width: 24,
+                                          height: 24,
+                                        ),
+                                        SizedBoxes.horizontal10Px,
+                                        Text(
+                                          textAlign: TextAlign.center,
+                                          'Guides',
+                                          style: PreMedTextTheme()
+                                              .heading3
+                                              .copyWith(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 15,
                                                   color:
-                                                  PreMedColorTheme().black),
-                                            ),
-                                          ],
+                                                      PreMedColorTheme().black),
                                         ),
-                                      )),
+                                      ],
+                                    ),
+                                  )),
                                 ),
                               ),
                             ),
-                            SizedBoxes.horizontal24Px,
+                            SizedBoxes.horizontal15Px,
                             IntrinsicWidth(
                               child: GestureDetector(
                                 onTap: () {
@@ -724,7 +753,8 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                     if (isTappedList[12]) {
                                       selectedFeatures.add('Recent Activity');
                                     } else {
-                                      selectedFeatures.remove('Recent Activity');
+                                      selectedFeatures
+                                          .remove('Recent Activity');
                                     }
                                   });
                                 },
@@ -756,10 +786,10 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                           style: PreMedTextTheme()
                                               .heading3
                                               .copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 15,
-                                              color:
-                                              PreMedColorTheme().black),
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 15,
+                                                  color:
+                                                      PreMedColorTheme().black),
                                         ),
                                       ],
                                     ),
@@ -781,7 +811,8 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                     if (isTappedList[13]) {
                                       selectedFeatures.add("Expert's Solution");
                                     } else {
-                                      selectedFeatures.remove("Expert's Solution");
+                                      selectedFeatures
+                                          .remove("Expert's Solution");
                                     }
                                   });
                                 },
@@ -799,42 +830,42 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                   height: 80,
                                   child: Center(
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            Image.asset(
-                                              PremedAssets.Books,
-                                              width: 24,
-                                              height: 24,
-                                            ),
-                                            SizedBoxes.horizontal10Px,
-                                            Text(
-                                              textAlign: TextAlign.center,
-                                              "Expert's Solution",
-                                              style: PreMedTextTheme()
-                                                  .heading3
-                                                  .copyWith(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          PremedAssets.Books,
+                                          width: 24,
+                                          height: 24,
+                                        ),
+                                        SizedBoxes.horizontal10Px,
+                                        Text(
+                                          textAlign: TextAlign.center,
+                                          "Expert's Solution",
+                                          style: PreMedTextTheme()
+                                              .heading3
+                                              .copyWith(
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 15,
                                                   color:
-                                                  PreMedColorTheme().black),
-                                            ),
-                                          ],
+                                                      PreMedColorTheme().black),
                                         ),
-                                      )),
+                                      ],
+                                    ),
+                                  )),
                                 ),
                               ),
                             ),
-                            SizedBoxes.horizontal24Px,
+                            SizedBoxes.horizontal15Px,
                             IntrinsicWidth(
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
                                     isTappedList[14] = !isTappedList[14];
                                     if (isTappedList[14]) {
-                                      selectedFeatures.add('Flashcards');
+                                      selectedFeatures.add('Yearly');
                                     } else {
-                                      selectedFeatures.remove('Flashcards');
+                                      selectedFeatures.remove('Yearly');
                                     }
                                   });
                                 },
@@ -862,14 +893,14 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                         SizedBoxes.horizontal10Px,
                                         Text(
                                           textAlign: TextAlign.center,
-                                          'Flashcards',
+                                          'Yearly',
                                           style: PreMedTextTheme()
                                               .heading3
                                               .copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 15,
-                                              color:
-                                              PreMedColorTheme().black),
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 15,
+                                                  color:
+                                                      PreMedColorTheme().black),
                                         ),
                                       ],
                                     ),
@@ -920,9 +951,9 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                       style: PreMedTextTheme()
                                           .heading3
                                           .copyWith(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 15,
-                                          color: PreMedColorTheme().black),
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 15,
+                                              color: PreMedColorTheme().black),
                                     ),
                                   ],
                                 ),
@@ -968,7 +999,8 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                       _submitSelectedExamsAndFeatures(username, lastob);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const OptionalOnboarding()),
+                        MaterialPageRoute(
+                            builder: (context) => const OptionalOnboarding()),
                       );
                     },
                     icon: Container(
@@ -1001,15 +1033,24 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
 
   void _submitSelectedExamsAndFeatures(String? username, String? lastob) {
     if (username != null && lastob != null) {
-      final AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
-      auth.requiredOnboarding(
+      final AuthProvider auth =
+          Provider.of<AuthProvider>(context, listen: false);
+      auth
+          .requiredOnboarding(
         username: username,
-        lastOnboardingPage: lastob,
+        lastOnboardingPage: '$lastob/features',
         selectedExams: selectedExams,
         selectedFeatures: selectedFeatures,
-      ).then((response) {
+        city: '',
+        educationSystem: '',
+        year: '',
+        parentContactNumber: '',
+        approach: '',
+        phoneNumber: '',
+        institution: '',
+      )
+          .then((response) {
         if (response['status']) {
-          // Handle successful response
         } else {
           showError(context, response);
         }

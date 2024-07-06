@@ -1,15 +1,12 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:premedpk_mobile_app/UI/screens/Signup/Signup.dart'; // Import the Signup screen
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 import '../../Signup/widgets/signup_screen_one.dart';
 
 class EntryTest extends StatefulWidget {
-  final String lastOnboardingPage;
 
   const EntryTest({required this.lastOnboardingPage, super.key});
+  final String lastOnboardingPage;
 
   @override
   State<EntryTest> createState() => _EntryTestState();

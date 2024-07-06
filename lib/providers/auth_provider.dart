@@ -33,6 +33,7 @@ class AuthProvider extends ChangeNotifier {
   set signUpStatus(Status value) {
     _signUpStatus = value;
   }
+
   User? _user;
   Info? _info;
 
@@ -44,7 +45,6 @@ class AuthProvider extends ChangeNotifier {
   }
 
   String get lastOnboardingPage {
-    print("Getting lastOnboardingPage: ${_info?.lastOnboardingPage}");
     return _info?.lastOnboardingPage ?? '';
   }
 
@@ -246,15 +246,47 @@ class AuthProvider extends ChangeNotifier {
         await UserPreferences().saveUser(user);
 
         UserProvider().user = user;
-        if (responseData.containsKey("onboarding") && responseData["onboarding"] == true) {
-          result = {
-            'status': true,
-            'message': "home",
-          };
+
+        if (responseData.containsKey("lastOnboardingPage")) {
+          final lastOnboardingPage = responseData["lastOnboardingPage"];
+
+          if (lastOnboardingPage == "/auth/onboarding") {
+            result = {
+              'status': true,
+              'message': "OnboardingOne",
+            };
+          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam") {
+            result = {
+              'status': true,
+              'message': "EntryTest",
+            };
+          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical" ||
+              lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-engineering") {
+            result = {
+              'status': true,
+              'message': "RequiredOnboarding",
+            };
+          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical/features" ||
+              lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-engineering/features") {
+            result = {
+              'status': true,
+              'message': "OptionalOnboarding",
+            };
+          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical/features/additional-info") {
+            result = {
+              'status': true,
+              'message': "home",
+            };
+          } else {
+            result = {
+              'status': true,
+              'message': "unknown",
+            };
+          }
         } else {
           result = {
             'status': true,
-            'message': "onboarding",
+            'message': "home",
           };
         }
       } else {
@@ -335,75 +367,40 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> optionalOnboarding() async {
-    Map<String, Object?> result;
-
-    final Map<String, dynamic> payload = {
-      "academyJoined": academyJoined,
-      "parentContactNumber": parentContactNumber,
-      "parentFullName": parentFullName,
-      "optionalOnboarding": true,
-      "intendFor": intendFor,
-    };
-
-    _loggedInStatus = Status.Authenticating;
-    notifyListeners();
-
-    try {
-      final Response response = await _client.post(
-        Endpoints.OptionalOnboarding,
-        data: payload,
-      );
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData =
-        Map<String, dynamic>.from(response.data);
-
-        await getLoggedInUser();
-
-        result = {
-          'status': responseData["success"],
-          'message': responseData["status"],
-        };
-      } else {
-        result = {
-          'status': false,
-          'message': json.decode(response.data),
-        };
-      }
-    } on DioException catch (e) {
-      result = {
-        'status': false,
-        'message': e.message,
-      };
-    }
-
-    return result;
-  }
-
   Future<Map<String, dynamic>> requiredOnboarding({
     required String username,
     required String lastOnboardingPage,
     required List<String> selectedExams,
     required List<String> selectedFeatures,
+    required String city,
+    required String educationSystem,
+    required String year,
+    required String parentContactNumber,
+    required String approach,
+    required String phoneNumber,
+    required String institution,
   }) async {
     Map<String, Object?> result;
 
     final Map<String, dynamic> payload = {
-      "city": city,
+      "username": username,
       "info": {
         "lastOnboardingPage": lastOnboardingPage,
         if (selectedExams.isNotEmpty) "exam": selectedExams,
         if (selectedFeatures.isNotEmpty) "features": selectedFeatures,
+        "year": year,
+        "educationSystem": educationSystem,
+        "institution": institution,
+        "approach": approach,
       },
-      "year": year,
-      "institution": institution,
+      "city": city,
       "educationSystem": educationSystem,
-      "approach": approach,
+      "year": year,
       "parentContactNumber": parentContactNumber,
       "onboarding": true,
-      "optionalOnboarding": false,
-      "phonenumber": phoneNumber
+      "phonenumber": phoneNumber,
+      "institution": institution,
+      "approach": approach,
     };
 
     _loggedInStatus = Status.Authenticating;
@@ -451,9 +448,6 @@ class AuthProvider extends ChangeNotifier {
 
     return result;
   }
-
-
-
 
   Future<Map<String, dynamic>> logout() async {
     Map<String, Object?> result;
