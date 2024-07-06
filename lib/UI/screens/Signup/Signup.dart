@@ -41,6 +41,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             final Future<Map<String, dynamic>> onboardingResponse = auth.requiredOnboarding(
               username: emailController.text,
               lastOnboardingPage: widget.lastOnboardingPage,
+              selectedExams: [],
+              selectedFeatures: [],
             );
 
             onboardingResponse.then((onboardingResponse) {

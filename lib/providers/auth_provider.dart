@@ -384,6 +384,8 @@ class AuthProvider extends ChangeNotifier {
   Future<Map<String, dynamic>> requiredOnboarding({
     required String username,
     required String lastOnboardingPage,
+    required List<String> selectedExams,
+    required List<String> selectedFeatures,
   }) async {
     Map<String, Object?> result;
 
@@ -391,15 +393,17 @@ class AuthProvider extends ChangeNotifier {
       "city": city,
       "info": {
         "lastOnboardingPage": lastOnboardingPage,
-        if (exam.isNotEmpty) "exam": exam,
-        if (features.isNotEmpty) "features": features,
-        if (year.isNotEmpty) "year": year,
-        if (approach.isNotEmpty) "approach": approach,
-        if (educationSystem.isNotEmpty) "educationSystem": educationSystem,
-        if (institution.isNotEmpty) "institution": institution,
+        if (selectedExams.isNotEmpty) "exam": selectedExams,
+        if (selectedFeatures.isNotEmpty) "features": selectedFeatures,
       },
+      "year": year,
+      "institution": institution,
+      "educationSystem": educationSystem,
+      "approach": approach,
+      "parentContactNumber": parentContactNumber,
       "onboarding": true,
       "optionalOnboarding": false,
+      "phonenumber": phoneNumber
     };
 
     _loggedInStatus = Status.Authenticating;
@@ -412,8 +416,7 @@ class AuthProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData =
-        Map<String, dynamic>.from(response.data);
+        final Map<String, dynamic> responseData = Map<String, dynamic>.from(response.data);
 
         if (responseData.containsKey('info') && responseData['info'] != null) {
           _info = Info.fromJson(responseData['info']);
@@ -448,6 +451,9 @@ class AuthProvider extends ChangeNotifier {
 
     return result;
   }
+
+
+
 
   Future<Map<String, dynamic>> logout() async {
     Map<String, Object?> result;
