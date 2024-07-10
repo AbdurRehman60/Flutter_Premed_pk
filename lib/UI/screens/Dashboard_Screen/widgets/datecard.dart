@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/dashboard_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/dashboard_screen.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 
 class DateDialog extends StatefulWidget {

@@ -11,7 +11,7 @@ import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.d
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_success.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_mock_or_bank_screen.dart';
+
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
@@ -104,7 +104,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DeckProvider()),
         ChangeNotifierProvider(create: (_) => RecentAttemptsProvider()),
         ChangeNotifierProvider(create: (_) => UserStatProvider()),
-        ChangeNotifierProvider(create: (_) => LatestAttemptProvider())
+        ChangeNotifierProvider(create: (_) => LatestAttemptPro()),
       ],
       child: MaterialApp(
         routes: {

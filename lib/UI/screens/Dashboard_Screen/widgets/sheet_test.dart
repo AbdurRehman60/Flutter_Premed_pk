@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/widgets/datecard.dart';
+import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/datecard.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 
 class ExamSelectionDialog extends StatefulWidget {
@@ -43,7 +43,7 @@ class _ExamSelectionDialogState extends State<ExamSelectionDialog> {
           ListTile(
             title: Container(
               decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Colors.grey),
+                border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(5),
               ),
               padding: const EdgeInsets.all(5),
@@ -91,7 +91,7 @@ class _ExamSelectionDialogState extends State<ExamSelectionDialog> {
           ListTile(
             title: Container(
               decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Colors.grey),
+                border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(5),
               ),
               padding: const EdgeInsets.all(5),
@@ -115,7 +115,7 @@ class _ExamSelectionDialogState extends State<ExamSelectionDialog> {
           ListTile(
             title: Container(
               decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Colors.grey),
+                border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(5),
               ),
               padding: const EdgeInsets.all(5),

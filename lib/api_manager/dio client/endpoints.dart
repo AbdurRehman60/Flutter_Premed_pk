@@ -125,5 +125,9 @@ class Endpoints {
   static String updateResult(String attemptId) =>
       '/api/attempts/update-result/$attemptId';
 
-  static String getAttemptInfo(String attemptId)=>'/api/attempts/get-attempt-info/$attemptId';
+  static String getAttemptInfo(String attemptId) =>
+      '/api/attempts/get-attempt-info/$attemptId';
+
+  static const String attemptPoints =
+      'https://prodapi.premed.pk/api/attempts/get-latest-attempt';
 }

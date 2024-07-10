@@ -1,11 +1,9 @@
-// latest_attempt_model.dart
-
 class LatestAttempt {
   LatestAttempt({this.id, this.results});
 
   factory LatestAttempt.fromJson(Map<String, dynamic> json) {
     return LatestAttempt(
-      id: json['id'],
+      id: json['_id'],
       results: json['results'] != null
           ? (json['results'] as List).map((e) => Result.fromJson(e)).toList()
           : null,
@@ -118,4 +116,70 @@ class Questions {
 
   String? questionId;
   String? question;
+}
+
+class Attempt {
+  Attempt({
+    required this.id,
+    required this.deckId,
+    required this.userId,
+    required this.attempts,
+    required this.attemptMode,
+    required this.metadata,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.v,
+    required this.attemptedDate,
+    required this.totalAttempts,
+    required this.mode,
+    required this.deckName,
+    required this.totalQuestions,
+  });
+
+  factory Attempt.fromJson(Map<String, dynamic> json) {
+    final attemptsJson = json['attempts'];
+    return Attempt(
+      id: attemptsJson['_id'] ?? '',
+      deckId: attemptsJson['deckId'] ?? '',
+      userId: attemptsJson['userId'] ?? '',
+      attempts: attemptsJson['attempts'] ?? [],
+      attemptMode: attemptsJson['attemptMode'] ?? '',
+      metadata: Metadata.fromJson(attemptsJson['metadata'] ?? {}),
+      createdAt: attemptsJson['createdAt'] ?? '',
+      updatedAt: attemptsJson['updatedAt'] ?? '',
+      v: attemptsJson['__v'] ?? 0,
+      attemptedDate: json['attemptedDate'] ?? '',
+      totalAttempts: json['totalAttempts'] ?? 0,
+      mode: json['mode'] ?? '',
+      deckName: json['deckName'] ?? '',
+      totalQuestions: json['totalQuestions'] ?? 0,
+    );
+  }
+  final String id;
+  final String deckId;
+  final String userId;
+  final List<dynamic> attempts;
+  final String attemptMode;
+  final Metadata metadata;
+  final String createdAt;
+  final String updatedAt;
+  final int v;
+  final String attemptedDate;
+  final int totalAttempts;
+  final String mode;
+  final String deckName;
+  final int totalQuestions;
+}
+
+class Metadata {
+  Metadata({required this.entity, required this.category});
+
+  factory Metadata.fromJson(Map<String, dynamic> json) {
+    return Metadata(
+      entity: json['entity'] ?? '',
+      category: json['category'] ?? '',
+    );
+  }
+  final String entity;
+  final String category;
 }

@@ -1,5 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/account/account.dart';
-import 'package:premedpk_mobile_app/UI/screens/before_onboarding_screen.dart/dashboard_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/dashboard_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/mdcat_home.dart';

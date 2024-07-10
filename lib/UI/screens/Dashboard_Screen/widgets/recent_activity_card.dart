@@ -1,20 +1,26 @@
 // ignore: file_names
-import 'package:flutter/material.dart';
+// ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/recent_activity_screen.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class RecentActivityCard extends StatefulWidget {
-  final double progressValue;
-  final acivityname;
-  final date;
   const RecentActivityCard({
     super.key,
+    required this.mode,
     required this.acivityname,
     required this.date,
     required this.progressValue,
   });
+  final double progressValue;
+
+  final acivityname;
+  final mode;
+
+  final date;
 
   @override
+  // ignore: library_private_types_in_public_api
   _RecentActivityCardState createState() => _RecentActivityCardState();
 }
 
@@ -26,7 +32,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
       child: Container(
         height: 165,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: PreMedColorTheme().white,
           borderRadius: BorderRadius.circular(20.0),
           boxShadow: [
             BoxShadow(
@@ -59,12 +65,12 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) =>
-                            const RecentActivityScreen()));
+                                const RecentActivityScreen()));
                       },
-                      child: const Text(
+                      child: Text(
                         'View All',
                         style: TextStyle(
-                          color: Colors.red,
+                          color: PreMedColorTheme().red,
                         ),
                       ),
                     ),
@@ -125,6 +131,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 18),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(widget.date,
                                   style: GoogleFonts.rubik(
@@ -133,7 +140,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                                   )),
                               TextButton(
                                 onPressed: () {},
-                                child: Text('Practice Mode',
+                                child: Text(widget.mode,
                                     style: GoogleFonts.rubik(
                                       fontWeight: FontWeight.w800,
                                       fontSize: 12,
@@ -156,11 +163,11 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
 
   Color _getColor(double progressValue) {
     if (progressValue < 0.3) {
-      return Colors.red;
+      return PreMedColorTheme().red;
     } else if (progressValue < 0.6) {
-      return Colors.yellow;
+      return PreMedColorTheme().yellowlight;
     } else {
-      return Colors.green;
+      return PreMedColorTheme().greenLight;
     }
   }
 }

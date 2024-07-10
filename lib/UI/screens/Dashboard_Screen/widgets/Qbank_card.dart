@@ -1,22 +1,22 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class QbankCard extends StatelessWidget {
   const QbankCard({
-    Key? key,
+    super.key,
     required this.icon,
     required this.text,
     required this.text1,
     required this.onTap,
-    required this.text2,
+    // required this.text2,
     this.bgColor = Colors.blue, // default background color
-  }) : super(key: key);
+  });
 
   final String icon;
   final String text;
   final String text1;
-  final String text2;
+  // final String text2;
   final Color bgColor;
   final VoidCallback onTap;
 
@@ -52,12 +52,12 @@ class QbankCard extends StatelessWidget {
                   horizontal: MediaQuery.of(context).size.width *
                       0.04, // Responsive horizontal padding
                 ),
-                child: Image.asset(
+                child: SvgPicture.asset(
                   icon,
                   width: MediaQuery.of(context).size.width *
-                      0.10, // 15% of screen width
+                      0.05, // 15% of screen width
                   height: MediaQuery.of(context).size.height *
-                      0.06, // 8% of screen height
+                      0.05, // 8% of screen height
                 ),
               ),
               Expanded(
@@ -75,10 +75,10 @@ class QbankCard extends StatelessWidget {
                       Text(
                         text,
                         style: GoogleFonts.rubik(
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w900,
                           fontSize: MediaQuery.of(context).size.width *
-                              0.020, // Responsive font size
-                          color: const Color.fromARGB(255, 74, 74, 74),
+                              0.030, // Responsive font size
+                          color: PreMedColorTheme().red,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -89,16 +89,6 @@ class QbankCard extends StatelessWidget {
                           fontWeight: FontWeight.w900,
                           fontSize: MediaQuery.of(context).size.width *
                               0.04, // Responsive font size
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        text2,
-                        style: GoogleFonts.rubik(
-                          fontWeight: FontWeight.w400,
-                          fontSize: MediaQuery.of(context).size.width *
-                              0.035, // Responsive font size
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

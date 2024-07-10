@@ -88,14 +88,14 @@ class Attempt {
 
   factory Attempt.fromJson(Map<String, dynamic> json) {
     return Attempt(
-        questionId: json['questionId'],
-        selection: json['selection'],
-        timeTaken: json['timeTaken'],
-        subject: json['subject'],
-        correctAnswer: json['correctAnswer'],
-        isCorrect: json['isCorrect'] as bool?, // Change this to bool?
-        attempted: json['attempted'] // Change this to bool?
-        );
+      questionId: json['questionId'],
+      selection: json['selection'],
+      timeTaken: json['timeTaken'],
+      subject: json['subject'],
+      correctAnswer: json['correctAnswer'],
+      isCorrect: json['isCorrect'] == 'true',
+      attempted: json['attempted'] == 'true',
+    );
   }
 
   String? questionId;
@@ -103,8 +103,8 @@ class Attempt {
   int? timeTaken;
   String? subject;
   String? correctAnswer;
-  bool? isCorrect; // Change this to bool?
-  String? attempted; // Change this to bool?
+  bool? isCorrect;
+  bool? attempted;
 
   get addedOn => null;
 }

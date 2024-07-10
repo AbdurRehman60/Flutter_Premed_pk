@@ -15,7 +15,7 @@ class PremedAssets {
   static String Payment = 'assets/images/payment.png';
   static String Paymentupload = 'assets/images/upload.png';
   static String Meezan = 'assets/images/meezan.jpg';
-  static String HBL= 'assets/images/HBL.png';
+  static String HBL = 'assets/images/HBL.png';
   static String JazzCash = 'assets/images/jazzcash.png';
   static String EasyPaisa = 'assets/images/easypaisa.jpg';
   static String NotificationIcon = 'assets/images/Bell Icon.png';
@@ -28,15 +28,15 @@ class PremedAssets {
   static String QuestionBank = 'assets/images/Question Bank.png';
   static String Flashcards = 'assets/images/Flashcards.png';
   static String Youtube = 'assets/images/youtube.png';
-  static String MDCAT ='assets/images/PU.png';
-  static String PU ='assets/images/MDCAT QBank 1.png';
-  static String NUMS ='assets/images/NUMS.png';
-  static String Doctor ='assets/images/doctor.png';
-  static String Engineer ='assets/images/engineer.png';
-  static String Business ='assets/images/business.png';
-  static String graph ='assets/images/Chart.png';
-  static String notesstudy ='assets/images/studynotes.png';
-  static String arrow ='assets/images/Chevron Right.png';
+  static String MDCAT = 'assets/images/PU.png';
+  static String PU = 'assets/images/MDCAT QBank 1.png';
+  static String NUMS = 'assets/images/NUMS.png';
+  static String Doctor = 'assets/images/doctor.png';
+  static String Engineer = 'assets/images/engineer.png';
+  static String Business = 'assets/images/business.png';
+  static String graph = 'assets/images/Chart.png';
+  static String notesstudy = 'assets/images/studynotes.png';
+  static String arrow = 'assets/images/Chevron Right.png';
 
   //icons
 
@@ -52,7 +52,7 @@ class PremedAssets {
   static String Chat = 'assets/icons/chat.png';
   static String Check = 'assets/icons/check.png';
   static String Error = 'assets/icons/Error.png';
-  static String Cross ='assets/icons/cross.png';
+  static String Cross = 'assets/icons/cross.png';
   static String Cart = 'assets/icons/Button.png';
   static String RightArrow = 'assets/icons/right-arrow.svg';
   static String BellIcon = 'assets/icons/bell.svg';
@@ -74,10 +74,6 @@ class PremedAssets {
   static String Graph = 'assets/icons/highlighticon3.png';
   static String Grad = 'assets/icons/Grad.png';
   static String Books = 'assets/icons/Books.png';
-
-
-
+  static String Savedquestion = 'assets/icons/Vector.svg';
+  static String Valut = 'assets/images/Frame 2141 1.png';
 }
-
-
-
