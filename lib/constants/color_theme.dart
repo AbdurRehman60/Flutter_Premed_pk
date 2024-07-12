@@ -69,6 +69,7 @@ class PreMedColorTheme {
   Color get neutral800 => const Color(0xFF27272A);
 
   Color get neutral900 => const Color(0xFF17171B);
+  Color get neutral650 => const Color(0xFF6E6E6E);
 
   Color get green => const Color.fromARGB(1, 43, 177, 64);
 

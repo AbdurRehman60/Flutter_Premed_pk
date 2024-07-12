@@ -1,13 +1,12 @@
+// ignore: file_names
 import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/auth_provider.dart';
 import '../../Widgets/global_widgets/custom_textfield.dart';
 import '../../Widgets/global_widgets/error_dialogue.dart';
-import '../onboarding/optional_onboarding.dart';
 
 class SignUpScreen extends StatefulWidget {
-
   const SignUpScreen({required this.lastOnboardingPage, super.key});
   final String lastOnboardingPage;
 
@@ -39,7 +38,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
         signupResponse.then((response) {
           if (response['status']) {
-            final Future<Map<String, dynamic>> onboardingResponse = auth.requiredOnboarding(
+            final Future<Map<String, dynamic>> onboardingResponse =
+                auth.requiredOnboarding(
               username: emailController.text,
               lastOnboardingPage: widget.lastOnboardingPage,
               selectedExams: [],
@@ -112,14 +112,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   TextSpan(
                                     text: 'name',
                                     style: PreMedTextTheme().subtext1.copyWith(
-                                        color: PreMedColorTheme().primaryColorRed,
+                                        color:
+                                            PreMedColorTheme().primaryColorRed,
                                         fontWeight: FontWeight.w800,
                                         fontSize: 25),
                                   ),
                                   TextSpan(
                                     text: '?',
                                     style: PreMedTextTheme().subtext1.copyWith(
-                                        fontWeight: FontWeight.w800, fontSize: 25),
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 25),
                                   ),
                                 ],
                               ),
@@ -127,7 +129,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             SizedBoxes.verticalGargangua,
                             CustomTextField(
                               controller: fullNameController,
-                              prefixIcon: const Icon(Icons.person_outline_rounded),
+                              prefixIcon:
+                                  const Icon(Icons.person_outline_rounded),
                               hintText: 'Enter your full name',
                               labelText: 'Full Name',
                               validator: validateFullname,
@@ -181,7 +184,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               icon: Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: PreMedColorTheme().primaryColorRed200, width: 6),
+                  border: Border.all(
+                      color: PreMedColorTheme().primaryColorRed200, width: 6),
                 ),
                 child: CircleAvatar(
                   backgroundColor: PreMedColorTheme().neutral60,
@@ -199,7 +203,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               icon: Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: PreMedColorTheme().bordercolor, width: 6),
+                  border: Border.all(
+                      color: PreMedColorTheme().bordercolor, width: 6),
                 ),
                 child: CircleAvatar(
                   backgroundColor: PreMedColorTheme().primaryColorRed,

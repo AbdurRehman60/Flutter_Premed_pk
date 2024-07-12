@@ -130,4 +130,22 @@ class Endpoints {
 
   static const String attemptPoints =
       'https://prodapi.premed.pk/api/attempts/get-latest-attempt';
+
+  static const String TopicalNotes =
+      '/api/topical/get/ENTRANCE EXAM/PRE-MEDICAL';
+  static const String CheatSheets =
+      '/api/vault/cheatSheets/get/ENTRANCE EXAM/PRE-MEDICAL';
+  static const String ShortListings =
+      '/api/vault/shortListings/get/ENTRANCE EXAM/PRE-MEDICAL';
+  static const String StudyNotes =
+      '/api/vault/notes/get/ENTRANCE EXAM/PRE-MEDICAL';
+  static const String StudyGuides =
+      '/api/topical/get/ENTRANCE EXAM/PRE-MEDICAL';
+  static const String EssentialStuff =
+      '/api/essential/get/ENTRANCE EXAM/PRE-MEDICAL';
+  static const String Mnemonics =
+      '/api/mnemonics/getAll/ENTRANCE EXAM/PRE-MEDICAL';
+  //VaultEnded
+
+  static const String SavedQuestions = '/api/saveQuestion/get-saved-questions';
 }
