@@ -1,6 +1,4 @@
 import 'package:flip_card/flip_card.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/flashcard_model.dart';
@@ -142,7 +140,7 @@ class _FlashcardCardState extends State<FlashcardCard> {
                       ),
                 ),
                 Html(
-                  data: widget.flashcard.correctOptionText,
+                  data: widget.flashcard.optionText,
                   style: {
                     'p': Style(
                       textAlign: TextAlign.center,

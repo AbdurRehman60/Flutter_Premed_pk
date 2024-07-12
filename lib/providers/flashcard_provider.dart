@@ -1,87 +1,79 @@
-// ignore_for_file: constant_identifier_names, unnecessary_getters_setters, deprecated_member_use
-
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
-import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
-import 'package:premedpk_mobile_app/models/flashcard_model.dart';
-import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:flutter/material.dart';
+import '../api_manager/dio client/dio_client.dart';
+import '../api_manager/dio client/endpoints.dart';
+import '../models/flashcard_model.dart';
+// Adjust import path if necessary
 
 enum Status {
-  Init,
-  Fetching,
-  Error,
+  init,
+  fetching,
+  error,
 }
 
 class FlashcardProvider with ChangeNotifier {
   final DioClient _client = DioClient();
 
-  Status _doubtUploadStatus = Status.Init;
+  Status _doubtUploadStatus = Status.init;
   Status get doubtUploadStatus => _doubtUploadStatus;
   set doubtUploadStatus(Status value) {
     _doubtUploadStatus = value;
+    notifyListeners();
   }
 
   List<FlashcardModel> _flashcardData = [];
   List<FlashcardModel> get flashcardData => _flashcardData;
   set flashcardData(List<FlashcardModel> value) {
     _flashcardData = value;
-  }
-
-  void notify() {
     notifyListeners();
   }
 
   Future<Map<String, dynamic>> getFlashcardsByUser() async {
-    Map<String, Object?> result;
-
-    _doubtUploadStatus = Status.Fetching;
+    _doubtUploadStatus = Status.fetching;
+    notifyListeners();
 
     try {
       final Response response = await _client.post(
         Endpoints.GetFlashcards,
-        data: {
-          "username": UserProvider().getEmail(),
-        },
+        data: {'userId': '64c68bc9f093d0bd25c026de'},
       );
 
-      if (response.statusCode == 200) {
-        final List<Map<String, dynamic>> responseData =
-            List<Map<String, dynamic>>.from(response.data);
+      if (response.data['success'] == true) {
+        final List<dynamic> responseData = response.data['FindFlashcards'];
         final List<FlashcardModel> fetchedList = [];
+
         for (final data in responseData) {
-          final FlashcardModel flashcard = FlashcardModel.fromJson(data);
-          fetchedList.add(flashcard);
+          final flashcardDetails = data['QDetails'][0];
+          if (flashcardDetails['Published']) {
+            final FlashcardModel flashcard = FlashcardModel.fromJson(data);
+            fetchedList.add(flashcard);
+          }
         }
         flashcardData = fetchedList;
 
-        result = {
+        _doubtUploadStatus = Status.init;
+        return {
           'status': true,
           'message': "Fetched Successfully!",
         };
       } else {
-        _doubtUploadStatus = Status.Error;
-        notify();
-
-        // Returning results
-        result = {'status': false, 'message': 'Request failed'};
+        _doubtUploadStatus = Status.error;
+        return {'status': false, 'message': 'Request failed'};
       }
-    } on DioError catch (e) {
-      _doubtUploadStatus = Status.Init;
-      notify();
-      result = {
+    } on DioException catch (e) {
+      _doubtUploadStatus = Status.error;
+      return {
         'status': false,
         'message': e.message,
       };
+    } finally {
+      notifyListeners();
     }
-
-    notify();
-    return result;
   }
 
   List<FlashcardModel> getFilteredFlashcards(String subject) {
     return flashcardData.where((flashcard) {
-      return flashcard.tags.contains(subject);
+      return flashcard.subject == subject;
     }).toList();
   }
 }

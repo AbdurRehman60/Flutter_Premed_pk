@@ -1,56 +1,47 @@
 class FlashcardModel {
-
   FlashcardModel({
     required this.id,
-    required this.userName,
-    required this.questionID,
+    required this.subject,
     required this.questionText,
-    required this.correctOption,
-    required this.correctOptionText,
-    required this.explanationText,
     required this.tags,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.topic,
+    required this.type,
+    required this.year,
+    required this.entity,
+    required this.category,
+    required this.explanationText,
+    required this.optionText,
   });
 
   factory FlashcardModel.fromJson(Map<String, dynamic> json) {
+    final questionDetails = json['QDetails'][0];
+    final correctOption = questionDetails['Options']
+        .firstWhere((option) => option['IsCorrect'] == true);
+
     return FlashcardModel(
       id: json['_id'],
-      userName: json['UserName'],
-      questionID: json['QuestionID'],
-      questionText: json['QuestionText'],
-      correctOption: json['CorrectOption'],
-      correctOptionText: json['CorrectOptionText'],
-      explanationText: json['ExplanationText'],
-      tags: List<String>.from(json['Tags']),
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+      subject: json['subject'],
+      questionText: questionDetails['QuestionText'],
+      tags:
+          List<String>.from(questionDetails['Tags'].map((tag) => tag['name'])),
+      topic: questionDetails['meta']['topic'],
+      type: questionDetails['meta']['type'],
+      year: questionDetails['meta']['year'],
+      entity: questionDetails['meta']['entity'],
+      category: questionDetails['meta']['category'],
+      explanationText: correctOption['ExplanationText'],
+      optionText: correctOption['OptionText'],
     );
   }
   final String id;
-  final String userName;
-  final String questionID;
-
+  final String subject;
   final String questionText;
-  final String correctOption;
-  final String correctOptionText;
-  final String explanationText;
   final List<String> tags;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'userName': userName,
-      'questionID': questionID,
-      'questionText': questionText,
-      'correctOption': correctOption,
-      'correctOptionText': correctOptionText,
-      'explanationText': explanationText,
-      'tags': tags,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
-    };
-  }
+  final String topic;
+  final String type;
+  final int year;
+  final String entity;
+  final String category;
+  final String explanationText;
+  final String optionText;
 }

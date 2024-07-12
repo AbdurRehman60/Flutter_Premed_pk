@@ -149,30 +149,16 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
                             borderRadius: BorderRadius.circular(8))),
                   ),
                 ),
-
-                // child: Material(
-                //   elevation: 3,
-                //   borderRadius: BorderRadius.circular(12),
-                //   child: CustomButton(
-                //     color: Colors.white30,
-                //     isOutlined: true,
-                //     onPressed: goToPreviousCard,
-                //     buttonText: 'Previous',
-                //     textColor: PreMedColorTheme().neutral500,
-                //     // isIconButton: true,
-                //     // icon: Icons.arrow_back_ios_rounded,
-                //   ),
-                // ),
               ),
               SizedBoxes.horizontalMedium,
               Expanded(
                 child: Container(
-                  height: 50, // Adjust height as needed
+                  height: 50, //
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: ElevatedButton.icon(
-                    icon: Icon(Icons.add),
+                    icon: const Icon(Icons.add),
                     onPressed: () {
                       goToNextCard();
                     },
@@ -182,10 +168,10 @@ class _FlashcardCarouselViewState extends State<FlashcardCarouselView> {
                         Text(
                           'Next',
                           style: PreMedTextTheme().body1.copyWith(
-                            color: PreMedColorTheme().white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                          ),
+                                color: PreMedColorTheme().white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                              ),
                         ),
                         Icon(
                           Icons.arrow_forward_ios_rounded,

@@ -7,6 +7,7 @@ import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
+import 'package:premedpk_mobile_app/providers/savedquestion_provider.dart';
 import 'package:provider/provider.dart';
 
 class FlashcardHome extends StatelessWidget {
@@ -21,6 +22,17 @@ class FlashcardHome extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Provider.of<SavedQuestionsProvider>(context, listen: false)
+                      .getSavedQuestions();
+                },
+                icon: const Icon(
+                  Icons.add,
+                  color: Colors.red,
+                ))
+          ],
           backgroundColor: Colors.transparent,
           leading: IconButton(
             onPressed: () {
@@ -67,7 +79,6 @@ class FlashcardHome extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const FlashcardShimmer();
               } else if (snapshot.hasError) {
-                // Handle errors
                 return const Center(
                   child: Text('Error fetching data'),
                 );
@@ -91,8 +102,7 @@ class FlashcardHome extends StatelessWidget {
                         final flashcardCount = flashcardProvider
                             .getFilteredFlashcards(subject)
                             .length;
-                        final page =
-                            '$flashcardCount Questions';
+                        final page = '$flashcardCount Questions';
                         return FlashcardItem(
                           image: gridData[index]['image'] ?? '',
                           text: gridData[index]['text'] ?? '',
@@ -122,7 +132,7 @@ class FlashcardItem extends StatelessWidget {
     required this.text,
     required this.page,
     required this.subject,
-    required this.color, // Add color as a parameter
+    required this.color,
   });
   final String image;
   final String text;
@@ -146,7 +156,6 @@ class FlashcardItem extends StatelessWidget {
         } else {}
       },
       child: Container(
-        // Use a Container to set the background color
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -156,7 +165,7 @@ class FlashcardItem extends StatelessWidget {
               offset: const Offset(0, 3),
             ),
           ],
-          color: color, // Set the background color here
+          color: color,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: PreMedColorTheme().white, width: 3),
         ),
