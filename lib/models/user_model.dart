@@ -1,25 +1,25 @@
 import 'dart:convert';
+
 // Info class
 class Info {
-  Info({
-    required this.features,
-    required this.exam,
-    required this.lastOnboardingPage,
-    required this.approach,
-    required this.year,
-    required this.educationSystem,
-    required this.institution
-  });
+  Info(
+      {required this.features,
+      required this.exam,
+      required this.lastOnboardingPage,
+      required this.approach,
+      required this.year,
+      required this.educationSystem,
+      required this.institution});
 
   factory Info.fromJson(Map<String, dynamic> json) {
     return Info(
       features: List<dynamic>.from(json['features'] ?? []),
       exam: List<dynamic>.from(json['exam'] ?? []),
       lastOnboardingPage: json['lastOnboardingPage'] ?? '',
-      institution: json['institution']??'',
-      year: json['year']??'',
-      educationSystem: json['educationSystem']??'',
-      approach: json['approach']??'',
+      institution: json['institution'] ?? '',
+      year: json['year'] ?? '',
+      educationSystem: json['educationSystem'] ?? '',
+      approach: json['approach'] ?? '',
     );
   }
 
@@ -36,7 +36,7 @@ class Info {
       'features': features,
       'exam': exam,
       'lastOnboardingPage': lastOnboardingPage,
-      'year':year,
+      'year': year,
       'educationSystem': educationSystem,
       'institution': institution,
       'approach': approach
@@ -96,11 +96,13 @@ class User {
       accountCreateDate: responseData['accountcreateddate'] ?? '',
       isAdmin: responseData['isadmin'] ?? false,
       milestones: List<dynamic>.from(responseData['milestones'] ?? []),
-      notificationsRead: List<dynamic>.from(responseData['notificationsread'] ?? []),
+      notificationsRead:
+          List<dynamic>.from(responseData['notificationsread'] ?? []),
       subscriptions: List<dynamic>.from(responseData['subscriptions'] ?? []),
       info: Info.fromJson(responseData['info'] ?? {}),
       purposeOfUsage: List<dynamic>.from(responseData['purposeOfUsage'] ?? []),
-      featuresPurchased: List<dynamic>.from(responseData['featuresPurchased'] ?? []),
+      featuresPurchased:
+          List<dynamic>.from(responseData['featuresPurchased'] ?? []),
       access: List<dynamic>.from(responseData['access'] ?? []),
       coins: responseData['coins'] ?? 0,
       otherInfo: responseData['otherinfo'] ?? {},
@@ -175,8 +177,6 @@ class User {
     return data;
   }
 }
-
-
 
 class BundleItem {
   BundleItem({

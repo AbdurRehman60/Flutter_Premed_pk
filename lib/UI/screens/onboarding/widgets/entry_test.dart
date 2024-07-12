@@ -4,8 +4,8 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import '../../Signup/widgets/signup_screen_one.dart';
 
 class EntryTest extends StatefulWidget {
-
   const EntryTest({required this.lastOnboardingPage, super.key});
+
   final String lastOnboardingPage;
 
   @override
@@ -19,9 +19,7 @@ class _EntryTestState extends State<EntryTest> {
       context,
       MaterialPageRoute(
         builder: (context) => SignUp(lastOnboardingPage: completePath),
-
       ),
-
     );
     print(completePath);
   }
@@ -62,18 +60,18 @@ class _EntryTestState extends State<EntryTest> {
                               Text(
                                 'I INTEND TO BE A',
                                 style: PreMedTextTheme().heading3.copyWith(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: PreMedColorTheme().black,
-                                ),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: PreMedColorTheme().black,
+                                    ),
                               ),
                               Text(
                                 'DOCTOR',
                                 style: PreMedTextTheme().heading3.copyWith(
-                                  fontSize: 35,
-                                  fontWeight: FontWeight.w800,
-                                  color: PreMedColorTheme().primaryColorRed,
-                                ),
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.w800,
+                                      color: PreMedColorTheme().primaryColorRed,
+                                    ),
                               ),
                             ],
                           ),
@@ -147,18 +145,18 @@ class _EntryTestState extends State<EntryTest> {
                             Text(
                               'I INTEND TO BE AN',
                               style: PreMedTextTheme().heading3.copyWith(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: PreMedColorTheme().black,
-                              ),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: PreMedColorTheme().black,
+                                  ),
                             ),
                             Text(
                               'ENGINEER',
                               style: PreMedTextTheme().heading3.copyWith(
-                                fontSize: 35,
-                                fontWeight: FontWeight.w800,
-                                color: PreMedColorTheme().highschoolblue,
-                              ),
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.w800,
+                                    color: PreMedColorTheme().highschoolblue,
+                                  ),
                             ),
                           ],
                         ),
@@ -179,7 +177,8 @@ class _EntryTestState extends State<EntryTest> {
             ),
           ),
           Expanded(
-            child: GestureDetector(
+              child: Stack(children: [
+            GestureDetector(
               onTap: () {
                 _navigateToSignup(context, "/business-management");
               },
@@ -207,18 +206,19 @@ class _EntryTestState extends State<EntryTest> {
                             Text(
                               'I WANT TO JOIN',
                               style: PreMedTextTheme().heading3.copyWith(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: PreMedColorTheme().black,
-                              ),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: PreMedColorTheme().black,
+                                  ),
                             ),
                             Text(
                               'BUSINESS & MANAGEMENT',
                               style: PreMedTextTheme().heading3.copyWith(
-                                fontSize: 35,
-                                fontWeight: FontWeight.w800,
-                                color: PreMedColorTheme().customCheckboxColor,
-                              ),
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.w800,
+                                    color:
+                                        PreMedColorTheme().customCheckboxColor,
+                                  ),
                             ),
                           ],
                         ),
@@ -228,7 +228,32 @@ class _EntryTestState extends State<EntryTest> {
                 ),
               ),
             ),
-          ),
+            Positioned.fill(
+              child: Container(
+                color: Colors.white.withOpacity(0.7),
+              ),
+            ),
+            Positioned.fill(
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: PreMedColorTheme().primaryColorRed,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'COMING SOON',
+                      style: PreMedTextTheme().heading3.copyWith(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: PreMedColorTheme().white,
+                          ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ])),
         ],
       ),
     );

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -24,11 +26,13 @@ class AuthProvider extends ChangeNotifier {
   Status _loggedInStatus = Status.NotLoggedIn;
   Status _signUpStatus = Status.NotLoggedIn;
 
+  // ignore: unnecessary_getters_setters
   Status get loggedInStatus => _loggedInStatus;
   set loggedInStatus(Status value) {
     _loggedInStatus = value;
   }
 
+  // ignore: unnecessary_getters_setters
   Status get signUpStatus => _signUpStatus;
   set signUpStatus(Status value) {
     _signUpStatus = value;
@@ -63,6 +67,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   String _parentFullName = '';
+  // ignore: unnecessary_getters_setters
   String get parentFullName => _parentFullName;
   set parentFullName(String value) {
     _parentFullName = value;
@@ -179,7 +184,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-        Map<String, dynamic>.from(response.data);
+            Map<String, dynamic>.from(response.data);
 
         if (responseData["success"]) {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
@@ -239,7 +244,8 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       final response = await _client.get(Endpoints.getLoggedInUser);
-      final responseData = response is Map<String, dynamic> ? response : response.data;
+      final responseData =
+          response is Map<String, dynamic> ? response : response.data;
 
       if (responseData["isloggedin"] == true) {
         final User user = User.fromJson(responseData);
@@ -260,19 +266,24 @@ class AuthProvider extends ChangeNotifier {
               'status': true,
               'message': "EntryTest",
             };
-          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical" ||
-              lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-engineering") {
+          } else if (lastOnboardingPage ==
+                  "/auth/onboarding/entrance-exam/pre-medical" ||
+              lastOnboardingPage ==
+                  "/auth/onboarding/entrance-exam/pre-engineering") {
             result = {
               'status': true,
               'message': "RequiredOnboarding",
             };
-          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical/features" ||
-              lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-engineering/features") {
+          } else if (lastOnboardingPage ==
+                  "/auth/onboarding/entrance-exam/pre-medical/features" ||
+              lastOnboardingPage ==
+                  "/auth/onboarding/entrance-exam/pre-engineering/features") {
             result = {
               'status': true,
               'message': "OptionalOnboarding",
             };
-          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical/features/additional-info") {
+          } else if (lastOnboardingPage ==
+              "/auth/onboarding/entrance-exam/pre-medical/features/additional-info") {
             result = {
               'status': true,
               'message': "home",
@@ -307,7 +318,8 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-  Future<Map<String, dynamic>> signup(String email, String password, String fullName) async {
+  Future<Map<String, dynamic>> signup(
+      String email, String password, String fullName) async {
     Map<String, Object?> result;
     final Map<String, dynamic> signupData = {
       "fullname": fullName,
@@ -325,7 +337,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-        Map<String, dynamic>.from(response.data);
+            Map<String, dynamic>.from(response.data);
         if (responseData["success"]) {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
 
@@ -413,7 +425,8 @@ class AuthProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = Map<String, dynamic>.from(response.data);
+        final Map<String, dynamic> responseData =
+            Map<String, dynamic>.from(response.data);
 
         if (responseData.containsKey('info') && responseData['info'] != null) {
           _info = Info.fromJson(responseData['info']);
@@ -495,7 +508,7 @@ class AuthProvider extends ChangeNotifier {
           'message': response.data.toString(),
         };
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _loggedInStatus = Status.LoggedIn;
       notifyListeners();
       result = {
@@ -538,12 +551,12 @@ class AuthProvider extends ChangeNotifier {
 
         if (response.statusCode == 200) {
           final Map<String, dynamic> responseData =
-          Map<String, dynamic>.from(response.data);
+              Map<String, dynamic>.from(response.data);
 
           if (responseData["success"]) {
             final Map<String, dynamic> userResponse = await getLoggedInUser();
             final SharedPreferences prefs =
-            await SharedPreferences.getInstance();
+                await SharedPreferences.getInstance();
             final String? fcmToken = prefs.getString('fcmToken');
 
             await _client.post(
@@ -607,7 +620,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-        Map<String, dynamic>.from(response.data);
+            Map<String, dynamic>.from(response.data);
 
         if (responseData["success"] != null) {
           result = {
@@ -626,10 +639,73 @@ class AuthProvider extends ChangeNotifier {
           'message': 'Error',
         };
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       result = {
         'status': false,
         'message': e.response?.data ?? e.message,
+      };
+    }
+
+    return result;
+  }
+
+  Future<Map<String, dynamic>> checkOnboarding() async {
+    Map<String, dynamic> result;
+
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      if (prefs.containsKey('lastOnboardingPage')) {
+        final lastOnboardingPage = prefs.getString('lastOnboardingPage');
+
+        if (lastOnboardingPage == "/auth/onboarding") {
+          result = {
+            'status': true,
+            'message': "OnboardingOne",
+          };
+        } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam") {
+          result = {
+            'status': true,
+            'message': "EntryTest",
+          };
+        } else if (lastOnboardingPage ==
+                "/auth/onboarding/entrance-exam/pre-medical" ||
+            lastOnboardingPage ==
+                "/auth/onboarding/entrance-exam/pre-engineering") {
+          result = {
+            'status': true,
+            'message': "RequiredOnboarding",
+          };
+        } else if (lastOnboardingPage ==
+                "/auth/onboarding/entrance-exam/pre-medical/features" ||
+            lastOnboardingPage ==
+                "/auth/onboarding/entrance-exam/pre-engineering/features") {
+          result = {
+            'status': true,
+            'message': "OptionalOnboarding",
+          };
+        } else if (lastOnboardingPage ==
+            "/auth/onboarding/entrance-exam/pre-medical/features/additional-info") {
+          result = {
+            'status': true,
+            'message': "home",
+          };
+        } else {
+          result = {
+            'status': true,
+            'message': "unknown",
+          };
+        }
+      } else {
+        result = {
+          'status': true,
+          'message': "home",
+        };
+      }
+    } catch (e) {
+      result = {
+        'status': false,
+        'message': "Error in fetching Onboarding Details: $e",
       };
     }
 

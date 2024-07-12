@@ -53,11 +53,14 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
-    final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+    final UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
     final String? lastob = userProvider.user?.info.lastOnboardingPage;
     final String? username = userProvider.user?.userName;
-    final List<String> features = (userProvider.user?.info.features ?? []).cast<String>();
-    final List<String> exams = (userProvider.user?.info.exam ?? []).cast<String>();
+    final List<String> features =
+        (userProvider.user?.info.features ?? []).cast<String>();
+    final List<String> exams =
+        (userProvider.user?.info.exam ?? []).cast<String>();
 
     void onPhoneNumberSelected(PhoneNumber phoneNumber) {
       setState(() {
@@ -101,13 +104,16 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
       });
     }
 
-
     bool validateInput() {
       error = '';
       hasErrors = false;
 
-      if (phoneNumber.isEmpty || city.isEmpty || institution.isEmpty ||
-          educationSystem.isEmpty || year.isEmpty || knownVia.isEmpty) {
+      if (phoneNumber.isEmpty ||
+          city.isEmpty ||
+          institution.isEmpty ||
+          educationSystem.isEmpty ||
+          year.isEmpty ||
+          knownVia.isEmpty) {
         setState(() {
           error = "All fields are required.";
           hasErrors = true;
@@ -168,7 +174,7 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
             MaterialPageRoute(
               builder: (context) => const MainNavigationScreen(),
             ),
-                (route) => false,
+            (route) => false,
           );
         } else {
           setState(() {
@@ -207,18 +213,19 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                               RichText(
                                 text: TextSpan(
                                   style: PreMedTextTheme().subtext.copyWith(
-                                    color: PreMedColorTheme().black,
-                                    fontSize: 35,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                                        color: PreMedColorTheme().black,
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                   children: [
                                     TextSpan(
                                       text: 'Let us know more about you',
                                       style: PreMedTextTheme().body.copyWith(
-                                        color: PreMedColorTheme().primaryColorRed,
-                                        fontSize: 35,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                                            color: PreMedColorTheme()
+                                                .primaryColorRed,
+                                            fontSize: 35,
+                                            fontWeight: FontWeight.w700,
+                                          ),
                                     ),
                                     const TextSpan(text: '!'),
                                   ],
@@ -228,10 +235,10 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                               RichText(
                                 text: TextSpan(
                                   style: PreMedTextTheme().subtext.copyWith(
-                                    color: PreMedColorTheme().black,
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                                        color: PreMedColorTheme().black,
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                   children: [
                                     const TextSpan(
                                       text: 'Additional ',
@@ -239,10 +246,11 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                                     TextSpan(
                                       text: 'Info',
                                       style: PreMedTextTheme().body.copyWith(
-                                        color: PreMedColorTheme().primaryColorRed,
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                                            color: PreMedColorTheme()
+                                                .primaryColorRed,
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w700,
+                                          ),
                                     ),
                                     const TextSpan(text: '.'),
                                   ],
@@ -267,8 +275,9 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                                 onWhatsAppNumberSelected: (whatsappNumber) {
                                   auth.whatsappNumber = whatsappNumber;
                                 },
-                                isPhoneFieldEnabled: auth.whatsappNumber.isEmpty ||
-                                    auth.whatsappNumber == auth.phoneNumber,
+                                isPhoneFieldEnabled:
+                                    auth.whatsappNumber.isEmpty ||
+                                        auth.whatsappNumber == auth.phoneNumber,
                                 initialValue: auth.whatsappNumber,
                               ),
                               if (hasErrors)
@@ -276,9 +285,9 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                                   error,
                                   textAlign: TextAlign.center,
                                   style: PreMedTextTheme().subtext1.copyWith(
-                                    color: Colors.redAccent,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                        color: Colors.redAccent,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                 ),
                               Align(
                                 alignment: Alignment.topLeft,
@@ -289,7 +298,8 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                               ),
                               SizedBoxes.verticalTiny,
                               PhoneDropdown(
-                                onPhoneNumberSelected: onParentPhoneNumberSelected,
+                                onPhoneNumberSelected:
+                                    onParentPhoneNumberSelected,
                                 hintText: "",
                                 initialValue: parentContactNumber,
                               ),
@@ -324,7 +334,9 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: DropdownButtonFormField<String>(
-                                    value: educationSystem.isEmpty ? null : educationSystem,
+                                    value: educationSystem.isEmpty
+                                        ? null
+                                        : educationSystem,
                                     items: educationSystems.map((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
@@ -334,11 +346,14 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                                     onChanged: onEducationSystemSelected,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 10),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 10),
                                       hintText: "Education System",
-                                      hintStyle: PreMedTextTheme().subtext.copyWith(
-                                          color: PreMedColorTheme().black),
+                                      hintStyle: PreMedTextTheme()
+                                          .subtext
+                                          .copyWith(
+                                              color: PreMedColorTheme().black),
                                     ),
                                   ),
                                 ),
@@ -372,13 +387,16 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                                     onChanged: onYearSelected,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      contentPadding: const EdgeInsets.symmetric(
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
                                         horizontal: 12,
                                         vertical: 10,
                                       ),
                                       hintText: "Which year are you in?",
-                                      hintStyle: PreMedTextTheme().subtext.copyWith(
-                                          color: PreMedColorTheme().black),
+                                      hintStyle: PreMedTextTheme()
+                                          .subtext
+                                          .copyWith(
+                                              color: PreMedColorTheme().black),
                                     ),
                                   ),
                                 ),
@@ -412,11 +430,15 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                                     onChanged: onKnownViaSelected,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 10),
-                                      hintText: "How did you get to know about us?",
-                                      hintStyle: PreMedTextTheme().subtext.copyWith(
-                                          color: PreMedColorTheme().black),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 10),
+                                      hintText:
+                                          "How did you get to know about us?",
+                                      hintStyle: PreMedTextTheme()
+                                          .subtext
+                                          .copyWith(
+                                              color: PreMedColorTheme().black),
                                     ),
                                   ),
                                 ),

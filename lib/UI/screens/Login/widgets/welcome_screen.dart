@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
-import 'package:premedpk_mobile_app/UI/screens/Login/login.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/login_screen_one.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/onboarding_screen_one.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -74,10 +73,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: Text(
                 "Hi, who dis?",
                 style: PreMedTextTheme().heading1.copyWith(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 34,
-                  color: PreMedColorTheme().primaryColorRed,
-                ),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 34,
+                      color: PreMedColorTheme().primaryColorRed,
+                    ),
               ),
             ),
             SizedBoxes.vertical2Px,
@@ -87,10 +86,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: Text(
                 "Welcome to the PreMed App.",
                 style: PreMedTextTheme().heading1.copyWith(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 18,
-                  color: PreMedColorTheme().black,
-                ),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
+                      color: PreMedColorTheme().black,
+                    ),
               ),
             ),
             SizedBoxes.verticalGargangua,
@@ -103,11 +102,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   textAlign: TextAlign.center,
                   "One App to Rule Them All. Yeah, you’ll find all your entry test needs fulfilled by this app!",
                   style: PreMedTextTheme().heading1.copyWith(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    color: PreMedColorTheme().black,
-                    height: 1.5,
-                  ),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: PreMedColorTheme().black,
+                        height: 1.5,
+                      ),
                 ),
               ),
             ),
@@ -177,55 +176,56 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     style: PreMedTextTheme().body.copyWith(
-                      color: PreMedColorTheme().neutral500,
-                    ),
+                          color: PreMedColorTheme().neutral500,
+                        ),
                     children: [
                       TextSpan(
                         text: "By signing in, you agree to our ",
                         style: PreMedTextTheme().body.copyWith(
                             color: PreMedColorTheme().neutral500,
-                            fontWeight: FontWeight.w400, fontSize: 11
-                        ),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 11),
                       ),
                       TextSpan(
                         text: "Privacy Policy",
                         style: PreMedTextTheme().body1.copyWith(
                             color: PreMedColorTheme().primaryColorRed,
-                            fontWeight: FontWeight.w700, fontSize: 11
-                        ),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 11),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const PrivacyPolicy()));
+                                    builder: (context) =>
+                                        const PrivacyPolicy()));
                           },
                       ),
                       TextSpan(
                         text: " and ",
                         style: PreMedTextTheme().body.copyWith(
                             color: PreMedColorTheme().neutral500,
-                            fontWeight: FontWeight.w400, fontSize: 11
-                        ),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 11),
                       ),
                       TextSpan(
                         text: "Terms of Use",
-                        style: PreMedTextTheme()
-                            .body1
-                            .copyWith(color: PreMedColorTheme().primaryColorRed,
-                            fontWeight: FontWeight.w700, fontSize: 11),
+                        style: PreMedTextTheme().body1.copyWith(
+                            color: PreMedColorTheme().primaryColorRed,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 11),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const TermsCondition()));
+                                    builder: (context) =>
+                                        const TermsCondition()));
                           },
                       ),
                     ],
                   ),
                 ),
-
               ],
             ),
           ],
