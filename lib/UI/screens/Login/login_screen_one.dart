@@ -2,10 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/animation.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/login.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/widgets/welcome_screen.dart';
-import 'package:premedpk_mobile_app/UI/screens/Signup/widgets/signup_screen_one.dart';
-import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/onboarding_screen_one.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
-import 'package:premedpk_mobile_app/UI/widgets/hubspot_help.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 import '../account/widgets/privacy_policy.dart';
@@ -93,7 +90,7 @@ class _SignInState extends State<SignIn> {
                             ],
                           ),
                           SizedBoxes.verticalExtraGargangua,
-                         GoogleLogin(),
+                          const GoogleLogin(),
                           SizedBoxes.verticalBig,
                           const Padding(
                             padding: EdgeInsets.only(left: 64, right: 64),
@@ -171,7 +168,8 @@ class _SignInState extends State<SignIn> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => const WelcomeScreen(),
+                                      builder: (context) =>
+                                          const WelcomeScreen(),
                                     ),
                                   );
                                 },
@@ -191,57 +189,59 @@ class _SignInState extends State<SignIn> {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     style: PreMedTextTheme().body.copyWith(
-                      color: PreMedColorTheme().neutral500,
-                    ),
+                          color: PreMedColorTheme().neutral500,
+                        ),
                     children: [
                       TextSpan(
                         text: "By signing in, you agree to our ",
                         style: PreMedTextTheme().body.copyWith(
                             color: PreMedColorTheme().neutral500,
-                            fontWeight: FontWeight.w400, fontSize: 11
-                        ),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 11),
                       ),
                       TextSpan(
                         text: "Privacy Policy",
                         style: PreMedTextTheme().body1.copyWith(
                             color: PreMedColorTheme().neutral500,
-                            fontWeight: FontWeight.w700, fontSize: 11
-                        ),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 11),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const PrivacyPolicy()));
+                                    builder: (context) =>
+                                        const PrivacyPolicy()));
                           },
                       ),
                       TextSpan(
                         text: " and ",
                         style: PreMedTextTheme().body.copyWith(
                             color: PreMedColorTheme().neutral500,
-                            fontWeight: FontWeight.w400, fontSize: 11
-                        ),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 11),
                       ),
                       TextSpan(
                         text: "Terms of Use",
-                        style: PreMedTextTheme()
-                            .body1
-                            .copyWith(color: PreMedColorTheme().neutral500,
-                            fontWeight: FontWeight.w700, fontSize: 11),
+                        style: PreMedTextTheme().body1.copyWith(
+                            color: PreMedColorTheme().neutral500,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 11),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const TermsCondition()));
+                                    builder: (context) =>
+                                        const TermsCondition()));
                           },
                       ),
                     ],
                   ),
                 ),
-
               ],
-            ),          ],
+            ),
+          ],
         ),
       ),
     );

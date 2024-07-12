@@ -32,10 +32,16 @@ import 'package:premedpk_mobile_app/providers/question_provider.dart';
 import 'package:premedpk_mobile_app/providers/recent_atempts_provider.dart';
 import 'package:premedpk_mobile_app/providers/report_question_provider.dart';
 import 'package:premedpk_mobile_app/providers/save_question_provider.dart';
+import 'package:premedpk_mobile_app/providers/savedquestion_provider.dart';
 import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/update_attempt_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/essential_stuff_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/mnemonics_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/shortListing_providers.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/study_guides_prroviderr.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/study_notes_proivders.dart';
 import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
 import 'package:premedpk_mobile_app/utils/services/notifications/firebase_messaging_api.dart';
 import 'package:provider/provider.dart';
@@ -105,6 +111,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RecentAttemptsProvider()),
         ChangeNotifierProvider(create: (_) => UserStatProvider()),
         ChangeNotifierProvider(create: (_) => LatestAttemptPro()),
+        ChangeNotifierProvider(create: (_) => ShortListingsProvider()),
+        ChangeNotifierProvider(create: (_) => VaultStudyNotesProvider()),
+        ChangeNotifierProvider(create: (_) => VaultTopicalGuidesProvider()),
+        ChangeNotifierProvider(create: (_) => EssentialStuffProvider()),
+        ChangeNotifierProvider(create: (_) => MnemonicsProvider()),
+        ChangeNotifierProvider(create: (_) => SavedQuestionsProvider())
       ],
       child: MaterialApp(
         routes: {
