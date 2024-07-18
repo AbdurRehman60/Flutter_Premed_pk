@@ -54,7 +54,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   Widget build(BuildContext context) {
     final UserStatProvider userStatProvider =
         Provider.of<UserStatProvider>(context, listen: false);
-    userStatProvider.fetchUserStatistics();
+    userStatProvider.fetchUserStatistics(context);
 
     // MediaQueryData to access device screen dimensions
     final MediaQueryData mediaQuery = MediaQuery.of(context);
@@ -97,7 +97,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               mediaQuery.size.width * 0.01,
             ),
             child: FutureBuilder(
-              future: userStatProvider.fetchUserStatistics(),
+              future: userStatProvider.fetchUserStatistics(context),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -139,7 +139,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                               onTap: () {
                                 Provider.of<UserStatProvider>(context,
                                         listen: false)
-                                    .fetchUserStatistics();
+                                    .fetchUserStatistics(context);
                               },
                               child: MaterialCard(
                                 height: mediaQuery.size.height * 0.18,

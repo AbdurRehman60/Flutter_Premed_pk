@@ -997,6 +997,8 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                   IconButton(
                     onPressed: () {
                       _submitSelectedExamsAndFeatures(username, lastob);
+                      print(
+                          "this is the username in required onboarding $username");
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -1037,7 +1039,7 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
           Provider.of<AuthProvider>(context, listen: false);
       auth
           .requiredOnboarding(
-        username: username,
+        username: UserProvider().user!.userName,
         lastOnboardingPage: '$lastob/features',
         selectedExams: selectedExams,
         selectedFeatures: selectedFeatures,

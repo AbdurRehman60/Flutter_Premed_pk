@@ -22,11 +22,9 @@ class UserProvider extends ChangeNotifier {
     notify();
   }
 
-
-  String getlastOnboarding(){
-    return _info?.lastOnboardingPage ??'';
+  String getlastOnboarding() {
+    return _info?.lastOnboardingPage ?? '';
   }
-
 
   String _phoneNumber = '';
   String get phoneNumber => _phoneNumber;
@@ -41,8 +39,6 @@ class UserProvider extends ChangeNotifier {
     _city = value;
     notify();
   }
-
-
 
   String getUserName() {
     return _user?.fullName ?? '';

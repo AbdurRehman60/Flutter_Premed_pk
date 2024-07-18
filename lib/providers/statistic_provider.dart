@@ -2,6 +2,7 @@ import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/statistic_model.dart';
+import 'package:premedpk_mobile_app/providers/user_provider.dart';
 
 enum UserStatStatus { Init, Fetching, Success, Error }
 
@@ -20,22 +21,22 @@ class UserStatProvider extends ChangeNotifier {
   }
 
   UserStatModel? _userStatModel;
-
   UserStatModel? get userStatModel => _userStatModel;
   set userStatModel(UserStatModel? value) {
     _userStatModel = value;
     notifyListeners();
   }
 
-  Future<Map<String, dynamic>> fetchUserStatistics() async {
+  final userProvider = UserProvider().user?.userId;
+  Future<Map<String, dynamic>> fetchUserStatistics(context) async {
     Map<String, dynamic> result;
     _loadingStatus = UserStatStatus.Fetching;
 
     try {
       // print('fetching');
       final Response response = await _client.post(
-        statsEndpoint,
-        data: {"userId": '64c68bc9f093d0bd25c026de'},
+        Endpoints.UserStatistics,
+        data: {"userId": UserProvider().user?.userId},
       );
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =

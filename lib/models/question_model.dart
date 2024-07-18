@@ -53,7 +53,7 @@ class QuestionModel {
   final String? questionImage;
   final String? explanationText;
   final String? explanationImage;
-  final List<Option> options;
+  List<Option> options;
   final bool published;
   final List<Tag> tags;
   late String subject;
@@ -66,7 +66,7 @@ class QuestionModel {
       'questionId': questionId,
       'questionText': questionText,
       'questionImage': questionImage,
-      'explanationImage':explanationImage,
+      'explanationImage': explanationImage,
       'explanationText': explanationText,
       'options': options.map((option) => option.toJson()).toList(),
       'published': published,
@@ -99,7 +99,6 @@ class Option {
   final String? explanationText;
   final String id;
 
-
   Map<String, dynamic> toJson() {
     return {
       'OptionLetter': optionLetter,
@@ -115,15 +114,22 @@ class Tag {
   Tag({required this.id, required this.name});
 
   factory Tag.fromJson(Map<String, dynamic> json) => Tag(
-    id: json['id'] is int ? json['id'].toString() : json['id'],
-    name: json['name'],
-  );
+        id: json['id'] is int ? json['id'].toString() : json['id'],
+        name: json['name'],
+      );
 
   final String id;
   final String name;
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-  };
+        'id': id,
+        'name': name,
+      };
+}
+
+class Question {
+  Question({required this.options})
+      : originalOptions = List<Option>.from(options);
+  List<Option> options;
+  List<Option> originalOptions;
 }

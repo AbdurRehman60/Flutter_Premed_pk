@@ -1,16 +1,22 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:html/parser.dart' as htmlparser;
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/analytics.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:provider/provider.dart';
+import '../../../models/question_model.dart';
 import '../../../providers/question_provider.dart';
 import '../../../providers/save_question_provider.dart';
 import '../../../providers/update_attempt_provider.dart';
 import '../../../providers/user_provider.dart';
 
 class TestInterface extends StatefulWidget {
-  const TestInterface(
-      {super.key, required this.deckName, required this.attemptId, this.startFromQuestion = 0,});
+  const TestInterface({
+    super.key,
+    required this.deckName,
+    required this.attemptId,
+    this.startFromQuestion = 0,
+  });
 
   final String attemptId;
   final String deckName;
@@ -21,6 +27,19 @@ class TestInterface extends StatefulWidget {
 }
 
 class _TestInterfaceState extends State<TestInterface> {
+  List<Option> _eliminatedOptions = [];
+
+  void _eliminateOptions(List<Option> options) {
+    _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
+    setState(() {});
+  }
+
+  void _undoElimination(List<Option> options) {
+    options.addAll(_eliminatedOptions);
+    _eliminatedOptions = [];
+    setState(() {});
+  }
+
   int currentQuestionIndex = 0;
   int currentPage = 1;
   String? selectedOption;
@@ -523,6 +542,64 @@ class _TestInterfaceState extends State<TestInterface> {
                       ),
                     ],
                   ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                          backgroundColor: Colors.white,
+                          foregroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                        ),
+                        onPressed: () {
+                          final question = Provider.of<QuestionProvider>(
+                                  context,
+                                  listen: false)
+                              .questions![currentQuestionIndex];
+                          _eliminateOptions(question.options);
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset('assets/icons/elimination.svg'),
+                            const SizedBox(width: 5),
+                            const Text('Elimination Tool'),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                          backgroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                          foregroundColor: Colors.white,
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                        ),
+                        onPressed: () {
+                          final question = Provider.of<QuestionProvider>(
+                                  context,
+                                  listen: false)
+                              .questions![currentQuestionIndex];
+                          _undoElimination(question.options);
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/elimination.svg',
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 5),
+                            const Text('Exit Elimination'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                   if (question.questionImage != null &&
                       question.questionImage!.isNotEmpty)
                     if (isBase64(question.questionImage!))
@@ -593,8 +670,8 @@ class _TestInterfaceState extends State<TestInterface> {
                                   style: PreMedTextTheme().body.copyWith(
                                       fontWeight: FontWeight.w800,
                                       fontSize: 15,
-                                      color: PreMedColorTheme().primaryColorRed
-                                      ),
+                                      color:
+                                          PreMedColorTheme().primaryColorRed),
                                 ),
                               ),
                               Expanded(

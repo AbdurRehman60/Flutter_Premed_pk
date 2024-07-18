@@ -1,5 +1,6 @@
 class RecentAttempt {
   RecentAttempt({
+    this.id,
     this.attempts,
     this.attemptedDate,
     this.totalAttempts,
@@ -10,6 +11,7 @@ class RecentAttempt {
 
   factory RecentAttempt.fromJson(Map<String, dynamic> json) {
     return RecentAttempt(
+      id: json['_id'],
       attempts: Attempts.fromJson(json['attempts']),
       attemptedDate: DateTime.parse(json['attemptedDate']),
       totalAttempts: json['totalAttempts'],
@@ -18,7 +20,7 @@ class RecentAttempt {
       totalQuestions: json['totalQuestions'],
     );
   }
-
+  String? id;
   Attempts? attempts;
   DateTime? attemptedDate;
   int? totalAttempts;

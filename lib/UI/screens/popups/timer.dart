@@ -4,6 +4,7 @@ class TimerWidget extends StatefulWidget {
   const TimerWidget({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _TimerWidgetState createState() => _TimerWidgetState();
 }
 
@@ -24,7 +25,8 @@ class _TimerWidgetState extends State<TimerWidget> {
   void _resetTimer() {
     final DateTime now = DateTime.now();
     final DateTime nextMonday = now.add(Duration(days: (7 - now.weekday) % 7));
-    final DateTime resetTime = DateTime(nextMonday.year, nextMonday.month, nextMonday.day);
+    final DateTime resetTime =
+        DateTime(nextMonday.year, nextMonday.month, nextMonday.day);
     final Duration timeDifference = resetTime.difference(now);
 
     days = timeDifference.inDays;
@@ -100,25 +102,25 @@ class _TimerWidgetState extends State<TimerWidget> {
                 Text(
                   ":",
                   style: PreMedTextThemeRubik().heading1.copyWith(
-                    color: Colors.blueAccent,
-                    fontSize: 55,
-                  ),
+                        color: Colors.blueAccent,
+                        fontSize: 55,
+                      ),
                 ),
                 _buildTimerColumn('Hours', '$hours'),
                 Text(
                   ":",
                   style: PreMedTextThemeRubik().heading1.copyWith(
-                    color: Colors.blueAccent,
-                    fontSize: 55,
-                  ),
+                        color: Colors.blueAccent,
+                        fontSize: 55,
+                      ),
                 ),
                 _buildTimerColumn('Minutes', _formatTime(minutes)),
                 Text(
                   ":",
                   style: PreMedTextThemeRubik().heading1.copyWith(
-                    color: Colors.blueAccent,
-                    fontSize: 55,
-                  ),
+                        color: Colors.blueAccent,
+                        fontSize: 55,
+                      ),
                 ),
                 _buildTimerColumn('Seconds', _formatTime(seconds)),
               ],
@@ -136,10 +138,10 @@ class _TimerWidgetState extends State<TimerWidget> {
         Text(
           value,
           style: PreMedTextThemeRubik().subtext1.copyWith(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
-            color: PreMedColorTheme().primaryColorRed,
-          ),
+                fontSize: 25.0,
+                fontWeight: FontWeight.bold,
+                color: PreMedColorTheme().primaryColorRed,
+              ),
         ),
         Text(label,
             style: PreMedTextThemeRubik()
@@ -194,11 +196,11 @@ class CustomDraw extends CustomPainter {
 class CustomTitleWidget extends StatefulWidget {
   const CustomTitleWidget(
       {super.key,
-        required this.height,
-        required this.width,
-        required this.title,
-        this.color,
-        this.radius});
+      required this.height,
+      required this.width,
+      required this.title,
+      this.color,
+      this.radius});
   final double height;
   final double width;
   final double? radius;

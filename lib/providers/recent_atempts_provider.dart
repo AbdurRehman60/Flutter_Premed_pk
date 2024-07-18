@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/recent_attempts_model.dart';
+import 'package:premedpk_mobile_app/providers/user_provider.dart';
 
 class RecentAttemptsProvider with ChangeNotifier {
   List<RecentAttempt> _recentAttempts = [];
@@ -9,12 +10,13 @@ class RecentAttemptsProvider with ChangeNotifier {
   List<RecentAttempt> get recentAttempts => _recentAttempts;
 
   final Dio _dio = Dio();
+  final userProvider = UserProvider().user?.userId;
 
-  Future<void> fetchRecentAttempts(String userId) async {
+  Future<void> fetchRecentAttempts() async {
     try {
       final response = await _dio.post(
         Endpoints.RecentAttempts,
-        data: {'userId': userId},
+        data: {'userId': UserProvider().user?.userId},
       );
 
       if (response.statusCode == 200) {

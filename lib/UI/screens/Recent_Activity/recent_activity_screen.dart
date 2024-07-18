@@ -47,9 +47,13 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
       body: ChangeNotifierProvider(
         create: (_) => RecentAttemptsProvider(),
         child: Consumer<RecentAttemptsProvider>(
-          builder: (context, provider, child) {
+          builder: (
+            context,
+            provider,
+            child,
+          ) {
             if (provider.recentAttempts.isEmpty) {
-              provider.fetchRecentAttempts('64c68bc9f093d0bd25c026de');
+              provider.fetchRecentAttempts();
               return const Center(
                 child: CircularProgressIndicator(),
               );

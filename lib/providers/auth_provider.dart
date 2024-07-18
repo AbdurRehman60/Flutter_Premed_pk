@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -26,13 +24,11 @@ class AuthProvider extends ChangeNotifier {
   Status _loggedInStatus = Status.NotLoggedIn;
   Status _signUpStatus = Status.NotLoggedIn;
 
-  // ignore: unnecessary_getters_setters
   Status get loggedInStatus => _loggedInStatus;
   set loggedInStatus(Status value) {
     _loggedInStatus = value;
   }
 
-  // ignore: unnecessary_getters_setters
   Status get signUpStatus => _signUpStatus;
   set signUpStatus(Status value) {
     _signUpStatus = value;
@@ -67,7 +63,6 @@ class AuthProvider extends ChangeNotifier {
   }
 
   String _parentFullName = '';
-  // ignore: unnecessary_getters_setters
   String get parentFullName => _parentFullName;
   set parentFullName(String value) {
     _parentFullName = value;
@@ -326,6 +321,8 @@ class AuthProvider extends ChangeNotifier {
       "username": email,
       "password": password,
     };
+    print("Signup Data: $signupData");
+
     _signUpStatus = Status.Authenticating;
     notifyListeners();
 
@@ -338,20 +335,15 @@ class AuthProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
             Map<String, dynamic>.from(response.data);
-        if (responseData["success"]) {
+        if (responseData["success"] == true) {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
 
-          if (userResponse['status']) {
-            result = {
-              'status': userResponse["status"],
-              'message': userResponse["status"],
-            };
-          } else {
-            result = {
-              'status': userResponse["status"],
-              'message': userResponse["message"],
-            };
-          }
+          result = {
+            'status': userResponse['status'],
+            'message': userResponse['status']
+                ? "Signup successful"
+                : userResponse['message'],
+          };
         } else {
           result = {
             'status': false,
@@ -359,21 +351,21 @@ class AuthProvider extends ChangeNotifier {
           };
         }
       } else {
-        _signUpStatus = Status.Authenticating;
-        notifyListeners();
-
         result = {
           'status': false,
           'message': json.decode(response.data),
         };
       }
     } on DioException catch (e) {
-      _loggedInStatus = Status.NotLoggedIn;
+      _signUpStatus = Status.NotLoggedIn;
       notifyListeners();
       result = {
         'status': false,
         'message': e.message,
       };
+    } finally {
+      _signUpStatus = Status.NotLoggedIn;
+      notifyListeners();
     }
 
     return result;
@@ -508,7 +500,7 @@ class AuthProvider extends ChangeNotifier {
           'message': response.data.toString(),
         };
       }
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       _loggedInStatus = Status.LoggedIn;
       notifyListeners();
       result = {
@@ -639,7 +631,7 @@ class AuthProvider extends ChangeNotifier {
           'message': 'Error',
         };
       }
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       result = {
         'status': false,
         'message': e.response?.data ?? e.message,
@@ -705,7 +697,7 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       result = {
         'status': false,
-        'message': "Error in fetching Onboarding Details: $e",
+        'message': "Error in fetching Onboarding Details: ${e.toString()}",
       };
     }
 

@@ -1,25 +1,44 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:html/parser.dart' as htmlparser;
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:provider/provider.dart';
+import '../../../../models/question_model.dart';
 import '../../../../providers/question_provider.dart';
 import '../../../../providers/save_question_provider.dart';
 import '../../../../providers/update_attempt_provider.dart';
 import '../../../../providers/user_provider.dart';
 
 class TutorMode extends StatefulWidget {
-  const TutorMode({super.key, required this.deckName, required this.attemptId, this.startFromQuestion = 0,});
+  const TutorMode({
+    super.key,
+    required this.deckName,
+    required this.attemptId,
+    this.startFromQuestion = 0,
+  });
 
   final String attemptId;
   final String deckName;
   final int startFromQuestion;
-
 
   @override
   State<TutorMode> createState() => _TutorModeState();
 }
 
 class _TutorModeState extends State<TutorMode> {
+  List<Option> _eliminatedOptions = [];
+
+  void _eliminateOptions(List<Option> options) {
+    _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
+    setState(() {});
+  }
+
+  void _undoElimination(List<Option> options) {
+    options.addAll(_eliminatedOptions);
+    _eliminatedOptions = [];
+    setState(() {});
+  }
+
   int currentQuestionIndex = 0;
   int currentPage = 1;
   String? selectedOption;
@@ -382,6 +401,64 @@ class _TutorModeState extends State<TutorMode> {
                       ),
                     ],
                   ),
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                          backgroundColor: Colors.white,
+                          foregroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                        ),
+                        onPressed: () {
+                          final question = Provider.of<QuestionProvider>(
+                                  context,
+                                  listen: false)
+                              .questions![currentQuestionIndex];
+                          _eliminateOptions(question.options);
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset('assets/icons/elimination.svg'),
+                            const SizedBox(width: 5),
+                            const Text('Elimination Tool'),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                          backgroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                          foregroundColor: Colors.white,
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                        ),
+                        onPressed: () {
+                          final question = Provider.of<QuestionProvider>(
+                                  context,
+                                  listen: false)
+                              .questions![currentQuestionIndex];
+                          _undoElimination(question.options);
+                        },
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/elimination.svg',
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 5),
+                            const Text('Exit Elimination'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                   if (question.questionImage != null &&
                       question.questionImage!.isNotEmpty)
                     if (isBase64(question.questionImage!))
@@ -437,11 +514,12 @@ class _TutorModeState extends State<TutorMode> {
                             ? Colors.green
                             : PreMedColorTheme().neutral400);
                     final color = isSelected
-                        ? (isCorrect ? Colors.greenAccent : PreMedColorTheme().primaryColorRed200)
+                        ? (isCorrect
+                            ? Colors.greenAccent
+                            : PreMedColorTheme().primaryColorRed200)
                         : (optionSelected && isCorrect
                             ? Colors.greenAccent
                             : PreMedColorTheme().white);
-
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -452,10 +530,9 @@ class _TutorModeState extends State<TutorMode> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: borderColor),
-                                borderRadius: BorderRadius.circular(8),
-                                color: color
-                              ),
+                                  border: Border.all(color: borderColor),
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: color),
                               child: Row(
                                 children: [
                                   Padding(
@@ -463,10 +540,10 @@ class _TutorModeState extends State<TutorMode> {
                                     child: Text(
                                       '${option.optionLetter}. ',
                                       style: PreMedTextTheme().body.copyWith(
-                                            fontWeight: FontWeight.w800,
-                                        fontSize: 15,
-                                        color: PreMedColorTheme().primaryColorRed
-                                          ),
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 15,
+                                          color: PreMedColorTheme()
+                                              .primaryColorRed),
                                     ),
                                   ),
                                   Expanded(
@@ -481,7 +558,7 @@ class _TutorModeState extends State<TutorMode> {
                                             style: PreMedTextTheme()
                                                 .body
                                                 .copyWith(
-                                              fontWeight: FontWeight.w400,
+                                                  fontWeight: FontWeight.w400,
                                                   fontSize: 14,
                                                   color:
                                                       PreMedColorTheme().black,
@@ -491,8 +568,10 @@ class _TutorModeState extends State<TutorMode> {
                                           if (optionSelected)
                                             if (optionSelected)
                                               ExplanationButton(
-                                                isCorrect: isCorrectlyAnswered[currentQuestionIndex],
-                                                explanationText: parse(option.explanationText ??
+                                                isCorrect: isCorrectlyAnswered[
+                                                    currentQuestionIndex],
+                                                explanationText: parse(option
+                                                            .explanationText ??
                                                         'Refer to the explanation given at the bottom of the screen') ??
                                                     '',
                                               ),
@@ -531,8 +610,8 @@ class _TutorModeState extends State<TutorMode> {
                                 textAlign: TextAlign.justify,
                                 parse(question.explanationText ?? '') ?? '',
                                 style: PreMedTextTheme().body.copyWith(
-                                  color: PreMedColorTheme().black,
-                                ),
+                                      color: PreMedColorTheme().black,
+                                    ),
                               ),
                               // if (question.explanationImage != null &&
                               //     question.explanationImage!.isNotEmpty)
@@ -740,12 +819,8 @@ class _TutorModeState extends State<TutorMode> {
 }
 
 class ExplanationButton extends StatefulWidget {
-
-  const ExplanationButton({
-    super.key,
-    this.explanationText,
-    required this.isCorrect
-  });
+  const ExplanationButton(
+      {super.key, this.explanationText, required this.isCorrect});
   final String? explanationText;
   final bool? isCorrect;
 
@@ -758,7 +833,6 @@ class _ExplanationButtonState extends State<ExplanationButton> {
 
   @override
   Widget build(BuildContext context) {
-
     Color getButtonColor() {
       if (widget.isCorrect == true) {
         return Colors.greenAccent;
@@ -768,6 +842,7 @@ class _ExplanationButtonState extends State<ExplanationButton> {
         return Colors.white;
       }
     }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -809,10 +884,9 @@ class _ExplanationButtonState extends State<ExplanationButton> {
             padding: const EdgeInsets.all(8),
             margin: const EdgeInsets.symmetric(vertical: 8),
             decoration: BoxDecoration(
-              border: Border.all(),
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white
-            ),
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.white),
             child: Text(
               widget.explanationText!,
               style: PreMedTextTheme().body.copyWith(

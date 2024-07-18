@@ -78,29 +78,31 @@ class _DateDialogState extends State<DateDialog> {
             Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: _dateController,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: 'Enter Date',
-                      suffix: IconButton(
-                        icon: const Icon(Icons.calendar_today),
-                        onPressed: () async {
-                          final DateTime? picked = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2022),
-                            lastDate: DateTime(2030),
-                          );
-                          if (picked != null) {
-                            setState(() {
-                              _selectedDate = picked;
-                              _dateController.text =
-                                  '${picked.day}-${picked.month}-${picked.year}';
-                            });
-                            _startTimer();
-                          }
-                        },
+                  child: Center(
+                    child: TextField(
+                      controller: _dateController,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: 'Enter Date',
+                        suffix: IconButton(
+                          icon: const Icon(Icons.calendar_today),
+                          onPressed: () async {
+                            final DateTime? picked = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2022),
+                              lastDate: DateTime(2030),
+                            );
+                            if (picked != null) {
+                              setState(() {
+                                _selectedDate = picked;
+                                _dateController.text =
+                                    '${picked.day}-${picked.month}-${picked.year}';
+                              });
+                              _startTimer();
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ),

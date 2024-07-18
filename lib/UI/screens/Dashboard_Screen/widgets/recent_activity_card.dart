@@ -1,6 +1,7 @@
 // ignore: file_names
 // ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart'; // Import the intl package
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/recent_activity_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
@@ -13,24 +14,26 @@ class RecentActivityCard extends StatefulWidget {
     required this.progressValue,
   });
   final double progressValue;
-
   final acivityname;
   final mode;
-
   final date;
 
   @override
-  // ignore: library_private_types_in_public_api
   _RecentActivityCardState createState() => _RecentActivityCardState();
 }
 
 class _RecentActivityCardState extends State<RecentActivityCard> {
+  String formattedDate(String date) {
+    final DateTime parsedDate = DateTime.parse(date);
+    return DateFormat('d MMMM yyyy').format(parsedDate);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
       child: Container(
-        height: 165,
+        height: 182,
         decoration: BoxDecoration(
           color: PreMedColorTheme().white,
           borderRadius: BorderRadius.circular(20.0),
@@ -133,7 +136,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(widget.date,
+                              Text(formattedDate(widget.date),
                                   style: GoogleFonts.rubik(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 10,
