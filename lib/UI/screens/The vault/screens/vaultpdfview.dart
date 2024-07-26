@@ -26,28 +26,10 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
   Completer<PDFViewController>();
   final StreamController<String> _pageCountController =
   StreamController<String>();
-
-  @override
-  void initState() {
-    super.initState();
-    _checkIfFileExists();
-  }
-
   @override
   void dispose() {
     _pageCountController.close(); // Don't forget to close the stream controller.
     super.dispose();
-  }
-
-  Future<void> _checkIfFileExists() async {
-    final filePath = '${widget.vaultNotesModel.topicName.trim()}_PreMed.PK';
-    final file = File(filePath);
-    print('filePath : $file');
-    if (await file.exists()) {
-      setState(() {
-        isDownloaded = true;
-      });
-    }
   }
 
   void openDemarcationBottomSheet() {
