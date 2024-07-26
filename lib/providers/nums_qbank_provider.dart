@@ -61,7 +61,6 @@ class NUMSQbankProvider extends ChangeNotifier {
               );
             }).toList();
 
-            print('Deck Items: $deckItems'); // Print
 
             final int deckNameCount = deckItems.length;
             final String deckGroupImage = deckGroupData['deckGroupImage'];

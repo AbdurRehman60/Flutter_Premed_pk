@@ -20,7 +20,10 @@ class _ExamSelectionDialogState extends State<ExamSelectionDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return Container();
+  }
+  void _show2ndAlertDialog(BuildContext context) {
+    AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -170,3 +173,4 @@ class _ExamSelectionDialogState extends State<ExamSelectionDialog> {
     );
   }
 }
+

@@ -1,7 +1,6 @@
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/essentialStuff/estuff_pdf_view.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/essential_stuff_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../constants/constants_export.dart';
 import 'essential_stuff_card.dart';
 
@@ -32,7 +31,6 @@ class _EssenceStuffBuilderState extends State<EssenceStuffBuilder> {
             color: Colors.black.withOpacity(0.15),
             offset: const Offset(0, 20),
             blurRadius: 40,
-            spreadRadius: 0,
           ),
         ],
       ),

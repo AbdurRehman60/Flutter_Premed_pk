@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 
 class EssenceStuffModel {
   EssenceStuffModel({
@@ -11,6 +10,7 @@ class EssenceStuffModel {
     this.pagination,
     required this.province,
     required this.board,
+    this.subject
   });
 
   factory EssenceStuffModel.fromJson(Map<String, dynamic> json) {
@@ -18,9 +18,6 @@ class EssenceStuffModel {
 
     if (json['paginations'] != null) {
       paginations = (json['paginations'] as List).map((demarcationJson) {
-        if (kDebugMode) {
-          print('province : ${json['province']}');
-        }
         return NotePagination.fromJson(demarcationJson);
       }).toList();
     }
@@ -34,9 +31,11 @@ class EssenceStuffModel {
         pagination: paginations,
         province: json['province'],
         board: json['board'],
+        subject: json['subject'],
         isPublished: json['isPublished']);
   }
   final String category;
+  final String? subject;
   final String id;
   final String topicName;
   final String? thumbnailImageUrl;

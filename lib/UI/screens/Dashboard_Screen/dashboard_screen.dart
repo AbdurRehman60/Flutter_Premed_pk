@@ -4,8 +4,7 @@ import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/Qbank_ca
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/most_recenet_attempt.dart';
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/notes_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/series_card.dart';
-
-import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/timer_widgets.dart';
+import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/timer_drop_down.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/notifications/notification_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/mdcat/mocks&bank_statistics.dart';
@@ -14,7 +13,6 @@ import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/Attempted_card
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/card_w.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/statistic_model.dart';
-
 import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -52,6 +50,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     final UserStatProvider userStatProvider =
         Provider.of<UserStatProvider>(context, listen: false);
     userStatProvider.fetchUserStatistics(context);
@@ -63,11 +63,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
+                height: screenHeight * 0.02,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.05),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -118,8 +117,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.03,
-                    top: MediaQuery.of(context).size.height * 0.02),
+                    left: screenWidth * 0.03, top: screenHeight * 0.01),
                 child: Row(
                   children: [
                     NotesCard(
@@ -131,7 +129,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       text2: 'STUDY NOTES',
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.01,
+                      width: screenWidth * 0.02,
                     ),
                     SeriesCard(
                       bgColor: PreMedColorTheme().white,
@@ -145,8 +143,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.03,
-                    top: MediaQuery.of(context).size.height * 0.01),
+                    left: screenWidth * 0.03, top: screenHeight * 0.01),
                 child: Row(
                   children: [
                     QbankCard(
@@ -154,6 +151,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       icon: PremedAssets.Savedquestion,
                       text: "Saved",
                       text1: "Questions",
+                      isPreMed: true,
                       onTap: () {
                         Navigator.push(
                             context,
@@ -164,7 +162,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       },
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.01,
+                      width: screenWidth * 0.02,
                     ),
                     FlashCard(
                       bgColor: PreMedColorTheme().white,
@@ -182,303 +180,182 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: TimerWidget(
-                  uni: '',
+              Padding(
+                padding:  EdgeInsets.symmetric(horizontal: screenWidth * 0.040,vertical: screenHeight *0.015),
+                child: Material(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  elevation: 5,
+                  child: Container(
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color.fromARGB(
+                                  255, 180, 180, 180)
+                                  .withOpacity(0.1),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                      child:
+                          DropDown(timeLeft: widget.timeLeft, uni: widget.uni ?? 'Not Selected',)),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: LatestAttemptScreen(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.035),
+                child: const LatestAttemptScreen(
+                  isPreMed: true,
+                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.02,
-                    vertical: MediaQuery.of(context).size.height * 0.01),
-                child: Card(
-                  elevation: 5,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 7,
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
-                      color: PreMedColorTheme().white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 5, top: 10),
-                      child: FutureBuilder(
-                        future: userStatProvider.fetchUserStatistics(context),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              userStatModel = userStatProvider.userStatModel!;
-                              return Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Image.asset(
-                                          PremedAssets.graph,
-                                          width: 50,
-                                          height: 50,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10, left: 2, bottom: 7),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Statistics",
-                                              style: GoogleFonts.rubik(
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            Text(
-                                              "Check out your performance at a glance!",
-                                              style: GoogleFonts.rubik(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 9,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.10),
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const StatisticsScreen()));
-                                        },
-                                        child: Image.asset(
-                                          PremedAssets.arrow,
-                                          width: 90,
-                                          height: 45,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(7.0),
-                                    child: Card(
-                                      elevation: 5,
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.18,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: const Color.fromARGB(
-                                                      255, 180, 180, 180)
-                                                  .withOpacity(0.1),
-                                              spreadRadius: 2,
-                                              blurRadius: 5,
-                                              offset: const Offset(0, 3),
-                                            ),
-                                          ],
-                                        ),
-                                        child: MaterialCard(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.18,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  StatDetailHolder(
-                                                    textColor:
-                                                        PreMedColorTheme()
-                                                            .greenLight,
-                                                    count: userStatModel
-                                                        .decksAttempted,
-                                                    details: 'Decks\nAttempted',
-                                                  ),
-                                                  StatDetailHolder(
-                                                    textColor:
-                                                        PreMedColorTheme().red,
-                                                    count: userStatModel
-                                                        .testAttempted,
-                                                    details: 'Test\nAttempted',
-                                                  ),
-                                                  StatDetailHolder(
-                                                    textColor:
-                                                        PreMedColorTheme()
-                                                            .yellowlight,
-                                                    count: userStatModel
-                                                        .paracticeTestAttempted,
-                                                    details:
-                                                        'Practice Tests\nAttempted',
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            } else {
-                              return Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Image.asset(
-                                          PremedAssets.graph,
-                                          width: 50,
-                                          height: 50,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10, left: 2, bottom: 7),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Statistics",
-                                              style: GoogleFonts.rubik(
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            Text(
-                                              "Check out your performance at a glance!",
-                                              style: GoogleFonts.rubik(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 9,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.10),
-                                      InkWell(
-                                        onTap: () {},
-                                        child: Image.asset(
-                                          PremedAssets.arrow,
-                                          width: 90,
-                                          height: 45,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(7.0),
-                                    child: Card(
-                                      elevation: 5,
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.18,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: const Color.fromARGB(
-                                                      255, 180, 180, 180)
-                                                  .withOpacity(0.1),
-                                              spreadRadius: 2,
-                                              blurRadius: 5,
-                                              offset: const Offset(0, 3),
-                                            ),
-                                          ],
-                                        ),
-                                        child: MaterialCard(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.18,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  StatDetailHolder(
-                                                    textColor:
-                                                        PreMedColorTheme()
-                                                            .greenLight,
-                                                    count: 0,
-                                                    details: 'Decks\nAttempted',
-                                                  ),
-                                                  StatDetailHolder(
-                                                    textColor:
-                                                        PreMedColorTheme().red,
-                                                    count: 0,
-                                                    details: 'Test\nAttempted',
-                                                  ),
-                                                  StatDetailHolder(
-                                                    textColor:
-                                                        PreMedColorTheme()
-                                                            .yellowlight,
-                                                    count: 0,
-                                                    details:
-                                                        'Practice Tests\nAttempted',
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }
-                          }
-                        },
+                    horizontal: screenWidth * 0.045,
+                    vertical: screenHeight * 0.017),
+                child: Container(
+                  width: screenWidth * 7,
+                  height: screenHeight * 0.3,
+                  decoration: BoxDecoration(
+                    color: PreMedColorTheme().white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
                       ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 5, top: 10),
+                    child: FutureBuilder(
+                      future: userStatProvider.fetchUserStatistics(context),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            userStatModel = userStatProvider.userStatModel!;
+                            return Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Image.asset(
+                                        PremedAssets.graph,
+                                        width: 50,
+                                        height: 50,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10, left: 2, bottom: 7),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Statistics",
+                                            style: GoogleFonts.rubik(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Check out your performance at a glance!",
+                                            style: GoogleFonts.rubik(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 9,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: screenWidth * 0.10),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const StatisticsScreen()));
+                                      },
+                                      child: Image.asset(
+                                        PremedAssets.arrow,
+                                        width: 90,
+                                        height: 45,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Container(
+                                    height: screenHeight * 0.18,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color.fromARGB(
+                                                  255, 180, 180, 180)
+                                              .withOpacity(0.1),
+                                          spreadRadius: 2,
+                                          blurRadius: 5,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ],
+                                    ),
+                                    child: MaterialCard(
+                                      height: screenHeight * 0.18,
+                                      width: screenWidth,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              StatDetailHolder(
+                                                textColor: PreMedColorTheme()
+                                                    .greenLight,
+                                                count: userStatModel
+                                                    .decksAttempted,
+                                                details: 'Decks\nAttempted',
+                                              ),
+                                              StatDetailHolder(
+                                                textColor:
+                                                    PreMedColorTheme().red,
+                                                count:
+                                                    userStatModel.testAttempted,
+                                                details: 'Test\nAttempted',
+                                              ),
+                                              StatDetailHolder(
+                                                textColor: PreMedColorTheme()
+                                                    .yellowlight,
+                                                count: userStatModel
+                                                    .paracticeTestAttempted,
+                                                details:
+                                                    'Practice Tests\nAttempted',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return Container();
+                          }
+                        }
+                      },
                     ),
                   ),
                 ),

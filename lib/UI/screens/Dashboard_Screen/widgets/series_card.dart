@@ -20,6 +20,7 @@ class SeriesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 3,
       child: GestureDetector(
         onTap: onTap,
@@ -30,7 +31,7 @@ class SeriesCard extends StatelessWidget {
               MediaQuery.of(context).size.height * 0.10, // 10% of screen height
           decoration: BoxDecoration(
             color: bgColor, // use the provided background color
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),
@@ -45,7 +46,7 @@ class SeriesCard extends StatelessWidget {
                 vertical: MediaQuery.of(context).size.height *
                     0.015, // Responsive vertical padding
                 horizontal: MediaQuery.of(context).size.width *
-                    0.04, // Responsive horizontal padding
+                    0.03, // Responsive horizontal padding
               ),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

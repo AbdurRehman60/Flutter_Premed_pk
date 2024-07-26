@@ -7,7 +7,8 @@ import 'package:premedpk_mobile_app/providers/recent_atempts_provider.dart';
 import 'package:provider/provider.dart';
 
 class RecentActivityScreen extends StatefulWidget {
-  const RecentActivityScreen({super.key});
+  const RecentActivityScreen({super.key, required this.isPreMed});
+  final bool isPreMed;
 
   @override
   State<RecentActivityScreen> createState() => _RecentActivityScreenState();
@@ -89,6 +90,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
                         return Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: RecentActivityCard1(
+                            isPreMed: widget.isPreMed,
                             onTap: () {
                               showModalBottomSheet(
                                 context: context,

@@ -33,7 +33,7 @@ class NotesCard extends StatelessWidget {
               MediaQuery.of(context).size.height * 0.10, // 12% of screen height
           decoration: BoxDecoration(
             color: bgColor, // use the provided background color
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),

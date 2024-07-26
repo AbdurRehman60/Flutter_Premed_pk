@@ -76,4 +76,5 @@ class PremedAssets {
   static String Books = 'assets/icons/Books.png';
   static String Savedquestion = 'assets/icons/Vector.svg';
   static String Valut = 'assets/images/Frame 2141 1.png';
+  static String Credits = 'assets/icons/Credits Icon.png';
 }

@@ -6,7 +6,8 @@ import 'package:premedpk_mobile_app/providers/lastest_attempts_provider.dart';
 import 'package:provider/provider.dart';
 
 class LatestAttemptScreen extends StatelessWidget {
-  const LatestAttemptScreen({super.key});
+  const LatestAttemptScreen({super.key, required this.isPreMed});
+  final bool isPreMed;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +42,7 @@ class LatestAttemptScreen extends StatelessWidget {
                   if (latestAttempt != null &&
                       latestAttempt.results.isNotEmpty) {
                     return RecentActivityCard(
+                      isPreMed: isPreMed,
                       acivityname: latestAttempt.results.first.deckName,
                       date: latestAttempt.results.first.createdAt,
                       progressValue: latestAttempt.results.first.totalAttempts /

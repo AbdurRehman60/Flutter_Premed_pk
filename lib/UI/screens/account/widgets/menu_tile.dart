@@ -6,12 +6,15 @@ class MenuTile extends StatelessWidget {
     required this.heading,
     required this.icon,
     required this.onTap,
+    required this.padding,
   });
   final String heading;
 
   final String icon;
 
   final VoidCallback onTap;
+
+  final double padding;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +23,11 @@ class MenuTile extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           // color: bgColor,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(15),
           border: Border.all(color: PreMedColorTheme().white),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.symmetric(horizontal: 20,vertical: padding),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -41,7 +44,7 @@ class MenuTile extends StatelessWidget {
                     heading,
                     style: PreMedTextTheme()
                         .body
-                        .copyWith(color: PreMedColorTheme().neutral500),
+                        .copyWith(fontSize: 15, fontWeight: FontWeight.w900),
                   ),
                 ],
               ),
@@ -49,10 +52,10 @@ class MenuTile extends StatelessWidget {
               Row(
                 children: [
                   SizedBoxes.horizontalBig,
-                   Icon(
+                  Icon(
                     Icons.arrow_forward_ios_rounded,
                     color: PreMedColorTheme().primaryColorRed,
-                     size: 20,
+                    size: 20,
                   ),
                 ],
               ),
@@ -61,5 +64,70 @@ class MenuTile extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class UserTile extends StatelessWidget {
+  const UserTile({super.key, required this.onTap, required this.userName});
+  final void Function() onTap;
+  final String userName;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+        onTap: onTap,
+        child: Material(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          child: Container(
+            decoration: BoxDecoration(
+              color: PreMedColorTheme().white,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                ),
+              ],
+            ),
+            child: ListTile(
+              leading: const Icon(Icons.person),
+              title: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '@',
+                      style: PreMedTextTheme().body1.copyWith(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.red,
+                          ),
+                    ),
+                    TextSpan(
+                      text: userName,
+                      style: PreMedTextTheme().body1.copyWith(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            color: PreMedColorTheme().black,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+              subtitle: Text(
+                'Account Details',
+                style: PreMedTextTheme()
+                    .body1
+                    .copyWith(fontSize: 13, fontWeight: FontWeight.normal),
+              ),
+              trailing: Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: PreMedColorTheme().primaryColorRed,
+                size: 20,
+              ),
+            ),
+          ),
+        ));
   }
 }

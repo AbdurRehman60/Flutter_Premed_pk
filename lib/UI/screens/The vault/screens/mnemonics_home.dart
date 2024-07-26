@@ -2,7 +2,6 @@
 
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/mnemonics/mnemonics_grid_builder.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-
 class MnemonicsHome extends StatefulWidget {
   const MnemonicsHome({super.key});
 

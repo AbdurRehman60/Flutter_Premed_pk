@@ -57,7 +57,7 @@ dependencies:
   youtube_player_flutter: ^8.1.2
   firebase_core: ^2.24.2
   google_sign_in: ^6.1.6
-  flutter_file_downloader: ^1.2.0
+  flutter_file_downloader: ^2.0.0
   firebase_crashlytics: ^3.4.8
   flutter_vlc_player: ^7.4.0
   firebase_messaging: ^14.7.9
@@ -72,6 +72,7 @@ dependencies:
   chewie: ^1.8.1
   video_player: ^2.9.1
   cached_network_image: ^3.3.1
+  glassmorphism_ui: ^0.3.0
 
   
 

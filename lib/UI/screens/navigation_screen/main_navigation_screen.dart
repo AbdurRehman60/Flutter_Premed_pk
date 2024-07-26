@@ -1,10 +1,11 @@
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/pre_eng/screens/pre_eng_vault_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/account.dart';
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/dashboard_screen.dart';
-import 'package:premedpk_mobile_app/UI/screens/expert_solution/expert_solution_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/mdcat_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/bottom_nav.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,9 +27,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   List<int> navigationStack = [0];
 
   final screens = [
-    const DashboardScreen(),
+    const DashboardSwitcher(),
     const MDCAT(),
-    const ExpertSolutionHome(),
+    const VaultSwitcher(),
     const MarketPlace(),
     const Account(),
   ];

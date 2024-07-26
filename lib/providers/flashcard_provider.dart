@@ -8,6 +8,7 @@ import '../models/flashcard_model.dart';
 enum Status {
   init,
   fetching,
+  success,
   error,
 }
 
@@ -39,6 +40,7 @@ class FlashcardProvider with ChangeNotifier {
       );
 
       if (response.data['success'] == true) {
+        print('step 1');
         final List<dynamic> responseData = response.data['FindFlashcards'];
         final List<FlashcardModel> fetchedList = [];
 
@@ -51,7 +53,7 @@ class FlashcardProvider with ChangeNotifier {
         }
         flashcardData = fetchedList;
 
-        _doubtUploadStatus = Status.init;
+        _doubtUploadStatus = Status.success;
         return {
           'status': true,
           'message': "Fetched Successfully!",

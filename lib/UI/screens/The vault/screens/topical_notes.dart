@@ -18,6 +18,7 @@ class _VaultTopicalGuidesState extends State<VaultTopicalGuides> {
   String _selectedProvince = 'All';
   List<VaultNotesModel> _filteredNotes = [];
 
+
   @override
   void initState() {
     super.initState();
@@ -253,7 +254,6 @@ class _VaultTopicalGuidesState extends State<VaultTopicalGuides> {
     });
   }
 }
-
 
 //TopicButton
 class TopicButton extends StatelessWidget {

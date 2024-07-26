@@ -6,7 +6,6 @@ class EssenStuffCard extends StatelessWidget {
       {super.key, required this.essenStuffModel, required this.onTap});
   final EssenceStuffModel essenStuffModel;
   final void Function() onTap;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

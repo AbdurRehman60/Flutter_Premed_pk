@@ -82,6 +82,8 @@ class PreMedColorTheme {
   Color get greenL => const Color(0xFF42C96B);
   Color get skyblue => const Color(0xFF0383BB);
   Color get red => Colors.red;
+  Color get coolBlue => const Color(0xFF2370CA);
+  Color get blue => const Color(0xFF4285F4);
 
   //Gradient colors
   LinearGradient get primaryGradient => LinearGradient(

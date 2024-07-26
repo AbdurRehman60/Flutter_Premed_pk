@@ -1,3 +1,4 @@
+
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/topical%20guides/toical%20guide%20reel%20view.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
@@ -73,3 +74,4 @@ class StudyNotesPage extends StatelessWidget {
     );
   }
 }
+

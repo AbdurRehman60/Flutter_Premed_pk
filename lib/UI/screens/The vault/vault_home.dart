@@ -11,6 +11,9 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/essential_stuff_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../providers/user_provider.dart';
+
+
 class VaultHome extends StatefulWidget {
   const VaultHome({super.key});
 
@@ -20,7 +23,6 @@ class VaultHome extends StatefulWidget {
 
 class _VaultHomeState extends State<VaultHome> {
   final TextEditingController _searchController = TextEditingController();
-
   @override
   void dispose() {
     _searchController.dispose();
@@ -30,6 +32,19 @@ class _VaultHomeState extends State<VaultHome> {
   void getStuff() {
     final est = Provider.of<EssentialStuffProvider>(context);
     est.getEssentialStuff();
+  }
+
+  void checkSubscription() {
+    final userPurchases =
+        Provider.of<UserProvider>(context, listen: false).user?.access;
+    Provider.of<UserProvider>(context, listen: false)
+        .setSubscriptions(userPurchases!);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => checkSubscription());
   }
 
   @override
@@ -155,11 +170,15 @@ class _VaultHomeState extends State<VaultHome> {
                     Padding(
                       padding: const EdgeInsets.only(right: 15),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBoxes.vertical26Px,
                           Row(
                             children: [
-                              const GradientText(text: 'Essential'),
+                              const GradientText(
+                                text: 'Essential',
+                                fontSize: 18,
+                              ),
                               Text(' Stuff',
                                   style: PreMedTextTheme().heading1.copyWith(
                                       fontSize: 18,
@@ -563,8 +582,9 @@ class GradientButton extends StatelessWidget {
 }
 
 class GradientText extends StatelessWidget {
-  const GradientText({super.key, required this.text});
+  const GradientText({super.key, required this.text, required this.fontSize});
   final String text;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -581,10 +601,10 @@ class GradientText extends StatelessWidget {
       },
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           color:
               Colors.white, // This color is ignored because of the ShaderMask
-          fontSize: 18, // Adjust font size as needed
+          fontSize: fontSize, // Adjust font size as needed
           fontWeight: FontWeight.bold, // Adjust weight as needed
         ),
       ),

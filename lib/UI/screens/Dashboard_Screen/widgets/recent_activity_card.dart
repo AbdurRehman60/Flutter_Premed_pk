@@ -1,7 +1,6 @@
 // ignore: file_names
 // ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart'; // Import the intl package
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/recent_activity_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
@@ -12,31 +11,30 @@ class RecentActivityCard extends StatefulWidget {
     required this.acivityname,
     required this.date,
     required this.progressValue,
+    required this.isPreMed,
   });
   final double progressValue;
+
   final acivityname;
   final mode;
   final date;
+  final isPreMed;
 
   @override
   _RecentActivityCardState createState() => _RecentActivityCardState();
 }
 
 class _RecentActivityCardState extends State<RecentActivityCard> {
-  String formattedDate(String date) {
-    final DateTime parsedDate = DateTime.parse(date);
-    return DateFormat('d MMMM yyyy').format(parsedDate);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       elevation: 5,
       child: Container(
-        height: 182,
+        height: 165,
         decoration: BoxDecoration(
           color: PreMedColorTheme().white,
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(15.0),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -67,8 +65,9 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                const RecentActivityScreen()));
+                            builder: (context) => RecentActivityScreen(
+                                  isPreMed: widget.isPreMed,
+                                )));
                       },
                       child: Text(
                         'View All',
@@ -112,8 +111,8 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                                       Radius.circular(25)),
                                   backgroundColor: Colors.grey[300],
                                   value: widget.progressValue.clamp(0.0, 1.0),
-                                  valueColor: AlwaysStoppedAnimation(
-                                      _getColor(widget.progressValue)),
+                                  valueColor: AlwaysStoppedAnimation(_getColor(
+                                      widget.progressValue, widget.isPreMed)),
                                   minHeight: 8,
                                 ),
                               ),
@@ -136,7 +135,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(formattedDate(widget.date),
+                              Text(widget.date,
                                   style: GoogleFonts.rubik(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 10,
@@ -145,6 +144,9 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                                 onPressed: () {},
                                 child: Text(widget.mode,
                                     style: GoogleFonts.rubik(
+                                      color: widget.isPreMed
+                                          ? PreMedColorTheme().red
+                                          : PreMedColorTheme().coolBlue,
                                       fontWeight: FontWeight.w800,
                                       fontSize: 12,
                                     )),
@@ -164,9 +166,9 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
     );
   }
 
-  Color _getColor(double progressValue) {
+  Color _getColor(double progressValue, bool isPreMed) {
     if (progressValue < 0.3) {
-      return PreMedColorTheme().red;
+      return isPreMed ? PreMedColorTheme().red : PreMedColorTheme().coolBlue;
     } else if (progressValue < 0.6) {
       return PreMedColorTheme().yellowlight;
     } else {

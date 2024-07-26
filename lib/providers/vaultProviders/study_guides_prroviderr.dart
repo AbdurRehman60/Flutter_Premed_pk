@@ -11,9 +11,6 @@ class VaultTopicalGuidesProvider extends ChangeNotifier {
 
   NotesStatus _vaultnotesLoadingStatus = NotesStatus.init;
   NotesStatus get vaultnotesLoadingstatus => _vaultnotesLoadingStatus;
-  set notesLoadingStatus(NotesStatus value) {
-    _vaultnotesLoadingStatus = value;
-  }
 
   List<VaultNotesModel> _vaultNotesList = [];
   List<VaultNotesModel> get vaultNotesList => _vaultNotesList;

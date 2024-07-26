@@ -78,6 +78,7 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> responseData) {
+
     return User(
       userId: responseData['id'] ?? '',
       status: responseData['status'] ?? '',

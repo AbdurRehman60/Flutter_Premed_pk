@@ -325,39 +325,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                               ],
                             ),
                             SizedBox(height: mediaQuery.size.height * 0.015),
-                            MaterialCard(
-                              height: mediaQuery.size.height * 0.16,
-                              width: mediaQuery.size.width * 0.90,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      StatDetailHolder(
-                                        textColor:
-                                            PreMedColorTheme().greenLight,
-                                        count: userStatModel.decksAttempted,
-                                        details: 'Decks\nAttempted',
-                                      ),
-                                      StatDetailHolder(
-                                        textColor: PreMedColorTheme().red,
-                                        count: userStatModel.testAttempted,
-                                        details: 'Test\nAttempted',
-                                      ),
-                                      StatDetailHolder(
-                                        textColor:
-                                            PreMedColorTheme().yellowlight,
-                                        count: userStatModel
-                                            .paracticeTestAttempted,
-                                        details: 'Practice Tests\nAttempted',
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
+
                             SizedBox(height: mediaQuery.size.height * 0.015),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

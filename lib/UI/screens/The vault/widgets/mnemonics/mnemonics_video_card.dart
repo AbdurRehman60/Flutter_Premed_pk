@@ -1,10 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:glassmorphism_ui/glassmorphism_ui.dart';
+import 'package:premedpk_mobile_app/constants/text_theme.dart'; // Assuming this contains your text theme constants
 import 'package:premedpk_mobile_app/models/mnemonics_model.dart';
+import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class MnemonicsCard extends StatelessWidget {
-  const MnemonicsCard(
-      {super.key, required this.mnemonics, required this.onPlay});
+  const MnemonicsCard({
+    super.key,
+    required this.mnemonics,
+    required this.onPlay,
+  });
+
   final MnemonicsModel mnemonics;
   final void Function() onPlay;
 
@@ -59,7 +67,7 @@ class MnemonicsCard extends StatelessWidget {
                                   gradient: LinearGradient(
                                     colors: [
                                       const Color(0xFF18204F).withOpacity(0.4),
-                                      const Color(0xFF18204F).withOpacity(0.25)
+                                      const Color(0xFF18204F).withOpacity(0.25),
                                     ],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
@@ -68,7 +76,7 @@ class MnemonicsCard extends StatelessWidget {
                                     color: Colors.white.withOpacity(0.5),
                                     width: 2.5,
                                   ),
-                                  borderRadius: BorderRadius.circular(30), //
+                                  borderRadius: BorderRadius.circular(30),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.black.withOpacity(0.15),
@@ -92,6 +100,28 @@ class MnemonicsCard extends StatelessWidget {
               ),
             ],
           ),
+          if (!Provider.of<UserProvider>(context).userAccess)
+            Positioned.fill(
+              child: GlassContainer(
+                child: Center(
+                  child: GlassContainer(
+                    border: Border.all(color: Colors.white, width: 2),
+                    height: 32,
+                    width: 80,
+                    child: Center(
+                      child: Text(
+                        'Unlock',
+                        style: PreMedTextTheme().heading1.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

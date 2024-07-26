@@ -2,6 +2,7 @@ import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/user_model.dart';
+import '../models/subscription_model.dart';
 
 class UserProvider extends ChangeNotifier {
   factory UserProvider() => _instance;
@@ -9,17 +10,28 @@ class UserProvider extends ChangeNotifier {
   UserProvider._internal();
   static final UserProvider _instance = UserProvider._internal();
   final DioClient _client = DioClient();
-  void notify() {
-    notifyListeners();
-  }
 
   User? _user;
   Info? _info;
+  List<Subscription> _subscriptions = [];
+
   User? get user => _user;
   set user(User? value) {
     _user = value;
     _info = value?.info;
     notify();
+  }
+
+  List<Subscription> get subscriptions => _subscriptions;
+
+  void setSubscriptions(List<dynamic> subscriptions) {
+    _subscriptions =
+        subscriptions.map((e) => Subscription.fromJson(e)).toList();
+    notify();
+  }
+
+  void notify() {
+    notifyListeners();
   }
 
   String getlastOnboarding() {
@@ -55,12 +67,27 @@ class UserProvider extends ChangeNotifier {
   String getBundle() {
     final bundle = _user?.bundlesPurchased;
     if (bundle != null) {
-      print('bundlesPurchased: $bundle');
       return bundle;
     } else {
-      print('bundlesPurchased is empty');
       return '';
     }
+  }
+
+  // Access getter
+  bool get userAccess {
+    final currentDate = DateTime.now();
+    for (final feature in featuresAccess) {
+      final accessTags = feature['accessTags']! as List<String>;
+      for (final tag in accessTags) {
+        for (final subscription in _subscriptions) {
+          if (subscription.name == tag &&
+              subscription.subscriptionEndDate.isAfter(currentDate)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
   // Update full name
@@ -108,7 +135,7 @@ class UserProvider extends ChangeNotifier {
           'message': 'Failed to update user details. Server error.',
         };
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       result = {
         'status': false,
         'message': 'Network error updating user details: ${e.message}',
@@ -155,7 +182,7 @@ class UserProvider extends ChangeNotifier {
           'message': 'Failed to changed password. Server error.',
         };
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       result = {
         'status': false,
         'message': 'Network error updating user details: ${e.message}',

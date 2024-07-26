@@ -39,7 +39,7 @@ class FlashcardModel {
   final List<String> tags;
   final String topic;
   final String type;
-  final int year;
+  final int? year;
   final String entity;
   final String category;
   final String explanationText;

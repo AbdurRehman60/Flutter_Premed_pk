@@ -1,7 +1,11 @@
+import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/vaultpdfview.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/cheatsheetModel.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/user_provider.dart';
 
 class PdfDisplayer extends StatelessWidget {
   const PdfDisplayer({
@@ -63,6 +67,7 @@ class PDFTileVault extends StatelessWidget {
     required this.note,
     required this.categoryName,
   });
+
   final VaultNotesModel note;
   final String categoryName;
 
@@ -81,56 +86,84 @@ class PDFTileVault extends StatelessWidget {
     }
 
     return InkWell(
-      onTap: onTileClick,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white.withOpacity(0.85),
-          border: Border.all(color: Colors.white.withOpacity(0.50)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.15),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
+      onTap:
+          !Provider.of<UserProvider>(context).userAccess ? null : onTileClick,
+      child: Stack(
+        children: [
+          Container(
+            width: 220, // Fixed width
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white.withOpacity(0.85),
+              border: Border.all(color: Colors.white.withOpacity(0.50)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              buildPdfIcon(note.thumbnailImageUrl ?? ''),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                child: Text(
-                  'Study Notes'.toUpperCase(),
-                  style: PreMedTextTheme().heading1.copyWith(
-                        fontSize: 8,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black26,
-                      ),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  buildPdfIcon(note.thumbnailImageUrl ?? ''),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10, left: 10, right: 10),
+                    child: Text(
+                      'Study Notes'.toUpperCase(),
+                      style: PreMedTextTheme().heading1.copyWith(
+                            fontSize: 8,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black26,
+                          ),
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    note.topicName,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: PreMedTextTheme()
+                        .headline
+                        .copyWith(fontWeight: FontWeight.w800),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    note.subject.toUpperCase(),
+                    style: PreMedTextTheme().heading1.copyWith(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 10,
+                        ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          if (!Provider.of<UserProvider>(context).userAccess)
+            Positioned.fill(
+              child: GlassContainer(
+                shadowStrength: 0,
+                borderRadius: BorderRadius.circular(10),
+                child: Center(
+                  child: GlassContainer(
+                    shadowStrength: 0,
+                    height: 32,
+                    width: 80,
+                    border: Border.all(color: Colors.white, width: 2),
+                    child: Center(
+                      child: Text('Unlock',
+                          style: PreMedTextTheme().heading1.copyWith(
+                              fontWeight: FontWeight.w500, fontSize: 15)),
+                    ),
+                  ),
                 ),
               ),
-              SizedBoxes.vertical3Px,
-              Text(
-                note.topicName,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: PreMedTextTheme()
-                    .headline
-                    .copyWith(fontWeight: FontWeight.w800),
-                textAlign: TextAlign.center,
-              ),
-              SizedBoxes.verticalMicro,
-              Text(
-                '5 Pages'.toUpperCase(),
-                style: PreMedTextTheme()
-                    .heading1
-                    .copyWith(fontWeight: FontWeight.w400, fontSize: 10),
-              )
-            ],
-          ),
-        ),
+            ),
+        ],
       ),
     );
   }

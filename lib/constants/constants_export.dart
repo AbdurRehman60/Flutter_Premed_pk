@@ -2,7 +2,6 @@ export 'dart:async';
 export 'dart:convert';
 export 'dart:io';
 export 'dart:math';
-
 export 'package:dio/dio.dart';
 export 'package:flutter/material.dart';
 export 'package:premedpk_mobile_app/constants/assets.dart';

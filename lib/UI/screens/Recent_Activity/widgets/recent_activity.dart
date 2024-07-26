@@ -4,22 +4,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class RecentActivityCard1 extends StatefulWidget {
-  const RecentActivityCard1({
-    super.key,
-    required this.acivityname,
-    required this.date,
-    required this.progressValue,
-    required this.mode,
-    required this.onTap,
-  });
+  const RecentActivityCard1(
+      {super.key,
+      required this.acivityname,
+      required this.date,
+      required this.progressValue,
+      required this.mode,
+      required this.onTap,
+      required this.isPreMed});
   final double progressValue;
   final acivityname;
   final date;
   final mode;
   final VoidCallback onTap;
+  final bool isPreMed;
 
   @override
-  // ignore: library_private_types_in_public_api
   _RecentActivityCard1State createState() => _RecentActivityCard1State();
 }
 
@@ -58,7 +58,7 @@ class _RecentActivityCard1State extends State<RecentActivityCard1> {
                     backgroundColor: Colors.grey[300],
                     value: widget.progressValue.clamp(0.0, 1.0),
                     valueColor:
-                        AlwaysStoppedAnimation(_getColor(widget.progressValue)),
+                        AlwaysStoppedAnimation(_getColor(widget.progressValue,widget.isPreMed)),
                     minHeight: 8,
                   ),
                 ),
@@ -95,7 +95,9 @@ class _RecentActivityCard1State extends State<RecentActivityCard1> {
                       style: GoogleFonts.rubik(
                           fontWeight: FontWeight.w800,
                           fontSize: 12,
-                          color: PreMedColorTheme().red)),
+                          color: widget.isPreMed
+                              ? PreMedColorTheme().red
+                              : PreMedColorTheme().coolBlue)),
                 )
               ],
             ),
@@ -112,9 +114,9 @@ class _RecentActivityCard1State extends State<RecentActivityCard1> {
     );
   }
 
-  Color _getColor(double progressValue) {
+  Color _getColor(double progressValue, bool isPreMed) {
     if (progressValue < 0.3) {
-      return Colors.red;
+      return isPreMed ? PreMedColorTheme().red : PreMedColorTheme().coolBlue;
     } else if (progressValue < 0.6) {
       return Colors.yellow;
     } else {

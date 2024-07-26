@@ -7,32 +7,29 @@ import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/sized_boxes.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
-import 'package:premedpk_mobile_app/providers/savedquestion_provider.dart';
 import 'package:provider/provider.dart';
 
-class FlashcardHome extends StatelessWidget {
+class FlashcardHome extends StatefulWidget {
   const FlashcardHome({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final flashcardProvider =
-        Provider.of<FlashcardProvider>(context, listen: false);
+  State<FlashcardHome> createState() => _FlashcardHomeState();
+}
 
+class _FlashcardHomeState extends State<FlashcardHome> {
+  @override
+  void initState() {
+    Provider.of<FlashcardProvider>(context, listen: false)
+        .getFlashcardsByUser();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: AppBar(
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Provider.of<SavedQuestionsProvider>(context, listen: false)
-                      .getSavedQuestions();
-                },
-                icon: const Icon(
-                  Icons.add,
-                  color: Colors.red,
-                ))
-          ],
           backgroundColor: Colors.transparent,
           leading: IconButton(
             onPressed: () {
@@ -73,47 +70,51 @@ class FlashcardHome extends StatelessWidget {
               ),
             ),
           ),
-          FutureBuilder(
-            future: flashcardProvider.getFlashcardsByUser(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const FlashcardShimmer();
-              } else if (snapshot.hasError) {
-                return const Center(
-                  child: Text('Error fetching data'),
-                );
-              } else {
-                return Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: GridView.builder(
-                      itemCount: gridData.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                        mainAxisExtent: 140,
+          Consumer<FlashcardProvider>(
+            builder: (context, flashcardProvider, child) {
+              switch (flashcardProvider.doubtUploadStatus) {
+                case Status.init:
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                case Status.fetching:
+                  return const FlashcardShimmer();
+                case Status.success:
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: GridView.builder(
+                        itemCount: gridData.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8,
+                          mainAxisExtent: 140,
+                        ),
+                        itemBuilder: (context, index) {
+                          final Color color = Color(int.parse(
+                              '0xFF${gridData[index]['color']?.substring(1)}'));
+                          final subject = gridData[index]['subject'];
+                          final flashcardCount = flashcardProvider
+                              .getFilteredFlashcards(subject!)
+                              .length;
+                          final page = '$flashcardCount Questions';
+                          return FlashcardItem(
+                            image: gridData[index]['image'] ?? '',
+                            text: gridData[index]['text'] ?? '',
+                            page: page,
+                            subject: subject,
+                            color: color,
+                          );
+                        },
                       ),
-                      itemBuilder: (context, index) {
-                        final Color color = Color(int.parse(
-                            '0xFF${gridData[index]['color']?.substring(1)}'));
-                        final subject = gridData[index]['subject'] ?? '';
-                        final flashcardCount = flashcardProvider
-                            .getFilteredFlashcards(subject)
-                            .length;
-                        final page = '$flashcardCount Questions';
-                        return FlashcardItem(
-                          image: gridData[index]['image'] ?? '',
-                          text: gridData[index]['text'] ?? '',
-                          page: page,
-                          subject: subject,
-                          color: color,
-                        );
-                      },
                     ),
-                  ),
-                );
+                  );
+                case Status.error:
+                  return const Center(
+                    child: Text('Error fetching data'),
+                  );
               }
             },
           ),

@@ -3,22 +3,23 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class QbankCard extends StatelessWidget {
-  const QbankCard({
-    super.key,
-    required this.icon,
-    required this.text,
-    required this.text1,
-    required this.onTap,
-    // required this.text2,
-    this.bgColor = Colors.blue, // default background color
-  });
+  const QbankCard(
+      {super.key,
+      required this.icon,
+      required this.text,
+      required this.text1,
+      required this.onTap,
+      // required this.text2,
+      this.bgColor = Colors.blue,
+      required this.isPreMed
+      });
 
   final String icon;
   final String text;
   final String text1;
-  // final String text2;
   final Color bgColor;
   final VoidCallback onTap;
+  final bool isPreMed;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class QbankCard extends StatelessWidget {
               MediaQuery.of(context).size.height * 0.09, // 10% of screen height
           decoration: BoxDecoration(
             color: bgColor, // use the provided background color
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),
@@ -50,7 +51,7 @@ class QbankCard extends StatelessWidget {
                   vertical: MediaQuery.of(context).size.height *
                       0.015, // Responsive vertical padding
                   horizontal: MediaQuery.of(context).size.width *
-                      0.04, // Responsive horizontal padding
+                      0.03, // Responsive horizontal padding
                 ),
                 child: SvgPicture.asset(
                   icon,
@@ -78,7 +79,9 @@ class QbankCard extends StatelessWidget {
                           fontWeight: FontWeight.w900,
                           fontSize: MediaQuery.of(context).size.width *
                               0.030, // Responsive font size
-                          color: PreMedColorTheme().red,
+                          color: isPreMed
+                              ? PreMedColorTheme().red
+                              : PreMedColorTheme().coolBlue,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

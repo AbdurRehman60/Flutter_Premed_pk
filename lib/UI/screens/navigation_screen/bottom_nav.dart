@@ -53,10 +53,11 @@ class PremedBottomNav extends StatelessWidget {
             onTap: onTapQbank,
           ),
           _MainBottomNavBarItem(
-            icon: 'assets/images/Vault.png',
+            icon: 'assets/images/vault/Vault.png',
             isSelected: 2 == currentIndex,
             label: 'The Resource Vault',
             onTap: ontapVault,
+            activeicon: 'assets/images/vault/Vault.png',
           ),
           _BottomNavBarItem(
             icon: 'assets/images/Shop.png',
@@ -135,12 +136,14 @@ class _MainBottomNavBarItem extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
     required this.label,
+    required this.activeicon,
   });
 
   final bool isSelected;
   final VoidCallback onTap;
   final String label;
   final String icon;
+  final String activeicon;
 
   @override
   Widget build(BuildContext context) {
@@ -153,12 +156,9 @@ class _MainBottomNavBarItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                icon,
+                isSelected ? activeicon : icon,
                 width: 93,
                 height: 40,
-                color: isSelected
-                    ? PreMedColorTheme().primaryColorRed
-                    : PreMedColorTheme().neutral300,
               ),
               Text(
                 label,

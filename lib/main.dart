@@ -36,8 +36,11 @@ import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/update_attempt_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/eng_study_notes_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/essen_stuff_pro.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/essential_stuff_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/mnemonics_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/shortListing_providers.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/study_guides_prroviderr.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/study_notes_proivders.dart';
@@ -115,7 +118,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => VaultTopicalGuidesProvider()),
         ChangeNotifierProvider(create: (_) => EssentialStuffProvider()),
         ChangeNotifierProvider(create: (_) => MnemonicsProvider()),
-        ChangeNotifierProvider(create: (_) => SavedQuestionsProvider())
+        ChangeNotifierProvider(create: (_) => SavedQuestionsProvider()),
+        ChangeNotifierProvider(create: (_) => EngineeringEssentialStuffProvider()),
+        ChangeNotifierProvider(create: (_)=> EngineeringStudyNotesProvider()),
+        ChangeNotifierProvider(create: (_)=> PreMedProvider()..loadFromPreferences()),
+
       ],
       child: MaterialApp(
         routes: {

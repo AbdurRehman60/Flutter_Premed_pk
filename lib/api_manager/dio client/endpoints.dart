@@ -48,7 +48,7 @@ class Endpoints {
   static const String UserPending = '/UserPending';
   static const String UserSubmitted = '/UserSubmitted';
 
-  static const String GetFlashcards = '/api/flashcard/GetFlashcards';
+  static const String GetFlashcards = '/api/flashcard/get-flashcards';
 
   //bundles endpoints
   static const String GetBundles = '/api/bundle/';
@@ -130,7 +130,8 @@ class Endpoints {
 
   static const String attemptPoints =
       'https://prodapi.premed.pk/api/attempts/get-latest-attempt';
-
+//vaultEndpoints
+  //preMedical =>
   static const String TopicalNotes =
       '/api/topical/get/ENTRANCE EXAM/PRE-MEDICAL';
   static const String CheatSheets =
@@ -145,6 +146,14 @@ class Endpoints {
       '/api/essential/get/ENTRANCE EXAM/PRE-MEDICAL';
   static const String Mnemonics =
       '/api/mnemonics/getAll/ENTRANCE EXAM/PRE-MEDICAL';
+
+
+  //preEngineering =>
+  static const String EngineeringStudyNotes =
+      '/api/vault/notes/get/ENTRANCE EXAM/PRE-ENGINEERING';
+  static const String EngineeringEssentialStuff =
+      '/api/essential/get/ENTRANCE EXAM/PRE-ENGINEERING';
+
   //VaultEnded
 
   static const String SavedQuestions = '/api/saveQuestion/get-saved-questions';

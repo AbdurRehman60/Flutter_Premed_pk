@@ -7,7 +7,6 @@ import 'mnemonics_video_card.dart';
 
 class MnemonicsGridBuilder extends StatefulWidget {
   const MnemonicsGridBuilder({super.key});
-
   @override
   MnemonicsGridBuilderState createState() => MnemonicsGridBuilderState();
 }
@@ -128,10 +127,10 @@ class FilterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.5),
+          padding: const EdgeInsets.symmetric(horizontal: 19, vertical: 8.5),
           backgroundColor: isActive ? const Color(0xFFEC5863) : Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),

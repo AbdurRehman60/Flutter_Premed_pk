@@ -10,13 +10,13 @@ class MaterialCard extends StatelessWidget {
     return Material(
       elevation: 5,
       clipBehavior: Clip.hardEdge,
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(18),
       child: Container(
         height: height,
         width: width,
         padding: const EdgeInsets.symmetric(horizontal: 19, vertical: 25),
         decoration: BoxDecoration(
-          color: Color(0xA6FFFFFF),
+          color: const Color(0xA6FFFFFF),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),

@@ -39,7 +39,7 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
     super.dispose();
   }
 
-  void _checkIfFileExists() async {
+  Future<void> _checkIfFileExists() async {
     final filePath = '${widget.vaultNotesModel.topicName.trim()}_PreMed.PK';
     final file = File(filePath);
     print('filePath : $file');
