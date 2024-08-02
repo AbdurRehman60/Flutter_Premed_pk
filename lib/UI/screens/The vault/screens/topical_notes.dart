@@ -272,7 +272,7 @@ class TopicButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.5),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8.5),
         backgroundColor: isActive ? const Color(0xFFEC5863) : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),

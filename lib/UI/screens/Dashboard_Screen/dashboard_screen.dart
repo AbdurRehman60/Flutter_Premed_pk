@@ -6,8 +6,10 @@ import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/notes_ca
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/series_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/timer_drop_down.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
+import 'package:premedpk_mobile_app/UI/screens/mocks/mdcat_mocks/mdcat_mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/notifications/notification_page.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/mdcat/mocks&bank_statistics.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/mocks_bank.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_qbank.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/statistics_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/Attempted_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/card_w.dart';
@@ -16,6 +18,8 @@ import 'package:premedpk_mobile_app/models/statistic_model.dart';
 import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import '../qbank/global_qbank.dart';
+import '../qbank/mdcat/scratch.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key, this.uni, this.timeLeft});
@@ -122,7 +126,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     NotesCard(
                       icon: PremedAssets.notesstudy,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> const PUQbankHome()));
+                      },
                       bgColor: PreMedColorTheme().white,
                       text: 'CONTINUE STUDYING',
                       text1: 'Hydrocarbons',
@@ -157,7 +163,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  const MDcatMockorBankStats(),
+                                  const MdcatMocksHome(),
                             ));
                       },
                     ),

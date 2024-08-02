@@ -1,13 +1,10 @@
-import 'package:premedpk_mobile_app/UI/screens/The%20vault/pre_eng/screens/pre_eng_vault_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/account.dart';
-import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/dashboard_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
-import 'package:premedpk_mobile_app/UI/screens/mdcat_qb/mdcat_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/bottom_nav.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/qbank_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -28,7 +25,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final screens = [
     const DashboardSwitcher(),
-    const MDCAT(),
+    const QBankHome(),
     const VaultSwitcher(),
     const MarketPlace(),
     const Account(),
@@ -66,14 +63,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   Future<void> onTap(int index) async {
-    if (index == 1) {
-      launchUrl(
-        mode: LaunchMode.inAppBrowserView,
-        Uri.parse("https://premed.pk/dashboard"),
-      );
-    } else {
       navigateTo(index);
-    }
   }
 
   void navigateTo(int index) {

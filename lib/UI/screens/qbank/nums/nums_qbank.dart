@@ -132,12 +132,12 @@ class _NUMSQbankHomeState extends State<NUMSQbankHome> with SingleTickerProvider
             child: Consumer<NUMSQbankProvider>(
               builder: (context, numsqbankpro, _) {
                 switch (numsqbankpro.fetchStatus) {
-                  case FetchStatus.init:
-                  case FetchStatus.fetching:
+                  case NumsFetchStatus.init:
+                  case NumsFetchStatus.fetching:
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  case FetchStatus.success:
+                  case NumsFetchStatus.success:
                     return TabBarView(
                       controller: _tabController,
                       children: [
@@ -153,7 +153,7 @@ class _NUMSQbankHomeState extends State<NUMSQbankHome> with SingleTickerProvider
                         ),
                       ],
                     );
-                  case FetchStatus.error:
+                  case NumsFetchStatus.error:
                     return const Center(
                       child: Text('Error fetching deck groups'),
                     );

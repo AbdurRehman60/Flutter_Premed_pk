@@ -3,12 +3,12 @@ import 'package:premedpk_mobile_app/api_manager/dio client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/deck_group_model.dart';
 
-enum FetchStatus { init, fetching, success, error }
+enum NumsFetchStatus { init, fetching, success, error }
 
 class NUMSQbankProvider extends ChangeNotifier {
-  FetchStatus _fetchStatus = FetchStatus.init;
+  NumsFetchStatus _fetchStatus = NumsFetchStatus.init;
 
-  FetchStatus get fetchStatus => _fetchStatus;
+  NumsFetchStatus get fetchStatus => _fetchStatus;
 
   List<DeckGroupModel> _deckGroups = [];
 
@@ -16,14 +16,11 @@ class NUMSQbankProvider extends ChangeNotifier {
 
   Future<void> fetchDeckGroups() async {
     try {
-      _fetchStatus = FetchStatus.fetching;
+      _fetchStatus = NumsFetchStatus.fetching;
       notifyListeners();
 
       final DioClient dio = DioClient();
       final responseData = await dio.get(Endpoints.NUMSQbank);
-      print(
-          'Response Data: $responseData'); // Print response data for debugging
-
       final bool success = responseData['success'] ?? false;
       if (success) {
         final List<Map<String, dynamic>> data =
@@ -44,7 +41,6 @@ class NUMSQbankProvider extends ChangeNotifier {
               .map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
             final List<DeckItem> deckItems = decks.map((deck) {
-              print('Deck Data: $deck');
               return DeckItem(
                 deckName: deck['deckName'],
                 deckLogo: deck['deckLogo'],
@@ -75,16 +71,15 @@ class NUMSQbankProvider extends ChangeNotifier {
             );
           }).toList();
 
-        _fetchStatus = FetchStatus.success;
+        _fetchStatus = NumsFetchStatus.success;
         } else {
-          _fetchStatus = FetchStatus.error;
+          _fetchStatus = NumsFetchStatus.error;
         }
       } else {
-        _fetchStatus = FetchStatus.error;
+        _fetchStatus = NumsFetchStatus.error;
       }
     } catch (e) {
-      print('Error: $e'); // Print error for debugging
-      _fetchStatus = FetchStatus.error;
+      _fetchStatus = NumsFetchStatus.error;
     } finally {
       notifyListeners();
     }

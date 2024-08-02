@@ -14,26 +14,37 @@ class TopicButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8.5),
-        backgroundColor: isActive ? const Color(0xFFEC5863) : Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: const BorderSide(
-            color: Color(0x80FFFFFF),
-            width: 3.0,
+    return Container(
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x26000000),
+            blurRadius: 40,
+            offset: Offset(0, 20),
           ),
-        ),
-        elevation: 1,
+        ],
       ),
-      onPressed: onTap,
-      child: Text(
-        topicName,
-        style: PreMedTextTheme().heading1.copyWith(
-            color: isActive ? Colors.white : const Color(0xFF4E4B66),
-            fontSize: 15,
-            fontWeight: FontWeight.w500),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8.5),
+          backgroundColor: isActive ? const Color(0xFFEC5863) : Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: const BorderSide(
+              color: Color(0x80FFFFFF),
+              width: 3.0,
+            ),
+          ),
+          elevation: 1,
+        ),
+        onPressed: onTap,
+        child: Text(
+          topicName,
+          style: PreMedTextTheme().heading1.copyWith(
+              color: isActive ? Colors.white : const Color(0xFF4E4B66),
+              fontSize: 15,
+              fontWeight: FontWeight.w500),
+        ),
       ),
     );
   }

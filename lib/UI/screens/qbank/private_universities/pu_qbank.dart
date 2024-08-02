@@ -133,12 +133,12 @@ class _PUQbankHomeState extends State<PUQbankHome> with SingleTickerProviderStat
             child: Consumer<PUQbankProvider>(
               builder: (context, puqbankpro, _) {
                 switch (puqbankpro.fetchStatus) {
-                  case FetchStatus.init:
-                  case FetchStatus.fetching:
+                  case PuFetchStatus.init:
+                  case PuFetchStatus.fetching:
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  case FetchStatus.success:
+                  case PuFetchStatus.success:
                     return TabBarView(
                       controller: _tabController,
                       children: [
@@ -156,7 +156,7 @@ class _PUQbankHomeState extends State<PUQbankHome> with SingleTickerProviderStat
                         ),
                       ],
                     );
-                  case FetchStatus.error:
+                  case PuFetchStatus.error:
                     return const Center(
                       child: Text('Error fetching deck groups'),
                     );

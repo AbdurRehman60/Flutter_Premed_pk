@@ -12,6 +12,7 @@ import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_su
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/pre_engineering/providers/chapterWiseProvider.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
@@ -122,6 +123,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EngineeringEssentialStuffProvider()),
         ChangeNotifierProvider(create: (_)=> EngineeringStudyNotesProvider()),
         ChangeNotifierProvider(create: (_)=> PreMedProvider()..loadFromPreferences()),
+        ChangeNotifierProvider(create: (_)=> EngChapterWisePro()),
 
       ],
       child: MaterialApp(

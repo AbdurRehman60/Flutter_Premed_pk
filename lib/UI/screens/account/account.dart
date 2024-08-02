@@ -1,7 +1,6 @@
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/account_before_edit.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/change_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/contact_us.dart';
-import 'package:premedpk_mobile_app/UI/screens/account/widgets/edit_profile.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/menu_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
@@ -9,10 +8,12 @@ import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/error_dialogue.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/pre_engineering/UI/screens/qbank/chapter_wise.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
-import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../pre_engineering/providers/chapterWiseProvider.dart';
 
 class Account extends StatelessWidget {
   const Account({super.key});
@@ -41,22 +42,31 @@ class Account extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: PreMedColorTheme().background,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(90.0),
         child: Container(
           padding: const EdgeInsets.only(top: 20, left: 3),
           child: AppBar(
-            backgroundColor: PreMedColorTheme().white,
+            backgroundColor: PreMedColorTheme().background,
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Settings',
-                  style: PreMedTextTheme().heading6.copyWith(
-                        color: PreMedColorTheme().black,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                      ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EngChapterWiseHome()));
+                  },
+                  child: Text(
+                    'Settings',
+                    style: PreMedTextTheme().heading6.copyWith(
+                          color: PreMedColorTheme().black,
+                          fontSize: 34,
+                          fontWeight: FontWeight.w800,
+                        ),
+                  ),
                 ),
                 SizedBoxes.vertical2Px,
                 Text(
@@ -205,7 +215,8 @@ class Account extends StatelessWidget {
                   // ),
                   // SizedBoxes.vert[]icalMedium,
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 4),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
                     child: UserTile(
                         onTap: () {
                           Navigator.push(
@@ -298,13 +309,13 @@ class Account extends StatelessWidget {
 
                         return Container(
                           decoration: BoxDecoration(
-                            color: PreMedColorTheme().white,
+                            color: Colors.white.withOpacity(0.8500000238418579),
                             borderRadius: BorderRadius.circular(15),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 5,
+                                color: Color(0xff26000000),
+                                blurRadius: 40,
+                                offset: Offset(0, 20),
                               ),
                             ],
                           ),

@@ -93,12 +93,12 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
             child: Consumer<NumsMocksProvider>(
               builder: (context, numsmocksProvider, _) {
                 switch (numsmocksProvider.fetchStatus) {
-                  case FetchStatus.init:
-                  case FetchStatus.fetching:
+                  case NumsMockFetchStatus.init:
+                  case NumsMockFetchStatus.fetching:
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  case FetchStatus.success:
+                  case NumsMockFetchStatus.success:
                     return ListView.builder(
                       itemCount: numsmocksProvider.deckGroups.length,
                       itemBuilder: (context, index) {
@@ -173,7 +173,7 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
                         );
                       },
                     );
-                  case FetchStatus.error:
+                  case NumsMockFetchStatus.error:
                     return const Center(
                       child: Text('Error fetching deck groups'),
                     );

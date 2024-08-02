@@ -77,4 +77,11 @@ class PremedAssets {
   static String Savedquestion = 'assets/icons/Vector.svg';
   static String Valut = 'assets/images/Frame 2141 1.png';
   static String Credits = 'assets/icons/Credits Icon.png';
+
+  //QbankHome
+static String TestSession  ='assets/icons/testsession.png';
+static String Mocks = 'assets/icons/mocks.png';
+static String PastPapers = 'assets/icons/pastpapers.png';
+static String ChapterWise = 'assets/icons/chapterwise.png';
+static String SavedQuestin = 'assets/icons/Vector 2.png';
 }

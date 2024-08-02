@@ -34,8 +34,7 @@ class DeckProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        final responseData = response.data;
-        print('Response Data: $responseData');  // Debugging line
+        final responseData = response.data; // Debugging line
         _deckInformation = DeckInformation.fromJson(responseData);
         _fetchStatus = FetchStatus.success;
       } else {

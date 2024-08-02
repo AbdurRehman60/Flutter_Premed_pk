@@ -4,12 +4,12 @@ import 'package:premedpk_mobile_app/models/deck_group_model.dart';
 
 import '../api_manager/dio client/dio_client.dart';
 
-enum FetchStatus { init, fetching, success, error }
+enum MdcatFetchStatus { init, fetching, success, error }
 
 class MDCATQbankpro extends ChangeNotifier {
-  FetchStatus _fetchStatus = FetchStatus.init;
+  MdcatFetchStatus _fetchStatus =  MdcatFetchStatus.init;
 
-  FetchStatus get fetchStatus => _fetchStatus;
+  MdcatFetchStatus get fetchStatus => _fetchStatus;
 
   List<DeckGroupModel> _deckGroups = [];
 
@@ -17,12 +17,11 @@ class MDCATQbankpro extends ChangeNotifier {
 
   Future<void> fetchDeckGroups() async {
     try {
-      _fetchStatus = FetchStatus.fetching;
+      _fetchStatus = MdcatFetchStatus.fetching;
       notifyListeners();
 
       final DioClient dio = DioClient();
       final responseData = await dio.get(Endpoints.MdcatQbank);
-      print('Response Data: $responseData'); // Print response data for debugging
 
       final bool success = responseData['success'] ?? false;
       if (success) {
@@ -44,7 +43,6 @@ class MDCATQbankpro extends ChangeNotifier {
             final List<DeckItem> deckItems = decks.where((deck) {
               return deck['isPublished'] == true;
             }).map((deck) {
-              print('Deck Data: $deck');
               return DeckItem(
                 deckName: deck['deckName'],
                 deckLogo: deck['deckLogo'],
@@ -77,16 +75,15 @@ class MDCATQbankpro extends ChangeNotifier {
             );
           }).where((deckGroup) => deckGroup != null).cast<DeckGroupModel>().toList();
 
-          _fetchStatus = FetchStatus.success;
+          _fetchStatus = MdcatFetchStatus.success;
         } else {
-          _fetchStatus = FetchStatus.error;
+          _fetchStatus = MdcatFetchStatus.error;
         }
       } else {
-        _fetchStatus = FetchStatus.error;
+        _fetchStatus = MdcatFetchStatus.error;
       }
     } catch (e) {
-      print('Error: $e');
-      _fetchStatus = FetchStatus.error;
+      _fetchStatus = MdcatFetchStatus.error;
     } finally {
       notifyListeners();
     }

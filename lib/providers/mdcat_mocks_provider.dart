@@ -19,7 +19,7 @@ class MdcatMocksProviderr extends ChangeNotifier {
       _fetchStatus = FetchhStatus.fetching;
       notifyListeners();
       final DioClient dio = DioClient();
-      final responseData = await dio.get(Endpoints.Deckspoints);
+      final responseData = await dio.get(Endpoints.MdCatMocks);
       final bool success = responseData['success'] ?? false;
       if (success) {
         final List<Map<String, dynamic>> data =
@@ -32,22 +32,13 @@ class MdcatMocksProviderr extends ChangeNotifier {
         } catch (e) {
           mdcatMocksCategory = null;
         }
+
         if (mdcatMocksCategory != null) {
           final List<dynamic> deckGroupsData = mdcatMocksCategory['deckGroups'];
           _deckGroups = deckGroupsData.map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
             final List<DeckItem> deckItems = decks.map((deck) {
-              return DeckItem(
-                  deckName: deck['deckName'] as String,
-                  deckLogo: deck['deckLogo'] as String,
-                  premiumTag: deck['premiumTags'][0] as String,
-                isPublished: deck['isPublished'],
-                  deckInstructions: deck['deckInstructions'] as String,
-                isTutorModeFree: deck['isTutorModeFree'],
-                timedTestMode: deck['timedTestMode'],
-                timesTestminutes: deck['timedTestMinutes'],
-
-              );
+              return DeckItem.fromJson(deck);
             }).toList();
             final int deckNameCount = deckItems.length;
             final String deckGroupImage = deckGroupData['deckGroupImage'];

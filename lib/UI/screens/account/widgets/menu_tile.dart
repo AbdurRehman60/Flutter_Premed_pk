@@ -83,11 +83,11 @@ class UserTile extends StatelessWidget {
             decoration: BoxDecoration(
               color: PreMedColorTheme().white,
               borderRadius: BorderRadius.circular(15),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  spreadRadius: 1,
-                  blurRadius: 5,
+                  color: Color(0xff26000000),
+                  blurRadius: 40,
+                  offset: Offset(0, 20),
                 ),
               ],
             ),

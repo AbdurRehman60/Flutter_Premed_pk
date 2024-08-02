@@ -40,7 +40,6 @@ class FlashcardProvider with ChangeNotifier {
       );
 
       if (response.data['success'] == true) {
-        print('step 1');
         final List<dynamic> responseData = response.data['FindFlashcards'];
         final List<FlashcardModel> fetchedList = [];
 

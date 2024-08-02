@@ -42,6 +42,6 @@ class FlashcardModel {
   final int? year;
   final String entity;
   final String category;
-  final String explanationText;
+  final String? explanationText;
   final String optionText;
 }

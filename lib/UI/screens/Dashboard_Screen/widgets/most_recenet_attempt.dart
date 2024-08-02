@@ -58,7 +58,7 @@ class LatestAttemptScreen extends StatelessWidget {
                   return Card(
                     elevation: 5,
                     child: Container(
-                      height: 182,
+                      height: 183,
                       decoration: BoxDecoration(
                         color: PreMedColorTheme().white,
                         borderRadius: BorderRadius.circular(20.0),

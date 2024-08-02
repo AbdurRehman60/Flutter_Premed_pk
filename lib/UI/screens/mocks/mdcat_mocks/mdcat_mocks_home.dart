@@ -98,6 +98,7 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
                       child: CircularProgressIndicator(),
                     );
                   case FetchhStatus.success:
+                print('length : ${mdcatmocksProvider.deckGroups.length}');
                     return ListView.builder(
                       itemCount: mdcatmocksProvider.deckGroups.length,
                       itemBuilder: (context, index) {

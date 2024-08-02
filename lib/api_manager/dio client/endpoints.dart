@@ -70,7 +70,7 @@ class Endpoints {
   static const String DeleteAccount = '/api/user/DeleteAccount';
 
   //mdcat nums and pu mocks endpoints
-  static const String Deckspoints = '/api/get-category-decks/MDCAT Mocks';
+  static const String MdCatMocks = '/api/get-category-decks/MDCAT Mocks';
   static const String Privuni =
       '/api/get-category-decks/Private Universities Mocks';
   static const String Nums = '/api/get-category-decks/NUMS Mocks';
@@ -97,6 +97,9 @@ class Endpoints {
   //report ques
   static const String addReport =
       'https://prodapi.premed.pk/api/reports/addReport';
+
+  //publishedDecks
+  static const String PublishedDecks = '/api/get-all-published-decks';
 
   //user stats
   static const String UserStatistics = '/api/statistics/compute-statistics';
@@ -155,6 +158,5 @@ class Endpoints {
       '/api/essential/get/ENTRANCE EXAM/PRE-ENGINEERING';
 
   //VaultEnded
-
   static const String SavedQuestions = '/api/saveQuestion/get-saved-questions';
 }

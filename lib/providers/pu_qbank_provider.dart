@@ -3,12 +3,12 @@ import '../../../api_manager/dio client/endpoints.dart';
 import '../../../constants/constants_export.dart';
 import '../../../models/deck_group_model.dart';
 
-enum FetchStatus { init, fetching, success, error }
+enum PuFetchStatus { init, fetching, success, error }
 
 class PUQbankProvider extends ChangeNotifier {
-  FetchStatus _fetchStatus = FetchStatus.init;
+  PuFetchStatus _fetchStatus = PuFetchStatus.init;
 
-  FetchStatus get fetchStatus => _fetchStatus;
+  PuFetchStatus get fetchStatus => _fetchStatus;
 
   List<DeckGroupModel> _deckGroups = [];
 
@@ -16,14 +16,11 @@ class PUQbankProvider extends ChangeNotifier {
 
   Future<void> fetchDeckGroups() async {
     try {
-      _fetchStatus = FetchStatus.fetching;
+      _fetchStatus = PuFetchStatus.fetching;
       notifyListeners();
 
       final DioClient dio = DioClient();
       final responseData = await dio.get(Endpoints.PRVUQbank);
-      print(
-          'Response Data: $responseData'); // Print response data for debugging
-
       final bool success = responseData['success'] ?? false;
       if (success) {
         final List<Map<String, dynamic>> data =
@@ -45,24 +42,21 @@ class PUQbankProvider extends ChangeNotifier {
               .map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
             final List<DeckItem> deckItems = decks.map((deck) {
-              print('Deck Data: $deck');
               return DeckItem(
                 deckName: deck['deckName'],
                 deckLogo: deck['deckLogo'],
                 premiumTag: deck['premiumTags'] != null &&
                     (deck['premiumTags'] as List).isNotEmpty
                     ? (deck['premiumTags'][0] as String)
-                    : '', // Handle possible null or empty list
+                    : '',
                 isPublished: deck['isPublished'],
-
                 deckInstructions: deck['deckInstructions'] ?? '',
                 isTutorModeFree: deck['isTutorModeFree'],
                 timedTestMode: deck['timedTestMode'],
                 timesTestminutes: deck['timedTestMinutes'],
               );
             }).toList();
-
-            print('Deck Items: $deckItems'); // Print
+            // Print
 
             final int deckNameCount = deckItems.length;
             final String deckGroupImage = deckGroupData['deckGroupImage'];
@@ -77,17 +71,17 @@ class PUQbankProvider extends ChangeNotifier {
             );
           }).toList();
 
-          _fetchStatus = FetchStatus.success;
+
+          _fetchStatus = PuFetchStatus.success;
         }
         else {
-          _fetchStatus = FetchStatus.error;
+          _fetchStatus = PuFetchStatus.error;
         }
       } else {
-        _fetchStatus = FetchStatus.error;
+        _fetchStatus = PuFetchStatus.error;
       }
     } catch (e) {
-      print('Error: $e'); // Print error for debugging
-      _fetchStatus = FetchStatus.error;
+      _fetchStatus = PuFetchStatus.error;
     } finally {
       notifyListeners();
     }

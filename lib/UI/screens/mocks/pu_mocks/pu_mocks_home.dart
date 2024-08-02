@@ -95,12 +95,12 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
             child: Consumer<PrivuniMocksProvider>(
               builder: (context, privunimocksProvider, _) {
                 switch (privunimocksProvider.fetchStatus) {
-                  case FetchStatus.init:
-                  case FetchStatus.fetching:
+                  case PuMocksFetchStatus.init:
+                  case PuMocksFetchStatus.fetching:
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
-                  case FetchStatus.success:
+                  case PuMocksFetchStatus.success:
                     return ListView.builder(
                       itemCount: privunimocksProvider.deckGroups.length,
                       itemBuilder: (context, index) {
@@ -180,7 +180,7 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
                         );
                       },
                     );
-                  case FetchStatus.error:
+                  case PuMocksFetchStatus.error:
                     return const Center(
                       child: Text('Error fetching deck groups'),
                     );
