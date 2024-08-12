@@ -39,10 +39,9 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
         decoration: BoxDecoration(
-          color: PreMedColorTheme().white85,
-          borderRadius: BorderRadius.circular(15.0),
-          boxShadow: CustomBoxshadow.BoxShadow40
-        ),
+            color: PreMedColorTheme().white85,
+            borderRadius: BorderRadius.circular(15.0),
+            boxShadow: CustomBoxShadow.boxShadow40),
         child: Padding(
           padding: const EdgeInsets.only(left: 10, top: 10),
           child: Column(
@@ -65,14 +64,15 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => RecentActivityScreen(
-                              isPreMed: widget.isPreMed,
-                            )));
+                                  isPreMed: widget.isPreMed,
+                                )));
                       },
                       child: Text(
                         'View All',
                         style: TextStyle(
-                          color: Provider.of<PreMedProvider>(context)
-                              .isPreMed ? PreMedColorTheme().red :PreMedColorTheme().blue,
+                          color: Provider.of<PreMedProvider>(context).isPreMed
+                              ? PreMedColorTheme().red
+                              : PreMedColorTheme().blue,
                         ),
                       ),
                     ),
@@ -83,8 +83,10 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 50, right: 5),
-                    child: SvgPicture.asset( Provider.of<PreMedProvider>(context)
-                        .isPreMed ? PremedAssets.RedDocument : PremedAssets.BlueDocument,
+                    child: SvgPicture.asset(
+                      Provider.of<PreMedProvider>(context).isPreMed
+                          ? PremedAssets.RedDocument
+                          : PremedAssets.BlueDocument,
                       height: 50,
                       width: 50,
                     ),
@@ -111,8 +113,10 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                                       Radius.circular(25)),
                                   backgroundColor: Colors.grey[300],
                                   value: widget.progressValue.clamp(0.0, 1.0),
-                                  valueColor: AlwaysStoppedAnimation(_getColor(
-                                      widget.progressValue, widget.isPreMed)),
+                                  valueColor: AlwaysStoppedAnimation(
+                                    _getColor(
+                                      widget.progressValue, widget.isPreMed),
+                                  ),
                                   minHeight: 8,
                                 ),
                               ),
@@ -144,7 +148,8 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                                 onPressed: () {},
                                 child: Text(widget.mode,
                                     style: GoogleFonts.rubik(
-                                      color: widget.isPreMed
+                                      color: Provider.of<PreMedProvider>(context)
+                                          .isPreMed
                                           ? PreMedColorTheme().red
                                           : PreMedColorTheme().coolBlue,
                                       fontWeight: FontWeight.w800,

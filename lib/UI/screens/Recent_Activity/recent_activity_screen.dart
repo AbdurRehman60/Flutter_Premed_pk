@@ -1,11 +1,14 @@
-import 'package:flutter_svg/svg.dart';
+
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/widgets/bottom_sheet.dart';
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/widgets/recent_activity.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
+import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/recent_attempts_model.dart';
 import 'package:premedpk_mobile_app/providers/recent_atempts_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../providers/vaultProviders/premed_provider.dart';
 
 class RecentActivityScreen extends StatefulWidget {
   const RecentActivityScreen({super.key, required this.isPreMed});
@@ -37,8 +40,11 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
           ) {
             if (provider.recentAttempts.isEmpty) {
               provider.fetchRecentAttempts();
-              return const Center(
-                child: CircularProgressIndicator(),
+              return  Center(
+                child: CircularProgressIndicator(
+                  color: Provider.of<PreMedProvider>(context)
+                      .isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                ),
               );
             }
             return Column(

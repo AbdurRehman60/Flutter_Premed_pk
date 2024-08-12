@@ -21,8 +21,8 @@ import '../../../../providers/statistic_provider.dart';
 import '../../../../providers/user_provider.dart';
 
 class EngineeringDashboardScreen extends StatefulWidget {
-  const EngineeringDashboardScreen({super.key, this.uni, this.timeLeft});
-  final String? uni;
+  const EngineeringDashboardScreen({super.key, this.timeLeft});
+
   final String? timeLeft;
 
   @override
@@ -56,7 +56,6 @@ class _EngineeringDashboardScreenState
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     final UserStatProvider userStatProvider =
         Provider.of<UserStatProvider>(context, listen: false);
@@ -107,7 +106,7 @@ class _EngineeringDashboardScreenState
                     ),
                     Container(
                       decoration: const BoxDecoration(
-                          boxShadow: CustomBoxshadow.BoxShadow40),
+                          boxShadow: CustomBoxShadow.boxShadow40),
                       child: InkWell(
                         onTap: () {},
                         child: SvgPicture.asset(
@@ -133,7 +132,7 @@ class _EngineeringDashboardScreenState
                       text2: 'STUDY NOTES',
                     ),
                     SizedBox(
-                      width: screenWidth * 0.02,
+                      width: screenWidth * 0.01,
                     ),
                     SeriesCard(
                       bgColor: PreMedColorTheme().white,
@@ -150,7 +149,7 @@ class _EngineeringDashboardScreenState
                   ],
                 ),
               ),
-              SizedBoxes.vertical10Px,
+              SizedBoxes.vertical5Px,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                 child: Row(
@@ -171,7 +170,7 @@ class _EngineeringDashboardScreenState
                       },
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.02,
+                      width: MediaQuery.of(context).size.width * 0.01,
                     ),
                     FlashCard(
                       bgColor: PreMedColorTheme().white,
@@ -191,85 +190,85 @@ class _EngineeringDashboardScreenState
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.03, vertical: 14),
+                    horizontal: screenWidth * 0.03, vertical: 12),
                 child: const LatestAttemptScreen(
                   isPreMed: false,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.03,
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const NotificationPage(),
-                      ),
-                    );
-                  },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                    elevation: 5,
-                    child: Stack(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: screenWidth * 0.03, vertical: 35),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/Bell Icon.png',
-                                height: 40,
-                              ),
-                              const SizedBox(width: 16.0),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Notifications',
-                                      style: PreMedTextTheme()
-                                          .headline
-                                          .copyWith(
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.035,
-                                              fontWeight: FontWeight.w800)),
-                                  const SizedBox(height: 4.0),
-                                  Text('News, and Updates',
-                                      style: PreMedTextTheme()
-                                          .headline
-                                          .copyWith(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal)),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          right: 20,
-                          top: 20,
-                          child: Container(
-                            width: 10,
-                            height: 10,
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(
+              //     horizontal: screenWidth * 0.03,
+              //   ),
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       Navigator.of(context).push(
+              //         MaterialPageRoute(
+              //           builder: (context) => const NotificationPage(),
+              //         ),
+              //       );
+              //     },
+              //     child: Card(
+              //       shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(15)),
+              //       elevation: 5,
+              //       child: Stack(
+              //         children: [
+              //           Container(
+              //             width: double.infinity,
+              //             padding: EdgeInsets.symmetric(
+              //                 horizontal: screenWidth * 0.03, vertical: 35),
+              //             child: Row(
+              //               children: [
+              //                 Image.asset(
+              //                   'assets/images/Bell Icon.png',
+              //                   height: 40,
+              //                 ),
+              //                 const SizedBox(width: 16.0),
+              //                 Column(
+              //                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                   children: [
+              //                     Text('Notifications',
+              //                         style: PreMedTextTheme()
+              //                             .headline
+              //                             .copyWith(
+              //                                 fontSize: MediaQuery.of(context)
+              //                                         .size
+              //                                         .width *
+              //                                     0.035,
+              //                                 fontWeight: FontWeight.w800)),
+              //                     const SizedBox(height: 4.0),
+              //                     Text('News, and Updates',
+              //                         style: PreMedTextTheme()
+              //                             .headline
+              //                             .copyWith(
+              //                                 fontSize: 12,
+              //                                 fontWeight: FontWeight.normal)),
+              //                   ],
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //           Positioned(
+              //             right: 20,
+              //             top: 20,
+              //             child: Container(
+              //               width: 10,
+              //               height: 10,
+              //               decoration: const BoxDecoration(
+              //                 color: Colors.red,
+              //                 shape: BoxShape.circle,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.03,
-                    vertical: MediaQuery.of(context).size.height * 0.015),
+                    vertical: MediaQuery.of(context).size.height * 0.0031),
                 child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
@@ -310,7 +309,9 @@ class _EngineeringDashboardScreenState
                                             const EdgeInsets.only(left: 10),
                                         child: Image.asset(
                                           Provider.of<PreMedProvider>(context)
-                                              .isPreMed ? PremedAssets.graph : PremedAssets.BlueGraph,
+                                                  .isPreMed
+                                              ? PremedAssets.graph
+                                              : PremedAssets.BlueGraph,
                                           width: 50,
                                           height: 50,
                                         ),
@@ -343,19 +344,36 @@ class _EngineeringDashboardScreenState
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.12),
+                                              0.09),
                                       InkWell(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const StatisticsScreen()));
-                                        },
-                                        child: Image.asset(
-                                          PremedAssets.arrow,
-                                          width: 90,
-                                          height: 45,
-                                        ),
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const StatisticsScreen()));
+                                          },
+                                          child: Image.asset(
+                                            Provider.of<PreMedProvider>(context)
+                                                .isPreMed ? PremedAssets.arrow : PremedAssets.ArrowForward,
+                                            width: 20,
+                                            height: 20,
+                                          ),
+                                          // Container(
+                                          //   width: 20,
+                                          //   height: 20,
+                                          //   decoration:  BoxDecoration(
+                                          //     borderRadius: BorderRadius.circular(5),
+                                          //     color: Colors.white,
+                                          //     boxShadow: const [
+                                          //       BoxShadow(
+                                          //         color: Color(0x26000000),
+                                          //         blurRadius: 20,
+                                          //         offset: Offset(0, 10),
+                                          //       )
+                                          //     ],
+                                          //   ),
+                                          //   child: ,
+                                          // )
                                       ),
                                     ],
                                   ),
@@ -455,7 +473,7 @@ class _EngineeringDashboardScreenState
 //notification to be removed
 //view all should be blue
 // recent activity image should be blue
-// aerrow should be blue
+// arrow should be blue
 // pop up button change
 //statistics screen revamp
 //  profile icon to be blur

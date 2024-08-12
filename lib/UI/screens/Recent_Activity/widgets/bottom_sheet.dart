@@ -174,7 +174,7 @@ Color _getColor(double progressValue) {
   if (progressValue < 0.3) {
     return Colors.red;
   } else if (progressValue < 0.6) {
-    return Colors.yellow;
+    return Colors.redAccent;
   } else {
     return Colors.green;
   }

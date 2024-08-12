@@ -3,6 +3,10 @@
 class PremedAssets {
   PremedAssets._();
   static String premedlogo = 'assets/images/PreMedLogo.png';
+  static String uni = 'assets/icons/uni.png';
+  static String ArrowDownRed = 'assets/icons/med-arrow-down.png';
+  static String arrowDownBlue = 'assets/icons/arrow-down-blue.png';
+  static String ArrowForward = 'assets/icons/arrow-forward-blue.png';
   static String ShoppingCart = 'assets/images/shopcart.png';
   static String EsIcon = 'assets/images/eshome.png';
   static String GoogleLogo = 'assets/images/google.png';

@@ -111,7 +111,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       },
                       child: Container(
                         decoration: const BoxDecoration(
-                            boxShadow: CustomBoxshadow.BoxShadow40),
+                            boxShadow: CustomBoxShadow.boxShadow40),
                         child: SvgPicture.asset(
                             Provider.of<PreMedProvider>(context).isPreMed
                                 ? PremedAssets.Profile
@@ -228,7 +228,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     vertical: screenHeight * 0.017),
                 child: Container(
                   width: screenWidth * 7,
-                  height: screenHeight * 0.3,
+                  height: screenHeight * 0.32,
                   decoration: BoxDecoration(
                     color: PreMedColorTheme().white85,
                     borderRadius: BorderRadius.circular(15),
@@ -289,7 +289,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         ],
                                       ),
                                     ),
-                                    SizedBox(width: screenWidth * 0.10),
+                                    SizedBox(width: screenWidth * 0.08),
                                     InkWell(
                                       onTap: () {
                                         Navigator.of(context).push(
@@ -299,8 +299,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       },
                                       child: Image.asset(
                                         PremedAssets.arrow,
-                                        width: 90,
-                                        height: 45,
+                                        width: 40,
+                                        height: 40,
                                       ),
                                     ),
                                   ],
@@ -311,7 +311,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     height: screenHeight * 0.18,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
-                                      boxShadow: CustomBoxshadow.BoxShadow40,
+                                      boxShadow: CustomBoxShadow.boxShadow40,
                                     ),
                                     child: MaterialCard(
                                       height: screenHeight * 0.18,
@@ -372,8 +372,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
-class CustomBoxshadow {
-  static const List<BoxShadow> BoxShadow40 = [
+class CustomBoxShadow {
+  static const List<BoxShadow> boxShadow40 = [
     BoxShadow(
       color: Color(0x26000000),
       blurRadius: 40,

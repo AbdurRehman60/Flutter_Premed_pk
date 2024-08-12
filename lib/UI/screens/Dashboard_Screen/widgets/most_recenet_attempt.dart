@@ -15,7 +15,9 @@ class LatestAttemptScreen extends StatefulWidget {
   final bool isPreMed;
 
   @override
-  _LatestAttemptScreenState createState() => _LatestAttemptScreenState();
+  State<StatefulWidget> createState() {
+    return _LatestAttemptScreenState();
+  }
 }
 
 class _LatestAttemptScreenState extends State<LatestAttemptScreen> {
@@ -40,8 +42,11 @@ class _LatestAttemptScreenState extends State<LatestAttemptScreen> {
         switch (latestAttemptProvider.status) {
           case FetchAttemptStatus.init:
           case FetchAttemptStatus.fetching:
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: CircularProgressIndicator(
+                color: Provider.of<PreMedProvider>(context)
+                    .isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+              ),
             );
           case FetchAttemptStatus.success:
             final latestAttempt = latestAttemptProvider.latestAttempt;
@@ -66,7 +71,7 @@ class _LatestAttemptScreenState extends State<LatestAttemptScreen> {
                 decoration: BoxDecoration(
                     color: PreMedColorTheme().white85,
                     borderRadius: BorderRadius.circular(20.0),
-                    boxShadow: CustomBoxshadow.BoxShadow40),
+                    boxShadow: CustomBoxShadow.boxShadow40),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, top: 10),
                   child: Column(

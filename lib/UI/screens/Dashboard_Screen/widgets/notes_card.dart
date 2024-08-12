@@ -35,7 +35,7 @@ class NotesCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: bgColor, // use the provided background color
             borderRadius: BorderRadius.circular(10),
-            boxShadow: CustomBoxshadow.BoxShadow40
+            boxShadow: CustomBoxShadow.boxShadow40
           ),
           child: Row(
             children: [

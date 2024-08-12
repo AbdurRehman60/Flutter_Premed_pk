@@ -1,5 +1,6 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/dashboard_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/Attempted_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/card_w.dart';
@@ -10,6 +11,8 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/statistic_model.dart';
 import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../providers/vaultProviders/premed_provider.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
@@ -81,7 +84,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               future: userStatProvider.fetchUserStatistics(context),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(
+                      child: CircularProgressIndicator(
+                    color: Provider.of<PreMedProvider>(context).isPreMed
+                        ? PreMedColorTheme().red
+                        : PreMedColorTheme().blue,
+                  ));
                 } else if (snapshot.hasError) {
                   return const Center(
                     child: Text('Error fetching data'),
@@ -306,7 +314,54 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                               ],
                             ),
                             SizedBox(height: mediaQuery.size.height * 0.015),
-
+                            Container(
+                              width: 500,
+                              height: 137,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(18),
+                                boxShadow: CustomBoxShadow.boxShadow40,
+                              ),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18)),
+                                child: MaterialCard(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.19,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.379,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          StatDetailHolder(
+                                            textColor:
+                                                PreMedColorTheme().greenLight,
+                                            count: userStatModel.decksAttempted,
+                                            details: 'Decks\nAttempted',
+                                          ),
+                                          StatDetailHolder(
+                                            textColor: PreMedColorTheme().red,
+                                            count: userStatModel.testAttempted,
+                                            details: 'Test\nAttempted',
+                                          ),
+                                          StatDetailHolder(
+                                            textColor:
+                                                PreMedColorTheme().yellowlight,
+                                            count: userStatModel
+                                                .paracticeTestAttempted,
+                                            details:
+                                                'Practice Tests\nAttempted',
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                             SizedBox(height: mediaQuery.size.height * 0.015),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

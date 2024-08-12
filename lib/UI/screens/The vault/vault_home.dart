@@ -97,42 +97,26 @@ class _VaultHomeState extends State<VaultHome> {
                         style: PreMedTextTheme().heading1.copyWith(
                             fontWeight: FontWeight.w400, fontSize: 17)),
                     SizedBoxes.vertical26Px,
-                    Row(
-                      children: [
-                        GetGradientButton(
-                            textPath: 'assets/images/vault/Text.svg',
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const VaultTopicalGuides()));
-                            }),
-                        SizedBoxes.horizontal10Px,
-                        GradientButton(
-                          text: 'Mnemonics',
-                          gradient: const LinearGradient(
-                            colors: <Color>[
-                              Color(0xFF043D2A),
-                              Color(0xFF2DD7D3)
-                            ],
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const MnemonicsHome()));
-                          },
-                        ),
-                        SizedBoxes.horizontal10Px,
-                        GradientButton(
-                            text: 'StudyNotes',
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          GetGradientButton(
+                              textPath: 'assets/images/vault/Text.svg',
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const VaultTopicalGuides()));
+                              }),
+                          SizedBoxes.horizontal10Px,
+                          GradientButton(
+                            text: 'Mnemonics',
                             gradient: const LinearGradient(
                               colors: <Color>[
-                                Color(0xFF80239F),
-                                Color(0xFFB43483),
-                                Color(0xFFFE8B83)
+                                Color(0xFF043D2A),
+                                Color(0xFF2DD7D3)
                               ],
                             ),
                             onPressed: () {
@@ -140,19 +124,38 @@ class _VaultHomeState extends State<VaultHome> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const StudyNotesHome()));
-                            }),
-                        SizedBoxes.horizontal10Px,
-                        GetGradientButton(
-                            textPath: 'assets/images/vault/Text (5).svg',
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ShortlistingsHome()));
-                            }),
-                      ],
+                                          const MnemonicsHome()));
+                            },
+                          ),
+                          SizedBoxes.horizontal10Px,
+                          GradientButton(
+                              text: 'StudyNotes',
+                              gradient: const LinearGradient(
+                                colors: <Color>[
+                                  Color(0xFF80239F),
+                                  Color(0xFFB43483),
+                                  Color(0xFFFE8B83)
+                                ],
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const StudyNotesHome()));
+                              }),
+                          SizedBoxes.horizontal10Px,
+                          GetGradientButton(
+                              textPath: 'assets/images/vault/Text (5).svg',
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ShortlistingsHome()));
+                              }),
+                        ],
+                      ),
                     ),
                   ],
                 ),

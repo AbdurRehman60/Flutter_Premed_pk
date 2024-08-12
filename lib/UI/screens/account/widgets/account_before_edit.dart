@@ -1,6 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/edit_profile.dart';
@@ -65,65 +62,63 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: '@',
-                                  style: PreMedTextTheme().body1.copyWith(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.w900,
-                                        color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
-                                      ),
-                                ),
-                                TextSpan(
-                                  text: userProvider.user!.fullName,
-                                  style: PreMedTextTheme().body1.copyWith(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.w900,
-                                        color: PreMedColorTheme().black,
-                                      ),
-                                ),
-                              ],
-                            ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '@',
+                                style: PreMedTextTheme().body1.copyWith(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w900,
+                                      color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                                    ),
+                              ),
+                              TextSpan(
+                                text: userProvider.user!.fullName,
+                                style: PreMedTextTheme().body1.copyWith(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w900,
+                                      color: PreMedColorTheme().black,
+                                    ),
+                              ),
+                            ],
                           ),
-                          SizedBoxes.vertical2Px,
-                          Text(
-                            userProvider.user!.userName,
-                            style: PreMedTextTheme().body1.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: PreMedColorTheme().blue),
-                          ),
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const EditProfile()));
-                      },
-                      child: Text(
-                        'EDIT',
-                        style: PreMedTextTheme().body1.copyWith(
+                        ),
+                        SizedBoxes.vertical2Px,
+                        Text(
+                          userProvider.user!.userName,
+                          style: PreMedTextTheme().body1.copyWith(
                               fontSize: 15,
-                              fontWeight: FontWeight.w900,
-                              color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
-                            ),
-                      ),
+                              fontWeight: FontWeight.w600,
+                              color: PreMedColorTheme().blue),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EditProfile()));
+                    },
+                    child: Text(
+                      'EDIT',
+                      style: PreMedTextTheme().body1.copyWith(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w900,
+                            color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                          ),
+                    ),
+                  ),
+                ],
               ),
               SizedBoxes.vertical15Px,
               const BundleCard(),
@@ -169,10 +164,11 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                             padding: EdgeInsets.symmetric(
                                 horizontal:
                                 MediaQuery.of(context).size.width * 0.01),
-                            child: SvgPicture.asset(
-                              'assets/images/vault/Vector.svg',
-                              width: 10,
-                              height: 10,
+                            child: Image.asset(
+                              Provider.of<PreMedProvider>(context)
+                                  .isPreMed ? PremedAssets.ArrowDownRed : PremedAssets.arrowDownBlue,
+                              width: 15,
+                              height: 15,
                             ),
                           ),
                           underline: const SizedBox(),
@@ -244,10 +240,11 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                               padding: EdgeInsets.symmetric(
                                   horizontal:
                                       MediaQuery.of(context).size.width * 0.01),
-                              child: SvgPicture.asset(
-                                'assets/images/vault/Vector.svg',
-                                width: 10,
-                                height: 10,
+                              child: Image.asset(
+                                Provider.of<PreMedProvider>(context)
+                                    .isPreMed ? PremedAssets.ArrowDownRed : PremedAssets.arrowDownBlue,
+                                width: 15,
+                                height: 15,
                               ),
                             ),
                             underline: const SizedBox(),
@@ -572,6 +569,8 @@ class BundleCard extends StatelessWidget {
 }
 
 class ResponsiveContainer extends StatelessWidget {
+  const ResponsiveContainer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

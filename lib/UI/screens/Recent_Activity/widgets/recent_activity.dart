@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../providers/vaultProviders/premed_provider.dart';
 
 class RecentActivityCard1 extends StatefulWidget {
   const RecentActivityCard1(
@@ -45,8 +49,8 @@ class _RecentActivityCard1State extends State<RecentActivityCard1> {
           ),
           Row(
             children: [
-              Image.asset(
-                "assets/images/QuestionMarkDocument.png",
+              SvgPicture.asset( Provider.of<PreMedProvider>(context)
+                  .isPreMed ? PremedAssets.RedDocument : PremedAssets.BlueDocument,
                 height: 50,
                 width: 50,
               ),
@@ -116,9 +120,11 @@ class _RecentActivityCard1State extends State<RecentActivityCard1> {
 
   Color _getColor(double progressValue, bool isPreMed) {
     if (progressValue < 0.3) {
-      return isPreMed ? PreMedColorTheme().red : PreMedColorTheme().coolBlue;
+      return Provider.of<PreMedProvider>(context)
+          .isPreMed ? PreMedColorTheme().red : PreMedColorTheme().coolBlue;
     } else if (progressValue < 0.6) {
-      return Colors.yellow;
+      return Provider.of<PreMedProvider>(context)
+          .isPreMed ? PreMedColorTheme().red : PreMedColorTheme().coolBlue;
     } else {
       return Colors.green;
     }

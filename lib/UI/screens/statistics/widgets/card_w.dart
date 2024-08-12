@@ -19,7 +19,7 @@ class MaterialCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 19, vertical: 25),
         decoration:  BoxDecoration(
           color: PreMedColorTheme().white85,
-          boxShadow: CustomBoxshadow.BoxShadow40
+          boxShadow: CustomBoxShadow.boxShadow40
         ),
         child: child,
       ),

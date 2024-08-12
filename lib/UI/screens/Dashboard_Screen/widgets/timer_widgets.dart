@@ -460,7 +460,7 @@ class _TimerClassState extends State<TimerClass> {
                           Text(
                             timeParts[0],
                             style: const TextStyle(
-                                fontSize: 25,
+                                fontSize: 28,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.red),
                           ),
@@ -470,7 +470,7 @@ class _TimerClassState extends State<TimerClass> {
                           Text(
                             timeParts[1],
                             style: const TextStyle(
-                                fontSize: 25,
+                                fontSize: 28,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.red),
                           ),
@@ -480,7 +480,7 @@ class _TimerClassState extends State<TimerClass> {
                           Text(
                             timeParts[2],
                             style: const TextStyle(
-                                fontSize: 25,
+                                fontSize: 28,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.red),
                           ),
@@ -490,7 +490,7 @@ class _TimerClassState extends State<TimerClass> {
                           Text(
                             timeParts[3],
                             style: const TextStyle(
-                                fontSize: 25,
+                                fontSize: 28,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.red),
                           ),
@@ -530,7 +530,7 @@ class _TimerClassState extends State<TimerClass> {
                           const Text(
                             "00",
                             style: TextStyle(
-                                fontSize: 30,
+                                fontSize: 28,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.red),
                           ),
@@ -540,7 +540,7 @@ class _TimerClassState extends State<TimerClass> {
                           const Text(
                             "00",
                             style: TextStyle(
-                                fontSize: 30,
+                                fontSize: 28,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.red),
                           ),
@@ -550,7 +550,7 @@ class _TimerClassState extends State<TimerClass> {
                           const Text(
                             "00",
                             style: TextStyle(
-                                fontSize: 30,
+                                fontSize: 28,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.red),
                           ),
@@ -560,13 +560,21 @@ class _TimerClassState extends State<TimerClass> {
                   ),
                 ),
               SizedBoxes.verticalTiny,
-              SizedBox(
+              Container(
+                decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x26000000),
+                      blurRadius: 40,
+                      offset: Offset(0, 20),
+                    )
+                  ],
+                ),
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: PreMedColorTheme().red,
                       foregroundColor: Colors.white,
-                      elevation: 2,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9),
                       )

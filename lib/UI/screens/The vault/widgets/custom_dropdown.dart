@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
+import '../../../../providers/vaultProviders/premed_provider.dart';
 
 class CustomDropdownbtn extends StatefulWidget {
   CustomDropdownbtn({super.key, required this.onProvinceSelected});
@@ -37,8 +39,9 @@ class CustomDropdownbtnState extends State<CustomDropdownbtn> {
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             value: selectedValue,
-            icon: SvgPicture.asset(
-              'assets/images/vault/Vector.svg',
+            icon: Image.asset(
+              Provider.of<PreMedProvider>(context)
+                  .isPreMed ? PremedAssets.ArrowDownRed : PremedAssets.arrowDownBlue,
               width: 13,
               height: 13,
             ),

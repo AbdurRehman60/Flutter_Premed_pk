@@ -33,7 +33,7 @@ class FlashCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: bgColor, // use the provided background color
             borderRadius: BorderRadius.circular(12),
-            boxShadow: CustomBoxshadow.BoxShadow40
+            boxShadow: CustomBoxShadow.boxShadow40
           ),
           child: Row(
             children: [
