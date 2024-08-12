@@ -12,7 +12,6 @@ import '../../../../UI/screens/Dashboard_Screen/widgets/notes_card.dart';
 import '../../../../UI/screens/Dashboard_Screen/widgets/series_card.dart';
 import '../../../../UI/screens/The vault/pre_eng/screens/pre_eng_vault_home.dart';
 import '../../../../UI/screens/flashcards/flashcards_home.dart';
-import '../../../../UI/screens/notifications/notification_page.dart';
 import '../../../../UI/screens/qbank/mdcat/mocks&bank_statistics.dart';
 import '../../../../UI/screens/statistics/statistics_screen.dart';
 import '../../../../UI/screens/statistics/widgets/Attempted_card.dart';
