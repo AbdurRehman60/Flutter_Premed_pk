@@ -1,18 +1,15 @@
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/constants/color_theme.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../constants/assets.dart';
-import '../../../../constants/sized_boxes.dart';
 
-class TimerClass extends StatefulWidget {
-  const TimerClass({super.key});
+
+class EnggTimer extends StatefulWidget {
+  const EnggTimer({super.key});
 
   @override
-  State<TimerClass> createState() => _TimerClassState();
+  State<EnggTimer> createState() => _EnggTimerState();
 }
 
-class _TimerClassState extends State<TimerClass> {
+class _EnggTimerState extends State<EnggTimer> {
   bool _provincialMDCAT = false;
   bool _akuTest = false;
   bool _numsTest = false;
@@ -310,7 +307,7 @@ class _TimerClassState extends State<TimerClass> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: Colors.red,
+                    backgroundColor: PreMedColorTheme().blue,
                   ),
                   onPressed: () {
                     if (_provincialMDCAT) {
@@ -343,6 +340,17 @@ class _TimerClassState extends State<TimerClass> {
   Future<void> showDateSelectionDialog(BuildContext context) async {
     final DateTime now = DateTime.now();
     final DateTime? selectedDate = await showDatePicker(
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme:  ColorScheme.light(
+              primary: PreMedColorTheme().coolBlue,
+            ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: child!,
+        );
+      },
       context: context,
       initialDate: now,
       firstDate: now,
@@ -365,13 +373,13 @@ class _TimerClassState extends State<TimerClass> {
           Container(
             width: 8,
             height: 8,
-            color: Colors.blue,
+            color: Colors.black54,
           ),
           const SizedBox(height: 4),
           Container(
             width: 8,
             height: 8,
-            color: Colors.blue,
+            color: Colors.black54,
           ),
         ],
       ),
@@ -395,7 +403,7 @@ class _TimerClassState extends State<TimerClass> {
               offset: const Offset(0, 3),
             ),
           ],
-          borderRadius: BorderRadius.circular(9),
+          borderRadius: BorderRadius.circular(15),
           color: Colors.white,
         ),
         child: Padding(
@@ -431,7 +439,7 @@ class _TimerClassState extends State<TimerClass> {
                           fontSize: 11,
                           fontFamily: "Rubik",
                           fontWeight: FontWeight.w700,
-                          color: PreMedColorTheme().red,
+                          color: PreMedColorTheme().blue,
                         ),
                       ),
                     ],
@@ -459,40 +467,44 @@ class _TimerClassState extends State<TimerClass> {
                         children: [
                           Text(
                             timeParts[0],
-                            style: const TextStyle(
+                            style:  TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.red),
+                                color: PreMedColorTheme().blue,
+                            ),
                           ),
                           SizedBoxes.horizontalMedium,
                           buildColon(),
                           SizedBoxes.horizontalMedium,
                           Text(
                             timeParts[1],
-                            style: const TextStyle(
+                            style:  TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.red),
+                                color: PreMedColorTheme().blue
+                            ),
                           ),
                           SizedBoxes.horizontalMedium,
                           buildColon(),
                           SizedBoxes.horizontalMedium,
                           Text(
                             timeParts[2],
-                            style: const TextStyle(
+                            style:  TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.red),
+                                color: PreMedColorTheme().blue
+                            ),
                           ),
                           SizedBoxes.horizontalMedium,
                           buildColon(),
                           SizedBoxes.horizontalMedium,
                           Text(
                             timeParts[3],
-                            style: const TextStyle(
+                            style:  TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.red),
+                                color: PreMedColorTheme().blue
+                            ),
                           ),
                         ],
                       ),
@@ -517,42 +529,44 @@ class _TimerClassState extends State<TimerClass> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
-                            "00",
-                            style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red),
-                          ),
-                          SizedBoxes.horizontalMedium,
-                          buildColon(),
-                          SizedBoxes.horizontalMedium,
-                          const Text(
+                           Text(
                             "00",
                             style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.red),
+                                color: PreMedColorTheme().blue),
                           ),
                           SizedBoxes.horizontalMedium,
                           buildColon(),
                           SizedBoxes.horizontalMedium,
-                          const Text(
+                           Text(
                             "00",
                             style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.red),
+                                color: PreMedColorTheme().blue),
                           ),
                           SizedBoxes.horizontalMedium,
                           buildColon(),
                           SizedBoxes.horizontalMedium,
-                          const Text(
+                           Text(
                             "00",
                             style: TextStyle(
                                 fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.red),
+                                color: PreMedColorTheme().blue
+                            ),
+                          ),
+                          SizedBoxes.horizontalMedium,
+                          buildColon(),
+                          SizedBoxes.horizontalMedium,
+                           Text(
+                            "00",
+                            style: TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: PreMedColorTheme().blue
+                            ),
                           ),
                         ],
                       ),
@@ -573,7 +587,7 @@ class _TimerClassState extends State<TimerClass> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: PreMedColorTheme().red,
+                      backgroundColor: PreMedColorTheme().blue,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9),

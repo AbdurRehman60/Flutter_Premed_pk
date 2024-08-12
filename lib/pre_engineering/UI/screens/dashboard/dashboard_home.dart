@@ -1,5 +1,7 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/account_before_edit.dart';
+import 'package:premedpk_mobile_app/pre_engineering/UI/screens/dashboard/widgets/engineering_timer_widget.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../UI/screens/Dashboard_Screen/dashboard_screen.dart';
@@ -56,6 +58,7 @@ class _EngineeringDashboardScreenState
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     final UserStatProvider userStatProvider =
         Provider.of<UserStatProvider>(context, listen: false);
@@ -108,7 +111,9 @@ class _EngineeringDashboardScreenState
                       decoration: const BoxDecoration(
                           boxShadow: CustomBoxShadow.boxShadow40),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_)=> AccountBeforeEdit()));
+                        },
                         child: SvgPicture.asset(
                             Provider.of<PreMedProvider>(context).isPreMed
                                 ? PremedAssets.Profile
@@ -190,81 +195,38 @@ class _EngineeringDashboardScreenState
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.03, vertical: 12),
+                    horizontal: screenWidth * 0.040,
+                    vertical: screenHeight * 0.015),
+                child: Material(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+
+                  child: Container(
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color.fromARGB(255, 180, 180, 180)
+                                  .withOpacity(0.1),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: const EnggTimer()
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.03, vertical: 5),
                 child: const LatestAttemptScreen(
                   isPreMed: false,
                 ),
               ),
-              // Padding(
-              //   padding: EdgeInsets.symmetric(
-              //     horizontal: screenWidth * 0.03,
-              //   ),
-              //   child: GestureDetector(
-              //     onTap: () {
-              //       Navigator.of(context).push(
-              //         MaterialPageRoute(
-              //           builder: (context) => const NotificationPage(),
-              //         ),
-              //       );
-              //     },
-              //     child: Card(
-              //       shape: RoundedRectangleBorder(
-              //           borderRadius: BorderRadius.circular(15)),
-              //       elevation: 5,
-              //       child: Stack(
-              //         children: [
-              //           Container(
-              //             width: double.infinity,
-              //             padding: EdgeInsets.symmetric(
-              //                 horizontal: screenWidth * 0.03, vertical: 35),
-              //             child: Row(
-              //               children: [
-              //                 Image.asset(
-              //                   'assets/images/Bell Icon.png',
-              //                   height: 40,
-              //                 ),
-              //                 const SizedBox(width: 16.0),
-              //                 Column(
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [
-              //                     Text('Notifications',
-              //                         style: PreMedTextTheme()
-              //                             .headline
-              //                             .copyWith(
-              //                                 fontSize: MediaQuery.of(context)
-              //                                         .size
-              //                                         .width *
-              //                                     0.035,
-              //                                 fontWeight: FontWeight.w800)),
-              //                     const SizedBox(height: 4.0),
-              //                     Text('News, and Updates',
-              //                         style: PreMedTextTheme()
-              //                             .headline
-              //                             .copyWith(
-              //                                 fontSize: 12,
-              //                                 fontWeight: FontWeight.normal)),
-              //                   ],
-              //                 ),
-              //               ],
-              //             ),
-              //           ),
-              //           Positioned(
-              //             right: 20,
-              //             top: 20,
-              //             child: Container(
-              //               width: 10,
-              //               height: 10,
-              //               decoration: const BoxDecoration(
-              //                 color: Colors.red,
-              //                 shape: BoxShape.circle,
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
+
+
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.03,
@@ -345,7 +307,7 @@ class _EngineeringDashboardScreenState
                                                   .size
                                                   .width *
                                               0.09),
-                                      InkWell(
+                                      GestureDetector(
                                           onTap: () {
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(
@@ -377,6 +339,7 @@ class _EngineeringDashboardScreenState
                                       ),
                                     ],
                                   ),
+
                                   Padding(
                                     padding: const EdgeInsets.all(7.0),
                                     child: Card(
