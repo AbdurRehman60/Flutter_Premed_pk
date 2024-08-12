@@ -1,5 +1,4 @@
-// ignore_for_file: use_colored_box
-
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/mnemonics/mnemonics_grid_builder.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 class MnemonicsHome extends StatefulWidget {
@@ -26,39 +25,17 @@ class _MnemonicsHomeState extends State<MnemonicsHome> {
                   .copyWith(fontSize: 17, fontWeight: FontWeight.w700),
             ),
             backgroundColor: const Color(0xFFFBF0F3),
-            leading: Container(
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 3,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              alignment: Alignment.center,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back_ios_new_rounded,
-                    color: PreMedColorTheme().primaryColorRed),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
+            leading: const PopButton(),
             automaticallyImplyLeading: false,
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 23),
+            child: Container(
               width: 90,
               height: 90,
               decoration: const BoxDecoration(
@@ -90,8 +67,11 @@ class _MnemonicsHomeState extends State<MnemonicsHome> {
                 ),
               ),
             ),
-            SizedBoxes.vertical10Px,
-            DefaultTextStyle(
+          ),
+          SizedBoxes.vertical10Px,
+          Padding(
+            padding: const EdgeInsets.only(left: 23),
+            child: DefaultTextStyle(
               style: const TextStyle(
                 fontSize: 15,
                 color: Colors.black,
@@ -117,16 +97,22 @@ class _MnemonicsHomeState extends State<MnemonicsHome> {
                 ),
               ),
             ),
-            SizedBoxes.vertical3Px,
-            Text(
+          ),
+          SizedBoxes.vertical3Px,
+          Padding(
+            padding: const EdgeInsets.only(left: 23),
+            child: Text(
               'Education',
               style: PreMedTextTheme().heading1.copyWith(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: PreMedColorTheme().neutral650),
             ),
-            SizedBoxes.vertical3Px,
-            Text(
+          ),
+          SizedBoxes.vertical3Px,
+          Padding(
+            padding: const EdgeInsets.only(left: 23),
+            child: Text(
               'No pointless cramming anymore. Now learn things smartly by PreMed Mnemonics!',
               softWrap: true,
               maxLines: 2,
@@ -136,8 +122,11 @@ class _MnemonicsHomeState extends State<MnemonicsHome> {
                   fontWeight: FontWeight.w400,
                   color: PreMedColorTheme().black),
             ),
-            SizedBoxes.vertical3Px,
-            RichText(
+          ),
+          SizedBoxes.vertical3Px,
+          Padding(
+            padding: const EdgeInsets.only(left: 23),
+            child: RichText(
               text: TextSpan(
                 children: <TextSpan>[
                   TextSpan(
@@ -165,10 +154,10 @@ class _MnemonicsHomeState extends State<MnemonicsHome> {
                 ],
               ),
             ),
-            SizedBoxes.vertical3Px,
-            const MnemonicsGridBuilder()
-          ],
-        ),
+          ),
+          SizedBoxes.vertical3Px,
+          const MnemonicsGridBuilder()
+        ],
       ),
     );
   }

@@ -87,8 +87,9 @@ class _EditProfileState extends State<EditProfile> {
     }
 
     return Scaffold(
+      backgroundColor: PreMedColorTheme().background,
       appBar: AppBar(
-        backgroundColor: PreMedColorTheme().white,
+        backgroundColor: PreMedColorTheme().background,
         leading: Container(
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(

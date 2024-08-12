@@ -23,28 +23,31 @@ class _EssenceStuffBuilderState extends State<EssenceStuffBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 85,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.15),
-            offset: const Offset(0, 20),
-            blurRadius: 40,
-          ),
-        ],
-      ),
-      child: Consumer<EssentialStuffProvider>(
-          builder: (context, essencestuffpro, _) {
-        switch (essencestuffpro.fetchStatus) {
-          case FetchStatus.init:
-          case FetchStatus.fetching:
-            return const Center(
+    return Consumer<EssentialStuffProvider>(
+        builder: (context, essencestuffpro, _) {
+      switch (essencestuffpro.fetchStatus) {
+        case FetchStatus.init:
+        case FetchStatus.fetching:
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.only(top: 20),
               child: CircularProgressIndicator(),
-            );
+            ),
+          );
 
-          case FetchStatus.success:
-            return ListView.builder(
+        case FetchStatus.success:
+          return Container(
+            height: 85,
+            decoration: const BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0xff26000000),
+                  blurRadius: 40,
+                  offset: Offset(0, 20),
+                ),
+              ],
+            ),
+            child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: essencestuffpro.essentialStuffList.length,
                 itemBuilder: (context, index) => Padding(
@@ -55,19 +58,19 @@ class _EssenceStuffBuilderState extends State<EssenceStuffBuilder> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => EstuffPdfView(
-                                      categoryName: 'Essential Stuff',
+                                        categoryName: 'Essential Stuff',
                                         essenceStuffModel: essencestuffpro
                                             .essentialStuffList[index])));
                           },
                           essenStuffModel:
                               essencestuffpro.essentialStuffList[index]),
-                    ));
-          case FetchStatus.error:
-            return const Center(
-              child: Text('Error Fetching Data'),
-            );
-        }
-      }),
-    );
+                    )),
+          );
+        case FetchStatus.error:
+          return const Center(
+            child: Text('Error Fetching Data'),
+          );
+      }
+    });
   }
 }

@@ -1,9 +1,15 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:premedpk_mobile_app/UI/screens/The%20vault/pre_eng/screens/pre_eng_vault_home.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
+import '../../../../UI/screens/Dashboard_Screen/dashboard_screen.dart';
+import '../../../../UI/screens/Dashboard_Screen/widgets/Flash_card.dart';
 import '../../../../UI/screens/Dashboard_Screen/widgets/Qbank_card.dart';
 import '../../../../UI/screens/Dashboard_Screen/widgets/most_recenet_attempt.dart';
+import '../../../../UI/screens/Dashboard_Screen/widgets/notes_card.dart';
 import '../../../../UI/screens/Dashboard_Screen/widgets/series_card.dart';
+import '../../../../UI/screens/The vault/pre_eng/screens/pre_eng_vault_home.dart';
+import '../../../../UI/screens/flashcards/flashcards_home.dart';
 import '../../../../UI/screens/notifications/notification_page.dart';
 import '../../../../UI/screens/qbank/mdcat/mocks&bank_statistics.dart';
 import '../../../../UI/screens/statistics/statistics_screen.dart';
@@ -49,6 +55,9 @@ class _EngineeringDashboardScreenState
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     final UserStatProvider userStatProvider =
         Provider.of<UserStatProvider>(context, listen: false);
     userStatProvider.fetchUserStatistics('');
@@ -96,19 +105,54 @@ class _EngineeringDashboardScreenState
                         ),
                       ],
                     ),
-                    InkWell(
+                    Container(
+                      decoration: const BoxDecoration(
+                          boxShadow: CustomBoxshadow.BoxShadow40),
+                      child: InkWell(
                         onTap: () {},
-                        child: Icon(
-                          Icons.person,
-                          color: PreMedColorTheme().red,
-                        ))
+                        child: SvgPicture.asset(
+                            Provider.of<PreMedProvider>(context).isPreMed
+                                ? PremedAssets.Profile
+                                : PremedAssets.blueProfle),
+                      ),
+                    )
                   ],
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.045,
-                    top: MediaQuery.of(context).size.height * 0.02),
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03)
+                    .copyWith(top: 10),
+                child: Row(
+                  children: [
+                    NotesCard(
+                      icon: PremedAssets.notesstudy,
+                      onTap: () {},
+                      bgColor: PreMedColorTheme().white,
+                      text: 'CONTINUE STUDYING',
+                      text1: 'Stichiometery',
+                      text2: 'STUDY NOTES',
+                    ),
+                    SizedBox(
+                      width: screenWidth * 0.02,
+                    ),
+                    SeriesCard(
+                      bgColor: PreMedColorTheme().white,
+                      text: "NEWEST RELEAST",
+                      text1: "The Ultimate Resource Bank",
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PreEngVaultHome()));
+                      },
+                      icon: PremedAssets.Valut,
+                    )
+                  ],
+                ),
+              ),
+              SizedBoxes.vertical10Px,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                 child: Row(
                   children: [
                     QbankCard(
@@ -127,31 +171,35 @@ class _EngineeringDashboardScreenState
                       },
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.01,
+                      width: MediaQuery.of(context).size.width * 0.02,
                     ),
-                    SeriesCard(
+                    FlashCard(
                       bgColor: PreMedColorTheme().white,
-                      text: "NEWEST RELEAST",
-                      text1: "The Ultimate Resource Bank",
+                      icon: PremedAssets.Flashcards,
+                      text1: 'Flashcards',
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const PreEngVaultHome()));
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const FlashcardHome(),
+                          ),
+                        );
                       },
-                      icon: PremedAssets.Valut,
+                      text2: 'Fast-paced revision!',
                     )
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                child: LatestAttemptScreen(
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.03, vertical: 14),
+                child: const LatestAttemptScreen(
                   isPreMed: false,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.03,
+                ),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(
@@ -168,8 +216,8 @@ class _EngineeringDashboardScreenState
                       children: [
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 35),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.03, vertical: 35),
                           child: Row(
                             children: [
                               Image.asset(
@@ -220,7 +268,7 @@ class _EngineeringDashboardScreenState
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.045,
+                    horizontal: MediaQuery.of(context).size.width * 0.03,
                     vertical: MediaQuery.of(context).size.height * 0.015),
                 child: Card(
                   shape: RoundedRectangleBorder(
@@ -244,7 +292,8 @@ class _EngineeringDashboardScreenState
                     child: Padding(
                       padding: const EdgeInsets.only(left: 5, top: 10),
                       child: FutureBuilder(
-                        future: userStatProvider.fetchUserStatistics(UserProvider().user?.userId),
+                        future: userStatProvider
+                            .fetchUserStatistics(UserProvider().user?.userId),
                         builder: (context, snapshot) {
                           if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
@@ -260,7 +309,8 @@ class _EngineeringDashboardScreenState
                                         padding:
                                             const EdgeInsets.only(left: 10),
                                         child: Image.asset(
-                                          PremedAssets.graph,
+                                          Provider.of<PreMedProvider>(context)
+                                              .isPreMed ? PremedAssets.graph : PremedAssets.BlueGraph,
                                           width: 50,
                                           height: 50,
                                         ),
@@ -401,3 +451,11 @@ class _EngineeringDashboardScreenState
     );
   }
 }
+
+//notification to be removed
+//view all should be blue
+// recent activity image should be blue
+// aerrow should be blue
+// pop up button change
+//statistics screen revamp
+//  profile icon to be blur

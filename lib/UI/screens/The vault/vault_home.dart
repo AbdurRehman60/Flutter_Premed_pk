@@ -1,4 +1,5 @@
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/estuff_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/mnemonics_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/shortlistings.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/studynotes.dart';
@@ -10,9 +11,7 @@ import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/shortlistings
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/essential_stuff_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../../../providers/user_provider.dart';
-
 
 class VaultHome extends StatefulWidget {
   const VaultHome({super.key});
@@ -144,10 +143,6 @@ class _VaultHomeState extends State<VaultHome> {
                                           const StudyNotesHome()));
                             }),
                         SizedBoxes.horizontal10Px,
-                      ],
-                    ),
-                    Row(
-                      children: [
                         GetGradientButton(
                             textPath: 'assets/images/vault/Text (5).svg',
                             onTap: () {
@@ -157,7 +152,6 @@ class _VaultHomeState extends State<VaultHome> {
                                       builder: (context) =>
                                           const ShortlistingsHome()));
                             }),
-                        SizedBoxes.horizontal10Px,
                       ],
                     ),
                   ],
@@ -186,7 +180,11 @@ class _VaultHomeState extends State<VaultHome> {
                               const Spacer(),
                               InkWell(
                                 onTap: () {
-                                  //To Navigate
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const EstuffHomeScreen()));
                                 },
                                 child: Text('View All',
                                     style: PreMedTextTheme().heading1.copyWith(
@@ -222,13 +220,12 @@ class _VaultHomeState extends State<VaultHome> {
                     Stack(
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             SvgPicture.asset(
                                 'assets/images/vault/tpical guides.svg'),
                             const Spacer(),
                             Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 InkWell(
                                   onTap: () {
@@ -275,21 +272,9 @@ class _VaultHomeState extends State<VaultHome> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, top: 10),
-                child: Container(
-                    height: 83,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          offset: const Offset(0, 20),
-                          blurRadius: 40, //
-                        ),
-                      ],
-                    ),
-                    child: const TopicalGuidesPage()),
-              ),
+              const Padding(
+                  padding: EdgeInsets.only(left: 15, top: 10),
+                  child: TopicalGuidesPage()),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10)
                     .copyWith(top: 22),
@@ -299,6 +284,7 @@ class _VaultHomeState extends State<VaultHome> {
                     Stack(
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             SvgPicture.asset('assets/images/vault/stn.svg'),
                             const Spacer(),
@@ -350,20 +336,9 @@ class _VaultHomeState extends State<VaultHome> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, top: 7),
-                child: Container(
-                    height: 83,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          offset: const Offset(0, 20),
-                          blurRadius: 40, //
-                        ),
-                      ],
-                    ),
-                    child: const StudyNotesPage()),
+              const Padding(
+                padding: EdgeInsets.only(left: 15, top: 7),
+                child: StudyNotesPage(),
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 15, top: 26, left: 15),
@@ -371,6 +346,7 @@ class _VaultHomeState extends State<VaultHome> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         RichText(
                           text: TextSpan(
@@ -424,20 +400,9 @@ class _VaultHomeState extends State<VaultHome> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, top: 10),
-                child: Container(
-                    height: 83,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          offset: const Offset(0, 20),
-                          blurRadius: 40,
-                        ),
-                      ],
-                    ),
-                    child: const ShortListingNotesPage()),
+              const Padding(
+                padding: EdgeInsets.only(left: 15, top: 10),
+                child: ShortListingNotesPage(),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15)
@@ -448,59 +413,59 @@ class _VaultHomeState extends State<VaultHome> {
                     Stack(
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SvgPicture.asset(
                                 'assets/images/vault/mnemonics logo.svg'),
                             const Spacer(),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    // To Navigate
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 12),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const MnemonicsHome()));
-                                      },
-                                      child: Text(
-                                        'View All',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: PreMedColorTheme()
-                                              .primaryColorRed, //
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w700,
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 8.0), // Adjust this value as needed
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const MnemonicsHome(),
                                         ),
+                                      );
+                                    },
+                                    child: Text(
+                                      'View All',
+                                      style: TextStyle(
+                                        color:
+                                            PreMedColorTheme().primaryColorRed,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
                         Positioned(
-                            top: 50,
-                            left: 8,
-                            child: Text(
-                              'All the mnemonics you need. No more mindless repetition!',
-                              style: PreMedTextTheme().heading1.copyWith(
+                          top: 50,
+                          left: 8,
+                          child: Text(
+                            'All the mnemonics you need. No more mindless repetition!',
+                            style: PreMedTextTheme().heading1.copyWith(
                                   color: PreMedColorTheme().black,
                                   fontSize: 12,
-                                  fontWeight: FontWeight.w400),
-                              softWrap: true,
-                              maxLines: 2,
-                            ))
+                                  fontWeight: FontWeight.w400,
+                                ),
+                            softWrap: true,
+                            maxLines: 2,
+                          ),
+                        ),
                       ],
                     ),
+
                     // First Section
                   ],
                 ),
@@ -537,13 +502,26 @@ class GetGradientButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8)),
-        onPressed: onTap,
-        child: SvgPicture.asset(textPath));
+    return Container(
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x26000000),
+            blurRadius: 40,
+            offset: Offset(0, 20),
+          ),
+        ]
+      ),
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              elevation: 0,
+              backgroundColor: Colors.white.withOpacity(0.8500000238418579),
+              shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8)),
+          onPressed: onTap,
+          child: SvgPicture.asset(textPath)),
+    );
   }
 }
 
@@ -560,22 +538,35 @@ class GradientButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
+    return Container(
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Color(0x26000000),
+            blurRadius: 40,
+            offset: Offset(0, 20),
+          ),
+        ],
       ),
-      onPressed: onPressed,
-      child: ShaderMask(
-        shaderCallback: (Rect bounds) {
-          return gradient.createShader(bounds);
-        },
-        child: Text(text,
-            style: PreMedTextTheme()
-                .heading1
-                .copyWith(color: Colors.white, fontSize: 12)),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          backgroundColor: Colors.white.withOpacity(0.8500000238418579),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+        onPressed: onPressed,
+        child: ShaderMask(
+          shaderCallback: (Rect bounds) {
+            return gradient.createShader(bounds);
+          },
+          child: Text(text,
+              style: PreMedTextTheme()
+                  .heading1
+                  .copyWith(color: Colors.white, fontSize: 12)),
+        ),
       ),
     );
   }
@@ -591,10 +582,7 @@ class GradientText extends StatelessWidget {
     return ShaderMask(
       shaderCallback: (Rect bounds) {
         return const LinearGradient(
-          colors: <Color>[
-            Color(0xFF44009B),
-            Color(0xFF2370CA)
-          ], // Adjust colors to match the gradient
+          colors: <Color>[Color(0xFF44009B), Color(0xFF2370CA)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ).createShader(bounds);
@@ -602,10 +590,9 @@ class GradientText extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color:
-              Colors.white, // This color is ignored because of the ShaderMask
-          fontSize: fontSize, // Adjust font size as needed
-          fontWeight: FontWeight.bold, // Adjust weight as needed
+          color: Colors.white,
+          fontSize: fontSize,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );

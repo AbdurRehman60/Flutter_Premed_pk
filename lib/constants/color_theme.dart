@@ -70,6 +70,7 @@ class PreMedColorTheme {
 
   Color get neutral900 => const Color(0xFF17171B);
   Color get neutral650 => const Color(0xFF6E6E6E);
+  Color get white85 => Colors.white.withOpacity(0.8500000238418579);
 
   Color get green => const Color.fromARGB(1, 43, 177, 64);
 
@@ -81,7 +82,7 @@ class PreMedColorTheme {
   Color get redlight => const Color(0xFFC40052);
   Color get greenL => const Color(0xFF42C96B);
   Color get skyblue => const Color(0xFF0383BB);
-  Color get red => Colors.red;
+  Color get red => const Color(0xFFEC5863);
   Color get coolBlue => const Color(0xFF2370CA);
   Color get blue => const Color(0xFF4285F4);
 

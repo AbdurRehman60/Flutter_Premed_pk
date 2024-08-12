@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
+import '../dashboard_screen.dart';
+
 class FlashCard extends StatelessWidget {
   const FlashCard({
     Key? key,
@@ -23,7 +25,6 @@ class FlashCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        elevation: 3,
         child: Container(
           width:
               MediaQuery.of(context).size.width * 0.43, // 40% of screen width
@@ -32,14 +33,7 @@ class FlashCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: bgColor, // use the provided background color
             borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: const Offset(0, 3),
-              ),
-            ],
+            boxShadow: CustomBoxshadow.BoxShadow40
           ),
           child: Row(
             children: [

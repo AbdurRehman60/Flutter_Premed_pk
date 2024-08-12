@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_screen_data.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_display_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/widgets/flashcard_shimmer.dart';
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 
 class FlashcardHome extends StatefulWidget {
   const FlashcardHome({super.key});
+
 
   @override
   State<FlashcardHome> createState() => _FlashcardHomeState();
@@ -31,26 +33,7 @@ class _FlashcardHomeState extends State<FlashcardHome> {
         preferredSize: const Size.fromHeight(60.0),
         child: AppBar(
           backgroundColor: Colors.transparent,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Material(
-              elevation: 4,
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              clipBehavior: Clip.hardEdge,
-              child: SizedBox(
-                width: 37,
-                height: 37,
-                child: SvgPicture.asset(
-                  'assets/icons/left-arrow.svg',
-                  width: 9.33,
-                  height: 18.67,
-                ),
-              ),
-            ),
-          ),
+          leading: const PopButton()
         ),
       ),
       body: Column(

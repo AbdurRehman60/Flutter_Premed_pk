@@ -1,6 +1,9 @@
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/models/user_model.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -19,6 +22,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     final TextEditingController confirmNewPasswordController =
         TextEditingController();
     final UserProvider userProvider = Provider.of<UserProvider>(context);
+    final PreMedProvider preMedProvider = Provider.of<PreMedProvider>(context);
 
     void onchangepasswordpressed() {
       final form = _formKey.currentState!;
@@ -51,31 +55,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().white,
-        leading: Container(
-          margin: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: const Offset(0, 2),
-              ),
-            ],
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          alignment: Alignment.center,
-          child: Center(
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios_new_rounded,
-                  color: PreMedColorTheme().primaryColorRed),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
-        ),
+        leading: PopButton(),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -111,7 +91,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       ),
                     )
                   : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
 
                         SizedBoxes.verticalMicro,
@@ -146,6 +126,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
                         SizedBoxes.verticalGargangua,
                         CustomButton(
+                          color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                           buttonText: 'Save Changes',
                           onPressed: onchangepasswordpressed,
                         ),

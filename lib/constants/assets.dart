@@ -35,6 +35,7 @@ class PremedAssets {
   static String Engineer = 'assets/images/engineer.png';
   static String Business = 'assets/images/business.png';
   static String graph = 'assets/images/Chart.png';
+  static String BlueGraph = 'assets/icons/blue graph.png';
   static String notesstudy = 'assets/images/studynotes.png';
   static String arrow = 'assets/images/Chevron Right.png';
 
@@ -68,6 +69,7 @@ class PremedAssets {
   static String Settings = 'assets/icons/settings.svg';
   static String MDCATQbankLogo = 'assets/icons/mdcatqbank.png';
   static String MENU = 'assets/icons/Menu.png';
+  static String BlueMenu = 'assets/icons/blue Menu.png';
   static String Flask = 'assets/icons/Icon.png';
   static String PieChart = 'assets/icons/highlighticon1.png';
   static String Timer = 'assets/icons/highlighticon2.png';
@@ -77,8 +79,15 @@ class PremedAssets {
   static String Savedquestion = 'assets/icons/Vector.svg';
   static String Valut = 'assets/images/Frame 2141 1.png';
   static String Credits = 'assets/icons/Credits Icon.png';
+  static String Profile = 'assets/images/profile.svg';
+  static String blueProfle = 'assets/icons/blue profile.svg';
+  static String ColoredVault = 'assets/icons/TheVault Colored.svg';
+  static String GrayedVault = 'assets/icons/grayedVault.svg';
+  static String BlueDocument = 'assets/icons/blue question.svg';
+  static String RedDocument = 'assets/images/QuestionMarkDocument.svg';
+  static String Badge = 'assets/icons/badge.png';
 
-  //QbankHome
+  ///QbankHome
 static String TestSession  ='assets/icons/testsession.png';
 static String Mocks = 'assets/icons/mocks.png';
 static String PastPapers = 'assets/icons/pastpapers.png';

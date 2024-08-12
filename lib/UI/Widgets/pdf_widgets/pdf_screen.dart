@@ -1,5 +1,4 @@
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
@@ -197,66 +196,66 @@ class _PdfViewState extends State<PdfScreen> {
                 ),
               ],
             ),
-            actions: [
-              if (Platform.isAndroid)
-                IconButton(
-                  onPressed: () {
-                    if (!isDownloading) {
-                      FileDownloader.downloadFile(
-                        url: widget.note.notesURL.trim(),
-                        name: '${widget.note.title.trim()}_PreMed.PK',
-                        notificationType: NotificationType.all,
-                        onDownloadRequestIdReceived: (downloadId) {
-                          setState(() {
-                            isDownloading = true;
-                          });
-                        },
-                        onDownloadCompleted: (path) {
-                          setState(() {
-                            isDownloading = false;
-                          });
-                          showSnackbar(
-                            context,
-                            "Download Complete",
-                            SnackbarType.SUCCESS,
-                          );
-                        },
-                        onDownloadError: (errorMessage) {
-                          setState(() {
-                            isDownloading = false;
-                          });
-                          showSnackbar(
-                            context,
-                            errorMessage,
-                            SnackbarType.INFO,
-                          );
-                        },
-                      );
-                    }
-                  },
-                  icon: isDownloading
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                          ))
-                      : Icon(
-                          Icons.check_circle,
-                          size: 24,
-                          color: PreMedColorTheme().tickcolor,
-                        ),
-                )
-              else
-                const SizedBox(),
-              // if (!widget.note.isGuide)
-              //   IconButton(
-              //     onPressed: openDemarcationBottomSheet,
-              //     icon: const Icon(Icons.menu),
-              //   )
-              // else
-              //   const SizedBox(),
-            ],
+            // actions: [
+            //   if (Platform.isAndroid)
+            //     IconButton(
+            //       onPressed: () {
+            //         if (!isDownloading) {
+            //           FileDownloader.downloadFile(
+            //             url: widget.note.notesURL.trim(),
+            //             name: '${widget.note.title.trim()}_PreMed.PK',
+            //             notificationType: NotificationType.all,
+            //             onDownloadRequestIdReceived: (downloadId) {
+            //               setState(() {
+            //                 isDownloading = true;
+            //               });
+            //             },
+            //             onDownloadCompleted: (path) {
+            //               setState(() {
+            //                 isDownloading = false;
+            //               });
+            //               showSnackbar(
+            //                 context,
+            //                 "Download Complete",
+            //                 SnackbarType.SUCCESS,
+            //               );
+            //             },
+            //             onDownloadError: (errorMessage) {
+            //               setState(() {
+            //                 isDownloading = false;
+            //               });
+            //               showSnackbar(
+            //                 context,
+            //                 errorMessage,
+            //                 SnackbarType.INFO,
+            //               );
+            //             },
+            //           );
+            //         }
+            //       },
+            //       icon: isDownloading
+            //           ? const SizedBox(
+            //               width: 20,
+            //               height: 20,
+            //               child: CircularProgressIndicator(
+            //                 strokeWidth: 2.5,
+            //               ))
+            //           : Icon(
+            //               Icons.check_circle,
+            //               size: 24,
+            //               color: PreMedColorTheme().tickcolor,
+            //             ),
+            //     )
+            //   else
+            //     const SizedBox(),
+            //   // if (!widget.note.isGuide)
+            //   //   IconButton(
+            //   //     onPressed: openDemarcationBottomSheet,
+            //   //     icon: const Icon(Icons.menu),
+            //   //   )
+            //   // else
+            //   //   const SizedBox(),
+            // ],
           ),
           body: Padding(
             padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),

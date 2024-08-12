@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/edit_profile.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
@@ -21,62 +22,46 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
   Widget build(BuildContext context) {
     final preMedProvider = Provider.of<PreMedProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
-    double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: PreMedColorTheme().white,
-        leading: Container(
-          margin: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: const Offset(0, 2),
-              ),
-            ],
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          alignment: Alignment.center,
-          child: Center(
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios_new_rounded,
-                  color: PreMedColorTheme().primaryColorRed),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
-        ),
-        title: Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'My Account',
-                style: PreMedTextTheme().heading6.copyWith(
-                    color: PreMedColorTheme().black,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBoxes.vertical2Px,
-              Text('Overview',
-                  style: PreMedTextTheme().subtext.copyWith(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+      backgroundColor: PreMedColorTheme().background,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60.0),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 13),
+          child: AppBar(
+            backgroundColor: PreMedColorTheme().background,
+            leading: const PopButton(),
+            title: Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'My Account',
+                    style: PreMedTextTheme().heading6.copyWith(
                         color: PreMedColorTheme().black,
-                      ))
-            ],
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBoxes.vertical2Px,
+                  Text('Overview',
+                      style: PreMedTextTheme().subtext.copyWith(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: PreMedColorTheme().black,
+                          ))
+                ],
+              ),
+            ),
           ),
         ),
       ),
       body: Padding(
         padding: EdgeInsets.zero,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.06, vertical: 5),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.06,
+              vertical: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -96,7 +81,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                                   style: PreMedTextTheme().body1.copyWith(
                                         fontSize: 25,
                                         fontWeight: FontWeight.w900,
-                                        color: Colors.red,
+                                        color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                                       ),
                                 ),
                                 TextSpan(
@@ -133,7 +118,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                         style: PreMedTextTheme().body1.copyWith(
                               fontSize: 15,
                               fontWeight: FontWeight.w900,
-                              color: PreMedColorTheme().red,
+                              color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                             ),
                       ),
                     ),
@@ -166,6 +151,78 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                 ),
                 child: Row(
                   children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.43,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.02,
+                          vertical: 2.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.8500000238418579),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Center(
+                        child: DropdownButton<String>(
+                          borderRadius: BorderRadius.circular(12),
+                          value: 'Entrance Exam',
+                          isExpanded: true,
+                          icon: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                MediaQuery.of(context).size.width * 0.01),
+                            child: SvgPicture.asset(
+                              'assets/images/vault/Vector.svg',
+                              width: 10,
+                              height: 10,
+                            ),
+                          ),
+                          underline: const SizedBox(),
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              // Update selectedValue
+                              setState(() {
+                                // selectedValue = newValue;
+                              });
+                            }
+                          },
+                          selectedItemBuilder: (BuildContext context) {
+                            return <String>['Entrance Exam']
+                                .map<Widget>((String value) {
+                              return Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceAround,
+                                children: [
+                                  Image.asset(
+                                    'assets/icons/premed log.png',
+                                    width: 30,
+                                  ),
+                                  Text(
+                                    value,
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }).toList();
+                          },
+                          items: <String>['Entrance Exam']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: PreMedTextTheme().body1.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                    SizedBoxes.horizontal10Px,
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.symmetric(
@@ -173,17 +230,20 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                                 MediaQuery.of(context).size.width * 0.02,
                             vertical: 2.0),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.white.withOpacity(0.8500000238418579),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Center(
                           child: DropdownButton<String>(
+                            borderRadius: BorderRadius.circular(12),
                             isExpanded: true,
                             value: preMedProvider.isPreMed
                                 ? 'Pre-Medical'
                                 : 'Pre-Engineering',
                             icon: Padding(
-                              padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.01),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.of(context).size.width * 0.01),
                               child: SvgPicture.asset(
                                 'assets/images/vault/Vector.svg',
                                 width: 10,
@@ -193,10 +253,8 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                             underline: const SizedBox(),
                             onChanged: (String? newValue) {
                               if (newValue != null) {
-                                // Update selectedField and provider state
                                 preMedProvider
                                     .setPreMed(newValue == 'Pre-Medical');
-                                // Optionally update local state here if needed
                               }
                             },
                             selectedItemBuilder: (BuildContext context) {
@@ -238,73 +296,8 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                         ),
                       ),
                     ),
-                    SizedBoxes.horizontal10Px,
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.43,
-                      padding:  EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width*0.02, vertical: 2.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Center(
-                        child: DropdownButton<String>(
-                          value: 'Entrance Exam',
-                          isExpanded: true,
-                          icon: Padding(
-                            padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.01),
-                            child: SvgPicture.asset(
-                              'assets/images/vault/Vector.svg',
-                              width: 10,
-                              height: 10,
-                            ),
-                          ),
-                          underline: const SizedBox(),
-                          onChanged: (String? newValue) {
-                            if (newValue != null) {
-                              // Update selectedValue
-                              setState(() {
-                                // selectedValue = newValue;
-                              });
-                            }
-                          },
-                          selectedItemBuilder: (BuildContext context) {
-                            return <String>['Entrance Exam']
-                                .map<Widget>((String value) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/premed log.png',
-                                    width: 30,
-                                  ),
-                                  Text(
-                                    value,
-                                    style: const TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }).toList();
-                          },
-                          items: <String>['Entrance Exam']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: PreMedTextTheme().body1.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ), // Space between the dropdowns
+
+                     // Space between the dropdowns
                   ],
                 ),
               ),
@@ -463,6 +456,7 @@ class BundleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final preMedPro = Provider.of<PreMedProvider>(context);
     return Container(
       height: 106,
       padding: const EdgeInsets.all(15),
@@ -530,7 +524,7 @@ class BundleCard extends StatelessWidget {
                         TextSpan(
                           text: ' 150 DAYS',
                           style: PreMedTextTheme().body1.copyWith(
-                                color: PreMedColorTheme().red,
+                                color: preMedPro.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                                 fontSize: 10,
                                 fontFamily: 'Rubik',
                                 fontWeight: FontWeight.w600,
@@ -555,7 +549,7 @@ class BundleCard extends StatelessWidget {
                 Text(
                   'View Details',
                   style: PreMedTextTheme().body1.copyWith(
-                        color: PreMedColorTheme().red,
+                        color:preMedPro.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                         fontSize: 13,
                         fontFamily: 'Rubik',
                         fontWeight: FontWeight.w700,
@@ -566,7 +560,7 @@ class BundleCard extends StatelessWidget {
                 Icon(
                   size: 16,
                   Icons.arrow_forward_ios_outlined,
-                  color: PreMedColorTheme().red,
+                  color: preMedPro.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                 ),
               ],
             ),

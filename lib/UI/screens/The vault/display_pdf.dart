@@ -28,12 +28,12 @@ class PdfDisplayer extends StatelessWidget {
       );
     } else if (notes.isNotEmpty) {
       return GridView.builder(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 23),
         itemCount: notes.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
+          mainAxisSpacing: 15,
+          crossAxisSpacing: 25,
           mainAxisExtent: 290,
         ),
         itemBuilder: (BuildContext context, int index) {
@@ -93,25 +93,33 @@ class PDFTileVault extends StatelessWidget {
           Container(
             width: 220, // Fixed width
             decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x26000000),
+                  blurRadius: 40,
+                  offset: Offset(0, 20),
+                )
+              ],
               borderRadius: BorderRadius.circular(10),
               color: Colors.white.withOpacity(0.85),
               border: Border.all(color: Colors.white.withOpacity(0.50)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
             ),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  buildPdfIcon(note.thumbnailImageUrl ?? ''),
+                  Container(
+                      decoration: const BoxDecoration(boxShadow: [
+                        BoxShadow(
+                          color: Color(0x19000000),
+                          blurRadius: 10,
+                          offset: Offset(0, 10),
+                        )
+                      ],),
+                      child: buildPdfIcon(note.thumbnailImageUrl ?? '')),
                   Padding(
                     padding:
-                        const EdgeInsets.only(top: 10, left: 10, right: 10),
+                        const EdgeInsets.only(top: 12, left: 10, right: 10),
                     child: Text(
                       'Study Notes'.toUpperCase(),
                       style: PreMedTextTheme().heading1.copyWith(
@@ -121,7 +129,7 @@ class PDFTileVault extends StatelessWidget {
                           ),
                     ),
                   ),
-                  const SizedBox(height: 3),
+                  SizedBoxes.vertical5Px,
                   Text(
                     note.topicName,
                     overflow: TextOverflow.ellipsis,
@@ -131,7 +139,7 @@ class PDFTileVault extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.w800),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 2),
+                  SizedBoxes.vertical5Px,
                   Text(
                     note.subject.toUpperCase(),
                     style: PreMedTextTheme().heading1.copyWith(

@@ -1,5 +1,6 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/Attempted_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/card_w.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/piechart_w.dart';
@@ -56,7 +57,6 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         Provider.of<UserStatProvider>(context, listen: false);
     userStatProvider.fetchUserStatistics(context);
 
-    // MediaQueryData to access device screen dimensions
     final MediaQueryData mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -65,26 +65,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         preferredSize: const Size.fromHeight(60.0),
         child: AppBar(
           backgroundColor: Colors.transparent,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Material(
-              elevation: 4,
-              color: PreMedColorTheme().white,
-              borderRadius: BorderRadius.circular(8),
-              clipBehavior: Clip.hardEdge,
-              child: SizedBox(
-                width: mediaQuery.size.width * 0.1,
-                height: mediaQuery.size.width * 0.1,
-                child: SvgPicture.asset(
-                  'assets/icons/left-arrow.svg',
-                  width: mediaQuery.size.width * 0.025,
-                  height: mediaQuery.size.width * 0.05,
-                ),
-              ),
-            ),
-          ),
+          leading: const PopButton(),
         ),
       ),
       body: SafeArea(

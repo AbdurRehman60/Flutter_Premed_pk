@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/test_mode_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../models/deck_group_model.dart';
 import '../../../../providers/create_deck_attempt_provider.dart';
@@ -48,6 +49,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final preMedPro = context.read<PreMedProvider>();
     return SizedBox(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.70,
@@ -116,7 +118,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       trailing: IconButton(
                         icon: Icon(
                           Icons.arrow_forward_ios_rounded,
-                          color: PreMedColorTheme().primaryColorRed,
+                          color: preMedPro.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue,
                           size: 20,
                         ),
                         onPressed: () async {
@@ -127,7 +129,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           await _fetchQuestions(widget.deckGroup.deckItems[index].deckName, context);
 
                           final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
-                          print('Updated Deck Info: ${deckInfo?.alreadyAttempted}');
                           if (deckInfo?.alreadyAttempted == true) {
                             _showAlreadyAttemptedPopup(context, item);
                           } else {
@@ -176,8 +177,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
   }
 
   void _navigateToNextScreen(BuildContext context, DeckItem item, {int? startFromQuestion, String? attemptId}) async {
-    print('Navigating to next screen with startFromQuestion: $startFromQuestion');
-    print('widget.bankOrMock: ${widget.bankOrMock}');
+    // print('Navigating to next screen with startFromQuestion: $startFromQuestion');
+    // print('widget.bankOrMock: ${widget.bankOrMock}');
 
     final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
 
@@ -283,7 +284,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                             final startFromQuestion = questionProvider.questions
                                 ?.indexWhere((question) => question.questionId == latestAttempt['questionId']) ?? 0;
 
-                            print('Continue attempt with startFromQuestion: $startFromQuestion');
+                            // print('Continue attempt with startFromQuestion: $startFromQuestion');
                             if (startFromQuestion >= 0) {
                               _navigateToNextScreen(context, item, startFromQuestion: startFromQuestion, attemptId: lastAttemptId);
                             } else {

@@ -13,6 +13,7 @@ import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dar
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/pre_engineering/providers/chapterWiseProvider.dart';
+import 'package:premedpk_mobile_app/pre_engineering/providers/test_session_proivder.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/bundle_provider.dart';
 import 'package:premedpk_mobile_app/providers/cart_provider.dart';
@@ -23,6 +24,7 @@ import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/lastest_attempts_provider.dart';
 import 'package:premedpk_mobile_app/providers/mcatqbankprovider.dart';
 import 'package:premedpk_mobile_app/providers/mdcat_mocks_provider.dart';
+import 'package:premedpk_mobile_app/providers/med_test_session_pro.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/nums_qbank_provider.dart';
@@ -124,6 +126,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=> EngineeringStudyNotesProvider()),
         ChangeNotifierProvider(create: (_)=> PreMedProvider()..loadFromPreferences()),
         ChangeNotifierProvider(create: (_)=> EngChapterWisePro()),
+        ChangeNotifierProvider(create: (_)=> EngTestSessionsPro()),
+        ChangeNotifierProvider(create: (_)=> MedTestSessionsPro()),
 
       ],
       child: MaterialApp(

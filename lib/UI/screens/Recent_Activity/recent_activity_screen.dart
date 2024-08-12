@@ -1,6 +1,7 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/widgets/bottom_sheet.dart';
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/widgets/recent_activity.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/recent_attempts_model.dart';
 import 'package:premedpk_mobile_app/providers/recent_atempts_provider.dart';
@@ -23,26 +24,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
         preferredSize: const Size.fromHeight(60.0),
         child: AppBar(
           backgroundColor: Colors.transparent,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Material(
-              elevation: 4,
-              color: PreMedColorTheme().white,
-              borderRadius: BorderRadius.circular(8),
-              clipBehavior: Clip.hardEdge,
-              child: SizedBox(
-                width: 37,
-                height: 37,
-                child: SvgPicture.asset(
-                  'assets/icons/left-arrow.svg',
-                  width: 9.33,
-                  height: 18.67,
-                ),
-              ),
-            ),
-          ),
+          leading: const PopButton(),
         ),
       ),
       body: ChangeNotifierProvider(

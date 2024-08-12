@@ -24,28 +24,29 @@ class _MnemonicsReelBuilderState extends State<MnemonicsReelBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 119,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.15),
-            offset: const Offset(0, 20),
-            blurRadius: 40,
-          ),
-        ],
-      ),
-      child: Consumer<MnemonicsProvider>(
-        builder: (context, mnemonicsProvider, _) {
-          switch (mnemonicsProvider.fetchStatus) {
-            case FetchStatus.init:
-            case FetchStatus.fetching:
-              return const Center(
+    return Consumer<MnemonicsProvider>(
+      builder: (context, mnemonicsProvider, _) {
+        switch (mnemonicsProvider.fetchStatus) {
+          case FetchStatus.init:
+          case FetchStatus.fetching:
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.only(top: 20),
                 child: CircularProgressIndicator(),
-              );
+              ),
+            );
 
-            case FetchStatus.success:
-              return ListView.builder(
+          case FetchStatus.success:
+            return Container(
+              height: 119,
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  offset: const Offset(0, 20),
+                  blurRadius: 40,
+                ),
+              ]),
+              child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: mnemonicsProvider.mnemonicsList.length,
                 itemBuilder: (context, index) {
@@ -66,15 +67,15 @@ class _MnemonicsReelBuilderState extends State<MnemonicsReelBuilder> {
                     ),
                   );
                 },
-              );
+              ),
+            );
 
-            case FetchStatus.error:
-              return const Center(
-                child: Text('Error fetching mnemonics'),
-              );
-          }
-        },
-      ),
+          case FetchStatus.error:
+            return const Center(
+              child: Text('Error fetching mnemonics'),
+            );
+        }
+      },
     );
   }
 }

@@ -1,7 +1,11 @@
-import 'package:premedpk_mobile_app/models/mnemonics_model.dart';
+
+
 import 'package:provider/provider.dart';
+
 import '../../../../../constants/constants_export.dart';
+import '../../../../../models/mnemonics_model.dart';
 import '../../../../../providers/vaultProviders/mnemonics_provider.dart';
+import '../topic_button.dart';
 import 'mnemonics_player.dart';
 import 'mnemonics_video_card.dart';
 
@@ -48,37 +52,41 @@ class MnemonicsGridBuilderState extends State<MnemonicsGridBuilder> {
             return const Text('Error Fetching Mnemonics');
           case FetchStatus.success:
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
+                SizedBoxes.vertical3Px,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 23),
+                  child: Wrap(
+                    spacing: 12,
                     children: [
-                      FilterButton(
-                        label: 'All',
+                      TopicButton(
+                        topicName: 'All',
                         isActive: _selectedFilter == 'All',
                         onTap: () => _handleFilterChange('All'),
                       ),
-                      FilterButton(
-                        label: 'Physics',
+                      TopicButton(
+                        topicName: 'Physics',
                         isActive: _selectedFilter == 'Physics',
                         onTap: () => _handleFilterChange('Physics'),
                       ),
-                      FilterButton(
-                        label: 'Chemistry',
+                      TopicButton(
+                        topicName: 'Chemistry',
                         isActive: _selectedFilter == 'Chemistry',
                         onTap: () => _handleFilterChange('Chemistry'),
                       ),
-                      FilterButton(
-                        label: 'Biology',
+                      TopicButton(
+                        topicName: 'Biology',
                         isActive: _selectedFilter == 'Biology',
                         onTap: () => _handleFilterChange('Biology'),
                       ),
                     ],
                   ),
                 ),
+                SizedBoxes.vertical3Px,
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 23,vertical: 8),
                     child: GridView.builder(
                       itemCount: filteredMnemonics.length,
                       gridDelegate:
@@ -113,47 +121,6 @@ class MnemonicsGridBuilderState extends State<MnemonicsGridBuilder> {
   }
 }
 
-class FilterButton extends StatelessWidget {
-  const FilterButton({
-    super.key,
-    required this.label,
-    required this.isActive,
-    required this.onTap,
-  });
-  final String label;
-  final bool isActive;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 19, vertical: 8.5),
-          backgroundColor: isActive ? const Color(0xFFEC5863) : Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-            side: const BorderSide(
-              color: Color(0x80FFFFFF),
-              width: 3.0,
-            ),
-          ),
-          elevation: 1,
-        ),
-        onPressed: onTap,
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isActive ? Colors.white : const Color(0xFF4E4B66),
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 void _showVideoDialog(
     BuildContext context, String videoUrl, MnemonicsModel mnemonicsModel) {

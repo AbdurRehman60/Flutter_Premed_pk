@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:path/path.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
-import 'package:provider/provider.dart';
 import '../api_manager/dio client/dio_client.dart';
 import '../api_manager/dio client/endpoints.dart';
 import '../constants/constants_export.dart';

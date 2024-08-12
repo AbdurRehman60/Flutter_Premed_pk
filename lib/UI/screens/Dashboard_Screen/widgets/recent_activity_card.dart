@@ -1,8 +1,14 @@
 // ignore: file_names
 // ignore_for_file: prefer_typing_uninitialized_variables
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/recent_activity_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../../../../providers/vaultProviders/premed_provider.dart';
+import '../dashboard_screen.dart';
 
 class RecentActivityCard extends StatefulWidget {
   const RecentActivityCard({
@@ -13,12 +19,12 @@ class RecentActivityCard extends StatefulWidget {
     required this.progressValue,
     required this.isPreMed,
   });
-  final double progressValue;
 
-  final acivityname;
-  final mode;
-  final date;
-  final isPreMed;
+  final double progressValue;
+  final String acivityname;
+  final String mode;
+  final String date;
+  final bool isPreMed;
 
   @override
   _RecentActivityCardState createState() => _RecentActivityCardState();
@@ -27,22 +33,15 @@ class RecentActivityCard extends StatefulWidget {
 class _RecentActivityCardState extends State<RecentActivityCard> {
   @override
   Widget build(BuildContext context) {
+    String formattedDate = _formatDate(widget.date);
+
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      elevation: 5,
       child: Container(
-        height: 165,
         decoration: BoxDecoration(
-          color: PreMedColorTheme().white,
+          color: PreMedColorTheme().white85,
           borderRadius: BorderRadius.circular(15.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
+          boxShadow: CustomBoxshadow.BoxShadow40
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10, top: 10),
@@ -66,13 +65,14 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => RecentActivityScreen(
-                                  isPreMed: widget.isPreMed,
-                                )));
+                              isPreMed: widget.isPreMed,
+                            )));
                       },
                       child: Text(
                         'View All',
                         style: TextStyle(
-                          color: PreMedColorTheme().red,
+                          color: Provider.of<PreMedProvider>(context)
+                              .isPreMed ? PreMedColorTheme().red :PreMedColorTheme().blue,
                         ),
                       ),
                     ),
@@ -83,8 +83,8 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 50, right: 5),
-                    child: Image.asset(
-                      "assets/images/QuestionMarkDocument.png",
+                    child: SvgPicture.asset( Provider.of<PreMedProvider>(context)
+                        .isPreMed ? PremedAssets.RedDocument : PremedAssets.BlueDocument,
                       height: 50,
                       width: 50,
                     ),
@@ -135,7 +135,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(widget.date,
+                              Text(formattedDate,
                                   style: GoogleFonts.rubik(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 10,
@@ -173,6 +173,15 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
       return PreMedColorTheme().yellowlight;
     } else {
       return PreMedColorTheme().greenLight;
+    }
+  }
+
+  String _formatDate(String date) {
+    try {
+      DateTime dateTime = DateFormat("yyyy-MM-dd").parse(date);
+      return DateFormat("d MMMM yyyy").format(dateTime);
+    } catch (e) {
+      return date;
     }
   }
 }

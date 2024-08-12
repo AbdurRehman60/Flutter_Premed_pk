@@ -1,11 +1,12 @@
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../constants/constants_export.dart';
 import '../../../../../models/cheatsheetModel.dart';
 import '../../../../../providers/vaultProviders/engineeringProviders/eng_study_notes_provider.dart';
 import '../../display_pdf.dart';
-import '../../screens/topical_notes.dart';
 import '../../widgets/custom_dropdown.dart';
+import '../../widgets/topic_button.dart';
 
 class EngineeringStudyNotesHome extends StatefulWidget {
   const EngineeringStudyNotesHome({super.key});
@@ -100,142 +101,129 @@ class _StudyNotesHomeState extends State<EngineeringStudyNotesHome> {
                         .copyWith(fontSize: 17, fontWeight: FontWeight.w700),
                   ),
                   backgroundColor: const Color(0xFFFBF0F3),
-                  leading: Container(
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 1,
-                          blurRadius: 3,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    alignment: Alignment.center,
-                    child: IconButton(
-                      icon: Icon(Icons.arrow_back_ios_new_rounded,
-                          color: PreMedColorTheme().primaryColorRed),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
+                  leading: const PopButton(),
                   automaticallyImplyLeading: false,
                 ),
               ),
             ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 23),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBoxes.verticalBig,
-                  Image.asset(
-                    height: 75,
-                    width: 248,
-                    'assets/images/vault/study ntes png.png',
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBoxes.vertical10Px,
+                Padding(
+                  padding: const EdgeInsets.only(left: 23),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        height: 75,
+                        width: 248,
+                        'assets/images/vault/study ntes png.png',
+                      ),
+                      SizedBoxes.vertical10Px,
+                      Text(
+                        'Studying and revising have never been easier. We have most comprehensive notes in town.',
+                        style: PreMedTextTheme()
+                            .heading1
+                            .copyWith(fontSize: 13, fontWeight: FontWeight.w400),
+                      ),
+                      SizedBoxes.vertical10Px,
+                      Wrap(
+                        spacing: 12.0,
+                        runSpacing: 5.0,
+                        children: [
+                          TopicButton(
+                            topicName: 'All',
+                            isActive: _activeTopic == 'All',
+                            onTap: () => _handleTopicTap('All'),
+                          ),
+                          TopicButton(
+                            topicName: 'Chemistry',
+                            isActive: _activeTopic == 'Chemistry',
+                            onTap: () => _handleTopicTap('Chemistry'),
+                          ),
+                          TopicButton(
+                            topicName: 'Physics',
+                            isActive: _activeTopic == 'Physics',
+                            onTap: () => _handleTopicTap('Physics'),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  SizedBoxes.vertical10Px,
-                  Text(
-                    'Studying and revising have never been easier. We have most comprehensive notes in town.',
-                    style: PreMedTextTheme()
-                        .heading1
-                        .copyWith(fontSize: 13, fontWeight: FontWeight.w400),
-                  ),
-                  SizedBoxes.vertical10Px,
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        TopicButton(
-                          topicName: 'All',
-                          isActive: _activeTopic == 'All',
-                          onTap: () => _handleTopicTap('All'),
-                        ),
-                        SizedBoxes.horizontal12Px,
-                        TopicButton(
-                          topicName: 'Chemistry',
-                          isActive: _activeTopic == 'Chemistry',
-                          onTap: () => _handleTopicTap('Chemistry'),
-                        ),
-                        SizedBoxes.horizontal12Px,
-                        TopicButton(
-                          topicName: 'Physics',
-                          isActive: _activeTopic == 'Physics',
-                          onTap: () => _handleTopicTap('Physics'),
-                        ),
+                ),
+
+                SizedBoxes.vertical10Px,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 23),
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x26000000),
+                          blurRadius: 40,
+                          offset: Offset(0, 20),
+
+                        )
                       ],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ),
-                  SizedBoxes.vertical10Px,
-                  Material(
-                    elevation: 10,
-                    shadowColor: Colors.black.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextField(
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                          prefixIcon:
-                          const Icon(Icons.search, color: Color(0xFF5898FF)),
-                          hintText: 'Search',
-                          hintStyle: PreMedTextTheme().heading1.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Colors.black),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              _searchController.clear();
-                              _handleSearch('');
-                            },
-                            icon: const Icon(Icons.clear),
-                            color: PreMedColorTheme().primaryColorRed,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        prefixIcon:
+                        const Icon(Icons.search, color: Color(0xFF5898FF)),
+                        hintText: 'Search',
+                        hintStyle: PreMedTextTheme().heading1.copyWith(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: Colors.black),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            _searchController.clear();
+                            _handleSearch('');
+                          },
+                          icon: const Icon(Icons.clear),
+                          color: PreMedColorTheme().primaryColorRed,
                         ),
-                        onChanged: (text) {
-                          _handleSearch(text);
-                        },
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
                       ),
+                      onChanged: (text) {
+                        _handleSearch(text);
+                      },
                     ),
                   ),
-                  SizedBoxes.vertical10Px,
-                  Expanded(
-                    child: PdfDisplayer(
-                      notes: _filteredNotes,
-                      isLoading: isLoading,
-                      categoryName: 'Study Notes',
-                    ),
+                ),
+                SizedBoxes.vertical15Px,
+                Expanded(
+                  child: PdfDisplayer(
+                    notes: _filteredNotes,
+                    isLoading: isLoading,
+                    categoryName: 'Study Notes',
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         });

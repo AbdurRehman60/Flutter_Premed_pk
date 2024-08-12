@@ -1,4 +1,7 @@
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUs extends StatelessWidget {
@@ -8,6 +11,7 @@ class ContactUs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PreMedProvider preMedProvider = Provider.of<PreMedProvider>(context);
     final Uri whatsApp = Uri.parse('https://wa.me/923061289229');
     final Uri messenger = Uri.parse('https://m.me/PreMed.PK');
     final Uri gmail = Uri.parse('mailto:contact@premed.pk');
@@ -15,31 +19,7 @@ class ContactUs extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().white,
-        leading: Container(
-          margin: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: const Offset(0, 2),
-              ),
-            ],
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          alignment: Alignment.center,
-          child: Center(
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios_new_rounded,
-                  color: PreMedColorTheme().primaryColorRed),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
-        ),
+        leading: const PopButton(),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -118,7 +98,7 @@ class ContactUs extends StatelessWidget {
                       },
                         icon: Icon(
                           Icons.arrow_forward_ios_rounded,
-                          color: PreMedColorTheme().primaryColorRed,
+                          color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                           size: 20,
                         ),
                     )
@@ -178,7 +158,7 @@ class ContactUs extends StatelessWidget {
                       },
                       icon: Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: PreMedColorTheme().primaryColorRed,
+                        color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                         size: 20,
                       ),
                     )
@@ -238,7 +218,7 @@ class ContactUs extends StatelessWidget {
                       },
                       icon: Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: PreMedColorTheme().primaryColorRed,
+                        color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                         size: 20,
                       ),
                     )
@@ -301,7 +281,7 @@ class ContactUs extends StatelessWidget {
                       },
                       icon: Icon(
                         Icons.arrow_forward_ios_rounded,
-                        color: PreMedColorTheme().primaryColorRed,
+                        color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                         size: 20,
                       ),
                     )

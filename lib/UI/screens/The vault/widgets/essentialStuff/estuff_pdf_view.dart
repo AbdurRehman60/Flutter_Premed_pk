@@ -1,8 +1,7 @@
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/models/essence_stuff_model.dart';
 import '../../../../../constants/constants_export.dart';
-import '../../../../Widgets/global_widgets/custom_snackbar.dart';
 import '../../../../Widgets/global_widgets/empty_state.dart';
 
 class EstuffPdfView extends StatefulWidget {
@@ -27,27 +26,10 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
       StreamController<String>();
 
   @override
-  void initState() {
-    super.initState();
-    _checkIfFileExists();
-  }
-
-  @override
   void dispose() {
     _pageCountController
         .close(); // Don't forget to close the stream controller.
     super.dispose();
-  }
-
-  void _checkIfFileExists() async {
-    final filePath = '${widget.essenceStuffModel.topicName.trim()}_PreMed.PK';
-    final file = File(filePath);
-    print('filePath : $file');
-    if (await file.exists()) {
-      setState(() {
-        isDownloaded = true;
-      });
-    }
   }
 
   void openDemarcationBottomSheet() {
@@ -156,127 +138,48 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
       stream: _pageCountController.stream,
       builder: (context, snapshot) {
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: PreMedColorTheme().white,
-            leading: Container(
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 3,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              alignment: Alignment.center,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back_ios_new_rounded,
-                    color: PreMedColorTheme().primaryColorRed),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          widget.essenceStuffModel.topicName,
-                          style: PreMedTextTheme().subtext.copyWith(
-                                color: PreMedColorTheme().black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700,
-                              ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(widget.categoryName,
-                            style: PreMedTextTheme().subtext.copyWith(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: PreMedColorTheme().black,
-                                )),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            actions: [
-              if (Platform.isAndroid)
-                IconButton(
-                  onPressed: () {
-                    if (!isDownloading && !isDownloaded) {
-                      FileDownloader.downloadFile(
-                        url: widget.essenceStuffModel.pdfUrl.trim(),
-                        name:
-                            '${widget.essenceStuffModel.topicName.trim()}_PreMed.PK',
-                        notificationType: NotificationType.all,
-                        onDownloadRequestIdReceived: (downloadId) {
-                          setState(() {
-                            isDownloading = true;
-                          });
-                        },
-                        onDownloadCompleted: (path) {
-                          setState(() {
-                            isDownloading = false;
-                            isDownloaded = true;
-                          });
-                          showSnackbar(
-                            context,
-                            "Download Complete",
-                            SnackbarType.SUCCESS,
-                          );
-                        },
-                        onDownloadError: (errorMessage) {
-                          setState(() {
-                            isDownloading = false;
-                          });
-                          showSnackbar(
-                            context,
-                            errorMessage,
-                            SnackbarType.INFO,
-                          );
-                        },
-                      );
-                    }
-                  },
-                  icon: isDownloading
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(60.0),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: AppBar(
+                backgroundColor: PreMedColorTheme().white,
+                leading: const PopButton(),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              widget.essenceStuffModel.topicName,
+                              style: PreMedTextTheme().subtext.copyWith(
+                                    color: PreMedColorTheme().black,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                           ),
-                        )
-                      : Icon(
-                          isDownloaded ? Icons.check_circle : Icons.download,
-                          size: 24,
-                          color: PreMedColorTheme().tickcolor,
-                        ),
-                )
-              else
-                const SizedBox(),
-              if (widget.essenceStuffModel.pagination!.isNotEmpty)
-                IconButton(
-                  onPressed: openDemarcationBottomSheet,
-                  icon: const Icon(Icons.menu),
-                )
-              else
-                const SizedBox(),
-            ],
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(widget.categoryName,
+                                style: PreMedTextTheme().subtext.copyWith(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      color: PreMedColorTheme().black,
+                                    )),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
           body: Padding(
             padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
@@ -342,23 +245,23 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                          color: PreMedColorTheme().primaryColorBlue,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Visibility(
-                        visible: widget.essenceStuffModel.pagination != null &&
-                            widget.essenceStuffModel.pagination!.isNotEmpty,
-                        child: GestureDetector(
-                          onTap: () {
-                            openDemarcationBottomSheet();
-                          },
-                          child: Image.asset(
-                            'assets/images/Menu.png',
-                          ),
-                        ),
-                      )),
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                        color: PreMedColorTheme().primaryColorBlue,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: GestureDetector(
+                      onTap: () {
+                        if (widget.essenceStuffModel.pagination != null &&
+                            widget.essenceStuffModel.pagination!.isNotEmpty) {
+                          openDemarcationBottomSheet();
+                        }
+                      },
+                      child: Image.asset(
+                        'assets/images/Menu.png',
+                      ),
+                    ),
+                  ),
                   Row(
                     children: [
                       Padding(

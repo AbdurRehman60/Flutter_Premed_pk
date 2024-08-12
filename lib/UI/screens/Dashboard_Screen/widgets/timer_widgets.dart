@@ -1,26 +1,27 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
-import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../constants/assets.dart';
+import '../../../../constants/sized_boxes.dart';
 
-class TimerWidget extends StatefulWidget {
-  const TimerWidget({super.key, required this.uni});
-  final String uni;
+class TimerClass extends StatefulWidget {
+  const TimerClass({super.key});
 
   @override
-  State<TimerWidget> createState() => _TimerWidgetState();
+  State<TimerClass> createState() => _TimerClassState();
 }
 
-class _TimerWidgetState extends State<TimerWidget> {
+class _TimerClassState extends State<TimerClass> {
   bool _provincialMDCAT = false;
   bool _akuTest = false;
   bool _numsTest = false;
   bool _other = false;
-  String? _selectedUniversity;
+  String _selectedUniversity = 'Not Selected';
   String? _selectedExamType;
   DateTime? _selectedDate;
   Timer? _timer;
-  final _timeLeftController = TextEditingController();
+  String _timeLeft = '';
 
   @override
   void initState() {
@@ -31,14 +32,13 @@ class _TimerWidgetState extends State<TimerWidget> {
   @override
   void dispose() {
     _timer?.cancel();
-    _timeLeftController.dispose();
     super.dispose();
   }
 
   Future<void> _loadSavedData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _selectedUniversity = prefs.getString('selectedUniversity');
+      _selectedUniversity = prefs.getString('selectedUniversity')!;
       _selectedExamType = prefs.getString('selectedExamType');
       final dateString = prefs.getString('selectedDate');
       if (dateString != null) {
@@ -50,9 +50,7 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   Future<void> _saveData() async {
     final prefs = await SharedPreferences.getInstance();
-    if (_selectedUniversity != null) {
-      prefs.setString('selectedUniversity', _selectedUniversity!);
-    }
+    prefs.setString('selectedUniversity', _selectedUniversity);
     if (_selectedExamType != null) {
       prefs.setString('selectedExamType', _selectedExamType!);
     }
@@ -67,14 +65,20 @@ class _TimerWidgetState extends State<TimerWidget> {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final now = DateTime.now();
       final difference = date.difference(now);
-      final days = difference.inDays;
-      final hours = difference.inHours.remainder(24);
-      final minutes = difference.inMinutes.remainder(60);
-      final seconds = difference.inSeconds.remainder(60);
-      final timeLeft = '$days :  $hours :  $minutes :  $seconds';
-      setState(() {
-        _timeLeftController.text = timeLeft;
-      });
+      if (difference.isNegative || difference.inSeconds <= 0) {
+        setState(() {
+          _timeLeft = '00 : 00 : 00 : 00';
+        });
+        timer.cancel();
+      } else {
+        final days = difference.inDays;
+        final hours = difference.inHours.remainder(24);
+        final minutes = difference.inMinutes.remainder(60);
+        final seconds = difference.inSeconds.remainder(60);
+        setState(() {
+          _timeLeft = '$days : $hours : $minutes : $seconds';
+        });
+      }
     });
   }
 
@@ -151,7 +155,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                   ),
                   onTap: () {
                     Navigator.of(context).pop(
-                        'Peoples University of Medical and Health Sciences for Women');
+                        'Peoples University of Medical and Health Sciences\nfor Women');
                   },
                 ),
                 ListTile(
@@ -164,7 +168,6 @@ class _TimerWidgetState extends State<TimerWidget> {
                         .pop('Dow International Medical College');
                   },
                 ),
-                // Add more ListTiles for other universities
               ],
             ),
           ),
@@ -176,6 +179,7 @@ class _TimerWidgetState extends State<TimerWidget> {
         _selectedUniversity = result;
       });
       _saveData();
+      showExamTypeSelectionDialog(context);
     }
   }
 
@@ -309,17 +313,17 @@ class _TimerWidgetState extends State<TimerWidget> {
                     backgroundColor: Colors.red,
                   ),
                   onPressed: () {
-                    if (_provincialMDCAT || _akuTest || _numsTest || _other) {
-                      Navigator.of(context).pop();
-
-                      showDateDialog(context);
-                    } else {
-                      if (kDebugMode) {
-                        print('Please select an exam');
-                      }
+                    if (_provincialMDCAT) {
+                      Navigator.of(context).pop('Provincial MDCAT');
+                    } else if (_akuTest) {
+                      Navigator.of(context).pop('AKU Test');
+                    } else if (_numsTest) {
+                      Navigator.of(context).pop('NUMS Test');
+                    } else if (_other) {
+                      Navigator.of(context).pop('Other');
                     }
                   },
-                  child: const Text('Select'),
+                  child: const Text('Save'),
                 ),
               ),
             ],
@@ -332,101 +336,249 @@ class _TimerWidgetState extends State<TimerWidget> {
         _selectedExamType = result;
       });
       _saveData();
+      showDateSelectionDialog(context);
     }
   }
 
-  Future<void> showDateDialog(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+  Future<void> showDateSelectionDialog(BuildContext context) async {
+    final DateTime now = DateTime.now();
+    final DateTime? selectedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2022),
-      lastDate: DateTime(2030),
+      initialDate: now,
+      firstDate: now,
+      lastDate: DateTime(now.year + 1),
     );
-    if (picked != null) {
+    if (selectedDate != null) {
       setState(() {
-        _selectedDate = picked;
+        _selectedDate = selectedDate;
+        _startTimer(selectedDate);
       });
       _saveData();
-      _startTimer(picked);
     }
   }
 
-  Future<void> _showDialogsSequentially(BuildContext context) async {
-    await showUniversitySelectionDialog(context);
-    if (_selectedUniversity != null) {
-      await showExamTypeSelectionDialog(context);
-      if (_selectedExamType != null) {
-        await showDateDialog(context);
-      }
-    }
+  Widget buildColon() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 8,
+            height: 8,
+            color: Colors.blue,
+          ),
+          const SizedBox(height: 4),
+          Container(
+            width: 8,
+            height: 8,
+            color: Colors.blue,
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
+    final List<String> timeParts =
+    _timeLeft.isNotEmpty ? _timeLeft.split(':') : [];
+    return Center(
       child: Container(
+        width: 400,
+        height: 200,
         decoration: BoxDecoration(
-          color: PreMedColorTheme().white, // use the provided background color
-          borderRadius: BorderRadius.circular(9),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: const Color.fromARGB(255, 180, 180, 180).withOpacity(0.1),
               spreadRadius: 2,
-              blurRadius: 2,
+              blurRadius: 5,
               offset: const Offset(0, 3),
             ),
           ],
+          borderRadius: BorderRadius.circular(9),
+          color: Colors.white,
         ),
-        width: 400,
-        height: 167,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(right: 7, left: 7),
           child: Column(
-            children: <Widget>[
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    // ignore: unnecessary_null_comparison
-                    widget.uni != null
-                        ? '🎓 Time left to prepare for my dream\n university  :$_selectedUniversity'
-                        : '🎓 Time left to prepare for my dream\n university  : Not selected',
-                    style: const TextStyle(
-                        fontSize: 13, fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.start,
+                  Image.asset(
+                    PremedAssets.Badge,
+                    height: 20,
+                    width: 15,
                   ),
+                  SizedBoxes.horizontalMicro,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'TIME TO PREPARE FOR DREAM UNIVERSITY',
+                        style: TextStyle(
+                          fontFamily: "Rubik",
+                          fontSize: 12.8,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      Text(
+                        _selectedUniversity,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontFamily: "Rubik",
+                          fontWeight: FontWeight.w700,
+                          color: PreMedColorTheme().red,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
-              const SizedBox(height: 10),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      style: TextStyle(
-                          fontWeight: FontWeights.medium,
-                          fontSize: 20,
-                          color: PreMedColorTheme().red),
-                      enabled: false,
-                      controller: _timeLeftController,
-                      readOnly: true,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Time Left',
+              SizedBoxes.verticalTiny,
+              if (_selectedDate != null && timeParts.length == 4)
+                Container(
+                  decoration: const BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x26000000),
+                        blurRadius: 40,
+                        offset: Offset(0, 20),
+                      )
+                    ],
+                  ),
+                  height: 72,
+                  width: 312,
+                  child: Card(
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            timeParts[0],
+                            style: const TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red),
+                          ),
+                          SizedBoxes.horizontalMedium,
+                          buildColon(),
+                          SizedBoxes.horizontalMedium,
+                          Text(
+                            timeParts[1],
+                            style: const TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red),
+                          ),
+                          SizedBoxes.horizontalMedium,
+                          buildColon(),
+                          SizedBoxes.horizontalMedium,
+                          Text(
+                            timeParts[2],
+                            style: const TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red),
+                          ),
+                          SizedBoxes.horizontalMedium,
+                          buildColon(),
+                          SizedBoxes.horizontalMedium,
+                          Text(
+                            timeParts[3],
+                            style: const TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white),
-                    onPressed: () {
-                      _showDialogsSequentially(context);
-                    },
-                    child: const Text('Set a Goal'),
+                )
+              else
+                Container(
+                  height: 72,
+                  width: 312,
+                  decoration: const BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x26000000),
+                        blurRadius: 40,
+                        offset: Offset(0, 20),
+                      )
+                    ],
                   ),
-                ],
+                  child: Card(
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "00",
+                            style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red),
+                          ),
+                          SizedBoxes.horizontalMedium,
+                          buildColon(),
+                          SizedBoxes.horizontalMedium,
+                          const Text(
+                            "00",
+                            style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red),
+                          ),
+                          SizedBoxes.horizontalMedium,
+                          buildColon(),
+                          SizedBoxes.horizontalMedium,
+                          const Text(
+                            "00",
+                            style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red),
+                          ),
+                          SizedBoxes.horizontalMedium,
+                          buildColon(),
+                          SizedBoxes.horizontalMedium,
+                          const Text(
+                            "00",
+                            style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              SizedBoxes.verticalTiny,
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: PreMedColorTheme().red,
+                      foregroundColor: Colors.white,
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9),
+                      )
+                  ),
+                  onPressed: () async {
+                    await showUniversitySelectionDialog(context);
+                  },
+                  child: const Text(
+                    'Set/Change Goal',
+                    style: TextStyle(fontSize: 16,fontFamily: 'Rubik'),
+                  ),
+                ),
               ),
             ],
           ),

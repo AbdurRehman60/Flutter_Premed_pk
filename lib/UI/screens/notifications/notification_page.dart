@@ -1,5 +1,6 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/notifications/widgets/notification_widget.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:provider/provider.dart';
@@ -14,29 +15,10 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFBF0F3),
+      backgroundColor: const Color(0xFFFBF0F3),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Material(
-            elevation: 4,
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            clipBehavior: Clip.hardEdge,
-            child: SizedBox(
-              width: 37,
-              height: 37,
-              child: SvgPicture.asset(
-                PremedAssets.LeftArrowIcon,
-                width: 9.33,
-                height: 18.67,
-              ),
-            ),
-          ),
-        ),
+        leading: const PopButton(),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),

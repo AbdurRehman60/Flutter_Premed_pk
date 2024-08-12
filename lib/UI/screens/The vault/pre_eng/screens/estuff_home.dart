@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/essentialStuff/estuff_pdf_view.dart';
 import 'package:premedpk_mobile_app/models/essence_stuff_model.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/essen_stuff_pro.dart';
@@ -5,6 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../../constants/constants_export.dart';
 import '../../../../Widgets/global_widgets/empty_state.dart';
+import '../../../onboarding/required_onboarding.dart';
+import '../../screens/estuff_home.dart';
 import '../../widgets/custom_dropdown.dart';
 
 class EstuffNotesHome extends StatefulWidget {
@@ -50,7 +53,7 @@ class _StudyNotesHomeState extends State<EstuffNotesHome> {
 
   void _filterNotes() {
     final vaultStudyNotesProvider =
-    Provider.of<EngineeringEssentialStuffProvider>(context, listen: false);
+        Provider.of<EngineeringEssentialStuffProvider>(context, listen: false);
     final allNotes = vaultStudyNotesProvider.essentialStuffList;
 
     setState(() {
@@ -70,63 +73,49 @@ class _StudyNotesHomeState extends State<EstuffNotesHome> {
   Widget build(BuildContext context) {
     return Consumer<EngineeringEssentialStuffProvider>(
         builder: (context, vaultstudtNotesProvider, _) {
-          final bool isLoading =
-              vaultstudtNotesProvider.fetchStatus == FetchStatus.fetching;
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: const Color(0xFFFBF0F3),
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(60.0),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 13),
-                child: AppBar(
-                  actions: [
-                    CustomDropdownbtn(onProvinceSelected: _handleProvinceSelected),
-                  ],
-                  title: Text(
-                    'The Vault',
-                    style: PreMedTextTheme()
-                        .heading1
-                        .copyWith(fontSize: 17, fontWeight: FontWeight.w700),
-                  ),
-                  backgroundColor: const Color(0xFFFBF0F3),
-                  leading: Container(
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 1,
-                          blurRadius: 3,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    alignment: Alignment.center,
-                    child: IconButton(
-                      icon: Icon(Icons.arrow_back_ios_new_rounded,
-                          color: PreMedColorTheme().primaryColorRed),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                  automaticallyImplyLeading: false,
-                ),
+      final bool isLoading =
+          vaultstudtNotesProvider.fetchStatus == FetchStatus.fetching;
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: const Color(0xFFFBF0F3),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 13),
+            child: AppBar(
+              actions: [
+                CustomDropdownbtn(onProvinceSelected: _handleProvinceSelected),
+              ],
+              title: Text(
+                'The Vault',
+                style: PreMedTextTheme()
+                    .heading1
+                    .copyWith(fontSize: 17, fontWeight: FontWeight.w700),
               ),
+              backgroundColor: const Color(0xFFFBF0F3),
+              leading: const PopButton(),
+              automaticallyImplyLeading: false,
             ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 23),
+          ),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBoxes.verticalBig,
+            Padding(
+              padding: const EdgeInsets.only(left: 23),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBoxes.verticalBig,
-                  Image.asset(
-                    height: 75,
-                    width: 248,
-                    'assets/images/vault/study ntes png.png',
+                  Row(
+                    children: [
+                      const GradientText1(
+                        text: 'Essential',
+                        fontSize: 35,
+                      ),
+                      Text(' Stuff',
+                          style: PreMedTextTheme().heading1.copyWith(
+                              fontSize: 35, fontWeight: FontWeight.w700)),
+                    ],
                   ),
                   SizedBoxes.vertical10Px,
                   Text(
@@ -135,75 +124,83 @@ class _StudyNotesHomeState extends State<EstuffNotesHome> {
                         .heading1
                         .copyWith(fontSize: 13, fontWeight: FontWeight.w400),
                   ),
-                  SizedBoxes.vertical10Px,
-                  Material(
-                    elevation: 10,
-                    shadowColor: Colors.black.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextField(
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                          prefixIcon:
-                          const Icon(Icons.search, color: Color(0xFF5898FF)),
-                          hintText: 'Search',
-                          hintStyle: PreMedTextTheme().heading1.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Colors.black),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              _searchController.clear();
-                              _handleSearch('');
-                            },
-                            icon: const Icon(Icons.clear),
-                            color: PreMedColorTheme().primaryColorRed,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        onChanged: (text) {
-                          _handleSearch(text);
-                        },
-                      ),
-                    ),
-                  ),
-                  SizedBoxes.vertical10Px,
-                  Expanded(
-                    child: EngineeringPdfDisplayer(
-                      notes: _filteredNotes,
-                      isLoading: isLoading,
-                      categoryName: 'Study Notes',
-                    ),
-                  ),
                 ],
               ),
             ),
-          );
-        });
+            SizedBoxes.vertical10Px,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 22),
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x26000000),
+                      blurRadius: 40,
+                      offset: Offset(0, 20),
+                      spreadRadius: 0,
+                    )
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    prefixIcon:
+                        const Icon(Icons.search, color: Color(0xFF5898FF)),
+                    hintText: 'Search',
+                    hintStyle: PreMedTextTheme().heading1.copyWith(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Colors.black),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        _searchController.clear();
+                        _handleSearch('');
+                      },
+                      icon: const Icon(Icons.clear),
+                      color: PreMedColorTheme().primaryColorRed,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  onChanged: (text) {
+                    _handleSearch(text);
+                  },
+                ),
+              ),
+            ),
+            SizedBoxes.vertical15Px,
+            Expanded(
+              child: EngineeringPdfDisplayer(
+                notes: _filteredNotes,
+                isLoading: isLoading,
+                categoryName: 'Essential Stuff',
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -228,12 +225,12 @@ class EngineeringPdfDisplayer extends StatelessWidget {
       );
     } else if (notes.isNotEmpty) {
       return GridView.builder(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 23),
         itemCount: notes.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
+          mainAxisSpacing: 15,
+          crossAxisSpacing: 25,
           mainAxisExtent: 290,
         ),
         itemBuilder: (BuildContext context, int index) {
@@ -291,31 +288,42 @@ class PDFTileVault extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           color: Colors.white.withOpacity(0.85),
           border: Border.all(color: Colors.white.withOpacity(0.50)),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
-              color: Colors.black.withOpacity(0.15),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
+              color: Color(0x26000000),
+              blurRadius: 40,
+              offset: Offset(0, 20),
+              spreadRadius: 0,
+            )
           ],
         ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              buildPdfIcon(note.thumbnailImageUrl ?? ''),
+              Container(
+                  decoration: const BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x19000000),
+                        blurRadius: 10,
+                        offset: Offset(0, 10),
+                      )
+                    ],
+                  ),
+                  child: buildPdfIcon(note.thumbnailImageUrl ?? '')),
               Padding(
                 padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                 child: Text(
                   'Study Notes'.toUpperCase(),
                   style: PreMedTextTheme().heading1.copyWith(
-                    fontSize: 8,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black26,
-                  ),
+                        fontSize: 8,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black26,
+                      ),
                 ),
               ),
-              SizedBoxes.vertical3Px,
+              SizedBoxes.vertical5Px,
               Text(
                 note.topicName,
                 overflow: TextOverflow.ellipsis,
@@ -325,9 +333,9 @@ class PDFTileVault extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.w800),
                 textAlign: TextAlign.center,
               ),
-              SizedBoxes.verticalMicro,
+              SizedBoxes.vertical5Px,
               Text(
-                '5 Pages'.toUpperCase(),
+                note.board,
                 style: PreMedTextTheme()
                     .heading1
                     .copyWith(fontWeight: FontWeight.w400, fontSize: 10),
@@ -358,8 +366,8 @@ Widget buildPdfIcon(String imageUrl) {
           child: Text(
             'Loading',
             style: PreMedTextTheme().heading1.copyWith(
-              color: PreMedColorTheme().primaryColorRed,
-            ),
+                  color: PreMedColorTheme().primaryColorRed,
+                ),
           ),
         ),
       );

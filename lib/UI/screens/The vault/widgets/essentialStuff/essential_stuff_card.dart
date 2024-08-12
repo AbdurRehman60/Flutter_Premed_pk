@@ -46,7 +46,7 @@ class EssenStuffCard extends StatelessWidget {
                 ),
               ),
               Text(
-                'for 2023',
+                essenStuffModel.board,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: PreMedTextTheme().heading1.copyWith(

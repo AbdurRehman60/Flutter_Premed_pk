@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/dashboard_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class NotesCard extends StatelessWidget {
@@ -23,7 +24,7 @@ class NotesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
+     color:  PreMedColorTheme().white85,
       child: GestureDetector(
         onTap: onTap,
         child: Container(
@@ -34,14 +35,7 @@ class NotesCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: bgColor, // use the provided background color
             borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 2,
-                blurRadius: 2,
-                offset: const Offset(0, 3),
-              ),
-            ],
+            boxShadow: CustomBoxshadow.BoxShadow40
           ),
           child: Row(
             children: [

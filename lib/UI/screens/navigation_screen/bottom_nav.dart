@@ -1,4 +1,7 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
+import 'package:provider/provider.dart';
 
 class PremedBottomNav extends StatelessWidget {
   const PremedBottomNav(
@@ -19,6 +22,7 @@ class PremedBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       height: Platform.isIOS ? 100 : 70,
       padding: EdgeInsets.only(bottom: Platform.isIOS ? 16 : 0),
@@ -53,11 +57,11 @@ class PremedBottomNav extends StatelessWidget {
             onTap: onTapQbank,
           ),
           _MainBottomNavBarItem(
-            icon: 'assets/images/vault/Vault.png',
+            icon: PremedAssets.GrayedVault,
             isSelected: 2 == currentIndex,
             label: 'The Resource Vault',
             onTap: ontapVault,
-            activeicon: 'assets/images/vault/Vault.png',
+            activeicon: PremedAssets.ColoredVault,
           ),
           _BottomNavBarItem(
             icon: 'assets/images/Shop.png',
@@ -112,8 +116,10 @@ class _BottomNavBarItem extends StatelessWidget {
                 icon,
                 width: width,
                 height: height,
-                color: isSelected
-                    ? PreMedColorTheme().primaryColorRed
+                color:isSelected
+                    ? (Provider.of<PreMedProvider>(context).isPreMed ?
+                     PreMedColorTheme().primaryColorRed
+                    : PreMedColorTheme().blue)
                     : PreMedColorTheme().neutral300,
               ),
               const SizedBox(height: 4),
@@ -129,7 +135,6 @@ class _BottomNavBarItem extends StatelessWidget {
     );
   }
 }
-
 class _MainBottomNavBarItem extends StatelessWidget {
   const _MainBottomNavBarItem({
     required this.icon,
@@ -147,24 +152,33 @@ class _MainBottomNavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Define a fixed height for the icon container
+    const double iconHeight = 25.0;
+
     return InkWell(
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
         child: Align(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                isSelected ? activeicon : icon,
-                width: 93,
-                height: 40,
-              ),
-              Text(
-                label,
-                style: PreMedTextTheme().small,
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: iconHeight, // Fixed height
+                  child: SvgPicture.asset(
+                    isSelected ? activeicon : icon,
+                    height: iconHeight,
+                  ),
+                ),
+                const SizedBox(height: 7), // Adjust spacing between icon and text
+                Text(
+                  label,
+                  style: PreMedTextTheme().small,
+                ),
+              ],
+            ),
           ),
         ),
       ),

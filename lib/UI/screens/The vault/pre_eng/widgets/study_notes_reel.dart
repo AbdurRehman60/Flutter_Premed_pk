@@ -16,14 +16,7 @@ class PreEngStudyNotesPage extends StatelessWidget {
       future: provider.fetchNotess(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 7,
-            itemBuilder: (context, index) => const Padding(
-              padding: EdgeInsets.only(right: 13),
-              child: DummyNotesCard(),
-            ),
-          );
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else {

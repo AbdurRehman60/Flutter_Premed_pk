@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/tutor_mode_test_interface.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/color_theme.dart';
 import '../../../../constants/sized_boxes.dart';
@@ -24,6 +25,7 @@ class ModeDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pro =Provider.of<PreMedProvider>(context);
     return Material(
       borderRadius: BorderRadius.circular(24),
       clipBehavior: Clip.hardEdge,
@@ -49,7 +51,7 @@ class ModeDescription extends StatelessWidget {
                     child: Text(
                       'Tutor Mode',
                       style: PreMedTextTheme().heading2.copyWith(
-                          color: PreMedColorTheme().primaryColorRed,
+                          color:  pro.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue,
                           fontWeight: FontWeight.bold,
                           fontSize: 15),
                     ),
@@ -81,7 +83,7 @@ class ModeDescription extends StatelessWidget {
                           attemptMode: 'tutormode',
                           user: userId,
                         );
-                        print(userId);
+                        // print(userId);
                         final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
                         await deckAttemptProvider.createDeckAttempt(attemptModel);
 
@@ -135,7 +137,7 @@ class ModeDescription extends StatelessWidget {
                     child: Text(
                       'Timed Test Mode',
                       style: PreMedTextTheme().heading2.copyWith(
-                          color: PreMedColorTheme().primaryColorRed,
+                          color: pro.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue,
                           fontWeight: FontWeight.bold,
                           fontSize: 15),
                     ),
@@ -158,6 +160,7 @@ class ModeDescription extends StatelessWidget {
                   SizedBoxes.verticalMedium,
                   CustomButton(
                     buttonText: 'Start Test',
+                    color: pro.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue,
                     onPressed: () async {
                       final userProvider = Provider.of<UserProvider>(context, listen: false);
                       final userId = userProvider.user?.userId ?? '';
@@ -168,7 +171,7 @@ class ModeDescription extends StatelessWidget {
                           attemptMode: 'testmode',
                           user: userId,
                         );
-                        print(userId);
+                        // print(userId);
                         final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
                         await deckAttemptProvider.createDeckAttempt(attemptModel);
 

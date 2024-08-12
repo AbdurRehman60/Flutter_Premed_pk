@@ -2,6 +2,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:html/parser.dart' as htmlparser;
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../models/question_model.dart';
 import '../../../../providers/question_provider.dart';
@@ -765,7 +766,7 @@ class _TutorModeState extends State<TutorMode> {
                             borderRadius: BorderRadius.circular(12),
                             color: PreMedColorTheme().primaryColorRed,
                           ),
-                          child: Image.asset(PremedAssets.MENU),
+                          child: Image.asset(Provider.of<PreMedProvider>(context).isPreMed ? PremedAssets.MENU : PremedAssets.BlueMenu),
                         ),
                       ),
                     ),

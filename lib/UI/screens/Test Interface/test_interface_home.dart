@@ -3,6 +3,7 @@ import 'package:html/parser.dart' as htmlparser;
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/analytics.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../models/question_model.dart';
 import '../../../providers/question_provider.dart';
@@ -132,7 +133,7 @@ class _TestInterfaceState extends State<TestInterface> {
         isCorrectlyAnswered[currentQuestionIndex] = null;
       }
 
-      print('this is the: $correctAttempts');
+      // print('this is the: $correctAttempts');
 
       final correctOption =
           question.options.singleWhere((option) => option.isCorrect);
@@ -311,6 +312,7 @@ class _TestInterfaceState extends State<TestInterface> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final preMedProvider = Provider.of<PreMedProvider>(context, listen: false);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70.0),
@@ -336,7 +338,7 @@ class _TestInterfaceState extends State<TestInterface> {
               child: Center(
                 child: IconButton(
                   icon: Icon(Icons.arrow_back,
-                      color: PreMedColorTheme().primaryColorRed),
+                      color: preMedProvider.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue),
                   onPressed: previousQuestion,
                 ),
               ),
@@ -375,7 +377,7 @@ class _TestInterfaceState extends State<TestInterface> {
                 child: Center(
                   child: IconButton(
                     icon: Icon(Icons.arrow_forward,
-                        color: PreMedColorTheme().primaryColorRed),
+                        color: preMedProvider.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue),
                     onPressed: nextQuestion,
                   ),
                 ),

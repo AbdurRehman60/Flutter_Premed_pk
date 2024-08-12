@@ -1,4 +1,5 @@
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/dashboard_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class SeriesCard extends StatelessWidget {
@@ -21,7 +22,6 @@ class SeriesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 3,
       child: GestureDetector(
         onTap: onTap,
         child: Container(
@@ -32,14 +32,7 @@ class SeriesCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: bgColor, // use the provided background color
             borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: const Offset(0, 3),
-              ),
-            ],
+            boxShadow: CustomBoxshadow.BoxShadow40
           ),
           child: Padding(
               padding: EdgeInsets.symmetric(

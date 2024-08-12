@@ -20,6 +20,13 @@ class MnemonicsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x19000000),
+            blurRadius: 10,
+            offset: Offset(0, 10),
+          )
+        ],
         borderRadius: BorderRadius.circular(5),
         border: Border.all(color: Colors.white.withOpacity(0.3), width: 3),
       ),

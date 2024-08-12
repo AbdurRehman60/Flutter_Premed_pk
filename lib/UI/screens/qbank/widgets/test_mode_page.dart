@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:html/parser.dart' as htmlParser;
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
+import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
 import 'mode_description_container.dart';
 
@@ -45,29 +48,11 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
         : '';
 
     final sentences = instructions.split('.').where((sentence) => sentence.trim().isNotEmpty).toList();
-
+    final pro = Provider.of<PreMedProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Material(
-            elevation: 4,
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            clipBehavior: Clip.hardEdge,
-            child: const SizedBox(
-              height: 37,
-              width: 37,
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Color(0xFFEC5863),
-              ),
-            ),
-          ),
-        ),
+        leading: const PopButton(),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -90,7 +75,7 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                   style: PreMedTextTheme().heading6.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: 15,
-                    color: PreMedColorTheme().primaryColorRed,
+                    color: pro.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue,
                   ),
                 ),
                 SizedBoxes.vertical10Px,
@@ -114,7 +99,7 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                               width: double.infinity,
                               decoration: tutorModeButton
                                   ? BoxDecoration(
-                                color: const Color(0xFFEC5863),
+                                color: pro.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue,
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
                                     color: const Color(0x80FFFFFF),
@@ -151,8 +136,7 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                                               style: PreMedTextTheme()
                                                   .heading2
                                                   .copyWith(
-                                                  color: PreMedColorTheme()
-                                                      .primaryColorRed,
+                                                  color: pro.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue,
                                                   fontWeight:
                                                   FontWeight.bold,
                                                   fontSize: 8),
@@ -178,7 +162,7 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                               decoration: tutorModeButton
                                   ? const BoxDecoration()
                                   : BoxDecoration(
-                                color: const Color(0xFFEC5863),
+                                color: pro.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue,
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
                                     color: const Color(0x80FFFFFF),
@@ -213,11 +197,11 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                                                 horizontal: 10),
                                             child: Text(
                                               widget.deckGroupName,
+                                              textAlign: TextAlign.center,
                                               style: PreMedTextTheme()
                                                   .heading2
                                                   .copyWith(
-                                                  color: PreMedColorTheme()
-                                                      .primaryColorRed,
+                                                  color: pro.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue,
                                                   fontWeight:
                                                   FontWeight.bold,
                                                   fontSize: 8),
@@ -276,10 +260,10 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                                   '\u2022', // Unicode for bullet
                                   style: TextStyle(fontSize: 12),
                                 ),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 Expanded(
                                   child: Text(
-                                    sentence.trim() + '.',
+                                    '${sentence.trim()}.',
                                     style: GoogleFonts.rubik(
                                       fontWeight: FontWeight.normal,
                                       height: 1.3,

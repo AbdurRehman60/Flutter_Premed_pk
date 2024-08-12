@@ -27,8 +27,9 @@ class _DeleteAccountState extends State<DeleteAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       backgroundColor: PreMedColorTheme().background,
       appBar: AppBar(
-        backgroundColor: PreMedColorTheme().white,
+      backgroundColor: PreMedColorTheme().background,
         leading: Container(
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -75,7 +76,6 @@ class _DeleteAccountState extends State<DeleteAccount> {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBoxes.verticalBig,
             CustomTextField(

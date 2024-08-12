@@ -1,4 +1,6 @@
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
+import 'package:provider/provider.dart';
 
 class MenuTile extends StatelessWidget {
   const MenuTile({
@@ -18,6 +20,7 @@ class MenuTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final premedPro = Provider.of<PreMedProvider>(context).isPreMed;
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -54,7 +57,7 @@ class MenuTile extends StatelessWidget {
                   SizedBoxes.horizontalBig,
                   Icon(
                     Icons.arrow_forward_ios_rounded,
-                    color: PreMedColorTheme().primaryColorRed,
+                    color: premedPro ? PreMedColorTheme().red : PreMedColorTheme().blue,
                     size: 20,
                   ),
                 ],
@@ -74,6 +77,7 @@ class UserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final premedPro = Provider.of<PreMedProvider>(context).isPreMed;
     return InkWell(
         onTap: onTap,
         child: Material(
@@ -92,7 +96,7 @@ class UserTile extends StatelessWidget {
               ],
             ),
             child: ListTile(
-              leading: const Icon(Icons.person),
+              leading:  const Icon(Icons.person),
               title: RichText(
                 text: TextSpan(
                   children: [
@@ -101,7 +105,7 @@ class UserTile extends StatelessWidget {
                       style: PreMedTextTheme().body1.copyWith(
                             fontSize: 20,
                             fontWeight: FontWeight.w900,
-                            color: Colors.red,
+                            color:  premedPro ? PreMedColorTheme().red : PreMedColorTheme().blue,
                           ),
                     ),
                     TextSpan(
@@ -123,7 +127,7 @@ class UserTile extends StatelessWidget {
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: PreMedColorTheme().primaryColorRed,
+                color: premedPro ? PreMedColorTheme().red : PreMedColorTheme().blue,
                 size: 20,
               ),
             ),

@@ -69,7 +69,7 @@ class _VaultHomeState extends State<PreEngVaultHome> {
                     ),
                     SizedBoxes.vertical3Px,
                     Text(
-                        'All The Resources Any Pre Medical Student Could Ever Need',
+                        'All The Resources Any Pre Engineering Student Could Ever Need',
                         style: PreMedTextTheme().heading1.copyWith(
                             fontWeight: FontWeight.w400, fontSize: 17)),
                     SizedBoxes.vertical26Px,

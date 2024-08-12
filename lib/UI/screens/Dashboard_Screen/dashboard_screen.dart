@@ -1,14 +1,14 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/Flash_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/Qbank_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/most_recenet_attempt.dart';
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/notes_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/series_card.dart';
-import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/timer_drop_down.dart';
+import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/timer_widgets.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/mocks/mdcat_mocks/mdcat_mocks_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/notifications/notification_page.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/mocks_bank.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/private_universities/pu_qbank.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/statistics_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/Attempted_card.dart';
@@ -17,9 +17,8 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/statistic_model.dart';
 import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
-import '../qbank/global_qbank.dart';
-import '../qbank/mdcat/scratch.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key, this.uni, this.timeLeft});
@@ -110,10 +109,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         );
                       },
-                      child: Image.asset(
-                        PremedAssets.NotificationIcon,
-                        width: 27,
-                        height: 27,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                            boxShadow: CustomBoxshadow.BoxShadow40),
+                        child: SvgPicture.asset(
+                            Provider.of<PreMedProvider>(context).isPreMed
+                                ? PremedAssets.Profile
+                                : PremedAssets.blueProfle),
                       ),
                     )
                   ],
@@ -127,9 +129,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     NotesCard(
                       icon: PremedAssets.notesstudy,
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> const PUQbankHome()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PUQbankHome()));
                       },
-                      bgColor: PreMedColorTheme().white,
+                      bgColor: PreMedColorTheme().white85,
                       text: 'CONTINUE STUDYING',
                       text1: 'Hydrocarbons',
                       text2: 'STUDY NOTES',
@@ -138,7 +143,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       width: screenWidth * 0.02,
                     ),
                     SeriesCard(
-                      bgColor: PreMedColorTheme().white,
+                      bgColor: PreMedColorTheme().white85,
                       text: "NEWEST RELEAST",
                       text1: "The Ultimate Resource Bank",
                       onTap: () {},
@@ -153,7 +158,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Row(
                   children: [
                     QbankCard(
-                      bgColor: PreMedColorTheme().white,
+                      bgColor: PreMedColorTheme().white85,
                       icon: PremedAssets.Savedquestion,
                       text: "Saved",
                       text1: "Questions",
@@ -162,8 +167,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const MdcatMocksHome(),
+                              builder: (context) => const MdcatMocksHome(),
                             ));
                       },
                     ),
@@ -171,7 +175,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       width: screenWidth * 0.02,
                     ),
                     FlashCard(
-                      bgColor: PreMedColorTheme().white,
+                      bgColor: PreMedColorTheme().white85,
                       icon: PremedAssets.Flashcards,
                       text1: 'Flashcards',
                       onTap: () {
@@ -187,17 +191,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
               Padding(
-                padding:  EdgeInsets.symmetric(horizontal: screenWidth * 0.040,vertical: screenHeight *0.015),
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.040,
+                    vertical: screenHeight * 0.015),
                 child: Material(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                      borderRadius: BorderRadius.circular(9)),
                   elevation: 5,
                   child: Container(
                       decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: const Color.fromARGB(
-                                  255, 180, 180, 180)
+                              color: const Color.fromARGB(255, 180, 180, 180)
                                   .withOpacity(0.1),
                               spreadRadius: 2,
                               blurRadius: 5,
@@ -205,9 +210,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                           ],
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
-                      child:
-                          DropDown(timeLeft: widget.timeLeft, uni: widget.uni ?? 'Not Selected',)),
+                          borderRadius: BorderRadius.circular(9)),
+                      child: const TimerClass()
+                      // const TimerWidget()
+                      ),
                 ),
               ),
               Padding(
@@ -224,7 +230,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   width: screenWidth * 7,
                   height: screenHeight * 0.3,
                   decoration: BoxDecoration(
-                    color: PreMedColorTheme().white,
+                    color: PreMedColorTheme().white85,
                     borderRadius: BorderRadius.circular(15),
                     boxShadow: [
                       BoxShadow(
@@ -253,7 +259,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 10),
                                       child: Image.asset(
-                                        PremedAssets.graph,
+                                        Provider.of<PreMedProvider>(context).isPreMed ?
+                                        PremedAssets.graph : PremedAssets.BlueGraph,
                                         width: 50,
                                         height: 50,
                                       ),
@@ -304,16 +311,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     height: screenHeight * 0.18,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: const Color.fromARGB(
-                                                  255, 180, 180, 180)
-                                              .withOpacity(0.1),
-                                          spreadRadius: 2,
-                                          blurRadius: 5,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ],
+                                      boxShadow: CustomBoxshadow.BoxShadow40,
                                     ),
                                     child: MaterialCard(
                                       height: screenHeight * 0.18,
@@ -372,4 +370,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
+}
+
+class CustomBoxshadow {
+  static const List<BoxShadow> BoxShadow40 = [
+    BoxShadow(
+      color: Color(0x26000000),
+      blurRadius: 40,
+      offset: Offset(0, 20),
+    ),
+  ];
 }

@@ -2,6 +2,8 @@
 
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
+import '../../The vault/widgets/back_button.dart';
+
 class TermsCondition extends StatelessWidget {
   const TermsCondition({super.key});
 
@@ -10,15 +12,18 @@ class TermsCondition extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().white,
-        title: Text(
-          'Terms & Condition',
-          style: PreMedTextTheme().heading7.copyWith(
-                color: PreMedColorTheme().black,
+        leading: const PopButton(),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Terms & Condition',
+              style: PreMedTextTheme().heading6.copyWith(
+                  color: PreMedColorTheme().black,
+                  fontWeight: FontWeight.bold
               ),
-        ),
-        centerTitle: true,
-        iconTheme: IconThemeData(
-          color: PreMedColorTheme().black, // Set the color for the icon
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(

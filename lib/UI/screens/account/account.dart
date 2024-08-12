@@ -8,12 +8,11 @@ import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/error_dialogue.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/pre_engineering/UI/screens/qbank/chapter_wise.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../../pre_engineering/providers/chapterWiseProvider.dart';
 
 class Account extends StatelessWidget {
   const Account({super.key});
@@ -21,7 +20,7 @@ class Account extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
-
+    final isPremed = Provider.of<PreMedProvider>(context).isPreMed;
     Future<void> onLogoutPressed() async {
       final Future<Map<String, dynamic>> response = auth.logout();
 
@@ -52,21 +51,13 @@ class Account extends StatelessWidget {
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const EngChapterWiseHome()));
-                  },
-                  child: Text(
-                    'Settings',
-                    style: PreMedTextTheme().heading6.copyWith(
-                          color: PreMedColorTheme().black,
-                          fontSize: 34,
-                          fontWeight: FontWeight.w800,
-                        ),
-                  ),
+                Text(
+                  'Settings',
+                  style: PreMedTextTheme().heading6.copyWith(
+                        color: PreMedColorTheme().black,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                      ),
                 ),
                 SizedBoxes.vertical2Px,
                 Text(
@@ -285,6 +276,7 @@ class Account extends StatelessWidget {
                                         elevation: 3,
                                         borderRadius: BorderRadius.circular(8),
                                         child: CustomButton(
+                                          color: isPremed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                                           buttonText: 'Sign out',
                                           onPressed: onLogoutPressed,
                                         ),
