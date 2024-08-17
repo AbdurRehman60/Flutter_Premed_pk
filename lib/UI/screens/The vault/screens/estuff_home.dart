@@ -2,9 +2,9 @@ import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/essentialStuff/estuff_pdf_view.dart';
 import 'package:premedpk_mobile_app/models/essence_stuff_model.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/engineering_access_providers.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
-import '../../../../providers/user_provider.dart';
 import '../../../../providers/vaultProviders/essential_stuff_provider.dart';
 import '../../../Widgets/global_widgets/empty_state.dart';
 import '../display_pdf.dart';
@@ -58,8 +58,8 @@ class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EssentialStuffProvider>(
-        builder: (context, vaultTopicalGuides, _) {
+    return Consumer2<EssentialStuffProvider,PreEngAccessProvider>(
+        builder: (context, vaultTopicalGuides,preEngaccessPro, _) {
       final bool isLoading =
           vaultTopicalGuides.fetchStatus == FetchStatus.fetching;
       return Scaffold(
@@ -131,8 +131,8 @@ class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
                       ),
                       TopicButton(
                         topicName: 'Government Notifications',
-                        isActive: _activeTopic == 'MDCAT',
-                        onTap: () => _handleTopicTap('MDCAT'),
+                        isActive: _activeTopic == 'Government Notifications',
+                        onTap: () => _handleTopicTap('Government Notifications'),
                       ),
                     ],
                   ),
@@ -142,6 +142,7 @@ class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
             SizedBoxes.vertical10Px,
             Expanded(
               child: EstuffPdfDisplayer(
+                hasAccess: preEngaccessPro.hasEngEssentials,
                 notes: _filteredNotes,
                 isLoading: isLoading,
                 categoryName: 'Essential Stuff',
@@ -156,7 +157,9 @@ class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
 
 class EstuffPdfDisplayer extends StatelessWidget {
   const EstuffPdfDisplayer({
+
     super.key,
+    required this.hasAccess,
     required this.notes,
     this.isSearch = false,
     required this.isLoading,
@@ -166,6 +169,7 @@ class EstuffPdfDisplayer extends StatelessWidget {
   final bool isSearch;
   final bool isLoading;
   final String categoryName;
+  final bool hasAccess;
 
   @override
   Widget build(BuildContext context) {
@@ -185,6 +189,7 @@ class EstuffPdfDisplayer extends StatelessWidget {
         ),
         itemBuilder: (BuildContext context, int index) {
           return PDFTileVault(
+            hasAccess: hasAccess,
             note: notes[index],
             categoryName: categoryName,
           );
@@ -200,7 +205,7 @@ class EstuffPdfDisplayer extends StatelessWidget {
       } else {
         return EmptyState(
           displayImage: PremedAssets.Notfoundemptystate,
-          title: 'COMMING SOON',
+          title: 'COMING SOON',
           body: "We're working on adding new notes and guides.",
         );
       }
@@ -213,10 +218,12 @@ class PDFTileVault extends StatelessWidget {
     super.key,
     required this.note,
     required this.categoryName,
+    required this.hasAccess,
   });
 
   final EssenceStuffModel note;
   final String categoryName;
+  final bool hasAccess;
 
   @override
   Widget build(BuildContext context) {
@@ -233,12 +240,11 @@ class PDFTileVault extends StatelessWidget {
     }
 
     return InkWell(
-      onTap:
-          !Provider.of<UserProvider>(context).userAccess ? null : onTileClick,
+      onTap: !hasAccess && note.access == 'Paid' ? null : onTileClick,
       child: Stack(
         children: [
           Container(
-            width: 220, // Fixed width
+            width: 220,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.white.withOpacity(0.85),
@@ -266,7 +272,19 @@ class PDFTileVault extends StatelessWidget {
                         ],
                       ),
                       child: buildPdfIcon(note.thumbnailImageUrl ?? '')),
-                  SizedBoxes.verticalBig,
+                  Padding(
+                    padding:
+                    const EdgeInsets.only(top: 12, left: 10, right: 10),
+                    child: Text(
+                      categoryName.toUpperCase(),
+                      style: PreMedTextTheme().heading1.copyWith(
+                        fontSize: 8,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black26,
+                      ),
+                    ),
+                  ),
+                  SizedBoxes.vertical5Px,
                   Text(
                     note.topicName,
                     overflow: TextOverflow.ellipsis,
@@ -280,7 +298,7 @@ class PDFTileVault extends StatelessWidget {
               ),
             ),
           ),
-          if (!Provider.of<UserProvider>(context).userAccess)
+          if (!hasAccess && note.access == 'Paid')
             Positioned.fill(
               child: GlassContainer(
                 shadowStrength: 0,
@@ -292,9 +310,11 @@ class PDFTileVault extends StatelessWidget {
                     width: 80,
                     border: Border.all(color: Colors.white, width: 2),
                     child: Center(
-                      child: Text('Unlock',
-                          style: PreMedTextTheme().heading1.copyWith(
-                              fontWeight: FontWeight.w500, fontSize: 15)),
+                      child: Text(
+                        'Unlock',
+                        style: PreMedTextTheme().heading1.copyWith(
+                            fontWeight: FontWeight.w500, fontSize: 15),
+                      ),
                     ),
                   ),
                 ),
@@ -305,6 +325,7 @@ class PDFTileVault extends StatelessWidget {
     );
   }
 }
+
 
 class GradientText1 extends StatelessWidget {
   const GradientText1({super.key, required this.text, required this.fontSize});

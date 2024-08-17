@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/tutor_mode_test_interface.dart';
+import 'package:premedpk_mobile_app/constants/assets.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/color_theme.dart';
@@ -17,11 +20,12 @@ class ModeDescription extends StatelessWidget {
     super.key,
     required this.mode,
     required this.deckName,
-    required this.timedTestMinutes,
+    required this.timedTestMinutes, required this.subject,
   });
   final bool mode;
   final String deckName;
   final int timedTestMinutes;
+  final String subject;
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +46,9 @@ class ModeDescription extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Image.asset(
+                  SvgPicture.asset(
                     height: 45,
-                    'assets/images/QuestionMarkDocument.png',
+                   Provider.of<PreMedProvider>(context).isPreMed ? PremedAssets.RedDocument : PremedAssets.BlueDocument
                   ),
                   SizedBoxes.verticalTiny,
                   Center(
@@ -72,6 +76,7 @@ class ModeDescription extends StatelessWidget {
                   ),
                   SizedBoxes.verticalMedium,
                   CustomButton(
+                    color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                     buttonText: 'Start Test',
                     onPressed: () async {
                       final userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -94,6 +99,7 @@ class ModeDescription extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => TutorMode(
+                                subject: subject,
                                 attemptId: attemptId,
                                 deckName: deckName,
                               ),
@@ -128,9 +134,9 @@ class ModeDescription extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Image.asset(
+                  SvgPicture.asset(
                     height: 45,
-                    'assets/images/QuestionMarkDocument.png',
+                    Provider.of<PreMedProvider>(context).isPreMed ? PremedAssets.RedDocument : PremedAssets.BlueDocument,
                   ),
                   SizedBoxes.verticalTiny,
                   Center(
@@ -182,6 +188,7 @@ class ModeDescription extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => TestInterface(
+                                subject: subject,
                                 attemptId: attemptId,
                                 deckName: deckName,
                               ),

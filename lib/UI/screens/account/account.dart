@@ -1,6 +1,7 @@
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/account_before_edit.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/change_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/contact_us.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/credits.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/menu_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
@@ -258,10 +259,11 @@ class Account extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          const SizedBox(
+                                           SizedBox(
                                             width: 16,
                                             height: 16,
                                             child: CircularProgressIndicator(
+                                              color: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                                               strokeWidth: 2.0,
                                             ),
                                           ),
@@ -337,7 +339,7 @@ class Account extends StatelessWidget {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const PrivacyPolicy(),
+                                          const CreditsScreen(),
                                     ),
                                   );
                                 case 4:

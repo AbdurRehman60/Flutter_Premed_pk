@@ -1,4 +1,7 @@
 
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
+import 'package:provider/provider.dart';
+
 import '../../../../../constants/constants_export.dart';
 
 class SavedQuestionTopicButton extends StatelessWidget {
@@ -28,7 +31,7 @@ class SavedQuestionTopicButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 8.5),
-          backgroundColor: isActive ? const Color(0xFFEC5863) : Colors.white,
+          backgroundColor: isActive ?( Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue) : Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
             side: const BorderSide(

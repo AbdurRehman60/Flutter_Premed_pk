@@ -41,6 +41,7 @@ class MnemonicsGridBuilderState extends State<MnemonicsGridBuilder> {
         final List<MnemonicsModel> filteredMnemonics =
             _filterMnemonics(mnemonicsPro.mnemonicsList);
 
+
         switch (mnemonicsPro.fetchStatus) {
           case FetchStatus.init:
           case FetchStatus.fetching:
@@ -102,10 +103,18 @@ class MnemonicsGridBuilderState extends State<MnemonicsGridBuilder> {
                             if (filteredMnemonics[index].videoUrl != null) {
                               _showVideoDialog(
                                 context,
-                                filteredMnemonics[index].videoUrl!,
-                                filteredMnemonics[index],
+                                index,
+                                mnemonicsPro.mnemonicsList,
                               );
+                            } else {
+                              _showVideoDialog(
+                              context,
+                              index,
+                              mnemonicsPro.mnemonicsList,
+                            );
                             }
+
+
                           },
                           mnemonics: filteredMnemonics[index],
                         );
@@ -123,12 +132,13 @@ class MnemonicsGridBuilderState extends State<MnemonicsGridBuilder> {
 
 
 void _showVideoDialog(
-    BuildContext context, String videoUrl, MnemonicsModel mnemonicsModel) {
+    BuildContext context, int index, List<MnemonicsModel> mnemonicsModel) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return VideoScreen(
-        mnemonicsModel: mnemonicsModel,
+        mnemonicsModels: mnemonicsModel,
+        initialIndex: index,
       );
     },
   );

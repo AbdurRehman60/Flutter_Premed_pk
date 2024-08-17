@@ -10,9 +10,9 @@ class Subscription {
   });
 
   factory Subscription.fromJson(Map<String, dynamic> json) {
-    print('current subscription : ${json['planName']}');
-    print('current subscription : ${json['name']}');
-    print('current subscription : ${json['subscriptionEndDate']}');
+    print('current planName : ${json['planName']}');
+    print('current name: ${json['name']}');
+    print('current subscriptionEndDate : ${json['subscriptionEndDate']}');
     return Subscription(
       planName: json['planName'],
       name: json['name'],

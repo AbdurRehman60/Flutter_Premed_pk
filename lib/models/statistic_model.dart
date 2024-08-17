@@ -40,7 +40,7 @@ class UserStatModel {
   final int testAttempted;
   final int paracticeTestAttempted;
   final int totalTimeTaken;
-  final double avgTimePerQuestion;
+   var avgTimePerQuestion;
   final List<SubjectAttempt> subjectAttempts;
 }
 

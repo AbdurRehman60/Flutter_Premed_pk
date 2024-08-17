@@ -3,7 +3,7 @@ import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/estuff_home.d
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/mnemonics_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/shortlistings.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/studynotes.dart';
-import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/topical_notes.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/topical_guides.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/essentialStuff/essence_stuff_builder.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/guides_or_notes_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/mnemonics/mnemonics_reel_builder.dart';
@@ -12,6 +12,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/essential_stuff_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/user_provider.dart';
+import '../../../providers/vaultProviders/premed_access_provider.dart';
 
 class VaultHome extends StatefulWidget {
   const VaultHome({super.key});
@@ -33,18 +34,28 @@ class _VaultHomeState extends State<VaultHome> {
     est.getEssentialStuff();
   }
 
-  void checkSubscription() {
-    final userPurchases =
-        Provider.of<UserProvider>(context, listen: false).user?.access;
-    Provider.of<UserProvider>(context, listen: false)
-        .setSubscriptions(userPurchases!);
-  }
-
   @override
   void initState() {
     super.initState();
     Future.microtask(() => checkSubscription());
   }
+
+  void checkSubscription() {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final accessProvider =
+        Provider.of<PreMedAccessProvider>(context, listen: false);
+    accessProvider.setSubscriptions(userProvider.user!.access);
+    accessProvider.checkAccess();
+  }
+  //
+  // void checkSubscription() {
+  //   final userPurchases =
+  //       Provider.of<UserProvider>(context, listen: false).user?.access;
+  //   if (userPurchases != null) {
+  //     Provider.of<UserProvider>(context, listen: false)
+  //         .setSubscriptions(userPurchases);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,9 +98,12 @@ class _VaultHomeState extends State<VaultHome> {
                       ),
                     ),
                     SizedBoxes.vertical3Px,
-                    SvgPicture.asset(
-                      'assets/images/vault/Only Vault.svg',
-                      height: 41,
+                    GestureDetector(
+                      onTap: () {},
+                      child: SvgPicture.asset(
+                        'assets/images/vault/Only Vault.svg',
+                        height: 41,
+                      ),
                     ),
                     SizedBoxes.vertical3Px,
                     Text(
@@ -108,7 +122,7 @@ class _VaultHomeState extends State<VaultHome> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const VaultTopicalGuides()));
+                                            const TopicalGuides()));
                               }),
                           SizedBoxes.horizontal10Px,
                           GradientButton(
@@ -236,8 +250,7 @@ class _VaultHomeState extends State<VaultHome> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const VaultTopicalGuides()));
-                                    // To Navigate
+                                                const TopicalGuides()));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 12),
@@ -365,7 +378,7 @@ class _VaultHomeState extends State<VaultHome> {
                               TextSpan(
                                 text: 'Listings',
                                 style: PreMedTextTheme().heading1.copyWith(
-                                      fontSize: 18,
+                                      fontSize: 17,
                                       fontWeight: FontWeight.w700,
                                       color: Colors.black,
                                     ),
@@ -506,21 +519,19 @@ class GetGradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x26000000),
-            blurRadius: 40,
-            offset: Offset(0, 20),
-          ),
-        ]
-      ),
+      decoration: const BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: Color(0x26000000),
+          blurRadius: 40,
+          offset: Offset(0, 20),
+        ),
+      ]),
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               elevation: 0,
               backgroundColor: Colors.white.withOpacity(0.8500000238418579),
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8)),
           onPressed: onTap,
           child: SvgPicture.asset(textPath)),

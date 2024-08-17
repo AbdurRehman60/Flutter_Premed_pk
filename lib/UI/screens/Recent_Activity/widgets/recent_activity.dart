@@ -2,6 +2,7 @@
 
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:provider/provider.dart';
 
@@ -87,7 +88,7 @@ class _RecentActivityCard1State extends State<RecentActivityCard1> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.date,
+                  _formatDate(widget.date),
                   style: GoogleFonts.rubik(
                     fontWeight: FontWeight.w600,
                     fontSize: 10,
@@ -116,6 +117,11 @@ class _RecentActivityCard1State extends State<RecentActivityCard1> {
         ],
       ),
     );
+  }
+
+  String _formatDate(String dateString) {
+    DateTime date = DateTime.parse(dateString);
+    return DateFormat('d MMMM yyyy').format(date);
   }
 
   Color _getColor(double progressValue, bool isPreMed) {

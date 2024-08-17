@@ -15,9 +15,7 @@ class VaultStudyNotesProvider extends ChangeNotifier {
 
   Status _vaultnotesLoadingStatus = Status.init;
   Status get vaultnotesLoadingstatus => _vaultnotesLoadingStatus;
-  set notesLoadingStatus(Status value) {
-    _vaultnotesLoadingStatus = value;
-  }
+
 
   List<VaultNotesModel> _vaultNotesList = [];
   List<VaultNotesModel> get vaultNotesList => _vaultNotesList;

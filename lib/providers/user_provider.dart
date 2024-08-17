@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -28,6 +29,9 @@ class UserProvider extends ChangeNotifier {
     _subscriptions =
         subscriptions.map((e) => Subscription.fromJson(e)).toList();
     notify();
+    if(kDebugMode){
+      print('UserSubscriptions : $_subscriptions');
+    }
   }
 
   void notify() {

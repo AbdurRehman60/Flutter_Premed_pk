@@ -2,10 +2,9 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/recent_activity_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../providers/vaultProviders/premed_provider.dart';
 import '../dashboard_screen.dart';
@@ -43,7 +42,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
             borderRadius: BorderRadius.circular(15.0),
             boxShadow: CustomBoxShadow.boxShadow40),
         child: Padding(
-          padding: const EdgeInsets.only(left: 10, top: 10),
+          padding: const EdgeInsets.only(left: 14, top: 10,right: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -82,7 +81,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 50, right: 5),
+                    padding: const EdgeInsets.only(bottom: 50, right: 10),
                     child: SvgPicture.asset(
                       Provider.of<PreMedProvider>(context).isPreMed
                           ? PremedAssets.RedDocument
@@ -104,7 +103,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                           height: 10,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 8),
+                          padding: const EdgeInsets.only(right: 10),
                           child: Row(
                             children: [
                               Expanded(
@@ -147,13 +146,13 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                               TextButton(
                                 onPressed: () {},
                                 child: Text(widget.mode,
-                                    style: GoogleFonts.rubik(
+                                    style: PreMedTextTheme().body.copyWith(
                                       color: Provider.of<PreMedProvider>(context)
                                           .isPreMed
                                           ? PreMedColorTheme().red
                                           : PreMedColorTheme().coolBlue,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 11,
                                     )),
                               ),
                             ],

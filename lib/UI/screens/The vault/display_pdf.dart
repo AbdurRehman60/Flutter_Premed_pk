@@ -3,9 +3,8 @@ import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/vaultpdfview.
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/cheatsheetModel.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
-
-import '../../../providers/user_provider.dart';
 
 class PdfDisplayer extends StatelessWidget {
   const PdfDisplayer({
@@ -14,21 +13,27 @@ class PdfDisplayer extends StatelessWidget {
     this.isSearch = false,
     required this.isLoading,
     required this.categoryName,
+    required this.hasAccess,
   });
   final List<VaultNotesModel> notes;
   final bool isSearch;
   final bool isLoading;
   final String categoryName;
+  final bool hasAccess;
 
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
+      return Center(
+        child: CircularProgressIndicator(
+          color: Provider.of<PreMedProvider>(context, listen: false).isPreMed
+              ? PreMedColorTheme().red
+              : PreMedColorTheme().blue,
+        ),
       );
     } else if (notes.isNotEmpty) {
       return GridView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 23),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 23),
         itemCount: notes.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -40,6 +45,7 @@ class PdfDisplayer extends StatelessWidget {
           return PDFTileVault(
             note: notes[index],
             categoryName: categoryName,
+            hasAccess: hasAccess,
           );
         },
       );
@@ -53,7 +59,7 @@ class PdfDisplayer extends StatelessWidget {
       } else {
         return EmptyState(
           displayImage: PremedAssets.Notfoundemptystate,
-          title: 'COMMING SOON',
+          title: 'COMING SOON',
           body: "We're working on adding new notes and guides.",
         );
       }
@@ -61,15 +67,19 @@ class PdfDisplayer extends StatelessWidget {
   }
 }
 
+
+//Topical Guides
 class PDFTileVault extends StatelessWidget {
   const PDFTileVault({
     super.key,
     required this.note,
     required this.categoryName,
+    required this.hasAccess,
   });
 
   final VaultNotesModel note;
   final String categoryName;
+  final bool hasAccess;
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +96,7 @@ class PDFTileVault extends StatelessWidget {
     }
 
     return InkWell(
-      onTap:
-          !Provider.of<UserProvider>(context).userAccess ? null : onTileClick,
+      onTap: !hasAccess && note.access == 'Paid' ?  null : onTileClick,
       child: Stack(
         children: [
           Container(
@@ -109,19 +118,21 @@ class PDFTileVault extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                      decoration: const BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: Color(0x19000000),
-                          blurRadius: 10,
-                          offset: Offset(0, 10),
-                        )
-                      ],),
+                      decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0x19000000),
+                            blurRadius: 10,
+                            offset: Offset(0, 10),
+                          )
+                        ],
+                      ),
                       child: buildPdfIcon(note.thumbnailImageUrl ?? '')),
                   Padding(
                     padding:
                         const EdgeInsets.only(top: 12, left: 10, right: 10),
                     child: Text(
-                      'Study Notes'.toUpperCase(),
+                     categoryName.toUpperCase(),
                       style: PreMedTextTheme().heading1.copyWith(
                             fontSize: 8,
                             fontWeight: FontWeight.w800,
@@ -151,7 +162,7 @@ class PDFTileVault extends StatelessWidget {
               ),
             ),
           ),
-          if (!Provider.of<UserProvider>(context).userAccess)
+          if (!hasAccess && note.access == 'Paid')
             Positioned.fill(
               child: GlassContainer(
                 shadowStrength: 0,

@@ -1,5 +1,6 @@
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/models/cheatsheetModel.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_access_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
 
@@ -9,7 +10,8 @@ import '../widgets/custom_dropdown.dart';
 import '../widgets/topic_button.dart';
 
 class ShortlistingsHome extends StatefulWidget {
-  const ShortlistingsHome({super.key});
+  const ShortlistingsHome({super.key,});
+
 
   @override
   State<ShortlistingsHome> createState() => _ShortlistingsHomeState();
@@ -225,6 +227,7 @@ class _ShortlistingsHomeState extends State<ShortlistingsHome> {
             SizedBoxes.vertical15Px,
             Expanded(
               child: PdfDisplayer(
+                hasAccess: Provider.of<PreMedAccessProvider>(context,listen: false).hasShortListings,
                 notes: _filteredNotes,
                 isLoading: isLoading,
                 categoryName: 'ShortListings',

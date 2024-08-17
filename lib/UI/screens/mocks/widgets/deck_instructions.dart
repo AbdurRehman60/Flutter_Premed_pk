@@ -13,12 +13,13 @@ class DeckInstructions extends StatefulWidget {
     super.key,
     required this.deckInstructions,
     required this.deckGroup,
-    required this.selectedIndex,
+    required this.selectedIndex, required this.subject,
   });
 
   final String deckInstructions;
   final DeckGroupModel deckGroup;
   final int selectedIndex;
+  final String subject;
 
   @override
   State<DeckInstructions> createState() => _DeckInstructionsState();
@@ -152,6 +153,7 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => TestInterface(
+                                          subject: widget.subject,
                                           deckName: selectedDeckItem.deckName,
                                           attemptId: attemptId,
                                         ),

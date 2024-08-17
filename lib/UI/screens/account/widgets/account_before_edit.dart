@@ -1,6 +1,7 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/edit_profile.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/subscriptions_details.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -377,7 +378,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
               ),
               SizedBoxes.verticalBig,
               Text(
-                userProvider.user!.school,
+                userProvider.user?.school ??  'N/A',
                 style: PreMedTextTheme().body1.copyWith(
                       color: PreMedColorTheme().blue,
                       fontSize: 15,
@@ -409,7 +410,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
               ),
               SizedBoxes.verticalBig,
               Text(
-                userProvider.user!.parentFullName,
+                userProvider.user?.parentFullName ?? 'N/A',
                 style: PreMedTextTheme().body1.copyWith(
                       color: PreMedColorTheme().blue,
                       fontSize: 15,
@@ -431,7 +432,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
               ),
               SizedBoxes.verticalBig,
               Text(
-                userProvider.user!.parentContactNumber,
+                userProvider.user?.parentContactNumber ?? 'N/A',
                 style: PreMedTextTheme().body1.copyWith(
                       color: PreMedColorTheme().blue,
                       fontSize: 15,
@@ -448,42 +449,46 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
   }
 }
 
-class BundleCard extends StatelessWidget {
+class BundleCard extends StatefulWidget {
   const BundleCard({super.key});
 
   @override
+  State<BundleCard> createState() => _BundleCardState();
+}
+
+class _BundleCardState extends State<BundleCard> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => checkSubscription());
+  }
+
+  void checkSubscription() {
+    final userPurchases =
+        Provider.of<UserProvider>(context, listen: false).user?.access;
+    if (userPurchases != null) {
+      Provider.of<UserProvider>(context, listen: false)
+          .setSubscriptions(userPurchases);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final preMedPro = Provider.of<PreMedProvider>(context);
-    return Container(
-      height: 106,
-      padding: const EdgeInsets.all(15),
-      decoration: ShapeDecoration(
-        color: Colors.white.withOpacity(0.8500000238418579),
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-            width: 2,
-            color: Colors.white.withOpacity(0.5),
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        shadows: const [
-          BoxShadow(
-            color: Color(0x26000000),
-            blurRadius: 40,
-            offset: Offset(0, 20),
-          )
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+    return Consumer<UserProvider>(
+      builder: (context, userProvider, child) {
+        if (userProvider.subscriptions.isEmpty) {
+          return Container(
+            height: 106,
+            padding: const EdgeInsets.all(15),
             decoration: ShapeDecoration(
-              color: Colors.white.withOpacity(0.8500000238418579),
+              color: Colors.white.withOpacity(0.85),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+                side: BorderSide(
+                  width: 2,
+                  color: Colors.white.withOpacity(0.5),
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
               shadows: const [
                 BoxShadow(
                   color: Color(0x26000000),
@@ -492,79 +497,153 @@ class BundleCard extends StatelessWidget {
                 )
               ],
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 1),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'MDCAT Pro Max Bundle',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontFamily: 'Rubik',
-                      fontWeight: FontWeight.w800,
-                      height: 0.10,
-                    ),
-                  ),
-                  const Spacer(),
-                  Text.rich(
-                    TextSpan(
-                      children: [
+            child: const Center(
+              child: Text(
+                'No active subscriptions',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 13,
+                  fontFamily: 'Rubik',
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ),
+          );
+        }
+
+        final remainingDays = _calculateRemainingDays(
+            userProvider.subscriptions[0].subscriptionEndDate);
+
+        return Container(
+          height: 106,
+          padding: const EdgeInsets.all(15),
+          decoration: ShapeDecoration(
+            color: Colors.white.withOpacity(0.85),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                width: 2,
+                color: Colors.white.withOpacity(0.5),
+              ),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            shadows: const [
+              BoxShadow(
+                color: Color(0x26000000),
+                blurRadius: 40,
+                offset: Offset(0, 20),
+              )
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                decoration: ShapeDecoration(
+                  color: Colors.white.withOpacity(0.85),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  shadows: const [
+                    BoxShadow(
+                      color: Color(0x26000000),
+                      blurRadius: 40,
+                      offset: Offset(0, 20),
+                    )
+                  ],
+                ),
+                child: Padding(
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 1),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        userProvider.subscriptions[0].planName,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontFamily: 'Rubik',
+                          fontWeight: FontWeight.w800,
+                          height: 0.10,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text.rich(
                         TextSpan(
-                            text: 'ENDS IN',
-                            style: PreMedTextTheme().body1.copyWith(
+                          children: [
+                            TextSpan(
+                                text: 'ENDS IN',
+                                style: PreMedTextTheme().body1.copyWith(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w600,
                                   height: 0.13,
                                 )),
-                        TextSpan(
-                          text: ' 150 DAYS',
-                          style: PreMedTextTheme().body1.copyWith(
-                                color: preMedPro.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                            TextSpan(
+                              text: ' $remainingDays DAYS',
+                              style: PreMedTextTheme().body1.copyWith(
+                                color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                                 fontSize: 10,
                                 fontFamily: 'Rubik',
                                 fontWeight: FontWeight.w600,
                                 height: 0.13,
                               ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBoxes.vertical15Px,
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'View Details',
-                  style: PreMedTextTheme().body1.copyWith(
-                        color:preMedPro.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
-                        fontSize: 13,
-                        fontFamily: 'Rubik',
-                        fontWeight: FontWeight.w700,
-                        height: 0.10,
                       ),
+                    ],
+                  ),
                 ),
-                const Spacer(),
-                Icon(
-                  size: 16,
-                  Icons.arrow_forward_ios_outlined,
-                  color: preMedPro.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+              ),
+              SizedBoxes.vertical15Px,
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: InkWell(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SubscriptionDetailsScreen(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'View Details',
+                        style: PreMedTextTheme().body1.copyWith(
+                          color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                          fontSize: 13,
+                          fontFamily: 'Rubik',
+                          fontWeight: FontWeight.w700,
+                          height: 0.10,
+                        ),
+                      ),
+                      const Spacer(),
+                      Icon(
+                        size: 16,
+                        Icons.arrow_forward_ios_outlined,
+                        color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
+  }
+
+  int _calculateRemainingDays(DateTime endDate) {
+    final now = DateTime.now();
+    return endDate.difference(now).inDays;
   }
 }
 

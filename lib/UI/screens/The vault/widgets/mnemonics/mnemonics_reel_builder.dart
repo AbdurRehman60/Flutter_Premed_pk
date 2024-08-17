@@ -1,6 +1,7 @@
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/mnemonics/mnemonics_card.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/mnemonics/mnemonics_player.dart';
 import 'package:premedpk_mobile_app/models/mnemonics_model.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_access_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../../constants/constants_export.dart';
 
@@ -24,8 +25,8 @@ class _MnemonicsReelBuilderState extends State<MnemonicsReelBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MnemonicsProvider>(
-      builder: (context, mnemonicsProvider, _) {
+    return Consumer2<MnemonicsProvider, PreMedAccessProvider>(
+      builder: (context, mnemonicsProvider, preMedAccesPro, _) {
         switch (mnemonicsProvider.fetchStatus) {
           case FetchStatus.init:
           case FetchStatus.fetching:
@@ -55,13 +56,18 @@ class _MnemonicsReelBuilderState extends State<MnemonicsReelBuilder> {
                   return Padding(
                     padding: const EdgeInsets.only(right: 13),
                     child: MnemonicsBuilderCard(
+                      hasAccess: preMedAccesPro.hasMnemonics,
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => VideoScreen(
-                                    mnemonicsModel: mnemonicsProvider
-                                        .mnemonicsList[index])));
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => VideoScreen(
+                              mnemonicsModels: mnemonicsProvider
+                                  .mnemonicsList,
+                              initialIndex:
+                                  index,
+                            ),
+                          ),
+                        );
                       },
                       mnemonicsModel: mnemonic,
                     ),

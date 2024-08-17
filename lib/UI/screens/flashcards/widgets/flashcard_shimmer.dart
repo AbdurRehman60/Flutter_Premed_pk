@@ -13,8 +13,8 @@ class FlashcardShimmer extends StatelessWidget {
           itemCount: 7,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
+            mainAxisSpacing: 21,
+            crossAxisSpacing: 18,
             mainAxisExtent: 130,
           ),
           itemBuilder: (context, index) {

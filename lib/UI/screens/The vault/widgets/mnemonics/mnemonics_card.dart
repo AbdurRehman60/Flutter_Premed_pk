@@ -1,25 +1,29 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
-import 'package:premedpk_mobile_app/models/mnemonics_model.dart';
-import 'package:provider/provider.dart';
-import '../../../../../constants/constants_export.dart';
-import '../../../../../providers/user_provider.dart';
+import '../../../../../constants/text_theme.dart';
+import '../../../../../models/mnemonics_model.dart';
+import '../../../../../providers/vaultProviders/premed_access_provider.dart';
 
 class MnemonicsBuilderCard extends StatelessWidget {
   const MnemonicsBuilderCard({
     super.key,
     required this.mnemonicsModel,
     required this.onTap,
+    required this.hasAccess
   });
 
   final MnemonicsModel mnemonicsModel;
   final void Function() onTap;
+  final bool hasAccess;
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
-      onTap: !Provider.of<UserProvider>(context).userAccess ? null : onTap,
+      onTap: !hasAccess ? null : onTap,
       child: Stack(
         children: [
           Container(
@@ -47,10 +51,8 @@ class MnemonicsBuilderCard extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: mnemonicsModel.thumbnailUrl,
                       fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           boxShadow: [
@@ -64,8 +66,7 @@ class MnemonicsBuilderCard extends StatelessWidget {
                             image: imageProvider,
                             fit: BoxFit.cover,
                           ),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(3.0)),
+                          borderRadius: const BorderRadius.all(Radius.circular(3.0)),
                         ),
                       ),
                     ),
@@ -81,8 +82,7 @@ class MnemonicsBuilderCard extends StatelessWidget {
                           SizedBox(
                             width: 66,
                             height: 21,
-                            child: SvgPicture.asset(
-                                'assets/images/vault/mnemonics logo.svg'),
+                            child: SvgPicture.asset('assets/images/vault/mnemonics logo.svg'),
                           ),
                           const SizedBox(height: 6),
                           Text(
@@ -91,10 +91,10 @@ class MnemonicsBuilderCard extends StatelessWidget {
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
                             style: PreMedTextTheme().heading1.copyWith(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                ),
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
                             maxLines: 2,
                           ),
                           const SizedBox(height: 6),
@@ -104,39 +104,40 @@ class MnemonicsBuilderCard extends StatelessWidget {
                               softWrap: true,
                               overflow: TextOverflow.ellipsis,
                               style: PreMedTextTheme().heading1.copyWith(
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black.withOpacity(0.7),
-                                  ),
+                                fontSize: 8,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black.withOpacity(0.7),
+                              ),
                               maxLines: 2,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
           ),
-          if (!Provider.of<UserProvider>(context).userAccess)
+          if (!hasAccess)
             Positioned.fill(
               child: GlassContainer(
                 shadowStrength: 0,
-                  child: Center(
-                    child: GlassContainer(
-                      height: 32,
-                      width: 80,
-                      border: Border.all(color: Colors.white, width: 2),
-                      child: Center(
-                        child: Text(
-                          'Unlock',
-                          style: PreMedTextTheme().heading1.copyWith(
-                              fontWeight: FontWeight.w500, fontSize: 15),
-                        ),
+                child: Center(
+                  child: GlassContainer(
+                    height: 32,
+                    width: 80,
+                    border: Border.all(color: Colors.white, width: 2),
+                    child: Center(
+                      child: Text(
+                        'Unlock',
+                        style: PreMedTextTheme().heading1.copyWith(
+                            fontWeight: FontWeight.w500, fontSize: 15),
                       ),
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ),
         ],
       ),

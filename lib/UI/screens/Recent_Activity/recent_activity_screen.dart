@@ -25,9 +25,12 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
       backgroundColor: PreMedColorTheme().background,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-        child: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: const PopButton(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            leading: const PopButton(),
+          ),
         ),
       ),
       body: ChangeNotifierProvider(
@@ -76,7 +79,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
                         final RecentAttempt recentAttempt =
                             provider.recentAttempts[index];
                         return Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          padding: const EdgeInsets.only(left: 28, right: 28),
                           child: RecentActivityCard1(
                             isPreMed: widget.isPreMed,
                             onTap: () {

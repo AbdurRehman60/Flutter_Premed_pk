@@ -1,12 +1,14 @@
+import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/essentialStuff/estuff_pdf_view.dart';
+import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/models/essence_stuff_model.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/engineering_access_providers.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/essen_stuff_pro.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../constants/constants_export.dart';
 import '../../../../Widgets/global_widgets/empty_state.dart';
-import '../../../onboarding/required_onboarding.dart';
 import '../../screens/estuff_home.dart';
 import '../../widgets/custom_dropdown.dart';
 
@@ -138,7 +140,6 @@ class _StudyNotesHomeState extends State<EstuffNotesHome> {
                       color: Color(0x26000000),
                       blurRadius: 40,
                       offset: Offset(0, 20),
-                      spreadRadius: 0,
                     )
                   ],
                   color: Colors.white,
@@ -160,7 +161,7 @@ class _StudyNotesHomeState extends State<EstuffNotesHome> {
                         _handleSearch('');
                       },
                       icon: const Icon(Icons.clear),
-                      color: PreMedColorTheme().primaryColorRed,
+                      color: PreMedColorTheme().blue,
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -220,8 +221,8 @@ class EngineeringPdfDisplayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
+      return  Center(
+        child: CircularProgressIndicator(color: PreMedColorTheme().blue,),
       );
     } else if (notes.isNotEmpty) {
       return GridView.builder(
@@ -235,6 +236,7 @@ class EngineeringPdfDisplayer extends StatelessWidget {
         ),
         itemBuilder: (BuildContext context, int index) {
           return PDFTileVault(
+            hasAccess: Provider.of<PreEngAccessProvider>(context,listen: false).hasEngEssentials,
             note: notes[index],
             categoryName: categoryName,
           );
@@ -250,7 +252,7 @@ class EngineeringPdfDisplayer extends StatelessWidget {
       } else {
         return EmptyState(
           displayImage: PremedAssets.Notfoundemptystate,
-          title: 'COMMING SOON',
+          title: 'COMING SOON',
           body: "We're working on adding new notes and guides.",
         );
       }
@@ -263,12 +265,15 @@ class PDFTileVault extends StatelessWidget {
     super.key,
     required this.note,
     required this.categoryName,
+    required this.hasAccess,
   });
   final EssenceStuffModel note;
   final String categoryName;
+  final bool hasAccess;
 
   @override
   Widget build(BuildContext context) {
+    //essenceStuff
     void onTileClick() {
       Navigator.push(
         context,
@@ -282,67 +287,90 @@ class PDFTileVault extends StatelessWidget {
     }
 
     return InkWell(
-      onTap: onTileClick,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white.withOpacity(0.85),
-          border: Border.all(color: Colors.white.withOpacity(0.50)),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x26000000),
-              blurRadius: 40,
-              offset: Offset(0, 20),
-              spreadRadius: 0,
-            )
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              Container(
-                  decoration: const BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0x19000000),
-                        blurRadius: 10,
-                        offset: Offset(0, 10),
-                      )
-                    ],
-                  ),
-                  child: buildPdfIcon(note.thumbnailImageUrl ?? '')),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                child: Text(
-                  'Study Notes'.toUpperCase(),
-                  style: PreMedTextTheme().heading1.copyWith(
-                        fontSize: 8,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black26,
-                      ),
-                ),
-              ),
-              SizedBoxes.vertical5Px,
-              Text(
-                note.topicName,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: PreMedTextTheme()
-                    .headline
-                    .copyWith(fontWeight: FontWeight.w800),
-                textAlign: TextAlign.center,
-              ),
-              SizedBoxes.vertical5Px,
-              Text(
-                note.board,
-                style: PreMedTextTheme()
-                    .heading1
-                    .copyWith(fontWeight: FontWeight.w400, fontSize: 10),
+      onTap: !hasAccess && note.access == 'Paid' ? null : onTileClick,
+      child: Stack(
+        children: [ Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white.withOpacity(0.85),
+            border: Border.all(color: Colors.white.withOpacity(0.50)),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x26000000),
+                blurRadius: 40,
+                offset: Offset(0, 20),
               )
             ],
           ),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Container(
+                    decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x19000000),
+                          blurRadius: 10,
+                          offset: Offset(0, 10),
+                        )
+                      ],
+                    ),
+                    child: buildPdfIcon(note.thumbnailImageUrl ?? '')),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                  child: Text(
+                    'Essential Stuff'.toUpperCase(),
+                    style: PreMedTextTheme().heading1.copyWith(
+                          fontSize: 8,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black26,
+                        ),
+                  ),
+                ),
+                SizedBoxes.vertical5Px,
+                Text(
+                  note.topicName,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: PreMedTextTheme()
+                      .headline
+                      .copyWith(fontWeight: FontWeight.w800),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBoxes.vertical5Px,
+                Text(
+                  note.board,
+                  style: PreMedTextTheme()
+                      .heading1
+                      .copyWith(fontWeight: FontWeight.w400, fontSize: 10),
+                )
+              ],
+            ),
+          ),
         ),
+          if (!hasAccess && note.access == 'Paid')
+            Positioned.fill(
+              child: GlassContainer(
+                shadowStrength: 0,
+                borderRadius: BorderRadius.circular(10),
+                child: Center(
+                  child: GlassContainer(
+                    shadowStrength: 0,
+                    height: 32,
+                    width: 80,
+                    border: Border.all(color: Colors.white, width: 2),
+                    child: Center(
+                      child: Text('Unlock',
+                          style: PreMedTextTheme().heading1.copyWith(
+                              fontWeight: FontWeight.w500, fontSize: 15)),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+        ]
       ),
     );
   }

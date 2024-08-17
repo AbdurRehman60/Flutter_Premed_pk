@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/topic_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/deck_tile.dart';
 import 'package:provider/provider.dart';
@@ -166,37 +167,40 @@ class _MocksQbankState extends State<MocksQbank>
                       ),
                     ),
                   ),
-                  SizedBoxes.vertical22Px,
+                  SizedBoxes.vertical5Px,
                 ],
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding:  EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width*0.065),
             child: Row(
               children: [
-                TopicButton(
-                  topicName: 'MDCAT',
-                  isActive: selectedCategory == 'MDCAT',
-                  onTap: () => _updateCategory('MDCAT'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 13),
-                  child: TopicButton(
-                    topicName: 'NUMS',
-                    isActive: selectedCategory == 'NUMS',
-                    onTap: () => _updateCategory('NUMS'),
-                  ),
-                ),
-                TopicButton(
-                  topicName: 'Private Universities',
-                  isActive: selectedCategory == 'Private Universities',
-                  onTap: () => _updateCategory('Private Universities'),
+                Wrap(
+                  spacing: 6, // Horizontal space between items
+                  runSpacing: 10, // Vertical space between lines
+                  children: [
+                    TopicButton(
+                      topicName: 'MDCAT',
+                      isActive: selectedCategory == 'MDCAT',
+                      onTap: () => _updateCategory('MDCAT'),
+                    ),
+                    TopicButton(
+                      topicName: 'NUMS',
+                      isActive: selectedCategory == 'NUMS',
+                      onTap: () => _updateCategory('NUMS'),
+                    ),
+                    TopicButton(
+                      topicName: 'Private Universities',
+                      isActive: selectedCategory == 'Private Universities',
+                      onTap: () => _updateCategory('Private Universities'),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-          SizedBoxes.vertical26Px,
+          SizedBoxes.vertical15Px,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Flexible(
@@ -210,7 +214,7 @@ class _MocksQbankState extends State<MocksQbank>
               ),
             ),
           ),
-          SizedBoxes.verticalMedium,
+          SizedBoxes.vertical10Px,
           Expanded(
             child: _buildDeckGroupList(selectedCategory),
           ),

@@ -26,9 +26,10 @@ class EssentialStuffProvider extends ChangeNotifier {
   Future<void> getEssentialStuff() async {
     try {
       _fetchStatus = FetchStatus.fetching;
-      if (essentialStuffList.isNotEmpty) {
-        notify();
-      }
+      notify();
+      // if (essentialStuffList.isNotEmpty) {
+      //   notify();
+      // }
 
       final List<EssenceStuffModel> essenceStuffList = [];
 

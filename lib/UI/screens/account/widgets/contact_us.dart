@@ -17,8 +17,9 @@ class ContactUs extends StatelessWidget {
     final Uri gmail = Uri.parse('mailto:contact@premed.pk');
     final Uri hubspot = Uri.parse('https://premed.pk/about/contact');
     return Scaffold(
+      backgroundColor: PreMedColorTheme().background,
       appBar: AppBar(
-        backgroundColor: PreMedColorTheme().white,
+        backgroundColor: PreMedColorTheme().background,
         leading: const PopButton(),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

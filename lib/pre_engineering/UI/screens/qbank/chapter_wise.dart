@@ -90,8 +90,8 @@ class _EngChapterWiseHomeState extends State<EngChapterWiseHome>
                 switch (provider.fetchStatus) {
                   case ChapterWiseFetchStatus.init:
                   case ChapterWiseFetchStatus.fetching:
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return  Center(
+                      child: CircularProgressIndicator(color: PreMedColorTheme().blue,),
                     );
                   case ChapterWiseFetchStatus.success:
                     final filteredDeckGroups = provider.deckGroups

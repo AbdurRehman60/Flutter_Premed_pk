@@ -42,6 +42,8 @@ class PremedAssets {
   static String BlueGraph = 'assets/icons/blue graph.png';
   static String notesstudy = 'assets/images/studynotes.png';
   static String arrow = 'assets/images/Chevron Right.png';
+  static String Alert = 'assets/icons/Alert.png';
+  static String DoubtSolution = 'assets/icons/doubt.png';
 
   //icons
 
@@ -90,6 +92,10 @@ class PremedAssets {
   static String BlueDocument = 'assets/icons/blue question.svg';
   static String RedDocument = 'assets/images/QuestionMarkDocument.svg';
   static String Badge = 'assets/icons/badge.png';
+  static String crown = 'assets/icons/crown.png';
+  static String subCheck = 'assets/icons/subCheck.png';
+  static String subWrong = 'assets/icons/subWrong.png';
+  static String videoSolution = 'assets/icons/videoSolution.png';
 
   ///QbankHome
 static String TestSession  ='assets/icons/testsession.png';

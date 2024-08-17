@@ -207,6 +207,7 @@ void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup, String qba
     isScrollControlled: true,
     builder: (BuildContext context) {
       return CustomBottomSheet(
+        subject: deckGroup.deckGroupName,
         deckGroup: deckGroup,
         bankOrMock: 'Mocks',
         category: qbankText,

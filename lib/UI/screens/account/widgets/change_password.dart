@@ -1,7 +1,6 @@
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/models/user_model.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
@@ -53,9 +52,10 @@ class _ChangePasswordState extends State<ChangePassword> {
     }
 
     return Scaffold(
+      backgroundColor: PreMedColorTheme().background,
       appBar: AppBar(
-        backgroundColor: PreMedColorTheme().white,
-        leading: PopButton(),
+        backgroundColor: PreMedColorTheme().background,
+        leading: const PopButton(),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

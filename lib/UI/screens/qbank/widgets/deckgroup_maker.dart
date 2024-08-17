@@ -89,7 +89,9 @@ void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup, qbankgroup
     backgroundColor: Colors.white,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return CustomBottomSheet(deckGroup: deckGroup,bankOrMock: 'Bank', category: qbankgroupName,);
+      return CustomBottomSheet(deckGroup: deckGroup,bankOrMock: 'Bank', category: qbankgroupName,
+      subject: deckGroup.deckGroupName,
+      );
     },
   );
 }

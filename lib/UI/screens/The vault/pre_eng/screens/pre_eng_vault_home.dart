@@ -2,6 +2,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/pre_eng/screens/estuff_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/pre_eng/screens/study_notes_home_eng.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:provider/provider.dart';
+import '../../../../../providers/user_provider.dart';
+import '../../../../../providers/vaultProviders/engineeringProviders/engineering_access_providers.dart';
 import '../../vault_home.dart';
 import '../widgets/estuff_reel.dart';
 import '../widgets/study_notes_reel.dart';
@@ -20,6 +23,20 @@ class _VaultHomeState extends State<PreEngVaultHome> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => checkSubscription());
+  }
+
+  void checkSubscription() {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final accessProvider =
+    Provider.of<PreEngAccessProvider>(context, listen: false);
+    accessProvider.setSubscriptions(userProvider.user!.access);
+    accessProvider.updateAccessFlags();
   }
 
   @override
@@ -160,21 +177,13 @@ class _VaultHomeState extends State<PreEngVaultHome> {
                                 ),
                           ),
                           SizedBoxes.vertical10Px,
-                          Container(
-                            height: 83,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.15),
-                                  offset: const Offset(0, 20),
-                                  blurRadius: 40, //
-                                ),
-                              ],
-                            ),
-                            child: const EngEstuffPage(),
-                          ),
+
                         ],
                       ),
+                    ),
+                    Container(
+                      height: 83,
+                      child: const EngEstuffPage(),
                     ),
                   ],
                 ),
@@ -241,15 +250,6 @@ class _VaultHomeState extends State<PreEngVaultHome> {
                 padding: const EdgeInsets.only(left: 15, top: 7),
                 child: Container(
                     height: 83,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.15),
-                          offset: const Offset(0, 20),
-                          blurRadius: 40, //
-                        ),
-                      ],
-                    ),
                     child: const PreEngStudyNotesPage()),
               ),
             ],

@@ -35,7 +35,6 @@ class AttemptProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        print("Attempt has been updated successfully.");
         status = Status.success;
         message = 'Attempt updated successfully';
       } else {
@@ -80,7 +79,6 @@ class AttemptProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        print("Result has been updated successfully.");
         status = Status.success;
         message = 'Result updated successfully';
       } else {

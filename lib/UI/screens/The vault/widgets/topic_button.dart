@@ -1,3 +1,6 @@
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
+import 'package:provider/provider.dart';
+
 import '../../../../constants/constants_export.dart';
 
 class TopicButton extends StatelessWidget {
@@ -27,7 +30,11 @@ class TopicButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8.5),
-          backgroundColor: isActive ? const Color(0xFFEC5863) : Colors.white,
+          backgroundColor: isActive
+              ? (Provider.of<PreMedProvider>(context).isPreMed
+                  ? const Color(0xFFEC5863)
+                  : PreMedColorTheme().blue)
+              : Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
             side: const BorderSide(

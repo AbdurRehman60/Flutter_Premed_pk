@@ -387,15 +387,7 @@ class _TimerClassState extends State<TimerClass> {
         width: 400,
         height: 200,
         decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: const Color.fromARGB(255, 180, 180, 180).withOpacity(0.1),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
-          borderRadius: BorderRadius.circular(9),
+          borderRadius: BorderRadius.circular(15),
           color: Colors.white,
         ),
         child: Padding(

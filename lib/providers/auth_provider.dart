@@ -321,7 +321,7 @@ class AuthProvider extends ChangeNotifier {
       "username": email,
       "password": password,
     };
-    print("Signup Data: $signupData");
+
 
     _signUpStatus = Status.Authenticating;
     notifyListeners();

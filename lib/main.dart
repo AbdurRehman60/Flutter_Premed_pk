@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -40,6 +38,7 @@ import 'package:premedpk_mobile_app/providers/update_attempt_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/eng_study_notes_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/engineering_access_providers.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/essen_stuff_pro.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/essential_stuff_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/mnemonics_provider.dart';
@@ -47,6 +46,7 @@ import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dar
 import 'package:premedpk_mobile_app/providers/vaultProviders/shortListing_providers.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/study_guides_prroviderr.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/study_notes_proivders.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_access_provider.dart';
 import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
 import 'package:premedpk_mobile_app/utils/services/notifications/firebase_messaging_api.dart';
 import 'package:provider/provider.dart';
@@ -128,7 +128,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=> EngChapterWisePro()),
         ChangeNotifierProvider(create: (_)=> EngTestSessionsPro()),
         ChangeNotifierProvider(create: (_)=> MedTestSessionsPro()),
-
+        ChangeNotifierProvider(create: (_)=> PreMedAccessProvider()),
+        ChangeNotifierProvider(create: (_)=> PreEngAccessProvider()),
       ],
       child: MaterialApp(
         routes: {

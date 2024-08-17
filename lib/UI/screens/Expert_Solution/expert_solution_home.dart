@@ -2,6 +2,7 @@ import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/widgets/doubt_vie
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -20,6 +21,7 @@ class ExpertSolutionHome extends StatelessWidget {
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
+        backgroundColor: PreMedColorTheme().background,
         body: Column(children: [
           SizedBoxes.verticalExtraGargangua,
           Padding(
@@ -74,9 +76,9 @@ class ExpertSolutionHome extends StatelessWidget {
                 labelColor: PreMedColorTheme().white,
                 indicator: BoxDecoration(
                   border: Border.all(
-                      width: 3, color: PreMedColorTheme().primaryColorRed200),
+                      width: 3, color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().primaryColorRed: PreMedColorTheme().primaryColorBlue),
                   borderRadius: BorderRadius.circular(10),
-                  color: PreMedColorTheme().primaryColorRed,
+                  color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                 ),
                 indicatorSize: TabBarIndicatorSize.tab,
                 labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -99,12 +101,12 @@ class ExpertSolutionHome extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(19),
             border: Border.all(
-              color: PreMedColorTheme().primaryColorRed200,
+              color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().primaryColorBlue,
               width: 3,
             ),
           ),
           child: FloatingActionButton(
-            backgroundColor: PreMedColorTheme().primaryColorRed,
+            backgroundColor: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
             onPressed: () {
               final askAnExpertProvider =
                   Provider.of<AskAnExpertProvider>(context, listen: false);

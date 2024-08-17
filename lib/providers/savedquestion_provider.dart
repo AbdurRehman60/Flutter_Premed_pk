@@ -17,10 +17,10 @@ class SavedQuestionsProvider extends ChangeNotifier {
 
   FetchStatus get fetchStatus => _fetchStatus;
 
-  Future<void> getSavedQuestions() async {
+  Future<void> getSavedQuestions({required String userId}) async {
     try {
       final Response response = await _client.post(Endpoints.SavedQuestions,
-          data: {'userId': '64c68bc9f093d0bd25c026de'});
+          data: {'userId': userId});
       if (response.data['success']) {
         final List responseData = response.data['FindSavedQuestion'];
         List<SavedQuestionModel> savedQuestionList = [];

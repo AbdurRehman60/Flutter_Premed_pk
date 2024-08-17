@@ -1,7 +1,9 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/saved_question/widget/topic_button.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/models/saved_question_model.dart';
 import 'package:premedpk_mobile_app/providers/savedquestion_provider.dart';
+import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
 import 'activity_cell.dart';
@@ -21,9 +23,10 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      final userPro = Provider.of<UserProvider>(context);
       final provider =
-          Provider.of<SavedQuestionsProvider>(context, listen: false);
-      provider.getSavedQuestions();
+      Provider.of<SavedQuestionsProvider>(context, listen: false);
+      provider.getSavedQuestions(userId: userPro.user!.userId);
     });
   }
 
@@ -36,7 +39,7 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
 
   void _filterQuestions() {
     final provider =
-        Provider.of<SavedQuestionsProvider>(context, listen: false);
+    Provider.of<SavedQuestionsProvider>(context, listen: false);
     if (_activeTopic == 'All Questions') {
       _filteredQuestions = provider.savedQuestions;
     } else {
@@ -49,6 +52,7 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: PreMedColorTheme().background,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: Padding(
@@ -78,26 +82,7 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
               )
             ],
             backgroundColor: Colors.transparent,
-            leading: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Material(
-                elevation: 4,
-                color: PreMedColorTheme().white,
-                borderRadius: BorderRadius.circular(8),
-                clipBehavior: Clip.hardEdge,
-                child: SizedBox(
-                  width: 37,
-                  height: 37,
-                  child: SvgPicture.asset(
-                    'assets/icons/left-arrow.svg',
-                    width: 9.33,
-                    height: 18.67,
-                  ),
-                ),
-              ),
-            ),
+            leading: const PopButton(),
           ),
         ),
       ),
@@ -161,7 +146,8 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
               Consumer<SavedQuestionsProvider>(
                 builder: (context, savedQuestionsProvider, _) {
                   if (savedQuestionsProvider.fetchStatus == FetchStatus.init) {
-                    savedQuestionsProvider.getSavedQuestions();
+                    final userProvider = Provider.of<UserProvider>(context,listen: false);
+                    savedQuestionsProvider.getSavedQuestions(userId: userProvider.user!.userId);
                   }
                   if (savedQuestionsProvider.fetchStatus ==
                       FetchStatus.success) {

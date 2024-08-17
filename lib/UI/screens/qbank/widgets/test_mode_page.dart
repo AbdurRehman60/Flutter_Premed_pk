@@ -12,10 +12,12 @@ class TestModeInterface extends StatefulWidget {
     super.key,
     required this.deckDetails,
     required this.deckGroupName,
+    required this.subject,
   });
 
   final Map<String, dynamic> deckDetails;
   final String deckGroupName;
+  final String subject;
 
   @override
   State<TestModeInterface> createState() => _TestModeInterfaceState();
@@ -222,11 +224,13 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                 ),
                 SizedBoxes.verticalBig,
                 ModeDescription(
+                  subject: widget.subject,
                   deckName: widget.deckDetails['deckName'],
                   mode: tutorModeButton,
                   timedTestMinutes: widget.deckDetails['timedTestMinutes'],
                 ),
                 SizedBoxes.verticalBig,
+                if(instructions.isNotEmpty)
                 Material(
                   borderRadius: BorderRadius.circular(24),
                   clipBehavior: Clip.hardEdge,
@@ -286,4 +290,6 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
       ),
     );
   }
+
 }
+

@@ -1,8 +1,8 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:premedpk_mobile_app/api_manager/dio client/dio_client.dart';
+import 'package:premedpk_mobile_app/api_manager/dio client/endpoints.dart';
 import 'package:premedpk_mobile_app/models/cheatsheetModel.dart';
-
-import '../../api_manager/dio client/dio_client.dart';
-import '../../api_manager/dio client/endpoints.dart';
-import '../../constants/constants_export.dart';
 
 enum NotesStatus { init, fetching, success, error }
 
@@ -14,38 +14,32 @@ class VaultTopicalGuidesProvider extends ChangeNotifier {
 
   List<VaultNotesModel> _vaultNotesList = [];
   List<VaultNotesModel> get vaultNotesList => _vaultNotesList;
-  set cheatSheetList(List<VaultNotesModel> value) {
-    _vaultNotesList = value;
-  }
 
   void notify() {
     notifyListeners();
   }
-
   Future<Map<String, dynamic>> fetchNotess() async {
+
     Map<String, Object?> result;
     _vaultnotesLoadingStatus = NotesStatus.fetching;
-    if (vaultNotesList.isNotEmpty) {
-      notify();
-    }
-    cheatSheetList = [];
+    if(vaultNotesList.isNotEmpty){
+    notify();}
 
     try {
       final response = await _client.get(
-        Endpoints.StudyNotes,
+        Endpoints.StudyGuides,
       );
 
-      if (response["message"] == "Retrieved Successfully") {
+      if (response["message"] == "Topical Guide retrieved successfully") {
         final List<VaultNotesModel> list = [];
         for (final data in response['data']) {
           final VaultNotesModel fetchedData = VaultNotesModel.fromJson(data);
           list.add(fetchedData);
         }
 
-        cheatSheetList = list;
+        _vaultNotesList = list;
 
         _vaultnotesLoadingStatus = NotesStatus.success;
-        notify();
         result = {
           'status': true,
           'message': 'Data fetched successfully',
@@ -56,12 +50,13 @@ class VaultTopicalGuidesProvider extends ChangeNotifier {
           'message': 'Failed to fetch data',
         };
       }
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       result = {
         'status': false,
         'message': e.message,
       };
     }
+
     _vaultnotesLoadingStatus = NotesStatus.init;
     notify();
     return result;

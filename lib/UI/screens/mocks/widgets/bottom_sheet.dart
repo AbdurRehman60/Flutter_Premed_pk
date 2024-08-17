@@ -19,11 +19,12 @@ class CustomBottomSheet extends StatefulWidget {
     super.key,
     required this.deckGroup,
     required this.bankOrMock,
-    required this.category,
+    required this.category, required this.subject,
   });
   final String bankOrMock;
   final DeckGroupModel deckGroup;
   final String? category;
+  final String subject;
 
   @override
   State<CustomBottomSheet> createState() => _CustomBottomSheetState();
@@ -137,6 +138,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => TestModeInterface(
+                                    subject: widget.deckGroup.deckGroupName,
                                     deckDetails: {
                                       'deckName': widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
                                       'isTutorModeFree': widget.deckGroup.deckItems[selectedDeckItemIndex].isTutorModeFree,
@@ -153,6 +155,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => DeckInstructions(
+                                    subject: widget.subject,
                                     deckInstructions: item.deckInstructions,
                                     deckGroup: widget.deckGroup,
                                     selectedIndex: selectedDeckItemIndex,
@@ -187,6 +190,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
         context,
         MaterialPageRoute(
           builder: (context) => TutorMode(
+            subject: widget.subject,
             deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: attemptId,
             startFromQuestion: startFromQuestion ?? 0,
@@ -198,6 +202,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
         context,
         MaterialPageRoute(
           builder: (context) => TestInterface(
+            subject: widget.subject,
             deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: attemptId ?? deckAttemptProvider.attemptId,
             startFromQuestion: startFromQuestion ?? 0,
@@ -242,6 +247,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => TestModeInterface(
+                                  subject: widget.deckGroup.deckGroupName,
                                   deckDetails: {
                                     'deckName': widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
                                     'isTutorModeFree': widget.deckGroup.deckItems[selectedDeckItemIndex].isTutorModeFree,
@@ -258,6 +264,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => DeckInstructions(
+                                  subject: widget.subject,
                                   deckInstructions: item.deckInstructions,
                                   deckGroup: widget.deckGroup,
                                   selectedIndex: selectedDeckItemIndex,

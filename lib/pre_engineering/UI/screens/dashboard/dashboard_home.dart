@@ -1,5 +1,8 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/pre_eng/screens/study_notes_home_eng.dart';
+import 'package:premedpk_mobile_app/UI/screens/account/widgets/account_before_edit.dart';
+import 'package:premedpk_mobile_app/pre_engineering/UI/widgets/eng_timer.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../UI/screens/Dashboard_Screen/dashboard_screen.dart';
@@ -10,8 +13,6 @@ import '../../../../UI/screens/Dashboard_Screen/widgets/notes_card.dart';
 import '../../../../UI/screens/Dashboard_Screen/widgets/series_card.dart';
 import '../../../../UI/screens/The vault/pre_eng/screens/pre_eng_vault_home.dart';
 import '../../../../UI/screens/flashcards/flashcards_home.dart';
-import '../../../../UI/screens/notifications/notification_page.dart';
-import '../../../../UI/screens/qbank/mdcat/mocks&bank_statistics.dart';
 import '../../../../UI/screens/statistics/statistics_screen.dart';
 import '../../../../UI/screens/statistics/widgets/Attempted_card.dart';
 import '../../../../UI/screens/statistics/widgets/card_w.dart';
@@ -19,6 +20,7 @@ import '../../../../constants/constants_export.dart';
 import '../../../../models/statistic_model.dart';
 import '../../../../providers/statistic_provider.dart';
 import '../../../../providers/user_provider.dart';
+import '../saved_question/saved_question_eng.dart';
 
 class EngineeringDashboardScreen extends StatefulWidget {
   const EngineeringDashboardScreen({super.key, this.timeLeft});
@@ -56,6 +58,7 @@ class _EngineeringDashboardScreenState
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     final UserStatProvider userStatProvider =
         Provider.of<UserStatProvider>(context, listen: false);
@@ -108,7 +111,12 @@ class _EngineeringDashboardScreenState
                       decoration: const BoxDecoration(
                           boxShadow: CustomBoxShadow.boxShadow40),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AccountBeforeEdit()));
+                        },
                         child: SvgPicture.asset(
                             Provider.of<PreMedProvider>(context).isPreMed
                                 ? PremedAssets.Profile
@@ -125,10 +133,15 @@ class _EngineeringDashboardScreenState
                   children: [
                     NotesCard(
                       icon: PremedAssets.notesstudy,
-                      onTap: () {},
-                      bgColor: PreMedColorTheme().white,
-                      text: 'CONTINUE STUDYING',
-                      text1: 'Stichiometery',
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const EngineeringStudyNotesHome()));
+                      },
+                      bgColor: PreMedColorTheme().white85,
+                      text: 'Continue Studying'.toUpperCase(),
+                      text1:  Provider.of<PreMedProvider>(context).isPreMed ? 'Stichiometery' : 'Measurements',
                       text2: 'STUDY NOTES',
                     ),
                     SizedBox(
@@ -149,7 +162,7 @@ class _EngineeringDashboardScreenState
                   ],
                 ),
               ),
-              SizedBoxes.vertical5Px,
+              SizedBoxes.vertical10Px,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                 child: Row(
@@ -165,7 +178,7 @@ class _EngineeringDashboardScreenState
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  const MDcatMockorBankStats(),
+                                  const SavedQuestionScreenEng(),
                             ));
                       },
                     ),
@@ -188,13 +201,33 @@ class _EngineeringDashboardScreenState
                   ],
                 ),
               ),
+              SizedBoxes.vertical15Px,
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.03, vertical: 12),
+                    horizontal: screenWidth * 0.043,),
+                child: Material(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          boxShadow: CustomBoxShadow.boxShadow40,
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: const EngineeringTimer(),
+                    // const TimerWidget()
+                  ),
+                ),
+              ),
+              SizedBoxes.vertical15Px,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04)
+                    .copyWith(bottom: 10),
                 child: const LatestAttemptScreen(
                   isPreMed: false,
                 ),
               ),
+              const SizedBox(height: 8,),
               // Padding(
               //   padding: EdgeInsets.symmetric(
               //     horizontal: screenWidth * 0.03,
@@ -267,40 +300,35 @@ class _EngineeringDashboardScreenState
               // ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.03,
-                    vertical: MediaQuery.of(context).size.height * 0.0031),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  elevation: 5,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 7,
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    decoration: BoxDecoration(
-                      color: PreMedColorTheme().white,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 5, top: 10),
-                      child: FutureBuilder(
-                        future: userStatProvider
-                            .fetchUserStatistics(UserProvider().user?.userId),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              userStatModel = userStatProvider.userStatModel!;
-                              return Column(
+                    horizontal: MediaQuery.of(context).size.width * 0.04,),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 7,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  decoration: BoxDecoration(
+                    color: PreMedColorTheme().white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: CustomBoxShadow.boxShadow40
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 5, top: 10),
+                    child: FutureBuilder(
+                      future: userStatProvider
+                          .fetchUserStatistics(UserProvider().user?.userId),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            userStatModel = userStatProvider.userStatModel!;
+                            return InkWell(
+                              onTap: (){
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const StatisticsScreen()));
+                              },
+                              child: Column(
                                 children: [
                                   Row(
                                     children: [
@@ -344,19 +372,19 @@ class _EngineeringDashboardScreenState
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
-                                              0.09),
+                                              0.08),
                                       InkWell(
                                           onTap: () {
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const StatisticsScreen()));
+                                                    const StatisticsScreen()));
                                           },
                                           child: Image.asset(
                                             Provider.of<PreMedProvider>(context)
                                                 .isPreMed ? PremedAssets.arrow : PremedAssets.ArrowForward,
-                                            width: 20,
-                                            height: 20,
+                                            width: 15,
+                                            height: 15,
                                           ),
                                           // Container(
                                           //   width: 20,
@@ -383,7 +411,6 @@ class _EngineeringDashboardScreenState
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(18)),
-                                      elevation: 5,
                                       child: Container(
                                         height:
                                             MediaQuery.of(context).size.height *
@@ -391,16 +418,7 @@ class _EngineeringDashboardScreenState
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(18),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: const Color.fromARGB(
-                                                      255, 180, 180, 180)
-                                                  .withOpacity(0.1),
-                                              spreadRadius: 2,
-                                              blurRadius: 5,
-                                              offset: const Offset(0, 3),
-                                            ),
-                                          ],
+                                          boxShadow: CustomBoxShadow.boxShadow40,
                                         ),
                                         child: MaterialCard(
                                           height: MediaQuery.of(context)
@@ -451,13 +469,110 @@ class _EngineeringDashboardScreenState
                                     ),
                                   ),
                                 ],
-                              );
-                            } else {
-                              return Container();
-                            }
+                              ),
+                            );
+                          } else {
+                            return Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Image.asset(
+                                        Provider.of<PreMedProvider>(context).isPreMed ?
+                                        PremedAssets.graph : PremedAssets.BlueGraph,
+                                        width: 50,
+                                        height: 50,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10, left: 2, bottom: 7),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Statistics",
+                                            style: GoogleFonts.rubik(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Check out your performance at a glance!",
+                                            style: GoogleFonts.rubik(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 9,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: screenWidth * 0.08),
+                                    InkWell(
+                                      onTap: () {
+                                      },
+                                      child: Image.asset(
+                                        Provider.of<PreMedProvider>(context)
+                                            .isPreMed ? PremedAssets.arrow : PremedAssets.ArrowForward,
+                                        width: 15,
+                                        height: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Container(
+                                    height: screenHeight * 0.18,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: CustomBoxShadow.boxShadow40,
+                                    ),
+                                    child: MaterialCard(
+                                      height: screenHeight * 0.18,
+                                      width: screenWidth,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              StatDetailHolder(
+                                                textColor: PreMedColorTheme()
+                                                    .greenLight,
+                                                count: 0,
+                                                details: 'Decks\nAttempted',
+                                              ),
+                                              StatDetailHolder(
+                                                textColor:
+                                                PreMedColorTheme().red,
+                                                count:
+                                                0,
+                                                details: 'Test\nAttempted',
+                                              ),
+                                              StatDetailHolder(
+                                                textColor: PreMedColorTheme()
+                                                    .yellowlight,
+                                                count: 0,
+                                                details:
+                                                'Practice Tests\nAttempted',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
                           }
-                        },
-                      ),
+                        }
+                      },
                     ),
                   ),
                 ),

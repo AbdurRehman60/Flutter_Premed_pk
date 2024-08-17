@@ -11,9 +11,10 @@ class FlashcardModel {
     required this.category,
     required this.explanationText,
     required this.optionText,
+    required this.questionId,
   });
 
-  factory FlashcardModel.fromJson(Map<String, dynamic> json) {
+  factory FlashcardModel.fromJson(Map<String, dynamic> json ,String questionId) {
     final questionDetails = json['QDetails'][0];
     final correctOption = questionDetails['Options']
         .firstWhere((option) => option['IsCorrect'] == true);
@@ -31,10 +32,11 @@ class FlashcardModel {
       category: questionDetails['meta']['category'],
       explanationText: correctOption['ExplanationText'],
       optionText: correctOption['OptionText'],
+      questionId: questionId
     );
   }
   final String id;
-  final String subject;
+  final String? subject;
   final String questionText;
   final List<String> tags;
   final String topic;
@@ -44,4 +46,5 @@ class FlashcardModel {
   final String category;
   final String? explanationText;
   final String optionText;
+  final String questionId;
 }

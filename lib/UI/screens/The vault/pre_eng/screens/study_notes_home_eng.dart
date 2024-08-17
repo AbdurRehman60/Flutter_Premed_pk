@@ -1,6 +1,6 @@
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/engineering_access_providers.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../../constants/constants_export.dart';
 import '../../../../../models/cheatsheetModel.dart';
 import '../../../../../providers/vaultProviders/engineeringProviders/eng_study_notes_provider.dart';
@@ -186,7 +186,7 @@ class _StudyNotesHomeState extends State<EngineeringStudyNotesHome> {
                             _handleSearch('');
                           },
                           icon: const Icon(Icons.clear),
-                          color: PreMedColorTheme().primaryColorRed,
+                          color: PreMedColorTheme().blue,
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -218,6 +218,7 @@ class _StudyNotesHomeState extends State<EngineeringStudyNotesHome> {
                 SizedBoxes.vertical15Px,
                 Expanded(
                   child: PdfDisplayer(
+                    hasAccess: Provider.of<PreEngAccessProvider>(context,listen: false).hasEngNotes,
                     notes: _filteredNotes,
                     isLoading: isLoading,
                     categoryName: 'Study Notes',

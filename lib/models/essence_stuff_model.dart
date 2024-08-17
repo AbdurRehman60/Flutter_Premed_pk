@@ -10,19 +10,23 @@ class EssenceStuffModel {
     this.pagination,
     required this.province,
     required this.board,
-    this.subject
+    this.subject,
+    required this.access,
   });
 
   factory EssenceStuffModel.fromJson(Map<String, dynamic> json) {
     List<NotePagination> paginations = [];
 
     if (json['paginations'] != null) {
+      print('notes Name : ${json['resourceName']}');
+      print('notes Name : ${json['access']}');
       paginations = (json['paginations'] as List).map((demarcationJson) {
         return NotePagination.fromJson(demarcationJson);
       }).toList();
     }
 
     return EssenceStuffModel(
+      access: json['access'],
         category: json['category'],
         id: json['_id'],
         topicName: json['resourceName'],
@@ -44,6 +48,7 @@ class EssenceStuffModel {
   final List<NotePagination>? pagination;
   final String province;
   final String board;
+  final String access;
 }
 
 class NotePagination {

@@ -21,7 +21,7 @@ class CreateDeckAttemptProvider extends ChangeNotifier {
         throw Exception('User cannot be null or empty');
       }
 
-      print('Creating deck attempt with user: ${attemptModel.user}');
+      // print('Creating deck attempt with user: ${attemptModel.user}');
 
       final response = await _client.post(
         Endpoints.DeckAttempt,
@@ -29,7 +29,7 @@ class CreateDeckAttemptProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        print("this is the attempt id made $response");
+        // print("this is the attempt id made $response");
         _responseMessage = 'Attempt created successfully';
         attemptId = response.data['attemptId'];
       } else {

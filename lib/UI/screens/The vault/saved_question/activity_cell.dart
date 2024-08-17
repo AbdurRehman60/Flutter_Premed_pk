@@ -1,6 +1,8 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:premedpk_mobile_app/models/saved_question_model.dart';
+import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
+import '../../../../providers/vaultProviders/premed_provider.dart';
 
 class ActivityCell extends StatelessWidget {
   const ActivityCell({super.key, required this.savedQuestionModel});
@@ -12,7 +14,9 @@ class ActivityCell extends StatelessWidget {
       children: [
         Row(
           children: [
-            SvgPicture.asset('assets/images/QuestionMarkDocument.svg'),
+            SvgPicture.asset(Provider.of<PreMedProvider>(context).isPreMed
+                ? PremedAssets.RedDocument
+                : PremedAssets.BlueDocument),
             const SizedBox(width: 16.0), //
             Expanded(
               child: Column(
@@ -51,13 +55,18 @@ class ActivityCell extends StatelessWidget {
                                   children: [
                                     Text(
                                       tag,
-                                      style:
-                                          PreMedTextTheme().heading1.copyWith(
-                                                fontSize: 8,
-                                                fontWeight: FontWeight.w700,
-                                                color: PreMedColorTheme()
-                                                    .primaryColorRed,
-                                              ),
+                                      style: PreMedTextTheme()
+                                          .heading1
+                                          .copyWith(
+                                            fontSize: 8,
+                                            fontWeight: FontWeight.w700,
+                                            color: Provider.of<PreMedProvider>(
+                                                        context)
+                                                    .isPreMed
+                                                ? PreMedColorTheme()
+                                                    .primaryColorRed
+                                                : PreMedColorTheme().blue,
+                                          ),
                                     ),
                                   ],
                                 ),

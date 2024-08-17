@@ -178,40 +178,41 @@ class _GlobalQbankState extends State<GlobalQbank>
                           ),
                     ),
                   ),
-                  SizedBoxes.vertical22Px,
+                  SizedBoxes.vertical5Px,
                 ],
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
+            padding: const EdgeInsets.symmetric(horizontal: 22.0),
             child: Row(
               children: [
-                TopicButton(
-                  topicName: widget.isTopical ? 'MDCAT' : 'MDCAT Yearly',
-                  isActive: selectedCategory == 'MDCAT',
-                  onTap: () => _updateCategory('MDCAT'),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 13),
-                  child: TopicButton(
-                    topicName: widget.isTopical ? 'NUMS' : 'NUMS Yearly',
-                    isActive: selectedCategory == 'NUMS',
-                    onTap: () => _updateCategory('NUMS'),
-                  ),
-                ),
-                Visibility(
-                  visible: widget.isTopical,
-                  child: TopicButton(
-                    topicName: 'Private Universities',
-                    isActive: selectedCategory == 'Private Universities',
-                    onTap: () => _updateCategory('Private Universities'),
-                  ),
+                Wrap(
+                  spacing: 8, // Horizontal space between items
+                  runSpacing: 10, // Vertical space between lines
+                  children: [
+                    TopicButton(
+                      topicName: widget.isTopical ? 'MDCAT' : 'MDCAT Yearly',
+                      isActive: selectedCategory == 'MDCAT',
+                      onTap: () => _updateCategory('MDCAT'),
+                    ),
+                    TopicButton(
+                      topicName: widget.isTopical ? 'NUMS' : 'NUMS Yearly',
+                      isActive: selectedCategory == 'NUMS',
+                      onTap: () => _updateCategory('NUMS'),
+                    ),
+                    if (widget.isTopical)
+                      TopicButton(
+                        topicName: 'Private Universities',
+                        isActive: selectedCategory == 'Private Universities',
+                        onTap: () => _updateCategory('Private Universities'),
+                      ),
+                  ],
                 ),
               ],
             ),
           ),
-          SizedBoxes.vertical26Px,
+          SizedBoxes.vertical10Px,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
@@ -225,7 +226,7 @@ class _GlobalQbankState extends State<GlobalQbank>
                   ),
             ),
           ),
-          SizedBoxes.vertical22Px,
+          SizedBoxes.vertical10Px,
           Expanded(
             child: _buildDeckGroupList(selectedCategory),
           ),

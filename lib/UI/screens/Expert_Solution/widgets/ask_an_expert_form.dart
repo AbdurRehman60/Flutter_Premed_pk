@@ -8,6 +8,8 @@ import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/utils/validators.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../providers/vaultProviders/premed_provider.dart';
+
 class AskanExpertForm extends StatelessWidget {
   AskanExpertForm({
     super.key,
@@ -102,6 +104,7 @@ class AskanExpertForm extends StatelessWidget {
                   ),
                   SizedBoxes.verticalLarge,
                   CustomButton(
+                    color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                     buttonText: 'Use Camera',
                     onPressed: () {
                       Navigator.push(
@@ -131,6 +134,7 @@ class AskanExpertForm extends StatelessWidget {
                   ),
                   SizedBoxes.verticalBig,
                   CustomButton(
+                    color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                     isActive:
                         askAnExpertProvider.doubtUploadStatus != Status.Sending,
                     buttonText:

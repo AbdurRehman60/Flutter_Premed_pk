@@ -66,9 +66,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       backgroundColor: PreMedColorTheme().background,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-        child: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: const PopButton(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 13),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            leading: const PopButton(),
+          ),
         ),
       ),
       body: SafeArea(
@@ -85,11 +88,16 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
-                      child: CircularProgressIndicator(
-                    color: Provider.of<PreMedProvider>(context).isPreMed
-                        ? PreMedColorTheme().red
-                        : PreMedColorTheme().blue,
-                  ));
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                                              color: Provider.of<PreMedProvider>(context).isPreMed
+                            ? PreMedColorTheme().red
+                            : PreMedColorTheme().blue,
+                                            ),
+                        ],
+                      ));
                 } else if (snapshot.hasError) {
                   return const Center(
                     child: Text('Error fetching data'),

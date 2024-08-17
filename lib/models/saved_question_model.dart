@@ -10,22 +10,20 @@ class SavedQuestionModel {
   });
 
   factory SavedQuestionModel.fromJson(Map<String, dynamic> json) {
-    final tagsList = json['QDetails']?[0]['Tags'] as List? ?? [];
-    final List<String> tagNames = tagsList.map((tag) => tag['name'] as String).toList();
-
-
     final qDetailsList = json['QDetails'] as List? ?? [];
+
+    // Extract tags only if QDetails is not empty
+    final List<String> tagNames = qDetailsList.isNotEmpty
+        ? (qDetailsList[0]['Tags'] as List? ?? []).map((tag) => tag['name'] as String).toList()
+        : [];
+
     final firstQDetail = qDetailsList.isNotEmpty ? qDetailsList[0] : {};
 
-
-
     final document = html_parser.parse(firstQDetail['QuestionText'] ?? '');
-    final String parsedQuestion = html_parser.parse(document.body?.text ?? '').documentElement!.text;
-
-
+    final String parsedQuestion = html_parser.parse(document.body?.text ?? '').documentElement?.text ?? '';
 
     final String createdAt = firstQDetail['createdAt'] ?? '';
-    final DateTime parsedDate = DateTime.parse(createdAt);
+    final DateTime parsedDate = DateTime.tryParse(createdAt) ?? DateTime.now(); // Fallback to current date if parsing fails
     final String formattedDate = DateFormat('dd MMM yyyy').format(parsedDate);
 
     return SavedQuestionModel(

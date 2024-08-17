@@ -84,18 +84,22 @@ class VaultNotesModel {
     this.pagination,
     required this.province,
     required this.board,
+    required this.access,
   });
 
   factory VaultNotesModel.fromJson(Map<String, dynamic> json) {
     List<NotePagination> paginations = [];
 
     if (json['paginations'] != null) {
+      print('notes Name : ${json['topicName']}');
+      print('notes Name : ${json['access']}');
       paginations = (json['paginations'] as List).map((demarcationJson) {
         return NotePagination.fromJson(demarcationJson);
       }).toList();
     }
 
     return VaultNotesModel(
+      access: json['access'],
         category: json['category'],
         id: json['_id'],
         topicName: json['topicName'],
@@ -116,6 +120,7 @@ class VaultNotesModel {
   final bool isPublished;
   final List<NotePagination>? pagination;
   final String province;
+  final String access;
   final String board;
 }
 

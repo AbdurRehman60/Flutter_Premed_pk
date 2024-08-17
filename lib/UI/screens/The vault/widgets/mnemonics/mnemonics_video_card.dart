@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart'; // Assuming this contains your text theme constants
 import 'package:premedpk_mobile_app/models/mnemonics_model.dart';
-import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_access_provider.dart';
 import 'package:provider/provider.dart';
 
 class MnemonicsCard extends StatelessWidget {
@@ -107,7 +107,7 @@ class MnemonicsCard extends StatelessWidget {
               ),
             ],
           ),
-          if (!Provider.of<UserProvider>(context).userAccess)
+          if (!Provider.of<PreMedAccessProvider>(context).hasMnemonics)
             Positioned.fill(
               child: GlassContainer(
                 child: Center(

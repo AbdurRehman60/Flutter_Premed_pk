@@ -93,6 +93,7 @@ class Endpoints {
 
   static const String handleSavedQuestion =
       '/api/saveQuestion/handleSavedQuestion';
+  static const String HandleFlashCard = '/api/flashcard/handleFlashcards';
 
   //report ques
   static const String addReport =
@@ -158,5 +159,7 @@ class Endpoints {
       '/api/essential/get/ENTRANCE EXAM/PRE-ENGINEERING';
 
   //VaultEnded
+  static const String handleCards ='/api/flashcard/handleFlashcards';
   static const String SavedQuestions = '/api/saveQuestion/get-saved-questions';
+
 }

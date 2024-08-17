@@ -2,20 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/vaultpdfview.dart';
 import 'package:premedpk_mobile_app/models/cheatsheetModel.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../../constants/constants_export.dart';
-import '../../../../../providers/user_provider.dart';
-
 class GuidesOrNotesDisplay extends StatelessWidget {
   const GuidesOrNotesDisplay({
     super.key,
     required this.notes,
     required this.isLoading,
-    required this.notesCategory,
+    required this.notesCategory, required this.hasAccess,
   });
-  final List<VaultNotesModel> notes;
+  final List<dynamic> notes;
   final bool isLoading;
   final String notesCategory;
+  final bool hasAccess;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +25,7 @@ class GuidesOrNotesDisplay extends StatelessWidget {
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.only(right: 13),
         child: GuideOrNotesCard(
+          hasAccess: hasAccess,
           vaultNotesModel: notes[index],
           onTap: () {
             Navigator.push(
@@ -46,16 +47,17 @@ class GuideOrNotesCard extends StatelessWidget {
     super.key,
     required this.vaultNotesModel,
     required this.onTap,
+    required this.hasAccess,
   });
 
   final VaultNotesModel vaultNotesModel;
   final void Function() onTap;
-
+  final bool hasAccess;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: !Provider.of<UserProvider>(context).userAccess ? null : onTap,
+      onTap: !hasAccess && vaultNotesModel.access == 'Paid' ? null : onTap,
       child: Stack(
         children: [
           Container(
@@ -73,17 +75,18 @@ class GuideOrNotesCard extends StatelessWidget {
                   CachedNetworkImage(
                     imageUrl: vaultNotesModel.thumbnailImageUrl ?? '',
                     fit: BoxFit.cover,
-                    placeholder: (context, url) =>
-                        const Center(child: CircularProgressIndicator()),
+                    placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(
+                            color: Provider.of<PreMedProvider>(context).isPreMed
+                                ? PreMedColorTheme().red
+                                : PreMedColorTheme().blue)),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
                     imageBuilder: (context, imageProvider) => Container(
                       height: 63,
                       width: 44,
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
+                        border: Border.all(color: Colors.white),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.15),
@@ -111,29 +114,29 @@ class GuideOrNotesCard extends StatelessWidget {
                             softWrap: true,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style:  PreMedTextTheme().heading1.copyWith(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.black,
-                            ),
+                            style: PreMedTextTheme().heading1.copyWith(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.black,
+                                ),
                           ),
                         ),
                         Text(
                           '${vaultNotesModel.subject.toUpperCase()} - ${vaultNotesModel.board.toUpperCase()}',
                           style: PreMedTextTheme().heading1.copyWith(
-                            fontSize: 8,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black.withOpacity(0.7),
-                          ),
-                        )
+                                fontSize: 8,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black.withOpacity(0.7),
+                              ),
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
           ),
-          if (!Provider.of<UserProvider>(context).userAccess)
+          if (!hasAccess && vaultNotesModel.access == 'Paid')
             GlassContainer(
               shadowStrength: 0,
               width: 240,
@@ -144,9 +147,12 @@ class GuideOrNotesCard extends StatelessWidget {
                   height: 32,
                   width: 80,
                   child: Center(
-                    child: Text('Unlock',
-                        style: PreMedTextTheme().heading1.copyWith(
-                            fontWeight: FontWeight.w500, fontSize: 15)),
+                    child: Text(
+                      'Unlock',
+                      style: PreMedTextTheme()
+                          .heading1
+                          .copyWith(fontWeight: FontWeight.w500, fontSize: 15),
+                    ),
                   ),
                 ),
               ),

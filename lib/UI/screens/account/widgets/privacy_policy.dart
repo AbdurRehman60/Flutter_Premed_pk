@@ -11,8 +11,9 @@ class PrivacyPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: PreMedColorTheme().background,
       appBar: AppBar(
-        backgroundColor: PreMedColorTheme().white,
+        backgroundColor: PreMedColorTheme().background,
         leading: const PopButton(),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

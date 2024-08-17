@@ -14,8 +14,8 @@ class PopButton extends StatelessWidget {
         boxShadow: const [
           BoxShadow(
             color: Color(0x19000000),
-            blurRadius: 10,
-            offset: Offset(0, 5),
+            blurRadius: 5,
+            offset: Offset(1, 7),
           )
         ],
         color: Colors.white,

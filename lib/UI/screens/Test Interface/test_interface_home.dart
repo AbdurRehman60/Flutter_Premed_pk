@@ -1,8 +1,11 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:html/parser.dart' as htmlparser;
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.dart';
+import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/test_bottom_sheet.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/analytics.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/constants/text_theme.dart';
+import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../models/question_model.dart';
@@ -17,11 +20,13 @@ class TestInterface extends StatefulWidget {
     required this.deckName,
     required this.attemptId,
     this.startFromQuestion = 0,
+    required this.subject,
   });
 
   final String attemptId;
   final String deckName;
   final int startFromQuestion;
+  final String subject;
 
   @override
   State<TestInterface> createState() => _TestInterfaceState();
@@ -133,8 +138,6 @@ class _TestInterfaceState extends State<TestInterface> {
         isCorrectlyAnswered[currentQuestionIndex] = null;
       }
 
-      // print('this is the: $correctAttempts');
-
       final correctOption =
           question.options.singleWhere((option) => option.isCorrect);
 
@@ -211,6 +214,18 @@ class _TestInterfaceState extends State<TestInterface> {
     });
   }
 
+  void restart() {
+    setState(() {
+      currentQuestionIndex = 0;
+      selectedOptions = List<String?>.filled(200, null, growable: true);
+      isCorrectlyAnswered = List<bool?>.filled(200, null, growable: true);
+      _stopwatch.reset();
+      _durationNotifier.value = const Duration(hours: 2);
+      _timer?.cancel();
+      _startTimer();
+    });
+  }
+
   bool isBase64(String str) {
     try {
       base64Decode(str.split(',').last);
@@ -233,7 +248,6 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 
   Future<void> _showFinishDialog() async {
-    //final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
     final attemptProvider =
         Provider.of<AttemptProvider>(context, listen: false);
     final unattemptedQuestions = 200 - correctAttempts - incorrectAttempts;
@@ -313,6 +327,123 @@ class _TestInterfaceState extends State<TestInterface> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final preMedProvider = Provider.of<PreMedProvider>(context, listen: false);
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
+    final questions = questionProvider.questions;
+
+    if (questions == null || questions.isEmpty) {
+      return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(70.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: AppBar(
+              backgroundColor: PreMedColorTheme().white,
+              leading: Container(
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                alignment: Alignment.center,
+                child: Center(
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back,
+                        color: preMedProvider.isPreMed
+                            ? PreMedColorTheme().primaryColorRed
+                            : PreMedColorTheme().blue),
+                    onPressed: previousQuestion,
+                  ),
+                ),
+              ),
+              title: const Text('Loading...'),
+              actions: [
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  width: 40,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  alignment: Alignment.center,
+                  child: Center(
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_forward,
+                          color: preMedProvider.isPreMed
+                              ? PreMedColorTheme().primaryColorRed
+                              : PreMedColorTheme().blue),
+                      onPressed: nextQuestion,
+                    ),
+                  ),
+                ),
+              ],
+              automaticallyImplyLeading: false,
+            ),
+          ),
+        ),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    final question =
+        questions![currentQuestionIndex]; // Declare `question` here
+
+    void showSnackBarr() {
+      final flashcardpro =
+          Provider.of<FlashcardProvider>(context, listen: false);
+      final message = flashcardpro.additionStatus == 'Added'
+          ? 'Added To FlashCards'
+          : 'Removed from FlashCards';
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text(
+                  message,
+                  style: PreMedTextTheme().body.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+                actions: [
+                  InkWell(
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      height: 40,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: Provider.of<PreMedProvider>(context).isPreMed
+                              ? PreMedColorTheme().red
+                              : PreMedColorTheme().blue,
+                          borderRadius: BorderRadius.circular(15)),
+                      child:  Center(
+                        child: Text(
+                          'OK',
+                          style: PreMedTextTheme().body.copyWith(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ));
+    }
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70.0),
@@ -338,23 +469,20 @@ class _TestInterfaceState extends State<TestInterface> {
               child: Center(
                 child: IconButton(
                   icon: Icon(Icons.arrow_back,
-                      color: preMedProvider.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue),
+                      color: preMedProvider.isPreMed
+                          ? PreMedColorTheme().primaryColorRed
+                          : PreMedColorTheme().blue),
                   onPressed: previousQuestion,
                 ),
               ),
             ),
             title: Center(
-              child: Consumer<QuestionProvider>(
-                builder: (context, questionProvider, child) {
-                  final questionNumber = currentQuestionIndex + 1;
-                  return Text(
-                    'QUESTION $questionNumber',
-                    style: PreMedTextTheme().heading6.copyWith(
-                          color: PreMedColorTheme().black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  );
-                },
+              child: Text(
+                'QUESTION ${currentQuestionIndex + 1}',
+                style: PreMedTextTheme().heading6.copyWith(
+                      color: PreMedColorTheme().black,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
             actions: [
@@ -377,7 +505,9 @@ class _TestInterfaceState extends State<TestInterface> {
                 child: Center(
                   child: IconButton(
                     icon: Icon(Icons.arrow_forward,
-                        color: preMedProvider.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue),
+                        color: preMedProvider.isPreMed
+                            ? PreMedColorTheme().primaryColorRed
+                            : PreMedColorTheme().blue),
                     onPressed: nextQuestion,
                   ),
                 ),
@@ -387,402 +517,371 @@ class _TestInterfaceState extends State<TestInterface> {
           ),
         ),
       ),
-      body: Consumer<QuestionProvider>(
-        builder: (context, questionProvider, child) {
-          final questions = questionProvider.questions;
-          if (questions == null) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (questions.isEmpty) {
-            return const Center(child: Text('No questions available'));
-          }
-
-          if (currentQuestionIndex >= questions.length) {
-            currentQuestionIndex = questions.length - 1;
-          }
-          if (currentQuestionIndex < 0) {
-            currentQuestionIndex = 0;
-          }
-
-          final question = questions[currentQuestionIndex];
-          final parsedQuestionText = parse(question.questionText);
-          _stopwatch.start();
-
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                parse(question.questionText) ?? '',
+                style: PreMedTextTheme().body.copyWith(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w400,
+                      color: PreMedColorTheme().black,
+                    ),
+              ),
+              // Row(
+              //   children: [
+              //     ElevatedButton(
+              //       onPressed: _showFinishDialog,
+              //       style: ElevatedButton.styleFrom(
+              //         backgroundColor: PreMedColorTheme().tickcolor,
+              //         foregroundColor: Colors.white,
+              //         elevation: 4,
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(12),
+              //         ),
+              //       ),
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Icon(
+              //             Icons.check_circle_outline,
+              //             color: PreMedColorTheme().white,
+              //           ),
+              //           const SizedBox(width: 8),
+              //           const Text("Finish"),
+              //         ],
+              //       ),
+              //     ),
+              //     const SizedBox(width: 10),
+              //     ElevatedButton(
+              //       onPressed: _togglePauseResume,
+              //       style: ElevatedButton.styleFrom(
+              //         backgroundColor: Colors.amber,
+              //         foregroundColor: Colors.white,
+              //         elevation: 4,
+              //         shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(12),
+              //         ),
+              //       ),
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Icon(
+              //             isPaused
+              //                 ? Icons.play_circle_outline
+              //                 : Icons.pause_circle_outline,
+              //             color: PreMedColorTheme().white,
+              //           ),
+              //           const SizedBox(width: 8),
+              //           Text(isPaused ? "Resume" : "Pause"),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              const SizedBox(height: 16),
+              Row(
                 children: [
-                  Text(
-                    parsedQuestionText ?? '',
-                    style: PreMedTextTheme().body.copyWith(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w400,
-                          color: PreMedColorTheme().black,
-                        ),
-                  ),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                        onPressed: _showFinishDialog,
+                  Consumer<SaveQuestionProvider>(
+                    builder: (context, saveQuestionProvider, child) {
+                      final String questionId = question.questionId;
+                      final String subject = question.subject;
+                      final bool isSaved = saveQuestionProvider.isQuestionSaved(
+                          questionId, subject);
+                      final buttonText = isSaved ? 'Remove' : 'Save';
+                      return ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: PreMedColorTheme().tickcolor,
-                          foregroundColor: Colors.white,
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(
-                              Icons.check_circle_outline,
-                              color: PreMedColorTheme().white,
-                            ),
-                            const SizedBox(width: 8),
-                            const Text("Finish"),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: _togglePauseResume,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          foregroundColor: Colors.white,
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(
-                              isPaused
-                                  ? Icons.play_circle_outline
-                                  : Icons.pause_circle_outline,
-                              color: PreMedColorTheme().white,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(isPaused ? "Resume" : "Pause"),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Consumer<SaveQuestionProvider>(
-                        builder: (context, saveQuestionProvider, child) {
-                          final String questionId = question.questionId;
-                          final String subject = question.subject;
-                          final bool isSaved = saveQuestionProvider
-                              .isQuestionSaved(questionId, subject);
-                          final buttonText = isSaved ? 'Remove' : 'Save';
-                          return ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Colors.orange,
-                              elevation: 4,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                            ),
-                            onPressed: () {
-                              if (isSaved) {
-                                saveQuestionProvider.removeQuestion(
-                                  questionId,
-                                  subject,
-                                  userProvider.user?.userId ?? '',
-                                );
-                              } else {
-                                saveQuestionProvider.saveQuestion(
-                                  questionId,
-                                  subject,
-                                  userProvider.user?.userId ?? '',
-                                );
-                              }
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                if (buttonText == 'Save')
-                                  const Icon(Icons.bookmark_border_rounded)
-                                else
-                                  const Icon(Icons.bookmark),
-                                const SizedBox(width: 8),
-                                Text(buttonText),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(width: 16),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.redAccent,
-                          foregroundColor: Colors.white,
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        onPressed: () {
-                          final String currentQuestionId = question.questionId;
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ReportQuestion(questionId: currentQuestionId),
-                            ),
-                          );
-                        },
-                        child: const Text('Report'),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
                           backgroundColor: Colors.white,
-                          foregroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                          foregroundColor: Colors.orange,
                           elevation: 4,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(24),
                           ),
                         ),
                         onPressed: () {
-                          final question = Provider.of<QuestionProvider>(
-                                  context,
-                                  listen: false)
-                              .questions![currentQuestionIndex];
-                          _eliminateOptions(question.options);
+                          if (isSaved) {
+                            saveQuestionProvider.removeQuestion(
+                              questionId,
+                              subject,
+                              userProvider.user?.userId ?? '',
+                            );
+                          } else {
+                            saveQuestionProvider.saveQuestion(
+                              questionId,
+                              subject,
+                              userProvider.user?.userId ?? '',
+                            );
+                          }
                         },
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SvgPicture.asset('assets/icons/elimination.svg'),
-                            const SizedBox(width: 5),
-                            const Text('Elimination Tool'),
+                            if (buttonText == 'Save')
+                              const Icon(Icons.bookmark_border_rounded)
+                            else
+                              const Icon(Icons.bookmark),
+                            const SizedBox(width: 8),
+                            Text(buttonText),
                           ],
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                          backgroundColor: const Color.fromRGBO(12, 90, 188, 1),
-                          foregroundColor: Colors.white,
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        onPressed: () {
-                          final question = Provider.of<QuestionProvider>(
-                                  context,
-                                  listen: false)
-                              .questions![currentQuestionIndex];
-                          _undoElimination(question.options);
-                        },
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/elimination.svg',
-                              color: Colors.white,
-                            ),
-                            const SizedBox(width: 5),
-                            const Text('Exit Elimination'),
-                          ],
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                  if (question.questionImage != null &&
-                      question.questionImage!.isNotEmpty)
-                    if (isBase64(question.questionImage!))
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Material(
-                          elevation: 4,
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 16.0),
-                              child: Image.memory(
-                                base64Decode(
-                                    question.questionImage!.split(',').last),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    else if (question.questionImage!.startsWith('http'))
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Material(
-                          elevation: 4,
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 16.0),
-                              child: Image.network(question.questionImage!),
-                            ),
-                          ),
-                        ),
-                      )
-                    else
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Material(
-                          elevation: 4,
-                          child: Center(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 16.0),
-                              child: Text('Invalid image format'),
-                            ),
-                          ),
-                        ),
-                      ),
-                  const SizedBox(height: 16),
-                  ...question.options.map((option) {
-                    final parsedOptionText = parse(option.optionText);
-                    final isSelected = option.optionLetter == selectedOption;
-                    final borderColor = isSelected
-                        ? Colors.blue
-                        : PreMedColorTheme().neutral400;
-
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: GestureDetector(
-                        onTap: () => selectOption(option.optionLetter),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: borderColor),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  '${option.optionLetter}. ',
-                                  style: PreMedTextTheme().body.copyWith(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 15,
-                                      color:
-                                          PreMedColorTheme().primaryColorRed),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    parsedOptionText ?? '',
-                                    style: PreMedTextTheme().body.copyWith(
-                                          color: PreMedColorTheme().black,
-                                        ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
+                  const SizedBox(width: 16),
+                  // ElevatedButton(
+                  //   style: ElevatedButton.styleFrom(
+                  //     backgroundColor: Colors.redAccent,
+                  //     foregroundColor: Colors.white,
+                  //     elevation: 4,
+                  //     shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(24),
+                  //     ),
+                  //   ),
+                  //   onPressed: () {
+                  //     final String currentQuestionId = question.questionId;
+                  //     Navigator.of(context).push(
+                  //       MaterialPageRoute(
+                  //         builder: (context) =>
+                  //             ReportQuestion(questionId: currentQuestionId),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: const Text('Report'),
+                  // ),
                 ],
               ),
-            ),
-          );
-        },
+              Row(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                      backgroundColor: Colors.white,
+                      foregroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                    ),
+                    onPressed: () {
+                      final question =
+                          Provider.of<QuestionProvider>(context, listen: false)
+                              .questions![currentQuestionIndex];
+                      _eliminateOptions(question.options);
+                    },
+                    child: Row(
+                      children: [
+                        SvgPicture.asset('assets/icons/elimination.svg'),
+                        const SizedBox(width: 5),
+                        const Text('Elimination Tool'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                      backgroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                      foregroundColor: Colors.white,
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                    ),
+                    onPressed: () {
+                      final question =
+                          Provider.of<QuestionProvider>(context, listen: false)
+                              .questions![currentQuestionIndex];
+                      _undoElimination(question.options);
+                    },
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/elimination.svg',
+                          color: Colors.white,
+                        ),
+                        const SizedBox(width: 5),
+                        const Text('Exit Elimination'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              if (question.questionImage != null &&
+                  question.questionImage!.isNotEmpty)
+                if (isBase64(question.questionImage!))
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Material(
+                      elevation: 4,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Image.memory(
+                            base64Decode(
+                                question.questionImage!.split(',').last),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                else if (question.questionImage!.startsWith('http'))
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Material(
+                      elevation: 4,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Image.network(question.questionImage!),
+                        ),
+                      ),
+                    ),
+                  )
+                else
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Material(
+                      elevation: 4,
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 16.0),
+                          child: Text('Invalid image format'),
+                        ),
+                      ),
+                    ),
+                  ),
+              const SizedBox(height: 16),
+              ...question.options.map((option) {
+                final parsedOptionText = parse(option.optionText);
+                final isSelected = option.optionLetter == selectedOption;
+                final borderColor =
+                    isSelected ? Colors.blue : PreMedColorTheme().neutral400;
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: GestureDetector(
+                    onTap: () => selectOption(option.optionLetter),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: borderColor),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              '${option.optionLetter}. ',
+                              style: PreMedTextTheme().body.copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 15,
+                                  color: PreMedColorTheme().primaryColorRed),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                parsedOptionText ?? '',
+                                style: PreMedTextTheme().body.copyWith(
+                                      color: PreMedColorTheme().black,
+                                    ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (showNumberLine)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
-                height: 55,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount:
-                      Provider.of<QuestionProvider>(context).questions!.length,
-                  itemBuilder: (context, index) {
-                    final bool isAttempted = selectedOptions[index] != null;
-                    final bool isCurrent = index == currentQuestionIndex;
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SizedBox(
+              height: 55,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: questionProvider.questions!.length,
+                itemBuilder: (context, index) {
+                  final bool isAttempted = selectedOptions[index] != null;
+                  final bool isCurrent = index == currentQuestionIndex;
 
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          updateAttempt();
-                          currentQuestionIndex = index;
-                          selectedOption = null;
-                          optionSelected = false;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        updateAttempt();
+                        currentQuestionIndex = index;
+                        selectedOption = null;
+                        optionSelected = false;
 
-                          if (currentQuestionIndex % 10 == 7 &&
-                              currentPage < 20) {
-                            currentPage++;
-                            Provider.of<QuestionProvider>(context,
-                                    listen: false)
-                                .fetchQuestions(widget.deckName, currentPage);
-                          }
+                        if (currentQuestionIndex % 10 == 7 &&
+                            currentPage < 20) {
+                          currentPage++;
+                          Provider.of<QuestionProvider>(context, listen: false)
+                              .fetchQuestions(widget.deckName, currentPage);
+                        }
 
-                          selectedOption =
-                              selectedOptions[currentQuestionIndex];
-                          optionSelected = selectedOption != null;
+                        selectedOption = selectedOptions[currentQuestionIndex];
+                        optionSelected = selectedOption != null;
 
-                          _stopwatch.reset();
-                          _stopwatch.start();
-                        });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                        child: Center(
-                          child: Container(
-                            width: 46,
-                            height: 46,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(23),
-                              border: Border.all(
-                                color: isAttempted
-                                    ? Colors.transparent
-                                    : (isCurrent ? Colors.blue : Colors.white),
-                                width: 3,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
+                        _stopwatch.reset();
+                        _stopwatch.start();
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                      child: Center(
+                        child: Container(
+                          width: 46,
+                          height: 46,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(23),
+                            border: Border.all(
+                              color: isAttempted
+                                  ? Colors.transparent
+                                  : (isCurrent ? Colors.blue : Colors.white),
+                              width: 3,
                             ),
-                            child: CircleAvatar(
-                              radius: 20,
-                              backgroundColor: isAttempted
-                                  ? Colors.blue
-                                  : PreMedColorTheme().white,
-                              child: Text(
-                                '${index + 1}',
-                                style: TextStyle(
-                                  color:
-                                      isAttempted ? Colors.white : Colors.black,
-                                ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 3,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: isAttempted
+                                ? Colors.blue
+                                : PreMedColorTheme().white,
+                            child: Text(
+                              '${index + 1}',
+                              style: TextStyle(
+                                color:
+                                    isAttempted ? Colors.white : Colors.black,
                               ),
                             ),
                           ),
                         ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
             ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Material(
@@ -801,7 +900,74 @@ class _TestInterfaceState extends State<TestInterface> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 8),
                       child: GestureDetector(
-                        onTap: toggleNumberLine,
+                        onTap: () {
+                          showModalBottomSheet(
+                            useSafeArea: true,
+                            isScrollControlled: true,
+                            sheetAnimationStyle:
+                                AnimationStyle(curve: Curves.bounceIn),
+                            context: context,
+                            builder: (context) => TestBottomSheet(
+                              addFlasCards: () async {
+                                await Provider.of<FlashcardProvider>(context,
+                                        listen: false)
+                                    .removeFlashcard(
+                                  userId: userProvider.user!.userId,
+                                  subject: widget.subject,
+                                  questionId: question.questionId,
+                                );
+                                showSnackBarr();
+                              },
+                              questionNumber:
+                                  "${currentQuestionIndex + 1} of 200",
+                              timerWidget: Column(
+                                children: [
+                                  ValueListenableBuilder<Duration>(
+                                    valueListenable: _durationNotifier,
+                                    builder: (context, duration, child) {
+                                      return Text(
+                                        _formatDuration(duration),
+                                        style: PreMedTextTheme().body.copyWith(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w700,
+                                              color:
+                                                  PreMedColorTheme().neutral800,
+                                            ),
+                                      );
+                                    },
+                                  ),
+                                  const Text(
+                                    'TIME LEFT',
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                              submitNow: _showFinishDialog,
+                              reportNow: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => ReportQuestion(
+                                        questionId: '$currentQuestionIndex'),
+                                  ),
+                                );
+                              },
+                              pauseOrContinue: _togglePauseResume,
+                              restart: () {
+                                Navigator.of(context).pop();
+                                restart();
+                              },
+                              showButton: true,
+                            ),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25.0)),
+                            ),
+                          );
+                        },
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
@@ -872,7 +1038,18 @@ class _TestInterfaceState extends State<TestInterface> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(PremedAssets.Flask),
+                          child: InkWell(
+                              onTap: () async {
+                                await Provider.of<FlashcardProvider>(context,
+                                        listen: false)
+                                    .removeFlashcard(
+                                  userId: userProvider.user!.userId,
+                                  subject: widget.subject,
+                                  questionId: question.questionId,
+                                );
+                                showSnackBarr();
+                              },
+                              child: Image.asset(PremedAssets.Flask)),
                         ),
                       ),
                     ),

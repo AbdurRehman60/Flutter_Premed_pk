@@ -22,7 +22,6 @@ class PremedBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       height: Platform.isIOS ? 100 : 70,
       padding: EdgeInsets.only(bottom: Platform.isIOS ? 16 : 0),
@@ -116,16 +115,17 @@ class _BottomNavBarItem extends StatelessWidget {
                 icon,
                 width: width,
                 height: height,
-                color:isSelected
-                    ? (Provider.of<PreMedProvider>(context).isPreMed ?
-                     PreMedColorTheme().primaryColorRed
-                    : PreMedColorTheme().blue)
+                color: isSelected
+                    ? (Provider.of<PreMedProvider>(context).isPreMed
+                        ? PreMedColorTheme().primaryColorRed
+                        : PreMedColorTheme().blue)
                     : PreMedColorTheme().neutral300,
               ),
               const SizedBox(height: 4),
               Text(
                 label,
-                style: PreMedTextTheme().small,
+                style: PreMedTextTheme().small.copyWith(
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -135,6 +135,7 @@ class _BottomNavBarItem extends StatelessWidget {
     );
   }
 }
+
 class _MainBottomNavBarItem extends StatelessWidget {
   const _MainBottomNavBarItem({
     required this.icon,
@@ -152,9 +153,6 @@ class _MainBottomNavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Define a fixed height for the icon container
-    const double iconHeight = 25.0;
-
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -166,17 +164,20 @@ class _MainBottomNavBarItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  height: iconHeight, // Fixed height
+                  height: 28, // Fixed height
+                  width: 45, // Fixed width
                   child: SvgPicture.asset(
                     isSelected ? activeicon : icon,
-                    height: iconHeight,
                   ),
                 ),
-                const SizedBox(height: 7), // Adjust spacing between icon and text
+                SizedBoxes.vertical3Px,
                 Text(
                   label,
-                  style: PreMedTextTheme().small,
-                ),
+                  style: PreMedTextTheme().small.copyWith(
+                        fontWeight:
+                            isSelected ? FontWeight.w600 : FontWeight.w400,
+                      ),
+                )
               ],
             ),
           ),

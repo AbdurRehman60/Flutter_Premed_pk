@@ -104,10 +104,13 @@ class _EntryTestState extends State<EntryTest> {
                       child: SizedBox(
                         width: 37,
                         height: 37,
-                        child: SvgPicture.asset(
-                          'assets/icons/left-arrow.svg',
-                          width: 9.33,
-                          height: 18.67,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset(
+                            'assets/icons/left-arrow.svg',
+                            width: 9.33,
+                            height: 18.67,
+                          ),
                         ),
                       ),
                     ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_screen_data.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcards_display_screen.dart';
@@ -10,9 +9,10 @@ import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../providers/user_provider.dart';
+
 class FlashcardHome extends StatefulWidget {
   const FlashcardHome({super.key});
-
 
   @override
   State<FlashcardHome> createState() => _FlashcardHomeState();
@@ -21,26 +21,32 @@ class FlashcardHome extends StatefulWidget {
 class _FlashcardHomeState extends State<FlashcardHome> {
   @override
   void initState() {
-    Provider.of<FlashcardProvider>(context, listen: false)
-        .getFlashcardsByUser();
     super.initState();
+    final userId =
+        Provider.of<UserProvider>(context, listen: false).user!.userId;
+    Provider.of<FlashcardProvider>(context, listen: false)
+        .getFlashcardsByUser(userId);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: PreMedColorTheme().background,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-        child: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: const PopButton()
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            leading: const PopButton(),
+          ),
         ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0).copyWith(left: 20),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -64,39 +70,45 @@ class _FlashcardHomeState extends State<FlashcardHome> {
                   return const FlashcardShimmer();
                 case Status.success:
                   return Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: GridView.builder(
-                        itemCount: gridData.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 8,
-                          crossAxisSpacing: 8,
-                          mainAxisExtent: 140,
-                        ),
-                        itemBuilder: (context, index) {
-                          final Color color = Color(int.parse(
-                              '0xFF${gridData[index]['color']?.substring(1)}'));
-                          final subject = gridData[index]['subject'];
-                          final flashcardCount = flashcardProvider
-                              .getFilteredFlashcards(subject!)
-                              .length;
-                          final page = '$flashcardCount Questions';
-                          return FlashcardItem(
-                            image: gridData[index]['image'] ?? '',
-                            text: gridData[index]['text'] ?? '',
-                            page: page,
-                            subject: subject,
-                            color: color,
-                          );
-                        },
+                    child: GridView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 21),
+                      itemCount: gridData.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 21,
+                        crossAxisSpacing: 18,
+                        mainAxisExtent: 140,
                       ),
+                      itemBuilder: (context, index) {
+                        final Color color = Color(int.parse(
+                            '0xFF${gridData[index]['color']?.substring(1)}'));
+                        final subject = gridData[index]['subject'];
+                        final flashcardCount = flashcardProvider
+                            .getFilteredFlashcards(subject!)
+                            .length;
+                        final page = '$flashcardCount Questions';
+                        return FlashcardItem(
+                          image: gridData[index]['image'] ?? '',
+                          text: gridData[index]['text'] ?? '',
+                          page: page,
+                          subject: subject,
+                          color: color,
+                        );
+                      },
                     ),
                   );
                 case Status.error:
                   return const Center(
                     child: Text('Error fetching data'),
+                  );
+                case Status.removing:
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                default:
+                  return const Center(
+                    child: Text('Unknown status'),
                   );
               }
             },
@@ -108,8 +120,6 @@ class _FlashcardHomeState extends State<FlashcardHome> {
 }
 
 class FlashcardItem extends StatelessWidget {
-  // Use Color for background color
-
   const FlashcardItem({
     super.key,
     required this.image,

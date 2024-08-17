@@ -1,8 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class AttemptPieChart extends StatelessWidget {
+import '../../Dashboard_Screen/dashboard_screen.dart';
 
+class AttemptPieChart extends StatelessWidget {
   const AttemptPieChart({
     super.key,
     required this.correct,
@@ -17,53 +18,55 @@ class AttemptPieChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1.3,
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-             const  Text(
-                'Attempt Analysis',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Expanded(
-                child: PieChart(
-                  PieChartData(
-                    sections: showingSections(),
-                    centerSpaceRadius: 40,
-                    sectionsSpace: 4,
+      child: Container(
+        decoration: const BoxDecoration(boxShadow: CustomBoxShadow.boxShadow40),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          color: Colors.white.withOpacity(0.85),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Attempt Analysis',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              const  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Indicator(
-                    color: Colors.green,
-                    text: 'Correct',
+                const SizedBox(height: 8),
+                Expanded(
+                  child: PieChart(
+                    PieChartData(
+                      sections: showingSections(),
+                      centerSpaceRadius: 40,
+                      sectionsSpace: 4,
+                    ),
                   ),
-                  Indicator(
-                    color: Colors.amber,
-                    text: 'Incorrect',
-                  ),
-                  Indicator(
-                    color: Colors.blueAccent,
-                    text: 'Skipped',
-                  ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(height: 8),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Indicator(
+                      color: Colors.green,
+                      text: 'Correct',
+                    ),
+                    Indicator(
+                      color: Colors.amber,
+                      text: 'Incorrect',
+                    ),
+                    Indicator(
+                      color: Colors.blueAccent,
+                      text: 'Skipped',
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -88,7 +91,7 @@ class AttemptPieChart extends StatelessWidget {
         value: incorrect.toDouble(),
         title: '$incorrect',
         radius: 50,
-        titleStyle: const  TextStyle(
+        titleStyle: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
           color: Colors.white,
@@ -110,7 +113,6 @@ class AttemptPieChart extends StatelessWidget {
 }
 
 class Indicator extends StatelessWidget {
-
   const Indicator({
     super.key,
     required this.color,
