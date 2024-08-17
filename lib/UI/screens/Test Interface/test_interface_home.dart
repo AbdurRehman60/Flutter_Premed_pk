@@ -700,7 +700,6 @@ class _TestInterfaceState extends State<TestInterface> {
                       children: [
                         SvgPicture.asset(
                           'assets/icons/elimination.svg',
-                          color: Colors.white,
                         ),
                         const SizedBox(width: 5),
                         const Text('Exit Elimination'),

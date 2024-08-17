@@ -18,7 +18,6 @@ class EstuffHomeScreen extends StatefulWidget {
 }
 
 class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
-  final TextEditingController _searchController = TextEditingController();
   List<EssenceStuffModel> _filteredNotes = [];
 
   @override

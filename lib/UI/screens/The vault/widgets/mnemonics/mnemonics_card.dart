@@ -1,12 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import '../../../../../constants/text_theme.dart';
 import '../../../../../models/mnemonics_model.dart';
-import '../../../../../providers/vaultProviders/premed_access_provider.dart';
-
 class MnemonicsBuilderCard extends StatelessWidget {
   const MnemonicsBuilderCard({
     super.key,

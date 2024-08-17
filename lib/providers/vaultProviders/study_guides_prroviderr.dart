@@ -50,7 +50,7 @@ class VaultTopicalGuidesProvider extends ChangeNotifier {
           'message': 'Failed to fetch data',
         };
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       result = {
         'status': false,
         'message': e.message,

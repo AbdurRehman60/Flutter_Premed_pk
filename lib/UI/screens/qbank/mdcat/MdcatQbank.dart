@@ -2,9 +2,6 @@
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
 import '../../../../providers/mcatqbankprovider.dart';
-import '../../../../providers/nums_qbank_provider.dart';
-import '../../../../providers/pu_qbank_provider.dart';
-import '../../The vault/screens/topical_guides.dart';
 import '../../The vault/widgets/topic_button.dart';
 import '../widgets/deckgroup_maker.dart';
 

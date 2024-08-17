@@ -64,15 +64,6 @@ class _LatestAttemptScreenState extends State<LatestAttemptScreen> {
     );
   }
 
-  Color _getColor(double progressValue) {
-    if (progressValue < 0.3) {
-      return PreMedColorTheme().red;
-    } else if (progressValue < 0.6) {
-      return PreMedColorTheme().yellowlight;
-    } else {
-      return PreMedColorTheme().greenLight;
-    }
-  }
 }
 
 class DummyStatContainer extends StatelessWidget {

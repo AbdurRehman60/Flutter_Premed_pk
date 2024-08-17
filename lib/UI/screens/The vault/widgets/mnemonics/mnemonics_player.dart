@@ -97,9 +97,9 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     final String videoUrl = widget.mnemonicsModel.videoUrl ?? '';
     final String urlToShare = videoUrl.isNotEmpty
         ? videoUrl
-        : widget.mnemonicsModel.thumbnailUrl ?? '';
+        : widget.mnemonicsModel.thumbnailUrl;
 
-    final String videoName = widget.mnemonicsModel.subTopicName ?? 'Video';
+    final String videoName = widget.mnemonicsModel.subTopicName;
     final String message = 'Check out this video: $videoName\n$urlToShare';
     await Share.share(message);
   }

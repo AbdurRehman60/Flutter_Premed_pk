@@ -500,7 +500,7 @@ class AuthProvider extends ChangeNotifier {
           'message': response.data.toString(),
         };
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       _loggedInStatus = Status.LoggedIn;
       notifyListeners();
       result = {
@@ -631,7 +631,7 @@ class AuthProvider extends ChangeNotifier {
           'message': 'Error',
         };
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       result = {
         'status': false,
         'message': e.response?.data ?? e.message,
