@@ -23,8 +23,8 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
 
   Future<void> _launchURL(String username, String encryptedPassword) async {
     final url =
-        'https://premed.pk/pricing/all?username="$username"&&password="$encryptedPassword"';
-    if (await canLaunch(url)) {
+        'https://premed.pk/app-redirect?username="$username"&&password="$encryptedPassword"==&&route="pricing/all"';
+        if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';
