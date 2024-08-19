@@ -20,13 +20,13 @@ class TestInterface extends StatefulWidget {
     required this.deckName,
     required this.attemptId,
     this.startFromQuestion = 0,
-    required this.subject,
+    this.subject,
   });
 
   final String attemptId;
   final String deckName;
   final int startFromQuestion;
-  final String subject;
+  final String? subject;
 
   @override
   State<TestInterface> createState() => _TestInterfaceState();
@@ -912,7 +912,7 @@ class _TestInterfaceState extends State<TestInterface> {
                                         listen: false)
                                     .removeFlashcard(
                                   userId: userProvider.user!.userId,
-                                  subject: widget.subject,
+                                  subject: widget.subject ?? '',
                                   questionId: question.questionId,
                                 );
                                 showSnackBarr();
@@ -1043,7 +1043,7 @@ class _TestInterfaceState extends State<TestInterface> {
                                         listen: false)
                                     .removeFlashcard(
                                   userId: userProvider.user!.userId,
-                                  subject: widget.subject,
+                                  subject: widget.subject ?? '',
                                   questionId: question.questionId,
                                 );
                                 showSnackBarr();

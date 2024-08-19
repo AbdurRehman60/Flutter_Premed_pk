@@ -321,7 +321,6 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                               ),
                           ],
                         ),
-                        // Add your new feature selection section here
                         SizedBoxes.verticalLarge,
                         RichText(
                           text: TextSpan(
@@ -1086,4 +1085,45 @@ class GradientText extends StatelessWidget {
       ),
     );
   }
+
+  // Future<void> submitOnboardingData() async {
+  //
+  //   try {
+  //     final result = await auth.requiredOnboarding(
+  //       username: username!,
+  //       lastOnboardingPage: '$lastob/additional-info',
+  //       selectedExams: exams,
+  //       selectedFeatures: features,
+  //       city: city,
+  //       educationSystem: educationSystem,
+  //       year: year,
+  //       parentContactNumber: parentContactNumber,
+  //       approach: knownVia,
+  //       phoneNumber: phoneNumber,
+  //       institution: institution,
+  //     );
+  //
+  //     if (result['status']) {
+  //       Navigator.pushAndRemoveUntil(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => const MainNavigationScreen(),
+  //         ),
+  //             (route) => false,
+  //       );
+  //     } else {
+  //       setState(() {
+  //         error = 'Failed to submit data. Please try again.';
+  //         hasErrors = true;
+  //       });
+  //       showErrorDialog(error);
+  //     }
+  //   } catch (e) {
+  //     setState(() {
+  //       error = 'An error occurred. Please try again.';
+  //       hasErrors = true;
+  //     });
+  //     showErrorDialog(error);
+  //   }
+  // }
 }

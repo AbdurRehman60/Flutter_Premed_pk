@@ -44,6 +44,10 @@ class PremedAssets {
   static String arrow = 'assets/images/Chevron Right.png';
   static String Alert = 'assets/icons/Alert.png';
   static String DoubtSolution = 'assets/icons/doubt.png';
+  static String onboardingpu = 'assets/icons/Private Universities 1.png';
+  static String onboardingnums = 'assets/icons/NUMS 1.png';
+  static String onboardingmdcat = 'assets/icons/MDCAT 2024.png';
+
 
   //icons
 

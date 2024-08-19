@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/login_screen_one.dart';
+import 'package:premedpk_mobile_app/UI/screens/a_new_signup_flow/signup_choose_emailorggl.dart';
 import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/onboarding_screen_one.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import '../../account/widgets/privacy_policy.dart';
@@ -125,7 +126,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => OnboardingOne(),
+                          builder: (context) => EmailorGoogle(),
                         ),
                       );
                     },

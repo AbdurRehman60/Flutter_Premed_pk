@@ -26,6 +26,7 @@ import 'package:premedpk_mobile_app/providers/med_test_session_pro.dart';
 import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/nums_qbank_provider.dart';
+import 'package:premedpk_mobile_app/providers/onboarding_provider.dart';
 import 'package:premedpk_mobile_app/providers/pu_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/pu_qbank_provider.dart';
 import 'package:premedpk_mobile_app/providers/question_provider.dart';
@@ -130,6 +131,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=> MedTestSessionsPro()),
         ChangeNotifierProvider(create: (_)=> PreMedAccessProvider()),
         ChangeNotifierProvider(create: (_)=> PreEngAccessProvider()),
+        ChangeNotifierProvider(create: (_)=> BoardProvider()),
       ],
       child: MaterialApp(
         routes: {
