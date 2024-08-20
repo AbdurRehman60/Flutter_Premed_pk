@@ -80,7 +80,7 @@ class Endpoints {
 
   //deck point
   static const String getDeckInfo =
-      'https://prodapi.premed.pk/api/decks/get-deck-information/';
+      'https://prodapi.premed.pk/api/decks/get-deck-information';
 
   static const String getQuestions =
       'https://prodapi.premed.pk/api/decks/get-all-deck-questions/';

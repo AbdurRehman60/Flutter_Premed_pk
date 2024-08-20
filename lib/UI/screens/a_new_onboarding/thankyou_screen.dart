@@ -1,4 +1,6 @@
-import 'package:encryptor/encryptor.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -17,14 +19,16 @@ class ThankyouScreen extends StatefulWidget {
 }
 
 class _ThankyouScreenState extends State<ThankyouScreen> {
-  String encryptPassword(String key, String password) {
-    return Encryptor.encrypt(key, password);
+  String hashPassword(String password) {
+    final bytes = utf8.encode(password);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
   }
 
-  Future<void> _launchURL(String username, String encryptedPassword) async {
+  Future<void> _launchURL(String username, String hashedPassword) async {
     final url =
-        'https://premed.pk/app-redirect?username="$username"&&password="$encryptedPassword"==&&route="pricing/all"';
-        if (await canLaunch(url)) {
+        'https://premed.pk/app-redirect?username="$username"&&password="$hashedPassword"==&&route="pricing/all"';
+    if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';
@@ -36,10 +40,9 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
     final userProvider = Provider.of<UserProvider>(context);
     final String username = userProvider.user?.userName ?? '';
     final String password = widget.password ?? '';
-    final String key = 'hellothisisnoiwillnottelluhehe';
-    final String encryptedPassword = encryptPassword(key, password);
+    final String hashedPassword = hashPassword(password);
 
-    print("this is the $username and this is the ${widget.password} and this is the encryoted oassword: $encryptedPassword");
+    print("Username: $username, Password: ${widget.password}, Hashed Password: $hashedPassword");
 
     return WillPopScope(
       onWillPop: () async {
@@ -65,8 +68,8 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                 GradientText(
                   'Thank You!',
                   style: PreMedTextTheme().heading1.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
+                    fontWeight: FontWeight.w800,
+                  ),
                   colors: [
                     PreMedColorTheme().primaryColorBlue,
                     PreMedColorTheme().primaryColorRed
@@ -76,8 +79,8 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                 Text(
                   'You will now be redirected to the web',
                   style: PreMedTextTheme().body.copyWith(
-                        color: PreMedColorTheme().neutral600,
-                      ),
+                    color: PreMedColorTheme().neutral600,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -96,7 +99,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                         builder: (context) => const MainNavigationScreen(),
                       ),
                     );
-                    _launchURL(username, encryptedPassword);
+                    _launchURL(username, hashedPassword);
                   },
                 ),
               ),

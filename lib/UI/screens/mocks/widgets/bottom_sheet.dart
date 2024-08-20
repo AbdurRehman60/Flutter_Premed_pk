@@ -19,7 +19,8 @@ class CustomBottomSheet extends StatefulWidget {
     super.key,
     required this.deckGroup,
     required this.bankOrMock,
-    required this.category, required this.subject,
+    required this.category,
+    required this.subject,
   });
   final String bankOrMock;
   final DeckGroupModel deckGroup;
@@ -39,9 +40,28 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     final deckGroup = widget.deckGroup.deckGroupName;
     final deckName = widget.deckGroup.deckItems[index].deckName;
 
-    await Provider.of<DeckProvider>(context, listen: false)
-        .fetchDeckInformation(category, deckGroup, deckName, userId!);
+    try {
+      print("this is the category for deck info $category");
+      await Provider.of<DeckProvider>(context, listen: false)
+          .fetchDeckInformation(category, deckGroup, deckName, userId!);
+
+      final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+
+      if (deckInfo == null) {
+        print('Deck information is null');
+        // Handle the case where deck information could not be fetched
+      } else if (deckInfo.alreadyAttempted == null) {
+        print('alreadyAttempted field is null');
+        // Handle the case where alreadyAttempted is null
+      } else {
+        print('alreadyAttempted: ${deckInfo.alreadyAttempted}');
+      }
+    } catch (e) {
+      print('Error fetching deck information: $e');
+      // Handle any exceptions or errors that occur during the fetch
+    }
   }
+
 
   Future<void> _fetchQuestions(String deckName, BuildContext context) async {
     await Provider.of<QuestionProvider>(context, listen: false)

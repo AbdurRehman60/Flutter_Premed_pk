@@ -4,7 +4,6 @@ import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/test_bottom_sheet.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/analytics.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
@@ -402,8 +401,7 @@ class _TestInterfaceState extends State<TestInterface> {
     }
 
     final question =
-        questions![currentQuestionIndex]; // Declare `question` here
-
+        questions[currentQuestionIndex]; // Declare `question` here
     void showSnackBarr() {
       final flashcardpro =
           Provider.of<FlashcardProvider>(context, listen: false);

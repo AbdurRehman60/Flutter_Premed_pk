@@ -73,6 +73,7 @@ dependencies:
   cached_network_image: ^3.3.1
   glassmorphism_ui: ^0.3.0
   encryptor: ^0.0.1
+  crypto: ^3.0.5
 
   
 

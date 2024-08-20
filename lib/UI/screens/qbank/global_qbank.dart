@@ -71,7 +71,7 @@ class _GlobalQbankState extends State<GlobalQbank>
                   itemBuilder: (context, index) {
                     final deckGroup = filteredDeckGroups[index];
                     return DeckTile(
-                        deckGroup: deckGroup, deckGroupName: 'MDCAT QBANK');
+                        deckGroup: deckGroup, deckGroupName: 'MDCAT QBank');
                   },
                 );
               case MdcatFetchStatus.error:
@@ -101,7 +101,7 @@ class _GlobalQbankState extends State<GlobalQbank>
                   itemBuilder: (context, index) {
                     final deckGroup = filteredDeckGroups[index];
                     return DeckTile(
-                        deckGroup: deckGroup, deckGroupName: 'NUMS QBANK');
+                        deckGroup: deckGroup, deckGroupName: 'NUMS QBank');
                   },
                 );
               case NumsFetchStatus.error:
@@ -129,7 +129,7 @@ class _GlobalQbankState extends State<GlobalQbank>
                   itemBuilder: (context, index) {
                     final deckGroup = filteredDeckGroups[index];
                     return DeckTile(
-                        deckGroup: deckGroup, deckGroupName: 'PU QBANK');
+                        deckGroup: deckGroup, deckGroupName: 'Private Universities QBank');
                   },
                 );
               case PuFetchStatus.error:
