@@ -4,6 +4,7 @@ import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../models/question_model.dart';
 import '../../../../providers/flashcard_provider.dart';
 import '../../../../providers/question_provider.dart';
@@ -32,6 +33,8 @@ class TutorMode extends StatefulWidget {
 
 class _TutorModeState extends State<TutorMode> {
   List<Option> _eliminatedOptions = [];
+  bool isLoading = false;
+
 
   void _eliminateOptions(List<Option> options) {
     _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
@@ -68,24 +71,110 @@ class _TutorModeState extends State<TutorMode> {
   @override
   void initState() {
     super.initState();
-    currentQuestionIndex = widget.startFromQuestion;
-
+    _loadCurrentQuestionIndex();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final questionProvider =
-          Provider.of<QuestionProvider>(context, listen: false);
-      questionProvider.clearQuestions();
-      questionProvider.deckName = widget.deckName;
-      questionProvider.fetchQuestions(widget.deckName, currentPage);
+      _fetchAllQuestions();
+      _startTimer();
     });
-    _startTimer();
   }
+
+  Future<void> _loadCurrentQuestionIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      currentQuestionIndex = prefs.getInt('currentQuestionIndex_${widget.attemptId}') ?? widget.startFromQuestion;
+    });
+  }
+
 
   @override
   void dispose() {
+    _saveCurrentQuestionIndex();
     _timer?.cancel();
     _durationNotifier.dispose();
     super.dispose();
   }
+
+  Future<void> _saveCurrentQuestionIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('currentQuestionIndex_${widget.attemptId}', currentQuestionIndex);
+  }
+
+  Future<void> _fetchAllQuestions() async {
+    setState(() {
+      isLoading = true; // Start loading
+    });
+
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    questionProvider.clearQuestions();
+    questionProvider.deckName = widget.deckName;
+
+    for (int i = 1; i <= 25; i++) {
+      await questionProvider.fetchQuestions(widget.deckName, i);
+    }
+
+    setState(() {
+      isLoading = false; // Stop loading
+      currentPage = (currentQuestionIndex ~/ 10) + 1;
+    });
+  }
+
+  void nextQuestion() {
+    if (isLoading) {
+      return;
+    }
+
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+
+    if (currentQuestionIndex < questionProvider.questions!.length - 1) {
+      setState(() {
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex % 10 == 0 && currentPage < 25) {
+          setState(() {
+            isLoading = true; // Show loading
+          });
+          questionProvider.fetchQuestions(widget.deckName, ++currentPage).then((_) {
+            setState(() {
+              isLoading = false; // Stop loading
+            });
+          });
+        }
+
+        selectedOption = selectedOptions[currentQuestionIndex];
+        optionSelected = selectedOption != null;
+
+        _stopwatch.reset();
+        _stopwatch.start();
+
+        questionProvider.notifyListeners();
+      });
+    } else {
+      print("Error: Attempted to access an invalid question index.");
+    }
+  }
+
+  void previousQuestion() {
+    if (isLoading) {
+      return;
+    }
+
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+
+    if (currentQuestionIndex > 0) {
+      setState(() {
+        currentQuestionIndex--;
+
+        selectedOption = selectedOptions[currentQuestionIndex];
+        optionSelected = selectedOption != null;
+
+        _stopwatch.reset();
+        _stopwatch.start();
+
+        questionProvider.notifyListeners();
+      });
+    }
+  }
+
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -206,50 +295,6 @@ class _TutorModeState extends State<TutorMode> {
     });
   }
 
-  void nextQuestion() {
-    setState(() {
-      updateAttempt();
-
-      final questionProvider =
-          Provider.of<QuestionProvider>(context, listen: false);
-
-      if (currentQuestionIndex < questionProvider.questions!.length - 1) {
-        currentQuestionIndex++;
-        selectedOption = null;
-        optionSelected = false;
-
-        if (currentQuestionIndex % 10 == 7 && currentPage < 20) {
-          currentPage++;
-          questionProvider.fetchQuestions(widget.deckName, currentPage);
-        }
-
-        selectedOption = selectedOptions[currentQuestionIndex];
-        optionSelected = selectedOption != null;
-
-        _stopwatch.reset();
-        _stopwatch.start();
-      }
-    });
-  }
-
-  void previousQuestion() {
-    setState(() {
-      updateAttempt();
-
-      if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        selectedOption = null;
-        optionSelected = false;
-
-        selectedOption = selectedOptions[currentQuestionIndex];
-        optionSelected = selectedOption != null;
-
-        _stopwatch.reset();
-        _stopwatch.start();
-      }
-    });
-  }
-
   void selectOption(String optionLetter) {
     if (!optionSelected) {
       setState(() {
@@ -350,10 +395,10 @@ class _TutorModeState extends State<TutorMode> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+    Provider.of<QuestionProvider>(context, listen: false);
     final questions = questionProvider.questions;
 
-    if (questions == null || questions.isEmpty) {
+    if (isLoading || questions == null || questions.isEmpty) {
       return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(70.0),
@@ -423,8 +468,8 @@ class _TutorModeState extends State<TutorMode> {
       );
     }
 
-    final question =
-        questions![currentQuestionIndex]; // Declare `question` here
+    final question = questions[currentQuestionIndex]; // Declare `question` here
+
 
     return Scaffold(
       appBar: PreferredSize(
@@ -454,7 +499,11 @@ class _TutorModeState extends State<TutorMode> {
                       color: Provider.of<PreMedProvider>(context).isPreMed
                           ? PreMedColorTheme().primaryColorRed
                           : PreMedColorTheme().blue),
-                  onPressed: previousQuestion,
+                    onPressed: () {
+                      setState(() {
+                       previousQuestion();
+                      });
+                    },
                 ),
               ),
             ),
@@ -991,10 +1040,10 @@ class ExplanationButton extends StatefulWidget {
   final bool? isCorrect;
 
   @override
-  _ExplanationButtonState createState() => _ExplanationButtonState();
+  ExplanationButtonState createState() => ExplanationButtonState();
 }
 
-class _ExplanationButtonState extends State<ExplanationButton> {
+class ExplanationButtonState extends State<ExplanationButton> {
   bool showExplanation = false;
 
   @override

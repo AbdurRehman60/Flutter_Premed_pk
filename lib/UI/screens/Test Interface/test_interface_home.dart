@@ -7,6 +7,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/question_model.dart';
 import '../../../providers/question_provider.dart';
 import '../../../providers/save_question_provider.dart';
@@ -33,6 +34,7 @@ class TestInterface extends StatefulWidget {
 
 class _TestInterfaceState extends State<TestInterface> {
   List<Option> _eliminatedOptions = [];
+  bool isLoading = false;
 
   void _eliminateOptions(List<Option> options) {
     _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
@@ -69,22 +71,32 @@ class _TestInterfaceState extends State<TestInterface> {
   @override
   void initState() {
     super.initState();
-    currentQuestionIndex = widget.startFromQuestion;
+    _loadCurrentQuestionIndex();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final questionProvider =
-          Provider.of<QuestionProvider>(context, listen: false);
-      questionProvider.clearQuestions();
-      questionProvider.deckName = widget.deckName;
-      questionProvider.fetchQuestions(widget.deckName, currentPage);
+      _fetchAllQuestions();
+      _startTimer();
     });
-    _startTimer();
   }
+
+  Future<void> _loadCurrentQuestionIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      currentQuestionIndex = prefs.getInt('currentQuestionIndex_${widget.attemptId}') ?? widget.startFromQuestion;
+    });
+  }
+
 
   @override
   void dispose() {
+    _saveCurrentQuestionIndex();
     _timer?.cancel();
     _durationNotifier.dispose();
     super.dispose();
+  }
+
+  Future<void> _saveCurrentQuestionIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('currentQuestionIndex_${widget.attemptId}', currentQuestionIndex);
   }
 
   void _startTimer() {
@@ -162,20 +174,25 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 
   void nextQuestion() {
-    setState(() {
-      updateAttempt();
+    if (isLoading) {
+      return;
+    }
 
-      final questionProvider =
-          Provider.of<QuestionProvider>(context, listen: false);
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
 
-      if (currentQuestionIndex < questionProvider.questions!.length - 1) {
+    if (currentQuestionIndex < questionProvider.questions!.length - 1) {
+      setState(() {
         currentQuestionIndex++;
-        selectedOption = null;
-        optionSelected = false;
 
-        if (currentQuestionIndex % 10 == 7 && currentPage < 20) {
-          currentPage++;
-          questionProvider.fetchQuestions(widget.deckName, currentPage);
+        if (currentQuestionIndex % 10 == 0 && currentPage < 25) {
+          setState(() {
+            isLoading = true; // Show loading
+          });
+          questionProvider.fetchQuestions(widget.deckName, ++currentPage).then((_) {
+            setState(() {
+              isLoading = false; // Stop loading
+            });
+          });
         }
 
         selectedOption = selectedOptions[currentQuestionIndex];
@@ -183,25 +200,53 @@ class _TestInterfaceState extends State<TestInterface> {
 
         _stopwatch.reset();
         _stopwatch.start();
-      }
-    });
+
+        questionProvider.notifyListeners();
+      });
+    } else {
+      print("Error: Attempted to access an invalid question index.");
+    }
   }
 
   void previousQuestion() {
-    setState(() {
-      updateAttempt();
+    if (isLoading) {
+      return;
+    }
 
-      if (currentQuestionIndex > 0) {
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+
+    if (currentQuestionIndex > 0) {
+      setState(() {
         currentQuestionIndex--;
-        selectedOption = null;
-        optionSelected = false;
 
         selectedOption = selectedOptions[currentQuestionIndex];
         optionSelected = selectedOption != null;
 
         _stopwatch.reset();
         _stopwatch.start();
-      }
+
+        questionProvider.notifyListeners();
+      });
+    }
+  }
+
+
+  Future<void> _fetchAllQuestions() async {
+    setState(() {
+      isLoading = true; // Start loading
+    });
+
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    questionProvider.clearQuestions();
+    questionProvider.deckName = widget.deckName;
+
+    for (int i = 1; i <= 25; i++) {
+      await questionProvider.fetchQuestions(widget.deckName, i);
+    }
+
+    setState(() {
+      isLoading = false; // Stop loading
+      currentPage = (currentQuestionIndex ~/ 10) + 1;
     });
   }
 
@@ -322,15 +367,54 @@ class _TestInterfaceState extends State<TestInterface> {
     );
   }
 
+  void showSnackBarr() {
+    final flashcardpro =
+    Provider.of<FlashcardProvider>(context, listen: false);
+    final message = flashcardpro.additionStatus == 'Added'
+        ? 'Added To FlashCards'
+        : 'Removed from FlashCards';
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            message,
+            style: PreMedTextTheme().body.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          actions: [
+            InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Container(
+                height: 40,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Provider.of<PreMedProvider>(context).isPreMed
+                        ? PreMedColorTheme().red
+                        : PreMedColorTheme().blue,
+                    borderRadius: BorderRadius.circular(15)),
+                child:  Center(
+                  child: Text(
+                    'OK',
+                    style: PreMedTextTheme().body.copyWith(color: Colors.white),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final preMedProvider = Provider.of<PreMedProvider>(context, listen: false);
     final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+    Provider.of<QuestionProvider>(context, listen: false);
     final questions = questionProvider.questions;
 
-    if (questions == null || questions.isEmpty) {
+    if (isLoading || questions == null || questions.isEmpty) {
       return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(70.0),
@@ -356,7 +440,7 @@ class _TestInterfaceState extends State<TestInterface> {
                 child: Center(
                   child: IconButton(
                     icon: Icon(Icons.arrow_back,
-                        color: preMedProvider.isPreMed
+                        color: Provider.of<PreMedProvider>(context).isPreMed
                             ? PreMedColorTheme().primaryColorRed
                             : PreMedColorTheme().blue),
                     onPressed: previousQuestion,
@@ -384,7 +468,7 @@ class _TestInterfaceState extends State<TestInterface> {
                   child: Center(
                     child: IconButton(
                       icon: Icon(Icons.arrow_forward,
-                          color: preMedProvider.isPreMed
+                          color: Provider.of<PreMedProvider>(context).isPreMed
                               ? PreMedColorTheme().primaryColorRed
                               : PreMedColorTheme().blue),
                       onPressed: nextQuestion,
@@ -400,47 +484,8 @@ class _TestInterfaceState extends State<TestInterface> {
       );
     }
 
-    final question =
-        questions[currentQuestionIndex]; // Declare `question` here
-    void showSnackBarr() {
-      final flashcardpro =
-          Provider.of<FlashcardProvider>(context, listen: false);
-      final message = flashcardpro.additionStatus == 'Added'
-          ? 'Added To FlashCards'
-          : 'Removed from FlashCards';
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: Text(
-                  message,
-                  style: PreMedTextTheme().body.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                ),
-                actions: [
-                  InkWell(
-                    onTap: (){
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      height: 40,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: Provider.of<PreMedProvider>(context).isPreMed
-                              ? PreMedColorTheme().red
-                              : PreMedColorTheme().blue,
-                          borderRadius: BorderRadius.circular(15)),
-                      child:  Center(
-                        child: Text(
-                          'OK',
-                          style: PreMedTextTheme().body.copyWith(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ));
-    }
+    final question = questions[currentQuestionIndex]; // Declare `question` here
+
 
     return Scaffold(
       appBar: PreferredSize(
@@ -467,10 +512,14 @@ class _TestInterfaceState extends State<TestInterface> {
               child: Center(
                 child: IconButton(
                   icon: Icon(Icons.arrow_back,
-                      color: preMedProvider.isPreMed
+                      color: Provider.of<PreMedProvider>(context).isPreMed
                           ? PreMedColorTheme().primaryColorRed
                           : PreMedColorTheme().blue),
-                  onPressed: previousQuestion,
+                  onPressed: () {
+                    setState(() {
+                      previousQuestion();
+                    });
+                  },
                 ),
               ),
             ),
@@ -478,9 +527,9 @@ class _TestInterfaceState extends State<TestInterface> {
               child: Text(
                 'QUESTION ${currentQuestionIndex + 1}',
                 style: PreMedTextTheme().heading6.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  color: PreMedColorTheme().black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             actions: [
@@ -503,7 +552,7 @@ class _TestInterfaceState extends State<TestInterface> {
                 child: Center(
                   child: IconButton(
                     icon: Icon(Icons.arrow_forward,
-                        color: preMedProvider.isPreMed
+                        color: Provider.of<PreMedProvider>(context).isPreMed
                             ? PreMedColorTheme().primaryColorRed
                             : PreMedColorTheme().blue),
                     onPressed: nextQuestion,
@@ -524,62 +573,11 @@ class _TestInterfaceState extends State<TestInterface> {
               Text(
                 parse(question.questionText) ?? '',
                 style: PreMedTextTheme().body.copyWith(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                      color: PreMedColorTheme().black,
-                    ),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w400,
+                  color: PreMedColorTheme().black,
+                ),
               ),
-              // Row(
-              //   children: [
-              //     ElevatedButton(
-              //       onPressed: _showFinishDialog,
-              //       style: ElevatedButton.styleFrom(
-              //         backgroundColor: PreMedColorTheme().tickcolor,
-              //         foregroundColor: Colors.white,
-              //         elevation: 4,
-              //         shape: RoundedRectangleBorder(
-              //           borderRadius: BorderRadius.circular(12),
-              //         ),
-              //       ),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: [
-              //           Icon(
-              //             Icons.check_circle_outline,
-              //             color: PreMedColorTheme().white,
-              //           ),
-              //           const SizedBox(width: 8),
-              //           const Text("Finish"),
-              //         ],
-              //       ),
-              //     ),
-              //     const SizedBox(width: 10),
-              //     ElevatedButton(
-              //       onPressed: _togglePauseResume,
-              //       style: ElevatedButton.styleFrom(
-              //         backgroundColor: Colors.amber,
-              //         foregroundColor: Colors.white,
-              //         elevation: 4,
-              //         shape: RoundedRectangleBorder(
-              //           borderRadius: BorderRadius.circular(12),
-              //         ),
-              //       ),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: [
-              //           Icon(
-              //             isPaused
-              //                 ? Icons.play_circle_outline
-              //                 : Icons.pause_circle_outline,
-              //             color: PreMedColorTheme().white,
-              //           ),
-              //           const SizedBox(width: 8),
-              //           Text(isPaused ? "Resume" : "Pause"),
-              //         ],
-              //       ),
-              //     ),
-              //   ],
-              // ),
               const SizedBox(height: 16),
               Row(
                 children: [
