@@ -33,6 +33,7 @@ class CustomBottomSheet extends StatefulWidget {
 
 class _CustomBottomSheetState extends State<CustomBottomSheet> {
   late int selectedDeckItemIndex;
+  bool isContinuingAttempt = false;
 
   Future<void> _fetchDeckInfo(int index, BuildContext context) async {
     final userId = Provider.of<UserProvider>(context, listen: false).user?.userId;
@@ -49,19 +50,15 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
 
       if (deckInfo == null) {
         print('Deck information is null');
-        // Handle the case where deck information could not be fetched
       } else if (deckInfo.alreadyAttempted == null) {
         print('alreadyAttempted field is null');
-        // Handle the case where alreadyAttempted is null
       } else {
         print('alreadyAttempted: ${deckInfo.alreadyAttempted}');
       }
     } catch (e) {
       print('Error fetching deck information: $e');
-      // Handle any exceptions or errors that occur during the fetch
     }
   }
-
 
   Future<void> _fetchQuestions(String deckName, BuildContext context) async {
     await Provider.of<QuestionProvider>(context, listen: false)
@@ -200,28 +197,17 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
   }
 
   void _navigateToNextScreen(BuildContext context, DeckItem item, {int? startFromQuestion, String? attemptId}) async {
-    // print('Navigating to next screen with startFromQuestion: $startFromQuestion');
-    // print('widget.bankOrMock: ${widget.bankOrMock}');
-
     final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
-    if (widget.bankOrMock == 'Bank' && attemptId != null) {
+    final attemptMode = deckInfo?.attemptMode ?? '';
+
+    if (attemptMode == 'TUTORMODE') {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => TutorMode(
-            subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
-            attemptId: attemptId,
-            startFromQuestion: startFromQuestion ?? 0,
-          ),
-        ),
-      );
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TestInterface(
+            isContinuingAttempt: isContinuingAttempt,
             subject: widget.subject,
             deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: attemptId ?? deckAttemptProvider.attemptId,
@@ -229,6 +215,21 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
           ),
         ),
       );
+    } else if (attemptMode == 'TESTMODE') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TestInterface(
+            isContinuingAttempt: isContinuingAttempt,
+            subject: widget.subject,
+            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            attemptId: attemptId ?? deckAttemptProvider.attemptId,
+            startFromQuestion: startFromQuestion ?? 0,
+          ),
+        ),
+      );
+    } else {
+      print("Error: Unknown attempt mode");
     }
   }
 
@@ -261,6 +262,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       child: CustomButton(
                         buttonText: 'Re-Attempt',
                         onPressed: () {
+                          setState(() {
+                            isContinuingAttempt = false;
+                          });
                           Navigator.pop(context);
                           if (widget.bankOrMock == 'Bank') {
                             Navigator.push(
@@ -304,6 +308,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       child: CustomButton(
                         buttonText: 'Continue Attempt',
                         onPressed: () async {
+                          setState(() {
+                            isContinuingAttempt = true;
+                          });
                           Navigator.pop(context);
                           if (lastAttempt != null && lastAttempt.isNotEmpty) {
                             final latestAttempt = lastAttempt.last;
@@ -311,7 +318,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                             final startFromQuestion = questionProvider.questions
                                 ?.indexWhere((question) => question.questionId == latestAttempt['questionId']) ?? 0;
 
-                            // print('Continue attempt with startFromQuestion: $startFromQuestion');
                             if (startFromQuestion >= 0) {
                               _navigateToNextScreen(context, item, startFromQuestion: startFromQuestion, attemptId: lastAttemptId);
                             } else {

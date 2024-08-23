@@ -99,6 +99,7 @@ class ModeDescription extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => TutorMode(
+                                isContinuingAttempt: false,
                                 subject: subject,
                                 attemptId: attemptId,
                                 deckName: deckName,
@@ -188,6 +189,7 @@ class ModeDescription extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => TestInterface(
+                                isContinuingAttempt: false,
                                 subject: subject,
                                 attemptId: attemptId,
                                 deckName: deckName,

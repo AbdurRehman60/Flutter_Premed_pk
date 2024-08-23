@@ -28,4 +28,12 @@ class DeckInformation {
       .toList();
 
   String get lastAttemptId => lastAttempt['_id'] ?? '';
+
+  String? getSelectionForQuestion(String questionId) {
+    final attempt = attempts.firstWhere(
+          (attempt) => attempt['questionId'] == questionId,
+      orElse: () => <String, dynamic>{},
+    );
+    return attempt['selection'] as String?;
+  }
 }

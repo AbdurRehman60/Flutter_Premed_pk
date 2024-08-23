@@ -9,6 +9,7 @@ import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dar
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/question_model.dart';
+import '../../../providers/deck_info_provider.dart';
 import '../../../providers/question_provider.dart';
 import '../../../providers/save_question_provider.dart';
 import '../../../providers/update_attempt_provider.dart';
@@ -21,7 +22,9 @@ class TestInterface extends StatefulWidget {
     required this.attemptId,
     this.startFromQuestion = 0,
     this.subject,
+    required this.isContinuingAttempt,
   });
+  final bool isContinuingAttempt;
 
   final String attemptId;
   final String deckName;
@@ -174,34 +177,50 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 
   void nextQuestion() {
-    if (isLoading) {
-      return;
-    }
+    if (isLoading) return;
 
     final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
     if (currentQuestionIndex < questionProvider.questions!.length - 1) {
+      updateAttempt();
+
       setState(() {
         currentQuestionIndex++;
 
-        if (currentQuestionIndex % 10 == 0 && currentPage < 25) {
+        // Fetch new questions if needed
+        if (currentQuestionIndex % 10 == 0 && currentPage < 26) {
           setState(() {
-            isLoading = true; // Show loading
+            isLoading = true;
           });
           questionProvider.fetchQuestions(widget.deckName, ++currentPage).then((_) {
             setState(() {
-              isLoading = false; // Stop loading
+              isLoading = false;
             });
           });
         }
 
-        selectedOption = selectedOptions[currentQuestionIndex];
-        optionSelected = selectedOption != null;
+        // Prevent accessing an index out of range
+        if (currentQuestionIndex < questionProvider.questions!.length) {
+          final question = questionProvider.questions![currentQuestionIndex];
 
-        _stopwatch.reset();
-        _stopwatch.start();
+          // Reset selected option and flag
+          selectedOption = null;
+          optionSelected = false;
 
-        questionProvider.notifyListeners();
+          // Retrieve the selected option if continuing an attempt
+          if (widget.isContinuingAttempt) {
+            selectedOption = deckInfo?.getSelectionForQuestion(question.questionId) ?? selectedOptions[currentQuestionIndex];
+            optionSelected = selectedOption != null;
+          }
+
+          _stopwatch.reset();
+          _stopwatch.start();
+
+          questionProvider.notifyListeners();
+        } else {
+          print("Error: Attempted to access an invalid question index.");
+        }
       });
     } else {
       print("Error: Attempted to access an invalid question index.");
@@ -209,26 +228,42 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 
   void previousQuestion() {
-    if (isLoading) {
-      return;
-    }
+    if (isLoading) return;
 
     final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
     if (currentQuestionIndex > 0) {
+      updateAttempt();
+
       setState(() {
         currentQuestionIndex--;
 
-        selectedOption = selectedOptions[currentQuestionIndex];
-        optionSelected = selectedOption != null;
+        // Prevent accessing an index out of range
+        if (currentQuestionIndex < questionProvider.questions!.length) {
+          final question = questionProvider.questions![currentQuestionIndex];
 
-        _stopwatch.reset();
-        _stopwatch.start();
+          // Reset selected option and flag
+          selectedOption = null;
+          optionSelected = false;
 
-        questionProvider.notifyListeners();
+          // Retrieve the selected option if continuing an attempt
+          if (widget.isContinuingAttempt) {
+            selectedOption = deckInfo?.getSelectionForQuestion(question.questionId) ?? selectedOptions[currentQuestionIndex];
+            optionSelected = selectedOption != null;
+          }
+
+          _stopwatch.reset();
+          _stopwatch.start();
+
+          questionProvider.notifyListeners();
+        } else {
+          print("Error: Attempted to access an invalid question index.");
+        }
       });
     }
   }
+
 
 
   Future<void> _fetchAllQuestions() async {
@@ -240,7 +275,7 @@ class _TestInterfaceState extends State<TestInterface> {
     questionProvider.clearQuestions();
     questionProvider.deckName = widget.deckName;
 
-    for (int i = 1; i <= 25; i++) {
+    for (int i = 1; i <= 26; i++) {
       await questionProvider.fetchQuestions(widget.deckName, i);
     }
 
@@ -816,18 +851,24 @@ class _TestInterfaceState extends State<TestInterface> {
                       setState(() {
                         updateAttempt();
                         currentQuestionIndex = index;
+
+                        // Always reset selectedOption and optionSelected when moving to a new question
                         selectedOption = null;
                         optionSelected = false;
 
-                        if (currentQuestionIndex % 10 == 7 &&
-                            currentPage < 20) {
+                        // Fetch new questions if needed
+                        if (currentQuestionIndex % 10 == 7 && currentPage < 20) {
                           currentPage++;
-                          Provider.of<QuestionProvider>(context, listen: false)
-                              .fetchQuestions(widget.deckName, currentPage);
+                          questionProvider.fetchQuestions(widget.deckName, currentPage);
                         }
 
-                        selectedOption = selectedOptions[currentQuestionIndex];
-                        optionSelected = selectedOption != null;
+                        // If continuing an attempt, retrieve the previously selected option
+                        if (widget.isContinuingAttempt) {
+                          final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+                          final question = questionProvider.questions![currentQuestionIndex];
+                          selectedOption = deckInfo?.getSelectionForQuestion(question.questionId) ?? selectedOptions[currentQuestionIndex];
+                          optionSelected = selectedOption != null;
+                        }
 
                         _stopwatch.reset();
                         _stopwatch.start();
@@ -858,14 +899,12 @@ class _TestInterfaceState extends State<TestInterface> {
                           ),
                           child: CircleAvatar(
                             radius: 20,
-                            backgroundColor: isAttempted
-                                ? Colors.blue
-                                : PreMedColorTheme().white,
+                            backgroundColor:
+                            isAttempted ? Colors.blue : PreMedColorTheme().white,
                             child: Text(
                               '${index + 1}',
                               style: TextStyle(
-                                color:
-                                    isAttempted ? Colors.white : Colors.black,
+                                color: isAttempted ? Colors.white : Colors.black,
                               ),
                             ),
                           ),

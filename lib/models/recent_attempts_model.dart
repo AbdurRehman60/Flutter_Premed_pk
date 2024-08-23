@@ -51,7 +51,7 @@ class Attempts {
       deckId: json['deckId'],
       userId: json['userId'],
       attempts:
-          (json['attempts'] as List).map((e) => Attempt.fromJson(e)).toList(),
+      (json['attempts'] as List).map((e) => Attempt.fromJson(e)).toList(),
       attemptMode: json['attemptMode'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),

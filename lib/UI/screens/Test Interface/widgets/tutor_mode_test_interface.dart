@@ -6,6 +6,7 @@ import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dar
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../models/question_model.dart';
+import '../../../../providers/deck_info_provider.dart';
 import '../../../../providers/flashcard_provider.dart';
 import '../../../../providers/question_provider.dart';
 import '../../../../providers/save_question_provider.dart';
@@ -20,8 +21,10 @@ class TutorMode extends StatefulWidget {
       required this.deckName,
       required this.attemptId,
       this.startFromQuestion = 0,
-      required this.subject});
+      required this.subject,
+      required this.isContinuingAttempt});
 
+  final bool isContinuingAttempt;
   final String attemptId;
   final String deckName;
   final int startFromQuestion;
@@ -101,52 +104,64 @@ class _TutorModeState extends State<TutorMode> {
 
   Future<void> _fetchAllQuestions() async {
     setState(() {
-      isLoading = true; // Start loading
+      isLoading = true;
     });
 
     final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
     questionProvider.clearQuestions();
     questionProvider.deckName = widget.deckName;
 
-    for (int i = 1; i <= 25; i++) {
+    for (int i = 1; i <= 26; i++) {
       await questionProvider.fetchQuestions(widget.deckName, i);
     }
 
     setState(() {
-      isLoading = false; // Stop loading
+      isLoading = false;
       currentPage = (currentQuestionIndex ~/ 10) + 1;
     });
   }
-
   void nextQuestion() {
     if (isLoading) {
       return;
     }
 
     final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
     if (currentQuestionIndex < questionProvider.questions!.length - 1) {
+      updateAttempt();
+
       setState(() {
         currentQuestionIndex++;
-
-        if (currentQuestionIndex % 10 == 0 && currentPage < 25) {
+        if (currentQuestionIndex % 10 == 0 && currentPage < 26) {
           setState(() {
-            isLoading = true; // Show loading
+            isLoading = true;
           });
           questionProvider.fetchQuestions(widget.deckName, ++currentPage).then((_) {
             setState(() {
-              isLoading = false; // Stop loading
+              isLoading = false;
             });
           });
         }
 
-        selectedOption = selectedOptions[currentQuestionIndex];
-        optionSelected = selectedOption != null;
+        if (currentQuestionIndex < questionProvider.questions!.length) {
+          final question = questionProvider.questions![currentQuestionIndex];
 
-        _stopwatch.reset();
-        _stopwatch.start();
+          selectedOption = null;
+          optionSelected = false;
 
-        questionProvider.notifyListeners();
+          if (widget.isContinuingAttempt) {
+            selectedOption = deckInfo?.getSelectionForQuestion(question.questionId) ?? selectedOptions[currentQuestionIndex];
+            optionSelected = selectedOption != null;
+          }
+
+          _stopwatch.reset();
+          _stopwatch.start();
+
+          questionProvider.notifyListeners();
+        } else {
+          print("Error: Attempted to access an invalid question index.");
+        }
       });
     } else {
       print("Error: Attempted to access an invalid question index.");
@@ -159,43 +174,44 @@ class _TutorModeState extends State<TutorMode> {
     }
 
     final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
     if (currentQuestionIndex > 0) {
+      updateAttempt();
+
       setState(() {
         currentQuestionIndex--;
 
-        selectedOption = selectedOptions[currentQuestionIndex];
-        optionSelected = selectedOption != null;
+        if (currentQuestionIndex < questionProvider.questions!.length) {
+          final question = questionProvider.questions![currentQuestionIndex];
 
-        _stopwatch.reset();
-        _stopwatch.start();
+          selectedOption = null;
+          optionSelected = false;
 
-        questionProvider.notifyListeners();
+          if (widget.isContinuingAttempt) {
+            selectedOption = deckInfo?.getSelectionForQuestion(question.questionId) ?? selectedOptions[currentQuestionIndex];
+            optionSelected = selectedOption != null;
+          }
+
+          _stopwatch.reset();
+          _stopwatch.start();
+
+          questionProvider.notifyListeners();
+        } else {
+          print("Error: Attempted to access an invalid question index.");
+        }
       });
     }
   }
 
 
-  void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!isPaused && _durationNotifier.value.inSeconds > 0) {
-        _durationNotifier.value =
-            _durationNotifier.value - const Duration(seconds: 1);
-      } else if (_durationNotifier.value.inSeconds == 0) {
-        timer.cancel();
-      }
-    });
-  }
 
-  String? parse(String toParse) {
-    return htmlparser.parse(toParse).body?.text;
-  }
 
   void updateAttempt() {
     final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+    Provider.of<QuestionProvider>(context, listen: false);
     final attemptProvider =
-        Provider.of<AttemptProvider>(context, listen: false);
+    Provider.of<AttemptProvider>(context, listen: false);
 
     if (currentQuestionIndex < questionProvider.questions!.length) {
       _stopwatch.stop();
@@ -219,7 +235,7 @@ class _TutorModeState extends State<TutorMode> {
       }
 
       final correctOption =
-          question.options.singleWhere((option) => option.isCorrect);
+      question.options.singleWhere((option) => option.isCorrect);
 
       final attemptData = {
         'attemptId': widget.attemptId,
@@ -241,6 +257,24 @@ class _TutorModeState extends State<TutorMode> {
       selectedOptions[currentQuestionIndex] = selectedOption;
     }
   }
+
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!isPaused && _durationNotifier.value.inSeconds > 0) {
+        _durationNotifier.value =
+            _durationNotifier.value - const Duration(seconds: 1);
+      } else if (_durationNotifier.value.inSeconds == 0) {
+        timer.cancel();
+      }
+    });
+  }
+
+  String? parse(String toParse) {
+    return htmlparser.parse(toParse).body?.text;
+  }
+
+
 
   void showSnackBarr() {
     final flashcardpro = Provider.of<FlashcardProvider>(context, listen: false);
@@ -468,7 +502,7 @@ class _TutorModeState extends State<TutorMode> {
       );
     }
 
-    final question = questions[currentQuestionIndex]; // Declare `question` here
+    final question = questions[currentQuestionIndex];
 
 
     return Scaffold(
@@ -829,84 +863,83 @@ class _TutorModeState extends State<TutorMode> {
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
-                height: 55,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: questionProvider.questions!.length,
-                  itemBuilder: (context, index) {
-                    final bool isAttempted = selectedOptions[index] != null;
-                    final bool isCurrent = index == currentQuestionIndex;
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SizedBox(
+              height: 55,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: questionProvider.questions!.length,
+                itemBuilder: (context, index) {
+                  final bool isAttempted = selectedOptions[index] != null;
+                  final bool isCurrent = index == currentQuestionIndex;
 
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          updateAttempt();
-                          currentQuestionIndex = index;
-                          selectedOption = null;
-                          optionSelected = false;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        updateAttempt();
+                        currentQuestionIndex = index;
 
-                          if (currentQuestionIndex % 10 == 7 &&
-                              currentPage < 20) {
-                            currentPage++;
-                            questionProvider.fetchQuestions(
-                                widget.deckName, currentPage);
-                          }
+                        selectedOption = null;
+                        optionSelected = false;
 
-                          selectedOption =
-                              selectedOptions[currentQuestionIndex];
+                        if (currentQuestionIndex % 10 == 7 && currentPage < 20) {
+                          currentPage++;
+                          questionProvider.fetchQuestions(widget.deckName, currentPage);
+                        }
+                        if (widget.isContinuingAttempt) {
+                          final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+                          final question = questionProvider.questions![currentQuestionIndex];
+                          selectedOption = deckInfo?.getSelectionForQuestion(question.questionId) ?? selectedOptions[currentQuestionIndex];
                           optionSelected = selectedOption != null;
+                        }
 
-                          _stopwatch.reset();
-                          _stopwatch.start();
-                        });
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                        child: Center(
-                          child: Container(
-                            width: 46,
-                            height: 46,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(23),
-                              border: Border.all(
-                                color: isAttempted
-                                    ? Colors.transparent
-                                    : (isCurrent ? Colors.blue : Colors.white),
-                                width: 3,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  spreadRadius: 1,
-                                  blurRadius: 3,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
+                        _stopwatch.reset();
+                        _stopwatch.start();
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                      child: Center(
+                        child: Container(
+                          width: 46,
+                          height: 46,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(23),
+                            border: Border.all(
+                              color: isAttempted
+                                  ? Colors.transparent
+                                  : (isCurrent ? Colors.blue : Colors.white),
+                              width: 3,
                             ),
-                            child: CircleAvatar(
-                              radius: 20,
-                              backgroundColor: isAttempted
-                                  ? Colors.blue
-                                  : PreMedColorTheme().white,
-                              child: Text(
-                                '${index + 1}',
-                                style: TextStyle(
-                                  color:
-                                      isAttempted ? Colors.white : Colors.black,
-                                ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 3,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundColor:
+                            isAttempted ? Colors.blue : PreMedColorTheme().white,
+                            child: Text(
+                              '${index + 1}',
+                              style: TextStyle(
+                                color: isAttempted ? Colors.white : Colors.black,
                               ),
                             ),
                           ),
                         ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
             ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Material(

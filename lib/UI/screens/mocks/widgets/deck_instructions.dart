@@ -153,6 +153,7 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => TestInterface(
+                                          isContinuingAttempt: false,
                                           subject: widget.subject,
                                           deckName: selectedDeckItem.deckName,
                                           attemptId: attemptId,
