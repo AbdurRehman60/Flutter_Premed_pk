@@ -526,7 +526,7 @@ class _TestInterfaceState extends State<TestInterface> {
         ));
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final questionProvider =
@@ -762,8 +762,8 @@ class _TestInterfaceState extends State<TestInterface> {
                     ),
                     onPressed: () {
                       final question =
-                          Provider.of<QuestionProvider>(context, listen: false)
-                              .questions![currentQuestionIndex];
+                      Provider.of<QuestionProvider>(context, listen: false)
+                          .questions![currentQuestionIndex];
                       _eliminateOptions(question.options);
                     },
                     child: Row(
@@ -787,8 +787,8 @@ class _TestInterfaceState extends State<TestInterface> {
                     ),
                     onPressed: () {
                       final question =
-                          Provider.of<QuestionProvider>(context, listen: false)
-                              .questions![currentQuestionIndex];
+                      Provider.of<QuestionProvider>(context, listen: false)
+                          .questions![currentQuestionIndex];
                       _undoElimination(question.options);
                     },
                     child: Row(
@@ -852,7 +852,7 @@ class _TestInterfaceState extends State<TestInterface> {
                 final parsedOptionText = parse(option.optionText);
                 final isSelected = option.optionLetter == selectedOption;
                 final borderColor =
-                    isSelected ? Colors.blue : PreMedColorTheme().neutral400;
+                isSelected ? Colors.blue : PreMedColorTheme().neutral400;
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -881,8 +881,8 @@ class _TestInterfaceState extends State<TestInterface> {
                               child: Text(
                                 parsedOptionText ?? '',
                                 style: PreMedTextTheme().body.copyWith(
-                                      color: PreMedColorTheme().black,
-                                    ),
+                                  color: PreMedColorTheme().black,
+                                ),
                               ),
                             ),
                           ),

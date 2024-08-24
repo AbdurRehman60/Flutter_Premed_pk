@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/widgets/recent_activity.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/tutor_mode_test_interface.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -28,7 +27,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
   Future<void> _resumeAttempt(BuildContext context, RecentAttempt recentAttempt,
       {int startFromQuestion = 0, String? attemptId}) async {
     final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+    Provider.of<QuestionProvider>(context, listen: false);
     final deckName = recentAttempt.deckName;
     print('resume Called');
     if (deckName == null) {
@@ -73,7 +72,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
       isContinuingAttempt = false; // Ensure it's set to false
     });
     final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+    Provider.of<QuestionProvider>(context, listen: false);
     await questionProvider.fetchQuestions(recentAttempt.deckName!, 1);
 
     if (recentAttempt.mode == 'TESTMODE') {
@@ -98,11 +97,11 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
   }
 
   void _navigateToTestInterface(
-    String deckName, {
-    required String attemptId,
-    String? subject,
-    int startFromQuestion = 0,
-  }) {
+      String deckName, {
+        required String attemptId,
+        String? subject,
+        int startFromQuestion = 0,
+      }) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => TestInterface(
@@ -117,11 +116,11 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
   }
 
   void _navigateToTutorInterface(
-    String deckName, {
-    required String attemptId,
-    String? subject,
-    int startFromQuestion = 0,
-  }) {
+      String deckName, {
+        required String attemptId,
+        String? subject,
+        int startFromQuestion = 0,
+      }) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => TutorMode(
@@ -149,10 +148,16 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
           date: recentAttempt.attemptedDate.toString(),
           mode: recentAttempt.mode,
           resume: () {
+            setState(() {
+              isContinuingAttempt = true;
+            });
             Navigator.pop(context);
             _resumeAttempt(context, recentAttempt);
           },
           restart: () {
+            setState(() {
+              isContinuingAttempt = false;
+            });
             Navigator.pop(context);
             _restartAttempt(context, recentAttempt);
           },
@@ -220,7 +225,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
                   itemCount: provider.recentAttempts.length,
                   itemBuilder: (context, index) {
                     final RecentAttempt recentAttempt =
-                        provider.recentAttempts[index];
+                    provider.recentAttempts[index];
                     return Padding(
                       padding: const EdgeInsets.only(left: 28, right: 28),
                       child: RecentActivityCard1(
@@ -319,7 +324,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                           padding: const EdgeInsets.only(left: 10),
                           child: LinearProgressIndicator(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(25)),
+                            const BorderRadius.all(Radius.circular(25)),
                             backgroundColor: Colors.grey[300],
                             value: widget.progressValue?.clamp(0.0, 1.0),
                             valueColor: AlwaysStoppedAnimation(
@@ -348,7 +353,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          _formatDate(widget.date!),
+                          widget.date ?? '',
                           style: GoogleFonts.rubik(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,
@@ -361,7 +366,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                                   fontWeight: FontWeight.w800,
                                   fontSize: 12,
                                   color: Provider.of<PreMedProvider>(context)
-                                          .isPreMed
+                                      .isPreMed
                                       ? PreMedColorTheme().red
                                       : PreMedColorTheme().blue)),
                         ),
@@ -379,9 +384,9 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            Provider.of<PreMedProvider>(context).isPreMed
-                                ? PreMedColorTheme().red
-                                : PreMedColorTheme().blue,
+                        Provider.of<PreMedProvider>(context).isPreMed
+                            ? PreMedColorTheme().red
+                            : PreMedColorTheme().blue,
                         elevation: 10,
                       ), // Set the color to red
                       onPressed: widget.resume,
@@ -420,11 +425,6 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
             ],
           ),
         ));
-  }
-
-  String _formatDate(String dateString) {
-    DateTime date = DateTime.parse(dateString);
-    return DateFormat('d MMMM yyyy').format(date);
   }
 
   Color _getColor(double progressValue) {

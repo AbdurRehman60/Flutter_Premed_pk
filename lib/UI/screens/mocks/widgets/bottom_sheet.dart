@@ -192,26 +192,30 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     );
   }
 
-  Future<void> _navigateToNextScreen(BuildContext context, DeckItem item, {int? startFromQuestion, String? attemptId, bool isReview = false}) async {
+  void _navigateToNextScreen(BuildContext context, DeckItem item, {int? startFromQuestion, String? attemptId, bool isReview = false}) async {
     final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
     final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
     final attemptMode = deckInfo?.attemptMode ?? '';
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final totalQuestions = questionProvider.questions?.length ?? 0;
 
-    // DEBUG: print the mode and initial values
+    // Debug logs
     print("DEBUG: _navigateToNextScreen called");
     print("DEBUG: isReview = $isReview, startFromQuestion = $startFromQuestion, attemptMode = $attemptMode");
 
-    // For review mode, force start from question 0.
-    final questionIndex = isReview ? 0 : (startFromQuestion ?? 0);
-    print("DEBUG: Calculated questionIndex = $questionIndex");  // Added debug statement to see the final question index
+    int questionIndex = (startFromQuestion ?? 0);
+    if (questionIndex < 0 || questionIndex >= totalQuestions) {
+      print("DEBUG: startFromQuestion is out of range, setting to 1");
+      questionIndex = 1;
+    }
+
+    print("DEBUG: Calculated questionIndex = $questionIndex");
 
     if (isReview) {
-      // Review mode - always start from the first question
       print("DEBUG: Entering Review Mode - forcing start from question 0");
       _startReviewMode(context, item, attemptMode, deckAttemptProvider, questionIndex);
     } else {
-      // Continue or re-attempt the paper in the previous mode
       print("DEBUG: Continuing/Reattempting - mode = $attemptMode, questionIndex = $questionIndex");
       _continueOrReattempt(context, item, attemptMode, deckAttemptProvider, questionIndex, attemptId);
     }
@@ -229,7 +233,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
             subject: widget.subject,
             deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: deckAttemptProvider.attemptId,
-            startFromQuestion: 0,  // Force review to start from the first question
+            startFromQuestion: 0,
             isReview: true,
           ),
         ),
@@ -243,7 +247,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
             subject: widget.subject,
             deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: deckAttemptProvider.attemptId,
-            startFromQuestion: 0,  // Force review to start from the first question
+            startFromQuestion: 0,
             isReview: true,
           ),
         ),
@@ -414,17 +418,3 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     );
   }
 }
-
-
-//
-// ///
-// /   void _eliminateOptions(List<Option> options) {
-//     _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
-//     setState(() {});
-//   }
-//
-//   void _undoElimination(List<Option> options) {
-//     options.addAll(_eliminatedOptions);
-//     _eliminatedOptions = [];
-//     setState(() {});
-//   }

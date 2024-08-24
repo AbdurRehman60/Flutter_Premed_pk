@@ -254,7 +254,6 @@ class _TutorModeState extends State<TutorMode> {
       setState(() {
         currentQuestionIndex--;
 
-        // Prevent accessing an index out of range
         if (currentQuestionIndex < questionProvider.questions!.length) {
           final question = questionProvider.questions![currentQuestionIndex];
 
@@ -504,11 +503,11 @@ class _TutorModeState extends State<TutorMode> {
     );
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+    Provider.of<QuestionProvider>(context, listen: false);
     final questions = questionProvider.questions;
 
     if (isLoading || questions == null || questions.isEmpty) {
@@ -623,9 +622,9 @@ class _TutorModeState extends State<TutorMode> {
               child: Text(
                 'QUESTION ${currentQuestionIndex + 1}',
                 style: PreMedTextTheme().heading6.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  color: PreMedColorTheme().black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             actions: [
@@ -669,10 +668,10 @@ class _TutorModeState extends State<TutorMode> {
               Text(
                 parse(question.questionText) ?? '',
                 style: PreMedTextTheme().body.copyWith(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                      color: PreMedColorTheme().black,
-                    ),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w400,
+                  color: PreMedColorTheme().black,
+                ),
               ),
               Row(
                 children: [
@@ -738,8 +737,8 @@ class _TutorModeState extends State<TutorMode> {
                     ),
                     onPressed: () {
                       final question =
-                          Provider.of<QuestionProvider>(context, listen: false)
-                              .questions![currentQuestionIndex];
+                      Provider.of<QuestionProvider>(context, listen: false)
+                          .questions![currentQuestionIndex];
                       _eliminateOptions(question.options);
                     },
                     child: Row(
@@ -763,8 +762,8 @@ class _TutorModeState extends State<TutorMode> {
                     ),
                     onPressed: () {
                       final question =
-                          Provider.of<QuestionProvider>(context, listen: false)
-                              .questions![currentQuestionIndex];
+                      Provider.of<QuestionProvider>(context, listen: false)
+                          .questions![currentQuestionIndex];
                       _undoElimination(question.options);
                     },
                     child: Row(
@@ -832,15 +831,15 @@ class _TutorModeState extends State<TutorMode> {
                 final borderColor = isSelected
                     ? (isCorrect ? Colors.green : Colors.red)
                     : (optionSelected && isCorrect
-                        ? Colors.green
-                        : PreMedColorTheme().neutral400);
+                    ? Colors.green
+                    : PreMedColorTheme().neutral400);
                 final color = isSelected
                     ? (isCorrect
-                        ? Colors.greenAccent
-                        : PreMedColorTheme().primaryColorRed200)
+                    ? Colors.greenAccent
+                    : PreMedColorTheme().primaryColorRed200)
                     : (optionSelected && isCorrect
-                        ? Colors.greenAccent
-                        : PreMedColorTheme().white);
+                    ? Colors.greenAccent
+                    : PreMedColorTheme().white);
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -864,7 +863,7 @@ class _TutorModeState extends State<TutorMode> {
                                       fontWeight: FontWeight.w800,
                                       fontSize: 15,
                                       color:
-                                          PreMedColorTheme().primaryColorRed),
+                                      PreMedColorTheme().primaryColorRed),
                                 ),
                               ),
                               Expanded(
@@ -872,24 +871,24 @@ class _TutorModeState extends State<TutorMode> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         parsedOptionText ?? '',
                                         style: PreMedTextTheme().body.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14,
-                                              color: PreMedColorTheme().black,
-                                            ),
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          color: PreMedColorTheme().black,
+                                        ),
                                       ),
                                       SizedBoxes.verticalTiny,
                                       if (optionSelected)
                                         ExplanationButton(
                                           isCorrect: isCorrectlyAnswered[
-                                              currentQuestionIndex],
+                                          currentQuestionIndex],
                                           explanationText: parse(option
-                                                      .explanationText ??
-                                                  'Refer to the explanation given at the bottom of the screen') ??
+                                              .explanationText ??
+                                              'Refer to the explanation given at the bottom of the screen') ??
                                               '',
                                         ),
                                     ],
@@ -926,8 +925,8 @@ class _TutorModeState extends State<TutorMode> {
                             textAlign: TextAlign.justify,
                             parse(question.explanationText ?? '') ?? '',
                             style: PreMedTextTheme().body.copyWith(
-                                  color: PreMedColorTheme().black,
-                                ),
+                              color: PreMedColorTheme().black,
+                            ),
                           ),
                         ],
                       ),
@@ -1176,7 +1175,7 @@ class ExplanationButtonState extends State<ExplanationButton> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: 155,
+          width: 163,
           child: ElevatedButton(
             onPressed: () {
               setState(() {
@@ -1219,8 +1218,8 @@ class ExplanationButtonState extends State<ExplanationButton> {
             child: Text(
               widget.explanationText!,
               style: PreMedTextTheme().body.copyWith(
-                    color: PreMedColorTheme().black,
-                  ),
+                color: PreMedColorTheme().black,
+              ),
             ),
           ),
       ],
