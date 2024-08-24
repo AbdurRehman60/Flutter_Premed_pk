@@ -356,3 +356,17 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     );
   }
 }
+
+
+//
+// ///
+// /   void _eliminateOptions(List<Option> options) {
+//     _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
+//     setState(() {});
+//   }
+//
+//   void _undoElimination(List<Option> options) {
+//     options.addAll(_eliminatedOptions);
+//     _eliminatedOptions = [];
+//     setState(() {});
+//   }

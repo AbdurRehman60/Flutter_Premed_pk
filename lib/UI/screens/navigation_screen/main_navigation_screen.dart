@@ -1,13 +1,19 @@
+import 'package:crypto/crypto.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/account.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/bottom_nav.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/qbank_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../providers/user_provider.dart'; // Add this import
 
 class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key});
+  const MainNavigationScreen({super.key,this.userPassword});
+  final String? userPassword;
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
@@ -30,9 +36,28 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     const MarketPlace(),
     const Account(),
   ];
+  String hashPassword(String password) {
+    final bytes = utf8.encode(password);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  Future<void> _launchURL(String username, String hashedPassword) async {
+    final url =
+        'https://premed.pk/app-redirect?username="$username"&&password="$hashedPassword"==&&route="pricing/all"';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    final String username = userProvider.user?.userName ?? '';
+    final String password = widget.userPassword?? '';
+    final String hashedPassword = hashPassword(password);
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
@@ -55,7 +80,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           onTapHome: () => onTap(0),
           onTapQbank: () => onTap(1),
           ontapVault: () => onTap(2),
-          onTapMarketplace: () => onTap(3),
+          onTapMarketplace: () => _launchURL(username,hashedPassword),
           onTapProfile: () => onTap(4),
         ),
       ),
@@ -63,7 +88,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   Future<void> onTap(int index) async {
-      navigateTo(index);
+    navigateTo(index);
   }
 
   void navigateTo(int index) {
@@ -75,4 +100,5 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       });
     }
   }
+
 }

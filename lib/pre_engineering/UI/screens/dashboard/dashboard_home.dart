@@ -300,44 +300,36 @@ class _EngineeringDashboardScreenState
               // ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.04,),
+                    horizontal: screenWidth * 0.045,
+                    vertical: screenHeight * 0.017),
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 7,
-                  height: MediaQuery.of(context).size.height * 0.3,
+                  width: screenWidth * 7,
+                  height: screenHeight * 0.32,
                   decoration: BoxDecoration(
-                    color: PreMedColorTheme().white,
+                    color: PreMedColorTheme().white85,
                     borderRadius: BorderRadius.circular(15),
-                    boxShadow: CustomBoxShadow.boxShadow40
+                    boxShadow: CustomBoxShadow.boxShadow40,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 5, top: 10),
-                    child: FutureBuilder(
-                      future: userStatProvider
-                          .fetchUserStatistics(UserProvider().user?.userId),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          if (snapshot.connectionState ==
+                      padding: const EdgeInsets.only(left: 5, top: 10),
+                      child: FutureBuilder(
+                        future: userStatProvider.fetchUserStatistics(context),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else if (snapshot.connectionState ==
                               ConnectionState.done) {
-                            userStatModel = userStatProvider.userStatModel!;
-                            return InkWell(
-                              onTap: (){
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                        const StatisticsScreen()));
-                              },
-                              child: Column(
+                            if (userStatProvider.userStatModel == null) {
+                              return Column(
                                 children: [
                                   Row(
                                     children: [
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 10),
+                                        const EdgeInsets.only(left: 10),
                                         child: Image.asset(
                                           Provider.of<PreMedProvider>(context)
-                                                  .isPreMed
+                                              .isPreMed
                                               ? PremedAssets.graph
                                               : PremedAssets.BlueGraph,
                                           width: 50,
@@ -349,7 +341,7 @@ class _EngineeringDashboardScreenState
                                             top: 10, left: 2, bottom: 7),
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               "Statistics",
@@ -368,110 +360,71 @@ class _EngineeringDashboardScreenState
                                           ],
                                         ),
                                       ),
-                                      SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.08),
+                                      SizedBox(width: screenWidth * 0.08),
                                       InkWell(
-                                          onTap: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                    const StatisticsScreen()));
-                                          },
-                                          child: Image.asset(
-                                            Provider.of<PreMedProvider>(context)
-                                                .isPreMed ? PremedAssets.arrow : PremedAssets.ArrowForward,
-                                            width: 15,
-                                            height: 15,
-                                          ),
-                                          // Container(
-                                          //   width: 20,
-                                          //   height: 20,
-                                          //   decoration:  BoxDecoration(
-                                          //     borderRadius: BorderRadius.circular(5),
-                                          //     color: Colors.white,
-                                          //     boxShadow: const [
-                                          //       BoxShadow(
-                                          //         color: Color(0x26000000),
-                                          //         blurRadius: 20,
-                                          //         offset: Offset(0, 10),
-                                          //       )
-                                          //     ],
-                                          //   ),
-                                          //   child: ,
-                                          // )
+                                        onTap: () {},
+                                        child: Image.asset(
+                                          PremedAssets.arrow,
+                                          width: 40,
+                                          height: 40,
+                                        ),
                                       ),
                                     ],
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.all(7.0),
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(18)),
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.18,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(18),
-                                          boxShadow: CustomBoxShadow.boxShadow40,
-                                        ),
-                                        child: MaterialCard(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.18,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  StatDetailHolder(
-                                                    textColor:
-                                                        PreMedColorTheme()
-                                                            .greenLight,
-                                                    count: userStatModel
-                                                        .decksAttempted,
-                                                    details: 'Decks\nAttempted',
-                                                  ),
-                                                  StatDetailHolder(
-                                                    textColor:
-                                                        PreMedColorTheme().red,
-                                                    count: userStatModel
-                                                        .testAttempted,
-                                                    details: 'Test\nAttempted',
-                                                  ),
-                                                  StatDetailHolder(
-                                                    textColor:
-                                                        PreMedColorTheme()
-                                                            .yellowlight,
-                                                    count: userStatModel
-                                                        .paracticeTestAttempted,
-                                                    details:
-                                                        'Practice Tests\nAttempted',
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Container(
+                                      height: screenHeight * 0.18,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(20),
+                                        boxShadow:
+                                        CustomBoxShadow.boxShadow40,
+                                      ),
+                                      child: MaterialCard(
+                                        height: screenHeight * 0.18,
+                                        width: screenWidth,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                StatDetailHolder(
+                                                  textColor:
+                                                  PreMedColorTheme()
+                                                      .greenLight,
+                                                  count: 0,
+                                                  details: 'Decks\nAttempted',
+                                                ),
+                                                StatDetailHolder(
+                                                  textColor:
+                                                  PreMedColorTheme().red,
+                                                  count: 0,
+                                                  details: 'Test\nAttempted',
+                                                ),
+                                                StatDetailHolder(
+                                                  textColor:
+                                                  PreMedColorTheme()
+                                                      .yellowlight,
+                                                  count: 0,
+                                                  details:
+                                                  'Practice Tests\nAttempted',
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
                                   ),
                                 ],
-                              ),
-                            );
-                          } else {
+                              );
+                            }
+                            userStatModel = userStatProvider.userStatModel!;
                             return Column(
                               children: [
                                 Row(
@@ -479,8 +432,10 @@ class _EngineeringDashboardScreenState
                                     Padding(
                                       padding: const EdgeInsets.only(left: 10),
                                       child: Image.asset(
-                                        Provider.of<PreMedProvider>(context).isPreMed ?
-                                        PremedAssets.graph : PremedAssets.BlueGraph,
+                                        Provider.of<PreMedProvider>(context)
+                                            .isPreMed
+                                            ? PremedAssets.graph
+                                            : PremedAssets.BlueGraph,
                                         width: 50,
                                         height: 50,
                                       ),
@@ -512,12 +467,118 @@ class _EngineeringDashboardScreenState
                                     SizedBox(width: screenWidth * 0.08),
                                     InkWell(
                                       onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                            const StatisticsScreen(),
+                                          ),
+                                        );
                                       },
                                       child: Image.asset(
+                                        PremedAssets.arrow,
+                                        width: 40,
+                                        height: 40,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Container(
+                                    height: screenHeight * 0.18,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: CustomBoxShadow.boxShadow40,
+                                    ),
+                                    child: MaterialCard(
+                                      height: screenHeight * 0.18,
+                                      width: screenWidth,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              StatDetailHolder(
+                                                textColor: PreMedColorTheme()
+                                                    .greenLight,
+                                                count: userStatModel
+                                                    .decksAttempted,
+                                                details: 'Decks\nAttempted',
+                                              ),
+                                              StatDetailHolder(
+                                                textColor:
+                                                PreMedColorTheme().red,
+                                                count:
+                                                userStatModel.testAttempted,
+                                                details: 'Test\nAttempted',
+                                              ),
+                                              StatDetailHolder(
+                                                textColor: PreMedColorTheme()
+                                                    .yellowlight,
+                                                count: userStatModel
+                                                    .paracticeTestAttempted,
+                                                details:
+                                                'Practice Tests\nAttempted',
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          } else {
+                            return Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Image.asset(
                                         Provider.of<PreMedProvider>(context)
-                                            .isPreMed ? PremedAssets.arrow : PremedAssets.ArrowForward,
-                                        width: 15,
-                                        height: 15,
+                                            .isPreMed
+                                            ? PremedAssets.graph
+                                            : PremedAssets.BlueGraph,
+                                        width: 50,
+                                        height: 50,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 10, left: 2, bottom: 7),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Statistics",
+                                            style: GoogleFonts.rubik(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Check out your performance at a glance!",
+                                            style: GoogleFonts.rubik(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 9,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(width: screenWidth * 0.08),
+                                    InkWell(
+                                      onTap: () {},
+                                      child: Image.asset(
+                                        PremedAssets.arrow,
+                                        width: 40,
+                                        height: 40,
                                       ),
                                     ),
                                   ],
@@ -550,8 +611,7 @@ class _EngineeringDashboardScreenState
                                               StatDetailHolder(
                                                 textColor:
                                                 PreMedColorTheme().red,
-                                                count:
-                                                0,
+                                                count: 0,
                                                 details: 'Test\nAttempted',
                                               ),
                                               StatDetailHolder(
@@ -571,10 +631,8 @@ class _EngineeringDashboardScreenState
                               ],
                             );
                           }
-                        }
-                      },
-                    ),
-                  ),
+                        },
+                      )),
                 ),
               )
             ],

@@ -35,7 +35,7 @@ class _EngineeringTimerState extends State<EngineeringTimer> {
   Future<void> _loadSavedData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _selectedUniversity = prefs.getString('selectedUniversity')!;
+      _selectedUniversity = prefs.getString('selectedUniversity') ?? '';
       _selectedExamType = prefs.getString('selectedExamType');
       final dateString = prefs.getString('selectedDate');
       if (dateString != null) {

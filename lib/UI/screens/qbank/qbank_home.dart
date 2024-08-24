@@ -190,7 +190,7 @@ class BankTilesLast extends StatelessWidget {
                     height: 26,
                     width: 30,
                   ),
-                  SizedBoxes.horizontalBig,
+                  SizedBoxes.horizontal10Px,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

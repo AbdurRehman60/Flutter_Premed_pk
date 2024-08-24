@@ -78,10 +78,12 @@ class Attempt {
     required this.mode,
     required this.deckName,
     required this.totalQuestions,
+    required this.questionID,
   });
 
   factory Attempt.fromJson(Map<String, dynamic> json) {
     final attemptsJson = json['attempts'];
+    print('ooo : ${attemptsJson['questionId']}');
     return Attempt(
       id: attemptsJson['_id'] ?? '',
       deckId: attemptsJson['deckId'] ?? '',
@@ -97,6 +99,7 @@ class Attempt {
       mode: json['mode'] ?? '',
       deckName: json['deckName'] ?? '',
       totalQuestions: json['totalQuestions'] ?? 0,
+      questionID: attemptsJson['questionId'] ?? 0,
     );
   }
   final String id;
@@ -113,6 +116,7 @@ class Attempt {
   final String mode;
   final String deckName;
   final int totalQuestions;
+  final int questionID;
 }
 
 class Metadata {

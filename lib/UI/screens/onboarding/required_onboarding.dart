@@ -436,7 +436,6 @@ class _RequiredOnboardingState extends State<RequiredOnboarding> {
                                             ? PreMedColorTheme().primaryColorRed
                                             : Colors.white,
                                       )),
-                                  //width: containerWidth,
                                   height: 80,
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),

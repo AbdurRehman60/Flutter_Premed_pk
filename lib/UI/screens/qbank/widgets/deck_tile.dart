@@ -16,7 +16,7 @@ class DeckTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           _openBottomSheet(context, deckGroup, deckGroupName);
         },
         child: Container(
@@ -35,7 +35,7 @@ class DeckTile extends StatelessWidget {
           ),
           child: ListTile(
             contentPadding:
-                const EdgeInsets.symmetric(horizontal: 25).copyWith(bottom: 12),
+            const EdgeInsets.symmetric(horizontal: 25).copyWith(bottom: 12),
             leading: GetLogo(url: deckGroup.deckGroupImage ?? ''),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,6 +46,8 @@ class DeckTile extends StatelessWidget {
                   style: PreMedTextTheme()
                       .heading3
                       .copyWith(fontWeight: FontWeight.w800, fontSize: 20),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
                 ),
                 SizedBoxes.vertical2Px,
                 Text.rich(
@@ -67,8 +69,12 @@ class DeckTile extends StatelessWidget {
               ],
             ),
             trailing: IconButton(
-              icon: Icon(Icons.arrow_forward_ios_rounded,
-                  color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue),
+              icon: Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Provider.of<PreMedProvider>(context).isPreMed
+                    ? PreMedColorTheme().primaryColorRed
+                    : PreMedColorTheme().blue,
+              ),
               onPressed: () {
                 _openBottomSheet(context, deckGroup, deckGroupName);
               },
@@ -79,6 +85,8 @@ class DeckTile extends StatelessWidget {
     );
   }
 }
+
+
 
 void _openBottomSheet(
     BuildContext context, DeckGroupModel deckGroup, qbankgroupName) {

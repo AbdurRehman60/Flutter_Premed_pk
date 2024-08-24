@@ -239,11 +239,9 @@ class _TestInterfaceState extends State<TestInterface> {
       setState(() {
         currentQuestionIndex--;
 
-        // Prevent accessing an index out of range
         if (currentQuestionIndex < questionProvider.questions!.length) {
           final question = questionProvider.questions![currentQuestionIndex];
 
-          // Reset selected option and flag
           selectedOption = null;
           optionSelected = false;
 

@@ -12,7 +12,7 @@ class RecentAttempt {
   factory RecentAttempt.fromJson(Map<String, dynamic> json) {
     return RecentAttempt(
       id: json['_id'],
-      attempts: Attempts.fromJson(json['attempts']),
+      attempts: json['attempts'] != null ? Attempts.fromJson(json['attempts']) : null,
       attemptedDate: DateTime.parse(json['attemptedDate']),
       totalAttempts: json['totalAttempts'],
       mode: json['mode'],
@@ -20,6 +20,7 @@ class RecentAttempt {
       totalQuestions: json['totalQuestions'],
     );
   }
+
   String? id;
   Attempts? attempts;
   DateTime? attemptedDate;
@@ -28,6 +29,7 @@ class RecentAttempt {
   String? deckName;
   int? totalQuestions;
 }
+/////1
 
 class Attempts {
   Attempts({
@@ -50,8 +52,9 @@ class Attempts {
       id: json['_id'],
       deckId: json['deckId'],
       userId: json['userId'],
-      attempts:
-      (json['attempts'] as List).map((e) => Attempt.fromJson(e)).toList(),
+      attempts: (json['attempts'] as List?)
+          ?.map((e) => Attempt.fromJson(e))
+          .toList(),
       attemptMode: json['attemptMode'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
@@ -76,9 +79,11 @@ class Attempts {
   int? skippedAttempts;
   int? totalTimeTaken;
 }
+////2
 
 class Attempt {
   Attempt({
+    this.attemptId,
     required this.questionId,
     this.selection,
     this.timeTaken,
@@ -90,16 +95,18 @@ class Attempt {
 
   factory Attempt.fromJson(Map<String, dynamic> json) {
     return Attempt(
+      attemptId: json['attemptId'],
       questionId: json['questionId'],
       selection: json['selection'],
       timeTaken: json['timeTaken'],
       subject: json['subject'],
       correctAnswer: json['correctAnswer'],
-      isCorrect: json['isCorrect'] == 'true',
-      attempted: json['attempted'] == 'true',
+      isCorrect: json['isCorrect'] == true,
+      attempted: json['attempted'] == true,
     );
   }
 
+  String? attemptId;
   String? questionId;
   String? selection;
   int? timeTaken;
@@ -107,6 +114,4 @@ class Attempt {
   String? correctAnswer;
   bool? isCorrect;
   bool? attempted;
-
-  get addedOn => null;
 }

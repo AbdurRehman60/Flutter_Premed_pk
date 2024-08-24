@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
-import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -96,7 +95,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const MainNavigationScreen(),
+                        builder: (context) =>  MainNavigationScreen(userPassword: password,),
                       ),
                     );
                     _launchURL(username, hashedPassword);

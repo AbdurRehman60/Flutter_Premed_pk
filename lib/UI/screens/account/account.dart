@@ -13,6 +13,7 @@ import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Account extends StatelessWidget {
@@ -23,6 +24,7 @@ class Account extends StatelessWidget {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
     final isPremed = Provider.of<PreMedProvider>(context).isPreMed;
     Future<void> onLogoutPressed() async {
+
       final Future<Map<String, dynamic>> response = auth.logout();
 
       response.then(
@@ -39,6 +41,8 @@ class Account extends StatelessWidget {
           }
         },
       );
+      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      sharedPreferences.clear();
     }
 
     return Scaffold(
@@ -278,6 +282,7 @@ class Account extends StatelessWidget {
                                         elevation: 3,
                                         borderRadius: BorderRadius.circular(8),
                                         child: CustomButton(
+
                                           color: isPremed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                                           buttonText: 'Sign out',
                                           onPressed: onLogoutPressed,

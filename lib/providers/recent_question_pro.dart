@@ -1,38 +1,33 @@
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/models/question_model.dart';
 import '../api_manager/dio client/dio_client.dart';
 import '../api_manager/dio client/endpoints.dart';
+import '../constants/constants_export.dart';
+import '../models/question_model.dart';
 
-class QuestionProvider extends ChangeNotifier {
-  factory QuestionProvider() => _instance;
+class RecQuestionProvider extends ChangeNotifier {
+  factory RecQuestionProvider() => _instance;
 
-  QuestionProvider._internal();
-  static final QuestionProvider _instance = QuestionProvider._internal();
+  RecQuestionProvider._internal();
+  static final RecQuestionProvider _instance = RecQuestionProvider._internal();
   final DioClient _client = DioClient();
 
-  void notify() {
+  final Map<String, List<QuestionModel>> _questionsMap = {};
+  final Map<String, int> _currentPageMap = {};
+
+  List<QuestionModel>? getQuestions(String deckName) => _questionsMap[deckName];
+
+  int getCurrentPage(String deckName) => _currentPageMap[deckName] ?? 1;
+
+  void clearQuestions(String deckName) {
+    _questionsMap[deckName] = [];
+    _currentPageMap[deckName] = 1;
     notifyListeners();
-  }
-
-  List<QuestionModel>? _questions;
-  List<QuestionModel>? get questions => _questions;
-
-  String _deckName = '';
-  String get deckName => _deckName;
-  set deckName(String value) {
-    _deckName = value;
-    notify();
-  }
-
-
-
-  void clearQuestions() {
-    _questions = [];
-    notify();
   }
 
   Future<void> fetchQuestions(String deckName, int page) async {
     try {
+      // Clear previous questions before fetching new ones
+      clearQuestions(deckName);
+
       final response = await _client.post(
         Endpoints.questions(page),
         data: {'DeckName': deckName},
@@ -40,16 +35,17 @@ class QuestionProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = response.data;
+
         if (responseData.containsKey('questions') && responseData['questions'] is List) {
           final List<dynamic> questionsJson = responseData['questions'];
-          if (_questions == null) {
-            _questions = [];
-          }
+
+          _questionsMap[deckName] = [];
+
           for (var json in questionsJson) {
             if (json != null) {
               try {
                 final question = QuestionModel.fromJson(json);
-                _questions?.add(question);
+                _questionsMap[deckName]?.add(question);
               } catch (e) {
                 print('Error parsing question JSON: $e');
               }
@@ -57,7 +53,8 @@ class QuestionProvider extends ChangeNotifier {
               print('Skipping null question object in response');
             }
           }
-          notify();
+          _currentPageMap[deckName] = page;
+          notifyListeners();
         } else {
           throw Exception('Invalid response format');
         }
@@ -67,5 +64,11 @@ class QuestionProvider extends ChangeNotifier {
     } catch (e) {
       print('Error fetching questions: $e');
     }
+  }
+
+  void reset() {
+    _questionsMap.clear();
+    _currentPageMap.clear();
+    notifyListeners();
   }
 }

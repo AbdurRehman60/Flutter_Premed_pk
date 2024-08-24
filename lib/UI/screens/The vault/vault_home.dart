@@ -1,4 +1,5 @@
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/dashboard_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/estuff_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/mnemonics_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/shortlistings.dart';
@@ -56,7 +57,6 @@ class _VaultHomeState extends State<VaultHome> {
   //         .setSubscriptions(userPurchases);
   //   }
   // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +71,7 @@ class _VaultHomeState extends State<VaultHome> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBoxes.vertical5Px,
                     DefaultTextStyle(
                       style: const TextStyle(
                         fontSize: 15,
@@ -111,66 +112,56 @@ class _VaultHomeState extends State<VaultHome> {
                         style: PreMedTextTheme().heading1.copyWith(
                             fontWeight: FontWeight.w400, fontSize: 17)),
                     SizedBoxes.vertical26Px,
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          GetGradientButton(
-                              textPath: 'assets/images/vault/Text.svg',
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const TopicalGuides()));
-                              }),
-                          SizedBoxes.horizontal10Px,
-                          GradientButton(
-                            text: 'Mnemonics',
+                    Wrap(
+                      spacing: 8.0, // Horizontal space between the buttons
+                      runSpacing: 10.0, // Vertical space between the rows when wrapping
+                      children: [
+                        GetGradientButton(
+                            textPath: 'assets/images/vault/Text.svg',
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const TopicalGuides()));
+                            }),
+                        GradientButton(
+                          text: 'Mnemonics',
+                          gradient: const LinearGradient(
+                            colors: <Color>[Color(0xFF043D2A), Color(0xFF2DD7D3)],
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MnemonicsHome()));
+                          },
+                        ),
+                        GradientButton(
+                            text: 'StudyNotes',
                             gradient: const LinearGradient(
                               colors: <Color>[
-                                Color(0xFF043D2A),
-                                Color(0xFF2DD7D3)
+                                Color(0xFF80239F),
+                                Color(0xFFB43483),
+                                Color(0xFFFE8B83)
                               ],
                             ),
                             onPressed: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const MnemonicsHome()));
-                            },
-                          ),
-                          SizedBoxes.horizontal10Px,
-                          GradientButton(
-                              text: 'StudyNotes',
-                              gradient: const LinearGradient(
-                                colors: <Color>[
-                                  Color(0xFF80239F),
-                                  Color(0xFFB43483),
-                                  Color(0xFFFE8B83)
-                                ],
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const StudyNotesHome()));
-                              }),
-                          SizedBoxes.horizontal10Px,
-                          GetGradientButton(
-                              textPath: 'assets/images/vault/Text (5).svg',
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ShortlistingsHome()));
-                              }),
-                        ],
-                      ),
-                    ),
+                                      builder: (context) => const StudyNotesHome()));
+                            }),
+                        GetGradientButton(
+                            textPath: 'assets/images/vault/Text (5).svg',
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const ShortlistingsHome()));
+                            }),
+                      ],
+                    )
+
                   ],
                 ),
               ),
@@ -519,20 +510,14 @@ class GetGradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(boxShadow: [
-        BoxShadow(
-          color: Color(0x26000000),
-          blurRadius: 40,
-          offset: Offset(0, 20),
-        ),
-      ]),
+      decoration: const BoxDecoration(boxShadow: CustomBoxShadow.boxShadow40),
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               elevation: 0,
               backgroundColor: Colors.white.withOpacity(0.8500000238418579),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8)),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6)),
           onPressed: onTap,
           child: SvgPicture.asset(textPath)),
     );
@@ -554,19 +539,13 @@ class GradientButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x26000000),
-            blurRadius: 40,
-            offset: Offset(0, 20),
-          ),
-        ],
+        boxShadow: CustomBoxShadow.boxShadow40
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.white.withOpacity(0.8500000238418579),
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),

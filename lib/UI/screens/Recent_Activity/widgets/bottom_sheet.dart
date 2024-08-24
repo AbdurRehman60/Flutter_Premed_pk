@@ -8,12 +8,14 @@ class BottomSheetWidget extends StatefulWidget {
       this.acivityname,
       this.date,
       this.mode,
-      this.onTap});
+      this.onTap, this.restart, this.resume});
   final double? progressValue;
   final String? acivityname;
   final String? date;
   final String? mode;
   final VoidCallback? onTap;
+  final VoidCallback? restart;
+  final VoidCallback? resume;
 
   @override
 
@@ -129,9 +131,8 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                         backgroundColor: PreMedColorTheme().red,
                         elevation: 10,
                       ), // Set the color to red
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: widget.resume,
+
                       child: Text(
                         'Resume Test',
                         style: GoogleFonts.rubik(
@@ -149,9 +150,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                       style: ElevatedButton.styleFrom(
                         elevation: 10,
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: widget.restart,
                       child: Text(
                         'Restart',
                         style: GoogleFonts.rubik(
