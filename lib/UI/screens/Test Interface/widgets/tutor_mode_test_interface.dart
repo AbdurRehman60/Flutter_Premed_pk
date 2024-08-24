@@ -16,14 +16,17 @@ import '../test_bottom_sheet.dart';
 import 'analytics.dart';
 
 class TutorMode extends StatefulWidget {
-  const TutorMode(
-      {super.key,
-      required this.deckName,
-      required this.attemptId,
-      this.startFromQuestion = 0,
-      required this.subject,
-      required this.isContinuingAttempt});
+  const TutorMode({
+    super.key,
+    required this.deckName,
+    required this.attemptId,
+    this.startFromQuestion = 0,
+    required this.subject,
+    required this.isContinuingAttempt,
+    this.isReview,
+  });
 
+  final bool? isReview;
   final bool isContinuingAttempt;
   final String attemptId;
   final String deckName;
@@ -37,7 +40,6 @@ class TutorMode extends StatefulWidget {
 class _TutorModeState extends State<TutorMode> {
   List<Option> _eliminatedOptions = [];
   bool isLoading = false;
-
 
   void _eliminateOptions(List<Option> options) {
     _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
@@ -57,7 +59,7 @@ class _TutorModeState extends State<TutorMode> {
   final Stopwatch _stopwatch = Stopwatch();
   Timer? _timer;
   final ValueNotifier<Duration> _durationNotifier =
-      ValueNotifier(const Duration(hours: 2));
+  ValueNotifier(const Duration(hours: 2));
   bool showNumberLine = false;
   bool isPaused = false;
 
@@ -67,31 +69,90 @@ class _TutorModeState extends State<TutorMode> {
   int totalTimeTaken = 0;
 
   List<String?> selectedOptions =
-      List<String?>.filled(200, null, growable: true);
+  List<String?>.filled(200, null, growable: true);
   List<bool?> isCorrectlyAnswered =
-      List<bool?>.filled(200, null, growable: true);
+  List<bool?>.filled(200, null, growable: true);
 
   @override
   void initState() {
     super.initState();
-    _loadCurrentQuestionIndex();
+    if (widget.isReview == true) {
+      print("DEBUG: Review mode detected, starting from question 0");
+      currentQuestionIndex = 0;
+    } else {
+      _loadCurrentQuestionIndex();
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchAllQuestions();
-      _startTimer();
+      _fetchAllQuestions().then((_) {
+        if (widget.isReview == true || widget.isContinuingAttempt == true) {
+          _loadPreviousSelections();
+        } else {
+          _clearSelectionsForReattempt();
+        }
+        if (widget.isReview != true) {
+          _startTimer();
+        }
+      });
     });
+  }
+
+  void _clearSelectionsForReattempt() {
+    selectedOptions = List<String?>.filled(200, null, growable: true);
+    isCorrectlyAnswered = List<bool?>.filled(200, null, growable: true);
+    setState(() {});
+  }
+
+  void _loadPreviousSelections() {
+    final deckInfo =
+        Provider.of<DeckProvider>(context, listen: false).deckInformation;
+    if (deckInfo != null && deckInfo.attempts != null) {
+      for (var attempt in deckInfo.attempts!) {
+        int questionIndex = getIndexForQuestionId(attempt['questionId']);
+        if (questionIndex != -1) {
+          selectedOptions[questionIndex] = attempt['selection'];
+          isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
+        }
+      }
+    }
+    setState(() {});
+  }
+
+  int getIndexForQuestionId(String questionId) {
+    final questions =
+        Provider.of<QuestionProvider>(context, listen: false).questions;
+    if (questions != null) {
+      for (int i = 0; i < questions.length; i++) {
+        if (questions[i].questionId == questionId) {
+          return i;
+        }
+      }
+    }
+    return -1;
   }
 
   Future<void> _loadCurrentQuestionIndex() async {
+    if (widget.isReview == true) {
+      print(
+          "DEBUG: Skipping loading question index from SharedPreferences in review mode.");
+      return;
+    }
+
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      currentQuestionIndex = prefs.getInt('currentQuestionIndex_${widget.attemptId}') ?? widget.startFromQuestion;
+      currentQuestionIndex =
+          prefs.getInt('currentQuestionIndex_${widget.attemptId}') ??
+              widget.startFromQuestion;
+      print(
+          "DEBUG: Loaded currentQuestionIndex = $currentQuestionIndex from SharedPreferences");
     });
   }
 
-
   @override
   void dispose() {
-    _saveCurrentQuestionIndex();
+    if (widget.isReview != true) {
+      _saveCurrentQuestionIndex();
+    }
     _timer?.cancel();
     _durationNotifier.dispose();
     super.dispose();
@@ -99,7 +160,10 @@ class _TutorModeState extends State<TutorMode> {
 
   Future<void> _saveCurrentQuestionIndex() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setInt('currentQuestionIndex_${widget.attemptId}', currentQuestionIndex);
+    prefs.setInt('currentQuestionIndex_${widget.attemptId}',
+        currentQuestionIndex);
+    print(
+        "DEBUG: Saved currentQuestionIndex = $currentQuestionIndex to SharedPreferences");
   }
 
   Future<void> _fetchAllQuestions() async {
@@ -107,7 +171,8 @@ class _TutorModeState extends State<TutorMode> {
       isLoading = true;
     });
 
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final questionProvider =
+    Provider.of<QuestionProvider>(context, listen: false);
     questionProvider.clearQuestions();
     questionProvider.deckName = widget.deckName;
 
@@ -120,6 +185,7 @@ class _TutorModeState extends State<TutorMode> {
       currentPage = (currentQuestionIndex ~/ 10) + 1;
     });
   }
+
   void nextQuestion() {
     if (isLoading) {
       return;
@@ -129,7 +195,9 @@ class _TutorModeState extends State<TutorMode> {
     final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
     if (currentQuestionIndex < questionProvider.questions!.length - 1) {
-      updateAttempt();
+      if (widget.isReview != true) {
+        updateAttempt();
+      }
 
       setState(() {
         currentQuestionIndex++;
@@ -147,16 +215,20 @@ class _TutorModeState extends State<TutorMode> {
         if (currentQuestionIndex < questionProvider.questions!.length) {
           final question = questionProvider.questions![currentQuestionIndex];
 
-          selectedOption = null;
-          optionSelected = false;
+          // Load the selected option for the current question
+          selectedOption = selectedOptions[currentQuestionIndex];
+          optionSelected = selectedOption != null;
 
-          if (widget.isContinuingAttempt) {
-            selectedOption = deckInfo?.getSelectionForQuestion(question.questionId) ?? selectedOptions[currentQuestionIndex];
+          if (widget.isReview == true && selectedOption == null) {
+            // In review mode, load the previously selected option from the deck info
+            selectedOption = deckInfo?.getSelectionForQuestion(question.questionId);
             optionSelected = selectedOption != null;
           }
 
           _stopwatch.reset();
-          _stopwatch.start();
+          if (widget.isReview != true) {
+            _stopwatch.start();
+          }
 
           questionProvider.notifyListeners();
         } else {
@@ -169,32 +241,37 @@ class _TutorModeState extends State<TutorMode> {
   }
 
   void previousQuestion() {
-    if (isLoading) {
-      return;
-    }
+    if (isLoading) return;
 
     final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
     final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
     if (currentQuestionIndex > 0) {
-      updateAttempt();
+      if (widget.isReview != true) {
+        updateAttempt();
+      }
 
       setState(() {
         currentQuestionIndex--;
 
+        // Prevent accessing an index out of range
         if (currentQuestionIndex < questionProvider.questions!.length) {
           final question = questionProvider.questions![currentQuestionIndex];
 
-          selectedOption = null;
-          optionSelected = false;
+          // Reset selected option and flag
+          selectedOption = selectedOptions[currentQuestionIndex];
+          optionSelected = selectedOption != null;
 
-          if (widget.isContinuingAttempt) {
-            selectedOption = deckInfo?.getSelectionForQuestion(question.questionId) ?? selectedOptions[currentQuestionIndex];
+          if (widget.isReview == true && selectedOption == null) {
+            // In review mode, load the previously selected option from the deck info
+            selectedOption = deckInfo?.getSelectionForQuestion(question.questionId);
             optionSelected = selectedOption != null;
           }
 
           _stopwatch.reset();
-          _stopwatch.start();
+          if (widget.isReview != true) {
+            _stopwatch.start();
+          }
 
           questionProvider.notifyListeners();
         } else {
@@ -204,10 +281,11 @@ class _TutorModeState extends State<TutorMode> {
     }
   }
 
-
-
-
   void updateAttempt() {
+    if (widget.isReview == true) {
+      return;
+    }
+
     final questionProvider =
     Provider.of<QuestionProvider>(context, listen: false);
     final attemptProvider =
@@ -258,8 +336,11 @@ class _TutorModeState extends State<TutorMode> {
     }
   }
 
-
   void _startTimer() {
+    if (widget.isReview == true) {
+      return;
+    }
+
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!isPaused && _durationNotifier.value.inSeconds > 0) {
         _durationNotifier.value =
@@ -274,8 +355,6 @@ class _TutorModeState extends State<TutorMode> {
     return htmlparser.parse(toParse).body?.text;
   }
 
-
-
   void showSnackBarr() {
     final flashcardpro = Provider.of<FlashcardProvider>(context, listen: false);
     final message = flashcardpro.additionStatus == 'Added'
@@ -284,37 +363,37 @@ class _TutorModeState extends State<TutorMode> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text(
-                message,
-                style: PreMedTextTheme().body.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-              ),
-              actions: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    height: 40,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Provider.of<PreMedProvider>(context).isPreMed
-                            ? PreMedColorTheme().red
-                            : PreMedColorTheme().blue,
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Center(
-                      child: Text(
-                        'OK',
-                        style: PreMedTextTheme()
-                            .body
-                            .copyWith(color: Colors.white),
-                      ),
-                    ),
+          title: Text(
+            message,
+            style: PreMedTextTheme().body.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          actions: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                height: 40,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Provider.of<PreMedProvider>(context).isPreMed
+                        ? PreMedColorTheme().red
+                        : PreMedColorTheme().blue,
+                    borderRadius: BorderRadius.circular(15)),
+                child: Center(
+                  child: Text(
+                    'OK',
+                    style: PreMedTextTheme()
+                        .body
+                        .copyWith(color: Colors.white),
                   ),
-                )
-              ],
-            ));
+                ),
+              ),
+            )
+          ],
+        ));
   }
 
   void restart() {
@@ -330,7 +409,7 @@ class _TutorModeState extends State<TutorMode> {
   }
 
   void selectOption(String optionLetter) {
-    if (!optionSelected) {
+    if (widget.isReview != true && !optionSelected) {
       setState(() {
         selectedOption = optionLetter;
         optionSelected = true;
@@ -349,9 +428,8 @@ class _TutorModeState extends State<TutorMode> {
   }
 
   Future<void> _showFinishDialog() async {
-    //final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
     final attemptProvider =
-        Provider.of<AttemptProvider>(context, listen: false);
+    Provider.of<AttemptProvider>(context, listen: false);
     final unattemptedQuestions = 200 - correctAttempts - incorrectAttempts;
 
     return showDialog<void>(
@@ -409,12 +487,13 @@ class _TutorModeState extends State<TutorMode> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Analytics(
-                      attemptId: widget.attemptId,
-                      correct: correctAttempts,
-                      incorrect: incorrectAttempts,
-                      skipped: skippedAttempts,
-                    ),
+                    builder: (context) =>
+                        Analytics(
+                          attemptId: widget.attemptId,
+                          correct: correctAttempts,
+                          incorrect: incorrectAttempts,
+                          skipped: skippedAttempts,
+                        ),
                   ),
                 );
               },
@@ -425,11 +504,11 @@ class _TutorModeState extends State<TutorMode> {
     );
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final questionProvider =
-    Provider.of<QuestionProvider>(context, listen: false);
+        Provider.of<QuestionProvider>(context, listen: false);
     final questions = questionProvider.questions;
 
     if (isLoading || questions == null || questions.isEmpty) {
@@ -504,7 +583,6 @@ class _TutorModeState extends State<TutorMode> {
 
     final question = questions[currentQuestionIndex];
 
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70.0),
@@ -533,11 +611,11 @@ class _TutorModeState extends State<TutorMode> {
                       color: Provider.of<PreMedProvider>(context).isPreMed
                           ? PreMedColorTheme().primaryColorRed
                           : PreMedColorTheme().blue),
-                    onPressed: () {
-                      setState(() {
-                       previousQuestion();
-                      });
-                    },
+                  onPressed: () {
+                    setState(() {
+                      previousQuestion();
+                    });
+                  },
                 ),
               ),
             ),
@@ -869,25 +947,33 @@ class _TutorModeState extends State<TutorMode> {
               height: 55,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: questionProvider.questions!.length,
+                itemCount: questionProvider.questions?.length ?? 0,
                 itemBuilder: (context, index) {
+                  // Check if the question has been attempted based on the selectedOptions list
                   final bool isAttempted = selectedOptions[index] != null;
                   final bool isCurrent = index == currentQuestionIndex;
 
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        updateAttempt();
+                        // Update the attempt state before changing the current question index
+                        if (widget.isReview != true) {
+                          updateAttempt();
+                        }
                         currentQuestionIndex = index;
 
-                        selectedOption = null;
-                        optionSelected = false;
+                        // Reset selectedOption and optionSelected when moving to a new question
+                        selectedOption = selectedOptions[currentQuestionIndex];
+                        optionSelected = selectedOption != null;
 
+                        // Fetch new questions if needed
                         if (currentQuestionIndex % 10 == 7 && currentPage < 20) {
                           currentPage++;
                           questionProvider.fetchQuestions(widget.deckName, currentPage);
                         }
-                        if (widget.isContinuingAttempt) {
+
+                        // If continuing an attempt, retrieve the previously selected option
+                        if (widget.isContinuingAttempt || widget.isReview == true) {
                           final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
                           final question = questionProvider.questions![currentQuestionIndex];
                           selectedOption = deckInfo?.getSelectionForQuestion(question.questionId) ?? selectedOptions[currentQuestionIndex];
@@ -895,7 +981,11 @@ class _TutorModeState extends State<TutorMode> {
                         }
 
                         _stopwatch.reset();
-                        _stopwatch.start();
+                        if (widget.isReview != true) {
+                          _stopwatch.start();
+                        }
+
+                        questionProvider.notifyListeners();
                       });
                     },
                     child: Padding(
@@ -907,9 +997,7 @@ class _TutorModeState extends State<TutorMode> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(23),
                             border: Border.all(
-                              color: isAttempted
-                                  ? Colors.transparent
-                                  : (isCurrent ? Colors.blue : Colors.white),
+                              color: isCurrent ? Colors.blue : Colors.white,
                               width: 3,
                             ),
                             boxShadow: [
@@ -923,8 +1011,9 @@ class _TutorModeState extends State<TutorMode> {
                           ),
                           child: CircleAvatar(
                             radius: 20,
-                            backgroundColor:
-                            isAttempted ? Colors.blue : PreMedColorTheme().white,
+                            backgroundColor: isAttempted
+                                ? Colors.blue // Set blue color for attempted questions
+                                : PreMedColorTheme().white, // Default color for non-attempted questions
                             child: Text(
                               '${index + 1}',
                               style: TextStyle(
@@ -955,31 +1044,23 @@ class _TutorModeState extends State<TutorMode> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
                       child: GestureDetector(
                         onTap: () {
                           showModalBottomSheet(
                             isScrollControlled: true,
-                            sheetAnimationStyle:
-                                AnimationStyle(curve: Curves.bounceIn),
                             context: context,
                             builder: (context) => TestBottomSheet(
                               addFlasCards: () async {
-                                await Provider.of<FlashcardProvider>(context,
-                                        listen: false)
-                                    .removeFlashcard(
+                                await Provider.of<FlashcardProvider>(context, listen: false).removeFlashcard(
                                   userId: userProvider.user!.userId,
                                   subject: widget.subject,
                                   questionId: question.questionId,
                                 );
                                 showSnackBarr();
                               },
-                              questionNumber:
-                                  "${currentQuestionIndex + 1} of 200",
-                              timerWidget: const SizedBox(
-                                width: 0,
-                              ),
+                              questionNumber: "${currentQuestionIndex + 1} of 200",
+                              timerWidget: const SizedBox(width: 0),
                               submitNow: _showFinishDialog,
                               reportNow: () {
                                 Navigator.of(context).push(
@@ -997,8 +1078,7 @@ class _TutorModeState extends State<TutorMode> {
                               showButton: false,
                             ),
                             shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(25.0)),
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
                             ),
                           );
                         },
@@ -1020,38 +1100,38 @@ class _TutorModeState extends State<TutorMode> {
                         Text(
                           "${currentQuestionIndex + 1} of 200",
                           style: PreMedTextTheme().body.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: PreMedColorTheme().neutral800,
-                              ),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: PreMedColorTheme().neutral800,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           "ATTEMPTED",
                           style: PreMedTextTheme().body.copyWith(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                                color: PreMedColorTheme().neutral400,
-                              ),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                            color: PreMedColorTheme().neutral400,
+                          ),
                         ),
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                              color: PreMedColorTheme().primaryColorRed),
+                          border: Border.all(color: PreMedColorTheme().primaryColorRed),
                           color: PreMedColorTheme().white,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
-                              onTap: () async {
-                              },
-                              child: Image.asset(PremedAssets.Flask)),
+                            onTap: () async {
+                              // Implement your logic here
+                            },
+                            child: Image.asset(PremedAssets.Flask),
+                          ),
                         ),
                       ),
                     ),
@@ -1069,6 +1149,7 @@ class _TutorModeState extends State<TutorMode> {
 class ExplanationButton extends StatefulWidget {
   const ExplanationButton(
       {super.key, this.explanationText, required this.isCorrect});
+
   final String? explanationText;
   final bool? isCorrect;
 

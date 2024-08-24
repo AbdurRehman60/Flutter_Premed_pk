@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/test_mode_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -42,7 +41,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     final deckName = widget.deckGroup.deckItems[index].deckName;
 
     try {
-      print("this is the category for deck info $category");
       await Provider.of<DeckProvider>(context, listen: false)
           .fetchDeckInformation(category, deckGroup, deckName, userId!);
 
@@ -50,11 +48,10 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
 
       if (deckInfo == null) {
         print('Deck information is null');
-      } else if (deckInfo.alreadyAttempted == null) {
-        print('alreadyAttempted field is null');
       } else {
         print('alreadyAttempted: ${deckInfo.alreadyAttempted}');
       }
+
     } catch (e) {
       print('Error fetching deck information: $e');
     }
@@ -180,7 +177,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                 ),
                               );
                             }
-
                           }
                         },
                       ),
@@ -196,11 +192,69 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     );
   }
 
-  void _navigateToNextScreen(BuildContext context, DeckItem item, {int? startFromQuestion, String? attemptId}) async {
+  Future<void> _navigateToNextScreen(BuildContext context, DeckItem item, {int? startFromQuestion, String? attemptId, bool isReview = false}) async {
     final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
     final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
     final attemptMode = deckInfo?.attemptMode ?? '';
+
+    // DEBUG: print the mode and initial values
+    print("DEBUG: _navigateToNextScreen called");
+    print("DEBUG: isReview = $isReview, startFromQuestion = $startFromQuestion, attemptMode = $attemptMode");
+
+    // For review mode, force start from question 0.
+    final questionIndex = isReview ? 0 : (startFromQuestion ?? 0);
+    print("DEBUG: Calculated questionIndex = $questionIndex");  // Added debug statement to see the final question index
+
+    if (isReview) {
+      // Review mode - always start from the first question
+      print("DEBUG: Entering Review Mode - forcing start from question 0");
+      _startReviewMode(context, item, attemptMode, deckAttemptProvider, questionIndex);
+    } else {
+      // Continue or re-attempt the paper in the previous mode
+      print("DEBUG: Continuing/Reattempting - mode = $attemptMode, questionIndex = $questionIndex");
+      _continueOrReattempt(context, item, attemptMode, deckAttemptProvider, questionIndex, attemptId);
+    }
+  }
+
+  void _startReviewMode(BuildContext context, DeckItem item, String attemptMode, CreateDeckAttemptProvider deckAttemptProvider, int questionIndex) {
+    print("DEBUG: _startReviewMode - attemptMode = $attemptMode, questionIndex = $questionIndex");
+
+    if (attemptMode == 'TUTORMODE') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TutorMode(
+            isContinuingAttempt: false,
+            subject: widget.subject,
+            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            attemptId: deckAttemptProvider.attemptId,
+            startFromQuestion: 0,  // Force review to start from the first question
+            isReview: true,
+          ),
+        ),
+      );
+    } else if (attemptMode == 'TESTMODE') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TestInterface(
+            isContinuingAttempt: false,
+            subject: widget.subject,
+            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            attemptId: deckAttemptProvider.attemptId,
+            startFromQuestion: 0,  // Force review to start from the first question
+            isReview: true,
+          ),
+        ),
+      );
+    } else {
+      print("Error: Unknown attempt mode");
+    }
+  }
+
+  void _continueOrReattempt(BuildContext context, DeckItem item, String attemptMode, CreateDeckAttemptProvider deckAttemptProvider, int questionIndex, String? attemptId) {
+    print("DEBUG: _continueOrReattempt - attemptMode = $attemptMode, questionIndex = $questionIndex");
 
     if (attemptMode == 'TUTORMODE') {
       Navigator.push(
@@ -211,7 +265,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
             subject: widget.subject,
             deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: attemptId ?? deckAttemptProvider.attemptId,
-            startFromQuestion: startFromQuestion ?? 0,
+            startFromQuestion: questionIndex,
+            isReview: false,
           ),
         ),
       );
@@ -224,7 +279,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
             subject: widget.subject,
             deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: attemptId ?? deckAttemptProvider.attemptId,
-            startFromQuestion: startFromQuestion ?? 0,
+            startFromQuestion: questionIndex,
+            isReview: false,
           ),
         ),
       );
@@ -232,7 +288,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
       print("Error: Unknown attempt mode");
     }
   }
-
   void _showAlreadyAttemptedPopup(BuildContext context, DeckItem item) {
     final userName = Provider.of<UserProvider>(context, listen: false).getUserName();
     final lastAttempt = Provider.of<DeckProvider>(context, listen: false).deckInformation?.attempts;
@@ -341,7 +396,10 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                     buttonText: 'Review Answers',
                     onPressed: () {
                       Navigator.pop(context);
-                      _navigateToNextScreen(context, item);
+                      setState(() {
+                        isContinuingAttempt = false;
+                      });
+                      _navigateToNextScreen(context, item, isReview: true, startFromQuestion: 0);
                     },
                     color: Colors.green,
                     fontSize: 13,
