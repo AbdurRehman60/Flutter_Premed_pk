@@ -51,7 +51,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
       } else {
         print('alreadyAttempted: ${deckInfo.alreadyAttempted}');
       }
-
     } catch (e) {
       print('Error fetching deck information: $e');
     }
@@ -64,7 +63,10 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final accessTags = Provider.of<UserProvider>(context, listen: false).getTags();
+    print("These are the access tags $accessTags");
     final preMedPro = context.read<PreMedProvider>();
+
     return SizedBox(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.70,
@@ -104,9 +106,10 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           Text(
                             widget.deckGroup.deckItems[index].deckName,
                             style: PreMedTextTheme().body.copyWith(
-                                color: PreMedColorTheme().black,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 17),
+                              color: PreMedColorTheme().black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 17,
+                            ),
                           ),
                           SizedBoxes.verticalTiny,
                           if (widget.deckGroup.deckItems[index].premiumTag != null)
@@ -120,9 +123,10 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                 child: Text(
                                   widget.deckGroup.deckItems[index].premiumTag!,
                                   style: PreMedTextTheme().body.copyWith(
-                                      color: PreMedColorTheme().white,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14),
+                                    color: PreMedColorTheme().white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                  ),
                                 ),
                               ),
                             )
@@ -137,46 +141,22 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           size: 20,
                         ),
                         onPressed: () async {
-                          setState(() {
-                            selectedDeckItemIndex = index;
-                          });
-                          await _fetchDeckInfo(index, context);
-                          await _fetchQuestions(widget.deckGroup.deckItems[index].deckName, context);
+                          // Check if the user has access to the premium tag
+                          if (_hasAccess(widget.deckGroup.deckItems[index].premiumTag, accessTags)) {
+                            setState(() {
+                              selectedDeckItemIndex = index;
+                            });
+                            await _fetchDeckInfo(index, context);
+                            await _fetchQuestions(widget.deckGroup.deckItems[index].deckName, context);
 
-                          final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
-                          if (deckInfo?.alreadyAttempted == true) {
-                            _showAlreadyAttemptedPopup(context, item);
-                          } else {
-                            if (widget.bankOrMock == 'Bank') {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => TestModeInterface(
-                                    subject: widget.deckGroup.deckGroupName,
-                                    deckDetails: {
-                                      'deckName': widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
-                                      'isTutorModeFree': widget.deckGroup.deckItems[selectedDeckItemIndex].isTutorModeFree,
-                                      'deckInstructions': widget.deckGroup.deckItems[selectedDeckItemIndex].deckInstructions,
-                                      'questions': '2',
-                                      'timedTestMinutes': widget.deckGroup.deckItems[selectedDeckItemIndex].timesTestminutes,
-                                    },
-                                    deckGroupName: widget.category ?? '',
-                                  ),
-                                ),
-                              );
+                            final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+                            if (deckInfo?.alreadyAttempted == true) {
+                              _showAlreadyAttemptedPopup(context, item);
                             } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DeckInstructions(
-                                    subject: widget.subject,
-                                    deckInstructions: item.deckInstructions,
-                                    deckGroup: widget.deckGroup,
-                                    selectedIndex: selectedDeckItemIndex,
-                                  ),
-                                ),
-                              );
+                              _navigateToDeck(context, item);
                             }
+                          } else {
+                            _showPurchasePopup(context);
                           }
                         },
                       ),
@@ -192,106 +172,85 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     );
   }
 
-  void _navigateToNextScreen(BuildContext context, DeckItem item, {int? startFromQuestion, String? attemptId, bool isReview = false}) async {
-    final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
-    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+  bool _hasAccess(String? premiumTag, Object? accessTags) {
+    if (premiumTag == null) return true;
 
-    final attemptMode = deckInfo?.attemptMode ?? '';
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
-    final totalQuestions = questionProvider.questions?.length ?? 0;
+    final List<String> mdcatTags = ['MDCAT-Topicals', 'MDCAT-Yearly'];
+    final List<String> numsTags = ['NUMS-Topicals', 'NUMS-Yearly'];
+    final List<String> privTags = ['AKU-Topicals', 'AKU-Yearly'];
+    if (accessTags is List<dynamic>) {
+      for (final access in accessTags) {
+        if (access is Map<String, dynamic>) {
+          print('Comparing premiumTag: $premiumTag with access name: ${access['name']}');
 
-    // Debug logs
-    print("DEBUG: _navigateToNextScreen called");
-    print("DEBUG: isReview = $isReview, startFromQuestion = $startFromQuestion, attemptMode = $attemptMode");
-
-    int questionIndex = (startFromQuestion ?? 0);
-    if (questionIndex < 0 || questionIndex >= totalQuestions) {
-      print("DEBUG: startFromQuestion is out of range, setting to 1");
-      questionIndex = 1;
+          if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
+              (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
+              (premiumTag == 'AKU-Topicals' && privTags.contains(access['name'])))  {
+            print('Match found: Yes');
+            return true;
+          }
+        }
+      }
     }
 
-    print("DEBUG: Calculated questionIndex = $questionIndex");
-
-    if (isReview) {
-      print("DEBUG: Entering Review Mode - forcing start from question 0");
-      _startReviewMode(context, item, attemptMode, deckAttemptProvider, questionIndex);
-    } else {
-      print("DEBUG: Continuing/Reattempting - mode = $attemptMode, questionIndex = $questionIndex");
-      _continueOrReattempt(context, item, attemptMode, deckAttemptProvider, questionIndex, attemptId);
-    }
+    print('Match found: No');
+    return false;
   }
 
-  void _startReviewMode(BuildContext context, DeckItem item, String attemptMode, CreateDeckAttemptProvider deckAttemptProvider, int questionIndex) {
-    print("DEBUG: _startReviewMode - attemptMode = $attemptMode, questionIndex = $questionIndex");
 
-    if (attemptMode == 'TUTORMODE') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TutorMode(
-            isContinuingAttempt: false,
-            subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
-            attemptId: deckAttemptProvider.attemptId,
-            startFromQuestion: 0,
-            isReview: true,
-          ),
-        ),
-      );
-    } else if (attemptMode == 'TESTMODE') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TestInterface(
-            isContinuingAttempt: false,
-            subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
-            attemptId: deckAttemptProvider.attemptId,
-            startFromQuestion: 0,
-            isReview: true,
-          ),
-        ),
-      );
-    } else {
-      print("Error: Unknown attempt mode");
-    }
+  void _showPurchasePopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Purchase Required"),
+          content: const Text("You need to purchase the required bundle to access this content."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  void _continueOrReattempt(BuildContext context, DeckItem item, String attemptMode, CreateDeckAttemptProvider deckAttemptProvider, int questionIndex, String? attemptId) {
-    print("DEBUG: _continueOrReattempt - attemptMode = $attemptMode, questionIndex = $questionIndex");
-
-    if (attemptMode == 'TUTORMODE') {
+  void _navigateToDeck(BuildContext context, DeckItem item) {
+    if (widget.bankOrMock == 'Bank') {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => TutorMode(
-            isContinuingAttempt: isContinuingAttempt,
-            subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
-            attemptId: attemptId ?? deckAttemptProvider.attemptId,
-            startFromQuestion: questionIndex,
-            isReview: false,
-          ),
-        ),
-      );
-    } else if (attemptMode == 'TESTMODE') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TestInterface(
-            isContinuingAttempt: isContinuingAttempt,
-            subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
-            attemptId: attemptId ?? deckAttemptProvider.attemptId,
-            startFromQuestion: questionIndex,
-            isReview: false,
+          builder: (context) => TestModeInterface(
+            subject: widget.deckGroup.deckGroupName,
+            deckDetails: {
+              'deckName': widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+              'isTutorModeFree': widget.deckGroup.deckItems[selectedDeckItemIndex].isTutorModeFree,
+              'deckInstructions': widget.deckGroup.deckItems[selectedDeckItemIndex].deckInstructions,
+              'questions': '2',
+              'timedTestMinutes': widget.deckGroup.deckItems[selectedDeckItemIndex].timesTestminutes,
+            },
+            deckGroupName: widget.category ?? '',
           ),
         ),
       );
     } else {
-      print("Error: Unknown attempt mode");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DeckInstructions(
+            subject: widget.subject,
+            deckInstructions: item.deckInstructions,
+            deckGroup: widget.deckGroup,
+            selectedIndex: selectedDeckItemIndex,
+          ),
+        ),
+      );
     }
   }
+
   void _showAlreadyAttemptedPopup(BuildContext context, DeckItem item) {
     final userName = Provider.of<UserProvider>(context, listen: false).getUserName();
     final lastAttempt = Provider.of<DeckProvider>(context, listen: false).deckInformation?.attempts;
@@ -325,36 +284,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                             isContinuingAttempt = false;
                           });
                           Navigator.pop(context);
-                          if (widget.bankOrMock == 'Bank') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => TestModeInterface(
-                                  subject: widget.deckGroup.deckGroupName,
-                                  deckDetails: {
-                                    'deckName': widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
-                                    'isTutorModeFree': widget.deckGroup.deckItems[selectedDeckItemIndex].isTutorModeFree,
-                                    'deckInstructions': widget.deckGroup.deckItems[selectedDeckItemIndex].deckInstructions,
-                                    'questions': '2',
-                                    'timedTestMinutes': widget.deckGroup.deckItems[selectedDeckItemIndex].timesTestminutes,
-                                  },
-                                  deckGroupName: widget.category ?? '',
-                                ),
-                              ),
-                            );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DeckInstructions(
-                                  subject: widget.subject,
-                                  deckInstructions: item.deckInstructions,
-                                  deckGroup: widget.deckGroup,
-                                  selectedIndex: selectedDeckItemIndex,
-                                ),
-                              ),
-                            );
-                          }
+                          _navigateToDeck(context, item);
                         },
                         color: Colors.amber[900],
                         fontSize: 13,
@@ -416,5 +346,93 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
         );
       },
     );
+  }
+
+  void _navigateToNextScreen(BuildContext context, DeckItem item, {int? startFromQuestion, String? attemptId, bool isReview = false}) async {
+    final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+
+    final attemptMode = deckInfo?.attemptMode ?? '';
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final totalQuestions = questionProvider.questions?.length ?? 0;
+
+    int questionIndex = (startFromQuestion ?? 0);
+    if (questionIndex < 0 || questionIndex >= totalQuestions) {
+      questionIndex = 1;
+    }
+
+    if (isReview) {
+      _startReviewMode(context, item, attemptMode, deckAttemptProvider, questionIndex);
+    } else {
+      _continueOrReattempt(context, item, attemptMode, deckAttemptProvider, questionIndex, attemptId);
+    }
+  }
+
+  void _startReviewMode(BuildContext context, DeckItem item, String attemptMode, CreateDeckAttemptProvider deckAttemptProvider, int questionIndex) {
+    if (attemptMode == 'TUTORMODE') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TutorMode(
+            isContinuingAttempt: false,
+            subject: widget.subject,
+            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            attemptId: deckAttemptProvider.attemptId,
+            startFromQuestion: 0,
+            isReview: true,
+          ),
+        ),
+      );
+    } else if (attemptMode == 'TESTMODE') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TestInterface(
+            isContinuingAttempt: false,
+            subject: widget.subject,
+            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            attemptId: deckAttemptProvider.attemptId,
+            startFromQuestion: 0,
+            isReview: true,
+          ),
+        ),
+      );
+    } else {
+      print("Error: Unknown attempt mode");
+    }
+  }
+
+  void _continueOrReattempt(BuildContext context, DeckItem item, String attemptMode, CreateDeckAttemptProvider deckAttemptProvider, int questionIndex, String? attemptId) {
+    if (attemptMode == 'TUTORMODE') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TutorMode(
+            isContinuingAttempt: isContinuingAttempt,
+            subject: widget.subject,
+            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            attemptId: attemptId ?? deckAttemptProvider.attemptId,
+            startFromQuestion: questionIndex,
+            isReview: false,
+          ),
+        ),
+      );
+    } else if (attemptMode == 'TESTMODE') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TestInterface(
+            isContinuingAttempt: isContinuingAttempt,
+            subject: widget.subject,
+            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            attemptId: attemptId ?? deckAttemptProvider.attemptId,
+            startFromQuestion: questionIndex,
+            isReview: false,
+          ),
+        ),
+      );
+    } else {
+      print("Error: Unknown attempt mode");
+    }
   }
 }

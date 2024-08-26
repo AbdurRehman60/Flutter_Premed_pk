@@ -1,6 +1,7 @@
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/a_new_onboarding/choose_exam.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChooseField extends StatefulWidget {
   const ChooseField({required this.lastOnboardingPage, this.password, super.key});
@@ -17,20 +18,60 @@ class _ChooseFieldState extends State<ChooseField> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ChooseExam(lastOnboardingPage: completePath, category: 'pre-medical', password: widget.password),
+        builder: (context) => ChooseExam(
+          lastOnboardingPage: completePath,
+          category: 'pre-medical',
+          password: widget.password,
+        ),
       ),
     );
     print(completePath);
   }
+
   void _navigateToExamm(BuildContext context, String additionalPath) {
     final completePath = "${widget.lastOnboardingPage}$additionalPath";
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ChooseExam(lastOnboardingPage: completePath, category: 'pre-engineering',),
+        builder: (context) => ChooseExam(
+          lastOnboardingPage: completePath,
+          category: 'pre-engineering',
+        ),
       ),
     );
     print(completePath);
+  }
+
+  void _showComingSoonPopup(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Coming Soon!"),
+          content: const Text(
+              "This is not available on the app yet. We are working to bring the experience to the app as well. You can check our website for this feature."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Close"),
+            ),
+            TextButton(
+              onPressed: () async {
+                const url = 'https://premed.pk/'; // Corrected URL
+                if (await canLaunchUrl(Uri.parse(url))) {
+                  await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication); // Opens the URL in the browser
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
+              child: const Text("Visit Website"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -189,12 +230,13 @@ class _ChooseFieldState extends State<ChooseField> {
             ),
           ),
           Expanded(
-              child: Stack(children: [
-                GestureDetector(
-                  onTap: () {
-                    _navigateToExam(context, "/business-management");
-                  },
-                  child: Container(
+            child: GestureDetector(
+              onTap: () {
+                _showComingSoonPopup(context);
+              },
+              child: Stack(
+                children: [
+                  Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
@@ -224,48 +266,59 @@ class _ChooseFieldState extends State<ChooseField> {
                                   ),
                                 ),
                                 Text(
-                                  'BUSINESS & MANAGEMENT',
+                                  'ALLIED HEALTH SCIENCES',
                                   style: PreMedTextTheme().heading3.copyWith(
                                     fontSize: 35,
                                     fontWeight: FontWeight.w800,
-                                    color:
-                                    PreMedColorTheme().customCheckboxColor,
+                                    color: PreMedColorTheme().customCheckboxColor,
                                   ),
                                 ),
                               ],
                             ),
                           ),
                         ),
+                        Positioned(
+                          bottom: 0,
+                          right: -35,
+                          child: Image.asset(
+                            PremedAssets.AHScartoon,
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            height: MediaQuery.of(context).size.width * 0.6,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ),
-                Positioned.fill(
-                  child: Container(
-                    color: Colors.white.withOpacity(0.7),
-                  ),
-                ),
-                Positioned.fill(
-                  child: Center(
+                  Positioned.fill(
                     child: Container(
-                      decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.7),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Center(
+                      child: Container(
+                        decoration: BoxDecoration(
                           color: PreMedColorTheme().primaryColorRed,
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'COMING SOON',
-                          style: PreMedTextTheme().heading3.copyWith(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: PreMedColorTheme().white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'COMING SOON',
+                            style: PreMedTextTheme().heading3.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: PreMedColorTheme().white,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ])),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

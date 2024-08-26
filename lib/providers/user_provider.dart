@@ -16,6 +16,8 @@ class UserProvider extends ChangeNotifier {
   Info? _info;
   List<Subscription> _subscriptions = [];
 
+
+
   User? get user => _user;
   set user(User? value) {
     _user = value;
@@ -62,6 +64,10 @@ class UserProvider extends ChangeNotifier {
 
   String getEmail() {
     return _user?.userName ?? '';
+  }
+
+  Object getTags(){
+    return _user?.access ?? '';
   }
 
   int getCoins() {

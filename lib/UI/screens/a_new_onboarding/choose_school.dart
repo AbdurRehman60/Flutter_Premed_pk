@@ -21,6 +21,28 @@ class _ChooseSchoolState extends State<ChooseSchool> {
       ),
     );
   }
+
+  Future<void> _showComingSoonPopup(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Coming Soon!"),
+          content: const Text(
+              "We are working on this, come back later for updates."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Close"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,11 +50,13 @@ class _ChooseSchoolState extends State<ChooseSchool> {
       body: Column(
         children: [
           Expanded(
-            child: Stack(
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: ColoredBox(
+            child: GestureDetector(
+              onTap: () {
+                _showComingSoonPopup(context);
+              },
+              child: Stack(
+                children: [
+                  ColoredBox(
                     color: PreMedColorTheme().highschoolblue,
                     child: Center(
                       child: Column(
@@ -67,66 +91,41 @@ class _ChooseSchoolState extends State<ChooseSchool> {
                       ),
                     ),
                   ),
-                ),
-                Positioned.fill(
-                  child: Container(
-                    color: Colors.white.withOpacity(0.7),
-                  ),
-                ),
-                Positioned.fill(
-                  child: Center(
+                  Positioned.fill(
                     child: Container(
-                      decoration: BoxDecoration(
-                          color: PreMedColorTheme().primaryColorRed,
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'COMING SOON',
-                          style: PreMedTextTheme().heading3.copyWith(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: PreMedColorTheme().white,
-                          ),
-                        ),
-                      ),
+                      color: Colors.white.withOpacity(0.7),
                     ),
                   ),
-                ),
-                Positioned(
-                  top: 32,
-                  left: 8,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Material(
-                      elevation: 4,
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      clipBehavior: Clip.hardEdge,
-                      child: SizedBox(
-                        width: 37,
-                        height: 37,
+                  Positioned.fill(
+                    child: Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: PreMedColorTheme().primaryColorRed,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: SvgPicture.asset(
-                            'assets/icons/left-arrow.svg',
-                            width: 9.33,
-                            height: 8.67,
+                          child: Text(
+                            'COMING SOON',
+                            style: PreMedTextTheme().heading3.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: PreMedColorTheme().white,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
+
           Expanded(
             child: GestureDetector(
               onTap: () {
-                _navigateToEntryTest(context, "auth/onboarding/flow/entrance-exam");
+                _navigateToEntryTest(context, "auth/onboarding/flow/entrance-exam");  // Entry Test tapped
               },
               child: ColoredBox(
                 color: PreMedColorTheme().primaryColorRed,
@@ -166,11 +165,13 @@ class _ChooseSchoolState extends State<ChooseSchool> {
             ),
           ),
           Expanded(
-            child: Stack(
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: ColoredBox(
+            child: GestureDetector(
+              onTap: () {
+                _showComingSoonPopup(context);  // Undergrad tapped
+              },
+              child: Stack(
+                children: [
+                  ColoredBox(
                     color: PreMedColorTheme().customCheckboxColor,
                     child: Center(
                       child: Column(
@@ -205,33 +206,34 @@ class _ChooseSchoolState extends State<ChooseSchool> {
                       ),
                     ),
                   ),
-                ),
-                Positioned.fill(
-                  child: Container(
-                    color: Colors.white.withOpacity(0.7),
-                  ),
-                ),
-                Positioned.fill(
-                  child: Center(
+                  Positioned.fill(
                     child: Container(
-                      decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.7),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Center(
+                      child: Container(
+                        decoration: BoxDecoration(
                           color: PreMedColorTheme().primaryColorRed,
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'COMING SOON',
-                          style: PreMedTextTheme().heading3.copyWith(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: PreMedColorTheme().white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'COMING SOON',
+                            style: PreMedTextTheme().heading3.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: PreMedColorTheme().white,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

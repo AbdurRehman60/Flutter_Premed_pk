@@ -47,6 +47,8 @@ class PremedAssets {
   static String onboardingpu = 'assets/icons/Private Universities 1.png';
   static String onboardingnums = 'assets/icons/NUMS 1.png';
   static String onboardingmdcat = 'assets/icons/MDCAT 2024.png';
+  static String AHScartoon = 'assets/images/AHS.png';
+
 
 
   //icons
