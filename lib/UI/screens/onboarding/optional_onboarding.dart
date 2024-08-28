@@ -482,7 +482,7 @@ class _OptionalOnboardingState extends State<OptionalOnboarding> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
+                    onPressed: () async {
                       submitOnboardingData();
                     },
                     icon: Container(

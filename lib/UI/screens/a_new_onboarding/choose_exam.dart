@@ -6,17 +6,19 @@ class ChooseExam extends StatefulWidget {
   const ChooseExam(
       {required this.lastOnboardingPage,
       required this.category,
-      this.city,
-      this.phoneNumber,
-      this.institution,
-        this.password,
+        required this.city,
+        required this.phoneNumber,
+        required this.institution,
+        required this.password,
+        required this.educationSystem,
       super.key});
-  final String? password;
+  final String educationSystem;
+  final String password;
   final String lastOnboardingPage;
   final String category;
-  final String? city;
-  final String? phoneNumber;
-  final String? institution;
+  final String city;
+  final String phoneNumber;
+  final String institution;
 
   @override
   State<ChooseExam> createState() => _ChooseExamState();
@@ -208,7 +210,11 @@ print("this is the last onbaording url on exam class ${widget.lastOnboardingPage
           lastOnboarding: widget.lastOnboardingPage,
           selectedExam: selectedValue,
           category: widget.category,
-          password: widget.password
+          password: widget.password,
+          educationSystem: widget.educationSystem,
+          phoneNumber: widget.phoneNumber,
+          city: widget.city,
+          institution: widget.institution,
         ),
       ),
     );

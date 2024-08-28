@@ -4,9 +4,21 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ChooseField extends StatefulWidget {
-  const ChooseField({required this.lastOnboardingPage, this.password, super.key});
+  const ChooseField(
+      {required this.lastOnboardingPage, required this.password,
+        required this.city,
+        required this.phoneNumber,
+        required this.institution,
+        required this.educationSystem,
+        super.key});
+
   final String lastOnboardingPage;
-  final String? password;
+  final String password;
+  final String educationSystem;
+  final String city;
+  final String phoneNumber;
+  final String institution;
+
 
   @override
   State<ChooseField> createState() => _ChooseFieldState();
@@ -21,7 +33,7 @@ class _ChooseFieldState extends State<ChooseField> {
         builder: (context) => ChooseExam(
           lastOnboardingPage: completePath,
           category: 'pre-medical',
-          password: widget.password,
+          password: widget.password, city: widget.city, phoneNumber: widget.phoneNumber, institution: widget.institution, educationSystem: widget.educationSystem,
         ),
       ),
     );
@@ -36,6 +48,7 @@ class _ChooseFieldState extends State<ChooseField> {
         builder: (context) => ChooseExam(
           lastOnboardingPage: completePath,
           category: 'pre-engineering',
+          password: widget.password, city: widget.city, phoneNumber: widget.phoneNumber, institution: widget.institution, educationSystem: widget.educationSystem,
         ),
       ),
     );
@@ -61,7 +74,9 @@ class _ChooseFieldState extends State<ChooseField> {
               onPressed: () async {
                 const url = 'https://premed.pk/'; // Corrected URL
                 if (await canLaunchUrl(Uri.parse(url))) {
-                  await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication); // Opens the URL in the browser
+                  await launchUrl(Uri.parse(url),
+                      mode: LaunchMode
+                          .externalApplication); // Opens the URL in the browser
                 } else {
                   throw 'Could not launch $url';
                 }
@@ -110,18 +125,18 @@ class _ChooseFieldState extends State<ChooseField> {
                               Text(
                                 'I INTEND TO BE A',
                                 style: PreMedTextTheme().heading3.copyWith(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: PreMedColorTheme().black,
-                                ),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color: PreMedColorTheme().black,
+                                    ),
                               ),
                               Text(
                                 'DOCTOR',
                                 style: PreMedTextTheme().heading3.copyWith(
-                                  fontSize: 35,
-                                  fontWeight: FontWeight.w800,
-                                  color: PreMedColorTheme().primaryColorRed,
-                                ),
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.w800,
+                                      color: PreMedColorTheme().primaryColorRed,
+                                    ),
                               ),
                             ],
                           ),
@@ -198,18 +213,18 @@ class _ChooseFieldState extends State<ChooseField> {
                             Text(
                               'I INTEND TO BE AN',
                               style: PreMedTextTheme().heading3.copyWith(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: PreMedColorTheme().black,
-                              ),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: PreMedColorTheme().black,
+                                  ),
                             ),
                             Text(
                               'ENGINEER',
                               style: PreMedTextTheme().heading3.copyWith(
-                                fontSize: 35,
-                                fontWeight: FontWeight.w800,
-                                color: PreMedColorTheme().highschoolblue,
-                              ),
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.w800,
+                                    color: PreMedColorTheme().highschoolblue,
+                                  ),
                             ),
                           ],
                         ),
@@ -260,18 +275,19 @@ class _ChooseFieldState extends State<ChooseField> {
                                 Text(
                                   'I WANT TO JOIN',
                                   style: PreMedTextTheme().heading3.copyWith(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    color: PreMedColorTheme().black,
-                                  ),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: PreMedColorTheme().black,
+                                      ),
                                 ),
                                 Text(
                                   'ALLIED HEALTH SCIENCES',
                                   style: PreMedTextTheme().heading3.copyWith(
-                                    fontSize: 35,
-                                    fontWeight: FontWeight.w800,
-                                    color: PreMedColorTheme().customCheckboxColor,
-                                  ),
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.w800,
+                                        color: PreMedColorTheme()
+                                            .customCheckboxColor,
+                                      ),
                                 ),
                               ],
                             ),
@@ -306,10 +322,10 @@ class _ChooseFieldState extends State<ChooseField> {
                           child: Text(
                             'COMING SOON',
                             style: PreMedTextTheme().heading3.copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: PreMedColorTheme().white,
-                            ),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: PreMedColorTheme().white,
+                                ),
                           ),
                         ),
                       ),

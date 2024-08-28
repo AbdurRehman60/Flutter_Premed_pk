@@ -3,11 +3,16 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'choose_field.dart';
 
 class ChooseSchool extends StatefulWidget {
-  const ChooseSchool({super.key, this.city, this.phoneNumber, this.institution, this.password });
+  const ChooseSchool(
+      {super.key,
+      this.city, this.phoneNumber, this.institution, this.password, this.educationSystem});
+
   final String? city;
   final String? phoneNumber;
   final String? institution;
   final String? password;
+  final String? educationSystem;
+
   @override
   State<ChooseSchool> createState() => _ChooseSchoolState();
 }
@@ -17,7 +22,14 @@ class _ChooseSchoolState extends State<ChooseSchool> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ChooseField(lastOnboardingPage: lastOnboardingPage, password: widget.password,),
+        builder: (context) => ChooseField(
+          lastOnboardingPage: lastOnboardingPage,
+          password: widget.password ?? '',
+          city: widget.city ?? '',
+          phoneNumber: widget.phoneNumber ?? '',
+          institution: widget.institution ?? '',
+          educationSystem: widget.educationSystem ?? '',
+        ),
       ),
     );
   }
@@ -65,27 +77,27 @@ class _ChooseSchoolState extends State<ChooseSchool> {
                           Text(
                             'I AM IN ',
                             style: PreMedTextTheme().heading3.copyWith(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w600,
-                              color: PreMedColorTheme().white,
-                            ),
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w600,
+                                  color: PreMedColorTheme().white,
+                                ),
                           ),
                           Text(
                             'HIGH SCHOOL',
                             style: PreMedTextTheme().heading3.copyWith(
-                              fontSize: 45,
-                              fontWeight: FontWeight.w800,
-                              color: PreMedColorTheme().white,
-                            ),
+                                  fontSize: 45,
+                                  fontWeight: FontWeight.w800,
+                                  color: PreMedColorTheme().white,
+                                ),
                           ),
                           SizedBoxes.verticalMedium,
                           Text(
                             'CLICK TO CONTINUE',
                             style: PreMedTextTheme().heading3.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: PreMedColorTheme().white,
-                            ),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: PreMedColorTheme().white,
+                                ),
                           ),
                         ],
                       ),
@@ -108,10 +120,10 @@ class _ChooseSchoolState extends State<ChooseSchool> {
                           child: Text(
                             'COMING SOON',
                             style: PreMedTextTheme().heading3.copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: PreMedColorTheme().white,
-                            ),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: PreMedColorTheme().white,
+                                ),
                           ),
                         ),
                       ),
@@ -121,11 +133,11 @@ class _ChooseSchoolState extends State<ChooseSchool> {
               ),
             ),
           ),
-
           Expanded(
             child: GestureDetector(
               onTap: () {
-                _navigateToEntryTest(context, "auth/onboarding/flow/entrance-exam");  // Entry Test tapped
+                _navigateToEntryTest(context,
+                    "auth/onboarding/flow/entrance-exam"); // Entry Test tapped
               },
               child: ColoredBox(
                 color: PreMedColorTheme().primaryColorRed,
@@ -136,27 +148,27 @@ class _ChooseSchoolState extends State<ChooseSchool> {
                       Text(
                         'I AM PREPARING FOR AN ',
                         style: PreMedTextTheme().heading3.copyWith(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w600,
-                          color: PreMedColorTheme().white,
-                        ),
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                              color: PreMedColorTheme().white,
+                            ),
                       ),
                       Text(
                         'ENTRY TEST',
                         style: PreMedTextTheme().heading3.copyWith(
-                          fontSize: 45,
-                          fontWeight: FontWeight.w800,
-                          color: PreMedColorTheme().white,
-                        ),
+                              fontSize: 45,
+                              fontWeight: FontWeight.w800,
+                              color: PreMedColorTheme().white,
+                            ),
                       ),
                       SizedBoxes.verticalMedium,
                       Text(
                         'CLICK TO CONTINUE',
                         style: PreMedTextTheme().heading3.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: PreMedColorTheme().white,
-                        ),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: PreMedColorTheme().white,
+                            ),
                       ),
                     ],
                   ),
@@ -167,7 +179,7 @@ class _ChooseSchoolState extends State<ChooseSchool> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                _showComingSoonPopup(context);  // Undergrad tapped
+                _showComingSoonPopup(context); // Undergrad tapped
               },
               child: Stack(
                 children: [
@@ -180,27 +192,27 @@ class _ChooseSchoolState extends State<ChooseSchool> {
                           Text(
                             'I AM AN ',
                             style: PreMedTextTheme().heading3.copyWith(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w600,
-                              color: PreMedColorTheme().white,
-                            ),
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w600,
+                                  color: PreMedColorTheme().white,
+                                ),
                           ),
                           Text(
                             'UNDERGRAD',
                             style: PreMedTextTheme().heading3.copyWith(
-                              fontSize: 45,
-                              fontWeight: FontWeight.w800,
-                              color: PreMedColorTheme().white,
-                            ),
+                                  fontSize: 45,
+                                  fontWeight: FontWeight.w800,
+                                  color: PreMedColorTheme().white,
+                                ),
                           ),
                           SizedBoxes.verticalMedium,
                           Text(
                             'CLICK TO CONTINUE',
                             style: PreMedTextTheme().heading3.copyWith(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: PreMedColorTheme().white,
-                            ),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: PreMedColorTheme().white,
+                                ),
                           ),
                         ],
                       ),
@@ -223,10 +235,10 @@ class _ChooseSchoolState extends State<ChooseSchool> {
                           child: Text(
                             'COMING SOON',
                             style: PreMedTextTheme().heading3.copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: PreMedColorTheme().white,
-                            ),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: PreMedColorTheme().white,
+                                ),
                           ),
                         ),
                       ),

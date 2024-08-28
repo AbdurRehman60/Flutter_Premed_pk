@@ -98,6 +98,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       color: Colors.white,
                     ),
                     child: ListTile(
+
                       leading: GetLogo(url: widget.deckGroup.deckItems[index].deckLogo),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,8 +142,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           size: 20,
                         ),
                         onPressed: () async {
-                          // Check if the user has access to the premium tag
                           if (_hasAccess(widget.deckGroup.deckItems[index].premiumTag, accessTags)) {
+
                             setState(() {
                               selectedDeckItemIndex = index;
                             });
@@ -173,19 +174,25 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
   }
 
   bool _hasAccess(String? premiumTag, Object? accessTags) {
-    if (premiumTag == null) return true;
+    if (premiumTag == null) {
+      return true;
+    }
 
     final List<String> mdcatTags = ['MDCAT-Topicals', 'MDCAT-Yearly'];
     final List<String> numsTags = ['NUMS-Topicals', 'NUMS-Yearly'];
     final List<String> privTags = ['AKU-Topicals', 'AKU-Yearly'];
+
     if (accessTags is List<dynamic>) {
       for (final access in accessTags) {
         if (access is Map<String, dynamic>) {
           print('Comparing premiumTag: $premiumTag with access name: ${access['name']}');
 
+          if (access['name'] == premiumTag) {
+            return true;
+          }
           if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
               (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
-              (premiumTag == 'AKU-Topicals' && privTags.contains(access['name'])))  {
+              (premiumTag == 'AKU-QBank' && privTags.contains(access['name'])))  {
             print('Match found: Yes');
             return true;
           }
@@ -196,7 +203,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     print('Match found: No');
     return false;
   }
-
 
   void _showPurchasePopup(BuildContext context) {
     showDialog(
@@ -436,3 +442,4 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     }
   }
 }
+

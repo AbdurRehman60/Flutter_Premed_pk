@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:crypto/crypto.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -18,15 +16,29 @@ class ThankyouScreen extends StatefulWidget {
 }
 
 class _ThankyouScreenState extends State<ThankyouScreen> {
-  String hashPassword(String password) {
-    final bytes = utf8.encode(password);
-    final digest = sha256.convert(bytes);
-    return digest.toString();
+  String encrypt(String text, String key) {
+    final textBytes = utf8.encode(text);
+    final keyBytes = utf8.encode(key);
+    final encryptedBytes = List<int>.generate(textBytes.length, (i) {
+      return textBytes[i] ^ keyBytes[i % keyBytes.length];
+    });
+
+    return base64Url.encode(encryptedBytes);
   }
 
-  Future<void> _launchURL(String username, String hashedPassword) async {
+  String decrypt(String encryptedText, String key) {
+    final encryptedBytes = base64Url.decode(encryptedText);
+    final keyBytes = utf8.encode(key);
+    final decryptedBytes = List<int>.generate(encryptedBytes.length, (i) {
+      return encryptedBytes[i] ^ keyBytes[i % keyBytes.length];
+    });
+
+    return utf8.decode(decryptedBytes);
+  }
+
+  Future<void> _launchURL(String username, String encryptedPassword) async {
     final url =
-        'https://premed.pk/app-redirect?username="$username"&&password="$hashedPassword"==&&route="pricing/all"';
+        'https://premed.pk/app-redirect?username="$username"&&password="$encryptedPassword"==&&route="pricing/all"';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -39,9 +51,9 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
     final userProvider = Provider.of<UserProvider>(context);
     final String username = userProvider.user?.userName ?? '';
     final String password = widget.password ?? '';
-    final String hashedPassword = hashPassword(password);
+    final String encryptedPassword = encrypt(password, 'PreMedIsNotParho');
 
-    print("Username: $username, Password: ${widget.password}, Hashed Password: $hashedPassword");
+    print("Username: $username, Password: ${widget.password}, Encrypted Password: $encryptedPassword");
 
     return WillPopScope(
       onWillPop: () async {
@@ -95,10 +107,10 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>  MainNavigationScreen(userPassword: password,),
+                        builder: (context) => MainNavigationScreen(userPassword: password),
                       ),
                     );
-                    _launchURL(username, hashedPassword);
+                    _launchURL(username, encryptedPassword);
                   },
                 ),
               ),

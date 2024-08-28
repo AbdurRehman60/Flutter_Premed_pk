@@ -14,16 +14,19 @@ class ChooseFeatures extends StatefulWidget {
     this.password,
     required this.selectedExam,
     required this.category,
-    this.city,
-    this.phoneNumber,
-    this.institution,
-    required this.lastOnboarding
+    required this.city,
+    required this.phoneNumber,
+    required this.institution,
+    required this.lastOnboarding,
+    required this.educationSystem
   });
+
   final String? password;
   final String lastOnboarding;
-  final String? city;
-  final String? phoneNumber;
-  final String? institution;
+  final String educationSystem;
+  final String city;
+  final String phoneNumber;
+  final String institution;
   final String selectedExam;
   final String category;
 
@@ -59,6 +62,8 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
     return _selectedIndexes.map((index) => selectedBoard.tags[index].featureName).toList();
   }
 
+
+
   Future<void> submitOnboardingData() async {
     final AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
     final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
@@ -79,13 +84,13 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
         lastOnboardingPage: widget.lastOnboarding + "/additional-info/features/recommended-bundles",
         selectedExams: [widget.selectedExam],
         selectedFeatures: features,
-        city: widget.city ?? '',
-        educationSystem: '',
+        city: widget.city,
+        educationSystem: widget.educationSystem,
         year: '',
         parentContactNumber: '',
         approach: '',
-        phoneNumber: widget.phoneNumber ?? '',
-        institution: widget.institution ?? '',
+        phoneNumber: widget.phoneNumber,
+        institution: widget.institution,
       );
 
       if (result['status']) {

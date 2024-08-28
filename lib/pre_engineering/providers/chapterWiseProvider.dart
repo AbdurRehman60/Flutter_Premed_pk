@@ -20,6 +20,7 @@ class EngChapterWisePro extends ChangeNotifier {
     try {
       _fetchStatus = ChapterWiseFetchStatus.fetching;
       notifyListeners();
+
       final DioClient dio = DioClient();
       final Response response = await dio.post(Endpoints.PublishedDecks, data: {
         "CategoriesWeWant": ["Engineering QBank"]
@@ -29,38 +30,61 @@ class EngChapterWisePro extends ChangeNotifier {
       final bool success = responseData['success'] ?? false;
 
       if (success) {
-        final List<Map<String, dynamic>> data =
-        List<Map<String, dynamic>>.from(responseData['data']);
-        Map<String, dynamic>? numsMocksCategory;
+        final List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(responseData['data']);
+        Map<String, dynamic>? engineeringQBankCategory;
+
         try {
-          numsMocksCategory = data.firstWhere(
+          engineeringQBankCategory = data.firstWhere(
                 (category) => category['categoryName'] == 'Engineering QBank',
           );
         } catch (e) {
-          numsMocksCategory = null;
+          engineeringQBankCategory = null;
         }
-        if (numsMocksCategory != null) {
-          final List<dynamic> deckGroupsData = numsMocksCategory['deckGroups'];
-          _deckGroups = deckGroupsData
-              .where((deckGroupData) =>
-          deckGroupData['deckGroupName'] != 'Biology')
-              .map((deckGroupData) {
+
+        if (engineeringQBankCategory != null) {
+          final List<dynamic> deckGroupsData = engineeringQBankCategory['deckGroups'];
+          _deckGroups = deckGroupsData.map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
-            final List<DeckItem> deckItems = decks.map((deck) {
-              return DeckItem.fromJson(deck);
+            final List<DeckItem> deckItems = decks.where((deck) {
+              return deck['isPublished'] == true;
+            }).map((deck) {
+              return DeckItem(
+                deckName: deck['deckName'],
+                deckLogo: deck['deckLogo'],
+                premiumTag: deck['premiumTags'] != null &&
+                    (deck['premiumTags'] as List).isNotEmpty
+                    ? (deck['premiumTags'][0] as String)
+                    : null,
+                deckInstructions: deck['deckInstructions'] ?? '',
+                isTutorModeFree: deck['isTutorModeFree'],
+                timedTestMode: deck['timedTestMode'],
+                timesTestminutes: deck['timedTestMinutes'],
+                isPublished: deck['isPublished'],
+              );
             }).toList();
+
+            if (deckItems.isEmpty || !deckGroupData['isPublished']) {
+              return null;
+            }
+
             final int deckNameCount = deckItems.length;
-            final String deckGroupImage = deckGroupData['deckGroupImage'];
+            final String? deckGroupImage = deckGroupData['deckGroupImage'];
+
             return DeckGroupModel(
               deckType: deckGroupData['deckType'],
               deckGroupName: deckGroupData['deckGroupName'],
               deckItems: deckItems,
               deckNameCount: deckNameCount,
               deckGroupImage: deckGroupImage,
-              isPublished: deckGroupData['isPublished'] ?? false,
+              isPublished: deckGroupData['isPublished'],
             );
-          }).toList();
-
+          }).where((deckGroup) => deckGroup != null).cast<DeckGroupModel>().toList();
+          for (var deckGroup in _deckGroups) {
+            for (var deckItem in deckGroup.deckItems) {
+              print('Deck Name: ${deckItem.deckName}');
+              print('Premium Tags: ${deckItem.premiumTag}');
+            }
+          }
           _fetchStatus = ChapterWiseFetchStatus.success;
         } else {
           _fetchStatus = ChapterWiseFetchStatus.error;
@@ -75,4 +99,5 @@ class EngChapterWisePro extends ChangeNotifier {
       notifyListeners();
     }
   }
+
 }
