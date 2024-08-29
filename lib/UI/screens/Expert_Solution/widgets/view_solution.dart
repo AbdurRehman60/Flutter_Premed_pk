@@ -1,11 +1,15 @@
 import 'package:flutter/services.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/tags_row.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/UI/widgets/vlc_player/vlc_player.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../providers/vaultProviders/premed_provider.dart';
 
 class ViewSolution extends StatelessWidget {
   const ViewSolution({
@@ -50,15 +54,18 @@ class ViewSolution extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        appBar: MediaQuery.of(context).orientation == Orientation.portrait
-            ? AppBar(
-                centerTitle: true,
-                title: const Text('View Solution'),
-                iconTheme: IconThemeData(
-                  color: PreMedColorTheme().white,
-                ),
-              )
-            : null,
+        backgroundColor: PreMedColorTheme().background,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 13),
+            child: AppBar(
+              backgroundColor: PreMedColorTheme().background,
+              leading: const PopButton(),
+              automaticallyImplyLeading: false,
+            ),
+          ),
+        ),
         body: OrientationBuilder(
           builder: (context, orientation) {
             final bool isLandscape = orientation == Orientation.portrait;
@@ -193,6 +200,7 @@ class ViewSolution extends StatelessWidget {
                         },
                         if (isLandscape) ...{
                           CustomButton(
+                            color: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                             buttonText: 'Add a Feedback',
                             onPressed: () {
                               _showReviewModal(context);
@@ -298,6 +306,7 @@ class _ReviewModalState extends State<ReviewModal> {
           ),
           SizedBoxes.verticalBig,
           CustomButton(
+            color: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
             buttonText: 'Submit',
             onPressed: onFeedbackSubmitPressed,
           )

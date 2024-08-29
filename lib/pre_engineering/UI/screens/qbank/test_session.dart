@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../../UI/screens/The vault/widgets/back_button.dart';
 import '../../../../UI/screens/qbank/widgets/deck_tile.dart';
 import '../../../../constants/constants_export.dart';
+import '../../../../providers/vaultProviders/premed_provider.dart';
 import '../../../providers/test_session_proivder.dart';
 
 class EngTestSessionHome extends StatefulWidget {
@@ -82,8 +83,10 @@ class _EngTestSessionHomeState extends State<EngTestSessionHome>
                 switch (provider.fetchStatus) {
                   case DeckFetchStatus.init:
                   case DeckFetchStatus.fetching:
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return  Center(
+                      child: CircularProgressIndicator(
+                        color: PreMedColorTheme().blue
+                      ),
                     );
                   case DeckFetchStatus.success:
                     final filteredDeckGroups = provider.deckGroups

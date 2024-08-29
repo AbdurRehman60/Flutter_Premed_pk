@@ -1,6 +1,8 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:html/parser.dart' as htmlparser;
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.dart';
+import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/qbank_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
@@ -277,6 +279,12 @@ class _TutorModeState extends State<TutorMode> {
           print("Error: Attempted to access an invalid question index.");
         }
       });
+    }else if(currentQuestionIndex == 0){
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const MainNavigationScreen(),
+        ),
+      );
     }
   }
 
@@ -1069,12 +1077,26 @@ class _TutorModeState extends State<TutorMode> {
                                   ),
                                 );
                               },
-                              pauseOrContinue: () {},
+                              pauseOrContinue: () {
+                                // Navigator.of(context).pushReplacement(
+                                //   MaterialPageRoute(
+                                //     builder: (context) => const MainNavigationScreen()
+                                //   ),
+                                // );
+                              },
                               restart: () {
                                 Navigator.of(context).pop();
                                 restart();
                               },
                               showButton: false,
+                              // pauseContinueText: '',
+                              continueLater: () {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => const MainNavigationScreen(),
+                                  ),
+                                );
+                              },
                             ),
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),

@@ -61,7 +61,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loadRecentAttempts();
   }
@@ -99,10 +98,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       fontWeight: FontWeight.w700,
                                       fontSize: 26));
                             } else {
-                              return Text('Hi, ${userProvider.getUserName()}',
-                                  style: PreMedTextTheme().heading4.copyWith(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 28));
+                              return GestureDetector(
+                                onTap: (){
+                                 final userProvider  = Provider.of<UserProvider>(context,listen: false);
+                                 final page = userProvider.user?.info.lastOnboardingPage;
+                                 print('onBoardingPage : $page');
+                                },
+                                child: Text('Hi, ${userProvider.getUserName()}',
+                                    style: PreMedTextTheme().heading4.copyWith(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 28)),
+                              );
                             }
                           },
                         ),
@@ -302,9 +308,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       InkWell(
                                         onTap: () {},
                                         child: Image.asset(
-                                          PremedAssets.arrow,
-                                          width: 40,
-                                          height: 40,
+                                          Provider.of<PreMedProvider>(context)
+                                              .isPreMed
+                                              ? PremedAssets.arrow
+                                              : PremedAssets.blueAerrow,
+                                          width: 15,
+                                          height: 15,
                                         ),
                                       ),
                                     ],
@@ -413,9 +422,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         );
                                       },
                                       child: Image.asset(
-                                        PremedAssets.arrow,
-                                        width: 40,
-                                        height: 40,
+                                        Provider.of<PreMedProvider>(context)
+                                            .isPreMed
+                                            ? PremedAssets.arrow
+                                            : PremedAssets.blueAerrow,
+                                        width: 15,
+                                        height: 15,
                                       ),
                                     ),
                                   ],
@@ -514,9 +526,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     InkWell(
                                       onTap: () {},
                                       child: Image.asset(
-                                        PremedAssets.arrow,
-                                        width: 40,
-                                        height: 40,
+                                        Provider.of<PreMedProvider>(context)
+                                            .isPreMed
+                                            ? PremedAssets.arrow
+                                            : PremedAssets.blueAerrow,
+                                        width: 15,
+                                        height: 15,
                                       ),
                                     ),
                                   ],

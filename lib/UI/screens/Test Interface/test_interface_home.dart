@@ -14,6 +14,7 @@ import '../../../providers/question_provider.dart';
 import '../../../providers/save_question_provider.dart';
 import '../../../providers/update_attempt_provider.dart';
 import '../../../providers/user_provider.dart';
+import '../navigation_screen/main_navigation_screen.dart';
 
 class TestInterface extends StatefulWidget {
   const TestInterface({
@@ -340,6 +341,12 @@ class _TestInterfaceState extends State<TestInterface> {
           print("Error: Attempted to access an invalid question index.");
         }
       });
+    }else if(currentQuestionIndex == 0){
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const MainNavigationScreen(),
+        ),
+      );
     }
   }
 
@@ -1055,12 +1062,20 @@ class _TestInterfaceState extends State<TestInterface> {
                                   ),
                                 );
                               },
-                              pauseOrContinue: _togglePauseResume,
                               restart: () {
                                 Navigator.of(context).pop();
                                 restart();
                               },
                               showButton: true,
+                              // pauseContinueText: isPaused ? 'Continue' : 'Pause',
+                              pauseOrContinue: _togglePauseResume,
+                              continueLater: (){
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => const MainNavigationScreen(),
+                                  ),
+                                );
+                              },
                             ),
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),

@@ -1,4 +1,5 @@
-
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import '../../api_manager/dio client/dio_client.dart';
 import '../../api_manager/dio client/endpoints.dart';
 import '../../constants/constants_export.dart';
@@ -19,6 +20,7 @@ class EngTestSessionsPro extends ChangeNotifier {
     try {
       _fetchStatus = DeckFetchStatus.fetching;
       notifyListeners();
+
       final DioClient dio = DioClient();
       final Response response = await dio.post(Endpoints.PublishedDecks, data: {
         "CategoriesWeWant": ["PreEngineering Test Sessions"]
@@ -28,29 +30,46 @@ class EngTestSessionsPro extends ChangeNotifier {
       final bool success = responseData['success'] ?? false;
 
       if (success) {
-        final List<Map<String, dynamic>> data =
-        List<Map<String, dynamic>>.from(responseData['data']);
-        Map<String, dynamic>? numsMocksCategory;
+        final List<Map<String, dynamic>> data = List<Map<String, dynamic>>.from(responseData['data']);
+        Map<String, dynamic>? engineeringQbankCategory;
+
         try {
-          numsMocksCategory = data.firstWhere(
+          engineeringQbankCategory = data.firstWhere(
                 (category) => category['categoryName'] == 'PreEngineering Test Sessions',
           );
         } catch (e) {
-          numsMocksCategory = null;
+          engineeringQbankCategory = null;
         }
-        if (numsMocksCategory != null) {
 
-          final List<dynamic> deckGroupsData = numsMocksCategory['deckGroups'];
-          _deckGroups = deckGroupsData
-              .where((deckGroupData) => deckGroupData['isPublished'] == true)
-              .map((deckGroupData) {
+        if (engineeringQbankCategory != null) {
+          final List<dynamic> deckGroupsData = engineeringQbankCategory['deckGroups'];
+
+          _deckGroups = deckGroupsData.map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
-            final List<DeckItem> deckItems = decks
-                .where((deck) => deck['isPublished'] == true)
-                .map((deck) => DeckItem.fromJson(deck))
-                .toList();
+            final List<DeckItem> deckItems = decks.where((deck) {
+              return deck['isPublished'] == true;
+            }).map((deck) {
+              return DeckItem(
+                deckName: deck['deckName'],
+                deckLogo: deck['deckLogo'],
+                premiumTag: deck['premiumTags'] != null && (deck['premiumTags'] as List).isNotEmpty
+                    ? (deck['premiumTags'][0] as String)
+                    : null,
+                deckInstructions: deck['deckInstructions'] ?? '',
+                isTutorModeFree: deck['isTutorModeFree'],
+                timedTestMode: deck['timedTestMode'],
+                timesTestminutes: deck['timedTestMinutes'],
+                isPublished: deck['isPublished'],
+              );
+            }).toList();
+
+            if (deckItems.isEmpty || !deckGroupData['isPublished']) {
+              return null;
+            }
+
             final int deckNameCount = deckItems.length;
-            final String deckGroupImage = deckGroupData['deckGroupImage'];
+            final String? deckGroupImage = deckGroupData['deckGroupImage'];
+
             return DeckGroupModel(
               deckType: deckGroupData['deckType'],
               deckGroupName: deckGroupData['deckGroupName'],
@@ -59,8 +78,14 @@ class EngTestSessionsPro extends ChangeNotifier {
               deckGroupImage: deckGroupImage,
               isPublished: deckGroupData['isPublished'],
             );
-          }).toList();
+          }).where((deckGroup) => deckGroup != null).cast<DeckGroupModel>().toList();
 
+          for (var deckGroup in _deckGroups) {
+            for (var deckItem in deckGroup.deckItems) {
+              print('Deck Name: ${deckItem.deckName}');
+              print('Premium Tags: ${deckItem.premiumTag}');
+            }
+          }
 
           _fetchStatus = DeckFetchStatus.success;
         } else {

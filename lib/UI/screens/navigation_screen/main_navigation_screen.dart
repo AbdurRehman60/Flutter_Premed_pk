@@ -8,8 +8,7 @@ import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dar
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../providers/user_provider.dart'; // Add this import
+import '../../../providers/user_provider.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key,this.userPassword});
@@ -20,11 +19,37 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
+  @override
+  void initState() {
+    checkUserDetails(context);
+    super.initState();
+  }
   Future<String> getUsername() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String dsrID = prefs.getString("userName") ?? '';
 
     return dsrID;
+  }
+
+  Future<void> checkUserDetails(BuildContext context) async {
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final String? lastOnBoardingPage = userProvider.user?.info.lastOnboardingPage;
+
+    if (lastOnBoardingPage != null) {
+      print('objecdddt');
+      if (lastOnBoardingPage.contains('auth/onboarding/flow/entrance-exam/pre-engineering')) {
+        final preMedProvider = Provider.of<PreMedProvider>(context, listen: false);
+        preMedProvider.setonBoardingTrack(false);
+        preMedProvider.setPreMed(false);
+        print('setted');
+      } else {
+        final preMedProvider = Provider.of<PreMedProvider>(context, listen: false);
+        preMedProvider.setonBoardingTrack(true);
+      }
+    }else{
+      print('not ran');
+    }
   }
 
   List<int> navigationStack = [0];
@@ -43,6 +68,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   Future<void> _launchURL(String username, String hashedPassword) async {
+    checkUserDetails(context);
     final url =
         'https://premed.pk/app-redirect?username="$username"&&password="$hashedPassword"==&&route="pricing/all"';
     if (await canLaunch(url)) {

@@ -161,10 +161,18 @@ class _SavedQuestionScreenEngState extends State<SavedQuestionScreenEng> {
                   switch (savedQuestionsProvider.fetchStatus) {
                     case FetchStatus.init:
                     case FetchStatus.fetching:
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: CircularProgressIndicator(
+                            color: Provider.of<PreMedProvider>(context).isPreMed
+                                ? PreMedColorTheme().red
+                                : PreMedColorTheme().blue,
+                          ),
+                        ),
+                      ],
+                    );
                     case FetchStatus.success:
                       return SizedBox(
                         height: 500,

@@ -18,6 +18,7 @@ import '../../../../UI/screens/statistics/widgets/Attempted_card.dart';
 import '../../../../UI/screens/statistics/widgets/card_w.dart';
 import '../../../../constants/constants_export.dart';
 import '../../../../models/statistic_model.dart';
+import '../../../../providers/recent_atempts_provider.dart';
 import '../../../../providers/statistic_provider.dart';
 import '../../../../providers/user_provider.dart';
 import '../saved_question/saved_question_eng.dart';
@@ -53,6 +54,19 @@ class _EngineeringDashboardScreenState
             100)
         .toStringAsFixed(0);
     return subjectPercentage;
+  }
+
+  Future<void> _loadRecentAttempts() async {
+    final userId = Provider.of<UserProvider>(context, listen: false).user?.userId;
+    if (userId != null) {
+      await Provider.of<RecentAttemptsProvider>(context, listen: false).fetchRecentAttempts(userId);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRecentAttempts();
   }
 
   @override
@@ -364,9 +378,12 @@ class _EngineeringDashboardScreenState
                                       InkWell(
                                         onTap: () {},
                                         child: Image.asset(
-                                          PremedAssets.arrow,
-                                          width: 40,
-                                          height: 40,
+                                          Provider.of<PreMedProvider>(context)
+                                              .isPreMed
+                                              ? PremedAssets.arrow
+                                              : PremedAssets.blueAerrow,
+                                          width: 15,
+                                          height: 15,
                                         ),
                                       ),
                                     ],
@@ -475,9 +492,12 @@ class _EngineeringDashboardScreenState
                                         );
                                       },
                                       child: Image.asset(
-                                        PremedAssets.arrow,
-                                        width: 40,
-                                        height: 40,
+                                        Provider.of<PreMedProvider>(context)
+                                            .isPreMed
+                                            ? PremedAssets.arrow
+                                            : PremedAssets.blueAerrow,
+                                        width: 15,
+                                        height: 15,
                                       ),
                                     ),
                                   ],
@@ -576,9 +596,12 @@ class _EngineeringDashboardScreenState
                                     InkWell(
                                       onTap: () {},
                                       child: Image.asset(
-                                        PremedAssets.arrow,
-                                        width: 40,
-                                        height: 40,
+                                        Provider.of<PreMedProvider>(context)
+                                            .isPreMed
+                                            ? PremedAssets.arrow
+                                            : PremedAssets.blueAerrow,
+                                        width: 15,
+                                        height: 15,
                                       ),
                                     ),
                                   ],

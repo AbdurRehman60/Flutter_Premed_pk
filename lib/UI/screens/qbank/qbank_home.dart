@@ -199,7 +199,7 @@ class BankTilesLast extends StatelessWidget {
                         style: PreMedTextTheme().body1.copyWith(
                           fontSize: 14.5,
                           fontWeight: FontWeight.w800,
-                          color: const Color.fromRGBO(236, 88, 99, 1),
+                          color: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                         ),
                       ),
                       Text(

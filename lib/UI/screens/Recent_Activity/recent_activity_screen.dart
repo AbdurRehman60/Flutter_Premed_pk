@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:premedpk_mobile_app/UI/screens/Recent_Activity/widgets/recent_activity.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/tutor_mode_test_interface.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -12,7 +13,7 @@ import 'package:provider/provider.dart';
 import '../../../providers/vaultProviders/premed_provider.dart';
 import '../Test Interface/test_interface_home.dart';
 import '../The vault/widgets/back_button.dart';
-
+//jarvis
 class RecentActivityScreen extends StatefulWidget {
   const RecentActivityScreen({super.key, required this.isPreMed});
   final bool isPreMed;
@@ -278,6 +279,9 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    String formattedDate = widget.date != null
+        ? DateFormat('d MMMM yyyy').format(DateTime.parse(widget.date!))
+        : '';
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Container(
@@ -353,14 +357,14 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.date ?? '',
+                          formattedDate,
                           style: GoogleFonts.rubik(
                             fontWeight: FontWeight.w600,
                             fontSize: 10,
                           ),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: (){},
                           child: Text(widget.mode ?? '',
                               style: GoogleFonts.rubik(
                                   fontWeight: FontWeight.w800,

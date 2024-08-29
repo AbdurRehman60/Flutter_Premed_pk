@@ -25,19 +25,19 @@ class CreditsScreen extends StatelessWidget {
                     Text(
                       'Credits',
                       style: PreMedTextTheme().heading6.copyWith(
-                            color: PreMedColorTheme().black,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        color: PreMedColorTheme().black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                     SizedBoxes.vertical2Px,
                     Text(
                       'settings'.toUpperCase(),
                       style: PreMedTextTheme().subtext.copyWith(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: PreMedColorTheme().black,
-                          ),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: PreMedColorTheme().black,
+                      ),
                     )
                   ],
                 ),
@@ -52,20 +52,20 @@ class CreditsScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
-          children: [
-            const Section(
+          children: const [
+            Section(
               title: 'The Founders',
               names: [
                 'Hasnain Mankani  |  Fahd Niaz Shaikh',
               ],
             ),
-            const Section(
+            Section(
               title: 'Designed by',
               names: [
                 'Fateh Alam Bhatty',
               ],
             ),
-            const Section(
+            Section(
               title: 'The Developers (App)',
               names: [
                 'Usama Umar',
@@ -74,7 +74,7 @@ class CreditsScreen extends StatelessWidget {
                 'Bilal Tariq'
               ],
             ),
-            const Section(
+            Section(
               title: 'The Developers (WEB)',
               names: [
                 'Salis Salman',
@@ -84,10 +84,7 @@ class CreditsScreen extends StatelessWidget {
                 'Izhan Ahmed',
               ],
             ),
-            Section(
-              title: 'The Testers',
-              names: List.filled(10, 'Johnny Appleseed'),
-            ),
+
           ],
         ),
       ),
@@ -108,10 +105,10 @@ class Section extends StatelessWidget {
         Text(
           title,
           style: PreMedTextTheme().body.copyWith(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
         ),
         SizedBoxes.vertical10Px,
         for (final name in names)

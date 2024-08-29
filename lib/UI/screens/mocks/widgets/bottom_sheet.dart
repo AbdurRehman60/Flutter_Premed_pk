@@ -117,7 +117,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: PreMedColorTheme().primaryColorRed,
+                                color: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),

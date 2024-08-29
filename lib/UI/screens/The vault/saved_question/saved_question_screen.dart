@@ -6,6 +6,7 @@ import 'package:premedpk_mobile_app/providers/savedquestion_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
+import '../../../../providers/vaultProviders/premed_provider.dart';
 import 'activity_cell.dart';
 
 class SavedQuestionScreen extends StatefulWidget {
@@ -156,8 +157,12 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
                   switch (savedQuestionsProvider.fetchStatus) {
                     case FetchStatus.init:
                     case FetchStatus.fetching:
-                      return const Center(
-                        child: CircularProgressIndicator(),
+                      return  Center(
+                        child: CircularProgressIndicator(
+                          color: Provider.of<PreMedProvider>(context,listen: false).isPreMed
+                              ? PreMedColorTheme().red
+                              : PreMedColorTheme().blue,
+                        ),
                       );
 
                     case FetchStatus.success:

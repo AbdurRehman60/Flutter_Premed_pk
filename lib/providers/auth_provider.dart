@@ -524,6 +524,7 @@ class AuthProvider extends ChangeNotifier {
 
         return result;
       }
+
       _googleUser = user;
 
       final googleAuth = await googleUser.authentication;
@@ -542,6 +543,8 @@ class AuthProvider extends ChangeNotifier {
         );
 
         if (response.statusCode == 200) {
+
+          print('response statusCode : ${response.statusCode}');
           final Map<String, dynamic> responseData =
               Map<String, dynamic>.from(response.data);
 

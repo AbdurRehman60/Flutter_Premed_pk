@@ -6,20 +6,35 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../UI/screens/Dashboard_Screen/dashboard_screen.dart';
 import '../../pre_engineering/UI/screens/dashboard/dashboard_home.dart';
+import '../user_provider.dart';
 
 class PreMedProvider with ChangeNotifier {
-
   PreMedProvider() {
     loadFromPreferences();
   }
+
   static const _isPreMedKey = 'isPreMed';
   bool _isPreMed = true;
 
   bool get isPreMed => _isPreMed;
 
+  //medical if true
+  bool _onBoardingTrack = true;
+  bool get onBoardingTrack => _onBoardingTrack;
+  //
+  Future<void> setonBoardingTrack(bool value) async {
+    if (value) {
+      _onBoardingTrack = true;
+      notifyListeners();
+    } else {
+      _onBoardingTrack = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> loadFromPreferences() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    _isPreMed =  prefs.getBool(_isPreMedKey) ?? true;
+    _isPreMed = prefs.getBool(_isPreMedKey) ?? true;
     notifyListeners();
   }
 
@@ -31,10 +46,6 @@ class PreMedProvider with ChangeNotifier {
   }
 }
 
-
-
-
-
 class DashboardSwitcher extends StatelessWidget {
   const DashboardSwitcher({super.key});
 
@@ -42,7 +53,8 @@ class DashboardSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PreMedProvider>(
       builder: (context, preMedProvider, child) {
-        if (preMedProvider.isPreMed) {
+        if (preMedProvider.isPreMed &&  preMedProvider._onBoardingTrack) {
+          print('sta : ${preMedProvider._onBoardingTrack}');
           return const DashboardScreen();
         } else {
           return const EngineeringDashboardScreen();
@@ -52,19 +64,19 @@ class DashboardSwitcher extends StatelessWidget {
   }
 }
 
-
 class VaultSwitcher extends StatelessWidget {
   const VaultSwitcher({super.key});
 
   @override
-  Widget build(BuildContext context) {  return Consumer<PreMedProvider>(
-    builder: (context, preMedProvider, child) {
-      if (preMedProvider.isPreMed) {
-        return const VaultHome();
-      } else {
-        return const PreEngVaultHome();
-      }
-    },
-  );
+  Widget build(BuildContext context) {
+    return Consumer<PreMedProvider>(
+      builder: (context, preMedProvider, child) {
+        if (preMedProvider.isPreMed) {
+          return const VaultHome();
+        } else {
+          return const PreEngVaultHome();
+        }
+      },
+    );
   }
 }

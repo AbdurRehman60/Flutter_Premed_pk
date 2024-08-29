@@ -1,5 +1,7 @@
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
+import 'package:provider/provider.dart';
 
 void showError(BuildContext context, Map<String, dynamic> response,
     {bool? navigate}) {
@@ -57,6 +59,7 @@ class ErrorDialog extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.4,
                 height: MediaQuery.of(context).size.height * 0.05,
                 child: CustomButton(
+                  color: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                   buttonText: "Okay",
                   onPressed: () => Navigator.of(context).pop(),
                 ),

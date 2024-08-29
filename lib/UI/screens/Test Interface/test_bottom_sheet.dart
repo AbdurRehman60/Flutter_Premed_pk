@@ -1,7 +1,7 @@
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/expert_solution_home.dart';
 import '../../../../constants/constants_export.dart';
 
-class TestBottomSheet extends StatelessWidget {
+class TestBottomSheet extends StatefulWidget {
   const TestBottomSheet({
     super.key,
     required this.questionNumber,
@@ -12,18 +12,26 @@ class TestBottomSheet extends StatelessWidget {
     required this.restart,
     required this.showButton,
     required this.addFlasCards,
+    required this.continueLater,
   });
   final String questionNumber;
   final Widget timerWidget;
   final VoidCallback submitNow;
   final VoidCallback reportNow;
-  final VoidCallback pauseOrContinue;
   final VoidCallback restart;
+  final VoidCallback pauseOrContinue;
   final bool showButton;
   final VoidCallback addFlasCards;
+  final VoidCallback continueLater;
 
   @override
+  State<TestBottomSheet> createState() => _TestBottomSheetState();
+}
+
+class _TestBottomSheetState extends State<TestBottomSheet> {
+  @override
   Widget build(BuildContext context) {
+
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -35,7 +43,7 @@ class TestBottomSheet extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    questionNumber,
+                    widget.questionNumber,
                     style: PreMedTextTheme().body.copyWith(
                         color: Colors.black,
                         fontSize: 18,
@@ -53,7 +61,7 @@ class TestBottomSheet extends StatelessWidget {
                   ),
                 ],
               ),
-              if (showButton) timerWidget,
+              if (widget.showButton) widget.timerWidget,
             ],
           ),
           SizedBoxes.verticalBig,
@@ -85,14 +93,14 @@ class TestBottomSheet extends StatelessWidget {
                   text: TextSpan(
                       children: [
                         TextSpan(
-                          text: 'Add To',
+                          text: 'Add to ',
                           style: PreMedTextTheme().body.copyWith(
                               fontSize: 20,
                               color: PreMedColorTheme().black,
                               fontWeight: FontWeight.w700),
                         ),
                         TextSpan(
-                          text: ' Flashcards',
+                          text: 'My Saved Facts',
                           style: PreMedTextTheme().body.copyWith(
                               fontSize: 20,
                               color: PreMedColorTheme().red,
@@ -112,7 +120,7 @@ class TestBottomSheet extends StatelessWidget {
                   ],
                 ),
                 onTap: () {
-                  addFlasCards();
+                  widget.addFlasCards();
 
                 },
                 contentPadding: const EdgeInsets.symmetric(
@@ -258,7 +266,7 @@ class TestBottomSheet extends StatelessWidget {
                     SizedBoxes.vertical5Px,
                   ],
                 ),
-                onTap: reportNow,
+                onTap: widget.reportNow,
                 contentPadding: const EdgeInsets.symmetric(
                   vertical: 8.0,
                   horizontal: 16.0,
@@ -275,7 +283,7 @@ class TestBottomSheet extends StatelessWidget {
                   width: 300,
                   height: 42,
                   child: ElevatedButton(
-                    onPressed: submitNow,
+                    onPressed: widget.submitNow,
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -294,8 +302,8 @@ class TestBottomSheet extends StatelessWidget {
               ),
             ],
           ),
-          if (showButton) SizedBoxes.vertical10Px,
-          if (showButton)
+          if(widget.showButton) SizedBoxes.vertical10Px,
+          if(widget.showButton)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -303,7 +311,7 @@ class TestBottomSheet extends StatelessWidget {
                   width: 300,
                   height: 42,
                   child: ElevatedButton(
-                    onPressed: pauseOrContinue,
+                    onPressed: widget.pauseOrContinue,
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -312,7 +320,7 @@ class TestBottomSheet extends StatelessWidget {
                       foregroundColor: Colors.white,
                     ),
                     child: Text(
-                      'Continue Later',
+                      'Pause/Resume',
                       style: PreMedTextTheme().body.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -322,8 +330,36 @@ class TestBottomSheet extends StatelessWidget {
                 ),
               ],
             ),
+          SizedBoxes.vertical10Px,
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 300,
+                height: 42,
+                child: ElevatedButton(
+                  onPressed: widget.continueLater,
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor:   PreMedColorTheme().greenL ,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: Text(
+                    'Continue Later',
+                    style: PreMedTextTheme().body.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17),
+                  ),
+                ),
+              ),
+            ],
+          ),
           TextButton(
-            onPressed: restart,
+            onPressed: widget.restart,
             child: Text(
               'Restart',
               style: PreMedTextTheme().body.copyWith(
