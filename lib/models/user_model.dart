@@ -9,7 +9,11 @@ class Info {
       required this.approach,
       required this.year,
       required this.educationSystem,
-      required this.institution});
+      required this.institution,
+        this.appUser,
+        this.appToken,
+      });
+
 
   factory Info.fromJson(Map<String, dynamic> json) {
     return Info(
@@ -20,6 +24,8 @@ class Info {
       year: json['year'] ?? '',
       educationSystem: json['educationSystem'] ?? '',
       approach: json['approach'] ?? '',
+      appUser: json['appUser'],
+      appToken: json['appToken']
     );
   }
 
@@ -30,6 +36,8 @@ class Info {
   String year;
   String educationSystem;
   String approach;
+  String? appToken;
+  bool? appUser;
 
   Map<String, dynamic> toJson() {
     return {
@@ -75,6 +83,7 @@ class User {
     required this.bundlesPurchased,
     required this.educationSystem,
     required this.year,
+
   });
 
   factory User.fromJson(Map<String, dynamic> responseData) {

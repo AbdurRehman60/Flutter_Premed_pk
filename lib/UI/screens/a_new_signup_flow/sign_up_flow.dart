@@ -96,6 +96,7 @@ class _SignUpFlowState extends State<SignUpFlow> {
           emailController.text,
           passwordController.text,
           fullNameController.text,
+          appUser: true
         );
 
         signupResponse.then((response) {

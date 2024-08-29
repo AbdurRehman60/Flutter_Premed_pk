@@ -98,7 +98,7 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) =>  ThankyouScreen(password: widget.password),
+            builder: (context) =>  const ThankyouScreen(),
           ),
               (route) => false,
         );

@@ -36,6 +36,7 @@ class _LoginFormState extends State<LoginForm> {
         final Future<Map<String, dynamic>> response = auth.login(
           emailController.text,
           passwordController.text,
+          true
         );
         response.then(
           (response) {

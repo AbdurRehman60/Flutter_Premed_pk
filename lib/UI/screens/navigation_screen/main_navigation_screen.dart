@@ -24,31 +24,26 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     checkUserDetails(context);
     super.initState();
   }
+
   Future<String> getUsername() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String dsrID = prefs.getString("userName") ?? '';
-
     return dsrID;
   }
 
   Future<void> checkUserDetails(BuildContext context) async {
-
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final String? lastOnBoardingPage = userProvider.user?.info.lastOnboardingPage;
 
     if (lastOnBoardingPage != null) {
-      print('objecdddt');
       if (lastOnBoardingPage.contains('auth/onboarding/flow/entrance-exam/pre-engineering')) {
         final preMedProvider = Provider.of<PreMedProvider>(context, listen: false);
         preMedProvider.setonBoardingTrack(false);
         preMedProvider.setPreMed(false);
-        print('setted');
       } else {
         final preMedProvider = Provider.of<PreMedProvider>(context, listen: false);
         preMedProvider.setonBoardingTrack(true);
       }
-    }else{
-      print('not ran');
     }
   }
 
@@ -61,16 +56,15 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     const MarketPlace(),
     const Account(),
   ];
+
   String hashPassword(String password) {
     final bytes = utf8.encode(password);
     final digest = sha256.convert(bytes);
     return digest.toString();
   }
 
-  Future<void> _launchURL(String username, String hashedPassword) async {
-    checkUserDetails(context);
-    final url =
-        'https://premed.pk/app-redirect?username="$username"&&password="$hashedPassword"==&&route="pricing/all"';
+  Future<void> _launchURL(String appToken) async {
+    final url = 'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -81,10 +75,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
-    final String username = userProvider.user?.userName ?? '';
-    final String password = widget.userPassword?? '';
-    final String hashedPassword = hashPassword(password);
-    // ignore: deprecated_member_use
+    final String appToken = userProvider.user?.info.appToken ?? '';
+
     return WillPopScope(
       onWillPop: () async {
         if (navigationStack.length > 1) {
@@ -106,7 +98,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           onTapHome: () => onTap(0),
           onTapQbank: () => onTap(1),
           ontapVault: () => onTap(2),
-          onTapMarketplace: () => _launchURL(username,hashedPassword),
+          onTapMarketplace: () => _launchURL(appToken),
           onTapProfile: () => onTap(4),
         ),
       ),
@@ -126,5 +118,4 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       });
     }
   }
-
 }

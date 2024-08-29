@@ -162,11 +162,12 @@ class AuthProvider extends ChangeNotifier {
   GoogleSignInAccount? _googleUser;
   GoogleSignInAccount get googleUser => _googleUser!;
 
-  Future<Map<String, dynamic>> login(String email, String password) async {
+  Future<Map<String, dynamic>> login(String email, String password, bool isApp) async {
     Map<String, Object?> result;
     final Map<String, dynamic> loginData = {
       "username": email,
       "password": password,
+      "isApp": isApp
     };
     _loggedInStatus = Status.Authenticating;
     notifyListeners();
@@ -314,14 +315,14 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> signup(
-      String email, String password, String fullName) async {
+      String email, String password, String fullName, {bool appUser = false}) async {
     Map<String, Object?> result;
     final Map<String, dynamic> signupData = {
       "fullname": fullName,
       "username": email,
       "password": password,
+      "appUser": appUser,
     };
-
 
     _signUpStatus = Status.Authenticating;
     notifyListeners();
@@ -334,7 +335,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
         if (responseData["success"] == true) {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
 
@@ -370,6 +371,7 @@ class AuthProvider extends ChangeNotifier {
 
     return result;
   }
+
 
   Future<Map<String, dynamic>> requiredOnboarding({
     required String username,
@@ -533,7 +535,8 @@ class AuthProvider extends ChangeNotifier {
         "username": googleUser.email,
         "fullname": googleUser.displayName.toString(),
         "picture": googleUser.photoUrl.toString(),
-        "token": googleAuth.accessToken.toString()
+        "token": googleAuth.accessToken.toString(),
+        "appUser": true
       };
 
       try {

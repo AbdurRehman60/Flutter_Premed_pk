@@ -7,38 +7,16 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../providers/user_provider.dart';
 
 class ThankyouScreen extends StatefulWidget {
-  const ThankyouScreen({super.key, this.password});
-
-  final String? password;
+  const ThankyouScreen({super.key});
 
   @override
   State<ThankyouScreen> createState() => _ThankyouScreenState();
 }
 
 class _ThankyouScreenState extends State<ThankyouScreen> {
-  String encrypt(String text, String key) {
-    final textBytes = utf8.encode(text);
-    final keyBytes = utf8.encode(key);
-    final encryptedBytes = List<int>.generate(textBytes.length, (i) {
-      return textBytes[i] ^ keyBytes[i % keyBytes.length];
-    });
-
-    return base64Url.encode(encryptedBytes);
-  }
-
-  String decrypt(String encryptedText, String key) {
-    final encryptedBytes = base64Url.decode(encryptedText);
-    final keyBytes = utf8.encode(key);
-    final decryptedBytes = List<int>.generate(encryptedBytes.length, (i) {
-      return encryptedBytes[i] ^ keyBytes[i % keyBytes.length];
-    });
-
-    return utf8.decode(decryptedBytes);
-  }
-
-  Future<void> _launchURL(String username, String encryptedPassword) async {
+  Future<void> _launchURL(String appToken) async {
     final url =
-        'https://premed.pk/app-redirect?username="$username"&&password="$encryptedPassword"==&&route="pricing/all"';
+        'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -49,11 +27,9 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
-    final String username = userProvider.user?.userName ?? '';
-    final String password = widget.password ?? '';
-    final String encryptedPassword = encrypt(password, 'PreMedIsNotParho');
+    final String appToken = userProvider.user?.info.appToken?? '';
 
-    print("Username: $username, Password: ${widget.password}, Encrypted Password: $encryptedPassword");
+    print("AppToken: $appToken");
 
     return WillPopScope(
       onWillPop: () async {
@@ -107,10 +83,10 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MainNavigationScreen(userPassword: password),
+                        builder: (context) => MainNavigationScreen(),
                       ),
                     );
-                    _launchURL(username, encryptedPassword);
+                    _launchURL(appToken);
                   },
                 ),
               ),
