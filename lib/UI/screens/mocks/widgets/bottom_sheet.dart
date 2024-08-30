@@ -39,7 +39,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     final category = widget.category ?? '';
     final deckGroup = widget.deckGroup.deckGroupName;
     final deckName = widget.deckGroup.deckItems[index].deckName;
-
     try {
       await Provider.of<DeckProvider>(context, listen: false)
           .fetchDeckInformation(category, deckGroup, deckName, userId!);
@@ -66,7 +65,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     final accessTags = Provider.of<UserProvider>(context, listen: false).getTags();
     print("These are the access tags $accessTags");
     final preMedPro = context.read<PreMedProvider>();
-
     return SizedBox(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.70,
@@ -98,7 +96,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       color: Colors.white,
                     ),
                     child: ListTile(
-
                       leading: GetLogo(url: widget.deckGroup.deckItems[index].deckLogo),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,11 +110,33 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                             ),
                           ),
                           SizedBoxes.verticalTiny,
-                          if (widget.deckGroup.deckItems[index].premiumTag != null)
+                          if (widget.deckGroup.deckItems[index].isTutorModeFree == true ||
+                              widget.deckGroup.deckItems[index].premiumTag == null ||
+                              widget.deckGroup.deckItems[index].premiumTag!.isEmpty)
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                                color: PreMedColorTheme().greenL,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Free',
+                                  style: PreMedTextTheme().body.copyWith(
+                                    color: PreMedColorTheme().white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            )
+                          else
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Provider.of<PreMedProvider>(context, listen: false).isPreMed
+                                    ? PreMedColorTheme().red
+                                    : PreMedColorTheme().blue,
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -130,9 +149,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                   ),
                                 ),
                               ),
-                            )
-                          else
-                            const SizedBox(),
+                            ),
                         ],
                       ),
                       trailing: IconButton(
@@ -142,8 +159,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           size: 20,
                         ),
                         onPressed: () async {
-                          if (_hasAccess(widget.deckGroup.deckItems[index].premiumTag, accessTags)) {
-
+                          if (_hasAccess(widget.deckGroup.deckItems[index].premiumTag, accessTags, widget.deckGroup.deckItems[index].isTutorModeFree)) {
                             setState(() {
                               selectedDeckItemIndex = index;
                             });
@@ -173,8 +189,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     );
   }
 
-  bool _hasAccess(String? premiumTag, Object? accessTags) {
-    if (premiumTag == null) {
+  bool _hasAccess(String? premiumTag, Object? accessTags, bool? isTutorModeFree) {
+    if (isTutorModeFree == true || premiumTag == null || premiumTag.isEmpty) {
       return true;
     }
 
@@ -238,6 +254,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
               'questions': '2',
               'timedTestMinutes': widget.deckGroup.deckItems[selectedDeckItemIndex].timesTestminutes,
             },
+            premiumtag: widget.deckGroup.deckItems[selectedDeckItemIndex].premiumTag ?? '',
             deckGroupName: widget.category ?? '',
           ),
         ),
@@ -442,4 +459,3 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     }
   }
 }
-

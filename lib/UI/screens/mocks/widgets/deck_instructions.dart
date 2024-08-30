@@ -13,7 +13,8 @@ class DeckInstructions extends StatefulWidget {
     super.key,
     required this.deckInstructions,
     required this.deckGroup,
-    required this.selectedIndex, required this.subject,
+    required this.selectedIndex,
+    required this.subject,
   });
 
   final String deckInstructions;
@@ -27,6 +28,7 @@ class DeckInstructions extends StatefulWidget {
 
 class _DeckInstructionsState extends State<DeckInstructions> {
   String cleanInstructions = '';
+  String selectedMode = 'TestMode'; // Default mode
 
   List<String> getInstructionLines() {
     return widget.deckInstructions.split('\n');
@@ -42,6 +44,7 @@ class _DeckInstructionsState extends State<DeckInstructions> {
   @override
   Widget build(BuildContext context) {
     final selectedDeckItem = widget.deckGroup.deckItems[widget.selectedIndex];
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
@@ -138,46 +141,22 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                                 final userId = userProvider.user?.userId ?? '';
 
                                 if (userId.isNotEmpty) {
-                                  final attemptModel = CreateDeckAttemptModel(
-                                    deckName: selectedDeckItem.deckName,
-                                    attemptMode: 'testmode',
-                                    user: userId,
-                                  );
-                                  print(userId);
-                                  final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
-                                  await deckAttemptProvider.createDeckAttempt(attemptModel);
-
-                                  if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
-                                    final attemptId = deckAttemptProvider.attemptId;
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => TestInterface(
-                                          isContinuingAttempt: false,
-                                          subject: widget.subject,
-                                          deckName: selectedDeckItem.deckName,
-                                          attemptId: attemptId,
-                                        ),
-                                      ),
-                                    );
-                                  } else {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text('Error'),
-                                          content: Text(deckAttemptProvider.responseMessage ?? 'Unknown error occurred'),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('OK'),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
+                                  if (selectedMode == 'TutorMode') {
+                                    if (selectedDeckItem.isTutorModeFree ?? false) {
+                                      _startTest(context, selectedDeckItem, userId);
+                                    } else if (_hasAccess(selectedDeckItem.premiumTag, userProvider.getTags())) {
+                                      _startTest(context, selectedDeckItem, userId);
+                                    } else {
+                                      _showPurchasePopup(context);
+                                    }
+                                  } else if (selectedMode == 'TestMode') {
+                                    if (selectedDeckItem.premiumTag == null || selectedDeckItem.premiumTag!.isEmpty) {
+                                      _startTest(context, selectedDeckItem, userId);
+                                    } else if (_hasAccess(selectedDeckItem.premiumTag, userProvider.getTags())) {
+                                      _startTest(context, selectedDeckItem, userId);
+                                    } else {
+                                      _showPurchasePopup(context);
+                                    }
                                   }
                                 }
                               },
@@ -228,6 +207,100 @@ class _DeckInstructionsState extends State<DeckInstructions> {
           ),
         ),
       ),
+    );
+  }
+
+  void _startTest(BuildContext context, DeckItem selectedDeckItem, String userId) async {
+    final attemptModel = CreateDeckAttemptModel(
+      deckName: selectedDeckItem.deckName,
+      attemptMode: selectedMode.toLowerCase(),
+      user: userId,
+    );
+    final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+    await deckAttemptProvider.createDeckAttempt(attemptModel);
+
+    if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
+      final attemptId = deckAttemptProvider.attemptId;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TestInterface(
+            isContinuingAttempt: false,
+            subject: widget.subject,
+            deckName: selectedDeckItem.deckName,
+            attemptId: attemptId,
+          ),
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: Text(deckAttemptProvider.responseMessage ?? 'Unknown error occurred'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  bool _hasAccess(String? premiumTag, Object? accessTags) {
+    if (premiumTag == null || premiumTag.isEmpty) {
+      return true;
+    }
+
+    final List<String> mdcatTags = ['MDCAT-Topicals', 'MDCAT-Yearly'];
+    final List<String> numsTags = ['NUMS-Topicals', 'NUMS-Yearly'];
+    final List<String> privTags = ['AKU-Topicals', 'AKU-Yearly'];
+
+    if (accessTags is List<dynamic>) {
+      for (final access in accessTags) {
+        if (access is Map<String, dynamic>) {
+          print('Comparing premiumTag: $premiumTag with access name: ${access['name']}');
+
+          if (access['name'] == premiumTag) {
+            return true;
+          }
+          if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
+              (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
+              (premiumTag == 'AKU-QBank' && privTags.contains(access['name'])))  {
+            print('Match found: Yes');
+            return true;
+          }
+        }
+      }
+    }
+
+    print('Match found: No');
+    return false;
+  }
+
+  void _showPurchasePopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Purchase Required"),
+          content: const Text("You need to purchase the required bundle to access this content."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

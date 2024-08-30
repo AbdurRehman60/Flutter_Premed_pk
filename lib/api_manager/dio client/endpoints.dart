@@ -134,6 +134,7 @@ class Endpoints {
 
   static const String attemptPoints =
       'https://prodapi.premed.pk/api/attempts/get-latest-attempt';
+
 //vaultEndpoints
   //preMedical =>
   static const String TopicalNotes =
@@ -151,7 +152,6 @@ class Endpoints {
   static const String Mnemonics =
       '/api/mnemonics/getAll/ENTRANCE EXAM/PRE-MEDICAL';
 
-
   //preEngineering =>
   static const String EngineeringStudyNotes =
       '/api/vault/notes/get/ENTRANCE EXAM/PRE-ENGINEERING';
@@ -159,7 +159,6 @@ class Endpoints {
       '/api/essential/get/ENTRANCE EXAM/PRE-ENGINEERING';
 
   //VaultEnded
-  static const String handleCards ='/api/flashcard/handleFlashcards';
+  static const String handleCards = '/api/flashcard/handleFlashcards';
   static const String SavedQuestions = '/api/saveQuestion/get-saved-questions';
-
 }

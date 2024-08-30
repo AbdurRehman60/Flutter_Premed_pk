@@ -13,11 +13,13 @@ class TestModeInterface extends StatefulWidget {
     required this.deckDetails,
     required this.deckGroupName,
     required this.subject,
+    required this.premiumtag,
   });
 
   final Map<String, dynamic> deckDetails;
   final String deckGroupName;
   final String subject;
+  final String premiumtag;
 
   @override
   State<TestModeInterface> createState() => _TestModeInterfaceState();
@@ -45,10 +47,10 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
 
   @override
   Widget build(BuildContext context) {
+
     final instructions = widget.deckDetails['deckInstructions'] != null
         ? htmlParser.parse(widget.deckDetails['deckInstructions']).body!.text
         : '';
-
     final sentences = instructions.split('.').where((sentence) => sentence.trim().isNotEmpty).toList();
     final pro = Provider.of<PreMedProvider>(context);
     return Scaffold(
@@ -228,6 +230,7 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                   deckName: widget.deckDetails['deckName'],
                   mode: tutorModeButton,
                   timedTestMinutes: widget.deckDetails['timedTestMinutes'],
+                  premiumTag: widget.premiumtag,
                 ),
                 SizedBoxes.verticalBig,
                 if(instructions.isNotEmpty)
