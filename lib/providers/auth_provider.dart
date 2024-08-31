@@ -241,7 +241,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       final response = await _client.get(Endpoints.getLoggedInUser);
       final responseData =
-          response is Map<String, dynamic> ? response : response.data;
+      response is Map<String, dynamic> ? response : response.data;
 
       if (responseData["isloggedin"] == true) {
         final User user = User.fromJson(responseData);
@@ -249,52 +249,60 @@ class AuthProvider extends ChangeNotifier {
 
         UserProvider().user = user;
 
-        if (responseData.containsKey("lastOnboardingPage")) {
-          final lastOnboardingPage = responseData["lastOnboardingPage"];
+        final String? accountType = user.accountType;
 
-          if (lastOnboardingPage == "/auth/onboarding") {
-            result = {
-              'status': true,
-              'message': "OnboardingOne",
-            };
-          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam") {
-            result = {
-              'status': true,
-              'message': "EntryTest",
-            };
-          } else if (lastOnboardingPage ==
-                  "/auth/onboarding/entrance-exam/pre-medical" ||
-              lastOnboardingPage ==
-                  "/auth/onboarding/entrance-exam/pre-engineering") {
-            result = {
-              'status': true,
-              'message': "RequiredOnboarding",
-            };
-          } else if (lastOnboardingPage ==
-                  "/auth/onboarding/entrance-exam/pre-medical/features" ||
-              lastOnboardingPage ==
-                  "/auth/onboarding/entrance-exam/pre-engineering/features") {
-            result = {
-              'status': true,
-              'message': "OptionalOnboarding",
-            };
-          } else if (lastOnboardingPage ==
-              "/auth/onboarding/entrance-exam/pre-medical/features/additional-info") {
+        if (accountType == "google" && responseData['lastOnboardingPage'] != null) {
+          result = {
+            'status': true,
+            'message': "OnboardingOne",
+          };
+        } else {
+          if (responseData.containsKey("lastOnboardingPage")) {
+            final lastOnboardingPage = responseData["lastOnboardingPage"];
+            if (lastOnboardingPage == "/auth/onboarding") {
+              result = {
+                'status': true,
+                'message': "OnboardingOne",
+              };
+            } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam") {
+              result = {
+                'status': true,
+                'message': "EntryTest",
+              };
+            } else if (lastOnboardingPage ==
+                "/auth/onboarding/entrance-exam/pre-medical" ||
+                lastOnboardingPage ==
+                    "/auth/onboarding/entrance-exam/pre-engineering") {
+              result = {
+                'status': true,
+                'message': "RequiredOnboarding",
+              };
+            } else if (lastOnboardingPage ==
+                "/auth/onboarding/entrance-exam/pre-medical/features" ||
+                lastOnboardingPage ==
+                    "/auth/onboarding/entrance-exam/pre-engineering/features") {
+              result = {
+                'status': true,
+                'message': "OptionalOnboarding",
+              };
+            } else if (lastOnboardingPage ==
+                "/auth/onboarding/entrance-exam/pre-medical/features/additional-info") {
+              result = {
+                'status': true,
+                'message': "home",
+              };
+            } else {
+              result = {
+                'status': true,
+                'message': "unknown",
+              };
+            }
+          } else {
             result = {
               'status': true,
               'message': "home",
             };
-          } else {
-            result = {
-              'status': true,
-              'message': "unknown",
-            };
           }
-        } else {
-          result = {
-            'status': true,
-            'message': "home",
-          };
         }
       } else {
         result = {
@@ -536,7 +544,9 @@ class AuthProvider extends ChangeNotifier {
         "fullname": googleUser.displayName.toString(),
         "picture": googleUser.photoUrl.toString(),
         "token": googleAuth.accessToken.toString(),
-        "appUser": true
+        "appUser": true,
+        "token": googleAuth.accessToken.toString(),
+
       };
 
       try {

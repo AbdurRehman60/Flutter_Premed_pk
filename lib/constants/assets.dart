@@ -48,6 +48,7 @@ class PremedAssets {
   static String onboardingnums = 'assets/icons/NUMS 1.png';
   static String onboardingmdcat = 'assets/icons/MDCAT 2024.png';
   static String AHScartoon = 'assets/images/AHS.png';
+  static String emptySQ = 'assets/icons/slashed.png';
 
 
 

@@ -1,3 +1,4 @@
+import 'package:premedpk_mobile_app/UI/screens/Login/login_screen_one.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/account_before_edit.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/change_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/contact_us.dart';
@@ -33,7 +34,7 @@ class Account extends StatelessWidget {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const LoginScreen(),
+                builder: (context) => const SignIn(),
               ),
             );
           } else {

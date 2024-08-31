@@ -38,7 +38,7 @@ class _EngineeringDashboardScreenState
   late UserStatModel userStatModel;
   String subjectPercentage(String subject) {
     final enteredSubject = userStatModel.subjectAttempts.firstWhere(
-      (subjectAttempt) => subjectAttempt.subject == subject,
+          (subjectAttempt) => subjectAttempt.subject == subject,
       orElse: () => SubjectAttempt(
         subject: subject,
         totalQuestionsAttempted: 0,
@@ -50,8 +50,8 @@ class _EngineeringDashboardScreenState
       return '0';
     }
     final subjectPercentage = ((enteredSubject.totalQuestionsAttempted /
-                userStatModel.totalQuestionAttempted) *
-            100)
+        userStatModel.totalQuestionAttempted) *
+        100)
         .toStringAsFixed(0);
     return subjectPercentage;
   }
@@ -75,7 +75,7 @@ class _EngineeringDashboardScreenState
     final screenHeight = MediaQuery.of(context).size.height;
 
     final UserStatProvider userStatProvider =
-        Provider.of<UserStatProvider>(context, listen: false);
+    Provider.of<UserStatProvider>(context, listen: false);
     userStatProvider.fetchUserStatistics('');
     return Scaffold(
       backgroundColor: PreMedColorTheme().background,
@@ -114,10 +114,10 @@ class _EngineeringDashboardScreenState
                         Text(
                           "Let's resume our journey!",
                           style: PreMedTextTheme().body.copyWith(
-                                fontSize: 17,
-                                color: PreMedColorTheme().coolBlue,
-                                fontWeight: FontWeight.w700,
-                              ),
+                            fontSize: 17,
+                            color: PreMedColorTheme().coolBlue,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ],
                     ),
@@ -192,7 +192,7 @@ class _EngineeringDashboardScreenState
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  const SavedQuestionScreenEng(),
+                              const SavedQuestionScreenEng(),
                             ));
                       },
                     ),
@@ -218,17 +218,17 @@ class _EngineeringDashboardScreenState
               SizedBoxes.vertical15Px,
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.043,),
+                  horizontal: screenWidth * 0.043,),
                 child: Material(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white),
-                          boxShadow: CustomBoxShadow.boxShadow40,
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: const EngineeringTimer(),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white),
+                        boxShadow: CustomBoxShadow.boxShadow40,
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: const EngineeringTimer(),
                     // const TimerWidget()
                   ),
                 ),
@@ -241,81 +241,10 @@ class _EngineeringDashboardScreenState
                   isPreMed: false,
                 ),
               ),
-              const SizedBox(height: 8,),
-              // Padding(
-              //   padding: EdgeInsets.symmetric(
-              //     horizontal: screenWidth * 0.03,
-              //   ),
-              //   child: GestureDetector(
-              //     onTap: () {
-              //       Navigator.of(context).push(
-              //         MaterialPageRoute(
-              //           builder: (context) => const NotificationPage(),
-              //         ),
-              //       );
-              //     },
-              //     child: Card(
-              //       shape: RoundedRectangleBorder(
-              //           borderRadius: BorderRadius.circular(15)),
-              //       elevation: 5,
-              //       child: Stack(
-              //         children: [
-              //           Container(
-              //             width: double.infinity,
-              //             padding: EdgeInsets.symmetric(
-              //                 horizontal: screenWidth * 0.03, vertical: 35),
-              //             child: Row(
-              //               children: [
-              //                 Image.asset(
-              //                   'assets/images/Bell Icon.png',
-              //                   height: 40,
-              //                 ),
-              //                 const SizedBox(width: 16.0),
-              //                 Column(
-              //                   crossAxisAlignment: CrossAxisAlignment.start,
-              //                   children: [
-              //                     Text('Notifications',
-              //                         style: PreMedTextTheme()
-              //                             .headline
-              //                             .copyWith(
-              //                                 fontSize: MediaQuery.of(context)
-              //                                         .size
-              //                                         .width *
-              //                                     0.035,
-              //                                 fontWeight: FontWeight.w800)),
-              //                     const SizedBox(height: 4.0),
-              //                     Text('News, and Updates',
-              //                         style: PreMedTextTheme()
-              //                             .headline
-              //                             .copyWith(
-              //                                 fontSize: 12,
-              //                                 fontWeight: FontWeight.normal)),
-              //                   ],
-              //                 ),
-              //               ],
-              //             ),
-              //           ),
-              //           Positioned(
-              //             right: 20,
-              //             top: 20,
-              //             child: Container(
-              //               width: 10,
-              //               height: 10,
-              //               decoration: const BoxDecoration(
-              //                 color: Colors.red,
-              //                 shape: BoxShape.circle,
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: screenWidth * 0.045,
-                    vertical: screenHeight * 0.017),
+                    vertical: screenHeight * 0.009),
                 child: Container(
                   width: screenWidth * 7,
                   height: screenHeight * 0.32,
@@ -665,11 +594,3 @@ class _EngineeringDashboardScreenState
     );
   }
 }
-
-//notification to be removed
-//view all should be blue
-// recent activity image should be blue
-// arrow should be blue
-// pop up button change
-//statistics screen revamp
-//  profile icon to be blur

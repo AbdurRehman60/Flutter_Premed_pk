@@ -35,7 +35,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late UserStatModel userStatModel;
   String subjectPercentage(String subject) {
     final enteredSubject = userStatModel.subjectAttempts.firstWhere(
-      (subjectAttempt) => subjectAttempt.subject == subject,
+          (subjectAttempt) => subjectAttempt.subject == subject,
       orElse: () => SubjectAttempt(
         subject: subject,
         totalQuestionsAttempted: 0,
@@ -47,8 +47,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return '0';
     }
     final subjectPercentage = ((enteredSubject.totalQuestionsAttempted /
-                userStatModel.totalQuestionAttempted) *
-            100)
+        userStatModel.totalQuestionAttempted) *
+        100)
         .toStringAsFixed(0);
     return subjectPercentage;
   }
@@ -70,7 +70,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final UserStatProvider userStatProvider =
-        Provider.of<UserStatProvider>(context, listen: false);
+    Provider.of<UserStatProvider>(context, listen: false);
     userStatProvider.fetchUserStatistics(context);
     return Scaffold(
       backgroundColor: PreMedColorTheme().background,
@@ -98,27 +98,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       fontWeight: FontWeight.w700,
                                       fontSize: 26));
                             } else {
-                              return GestureDetector(
-                                onTap: (){
-                                 final userProvider  = Provider.of<UserProvider>(context,listen: false);
-                                 final page = userProvider.user?.info.lastOnboardingPage;
-                                 print('onBoardingPage : $page');
-                                },
-                                child: Text('Hi, ${userProvider.getUserName()}',
-                                    style: PreMedTextTheme().heading4.copyWith(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 28)),
-                              );
+                              return Text('Hi, ${userProvider.getUserName()}',
+                                  style: PreMedTextTheme().heading4.copyWith(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 28));
                             }
                           },
                         ),
                         Text(
                           "Let's resume our journey!",
                           style: PreMedTextTheme().body.copyWith(
-                                fontSize: 17,
-                                color: PreMedColorTheme().red,
-                                fontWeight: FontWeight.w700,
-                              ),
+                            fontSize: 17,
+                            color: PreMedColorTheme().red,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ],
                     ),
@@ -205,7 +198,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     FlashCard(
                       bgColor: PreMedColorTheme().white85,
                       icon: PremedAssets.Flashcards,
-                      text1: 'Flashcards',
+                      text1: 'Saved Facts',
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
@@ -232,8 +225,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15)),
                       child: const TimerClass()
-                      // const TimerWidget()
-                      ),
+                    // const TimerWidget()
+                  ),
                 ),
               ),
               Padding(
@@ -270,10 +263,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     children: [
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 10),
+                                        const EdgeInsets.only(left: 10),
                                         child: Image.asset(
                                           Provider.of<PreMedProvider>(context)
-                                                  .isPreMed
+                                              .isPreMed
                                               ? PremedAssets.graph
                                               : PremedAssets.BlueGraph,
                                           width: 50,
@@ -285,7 +278,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             top: 10, left: 2, bottom: 7),
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               "Statistics",
@@ -324,42 +317,42 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       height: screenHeight * 0.18,
                                       decoration: BoxDecoration(
                                         borderRadius:
-                                            BorderRadius.circular(20),
+                                        BorderRadius.circular(20),
                                         boxShadow:
-                                            CustomBoxShadow.boxShadow40,
+                                        CustomBoxShadow.boxShadow40,
                                       ),
                                       child: MaterialCard(
                                         height: screenHeight * 0.18,
                                         width: screenWidth,
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                           children: [
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              MainAxisAlignment
+                                                  .spaceBetween,
                                               children: [
                                                 StatDetailHolder(
                                                   textColor:
-                                                      PreMedColorTheme()
-                                                          .greenLight,
+                                                  PreMedColorTheme()
+                                                      .greenLight,
                                                   count: 0,
                                                   details: 'Decks\nAttempted',
                                                 ),
                                                 StatDetailHolder(
                                                   textColor:
-                                                      PreMedColorTheme().red,
+                                                  PreMedColorTheme().red,
                                                   count: 0,
                                                   details: 'Test\nAttempted',
                                                 ),
                                                 StatDetailHolder(
                                                   textColor:
-                                                      PreMedColorTheme()
-                                                          .yellowlight,
+                                                  PreMedColorTheme()
+                                                      .yellowlight,
                                                   count: 0,
                                                   details:
-                                                      'Practice Tests\nAttempted',
+                                                  'Practice Tests\nAttempted',
                                                 ),
                                               ],
                                             ),
@@ -380,7 +373,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       padding: const EdgeInsets.only(left: 10),
                                       child: Image.asset(
                                         Provider.of<PreMedProvider>(context)
-                                                .isPreMed
+                                            .isPreMed
                                             ? PremedAssets.graph
                                             : PremedAssets.BlueGraph,
                                         width: 50,
@@ -392,7 +385,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           top: 10, left: 2, bottom: 7),
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "Statistics",
@@ -417,7 +410,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                const StatisticsScreen(),
+                                            const StatisticsScreen(),
                                           ),
                                         );
                                       },
@@ -445,11 +438,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       width: screenWidth,
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                             children: [
                                               StatDetailHolder(
                                                 textColor: PreMedColorTheme()
@@ -460,9 +453,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               ),
                                               StatDetailHolder(
                                                 textColor:
-                                                    PreMedColorTheme().red,
+                                                PreMedColorTheme().red,
                                                 count:
-                                                    userStatModel.testAttempted,
+                                                userStatModel.testAttempted,
                                                 details: 'Test\nAttempted',
                                               ),
                                               StatDetailHolder(
@@ -471,7 +464,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                 count: userStatModel
                                                     .paracticeTestAttempted,
                                                 details:
-                                                    'Practice Tests\nAttempted',
+                                                'Practice Tests\nAttempted',
                                               ),
                                             ],
                                           ),
@@ -491,7 +484,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       padding: const EdgeInsets.only(left: 10),
                                       child: Image.asset(
                                         Provider.of<PreMedProvider>(context)
-                                                .isPreMed
+                                            .isPreMed
                                             ? PremedAssets.graph
                                             : PremedAssets.BlueGraph,
                                         width: 50,
@@ -503,7 +496,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           top: 10, left: 2, bottom: 7),
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "Statistics",
@@ -549,11 +542,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       width: screenWidth,
                                       child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                             children: [
                                               StatDetailHolder(
                                                 textColor: PreMedColorTheme()
@@ -563,7 +556,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               ),
                                               StatDetailHolder(
                                                 textColor:
-                                                    PreMedColorTheme().red,
+                                                PreMedColorTheme().red,
                                                 count: 0,
                                                 details: 'Test\nAttempted',
                                               ),
@@ -572,7 +565,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                     .yellowlight,
                                                 count: 0,
                                                 details:
-                                                    'Practice Tests\nAttempted',
+                                                'Practice Tests\nAttempted',
                                               ),
                                             ],
                                           ),

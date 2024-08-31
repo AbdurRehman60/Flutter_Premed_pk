@@ -20,15 +20,26 @@ class QBankHome extends StatefulWidget {
 }
 
 class _QBankHomeState extends State<QBankHome> {
-  void showComingSoonSnackbar(BuildContext context) {
-    const snackBar = SnackBar(
-      content: Text('Coming Soon'),
-      duration: Duration(seconds: 2),
+  Future<void> showComingSoonSnackbar(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Coming Soon!"),
+          content: const Text(
+              "We are working on this, come back later for updates."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Close"),
+            ),
+          ],
+        );
+      },
     );
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-
   @override
   Widget build(BuildContext context) {
     final pro = context.watch<PreMedProvider>();
@@ -69,8 +80,8 @@ class _QBankHomeState extends State<QBankHome> {
                     MaterialPageRoute(
                       builder: (context) => pro.isPreMed
                           ? const GlobalQbank(
-                              isTopical: true,
-                            )
+                        isTopical: true,
+                      )
                           : const EngChapterWiseHome(),
                     ),
                   );
@@ -83,13 +94,13 @@ class _QBankHomeState extends State<QBankHome> {
                   onTap: () {
                     pro.isPreMed
                         ? Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const GlobalQbank(
-                                isTopical: false,
-                              ),
-                            ),
-                          )
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const GlobalQbank(
+                          isTopical: false,
+                        ),
+                      ),
+                    )
                         : showComingSoonSnackbar(context);
                   },
                   imageAddress: PremedAssets.PastPapers),
@@ -99,10 +110,10 @@ class _QBankHomeState extends State<QBankHome> {
                 onTap: () {
                   pro.isPreMed
                       ? Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MocksQbank()),
-                        )
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MocksQbank()),
+                  )
                       : showComingSoonSnackbar(context);
                 },
                 imageAddress: PremedAssets.Mocks,
@@ -113,14 +124,14 @@ class _QBankHomeState extends State<QBankHome> {
                 onTap: () {
                   pro.isPreMed
                       ? Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MedTestSessionHome()))
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MedTestSessionHome()))
                       : Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const EngTestSessionHome()));
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                          const EngTestSessionHome()));
                 },
                 imageAddress: PremedAssets.TestSession,
               ),

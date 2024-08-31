@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -38,39 +37,36 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
 
     await questionProvider.fetchQuestions(deckName, 1);
 
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
-    final questions = questionProvider.fetchQuestions(deckName, 1);
-    if (questions != null) {
-      final startFrom = startFromQuestion >= 0 ? startFromQuestion : 0;
-      final attemptIdValue = attemptId ?? recentAttempt.attempts?.id;
+    final startFrom = startFromQuestion >= 0 ? startFromQuestion : 0;
+    final attemptIdValue = attemptId ?? recentAttempt.attempts?.id;
 
-      if (attemptIdValue != null) {
-        if (recentAttempt.mode == 'TESTMODE') {
-          _navigateToTestInterface(
-            deckName,
+    if (attemptIdValue != null) {
+      if (recentAttempt.mode == 'TESTMODE') {
+        _navigateToTestInterface(
+          deckName,
+          startFromQuestion: startFrom,
+          attemptId: attemptIdValue,
+          subject: recentAttempt.attempts?.attempts?.last.subject ?? '',
+        );
+      } else {
+        _navigateToTutorInterface(deckName,
             startFromQuestion: startFrom,
             attemptId: attemptIdValue,
-            subject: recentAttempt.attempts?.attempts?.last.subject ?? '',
-          );
-        } else {
-          _navigateToTutorInterface(deckName,
-              startFromQuestion: startFrom,
-              attemptId: attemptIdValue,
-              subject: recentAttempt.attempts?.attempts?.last.subject ?? '');
-        }
-      } else {
-        print('Error: Attempt ID is null');
+            subject: recentAttempt.attempts?.attempts?.last.subject ?? '');
       }
     } else {
-      print('Error: Questions list is null');
+      print('Error: Attempt ID is null');
     }
-  }
+    }
 
-  void _restartAttempt(
+  Future<void> _restartAttempt(
       BuildContext context, RecentAttempt recentAttempt) async {
     setState(() {
-      isContinuingAttempt = false; // Ensure it's set to false
+      isContinuingAttempt = false;
     });
     final questionProvider =
     Provider.of<QuestionProvider>(context, listen: false);
@@ -79,24 +75,17 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
     if (recentAttempt.mode == 'TESTMODE') {
       _navigateToTestInterface(
         recentAttempt.deckName!,
-        attemptId: 'no ID', //// Kee// p the attempt ID if needed for tracking
+        attemptId: 'no ID',
         subject: recentAttempt.attempts?.attempts?.first.subject ?? '',
-        startFromQuestion: 0, // Ensure it starts from the first question
       );
     } else {
       _navigateToTutorInterface(
         recentAttempt.deckName!,
-        attemptId: 'no ID', //// Kee// p the attempt ID if needed for tracking
+        attemptId: 'no ID',
         subject: recentAttempt.attempts?.attempts?.first.subject ?? '',
-        startFromQuestion: 0, // Ensure it starts from the first question
       );
     }
   }
-
-  void _reviewAnswers(BuildContext context, RecentAttempt recentAttempt) {
-    print('Reviewing answers for deck: ${recentAttempt.deckName}');
-  }
-
   void _navigateToTestInterface(
       String deckName, {
         required String attemptId,
@@ -169,7 +158,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
 
   double _calculateProgress(RecentAttempt attempt) {
     if (attempt.totalQuestions != null && attempt.totalQuestions! > 0) {
-      return (attempt.totalAttempts! / attempt.totalQuestions!.toDouble());
+      return attempt.totalAttempts! / attempt.totalQuestions!.toDouble();
     }
     return 0.0;
   }
@@ -279,7 +268,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    String formattedDate = widget.date != null
+    final String formattedDate = widget.date != null
         ? DateFormat('d MMMM yyyy').format(DateTime.parse(widget.date!))
         : '';
     final screenWidth = MediaQuery.of(context).size.width;

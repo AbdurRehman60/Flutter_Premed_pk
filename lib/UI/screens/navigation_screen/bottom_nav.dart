@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 class PremedBottomNav extends StatelessWidget {
   const PremedBottomNav(
       {super.key,
-      required this.currentIndex,
-      required this.onTapHome,
-      required this.onTapMarketplace,
-      required this.onTapQbank,
-      required this.ontapVault,
-      required this.onTapProfile});
+        required this.currentIndex,
+        required this.onTapHome,
+        required this.onTapMarketplace,
+        required this.onTapQbank,
+        required this.ontapVault,
+        required this.onTapProfile});
 
   final int currentIndex;
   final VoidCallback onTapHome;
@@ -103,6 +103,7 @@ class _BottomNavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Expanded(
       child: InkWell(
         onTap: onTap,
@@ -117,14 +118,15 @@ class _BottomNavBarItem extends StatelessWidget {
                 height: height,
                 color: isSelected
                     ? (Provider.of<PreMedProvider>(context).isPreMed
-                        ? PreMedColorTheme().primaryColorRed
-                        : PreMedColorTheme().blue)
+                    ? PreMedColorTheme().primaryColorRed
+                    : PreMedColorTheme().blue)
                     : PreMedColorTheme().neutral300,
               ),
               const SizedBox(height: 4),
               Text(
                 label,
                 style: PreMedTextTheme().small.copyWith(
+                    fontSize: screenWidth * 0.022,
                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400),
                 textAlign: TextAlign.center,
               ),
@@ -153,6 +155,7 @@ class _MainBottomNavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -174,9 +177,10 @@ class _MainBottomNavBarItem extends StatelessWidget {
                 Text(
                   label,
                   style: PreMedTextTheme().small.copyWith(
-                        fontWeight:
-                            isSelected ? FontWeight.w600 : FontWeight.w400,
-                      ),
+                    fontSize: screenWidth * 0.032,
+                    fontWeight:
+                    isSelected ? FontWeight.w600 : FontWeight.w400,
+                  ),
                 )
               ],
             ),
