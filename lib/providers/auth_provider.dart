@@ -162,12 +162,11 @@ class AuthProvider extends ChangeNotifier {
   GoogleSignInAccount? _googleUser;
   GoogleSignInAccount get googleUser => _googleUser!;
 
-  Future<Map<String, dynamic>> login(String email, String password, bool isApp) async {
+  Future<Map<String, dynamic>> login(String email, String password) async {
     Map<String, Object?> result;
     final Map<String, dynamic> loginData = {
       "username": email,
       "password": password,
-      "isApp": isApp
     };
     _loggedInStatus = Status.Authenticating;
     notifyListeners();
@@ -180,7 +179,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData["success"]) {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
@@ -241,7 +240,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       final response = await _client.get(Endpoints.getLoggedInUser);
       final responseData =
-          response is Map<String, dynamic> ? response : response.data;
+      response is Map<String, dynamic> ? response : response.data;
 
       if (responseData["isloggedin"] == true) {
         final User user = User.fromJson(responseData);
@@ -249,52 +248,60 @@ class AuthProvider extends ChangeNotifier {
 
         UserProvider().user = user;
 
-        if (responseData.containsKey("lastOnboardingPage")) {
-          final lastOnboardingPage = responseData["lastOnboardingPage"];
+        final String? accountType = user.accountType;
 
-          if (lastOnboardingPage == "/auth/onboarding") {
-            result = {
-              'status': true,
-              'message': "OnboardingOne",
-            };
-          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam") {
-            result = {
-              'status': true,
-              'message': "EntryTest",
-            };
-          } else if (lastOnboardingPage ==
-                  "/auth/onboarding/entrance-exam/pre-medical" ||
-              lastOnboardingPage ==
-                  "/auth/onboarding/entrance-exam/pre-engineering") {
-            result = {
-              'status': true,
-              'message': "RequiredOnboarding",
-            };
-          } else if (lastOnboardingPage ==
-                  "/auth/onboarding/entrance-exam/pre-medical/features" ||
-              lastOnboardingPage ==
-                  "/auth/onboarding/entrance-exam/pre-engineering/features") {
-            result = {
-              'status': true,
-              'message': "OptionalOnboarding",
-            };
-          } else if (lastOnboardingPage ==
-              "/auth/onboarding/entrance-exam/pre-medical/features/additional-info") {
+        if (accountType == "google" && responseData['lastOnboardingPage'] != null) {
+          result = {
+            'status': true,
+            'message': "OnboardingOne",
+          };
+        } else {
+          if (responseData.containsKey("lastOnboardingPage")) {
+            final lastOnboardingPage = responseData["lastOnboardingPage"];
+            if (lastOnboardingPage == "/auth/onboarding") {
+              result = {
+                'status': true,
+                'message': "OnboardingOne",
+              };
+            } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam") {
+              result = {
+                'status': true,
+                'message': "EntryTest",
+              };
+            } else if (lastOnboardingPage ==
+                "/auth/onboarding/entrance-exam/pre-medical" ||
+                lastOnboardingPage ==
+                    "/auth/onboarding/entrance-exam/pre-engineering") {
+              result = {
+                'status': true,
+                'message': "RequiredOnboarding",
+              };
+            } else if (lastOnboardingPage ==
+                "/auth/onboarding/entrance-exam/pre-medical/features" ||
+                lastOnboardingPage ==
+                    "/auth/onboarding/entrance-exam/pre-engineering/features") {
+              result = {
+                'status': true,
+                'message': "OptionalOnboarding",
+              };
+            } else if (lastOnboardingPage ==
+                "/auth/onboarding/entrance-exam/pre-medical/features/additional-info") {
+              result = {
+                'status': true,
+                'message': "home",
+              };
+            } else {
+              result = {
+                'status': true,
+                'message': "unknown",
+              };
+            }
+          } else {
             result = {
               'status': true,
               'message': "home",
             };
-          } else {
-            result = {
-              'status': true,
-              'message': "unknown",
-            };
           }
-        } else {
-          result = {
-            'status': true,
-            'message': "home",
-          };
         }
       } else {
         result = {
@@ -315,14 +322,14 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> signup(
-      String email, String password, String fullName, {bool appUser = false}) async {
+      String email, String password, String fullName) async {
     Map<String, Object?> result;
     final Map<String, dynamic> signupData = {
       "fullname": fullName,
       "username": email,
       "password": password,
-      "appUser": appUser,
     };
+
 
     _signUpStatus = Status.Authenticating;
     notifyListeners();
@@ -372,7 +379,6 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-
   Future<Map<String, dynamic>> requiredOnboarding({
     required String username,
     required String lastOnboardingPage,
@@ -420,7 +426,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData.containsKey('info') && responseData['info'] != null) {
           _info = Info.fromJson(responseData['info']);
@@ -522,11 +528,10 @@ class AuthProvider extends ChangeNotifier {
         result = {
           'status': false,
           'message': 'No Account Selected',
-        };
 
+        };
         return result;
       }
-
       _googleUser = user;
 
       final googleAuth = await googleUser.authentication;
@@ -535,8 +540,7 @@ class AuthProvider extends ChangeNotifier {
         "username": googleUser.email,
         "fullname": googleUser.displayName.toString(),
         "picture": googleUser.photoUrl.toString(),
-        "token": googleAuth.accessToken.toString(),
-        "appUser": true
+        "token": googleAuth.accessToken.toString()
       };
 
       try {
@@ -546,15 +550,14 @@ class AuthProvider extends ChangeNotifier {
         );
 
         if (response.statusCode == 200) {
-
           print('response statusCode : ${response.statusCode}');
           final Map<String, dynamic> responseData =
-              Map<String, dynamic>.from(response.data);
+          Map<String, dynamic>.from(response.data);
 
           if (responseData["success"]) {
             final Map<String, dynamic> userResponse = await getLoggedInUser();
             final SharedPreferences prefs =
-                await SharedPreferences.getInstance();
+            await SharedPreferences.getInstance();
             final String? fcmToken = prefs.getString('fcmToken');
 
             await _client.post(
@@ -562,12 +565,14 @@ class AuthProvider extends ChangeNotifier {
               data: {'fcmToken': fcmToken},
             );
 
+
             if (userResponse['status']) {
               result = {
                 'status': userResponse["status"],
                 'message': userResponse["message"],
               };
             } else {
+              print('esleCalled');
               result = {
                 'status': userResponse["status"],
                 'message': userResponse["message"],
@@ -618,7 +623,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData["success"] != null) {
           result = {
@@ -667,7 +672,7 @@ class AuthProvider extends ChangeNotifier {
             'message': "EntryTest",
           };
         } else if (lastOnboardingPage ==
-                "/auth/onboarding/entrance-exam/pre-medical" ||
+            "/auth/onboarding/entrance-exam/pre-medical" ||
             lastOnboardingPage ==
                 "/auth/onboarding/entrance-exam/pre-engineering") {
           result = {
@@ -675,7 +680,7 @@ class AuthProvider extends ChangeNotifier {
             'message': "RequiredOnboarding",
           };
         } else if (lastOnboardingPage ==
-                "/auth/onboarding/entrance-exam/pre-medical/features" ||
+            "/auth/onboarding/entrance-exam/pre-medical/features" ||
             lastOnboardingPage ==
                 "/auth/onboarding/entrance-exam/pre-engineering/features") {
           result = {

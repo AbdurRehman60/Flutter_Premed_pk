@@ -10,6 +10,7 @@ class PremedAssets {
   static String ShoppingCart = 'assets/images/shopcart.png';
   static String EsIcon = 'assets/images/eshome.png';
   static String GoogleLogo = 'assets/images/google.png';
+  static String emptySQ = 'assets/icons/slashed.png';
   static String Notfoundemptystate = 'assets/images/notfoundemptystate.png';
   static String SearchemptyState = 'assets/images/searchemptystate.png';
   static String ProvisionalGuides = 'assets/images/provisionalnotes.png';

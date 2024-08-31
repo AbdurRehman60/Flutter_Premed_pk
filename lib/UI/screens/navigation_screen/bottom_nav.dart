@@ -103,6 +103,7 @@ class _BottomNavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Expanded(
       child: InkWell(
         onTap: onTap,
@@ -125,6 +126,7 @@ class _BottomNavBarItem extends StatelessWidget {
               Text(
                 label,
                 style: PreMedTextTheme().small.copyWith(
+                  fontSize: screenWidth * 0.022,
                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400),
                 textAlign: TextAlign.center,
               ),
@@ -153,6 +155,7 @@ class _MainBottomNavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -174,6 +177,7 @@ class _MainBottomNavBarItem extends StatelessWidget {
                 Text(
                   label,
                   style: PreMedTextTheme().small.copyWith(
+                    fontSize: screenWidth * 0.032,
                         fontWeight:
                             isSelected ? FontWeight.w600 : FontWeight.w400,
                       ),

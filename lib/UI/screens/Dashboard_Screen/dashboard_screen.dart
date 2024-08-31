@@ -205,7 +205,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     FlashCard(
                       bgColor: PreMedColorTheme().white85,
                       icon: PremedAssets.Flashcards,
-                      text1: 'Flashcards',
+                      text1: 'Saved Facts',
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(

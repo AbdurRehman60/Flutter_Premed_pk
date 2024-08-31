@@ -241,7 +241,6 @@ class _EngineeringDashboardScreenState
                   isPreMed: false,
                 ),
               ),
-              const SizedBox(height: 8,),
               // Padding(
               //   padding: EdgeInsets.symmetric(
               //     horizontal: screenWidth * 0.03,
@@ -315,7 +314,7 @@ class _EngineeringDashboardScreenState
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: screenWidth * 0.045,
-                    vertical: screenHeight * 0.017),
+                    vertical: screenHeight * 0.009),
                 child: Container(
                   width: screenWidth * 7,
                   height: screenHeight * 0.32,

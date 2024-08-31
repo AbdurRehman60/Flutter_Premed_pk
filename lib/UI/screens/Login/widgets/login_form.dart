@@ -24,9 +24,6 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
-    // if (auth.loggedInStatus == Status.LoggedIn) {
-    //   showError(context, {"message": "You are already loggedIn"},);
-    // }
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
@@ -36,10 +33,9 @@ class _LoginFormState extends State<LoginForm> {
         final Future<Map<String, dynamic>> response = auth.login(
           emailController.text,
           passwordController.text,
-          true
         );
         response.then(
-          (response) {
+              (response) {
             if (response['status']) {
               Navigator.pushReplacement(
                 context,
@@ -133,10 +129,10 @@ class _LoginFormState extends State<LoginForm> {
                       child: Text(
                         'Forgot Password?',
                         style: PreMedTextTheme().subtext.copyWith(
-                              color: PreMedColorTheme().primaryColorRed,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14.5,
-                            ),
+                          color: PreMedColorTheme().primaryColorRed,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14.5,
+                        ),
                       ),
                       onPressed: () {
                         Navigator.push(
@@ -209,8 +205,8 @@ class _LoginFormState extends State<LoginForm> {
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       style: PreMedTextTheme().body.copyWith(
-                            color: PreMedColorTheme().neutral500,
-                          ),
+                        color: PreMedColorTheme().neutral500,
+                      ),
                       children: [
                         TextSpan(
                           text: "By signing in, you agree to our ",
@@ -231,7 +227,7 @@ class _LoginFormState extends State<LoginForm> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const PrivacyPolicy()));
+                                      const PrivacyPolicy()));
                             },
                         ),
                         TextSpan(
@@ -253,7 +249,7 @@ class _LoginFormState extends State<LoginForm> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const TermsCondition()));
+                                      const TermsCondition()));
                             },
                         ),
                       ],

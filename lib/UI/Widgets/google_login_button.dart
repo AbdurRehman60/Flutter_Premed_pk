@@ -1,5 +1,5 @@
+import 'package:premedpk_mobile_app/UI/screens/a_new_onboarding/choose_school.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
-import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
@@ -16,11 +16,12 @@ class GoogleLogin extends StatelessWidget {
       response1.then(
             (response) {
           if (response['status']) {
+            print('Messgage : ${response['message']}');
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => response['message'] == 'onboarding'
-                    ? const RequiredOnboarding()
+                builder: (context) => response['message'] == 'OnboardingOne'
+                    ? const ChooseSchool()
                     : const MainNavigationScreen(),
               ),
             );

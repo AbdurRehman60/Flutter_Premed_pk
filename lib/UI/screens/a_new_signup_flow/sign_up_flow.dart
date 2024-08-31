@@ -96,7 +96,6 @@ class _SignUpFlowState extends State<SignUpFlow> {
           emailController.text,
           passwordController.text,
           fullNameController.text,
-          appUser: true
         );
 
         signupResponse.then((response) {
@@ -126,7 +125,6 @@ class _SignUpFlowState extends State<SignUpFlow> {
                       city: city,
                       institution: institution,
                       phoneNumber: phoneNumber,
-                      educationSystem: educationSystem,
                     ),
                   ),
                 );
@@ -328,7 +326,7 @@ class _SignUpFlowState extends State<SignUpFlow> {
                               SizedBoxes.verticalBig,
                               CustomButton(
                                 buttonText: 'Sign Up',
-                                onPressed: () async {
+                                onPressed: () {
                                   onSignupPressed();
                                 },
                               ),
@@ -388,6 +386,4 @@ class _SignUpFlowState extends State<SignUpFlow> {
     }
     return null;
   }
-
-
 }

@@ -13,7 +13,7 @@ class Endpoints {
 
   //specific URLs
   // static const String serverURL = "${baseUrl}:${serverPort}";
-  static const String serverURL = "https://prodapi.premed.pk";
+  static const String serverURL = "https://serverapi.premed.pk/";
 
   // receiveTimeout
   static const Duration receiveTimeout = Duration(milliseconds: 15000);
@@ -80,10 +80,10 @@ class Endpoints {
 
   //deck point
   static const String getDeckInfo =
-      'https://prodapi.premed.pk/api/decks/get-deck-information';
+      'https://serverapi.premed.pk/api/decks/get-deck-information';
 
   static const String getQuestions =
-      'https://prodapi.premed.pk/api/decks/get-all-deck-questions/';
+      'https://serverapi.premed.pk/api/decks/get-all-deck-questions/';
 
   //test_interface
   static const String GetAllDeckQuestions =
@@ -97,7 +97,7 @@ class Endpoints {
 
   //report ques
   static const String addReport =
-      'https://prodapi.premed.pk/api/reports/addReport';
+      'https://serverapi.premed.pk/api/reports/addReport';
 
   //publishedDecks
   static const String PublishedDecks = '/api/get-all-published-decks';
@@ -108,7 +108,7 @@ class Endpoints {
   static const String RecentActivityURL = '/api/attempts/get-recent-attempts';
 
   static const String RecentAttempts =
-      'https://prodapi.premed.pk/api/attempts/get-recent-attempts';
+      'https://serverapi.premed.pk/api/attempts/get-recent-attempts';
 
   static const String MdcatQbank = '/api/get-category-decks/MDCAT QBank';
   static const String NUMSQbank = '/api/get-category-decks/NUMS QBank';
@@ -133,7 +133,7 @@ class Endpoints {
       '/api/attempts/get-attempt-info/$attemptId';
 
   static const String attemptPoints =
-      'https://prodapi.premed.pk/api/attempts/get-latest-attempt';
+      'https://serverapi.premed.pk/api/attempts/get-latest-attempt';
 
 //vaultEndpoints
   //preMedical =>

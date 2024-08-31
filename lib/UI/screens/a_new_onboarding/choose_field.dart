@@ -96,92 +96,97 @@ class _ChooseFieldState extends State<ChooseField> {
       body: Column(
         children: [
           Expanded(
-            child: Stack(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    _navigateToExam(context, "/pre-medical");
-                  },
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.white,
-                          Color(0xFFE4E9FD),
-                        ],
-                      ),
-                    ),
-                    child: Center(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'I INTEND TO BE A',
-                                style: PreMedTextTheme().heading3.copyWith(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: PreMedColorTheme().black,
-                                    ),
-                              ),
-                              Text(
-                                'DOCTOR',
-                                style: PreMedTextTheme().heading3.copyWith(
-                                      fontSize: 35,
-                                      fontWeight: FontWeight.w800,
-                                      color: PreMedColorTheme().primaryColorRed,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Image.asset(
-                    PremedAssets.Doctor,
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.width * 0.5,
-                  ),
-                ),
-                Positioned(
-                  top: 32,
-                  left: 8,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
+            child: GestureDetector(
+              onTap: () {
+                _navigateToExam(context, "/pre-medical");
+              },
+              child: Stack(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _navigateToExam(context, "/pre-medical");
                     },
-                    icon: Material(
-                      elevation: 4,
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      clipBehavior: Clip.hardEdge,
-                      child: SizedBox(
-                        width: 37,
-                        height: 37,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SvgPicture.asset(
-                            'assets/icons/left-arrow.svg',
-                            width: 9.33,
-                            height: 18.67,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.white,
+                            Color(0xFFE4E9FD),
+                          ],
+                        ),
+                      ),
+                      child: Center(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'I INTEND TO BE A',
+                                  style: PreMedTextTheme().heading3.copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: PreMedColorTheme().black,
+                                      ),
+                                ),
+                                Text(
+                                  'DOCTOR',
+                                  style: PreMedTextTheme().heading3.copyWith(
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.w800,
+                                        color: PreMedColorTheme().primaryColorRed,
+                                      ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: Image.asset(
+                      PremedAssets.Doctor,
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      height: MediaQuery.of(context).size.width * 0.5,
+                    ),
+                  ),
+                  Positioned(
+                    top: 32,
+                    left: 8,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: Material(
+                        elevation: 4,
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        clipBehavior: Clip.hardEdge,
+                        child: SizedBox(
+                          width: 37,
+                          height: 37,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SvgPicture.asset(
+                              'assets/icons/left-arrow.svg',
+                              width: 9.33,
+                              height: 18.67,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(

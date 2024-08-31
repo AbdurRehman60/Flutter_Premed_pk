@@ -166,18 +166,62 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
                       );
 
                     case FetchStatus.success:
-                      return SizedBox(
-                        height: 500,
-                        child: ListView.builder(
-                          itemCount: _filteredQuestions.length,
-                          itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 3),
-                            child: ActivityCell(
-                              savedQuestionModel: _filteredQuestions[index],
+                      if(_filteredQuestions.isEmpty){
+                        return SizedBox(
+                          height: 300,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  PremedAssets.emptySQ,
+                                  height: 65,
+                                  width: 65,
+                                ),
+                                SizedBoxes.vertical15Px,
+                                const Center(
+                                  child: Text(
+                                    'No Saved Questions',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                SizedBoxes.vertical5Px,
+                                const Center(
+                                  child: Text(
+                                    'No Saved Questions for the selected topic.',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      );
+                        );
+                      }else {
+                        return SizedBox(
+                          height: 500,
+                          child: ListView.builder(
+                            itemCount: _filteredQuestions.length,
+                            itemBuilder: (context, index) =>
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 3),
+                                  child: ActivityCell(
+                                    savedQuestionModel: _filteredQuestions[index],
+                                  ),
+                                ),
+                          ),
+                        );
+                      }
 
                     case FetchStatus.error:
                       return const Center(
