@@ -4,6 +4,8 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../providers/vaultProviders/premed_provider.dart';
+
 class LocalImageDisplay extends StatefulWidget {
   const LocalImageDisplay({super.key});
 
@@ -20,7 +22,7 @@ class _LocalImageDisplayState extends State<LocalImageDisplay> {
     Future<void> pickImage() async {
       final imagePicker = ImagePicker();
       final pickedFile =
-          await imagePicker.pickImage(source: ImageSource.gallery);
+      await imagePicker.pickImage(source: ImageSource.gallery);
 
       if (pickedFile != null) {
         uploadImageProvider.uploadedImage = File(pickedFile.path);
@@ -38,7 +40,7 @@ class _LocalImageDisplayState extends State<LocalImageDisplay> {
             width: double.infinity,
             decoration: ShapeDecoration(
               color:
-                  PreMedColorTheme().primaryColorBlue100, // Customize as needed
+              PreMedColorTheme().primaryColorBlue100, // Customize as needed
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -57,7 +59,12 @@ class _LocalImageDisplayState extends State<LocalImageDisplay> {
             SizedBox(
               width: 44,
               height: 44,
-              child: Image.asset('assets/images/uploadimage.png'),
+              child: Image.asset(
+                'assets/images/uploadimage.png',
+                color:   Provider.of<PreMedProvider>(context).isPreMed
+                    ? PreMedColorTheme().red
+                    : PreMedColorTheme().blue,
+              ),
             ),
             CustomButton(
               color: PreMedColorTheme().white,

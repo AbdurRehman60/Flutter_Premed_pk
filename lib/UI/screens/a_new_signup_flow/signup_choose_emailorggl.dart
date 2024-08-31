@@ -111,13 +111,13 @@ class _EmailorGoogleState extends State<EmailorGoogle> {
                             ],
                           ),
                           SizedBoxes.verticalExtraGargangua,
-                          const GoogleLogin(),
-                          SizedBoxes.verticalBig,
-                          const Padding(
-                            padding: EdgeInsets.only(left: 64, right: 64),
-                            child: OrDivider(),
-                          ),
-                          SizedBoxes.verticalBig,
+                          // const GoogleLogin(),
+                          // SizedBoxes.verticalBig,
+                          // const Padding(
+                          //   padding: EdgeInsets.only(left: 64, right: 64),
+                          //   child: OrDivider(),
+                          // ),
+                          // SizedBoxes.verticalBig,
                           Center(
                             child: SizedBox(
                               width: buttonSize,

@@ -207,7 +207,7 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
                         );
                       }else {
                         return SizedBox(
-                          height: 500,
+                          height: 800,
                           child: ListView.builder(
                             itemCount: _filteredQuestions.length,
                             itemBuilder: (context, index) =>

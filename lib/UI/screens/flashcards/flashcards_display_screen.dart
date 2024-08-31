@@ -123,7 +123,7 @@ class _FlashcardDisplayScreenState extends State<FlashcardDisplayScreen> {
                 ),
                 SizedBoxes.vertical2Px,
                 Text(
-                    'FLASHCARDS',
+                    'My Saved Facts',
                     style: PreMedTextTheme().subtext.copyWith(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,

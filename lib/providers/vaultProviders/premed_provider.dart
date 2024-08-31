@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../UI/screens/Dashboard_Screen/dashboard_screen.dart';
 import '../../pre_engineering/UI/screens/dashboard/dashboard_home.dart';
-import '../user_provider.dart';
 
 class PreMedProvider with ChangeNotifier {
   PreMedProvider() {
@@ -54,7 +53,6 @@ class DashboardSwitcher extends StatelessWidget {
     return Consumer<PreMedProvider>(
       builder: (context, preMedProvider, child) {
         if (preMedProvider.isPreMed &&  preMedProvider._onBoardingTrack) {
-          print('sta : ${preMedProvider._onBoardingTrack}');
           return const DashboardScreen();
         } else {
           return const EngineeringDashboardScreen();

@@ -202,7 +202,7 @@ class _EngineeringDashboardScreenState
                     FlashCard(
                       bgColor: PreMedColorTheme().white,
                       icon: PremedAssets.Flashcards,
-                      text1: 'Flashcards',
+                      text1: 'Saved Facts',
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(

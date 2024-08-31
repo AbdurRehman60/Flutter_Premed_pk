@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 import '../../../providers/vaultProviders/premed_provider.dart';
 import '../Test Interface/test_interface_home.dart';
 import '../The vault/widgets/back_button.dart';
-//jarvis
 class RecentActivityScreen extends StatefulWidget {
   const RecentActivityScreen({super.key, required this.isPreMed});
   final bool isPreMed;

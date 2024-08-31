@@ -50,7 +50,7 @@ class _FlashcardHomeState extends State<FlashcardHome> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Flashcards',
+                'My Saved Facts',
                 style: PreMedTextTheme().heading6.copyWith(
                       color: PreMedColorTheme().black,
                       fontSize: 34,

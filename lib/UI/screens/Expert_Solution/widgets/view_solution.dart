@@ -1,10 +1,8 @@
 import 'package:flutter/services.dart';
-import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/tags_row.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/UI/widgets/vlc_player/vlc_player.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/models/doubtsolve_model.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:provider/provider.dart';
@@ -54,18 +52,18 @@ class ViewSolution extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        backgroundColor: PreMedColorTheme().background,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 13),
-            child: AppBar(
-              backgroundColor: PreMedColorTheme().background,
-              leading: const PopButton(),
-              automaticallyImplyLeading: false,
+        appBar: MediaQuery.of(context).orientation == Orientation.portrait
+            ? AppBar(
+            centerTitle: true,
+            title: const Text('View Solution'),
+            iconTheme: IconThemeData(
+              color: PreMedColorTheme().white,
             ),
-          ),
-        ),
+            backgroundColor:  Provider.of<PreMedProvider>(context).isPreMed
+                ? PreMedColorTheme().red
+                : PreMedColorTheme().blue
+        )
+            : null,
         body: OrientationBuilder(
           builder: (context, orientation) {
             final bool isLandscape = orientation == Orientation.portrait;
@@ -106,9 +104,9 @@ class ViewSolution extends StatelessWidget {
                             spacing: 4,
                             children: tags
                                 .map((tag) => TagsRow(
-                                      tagName: tag['tagName'],
-                                      isResource: tag['isResource'],
-                                    ))
+                              tagName: tag['tagName'],
+                              isResource: tag['isResource'],
+                            ))
                                 .toList(),
                           ),
                         },
@@ -171,36 +169,38 @@ class ViewSolution extends StatelessWidget {
                               : MediaQuery.of(context).size.height,
                           child: doubt.solvedStatus == 'Solved'
                               ? CustomVLCPlayer(
-                                  url: doubt.videoLink,
-                                )
+                            url: doubt.videoLink,
+                          )
                               : Center(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(4),
-                                      color: Colors.amberAccent[100],
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 8),
-                                      child: Text(
-                                        'Pending',
-                                        textAlign: TextAlign.center,
-                                        style: PreMedTextTheme()
-                                            .headline
-                                            .copyWith(
-                                                fontWeight:
-                                                    FontWeights.regular),
-                                      ),
-                                    ),
-                                  ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: Colors.amberAccent[100],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                child: Text(
+                                  'Pending',
+                                  textAlign: TextAlign.center,
+                                  style: PreMedTextTheme()
+                                      .headline
+                                      .copyWith(
+                                      fontWeight:
+                                      FontWeights.regular),
                                 ),
+                              ),
+                            ),
+                          ),
                         ),
                         if (isLandscape) ...{
                           SizedBoxes.verticalMedium,
                         },
                         if (isLandscape) ...{
                           CustomButton(
-                            color: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                            color: Provider.of<PreMedProvider>(context).isPreMed
+                                ? PreMedColorTheme().red
+                                : PreMedColorTheme().blue,
                             buttonText: 'Add a Feedback',
                             onPressed: () {
                               _showReviewModal(context);
@@ -242,18 +242,18 @@ class _ReviewModalState extends State<ReviewModal> {
   @override
   Widget build(BuildContext context) {
     final askAnExpertProvider =
-        Provider.of<AskAnExpertProvider>(context, listen: false);
+    Provider.of<AskAnExpertProvider>(context, listen: false);
 
     void onFeedbackSubmitPressed() {
       if (selectedRating != 0) {
         final Future<Map<String, dynamic>> response =
-            askAnExpertProvider.rateDoubt(
+        askAnExpertProvider.rateDoubt(
           id: widget.doubt.id,
           rating: selectedRating,
           username: widget.doubt.expertUsername,
         );
         response.then(
-          (response) {
+              (response) {
             if (response['status']) {
               showSnackbar(
                 context,
@@ -299,14 +299,16 @@ class _ReviewModalState extends State<ReviewModal> {
                   Icons.star,
                   size: 40,
                   color:
-                      starNumber <= selectedRating ? Colors.amber : Colors.grey,
+                  starNumber <= selectedRating ? Colors.amber : Colors.grey,
                 ),
               );
             }),
           ),
           SizedBoxes.verticalBig,
           CustomButton(
-            color: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+            color: Provider.of<PreMedProvider>(context).isPreMed
+                ? PreMedColorTheme().red
+                : PreMedColorTheme().blue,
             buttonText: 'Submit',
             onPressed: onFeedbackSubmitPressed,
           )

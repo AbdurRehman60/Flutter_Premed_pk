@@ -3,6 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 
 import 'package:premedpk_mobile_app/UI/widgets/vlc_player/controls_overlay.dart';
+import 'package:provider/provider.dart';
+
+import '../../../constants/color_theme.dart';
+import '../../../providers/vaultProviders/premed_provider.dart';
 
 typedef OnStopRecordingCallback = void Function(String);
 
@@ -188,6 +192,9 @@ class VlcPlayerWithControlsState extends State<VlcPlayerWithControls> {
                         ),
                         Expanded(
                           child: Slider(
+                            activeColor: Provider.of<PreMedProvider>(context).isPreMed
+                                ? PreMedColorTheme().red
+                                : PreMedColorTheme().blue,
                             max: _overlayWidth,
                             value: volumeValue,
                             onChanged: _setSoundVolume,

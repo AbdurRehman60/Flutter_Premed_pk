@@ -322,6 +322,7 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
+
   Future<Map<String, dynamic>> signup(
       String email, String password, String fullName, {bool appUser = false}) async {
     Map<String, Object?> result;
@@ -531,7 +532,6 @@ class AuthProvider extends ChangeNotifier {
           'status': false,
           'message': 'No Account Selected',
         };
-
         return result;
       }
 
@@ -544,10 +544,10 @@ class AuthProvider extends ChangeNotifier {
         "fullname": googleUser.displayName.toString(),
         "picture": googleUser.photoUrl.toString(),
         "token": googleAuth.accessToken.toString(),
-        "appUser": true,
         "token": googleAuth.accessToken.toString(),
-
+        "isApp": true,
       };
+
 
       try {
         final Response response = await _client.post(
