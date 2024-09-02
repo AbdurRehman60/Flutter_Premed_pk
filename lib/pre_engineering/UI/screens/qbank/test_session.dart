@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../UI/screens/The vault/widgets/back_button.dart';
 import '../../../../UI/screens/qbank/widgets/deck_tile.dart';
 import '../../../../constants/constants_export.dart';
-import '../../../../providers/vaultProviders/premed_provider.dart';
 import '../../../providers/test_session_proivder.dart';
 
 class EngTestSessionHome extends StatefulWidget {
@@ -40,39 +38,28 @@ class _EngTestSessionHomeState extends State<EngTestSessionHome>
         ),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 24),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Pre-Engineering Test Sessions',
-                      style: PreMedTextTheme().heading6.copyWith(
-                        color: PreMedColorTheme().black,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ),
-                ],
+          Padding(
+            padding: const EdgeInsets.only(left: 24),
+            child: Text(
+              'Pre-Engineering Test Sessions',
+              style: PreMedTextTheme().heading6.copyWith(
+                color: PreMedColorTheme().black,
+                fontSize: 34,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
           SizedBoxes.vertical22Px,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Flexible(
-              child: Text(
-                'Attempt these Test Sessions to prepare for your Engineering Entrance Exams',
-                style: PreMedTextTheme().heading6.copyWith(
-                  color: PreMedColorTheme().black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                ),
+            child: Text(
+              'Attempt these Test Sessions to prepare for your Engineering Entrance Exams',
+              style: PreMedTextTheme().heading6.copyWith(
+                color: PreMedColorTheme().black,
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
@@ -83,9 +70,9 @@ class _EngTestSessionHomeState extends State<EngTestSessionHome>
                 switch (provider.fetchStatus) {
                   case DeckFetchStatus.init:
                   case DeckFetchStatus.fetching:
-                    return  Center(
+                    return Center(
                       child: CircularProgressIndicator(
-                        color: PreMedColorTheme().blue
+                        color: PreMedColorTheme().blue,
                       ),
                     );
                   case DeckFetchStatus.success:
@@ -97,7 +84,9 @@ class _EngTestSessionHomeState extends State<EngTestSessionHome>
                       itemBuilder: (context, index) {
                         final deckGroup = filteredDeckGroups[index];
                         return DeckTile(
-                            deckGroup: deckGroup, deckGroupName: 'Engineering QBank');
+                          deckGroup: deckGroup,
+                          deckGroupName: 'Engineering QBank',
+                        );
                       },
                     );
                   case DeckFetchStatus.error:

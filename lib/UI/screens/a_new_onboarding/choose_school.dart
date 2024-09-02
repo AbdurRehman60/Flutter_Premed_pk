@@ -18,7 +18,7 @@ class ChooseSchool extends StatefulWidget {
 }
 
 class _ChooseSchoolState extends State<ChooseSchool> {
-  void _navigateToEntryTest(BuildContext context, String lastOnboardingPage) {
+  void  _navigateToEntryTest(BuildContext context, String lastOnboardingPage) {
     Navigator.push(
       context,
       MaterialPageRoute(

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../UI/screens/The vault/widgets/back_button.dart';
 import '../../../../UI/screens/qbank/widgets/deck_tile.dart';
@@ -53,16 +52,14 @@ class _EngChapterWiseHomeState extends State<EngChapterWiseHome>
             child: Padding(
               padding: const EdgeInsets.only(left: 24),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start, // Ensure alignment for children
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Pre-Engineering Topicals',
-                      style: PreMedTextTheme().heading6.copyWith(
-                        color: PreMedColorTheme().black,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                      ),
+                  Text(
+                    'Pre-Engineering Topicals',
+                    style: PreMedTextTheme().heading6.copyWith(
+                      color: PreMedColorTheme().black,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ],
@@ -72,14 +69,12 @@ class _EngChapterWiseHomeState extends State<EngChapterWiseHome>
           SizedBoxes.vertical22Px,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Flexible(
-              child: Text(
-                'Attempt these Topicals to prepare for your Engineering Entrance Exams',
-                style: PreMedTextTheme().heading6.copyWith(
-                  color: PreMedColorTheme().black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                ),
+            child: Text(
+              'Attempt these Topicals to prepare for your Engineering Entrance Exams',
+              style: PreMedTextTheme().heading6.copyWith(
+                color: PreMedColorTheme().black,
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
@@ -90,8 +85,10 @@ class _EngChapterWiseHomeState extends State<EngChapterWiseHome>
                 switch (provider.fetchStatus) {
                   case ChapterWiseFetchStatus.init:
                   case ChapterWiseFetchStatus.fetching:
-                    return  Center(
-                      child: CircularProgressIndicator(color: PreMedColorTheme().blue,),
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: PreMedColorTheme().blue,
+                      ),
                     );
                   case ChapterWiseFetchStatus.success:
                     final filteredDeckGroups = provider.deckGroups

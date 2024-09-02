@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/topic_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/deck_tile.dart';
 import 'package:provider/provider.dart';
-
 import '../../../constants/constants_export.dart';
 import '../../../providers/mdcat_mocks_provider.dart';
 import '../../../providers/nums_mocks_provider.dart';
@@ -67,7 +65,9 @@ class _MocksQbankState extends State<MocksQbank>
                   itemBuilder: (context, index) {
                     final deckGroup = filteredDeckGroups[index];
                     return DeckTile(
-                        deckGroup: deckGroup, deckGroupName: 'MDCAT MOCKS');
+                      deckGroup: deckGroup,
+                      deckGroupName: 'MDCAT MOCKS',
+                    );
                   },
                 );
               case FetchhStatus.error:
@@ -93,7 +93,9 @@ class _MocksQbankState extends State<MocksQbank>
                   itemBuilder: (context, index) {
                     final deckGroup = filteredDeckGroups[index];
                     return DeckTile(
-                        deckGroup: deckGroup, deckGroupName: 'NUMS MOCKS');
+                      deckGroup: deckGroup,
+                      deckGroupName: 'NUMS MOCKS',
+                    );
                   },
                 );
               case NumsMockFetchStatus.error:
@@ -119,7 +121,9 @@ class _MocksQbankState extends State<MocksQbank>
                   itemBuilder: (context, index) {
                     final deckGroup = filteredDeckGroups[index];
                     return DeckTile(
-                        deckGroup: deckGroup, deckGroupName: 'PU MOCKS');
+                      deckGroup: deckGroup,
+                      deckGroupName: 'PU MOCKS',
+                    );
                   },
                 );
               case PuMocksFetchStatus.error:
@@ -133,6 +137,9 @@ class _MocksQbankState extends State<MocksQbank>
         return Container();
     }
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -150,30 +157,27 @@ class _MocksQbankState extends State<MocksQbank>
         ),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 24),
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text( 'Mock Tests',
-                      style: PreMedTextTheme().heading6.copyWith(
-                        color: PreMedColorTheme().black,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
+          Padding(
+            padding: const EdgeInsets.only(left: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Mock Tests',
+                  style: PreMedTextTheme().heading6.copyWith(
+                    color: PreMedColorTheme().black,
+                    fontSize: 34,
+                    fontWeight: FontWeight.w800,
                   ),
-                  SizedBoxes.vertical5Px,
-                ],
-              ),
+                ),
+                SizedBoxes.vertical5Px,
+              ],
             ),
           ),
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width*0.065),
+            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.065),
             child: Row(
               children: [
                 Wrap(
@@ -203,14 +207,12 @@ class _MocksQbankState extends State<MocksQbank>
           SizedBoxes.vertical15Px,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Flexible(
-              child: Text(
-                'Attempt a Mock Test today and gain the confidence you need for the actual test day!',
-                style: PreMedTextTheme().heading6.copyWith(
-                  color: PreMedColorTheme().black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                ),
+            child: Text(
+              'Attempt a Mock Test today and gain the confidence you need for the actual test day!',
+              style: PreMedTextTheme().heading6.copyWith(
+                color: PreMedColorTheme().black,
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
@@ -222,5 +224,10 @@ class _MocksQbankState extends State<MocksQbank>
       ),
     );
   }
+
+
+
+
+
 }
 

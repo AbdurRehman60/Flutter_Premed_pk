@@ -15,6 +15,7 @@ import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/Attempted_card
 import 'package:premedpk_mobile_app/UI/screens/statistics/widgets/card_w.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/statistic_model.dart';
+import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';

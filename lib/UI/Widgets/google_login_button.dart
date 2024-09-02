@@ -16,6 +16,7 @@ class GoogleLogin extends StatelessWidget {
       response1.then(
             (response) {
           if (response['status']) {
+            print('google result : ${response['message']}');
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(

@@ -186,7 +186,6 @@ class AuthProvider extends ChangeNotifier {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           final String? fcmToken = prefs.getString('fcmToken');
-
           await _client.post(
             Endpoints.SaveFCMToken,
             data: {'fcmToken': fcmToken},
@@ -250,13 +249,18 @@ class AuthProvider extends ChangeNotifier {
         UserProvider().user = user;
 
         final String? accountType = user.accountType;
+        print('accountType :${accountType}');
+        print('lastonboardingPage :${lastOnboardingPage}');
 
-        if (accountType == "google" && responseData['lastOnboardingPage'] != null) {
+        if (accountType == "google" && responseData['lastOnboardingPage'] == null) {
+          print('if was called');
+
           result = {
             'status': true,
             'message': "OnboardingOne",
           };
         } else {
+          print('else was called');
           if (responseData.containsKey("lastOnboardingPage")) {
             final lastOnboardingPage = responseData["lastOnboardingPage"];
             if (lastOnboardingPage == "/auth/onboarding") {
@@ -523,6 +527,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> continueWithGoogle() async {
+    //method1
     Map<String, Object?> result;
 
     try {

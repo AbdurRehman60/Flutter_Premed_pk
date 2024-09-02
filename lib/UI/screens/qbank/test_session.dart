@@ -44,16 +44,14 @@ class _MedTestSessionHomeState extends State<MedTestSessionHome>
             child: Padding(
               padding: const EdgeInsets.only(left: 24),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start, // Ensure alignment for children
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Test Sessions',
-                      style: PreMedTextTheme().heading6.copyWith(
-                        color: PreMedColorTheme().black,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                      ),
+                  Text(
+                    'Test Sessions',
+                    style: PreMedTextTheme().heading6.copyWith(
+                      color: PreMedColorTheme().black,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ],
@@ -63,14 +61,12 @@ class _MedTestSessionHomeState extends State<MedTestSessionHome>
           SizedBoxes.vertical22Px,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Flexible(
-              child: Text(
-                'Attempt a Full-Length Yearly Paper today and gain the confidence you need for the actual test day!',
-                style: PreMedTextTheme().heading6.copyWith(
-                  color: PreMedColorTheme().black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                ),
+            child: Text(
+              'Attempt a Full-Length Yearly Paper today and gain the confidence you need for the actual test day!',
+              style: PreMedTextTheme().heading6.copyWith(
+                color: PreMedColorTheme().black,
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
