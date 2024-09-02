@@ -316,7 +316,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                     ),
                     SizedBoxes.horizontalMicro,
                     SizedBox(
-                      width: 130,
+                      width: 100,
                       child: CustomButton(
                         buttonText: 'Continue Attempt',
                         onPressed: () async {
@@ -348,7 +348,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                 ),
                 SizedBoxes.verticalMedium,
                 SizedBox(
-                  width: 130,
+                  width: 100,
                   child: CustomButton(
                     buttonText: 'Review Answers',
                     onPressed: () {

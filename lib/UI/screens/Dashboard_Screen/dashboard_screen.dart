@@ -99,10 +99,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       fontWeight: FontWeight.w700,
                                       fontSize: 26));
                             } else {
-                              return Text('Hi, ${userProvider.getUserName()}',
-                                  style: PreMedTextTheme().heading4.copyWith(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 28));
+                              return GestureDetector(
+                                onTap: (){
+                                  final pro = Provider.of<UserProvider>(context,listen: false);
+                                  print('path to page:${pro.user?.info.lastOnboardingPage}');
+                                },
+                                child: Flexible(
+                                  child: Text('Hi, ${userProvider.getUserName()}',
+                                      maxLines: 2 ,                                                  style: PreMedTextTheme().heading4.copyWith(
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 26)),
+                                ),
+                              );
                             }
                           },
                         ),

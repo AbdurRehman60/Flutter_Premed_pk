@@ -16,6 +16,7 @@ class Info {
 
 
   factory Info.fromJson(Map<String, dynamic> json) {
+    print('pageFrom :${json['lastOnboardingPage']}');
     return Info(
       features: List<dynamic>.from(json['features'] ?? []),
       exam: List<dynamic>.from(json['exam'] ?? []),
@@ -28,7 +29,6 @@ class Info {
       appToken: json['appToken']
     );
   }
-
   List<dynamic> features;
   List<dynamic> exam;
   String lastOnboardingPage;

@@ -235,76 +235,65 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> getLoggedInUser() async {
-    Map<String, Object?> result;
+    Map<String, dynamic> result;
 
     try {
       final response = await _client.get(Endpoints.getLoggedInUser);
-      final responseData =
-      response is Map<String, dynamic> ? response : response.data;
-
+      final responseData = response is Map<String, dynamic>
+          ? response
+          : response.data as Map<String, dynamic>;
+      final lastOnboardingPageFromResponse = responseData["lastOnboardingPage"];
       if (responseData["isloggedin"] == true) {
         final User user = User.fromJson(responseData);
         await UserPreferences().saveUser(user);
-
         UserProvider().user = user;
+        //
+        // print('User Info lastOnboardingPage: ${user.info.lastOnboardingPage}');
 
         final String? accountType = user.accountType;
-        print('accountType :${accountType}');
-        print('lastonboardingPage :${lastOnboardingPage}');
+        final String lastOnboardingPage = user.info.lastOnboardingPage;
+        //
+        // print('accountType: $accountType');
+        // print('Pagestatus (user.info): ${lastOnboardingPage.isEmpty}');
+        // print('Pagestatus (responseData): $lastOnboardingPage');
 
-        if (accountType == "google" && responseData['lastOnboardingPage'] == null) {
-          print('if was called');
-
+        if (accountType == "google" && user.info.lastOnboardingPage.isEmpty) {
           result = {
             'status': true,
             'message': "OnboardingOne",
           };
         } else {
-          print('else was called');
-          if (responseData.containsKey("lastOnboardingPage")) {
-            final lastOnboardingPage = responseData["lastOnboardingPage"];
-            if (lastOnboardingPage == "/auth/onboarding") {
-              result = {
-                'status': true,
-                'message': "OnboardingOne",
-              };
-            } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam") {
-              result = {
-                'status': true,
-                'message': "EntryTest",
-              };
-            } else if (lastOnboardingPage ==
-                "/auth/onboarding/entrance-exam/pre-medical" ||
-                lastOnboardingPage ==
-                    "/auth/onboarding/entrance-exam/pre-engineering") {
-              result = {
-                'status': true,
-                'message': "RequiredOnboarding",
-              };
-            } else if (lastOnboardingPage ==
-                "/auth/onboarding/entrance-exam/pre-medical/features" ||
-                lastOnboardingPage ==
-                    "/auth/onboarding/entrance-exam/pre-engineering/features") {
-              result = {
-                'status': true,
-                'message': "OptionalOnboarding",
-              };
-            } else if (lastOnboardingPage ==
-                "/auth/onboarding/entrance-exam/pre-medical/features/additional-info") {
-              result = {
-                'status': true,
-                'message': "home",
-              };
-            } else {
-              result = {
-                'status': true,
-                'message': "unknown",
-              };
-            }
-          } else {
+          if (lastOnboardingPage == "/auth/onboarding") {
+            result = {
+              'status': true,
+              'message': "OnboardingOne",
+            };
+          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam") {
+            result = {
+              'status': true,
+              'message': "EntryTest",
+            };
+          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical" ||
+              lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-engineering") {
+            result = {
+              'status': true,
+              'message': "RequiredOnboarding",
+            };
+          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical/features" ||
+              lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-engineering/features") {
+            result = {
+              'status': true,
+              'message': "OptionalOnboarding",
+            };
+          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical/features/additional-info") {
             result = {
               'status': true,
               'message': "home",
+            };
+          } else {
+            result = {
+              'status': true,
+              'message': "unknown",
             };
           }
         }
@@ -325,6 +314,10 @@ class AuthProvider extends ChangeNotifier {
 
     return result;
   }
+
+
+
+
 
 
   Future<Map<String, dynamic>> signup(
@@ -478,6 +471,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? fcmToken = prefs.getString('fcmToken');
+      print('token from signout : $fcmToken');
       await _client.post(
         Endpoints.DeleteFCMToken,
         data: {'fcmToken': fcmToken},

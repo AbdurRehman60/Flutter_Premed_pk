@@ -24,11 +24,11 @@ class NumsMocksProvider extends ChangeNotifier {
       final bool success = responseData['success'] ?? false;
       if (success) {
         final List<Map<String, dynamic>> data =
-            List<Map<String, dynamic>>.from(responseData['data']);
+        List<Map<String, dynamic>>.from(responseData['data']);
         Map<String, dynamic>? numsMocksCategory;
         try {
           numsMocksCategory = data.firstWhere(
-            (category) => category['categoryName'] == 'NUMS Mocks',
+                (category) => category['categoryName'] == 'NUMS Mocks',
           );
         } catch (e) {
           numsMocksCategory = null;
@@ -38,24 +38,12 @@ class NumsMocksProvider extends ChangeNotifier {
           _deckGroups = deckGroupsData.map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
             final List<DeckItem> deckItems = decks.map((deck) {
-              return DeckItem(
-                  deckName: deck['deckName'] as String,
-                  deckLogo: deck['deckLogo'] as String,
-                  premiumTag: deck['premiumTags'][0] as String,
-                isPublished: deck['isPublished'],
-
-                deckInstructions: deck['deckInstructions'] as String,
-                isTutorModeFree: deck['isTutorModeFree'],
-                timedTestMode: deck['timedTestMode'],
-                timesTestminutes: deck['timedTestMinutes'],
-
-              );
-
+              return DeckItem.fromJson(deck);
             }).toList();
             final int deckNameCount = deckItems.length;
             final String deckGroupImage = deckGroupData['deckGroupImage'];
             return DeckGroupModel(
-              deckType: deckGroupData['deckType'],
+              deckType: deckGroupData['deckType'] as String,
               deckGroupName: deckGroupData['deckGroupName'],
               deckItems: deckItems,
               deckNameCount: deckNameCount,

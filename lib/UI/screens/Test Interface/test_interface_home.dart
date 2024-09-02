@@ -495,8 +495,8 @@ class _TestInterfaceState extends State<TestInterface> {
     final flashcardpro =
     Provider.of<FlashcardProvider>(context, listen: false);
     final message = flashcardpro.additionStatus == 'Added'
-        ? 'Added To FlashCards'
-        : 'Removed from FlashCards';
+        ? 'Added To Saved Facts'
+        : 'Removed from Saved Facts';
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -1150,18 +1150,7 @@ class _TestInterfaceState extends State<TestInterface> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: InkWell(
-                            onTap: () async {
-                              await Provider.of<FlashcardProvider>(context, listen: false)
-                                  .removeFlashcard(
-                                userId: userProvider.user!.userId,
-                                subject: widget.subject ?? '',
-                                questionId: question.questionId,
-                              );
-                              showSnackBarr();
-                            },
-                            child: Image.asset(PremedAssets.Flask),
-                          ),
+                          child: Image.asset(PremedAssets.Flask),
                         ),
                       ),
                     ),

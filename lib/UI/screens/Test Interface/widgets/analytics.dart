@@ -130,7 +130,7 @@ class _AnalyticsState extends State<Analytics> {
                                 Expanded(
                                   child: InkWell(
                                     child: Container(
-                                      height: 180,
+                                      height: 187,
                                       decoration: BoxDecoration(
                                         boxShadow: CustomBoxShadow.boxShadow40,
                                         borderRadius:
@@ -169,7 +169,7 @@ class _AnalyticsState extends State<Analytics> {
                                 Expanded(
                                   child: InkWell(
                                     child: Container(
-                                      height: 180,
+                                      height: 187,
                                       decoration: BoxDecoration(
                                         boxShadow: CustomBoxShadow.boxShadow40,
                                         borderRadius:
@@ -207,7 +207,7 @@ class _AnalyticsState extends State<Analytics> {
                                 Expanded(
                                   child: InkWell(
                                     child: Container(
-                                      height: 180,
+                                      height: 187,
                                       decoration: BoxDecoration(
                                         boxShadow: CustomBoxShadow.boxShadow40,
                                         borderRadius:
