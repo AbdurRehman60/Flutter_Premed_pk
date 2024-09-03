@@ -470,8 +470,8 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+
       final String? fcmToken = prefs.getString('fcmToken');
-      print('token from signout : $fcmToken');
       await _client.post(
         Endpoints.DeleteFCMToken,
         data: {'fcmToken': fcmToken},
@@ -484,17 +484,6 @@ class AuthProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         await UserPreferences().logOut();
         _loggedInStatus = Status.LoggedOut;
-        _phoneNumber = '';
-        _whatsappNumber = '';
-        _intendedYear = 'FSc 1st Year/AS Level';
-        _city = '';
-        _country = '';
-        _school = '';
-        _parentContactNumber = '';
-        _academyJoined = 'No';
-        _parentFullName = '';
-        _intendFor = [];
-
         notifyListeners();
 
         result = {
@@ -509,7 +498,7 @@ class AuthProvider extends ChangeNotifier {
           'message': response.data.toString(),
         };
       }
-    } on DioException catch (e) {
+    } on DioError catch (e) {
       _loggedInStatus = Status.LoggedIn;
       notifyListeners();
       result = {
