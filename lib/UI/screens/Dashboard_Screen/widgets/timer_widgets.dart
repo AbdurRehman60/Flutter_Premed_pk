@@ -38,8 +38,8 @@ class _TimerClassState extends State<TimerClass> {
   Future<void> _loadSavedData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _selectedUniversity = prefs.getString('selectedUniversity')!;
-      _selectedExamType = prefs.getString('selectedExamType');
+      _selectedUniversity = prefs.getString('selectedUniversity') ?? 'Not Selected';
+       _selectedExamType = prefs.getString('selectedExamType');
       final dateString = prefs.getString('selectedDate');
       if (dateString != null) {
         _selectedDate = DateTime.parse(dateString);
@@ -51,6 +51,7 @@ class _TimerClassState extends State<TimerClass> {
   Future<void> _saveData() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('selectedUniversity', _selectedUniversity);
+
     if (_selectedExamType != null) {
       prefs.setString('selectedExamType', _selectedExamType!);
     }

@@ -2,9 +2,10 @@ import 'package:premedpk_mobile_app/UI/screens/The%20vault/saved_question/widget
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/models/saved_question_model.dart';
 import 'package:premedpk_mobile_app/providers/savedquestion_provider.dart';
-import 'package:premedpk_mobile_app/providers/user_provider.dart';
+
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
+import '../../../../providers/user_provider.dart';
 import '../../../../providers/vaultProviders/premed_provider.dart';
 import 'activity_cell.dart';
 
@@ -23,7 +24,7 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final userPro = Provider.of<UserProvider>(context);
+      final userPro = Provider.of<UserProvider>(context,listen: false);
       final provider =
       Provider.of<SavedQuestionsProvider>(context, listen: false);
       provider.getSavedQuestions(userId: userPro.user!.userId);

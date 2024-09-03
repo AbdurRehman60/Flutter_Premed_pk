@@ -4,11 +4,11 @@ import 'package:premedpk_mobile_app/UI/screens/marketplace/marketplace_home.dart
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/bottom_nav.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/qbank_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../providers/user_provider.dart';
+import '../../../providers/vaultProviders/premed_provider.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key,this.userPassword});
@@ -21,9 +21,13 @@ class MainNavigationScreen extends StatefulWidget {
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   void initState() {
-    checkUserDetails(context);
     super.initState();
+    // Delay checkUserDetails until after the first frame has been rendered
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkUserDetails(context);
+    });
   }
+
 
   Future<String> getUsername() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -110,12 +114,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   void navigateTo(int index) {
-    final int currentIndex = navigationStack.last;
-    if (currentIndex != index) {
+    if (navigationStack.last != index) {
       setState(() {
-        navigationStack.remove(index);
+        navigationStack.remove(index); // This line removes any existing occurrence of the index, which might not be necessary.
         navigationStack.add(index);
       });
     }
   }
+
 }

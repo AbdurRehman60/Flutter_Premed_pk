@@ -27,7 +27,7 @@ class VaultTopicalGuidesProvider extends ChangeNotifier {
 
     try {
       final response = await _client.get(
-        Endpoints.StudyGuides,
+        Endpoints.TopicalNotes,
       );
 
       if (response["message"] == "Topical Guide retrieved successfully") {

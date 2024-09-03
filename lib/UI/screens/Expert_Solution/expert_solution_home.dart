@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/widgets/doubt_view_list.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
@@ -21,6 +22,14 @@ class ExpertSolutionHome extends StatelessWidget {
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60.0),
+          child: AppBar(
+            backgroundColor: PreMedColorTheme().background,
+            leading: const PopButton(),
+            automaticallyImplyLeading: false,
+          ),
+        ),
         backgroundColor: PreMedColorTheme().background,
         body: Column(children: [
           SizedBoxes.verticalExtraGargangua,

@@ -138,187 +138,205 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                         listen: false)
                                     .fetchUserStatistics(context);
                               },
-                              child: MaterialCard(
-                                height: mediaQuery.size.height * 0.18,
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: mediaQuery.size.width * 0.2,
-                                      height: mediaQuery.size.width * 0.2,
-                                      child: ChartCircle(
-                                        subjects: const [
-                                          'Biology',
-                                          'Physics',
-                                          'Chemistry',
-                                          'Logical Reasoning',
-                                          'English'
-                                        ],
-                                        percentages: [
-                                          biologyPercentage,
-                                          physicsPercentage,
-                                          chemistryPercentage,
-                                          logicalReaPercentage,
-                                          englishPercentage
-                                        ],
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                    boxShadow: CustomBoxShadow.boxShadow40
+                                ),
+                                child: MaterialCard(
+                                  height: mediaQuery.size.height * 0.18,
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: mediaQuery.size.width * 0.2,
+                                        height: mediaQuery.size.width * 0.2,
+                                        child: ChartCircle(
+                                          subjects: const [
+                                            'Biology',
+                                            'Physics',
+                                            'Chemistry',
+                                            'Logical Reasoning',
+                                            'English'
+                                          ],
+                                          percentages: [
+                                            biologyPercentage,
+                                            physicsPercentage,
+                                            chemistryPercentage,
+                                            logicalReaPercentage,
+                                            englishPercentage
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                        width: mediaQuery.size.width * 0.07),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              SubjectPercentage(
-                                                percentage:
-                                                    '$biologyPercentage%',
-                                                subject: 'Biology',
-                                                textColor:
-                                                    PreMedColorTheme().greenL,
-                                              ),
-                                              SubjectPercentage(
+                                      SizedBox(
+                                          width: mediaQuery.size.width * 0.07),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                SubjectPercentage(
                                                   percentage:
-                                                      '$physicsPercentage%',
-                                                  subject: 'Physics',
+                                                      '$biologyPercentage%',
+                                                  subject: 'Biology',
+                                                  textColor:
+                                                      PreMedColorTheme().greenL,
+                                                ),
+                                                SubjectPercentage(
+                                                    percentage:
+                                                        '$physicsPercentage%',
+                                                    subject: 'Physics',
+                                                    textColor: PreMedColorTheme()
+                                                        .skyblue),
+                                                SubjectPercentage(
+                                                  percentage:
+                                                      '$chemistryPercentage%',
+                                                  subject: 'Chemistry',
+                                                  textColor:
+                                                      PreMedColorTheme().redlight,
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                                height: mediaQuery.size.height *
+                                                    0.01),
+                                            Row(
+                                              children: [
+                                                SubjectPercentage(
+                                                  percentage:
+                                                      '$logicalReaPercentage%',
+                                                  subject: 'Logical Reasoning',
                                                   textColor: PreMedColorTheme()
-                                                      .skyblue),
-                                              SubjectPercentage(
-                                                percentage:
-                                                    '$chemistryPercentage%',
-                                                subject: 'Chemistry',
-                                                textColor:
-                                                    PreMedColorTheme().redlight,
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                              height: mediaQuery.size.height *
-                                                  0.01),
-                                          Row(
-                                            children: [
-                                              SubjectPercentage(
-                                                percentage:
-                                                    '$logicalReaPercentage%',
-                                                subject: 'Logical Reasoning',
-                                                textColor: PreMedColorTheme()
-                                                    .purpulelight,
-                                              ),
-                                              SizedBox(
-                                                  width: mediaQuery.size.width *
-                                                      0.02),
-                                              SubjectPercentage(
-                                                percentage:
-                                                    '$englishPercentage%',
-                                                subject: 'English',
-                                                textColor: PreMedColorTheme()
-                                                    .orangeLight,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                                      .purpulelight,
+                                                ),
+                                                SizedBox(
+                                                    width: mediaQuery.size.width *
+                                                        0.02),
+                                                SubjectPercentage(
+                                                  percentage:
+                                                      '$englishPercentage%',
+                                                  subject: 'English',
+                                                  textColor: PreMedColorTheme()
+                                                      .orangeLight,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                             SizedBox(height: mediaQuery.size.height * 0.015),
                             Row(
                               children: [
-                                MaterialCard(
-                                  width: mediaQuery.size.width * 0.49,
-                                  height: mediaQuery.size.height * 0.19,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Stack(
+                                Expanded(
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      boxShadow: CustomBoxShadow.boxShadow40
+                                    ),
+                                    child: MaterialCard(
+                                      width: mediaQuery.size.width * 0.49,
+                                      height: mediaQuery.size.height * 0.19,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
+                                          Stack(
+                                            children: [
+                                              SizedBox(
+                                                height:
+                                                    mediaQuery.size.height * 0.07,
+                                                width: mediaQuery.size.width * 0.4,
+                                                child: SvgPicture.asset(
+                                                  'assets/images/infocell.svg',
+                                                ),
+                                              ),
+                                              Positioned(
+                                                bottom: 0,
+                                                left: mediaQuery.size.width * 0.12,
+                                                child: Text(
+                                                  '${((userStatModel.totalQuestionCorrect / userStatModel.totalQuestionAttempted) * 100).toStringAsFixed(2)}%',
+                                                  style: GoogleFonts.rubik(
+                                                    height: 1.3,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 20,
+                                                    color: PreMedColorTheme().red,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                           SizedBox(
-                                            height:
-                                                mediaQuery.size.height * 0.07,
-                                            width: mediaQuery.size.width * 0.4,
-                                            child: SvgPicture.asset(
-                                              'assets/images/infocell.svg',
+                                              height:
+                                                  mediaQuery.size.height * 0.01),
+                                          Text(
+                                            'Accuracy',
+                                            style: GoogleFonts.rubik(
+                                              height: 1.3,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 10,
+                                              color: const Color(0xFF000000),
                                             ),
                                           ),
-                                          Positioned(
-                                            bottom: 0,
-                                            left: mediaQuery.size.width * 0.12,
-                                            child: Text(
-                                              '${((userStatModel.totalQuestionCorrect / userStatModel.totalQuestionAttempted) * 100).toStringAsFixed(2)}%',
-                                              style: GoogleFonts.rubik(
-                                                height: 1.3,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 20,
-                                                color: PreMedColorTheme().red,
-                                              ),
+                                          Text(
+                                            'EXCELLENT',
+                                            style: GoogleFonts.rubik(
+                                              height: 1.3,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                              color: const Color(0xFF059669),
                                             ),
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
-                                          height:
-                                              mediaQuery.size.height * 0.01),
-                                      Text(
-                                        'Accuracy',
-                                        style: GoogleFonts.rubik(
-                                          height: 1.3,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 10,
-                                          color: const Color(0xFF000000),
-                                        ),
-                                      ),
-                                      Text(
-                                        'EXCELLENT',
-                                        style: GoogleFonts.rubik(
-                                          height: 1.3,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: const Color(0xFF059669),
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                                 SizedBox(width: mediaQuery.size.width * 0.02),
-                                MaterialCard(
-                                  height: mediaQuery.size.height * 0.18,
-                                  width: mediaQuery.size.width * 0.37,
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: mediaQuery.size.height * 0.012,
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          '${userStatModel.totalQuestionAttempted}',
-                                          style: GoogleFonts.rubik(
-                                            height: 1.3,
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 29,
-                                            color: PreMedColorTheme().red,
+                                Expanded(
+                                child:Container(
+                                  decoration: const BoxDecoration(
+                                      boxShadow: CustomBoxShadow.boxShadow40
+                                  ),
+                                  child: MaterialCard(
+                                    height: mediaQuery.size.height * 0.19,
+                                    width: mediaQuery.size.width * 0.49,
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: mediaQuery.size.height * 0.012,
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '${userStatModel.totalQuestionAttempted}',
+                                            style: GoogleFonts.rubik(
+                                              height: 1.3,
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 29,
+                                              color: PreMedColorTheme().red,
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          'Total Questions\nAttempted',
-                                          textAlign: TextAlign.center,
-                                          style: GoogleFonts.rubik(
-                                            height: 1.3,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12,
-                                            color: const Color(0xFF000000),
+                                          Text(
+                                            'Total Questions\nAttempted',
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.rubik(
+                                              height: 1.3,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12,
+                                              color: const Color(0xFF000000),
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ),),
                               ],
                             ),
                             SizedBox(height: mediaQuery.size.height * 0.015),
@@ -374,24 +392,34 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                MaterialCard(
-                                  width: mediaQuery.size.width * 0.45,
-                                  child: StatDetailHolder1(
-                                    textColor: const Color(0xFF60CDBB),
-                                    count: formatTime(
-                                        userStatModel.totalTimeTaken),
-                                    details: 'Total \n Time Taken',
-                                    preDetails: 'Minutes',
+                                Container(
+                                  decoration: const BoxDecoration(
+                                      boxShadow: CustomBoxShadow.boxShadow40
+                                  ),
+                                  child: MaterialCard(
+                                    width: mediaQuery.size.width * 0.45,
+                                    child: StatDetailHolder1(
+                                      textColor: const Color(0xFF60CDBB),
+                                      count: formatTime(
+                                          userStatModel.totalTimeTaken),
+                                      details: 'Total \n Time Taken',
+                                      preDetails: 'Minutes',
+                                    ),
                                   ),
                                 ),
                                 SizedBox(width: mediaQuery.size.width * 0.02),
                                 Expanded(
-                                  child: MaterialCard(
-                                    child: StatDetailHolder1(
-                                      textColor: PreMedColorTheme().red,
-                                      count: userStatModel.avgTimePerQuestion,
-                                      details: 'Avg.Time Per \n Question',
-                                      preDetails: 'Seconds',
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                        boxShadow: CustomBoxShadow.boxShadow40
+                                    ),
+                                    child: MaterialCard(
+                                      child: StatDetailHolder1(
+                                        textColor: PreMedColorTheme().red,
+                                        count: userStatModel.avgTimePerQuestion,
+                                        details: 'Avg.Time Per \n Question',
+                                        preDetails: 'Seconds',
+                                      ),
                                     ),
                                   ),
                                 ),

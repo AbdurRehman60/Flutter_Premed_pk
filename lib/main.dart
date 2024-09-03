@@ -44,20 +44,18 @@ import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProvider
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/essen_stuff_pro.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/essential_stuff_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/mnemonics_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_access_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/shortListing_providers.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/study_guides_prroviderr.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/study_notes_proivders.dart';
-import 'package:premedpk_mobile_app/providers/vaultProviders/premed_access_provider.dart';
 import 'package:premedpk_mobile_app/providers/web_notifications_provider.dart';
 import 'package:premedpk_mobile_app/utils/services/notifications/firebase_messaging_api.dart';
 import 'package:provider/provider.dart';
-
 import 'firebase_options.dart';
 
 List<CameraDescription> cameras = [];
 final navigatorKey = GlobalKey<NavigatorState>();
-
 Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
