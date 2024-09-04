@@ -614,12 +614,13 @@ class _TestInterfaceState extends State<TestInterface> {
 
 
     return Scaffold(
+      backgroundColor: PreMedColorTheme().background,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(70.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: AppBar(
-            backgroundColor: PreMedColorTheme().white,
+            backgroundColor: PreMedColorTheme().background,
             leading: Container(
               margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -725,12 +726,14 @@ class _TestInterfaceState extends State<TestInterface> {
                         ),
                         onPressed: () {
                           if (isSaved) {
+                            print('isSaved');
                             saveQuestionProvider.removeQuestion(
                               questionId,
                               subject,
                               userProvider.user?.userId ?? '',
                             );
                           } else {
+                            print('Removed');
                             saveQuestionProvider.saveQuestion(
                               questionId,
                               subject,
