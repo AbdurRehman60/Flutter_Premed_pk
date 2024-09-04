@@ -11,7 +11,7 @@ class RecentAttempt {
 
   factory RecentAttempt.fromJson(Map<String, dynamic> json) {
     return RecentAttempt(
-      id: json['_id'],
+      id: json['attempts']['_id'],
       attempts: json['attempts'] != null ? Attempts.fromJson(json['attempts']) : null,
       attemptedDate: DateTime.parse(json['attemptedDate']),
       totalAttempts: json['totalAttempts'],
@@ -28,8 +28,14 @@ class RecentAttempt {
   String? mode;
   String? deckName;
   int? totalQuestions;
+
+  // Method to get the subject from the first attempt
+  String? get subject => attempts?.attempts?.first.subject;
+
+  // Method to get the category from metadata
+  String? get category => attempts?.metadata?.category;
 }
-/////1
+
 
 class Attempts {
   Attempts({
@@ -38,6 +44,7 @@ class Attempts {
     this.userId,
     this.attempts,
     this.attemptMode,
+    this.metadata,
     this.createdAt,
     this.updatedAt,
     this.v,
@@ -53,9 +60,10 @@ class Attempts {
       deckId: json['deckId'],
       userId: json['userId'],
       attempts: (json['attempts'] as List?)
-          ?.map((e) => Attempt.fromJson(e))
+          ?.map((e) => AttemptofQuestions.fromJson(e))
           .toList(),
       attemptMode: json['attemptMode'],
+      metadata: json['metadata'] != null ? Metadata.fromJson(json['metadata']) : null,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       v: json['__v'],
@@ -69,8 +77,9 @@ class Attempts {
   String? id;
   String? deckId;
   String? userId;
-  List<Attempt>? attempts;
+  List<AttemptofQuestions>? attempts;
   String? attemptMode;
+  Metadata? metadata;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
@@ -79,10 +88,26 @@ class Attempts {
   int? skippedAttempts;
   int? totalTimeTaken;
 }
-////2
 
-class Attempt {
-  Attempt({
+class Metadata {
+  Metadata({
+    this.entity,
+    this.category,
+  });
+
+  factory Metadata.fromJson(Map<String, dynamic> json) {
+    return Metadata(
+      entity: json['entity'],
+      category: json['category'],
+    );
+  }
+
+  String? entity;
+  String? category;
+}
+
+class AttemptofQuestions {
+  AttemptofQuestions({
     this.attemptId,
     required this.questionId,
     this.selection,
@@ -93,8 +118,8 @@ class Attempt {
     this.attempted,
   });
 
-  factory Attempt.fromJson(Map<String, dynamic> json) {
-    return Attempt(
+  factory AttemptofQuestions.fromJson(Map<String, dynamic> json) {
+    return AttemptofQuestions(
       attemptId: json['attemptId'],
       questionId: json['questionId'],
       selection: json['selection'],

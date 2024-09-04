@@ -186,6 +186,7 @@ class AuthProvider extends ChangeNotifier {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           final String? fcmToken = prefs.getString('fcmToken');
+          print("this is the fcmtoken while login $fcmToken");
           await _client.post(
             Endpoints.SaveFCMToken,
             data: {'fcmToken': fcmToken},
@@ -472,6 +473,7 @@ class AuthProvider extends ChangeNotifier {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
       final String? fcmToken = prefs.getString('fcmToken');
+      print (fcmToken);
       await _client.post(
         Endpoints.DeleteFCMToken,
         data: {'fcmToken': fcmToken},
@@ -508,6 +510,7 @@ class AuthProvider extends ChangeNotifier {
     }
     return result;
   }
+
 
   Future<Map<String, dynamic>> continueWithGoogle() async {
     //method1

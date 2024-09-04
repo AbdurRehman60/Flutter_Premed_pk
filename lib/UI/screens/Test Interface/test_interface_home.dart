@@ -87,7 +87,7 @@ class _TestInterfaceState extends State<TestInterface> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fetchAllQuestions().then((_) {
         if (widget.isReview == true || widget.isContinuingAttempt == true) {
-          _loadPreviousSelections();
+          _loadSelectedOptions(); // Load selected options
         } else {
           _clearSelectionsForReattempt();
         }
@@ -104,24 +104,27 @@ class _TestInterfaceState extends State<TestInterface> {
     setState(() {});
   }
 
-  void _loadPreviousSelections() {
-    final deckInfo =
-        Provider.of<DeckProvider>(context, listen: false).deckInformation;
-    if (deckInfo != null && deckInfo.attempts != null) {
-      for (var attempt in deckInfo.attempts!) {
-        int questionIndex = getIndexForQuestionId(attempt['questionId']);
-        if (questionIndex != -1) {
-          selectedOptions[questionIndex] = attempt['selection'];
-          isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
-        }
-      }
+  Future<void> _loadSelectedOptions() async {
+    final prefs = await SharedPreferences.getInstance();
+    final selectedOptionsString = prefs.getString('selectedOptions_${widget.attemptId}');
+    if (selectedOptionsString != null) {
+      selectedOptions = List<String?>.from(jsonDecode(selectedOptionsString));
+      print("DEBUG: Loaded selected options for ${widget.attemptId}: $selectedOptionsString");
+    } else {
+      selectedOptions = List<String?>.filled(200, null, growable: true);
     }
     setState(() {});
   }
 
+  Future<void> _saveSelectedOptions() async {
+    final prefs = await SharedPreferences.getInstance();
+    final selectedOptionsString = jsonEncode(selectedOptions);
+    prefs.setString('selectedOptions_${widget.attemptId}', selectedOptionsString);
+    print("DEBUG: Saved selected options for ${widget.attemptId}: $selectedOptionsString");
+  }
+
   int getIndexForQuestionId(String questionId) {
-    final questions =
-        Provider.of<QuestionProvider>(context, listen: false).questions;
+    final questions = Provider.of<QuestionProvider>(context, listen: false).questions;
     if (questions != null) {
       for (int i = 0; i < questions.length; i++) {
         if (questions[i].questionId == questionId) {
@@ -134,18 +137,14 @@ class _TestInterfaceState extends State<TestInterface> {
 
   Future<void> _loadCurrentQuestionIndex() async {
     if (widget.isReview == true) {
-      print(
-          "DEBUG: Skipping loading question index from SharedPreferences in review mode.");
+      print("DEBUG: Skipping loading question index from SharedPreferences in review mode.");
       return;
     }
 
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      currentQuestionIndex =
-          prefs.getInt('currentQuestionIndex_${widget.attemptId}') ??
-              widget.startFromQuestion;
-      print(
-          "DEBUG: Loaded currentQuestionIndex = $currentQuestionIndex from SharedPreferences");
+      currentQuestionIndex = prefs.getInt('currentQuestionIndex_${widget.attemptId}') ?? widget.startFromQuestion;
+      print("DEBUG: Loaded currentQuestionIndex = $currentQuestionIndex from SharedPreferences");
     });
   }
 
@@ -153,6 +152,7 @@ class _TestInterfaceState extends State<TestInterface> {
   void dispose() {
     if (widget.isReview != true) {
       _saveCurrentQuestionIndex();
+      _saveSelectedOptions(); // Save selected options
     }
     _timer?.cancel();
     _durationNotifier.dispose();
@@ -161,10 +161,8 @@ class _TestInterfaceState extends State<TestInterface> {
 
   Future<void> _saveCurrentQuestionIndex() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setInt('currentQuestionIndex_${widget.attemptId}',
-        currentQuestionIndex);
-    print(
-        "DEBUG: Saved currentQuestionIndex = $currentQuestionIndex to SharedPreferences");
+    prefs.setInt('currentQuestionIndex_${widget.attemptId}', currentQuestionIndex);
+    print("DEBUG: Saved currentQuestionIndex = $currentQuestionIndex to SharedPreferences");
   }
 
   void _startTimer() {
@@ -246,6 +244,7 @@ class _TestInterfaceState extends State<TestInterface> {
       );
 
       selectedOptions[currentQuestionIndex] = selectedOption;
+      _saveSelectedOptions(); // Save the selected options
     }
   }
 
@@ -341,7 +340,7 @@ class _TestInterfaceState extends State<TestInterface> {
           print("Error: Attempted to access an invalid question index.");
         }
       });
-    }else if(currentQuestionIndex == 0){
+    } else if (currentQuestionIndex == 0) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => const MainNavigationScreen(),
@@ -349,7 +348,6 @@ class _TestInterfaceState extends State<TestInterface> {
       );
     }
   }
-
 
   Future<void> _fetchAllQuestions() async {
     setState(() {
@@ -377,6 +375,7 @@ class _TestInterfaceState extends State<TestInterface> {
         optionSelected = true;
         selectedOptions[currentQuestionIndex] = selectedOption;
       });
+      _saveSelectedOptions(); // Save the selected option immediately
     }
   }
 
@@ -532,6 +531,7 @@ class _TestInterfaceState extends State<TestInterface> {
           ],
         ));
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -860,6 +860,8 @@ class _TestInterfaceState extends State<TestInterface> {
                 final isSelected = option.optionLetter == selectedOption;
                 final borderColor =
                 isSelected ? Colors.blue : PreMedColorTheme().neutral400;
+                print(
+                    'Option ${option.optionLetter}: ${parsedOptionText ?? ''}, Selected: $isSelected, Color: ${isSelected ? "Blue" : "Neutral"}');
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
