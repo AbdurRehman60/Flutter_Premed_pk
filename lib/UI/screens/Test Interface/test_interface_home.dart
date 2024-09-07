@@ -12,6 +12,7 @@ import '../../../models/question_model.dart';
 import '../../../providers/deck_info_provider.dart';
 import '../../../providers/question_provider.dart';
 import '../../../providers/save_question_provider.dart';
+import '../../../providers/savedquestion_provider.dart';
 import '../../../providers/update_attempt_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../navigation_screen/main_navigation_screen.dart';
@@ -708,11 +709,11 @@ class _TestInterfaceState extends State<TestInterface> {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Consumer<SaveQuestionProvider>(
-                    builder: (context, saveQuestionProvider, child) {
+                  Consumer2<SaveQuestionProvider,SavedQuestionsProvider>(
+                    builder: (context, saveQuestionProvider,savedQuestionsProvider, child) {
                       final String questionId = question.questionId;
                       final String subject = question.subject;
-                      final bool isSaved = saveQuestionProvider.isQuestionSaved(
+                      final bool isSaved = savedQuestionsProvider.isQuestionSaved(
                           questionId, subject);
                       final buttonText = isSaved ? 'Remove' : 'Save';
                       return ElevatedButton(
@@ -724,21 +725,23 @@ class _TestInterfaceState extends State<TestInterface> {
                             borderRadius: BorderRadius.circular(24),
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async{
                           if (isSaved) {
                             print('isSaved');
-                            saveQuestionProvider.removeQuestion(
+                         await saveQuestionProvider.removeQuestion(
                               questionId,
                               subject,
                               userProvider.user?.userId ?? '',
                             );
+                            savedQuestionsProvider.getSavedQuestions(userId: userProvider.user?.userId ?? '');
                           } else {
                             print('Removed');
-                            saveQuestionProvider.saveQuestion(
+                           await saveQuestionProvider.saveQuestion(
                               questionId,
                               subject,
                               userProvider.user?.userId ?? '',
                             );
+                            savedQuestionsProvider.getSavedQuestions(userId: userProvider.user?.userId ?? '');
                           }
                         },
                         child: Row(

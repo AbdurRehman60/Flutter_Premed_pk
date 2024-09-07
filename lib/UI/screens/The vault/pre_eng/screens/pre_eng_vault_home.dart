@@ -93,7 +93,7 @@ class _VaultHomeState extends State<PreEngVaultHome> {
                     Row(
                       children: [
                         GradientButton(
-                            text: '11th Hour Prep',
+                            text: 'Essential Stuff',
                             gradient: const LinearGradient(
                               colors: <Color>[
                                 Color(0xFF44009B),
@@ -109,7 +109,7 @@ class _VaultHomeState extends State<PreEngVaultHome> {
                             }),
                         SizedBoxes.horizontal10Px,
                         GradientButton(
-                            text: 'Rivision Notes',
+                            text: 'Study Notes',
                             gradient: const LinearGradient(
                               colors: <Color>[
                                 Color(0xFF80239F),

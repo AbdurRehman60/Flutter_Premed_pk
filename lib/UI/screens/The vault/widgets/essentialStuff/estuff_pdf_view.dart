@@ -1,5 +1,6 @@
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
+import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/models/essence_stuff_model.dart';
 import '../../../../../constants/constants_export.dart';
 import '../../../../Widgets/global_widgets/empty_state.dart';
@@ -132,6 +133,27 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
     );
   }
 
+  void _showAlertDialog(BuildContext context,String title) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Alert',style: PreMedTextTheme().body.copyWith(fontSize: 16,fontWeight: FontWeight.bold),),
+          content: Text(title,style: PreMedTextTheme().body.copyWith(fontSize: 13,),),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<String>(
@@ -255,6 +277,8 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
                         if (widget.essenceStuffModel.pagination != null &&
                             widget.essenceStuffModel.pagination!.isNotEmpty) {
                           openDemarcationBottomSheet();
+                        }else{
+                          _showAlertDialog(context,'No Demarcations Found');
                         }
                       },
                       child: Image.asset(
@@ -298,7 +322,9 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
                         border: Border.all(
                             color: PreMedColorTheme().primaryColorRed)),
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        _showAlertDialog(context,'No Demarcations Found');
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Image.asset(

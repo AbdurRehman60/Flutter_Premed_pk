@@ -1,10 +1,12 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/dashboard_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/cheatSheetsHome.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/estuff_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/mnemonics_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/shortlistings.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/studynotes.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/topical_guides.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/cheatsheets/cheatsheets_reel.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/essentialStuff/essence_stuff_builder.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/guides_or_notes_page.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/mnemonics/mnemonics_reel_builder.dart';
@@ -159,6 +161,18 @@ class _VaultHomeState extends State<VaultHome> {
                                   MaterialPageRoute(
                                       builder: (context) => const ShortlistingsHome()));
                             }),
+                        GradientButton(
+                          text: 'CheatSheets',
+                          gradient: const LinearGradient(
+                            colors: <Color>[Color(0xFF9061f9), Color(0xFF3f83f8)],
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const CheatSheetsHome()));
+                          },
+                        ),
                       ],
                     )
 
@@ -174,7 +188,7 @@ class _VaultHomeState extends State<VaultHome> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBoxes.vertical26Px,
+                          SizedBoxes.vertical15Px,
                           Row(
                             children: [
                               const GradientText(
@@ -410,6 +424,65 @@ class _VaultHomeState extends State<VaultHome> {
               const Padding(
                 padding: EdgeInsets.only(left: 15, top: 10),
                 child: ShortListingNotesPage(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBoxes.vertical26Px,
+                          Row(
+                            children: [
+                              const GradientText(
+                                text: 'Cheat',
+                                fontSize: 18,
+                              ),
+                              Text('Sheets',
+                                  style: PreMedTextTheme().heading1.copyWith(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700)),
+                              const Spacer(),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                          const CheatSheetsHome()));
+                                },
+                                child: Text('View All',
+                                    style: PreMedTextTheme().heading1.copyWith(
+                                        color:
+                                        PreMedColorTheme().primaryColorRed,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700)),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            'Insights to every topic from every board of Pakistan!',
+                            style: PreMedTextTheme().heading1.copyWith(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBoxes.vertical10Px,
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, top: 7),
+                child: Container(
+                    height: 83,
+                    child: const CheatSheetsReel()),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15)

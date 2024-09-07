@@ -48,6 +48,7 @@ class AuthProvider extends ChangeNotifier {
     return _info?.lastOnboardingPage ?? '';
   }
 
+  // Properties for holding user data
   String _parentContactNumber = '';
   String get parentContactNumber => _parentContactNumber;
   set parentContactNumber(String value) {
@@ -162,6 +163,7 @@ class AuthProvider extends ChangeNotifier {
   GoogleSignInAccount? _googleUser;
   GoogleSignInAccount get googleUser => _googleUser!;
 
+  /// Login method
   Future<Map<String, dynamic>> login(String email, String password, bool isApp) async {
     Map<String, Object?> result;
     final Map<String, dynamic> loginData = {
@@ -180,17 +182,20 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData["success"]) {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           final String? fcmToken = prefs.getString('fcmToken');
-          print("this is the fcmtoken while login $fcmToken");
-          await _client.post(
-            Endpoints.SaveFCMToken,
-            data: {'fcmToken': fcmToken},
-          );
+
+          // Ensure the FCM token is persisted
+          if (fcmToken != null) {
+            await _client.post(
+              Endpoints.SaveFCMToken,
+              data: {'fcmToken': fcmToken},
+            );
+          }
 
           if (userResponse['status']) {
             _loggedInStatus = Status.LoggedIn;
@@ -235,6 +240,7 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
+  /// Get the logged-in user
   Future<Map<String, dynamic>> getLoggedInUser() async {
     Map<String, dynamic> result;
 
@@ -248,15 +254,9 @@ class AuthProvider extends ChangeNotifier {
         final User user = User.fromJson(responseData);
         await UserPreferences().saveUser(user);
         UserProvider().user = user;
-        //
-        // print('User Info lastOnboardingPage: ${user.info.lastOnboardingPage}');
 
         final String? accountType = user.accountType;
         final String lastOnboardingPage = user.info.lastOnboardingPage;
-        //
-        // print('accountType: $accountType');
-        // print('Pagestatus (user.info): ${lastOnboardingPage.isEmpty}');
-        // print('Pagestatus (responseData): $lastOnboardingPage');
 
         if (accountType == "google" && user.info.lastOnboardingPage.isEmpty) {
           result = {
@@ -316,11 +316,7 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-
-
-
-
-
+  /// Sign-up method
   Future<Map<String, dynamic>> signup(
       String email, String password, String fullName, {bool appUser = false}) async {
     Map<String, Object?> result;
@@ -379,7 +375,7 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-
+  /// Required Onboarding method
   Future<Map<String, dynamic>> requiredOnboarding({
     required String username,
     required String lastOnboardingPage,
@@ -427,7 +423,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData.containsKey('info') && responseData['info'] != null) {
           _info = Info.fromJson(responseData['info']);
@@ -463,6 +459,7 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
+  /// Logout method
   Future<Map<String, dynamic>> logout() async {
     Map<String, Object?> result;
 
@@ -473,11 +470,15 @@ class AuthProvider extends ChangeNotifier {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
       final String? fcmToken = prefs.getString('fcmToken');
-      print (fcmToken);
-      await _client.post(
-        Endpoints.DeleteFCMToken,
-        data: {'fcmToken': fcmToken},
-      );
+      print('tokkken :$fcmToken');
+
+      if (fcmToken != null) {
+
+        await _client.post(
+          Endpoints.DeleteFCMToken,
+          data: {'fcmToken': fcmToken},
+        );
+      }
 
       final Response response = await _client.logout(
         Endpoints.logout,
@@ -511,9 +512,8 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-
+  /// Continue with Google
   Future<Map<String, dynamic>> continueWithGoogle() async {
-    //method1
     Map<String, Object?> result;
 
     try {
@@ -535,10 +535,8 @@ class AuthProvider extends ChangeNotifier {
         "fullname": googleUser.displayName.toString(),
         "picture": googleUser.photoUrl.toString(),
         "token": googleAuth.accessToken.toString(),
-        "token": googleAuth.accessToken.toString(),
         "isApp": true,
       };
-
 
       try {
         final Response response = await _client.post(
@@ -547,21 +545,22 @@ class AuthProvider extends ChangeNotifier {
         );
 
         if (response.statusCode == 200) {
-
           print('response statusCode : ${response.statusCode}');
           final Map<String, dynamic> responseData =
-              Map<String, dynamic>.from(response.data);
+          Map<String, dynamic>.from(response.data);
 
           if (responseData["success"]) {
             final Map<String, dynamic> userResponse = await getLoggedInUser();
             final SharedPreferences prefs =
-                await SharedPreferences.getInstance();
+            await SharedPreferences.getInstance();
             final String? fcmToken = prefs.getString('fcmToken');
 
-            await _client.post(
-              Endpoints.SaveFCMToken,
-              data: {'fcmToken': fcmToken},
-            );
+            if (fcmToken != null) {
+              await _client.post(
+                Endpoints.SaveFCMToken,
+                data: {'fcmToken': fcmToken},
+              );
+            }
 
             if (userResponse['status']) {
               result = {
@@ -605,6 +604,7 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
+  /// Forgot password
   Future<Map<String, dynamic>> forgotPassword(String email) async {
     Map<String, Object?> result;
     final Map<String, dynamic> forgotPasswordData = {
@@ -619,7 +619,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData["success"] != null) {
           result = {
@@ -648,6 +648,7 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
+  /// Check onboarding status
   Future<Map<String, dynamic>> checkOnboarding() async {
     Map<String, dynamic> result;
 
@@ -668,7 +669,7 @@ class AuthProvider extends ChangeNotifier {
             'message': "EntryTest",
           };
         } else if (lastOnboardingPage ==
-                "/auth/onboarding/entrance-exam/pre-medical" ||
+            "/auth/onboarding/entrance-exam/pre-medical" ||
             lastOnboardingPage ==
                 "/auth/onboarding/entrance-exam/pre-engineering") {
           result = {
@@ -676,7 +677,7 @@ class AuthProvider extends ChangeNotifier {
             'message': "RequiredOnboarding",
           };
         } else if (lastOnboardingPage ==
-                "/auth/onboarding/entrance-exam/pre-medical/features" ||
+            "/auth/onboarding/entrance-exam/pre-medical/features" ||
             lastOnboardingPage ==
                 "/auth/onboarding/entrance-exam/pre-engineering/features") {
           result = {

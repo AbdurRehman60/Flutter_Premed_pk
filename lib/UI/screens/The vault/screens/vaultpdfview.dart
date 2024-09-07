@@ -29,6 +29,8 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
     super.dispose();
   }
 
+
+
   void openDemarcationBottomSheet() {
     showModalBottomSheet(
       context: context,
@@ -125,6 +127,28 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
       },
     );
   }
+
+  void _showAlertDialog(BuildContext context,String title) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Alert',style: PreMedTextTheme().body.copyWith(fontSize: 16,fontWeight: FontWeight.bold),),
+          content: Text(title,style: PreMedTextTheme().body.copyWith(fontSize: 13,),),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -248,6 +272,8 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                         onTap: () {
                           if(widget.vaultNotesModel.pagination != null && widget.vaultNotesModel.pagination!.isNotEmpty){
                             openDemarcationBottomSheet();
+                          }else{
+                            _showAlertDialog(context, 'No Demarcations Available');
                           }
                         },
                         child: Image.asset(
@@ -292,6 +318,7 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                             color: PreMedColorTheme().primaryColorRed)),
                     child: GestureDetector(
                       onTap: () {
+                        _showAlertDialog(context, 'Coming Soon');
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),

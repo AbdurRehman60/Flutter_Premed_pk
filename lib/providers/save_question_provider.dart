@@ -1,12 +1,15 @@
 // import 'package:dio/dio.dart';
 // import 'package:flutter/material.dart';
-// import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
-//
-// enum Status {
-//   init,
-//   fetching,
-//   success,
-// }
+import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
+
+import '../api_manager/dio client/dio_client.dart';
+import '../constants/constants_export.dart';
+
+enum Status {
+  init,
+  fetching,
+  success,
+}
 //
 // class SaveQuestionProvider extends ChangeNotifier {
 //   SaveQuestionProvider();
@@ -17,7 +20,8 @@
 //   List<Map<String, String>> savedQuestions = [];
 //
 //   // save
-//   Future<void> saveQuestion(String questionId, String subject, String userId) async {
+//   Future<void> saveQuestion(String questionId, String subject,
+//       String userId) async {
 //     print('questiondfrom test interface: $questionId');
 //     print('subjectfrom test interface: $subject');
 //     print('useridfrom test interface: $userId');
@@ -54,11 +58,15 @@
 //   }
 //
 //   // to remove
-//   Future<void> removeQuestion(String questionId, String subject, String userId) async {
+//   Future<void> removeQuestion(String questionId, String subject,
+//       String userId) async {
+//     print('objectidfrompro :$questionId');
+//     print('objectsubjectfropro:$subject');
 //     status = Status.fetching;
 //     notifyListeners();
 //
 //     try {
+//       print('entered');
 //       final response = await dio.post(
 //         Endpoints.serverURL + Endpoints.handleSavedQuestion,
 //         data: {
@@ -68,8 +76,8 @@
 //           'remove': true,
 //         },
 //       );
-//
 //       if (response.statusCode == 200) {
+//         print('remocinv');
 //         status = Status.init;
 //         message = 'Question removed successfully';
 //
@@ -87,26 +95,20 @@
 //       notifyListeners();
 //     }
 //   }
-//
-//   // check if saved
-//   bool isQuestionSaved(String questionId, String subject) {
-//     print('toSave questionId: $questionId');
-//     print('subejct Tsaved: $subject');
-//     print('savedQuestionLength :${savedQuestions.length}');
-//     return savedQuestions.any((savedQuestion) =>
-//     savedQuestion['questionId'] == questionId &&
-//         savedQuestion['subject'] == subject);
-//   }
-// }
-import 'package:flutter/material.dart';
-import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart'; // Import your DioClient
-import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 
-enum Status {
-  init,
-  fetching,
-  success,
-}
+  // check if saved
+  // bool isQuestionSaved(String questionId, String subject) {
+  //   print('toSave questionId: $questionId');
+  //   print('subejct Tsaved: $subject');
+  //   print('savedQuestionLength :${savedQuestions.length}');
+  //   return savedQuestions.any((savedQuestion) =>
+  //   savedQuestion['questionId'] == questionId &&
+  //       savedQuestion['subject'] == subject);
+  // }
+// }
+
+// }
+
 
 class SaveQuestionProvider extends ChangeNotifier {
   SaveQuestionProvider();
@@ -181,10 +183,27 @@ class SaveQuestionProvider extends ChangeNotifier {
     }
   }
 
-  // Check if a question is saved
-  bool isQuestionSaved(String questionId, String subject) {
-    return savedQuestions.any((savedQuestion) =>
-    savedQuestion['questionId'] == questionId &&
-        savedQuestion['subject'] == subject);
-  }
+  // bool isQuestionSaved(String questionId, String subject) {
+  //   print('toChecK id: $questionId');
+  //   print('subject toCheck: $subject');
+  //
+  //   for (var savedQuestion in savedQuestions) {
+  //     bool isIdMatch = savedQuestion['questionId'] == questionId;
+  //     bool isSubjectMatch = savedQuestion['subject'] == subject;
+  //
+  //     print('Checking savedQuestion: ${savedQuestion['questionId']}');
+  //     print('Subject of savedQuestion: ${savedQuestion['subject']}');
+  //     print('Is questionId match? $isIdMatch');
+  //     print('Is subject match? $isSubjectMatch');
+  //
+  //     if (isIdMatch && isSubjectMatch) {
+  //       print('Question is saved');
+  //       return true;
+  //     }
+  //   }
+  //
+  //   print('Question is not saved');
+  //   return false;
+  // }
+
 }

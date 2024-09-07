@@ -22,10 +22,16 @@ class _FlashcardHomeState extends State<FlashcardHome> {
   @override
   void initState() {
     super.initState();
-    final userId =
-        Provider.of<UserProvider>(context, listen: false).user!.userId;
-    Provider.of<FlashcardProvider>(context, listen: false)
-        .getFlashcardsByUser(userId);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // This ensures that the call is deferred until after the current build phase.
+    Future.microtask(() {
+      final userId = Provider.of<UserProvider>(context, listen: false).user!.userId;
+      Provider.of<FlashcardProvider>(context, listen: false).getFlashcardsByUser(userId);
+    });
   }
 
   @override
@@ -52,10 +58,10 @@ class _FlashcardHomeState extends State<FlashcardHome> {
               child: Text(
                 'My Saved Facts',
                 style: PreMedTextTheme().heading6.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontSize: 34,
-                      fontWeight: FontWeight.w800,
-                    ),
+                  color: PreMedColorTheme().black,
+                  fontSize: 34,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
           ),
@@ -74,7 +80,7 @@ class _FlashcardHomeState extends State<FlashcardHome> {
                       padding: const EdgeInsets.symmetric(horizontal: 21),
                       itemCount: gridData.length,
                       gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         mainAxisSpacing: 21,
                         crossAxisSpacing: 18,
@@ -118,6 +124,8 @@ class _FlashcardHomeState extends State<FlashcardHome> {
     );
   }
 }
+
+
 
 class FlashcardItem extends StatelessWidget {
   const FlashcardItem({
