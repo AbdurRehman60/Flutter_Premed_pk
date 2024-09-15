@@ -2,6 +2,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../The vault/widgets/back_button.dart';
 
 class SubscriptionDetailsScreen extends StatefulWidget {
@@ -13,8 +14,20 @@ class SubscriptionDetailsScreen extends StatefulWidget {
 }
 
 class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
+  Future<void> _launchURL(String appToken) async {
+    final url =
+        'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    final String appToken = userProvider.user?.info.appToken ?? '';
     return Scaffold(
       backgroundColor: PreMedColorTheme().background,
       appBar: PreferredSize(
@@ -46,7 +59,9 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
             ),
             actions: [
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  _launchURL(appToken);
+                },
                 child: Container(
                   height: 25,
                   width: 90,
@@ -93,26 +108,57 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
                     ),
               ),
               SizedBoxes.vertical15Px,
-              const SubscriptionDetailSection(
+              SubscriptionDetailSection(
                 title: 'MDCAT',
                 items: [
-                  DetailItem(isAvailable: true, label: 'Chapter-Wise MCQs'),
-                  DetailItem(isAvailable: true, label: 'Past-Paper MCQs'),
-                  DetailItem(isAvailable: true, label: 'Weekly Tests'),
                   DetailItem(
-                      isAvailable: false, label: 'Self-Assessment Mocks'),
-                  DetailItem(isAvailable: false, label: 'Test Sessions'),
+                      isAvailable: true,
+                      label: 'Chapter-Wise MCQs',
+                      onTap: () {}),
+                  DetailItem(
+                      isAvailable: true,
+                      label: 'Past-Paper MCQs',
+                      onTap: () {}),
+                  DetailItem(
+                      isAvailable: true, label: 'Weekly Tests', onTap: () {}),
+                  DetailItem(
+                      isAvailable: false,
+                      label: 'Self-Assessment Mocks',
+                      onTap: () {
+                        _launchURL(appToken);
+                      }),
+                  DetailItem(
+                      isAvailable: false,
+                      label: 'Test Sessions',
+                      onTap: () {
+                        _launchURL(appToken);
+                      }),
                 ],
               ),
               SizedBoxes.verticalBig,
-              const SubscriptionDetailSection(
+              SubscriptionDetailSection(
                 title: 'NUMS',
                 items: [
-                  DetailItem(isAvailable: true, label: 'Chapter-Wise MCQs'),
-                  DetailItem(isAvailable: true, label: 'Past-Paper MCQs'),
-                  DetailItem(isAvailable: false, label: 'Weekly Tests'),
-                  DetailItem(isAvailable: true, label: 'Self-Assessment Mocks'),
-                  DetailItem(isAvailable: true, label: 'Test Sessions'),
+                  DetailItem(
+                      isAvailable: true,
+                      label: 'Chapter-Wise MCQs',
+                      onTap: () {}),
+                  DetailItem(
+                      isAvailable: true,
+                      label: 'Past-Paper MCQs',
+                      onTap: () {}),
+                  DetailItem(
+                      isAvailable: false,
+                      label: 'Weekly Tests',
+                      onTap: () {
+                        _launchURL(appToken);
+                      }),
+                  DetailItem(
+                      isAvailable: true,
+                      label: 'Self-Assessment Mocks',
+                      onTap: () {}),
+                  DetailItem(
+                      isAvailable: true, label: 'Test Sessions', onTap: () {}),
                 ],
               ),
             ],
@@ -306,9 +352,14 @@ class SubscriptionDetailSection extends StatelessWidget {
 }
 
 class DetailItem extends StatelessWidget {
-  const DetailItem({super.key, required this.isAvailable, required this.label});
+  const DetailItem(
+      {super.key,
+      required this.isAvailable,
+      required this.label,
+      required this.onTap});
   final bool isAvailable;
   final String label;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -334,7 +385,7 @@ class DetailItem extends StatelessWidget {
           const Spacer(),
           if (!isAvailable)
             ElevatedButton(
-              onPressed: () {},
+              onPressed: onTap,
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),

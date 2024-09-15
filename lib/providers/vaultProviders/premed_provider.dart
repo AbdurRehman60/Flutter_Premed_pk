@@ -34,6 +34,7 @@ class PreMedProvider with ChangeNotifier {
   Future<void> loadFromPreferences() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     _isPreMed = prefs.getBool(_isPreMedKey) ?? true;
+    print('fromPref: $_isPreMed');
     notifyListeners();
   }
 
@@ -52,7 +53,9 @@ class DashboardSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PreMedProvider>(
       builder: (context, preMedProvider, child) {
-        if (preMedProvider.isPreMed &&  preMedProvider._onBoardingTrack) {
+        print('checkforPro :${preMedProvider.isPreMed}');
+        print('onBoad:${preMedProvider._onBoardingTrack}');
+        if (preMedProvider.isPreMed) {
           return const DashboardScreen();
         } else {
           return const EngineeringDashboardScreen();

@@ -102,9 +102,9 @@ class _AnalyticsState extends State<Analytics> {
         ),
         body: Consumer<AttemptProvider>(
           builder: (context, attemptProvider, child) {
-            if (attemptProvider.status == Status.fetching) {
+            if (attemptProvider.status == AStatus.fetching) {
               return const Center(child: CircularProgressIndicator());
-            } else if (attemptProvider.status == Status.success) {
+            } else if (attemptProvider.status == AStatus.success) {
               final attemptInfo = attemptProvider.attemptInfo;
               return attemptInfo != null
                   ? SingleChildScrollView(

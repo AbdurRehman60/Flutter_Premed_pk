@@ -1,4 +1,6 @@
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FlashcardShimmer extends StatelessWidget {
@@ -10,7 +12,7 @@ class FlashcardShimmer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: GridView.builder(
-          itemCount: 7,
+          itemCount: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? 7 : 8,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 21,

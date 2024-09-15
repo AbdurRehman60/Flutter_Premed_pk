@@ -1,5 +1,6 @@
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/school_data_widget.dart';
+import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/delete_account.dart';
 import 'package:premedpk_mobile_app/UI/widgets/cities_data_widget.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
@@ -7,8 +8,9 @@ import 'package:premedpk_mobile_app/UI/widgets/phone_dropdown.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:premedpk_mobile_app/utils/Data/school_data.dart';
-
+import 'package:provider/provider.dart';
 import '../../../../utils/Data/citites_data.dart';
 
 class EditProfile extends StatefulWidget {
@@ -90,31 +92,7 @@ class _EditProfileState extends State<EditProfile> {
       backgroundColor: PreMedColorTheme().background,
       appBar: AppBar(
         backgroundColor: PreMedColorTheme().background,
-        leading: Container(
-          margin: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: const Offset(0, 2),
-              ),
-            ],
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          alignment: Alignment.center,
-          child: Center(
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios_new_rounded,
-                  color: PreMedColorTheme().primaryColorRed),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
-        ),
+        leading: const PopButton(),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -204,6 +182,10 @@ class _EditProfileState extends State<EditProfile> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             CustomButton(
+              color:
+                  Provider.of<PreMedProvider>(context, listen: false).isPreMed
+                      ? PreMedColorTheme().red
+                      : PreMedColorTheme().blue,
               buttonText: 'Save Changes',
               onPressed: onEditDetailsPressed,
             ),
@@ -223,9 +205,18 @@ class _EditProfileState extends State<EditProfile> {
               child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(
-                        color: PreMedColorTheme().bordercolor, width: 2),
+                        color:
+                            Provider.of<PreMedProvider>(context, listen: false)
+                                    .isPreMed
+                                ? PreMedColorTheme().red
+                                : PreMedColorTheme().blue,
+                        width: 2),
                     borderRadius: BorderRadius.circular(11)),
                 child: CustomButton(
+                  color: Provider.of<PreMedProvider>(context, listen: false)
+                          .isPreMed
+                      ? PreMedColorTheme().red
+                      : PreMedColorTheme().blue,
                   buttonText: 'Delete account',
                   onPressed: () {
                     Navigator.pushReplacement(

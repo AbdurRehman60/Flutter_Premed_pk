@@ -126,6 +126,7 @@ class DioClient {
             .map((cookie) => '${cookie.name}=${cookie.value}')
             .join('; ')
       };
+      print('cook:$options');
 
       final response = await _dio.get(
         uri,
@@ -134,6 +135,8 @@ class DioClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
+
+      print('respp: $response');
 
       return response;
     } catch (e) {

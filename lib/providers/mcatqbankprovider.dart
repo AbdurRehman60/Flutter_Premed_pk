@@ -8,18 +8,14 @@ enum MdcatFetchStatus { init, fetching, success, error }
 
 class MDCATQbankpro extends ChangeNotifier {
   MdcatFetchStatus _fetchStatus =  MdcatFetchStatus.init;
-
   MdcatFetchStatus get fetchStatus => _fetchStatus;
-
   List<DeckGroupModel> _deckGroups = [];
-
   List<DeckGroupModel> get deckGroups => _deckGroups;
 
   Future<void> fetchDeckGroups() async {
     try {
       _fetchStatus = MdcatFetchStatus.fetching;
       notifyListeners();
-
       final DioClient dio = DioClient();
       final responseData = await dio.get(Endpoints.MdcatQbank);
 

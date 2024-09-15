@@ -10,6 +10,7 @@ import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../providers/user_provider.dart';
+import '../../../providers/vaultProviders/premed_provider.dart';
 
 class FlashcardHome extends StatefulWidget {
   const FlashcardHome({super.key});
@@ -78,7 +79,7 @@ class _FlashcardHomeState extends State<FlashcardHome> {
                   return Expanded(
                     child: GridView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 21),
-                      itemCount: gridData.length,
+                      itemCount: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? 7 : 8,
                       gridDelegate:
                       const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,

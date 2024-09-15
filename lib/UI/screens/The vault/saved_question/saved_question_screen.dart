@@ -41,7 +41,7 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
 
   // When "All Questions" is tapped, navigate to TestInterfaceScreen with the filtered questions
   void _navigateToTestInterface() {
-    // If user taps "All Questions", we pass the currently filtered questions
+    if(_filteredQuestions.isNotEmpty)
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => TestInterfaceScreen(questions: _filteredQuestions),
@@ -53,7 +53,6 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
   void _filterQuestions() {
     final provider = Provider.of<SavedQuestionsProvider>(context, listen: false);
     if (_activeTopic == 'All Questions') {
-      // Get all questions if "All Questions" is selected
       _filteredQuestions = provider.savedQuestions;
     } else {
       // Filter questions based on the active topic (like Biology, Physics, etc.)

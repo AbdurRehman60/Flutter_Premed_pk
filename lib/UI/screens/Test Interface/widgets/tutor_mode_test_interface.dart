@@ -44,14 +44,19 @@ class _TutorModeState extends State<TutorMode> {
   bool isLoading = false;
 
 
+  bool isEliminated = false;
+
+
   void _eliminateOptions(List<Option> options) {
     _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
+    isEliminated = true;
     setState(() {});
   }
 
   void _undoElimination(List<Option> options) {
     options.addAll(_eliminatedOptions);
     _eliminatedOptions = [];
+    isEliminated = false;
     setState(() {});
   }
 
@@ -99,6 +104,8 @@ class _TutorModeState extends State<TutorMode> {
       });
     });
   }
+
+  bool _isLoading = false;
 
   void _clearSelectionsForReattempt() {
     selectedOptions = List<String?>.filled(200, null, growable: true);
@@ -262,7 +269,7 @@ class _TutorModeState extends State<TutorMode> {
       if (widget.isReview != true) {
         updateAttempt();
       }
-
+      isEliminated = false;
       setState(() {
         currentQuestionIndex++;
         if (currentQuestionIndex % 10 == 0 && currentPage < 26) {
@@ -459,10 +466,14 @@ class _TutorModeState extends State<TutorMode> {
               },
             ),
             TextButton(
-              child: const Text('Finish'),
-              onPressed: () {
+              onPressed: _isLoading ? null : () async {
+                setState(() {
+                  _isLoading = true;  // Set loading state to true
+                });
+
                 final attempted = correctAttempts + incorrectAttempts;
-                attemptProvider.updateResult(
+
+                await attemptProvider.updateResult(
                   attemptId: widget.attemptId,
                   attempted: attempted,
                   avgTimeTaken: totalTimeTaken / 200,
@@ -473,18 +484,38 @@ class _TutorModeState extends State<TutorMode> {
                   totalQuestions: 200,
                   totalTimeTaken: totalTimeTaken,
                 );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Analytics(
-                      attemptId: widget.attemptId,
-                      correct: correctAttempts,
-                      incorrect: incorrectAttempts,
-                      skipped: skippedAttempts,
+
+                setState(() {
+                  _isLoading = false;
+                });
+
+                if (attemptProvider.status == AStatus.success) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Analytics(
+                        attemptId: widget.attemptId,
+                        correct: correctAttempts,
+                        incorrect: incorrectAttempts,
+                        skipped: skippedAttempts,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Failed to update the result: ${attemptProvider.message}'),
+                    ),
+                  );
+                }
               },
+              child: _isLoading
+                  ? const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+                  : const Text('Finish'),
             ),
           ],
         );
@@ -759,6 +790,7 @@ class _TutorModeState extends State<TutorMode> {
               ),
               Row(
                 children: [
+                  if(!isEliminated)
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
@@ -782,8 +814,7 @@ class _TutorModeState extends State<TutorMode> {
                         const Text('Elimination Tool'),
                       ],
                     ),
-                  ),
-                  const SizedBox(width: 8),
+                  )else
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),

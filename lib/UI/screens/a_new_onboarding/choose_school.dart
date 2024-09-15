@@ -1,4 +1,3 @@
-import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'choose_field.dart';
 

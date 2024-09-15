@@ -11,7 +11,7 @@ import '../../../providers/user_provider.dart';
 import '../../../providers/vaultProviders/premed_provider.dart';
 
 class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key,this.userPassword});
+  const MainNavigationScreen({super.key, this.userPassword});
   final String? userPassword;
 
   @override
@@ -19,39 +19,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // Delay checkUserDetails until after the first frame has been rendered
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      checkUserDetails(context);
-    });
-  }
-
-
-  Future<String> getUsername() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String dsrID = prefs.getString("userName") ?? '';
-    return dsrID;
-  }
-
-  Future<void> checkUserDetails(BuildContext context) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final String? lastOnBoardingPage = userProvider.user?.info.lastOnboardingPage;
-
-    if (lastOnBoardingPage != null) {
-      if (lastOnBoardingPage.contains('auth/onboarding/flow/entrance-exam/pre-engineering')) {
-        final preMedProvider = Provider.of<PreMedProvider>(context, listen: false);
-        preMedProvider.setonBoardingTrack(false);
-        preMedProvider.setPreMed(false);
-      } else {
-        final preMedProvider = Provider.of<PreMedProvider>(context, listen: false);
-        preMedProvider.setonBoardingTrack(true);
-      }
-    }
-  }
-
-  List<int> navigationStack = [0];
+  List<int> navigationStack = [0]; // Keeps track of active tabs
 
   final screens = [
     const DashboardSwitcher(),
@@ -61,6 +29,46 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     const Account(),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkUserDetails(context);
+    });
+  }
+
+  Future<String> getUsername() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String dsrID = prefs.getString("userName") ?? '';
+    return dsrID;
+  }
+
+  Future<void> checkUserDetails(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final String? lastOnBoardingPage =
+        userProvider.user?.info.lastOnboardingPage;
+    print('page: $lastOnBoardingPage');
+    final bool userTrack =
+        Provider.of<PreMedProvider>(context, listen: false).isPreMed;
+    print('usersTrack:$userTrack');
+    if (lastOnBoardingPage != null) {
+      if (lastOnBoardingPage
+          .contains('auth/onboarding/flow/entrance-exam/pre-engineering') &&
+          !userTrack) {
+        print('condition1');
+        final preMedProvider =
+        Provider.of<PreMedProvider>(context, listen: false);
+        preMedProvider.setonBoardingTrack(false);
+        preMedProvider.setPreMed(false);
+      } else {
+        print('condition3');
+        final preMedProvider =
+        Provider.of<PreMedProvider>(context, listen: false);
+        preMedProvider.setonBoardingTrack(true);
+      }
+    }
+  }
+
   String hashPassword(String password) {
     final bytes = utf8.encode(password);
     final digest = sha256.convert(bytes);
@@ -68,7 +76,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   Future<void> _launchURL(String appToken) async {
-    final url = 'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
+    final url =
+        'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -83,22 +92,21 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
     return WillPopScope(
       onWillPop: () async {
-        if (navigationStack.length > 1) {
-          navigationStack.removeLast();
-          final int previousIndex = navigationStack.last;
+        if (navigationStack.length == 1) {
+          // If there's only one screen in the stack, allow the back button to exit the app
+          return true;
+        } else {
+          // Go back to the previous screen in the stack
           setState(() {
             navigationStack.removeLast();
-            navigationStack.add(previousIndex);
           });
-          return false;
-        } else {
-          return true;
+          return false; // Prevent default back button behavior (which would pop the screen)
         }
       },
       child: Scaffold(
-        body: screens[navigationStack.last],
+        body: screens[navigationStack.last], // Display the active screen
         bottomNavigationBar: PremedBottomNav(
-          currentIndex: navigationStack.last,
+          currentIndex: navigationStack.last, // Highlight the correct tab
           onTapHome: () => onTap(0),
           onTapQbank: () => onTap(1),
           ontapVault: () => onTap(2),
@@ -109,17 +117,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     );
   }
 
-  Future<void> onTap(int index) async {
-    navigateTo(index);
-  }
 
-  void navigateTo(int index) {
+  void onTap(int index) {
     if (navigationStack.last != index) {
       setState(() {
-        navigationStack.remove(index); // This line removes any existing occurrence of the index, which might not be necessary.
-        navigationStack.add(index);
+        navigationStack.add(index); // Add the new tab index to the stack
       });
     }
   }
-
 }

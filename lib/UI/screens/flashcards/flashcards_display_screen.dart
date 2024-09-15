@@ -35,6 +35,7 @@ class _FlashcardDisplayScreenState extends State<FlashcardDisplayScreen> {
     });
   }
 
+
   @override
   void dispose() {
     flashcardController?.dispose();

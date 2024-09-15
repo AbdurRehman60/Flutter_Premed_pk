@@ -36,7 +36,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   String subjectPercentage(String subject) {
     final enteredSubject = userStatModel.subjectAttempts.firstWhere(
-      (subjectAttempt) => subjectAttempt.subject == subject,
+          (subjectAttempt) => subjectAttempt.subject == subject,
       orElse: () => SubjectAttempt(
         subject: subject,
         totalQuestionsAttempted: 0,
@@ -48,8 +48,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       return '0';
     }
     final subjectPercentage = ((enteredSubject.totalQuestionsAttempted /
-                userStatModel.totalQuestionAttempted) *
-            100)
+        userStatModel.totalQuestionAttempted) *
+        100)
         .toStringAsFixed(0);
     return subjectPercentage;
   }
@@ -57,7 +57,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   @override
   Widget build(BuildContext context) {
     final UserStatProvider userStatProvider =
-        Provider.of<UserStatProvider>(context, listen: false);
+    Provider.of<UserStatProvider>(context, listen: false);
     userStatProvider.fetchUserStatistics(context);
 
     final MediaQueryData mediaQuery = MediaQuery.of(context);
@@ -92,10 +92,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CircularProgressIndicator(
-                                              color: Provider.of<PreMedProvider>(context).isPreMed
-                            ? PreMedColorTheme().red
-                            : PreMedColorTheme().blue,
-                                            ),
+                            color: Provider.of<PreMedProvider>(context).isPreMed
+                                ? PreMedColorTheme().red
+                                : PreMedColorTheme().blue,
+                          ),
                         ],
                       ));
                 } else if (snapshot.hasError) {
@@ -104,11 +104,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   );
                 } else {
                   userStatModel = userStatProvider.userStatModel!;
+                  final computerPercentage = subjectPercentage('Computer');
                   final biologyPercentage = subjectPercentage('Biology');
                   final physicsPercentage = subjectPercentage('Physics');
                   final chemistryPercentage = subjectPercentage('Chemistry');
                   final logicalReaPercentage =
-                      subjectPercentage('Logical Reasoning');
+                  subjectPercentage('Logical Reasoning');
                   final englishPercentage = subjectPercentage('English');
 
                   return Column(
@@ -129,13 +130,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                             Text(
                               'Your performance, facts and figures, all at a glance!',
                               style:
-                                  PreMedTextTheme().body.copyWith(fontSize: 17),
+                              PreMedTextTheme().body.copyWith(fontSize: 17),
                             ),
                             SizedBox(height: mediaQuery.size.height * 0.03),
                             InkWell(
                               onTap: () {
                                 Provider.of<UserStatProvider>(context,
-                                        listen: false)
+                                    listen: false)
                                     .fetchUserStatistics(context);
                               },
                               child: Container(
@@ -155,14 +156,16 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                             'Physics',
                                             'Chemistry',
                                             'Logical Reasoning',
-                                            'English'
+                                            'English',
+                                            'Computer Science'
                                           ],
                                           percentages: [
                                             biologyPercentage,
                                             physicsPercentage,
                                             chemistryPercentage,
                                             logicalReaPercentage,
-                                            englishPercentage
+                                            englishPercentage,
+                                            computerPercentage
                                           ],
                                         ),
                                       ),
@@ -171,31 +174,39 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                       Expanded(
                                         child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                           children: [
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                               children: [
-                                                SubjectPercentage(
+                                                if (Provider.of<PreMedProvider>(context).isPreMed)
+                                                  SubjectPercentage(
+                                                    percentage:
+                                                    '$biologyPercentage%',
+                                                    subject: 'Biology',
+                                                    textColor:
+                                                    PreMedColorTheme().greenL,
+                                                  ) else SubjectPercentage(
                                                   percentage:
-                                                      '$biologyPercentage%',
-                                                  subject: 'Biology',
+                                                  '$computerPercentage%',
+                                                  subject: 'ComputerScience',
                                                   textColor:
-                                                      PreMedColorTheme().greenL,
+                                                  PreMedColorTheme().primaryColorRed600
+                                                  ,
                                                 ),
                                                 SubjectPercentage(
                                                     percentage:
-                                                        '$physicsPercentage%',
+                                                    '$physicsPercentage%',
                                                     subject: 'Physics',
                                                     textColor: PreMedColorTheme()
                                                         .skyblue),
                                                 SubjectPercentage(
                                                   percentage:
-                                                      '$chemistryPercentage%',
+                                                  '$chemistryPercentage%',
                                                   subject: 'Chemistry',
                                                   textColor:
-                                                      PreMedColorTheme().redlight,
+                                                  PreMedColorTheme().redlight,
                                                 ),
                                               ],
                                             ),
@@ -206,7 +217,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                               children: [
                                                 SubjectPercentage(
                                                   percentage:
-                                                      '$logicalReaPercentage%',
+                                                  '$logicalReaPercentage%',
                                                   subject: 'Logical Reasoning',
                                                   textColor: PreMedColorTheme()
                                                       .purpulelight,
@@ -216,7 +227,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                                         0.02),
                                                 SubjectPercentage(
                                                   percentage:
-                                                      '$englishPercentage%',
+                                                  '$englishPercentage%',
                                                   subject: 'English',
                                                   textColor: PreMedColorTheme()
                                                       .orangeLight,
@@ -237,7 +248,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                 Expanded(
                                   child: Container(
                                     decoration: const BoxDecoration(
-                                      boxShadow: CustomBoxShadow.boxShadow40
+                                        boxShadow: CustomBoxShadow.boxShadow40
                                     ),
                                     child: MaterialCard(
                                       width: mediaQuery.size.width * 0.49,
@@ -249,7 +260,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                             children: [
                                               SizedBox(
                                                 height:
-                                                    mediaQuery.size.height * 0.07,
+                                                mediaQuery.size.height * 0.07,
                                                 width: mediaQuery.size.width * 0.4,
                                                 child: SvgPicture.asset(
                                                   'assets/images/infocell.svg',
@@ -257,7 +268,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                               ),
                                               Positioned(
                                                 bottom: 0,
-                                                left: mediaQuery.size.width * 0.12,
+                                                left: mediaQuery.size.width * 0.106,
                                                 child: Text(
                                                   '${((userStatModel.totalQuestionCorrect / userStatModel.totalQuestionAttempted) * 100).toStringAsFixed(2)}%',
                                                   style: GoogleFonts.rubik(
@@ -272,7 +283,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                           ),
                                           SizedBox(
                                               height:
-                                                  mediaQuery.size.height * 0.01),
+                                              mediaQuery.size.height * 0.01),
                                           Text(
                                             'Accuracy',
                                             style: GoogleFonts.rubik(
@@ -298,45 +309,45 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                 ),
                                 SizedBox(width: mediaQuery.size.width * 0.02),
                                 Expanded(
-                                child:Container(
-                                  decoration: const BoxDecoration(
-                                      boxShadow: CustomBoxShadow.boxShadow40
-                                  ),
-                                  child: MaterialCard(
-                                    height: mediaQuery.size.height * 0.19,
-                                    width: mediaQuery.size.width * 0.49,
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: mediaQuery.size.height * 0.012,
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            '${userStatModel.totalQuestionAttempted}',
-                                            style: GoogleFonts.rubik(
-                                              height: 1.3,
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 29,
-                                              color: PreMedColorTheme().red,
+                                  child:Container(
+                                    decoration: const BoxDecoration(
+                                        boxShadow: CustomBoxShadow.boxShadow40
+                                    ),
+                                    child: MaterialCard(
+                                      height: mediaQuery.size.height * 0.19,
+                                      width: mediaQuery.size.width * 0.49,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: mediaQuery.size.height * 0.012,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '${userStatModel.totalQuestionAttempted}',
+                                              style: GoogleFonts.rubik(
+                                                height: 1.3,
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: 29,
+                                                color: PreMedColorTheme().red,
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            'Total Questions\nAttempted',
-                                            textAlign: TextAlign.center,
-                                            style: GoogleFonts.rubik(
-                                              height: 1.3,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 12,
-                                              color: const Color(0xFF000000),
+                                            Text(
+                                              'Total Questions\nAttempted',
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.rubik(
+                                                height: 1.3,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12,
+                                                color: const Color(0xFF000000),
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),),
+                                  ),),
                               ],
                             ),
                             SizedBox(height: mediaQuery.size.height * 0.015),
@@ -352,19 +363,19 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                     borderRadius: BorderRadius.circular(18)),
                                 child: MaterialCard(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.19,
+                                  MediaQuery.of(context).size.height * 0.19,
                                   width:
-                                      MediaQuery.of(context).size.width * 0.379,
+                                  MediaQuery.of(context).size.width * 0.379,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           StatDetailHolder(
                                             textColor:
-                                                PreMedColorTheme().greenLight,
+                                            PreMedColorTheme().greenLight,
                                             count: userStatModel.decksAttempted,
                                             details: 'Decks\nAttempted',
                                           ),
@@ -375,11 +386,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                           ),
                                           StatDetailHolder(
                                             textColor:
-                                                PreMedColorTheme().yellowlight,
+                                            PreMedColorTheme().yellowlight,
                                             count: userStatModel
                                                 .paracticeTestAttempted,
                                             details:
-                                                'Practice Tests\nAttempted',
+                                            'Practice Tests\nAttempted',
                                           ),
                                         ],
                                       ),

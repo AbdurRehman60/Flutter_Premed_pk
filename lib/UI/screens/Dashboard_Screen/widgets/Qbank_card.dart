@@ -1,7 +1,9 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../providers/vaultProviders/premed_provider.dart';
 import '../dashboard_screen.dart';
 
 class QbankCard extends StatelessWidget {
@@ -11,7 +13,6 @@ class QbankCard extends StatelessWidget {
       required this.text,
       required this.text1,
       required this.onTap,
-      // required this.text2,
       this.bgColor = Colors.blue,
       required this.isPreMed
       });
@@ -73,9 +74,9 @@ class QbankCard extends StatelessWidget {
                           fontWeight: FontWeight.w900,
                           fontSize: MediaQuery.of(context).size.width *
                               0.030, // Responsive font size
-                          color: isPreMed
+                          color: Provider.of<PreMedProvider>(context).isPreMed
                               ? PreMedColorTheme().red
-                              : PreMedColorTheme().coolBlue,
+                              : PreMedColorTheme().blue,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

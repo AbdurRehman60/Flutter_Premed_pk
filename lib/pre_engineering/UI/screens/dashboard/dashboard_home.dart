@@ -89,57 +89,71 @@ class _EngineeringDashboardScreenState
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.05),
+                    horizontal: MediaQuery.of(context).size.width * 0.05
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Consumer<UserProvider>(
-                          builder: (context, userProvider, child) {
-                            if (userProvider.user == null) {
-                              return Text('Hi,Guest',
-                                  style: PreMedTextTheme().heading4.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 26));
-                            } else {
-                              return Text('Hi, ${userProvider.getUserName()}',
-                                  style: PreMedTextTheme().heading4.copyWith(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 28));
-                            }
-                          },
-                        ),
-                        Text(
-                          "Let's resume our journey!",
-                          style: PreMedTextTheme().body.copyWith(
-                            fontSize: 17,
-                            color: PreMedColorTheme().coolBlue,
-                            fontWeight: FontWeight.w700,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Consumer<UserProvider>(
+                            builder: (context, userProvider, child) {
+                              return Text(
+                                userProvider.user == null
+                                    ? 'Hi, Guest'
+                                    : 'Hi, ${userProvider.getUserName()}',
+                                style: PreMedTextTheme().heading4.copyWith(
+                                  fontWeight: userProvider.user == null
+                                      ? FontWeight.w700
+                                      : FontWeight.w800,
+                                  fontSize: userProvider.user == null
+                                      ? 26
+                                      : 28,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,// Ensures text doesn't overflow
+                              );
+                            },
                           ),
-                        ),
-                      ],
+                          Text(
+                            "Let's resume our journey!",
+                            style: PreMedTextTheme().body.copyWith(
+                              fontSize: 17,
+                              color: Provider.of<PreMedProvider>(context).isPreMed
+                                  ? PreMedColorTheme().red
+                                  : PreMedColorTheme().blue,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Container(
                       decoration: const BoxDecoration(
-                          boxShadow: CustomBoxShadow.boxShadow40),
+                          boxShadow: CustomBoxShadow.boxShadow40
+                      ),
                       child: InkWell(
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const AccountBeforeEdit()));
+                                  builder: (context) => const AccountBeforeEdit()
+                              )
+                          );
                         },
                         child: SvgPicture.asset(
                             Provider.of<PreMedProvider>(context).isPreMed
                                 ? PremedAssets.Profile
-                                : PremedAssets.blueProfle),
+                                : PremedAssets.blueProfle
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
+
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03)
                     .copyWith(top: 10),

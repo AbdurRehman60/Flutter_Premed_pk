@@ -4,6 +4,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
+import '../../Dashboard_Screen/dashboard_screen.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -84,16 +85,43 @@ class _ChangePasswordState extends State<ChangePassword> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: UserProvider().user?.accountType == "google"
-                  ? const Center(
-                      child: Text(
-                        "You signed in from google, You can't change your password.",
-                        textAlign: TextAlign.center,
+                  ? Center(
+                child: Card(
+                  elevation: 17,
+                  child: Container(
+                    height: 230,
+                    width: 330,
+                    decoration: BoxDecoration(
+                        boxShadow: CustomBoxShadow.boxShadow40,
+                        borderRadius: BorderRadius.circular(12),
+                        color: PreMedColorTheme().background
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            PremedAssets.premedlogo,
+                            height: 150,
+                            width: 150,
+                          ),
+                          Text("You Signed In from Google\nYou can't change your password",
+                            textAlign: TextAlign.center,
+                            style: PreMedTextTheme().body.copyWith(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: PreMedColorTheme().black
+                            ),
+                          ),
+                          const SizedBox(height: 20,)
+                        ],
                       ),
-                    )
+                    ),
+                  ),
+                ),
+              )
                   : Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
                         SizedBoxes.verticalMicro,
                         CustomTextField(
                           prefixIcon: const Icon(Icons.lock_outline),
@@ -132,6 +160,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ),
                       ],
                     ),
+
             ),
           ),
         ),

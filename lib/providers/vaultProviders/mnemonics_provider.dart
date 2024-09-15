@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:premedpk_mobile_app/models/mnemonics_model.dart';
-
 import '../../api_manager/dio client/dio_client.dart';
 import '../../api_manager/dio client/endpoints.dart';
 import '../../constants/constants_export.dart';
@@ -35,13 +34,18 @@ class MnemonicsProvider extends ChangeNotifier {
       final bool success = responseData['success'] ?? false;
       if (success) {
         final List<Map<String, dynamic>> mnemonicsData =
-            List<Map<String, dynamic>>.from(responseData['data']);
+        List<Map<String, dynamic>>.from(responseData['data']);
         for (final data in mnemonicsData) {
-          final MnemonicsModel mnemonic = MnemonicsModel.fromJson(data);
-          fetchedMnemonicsList.add(mnemonic);
+          if (data['isPublished'] == true) {
+            final MnemonicsModel mnemonic = MnemonicsModel.fromJson(data);
+            fetchedMnemonicsList.add(mnemonic);
+          }
         }
+
         _mnemonicsList = fetchedMnemonicsList;
         _fetchStatus = FetchStatus.success;
+      } else {
+        _fetchStatus = FetchStatus.error;
       }
     } on DioException catch (e) {
       if (kDebugMode) {

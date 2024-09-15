@@ -22,7 +22,7 @@ class Endpoints {
 
   //auth endpoints
   static const String login = '/login';
-  static const String logout = '/logout';
+  static const String logout = 'logout';
   static const String signup = '/api/auth/signup';
   static const String getLoggedInUser = '/LoggedInUser';
   static const String continueWithGoogle = '/api/auth/google-login';

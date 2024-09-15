@@ -177,7 +177,7 @@ class _MainBottomNavBarItem extends StatelessWidget {
                 Text(
                   label,
                   style: PreMedTextTheme().small.copyWith(
-                    fontSize: screenWidth * 0.032,
+                    fontSize: screenWidth * 0.025,
                     fontWeight:
                     isSelected ? FontWeight.w600 : FontWeight.w400,
                   ),

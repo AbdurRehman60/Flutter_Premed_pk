@@ -35,84 +35,86 @@ class _ChooseExamState extends State<ChooseExam> {
       backgroundColor: PreMedColorTheme().neutral60,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBoxes.verticalGargangua,
-            RichText(
-              text: TextSpan(
-                  style: PreMedTextTheme().subtext.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontSize: 35,
-                      fontWeight: FontWeight.w700),
-                  children: [
-                    const TextSpan(
-                      text: 'Hi, ',
-                    ),
-                    WidgetSpan(
-                      child: GradientText(
-                        text: username ?? '',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 35,
-                        ),
-                        gradient: LinearGradient(
-                          colors: <Color>[
-                            Colors.purple,
-                            PreMedColorTheme().primaryColorRed,
-                          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBoxes.verticalGargangua,
+              RichText(
+                text: TextSpan(
+                    style: PreMedTextTheme().subtext.copyWith(
+                        color: PreMedColorTheme().black,
+                        fontSize: 35,
+                        fontWeight: FontWeight.w700),
+                    children: [
+                      const TextSpan(
+                        text: 'Hi, ',
+                      ),
+                      WidgetSpan(
+                        child: GradientText(
+                          text: username ?? '',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 35,
+                          ),
+                          gradient: LinearGradient(
+                            colors: <Color>[
+                              Colors.purple,
+                              PreMedColorTheme().primaryColorRed,
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    TextSpan(
-                      text: '!',
-                      style: PreMedTextTheme().subtext1.copyWith(
-                          color: PreMedColorTheme().black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 35),
-                    ),
-                  ]),
-            ),
-            SizedBoxes.verticalLarge,
-            RichText(
-              text: TextSpan(
-                  style: PreMedTextTheme().subtext.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700),
-                  children: [
-                    const TextSpan(
-                      text: 'What ',
-                    ),
-                    TextSpan(
-                        text: 'exam ',
-                        style: PreMedTextTheme().heading3.copyWith(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 25,
-                            color: PreMedColorTheme().primaryColorRed)),
-                    TextSpan(
-                      text: 'are you preparing for?',
-                      style: PreMedTextTheme().subtext1.copyWith(
+                      TextSpan(
+                        text: '!',
+                        style: PreMedTextTheme().subtext1.copyWith(
                             color: PreMedColorTheme().black,
                             fontWeight: FontWeight.w700,
-                            fontSize: 25,
-                          ),
-                    ),
-                  ]),
-            ),
-            SizedBoxes.vertical15Px,
-            Text(
-              "You can select more than one",
-              style: PreMedTextTheme()
-                  .body
-                  .copyWith(fontSize: 15, fontWeight: FontWeight.w400),
-            ),
-            SizedBoxes.vertical25Px,
-            if (widget.category == 'pre-medical')
-              _buildPreMedicalUI()
-            else
-              _buildPreEngineeringUI(),
-          ],
+                            fontSize: 35),
+                      ),
+                    ]),
+              ),
+              SizedBoxes.verticalLarge,
+              RichText(
+                text: TextSpan(
+                    style: PreMedTextTheme().subtext.copyWith(
+                        color: PreMedColorTheme().black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700),
+                    children: [
+                      const TextSpan(
+                        text: 'What ',
+                      ),
+                      TextSpan(
+                          text: 'exam ',
+                          style: PreMedTextTheme().heading3.copyWith(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25,
+                              color: PreMedColorTheme().primaryColorRed)),
+                      TextSpan(
+                        text: 'are you preparing for?',
+                        style: PreMedTextTheme().subtext1.copyWith(
+                              color: PreMedColorTheme().black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 25,
+                            ),
+                      ),
+                    ]),
+              ),
+              SizedBoxes.vertical15Px,
+              Text(
+                "You can select more than one",
+                style: PreMedTextTheme()
+                    .body
+                    .copyWith(fontSize: 15, fontWeight: FontWeight.w400),
+              ),
+              SizedBoxes.vertical25Px,
+              if (widget.category == 'pre-medical')
+                _buildPreMedicalUI()
+              else
+                _buildPreEngineeringUI(),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: Padding(

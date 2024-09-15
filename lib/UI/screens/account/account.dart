@@ -6,7 +6,6 @@ import 'package:premedpk_mobile_app/UI/screens/account/widgets/credits.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/menu_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
-import 'package:premedpk_mobile_app/UI/screens/login/login.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/error_dialogue.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -25,26 +24,35 @@ class Account extends StatelessWidget {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
     final isPremed = Provider.of<PreMedProvider>(context).isPreMed;
     Future<void> onLogoutPressed() async {
+      try {
+        // Start the logout process and wait for its completion
+        print('Initiating logout process...');
+        final Map<String, dynamic> response = await auth.logout();
+        print('Logout response: $response');
+        if (response['status'] == true) {
+          print('Logout successful. Navigating to SignIn screen...');
 
-      final Future<Map<String, dynamic>> response = auth.logout();
+          // Navigate to the SignIn screen after successful logout
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SignIn(),
+            ),
+          );
 
-      response.then(
-        (response) {
-          if (response['status']) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const SignIn(),
-              ),
-            );
-          } else {
-            showError(context, response);
-          }
-        },
-      );
-      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-      sharedPreferences.clear();
+          final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+          await sharedPreferences.clear();
+          print('SharedPreferences cleared successfully.');
+        } else {
+          print('Logout failed with response: $response');
+          showError(context, response);
+        }
+      } catch (e) {
+        print('Exception during logout: $e');
+        showError(context, {'message': 'An error occurred during logout'});
+      }
     }
+
 
     return Scaffold(
       backgroundColor: PreMedColorTheme().background,

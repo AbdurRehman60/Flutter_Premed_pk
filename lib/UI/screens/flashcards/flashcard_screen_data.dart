@@ -1,3 +1,5 @@
+import 'package:premedpk_mobile_app/constants/assets.dart';
+
 List<Map<String, String>> gridData = [
   {
     "image": "assets/images/biology.png",
@@ -48,6 +50,15 @@ List<Map<String, String>> gridData = [
     "subject": "Science Reasoning",
     'color': '#faf8df'
   },
+
+  {
+    "image": PremedAssets.computerScience,
+    "text": "Computer Science",
+    "page": "page3",
+    "subject": "Computer Science",
+    'color': '#FFEEED'
+  },
+
 
   // Add more items as needed.
 ];

@@ -2,11 +2,11 @@ import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import '../api_manager/dio client/dio_client.dart';
 import '../constants/constants_export.dart';
 
-enum Status { init, fetching, success, error }
+enum AStatus { init, fetching, success, error }
 
 class AttemptProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
-  Status status = Status.init;
+  AStatus status = AStatus.init;
   String message = '';
 
   final List<Map<String, dynamic>> _attemptsBody = [];
@@ -20,9 +20,8 @@ class AttemptProvider extends ChangeNotifier {
     required Map<String, dynamic> attemptData,
     required int totalTimeTaken,
   }) async {
-    status = Status.fetching;
+    status = AStatus.fetching;
     notifyListeners();
-
     _attemptsBody.add(attemptData);
 
     try {
@@ -35,19 +34,57 @@ class AttemptProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        status = Status.success;
+        status = AStatus.success;
         message = 'Attempt updated successfully';
+
+        // Fetch attempt info after successful update
+        await getAttemptInfo(attemptId);
       } else {
-        status = Status.error;
+        status = AStatus.error;
         message = 'Failed to update attempt';
       }
     } catch (error) {
-      status = Status.error;
+      status = AStatus.error;
       message = 'Error: $error';
     } finally {
       notifyListeners();
     }
   }
+
+
+  // Future<void> updateAttempt({
+  //   required String attemptId,
+  //   required Map<String, dynamic> attemptData,
+  //   required int totalTimeTaken,
+  // }) async {
+  //   status = Status.fetching;
+  //   notifyListeners();
+  //
+  //   _attemptsBody.add(attemptData);
+  //
+  //   try {
+  //     final response = await _client.patch(
+  //       Endpoints.updateAttempt(attemptId),
+  //       data: {
+  //         'attemptsBody': _attemptsBody,
+  //         'totalTimeTaken': totalTimeTaken,
+  //       },
+  //     );
+  //
+  //     if (response.statusCode == 200) {
+  //       status = Status.success;
+  //       message = 'Attempt updated successfully';
+  //     } else {
+  //       status = Status.error;
+  //       message = 'Failed to update attempt';
+  //     }
+  //   } catch (error) {
+  //     status = Status.error;
+  //     message = 'Error: $error';
+  //   } finally {
+  //     notifyListeners();
+  //   }
+  // }
 
   Future<void> updateResult({
     required String attemptId,
@@ -60,7 +97,7 @@ class AttemptProvider extends ChangeNotifier {
     required int totalQuestions,
     required int totalTimeTaken,
   }) async {
-    status = Status.fetching;
+    status = AStatus.fetching;
     notifyListeners();
 
     try {
@@ -79,14 +116,14 @@ class AttemptProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        status = Status.success;
+        status = AStatus.success;
         message = 'Result updated successfully';
       } else {
-        status = Status.error;
+        status = AStatus.error;
         message = 'Failed to update result';
       }
     } catch (error) {
-      status = Status.error;
+      status = AStatus.error;
       message = 'Error: $error';
     } finally {
       notifyListeners();
@@ -94,7 +131,7 @@ class AttemptProvider extends ChangeNotifier {
   }
 
   Future<void> getAttemptInfo(String attemptId) async {
-    status = Status.fetching;
+    status = AStatus.fetching;
     notifyListeners();
 
     try {
@@ -102,14 +139,14 @@ class AttemptProvider extends ChangeNotifier {
 
       if (response != null && response['success'] == true) {
         _attemptInfo = response['data']['resultMeta'];
-        status = Status.success;
+        status = AStatus.success;
         message = 'Attempt info fetched successfully';
       } else {
-        status = Status.error;
+        status = AStatus.error;
         message = 'Failed to fetch attempt info';
       }
     } catch (error) {
-      status = Status.error;
+      status = AStatus.error;
       message = 'Error: $error';
     } finally {
       notifyListeners();

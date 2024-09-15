@@ -5,6 +5,7 @@ import 'package:premedpk_mobile_app/UI/screens/account/widgets/subscriptions_det
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../providers/vaultProviders/premed_provider.dart';
 
@@ -471,9 +472,20 @@ class _BundleCardState extends State<BundleCard> {
           .setSubscriptions(userPurchases);
     }
   }
+  Future<void> _launchURL(String appToken) async {
+    final url = 'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    final userProvider = Provider.of<UserProvider>(context);
+    final String appToken = userProvider.user?.info.appToken ?? '';
     return Consumer<UserProvider>(
       builder: (context, userProvider, child) {
         if (userProvider.subscriptions.isEmpty) {
@@ -497,16 +509,79 @@ class _BundleCardState extends State<BundleCard> {
                 )
               ],
             ),
-            child: const Center(
-              child: Text(
-                'No active subscriptions',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 13,
-                  fontFamily: 'Rubik',
-                  fontWeight: FontWeight.w800,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  decoration: ShapeDecoration(
+                    color: Colors.white.withOpacity(0.85),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    shadows: const [
+                      BoxShadow(
+                        color: Color(0x26000000),
+                        blurRadius: 40,
+                        offset: Offset(0, 20),
+                      )
+                    ],
+                  ),
+                  child: const Padding(
+                    padding:
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 1),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'No Subscriptions',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontFamily: 'Rubik',
+                            fontWeight: FontWeight.w800,
+                            height: 0.10,
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+                SizedBoxes.vertical15Px,
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: InkWell(
+                    onTap: (){
+                      _launchURL(appToken);
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Shop Now',
+                          style: PreMedTextTheme().body1.copyWith(
+                            color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                            fontSize: 13,
+                            fontFamily: 'Rubik',
+                            fontWeight: FontWeight.w700,
+                            height: 0.10,
+                          ),
+                        ),
+                        const Spacer(),
+                        Icon(
+                          size: 16,
+                          Icons.arrow_forward_ios_outlined,
+                          color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           );
         }
