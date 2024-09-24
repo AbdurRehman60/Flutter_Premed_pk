@@ -14,6 +14,7 @@ import '../../../../providers/flashcard_provider.dart';
 import '../../../../providers/question_provider.dart';
 import '../../../../providers/recent_atempts_provider.dart';
 import '../../../../providers/save_question_provider.dart';
+import '../../../../providers/savedquestion_provider.dart';
 import '../../../../providers/update_attempt_provider.dart';
 import '../../../../providers/user_provider.dart';
 import '../test_bottom_sheet.dart';
@@ -872,11 +873,11 @@ class _TutorModeState extends State<TutorMode> {
               ),
               Row(
                 children: [
-                  Consumer<SaveQuestionProvider>(
-                    builder: (context, saveQuestionProvider, child) {
+                  Consumer2<SaveQuestionProvider,SavedQuestionsProvider>(
+                    builder: (context, saveQuestionProvider,savedQuestionsPro, child) {
                       final String questionId = question.questionId;
                       final String subject = question.subject;
-                      final bool isSaved = saveQuestionProvider.isQuestionSaved(
+                      final bool isSaved = savedQuestionsPro.isQuestionSaved(
                           questionId, subject);
                       final buttonText = isSaved ? 'Remove' : 'Save';
                       return ElevatedButton(
@@ -888,19 +889,21 @@ class _TutorModeState extends State<TutorMode> {
                             borderRadius: BorderRadius.circular(24),
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async{
                           if (isSaved) {
-                            saveQuestionProvider.removeQuestion(
+                            await saveQuestionProvider.removeQuestion(
                               questionId,
                               subject,
                               userProvider.user?.userId ?? '',
                             );
+                            savedQuestionsPro.getSavedQuestions(userId: userProvider.user?.userId ?? '');
                           } else {
-                            saveQuestionProvider.saveQuestion(
+                            await  saveQuestionProvider.saveQuestion(
                               questionId,
                               subject,
                               userProvider.user?.userId ?? '',
                             );
+                            savedQuestionsPro.getSavedQuestions(userId: userProvider.user?.userId ?? '');
                           }
                         },
                         child: Row(

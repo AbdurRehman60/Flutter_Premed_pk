@@ -1,5 +1,3 @@
-// import 'package:dio/dio.dart';
-// import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 
 import '../api_manager/dio client/dio_client.dart';
@@ -96,15 +94,15 @@ enum Status {
 //     }
 //   }
 
-  // check if saved
-  // bool isQuestionSaved(String questionId, String subject) {
-  //   print('toSave questionId: $questionId');
-  //   print('subejct Tsaved: $subject');
-  //   print('savedQuestionLength :${savedQuestions.length}');
-  //   return savedQuestions.any((savedQuestion) =>
-  //   savedQuestion['questionId'] == questionId &&
-  //       savedQuestion['subject'] == subject);
-  // }
+// check if saved
+// bool isQuestionSaved(String questionId, String subject) {
+//   print('toSave questionId: $questionId');
+//   print('subejct Tsaved: $subject');
+//   print('savedQuestionLength :${savedQuestions.length}');
+//   return savedQuestions.any((savedQuestion) =>
+//   savedQuestion['questionId'] == questionId &&
+//       savedQuestion['subject'] == subject);
+// }
 // }
 
 // }
@@ -183,27 +181,27 @@ class SaveQuestionProvider extends ChangeNotifier {
     }
   }
 
-  // bool isQuestionSaved(String questionId, String subject) {
-  //   print('toChecK id: $questionId');
-  //   print('subject toCheck: $subject');
-  //
-  //   for (var savedQuestion in savedQuestions) {
-  //     bool isIdMatch = savedQuestion['questionId'] == questionId;
-  //     bool isSubjectMatch = savedQuestion['subject'] == subject;
-  //
-  //     print('Checking savedQuestion: ${savedQuestion['questionId']}');
-  //     print('Subject of savedQuestion: ${savedQuestion['subject']}');
-  //     print('Is questionId match? $isIdMatch');
-  //     print('Is subject match? $isSubjectMatch');
-  //
-  //     if (isIdMatch && isSubjectMatch) {
-  //       print('Question is saved');
-  //       return true;
-  //     }
-  //   }
-  //
-  //   print('Question is not saved');
-  //   return false;
-  // }
+// bool isQuestionSaved(String questionId, String subject) {
+//   print('toChecK id: $questionId');
+//   print('subject toCheck: $subject');
+//
+//   for (var savedQuestion in savedQuestions) {
+//     bool isIdMatch = savedQuestion['questionId'] == questionId;
+//     bool isSubjectMatch = savedQuestion['subject'] == subject;
+//
+//     print('Checking savedQuestion: ${savedQuestion['questionId']}');
+//     print('Subject of savedQuestion: ${savedQuestion['subject']}');
+//     print('Is questionId match? $isIdMatch');
+//     print('Is subject match? $isSubjectMatch');
+//
+//     if (isIdMatch && isSubjectMatch) {
+//       print('Question is saved');
+//       return true;
+//     }
+//   }
+//
+//   print('Question is not saved');
+//   return false;
+// }
 
 }

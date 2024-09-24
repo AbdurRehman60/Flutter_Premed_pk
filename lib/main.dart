@@ -41,6 +41,7 @@ import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/update_attempt_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
+import 'package:premedpk_mobile_app/providers/vaultProviders/cheatsheets_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/eng_study_notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/engineering_access_providers.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/essen_stuff_pro.dart';
@@ -136,6 +137,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=> RecQuestionProvider()),
         ChangeNotifierProvider(create: (_)=> PaperProvider()),
         ChangeNotifierProvider(create: (_)=> DeckInfoProvider()),
+        ChangeNotifierProvider(create: (_)=> CheatsheetsProvider()),
 
       ],
       child: MaterialApp(

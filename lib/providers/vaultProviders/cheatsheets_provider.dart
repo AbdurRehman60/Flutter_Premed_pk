@@ -38,7 +38,7 @@ class CheatsheetsProvider extends ChangeNotifier {
 
     try {
       final response = await _client.get(
-        Endpoints.cheatSheets,
+        Endpoints.CheatSheets,
       );
 
       if (response["message"] == "Retrieved Successfully") {
