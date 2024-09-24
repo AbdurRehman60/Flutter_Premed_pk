@@ -1,20 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:intl_phone_field/phone_number.dart';
-import 'package:premedpk_mobile_app/UI/screens/a_new_onboarding/choose_school.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:provider/provider.dart';
-
 import '../../../providers/auth_provider.dart';
-import '../../../utils/Data/citites_data.dart';
-import '../../../utils/Data/school_data.dart';
-import '../../Widgets/cities_data_widget.dart';
 import '../../Widgets/global_widgets/custom_button.dart';
 import '../../Widgets/global_widgets/custom_textfield.dart';
 import '../../Widgets/global_widgets/error_dialogue.dart';
-import '../../Widgets/phone_dropdown.dart';
-import '../../Widgets/school_data_widget.dart';
-import '../onboarding/required_onboarding.dart';
-import '../onboarding/widgets/optional_checkbox.dart';
+import '../Login/login_screen_one.dart';
+import 'additional-info.dart';
 
 class SignUpFlow extends StatefulWidget {
   const SignUpFlow({super.key});
@@ -28,66 +19,13 @@ class _SignUpFlowState extends State<SignUpFlow> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  TextEditingController confirmEmailController = TextEditingController();
   TextEditingController fullNameController = TextEditingController();
-  TextEditingController referralCodeController = TextEditingController();
   bool hasErrors = false;
   String error = "";
-  String city = '';
-  String institution = '';
-  String educationSystem = '';
-  String year = '';
-  String knownVia = '';
-  String parentContactNumber = '';
-  String phoneNumber = '';
-
-  final List<String> educationSystems = [
-    'Intermediate/Fsc',
-    'Cambridge O/A levels',
-    'Other'
-  ];
-
-  final List<String> years = [
-    '1st year FSc/AS levels',
-    '2nd year FSc/AS levels',
-    'MDCAT improver',
-    'Other'
-  ];
-
-  final List<String> knownViaOptions = [
-    'Facebook',
-    'WhatsApp',
-    'Instagram',
-    'Associate'
-  ];
 
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
-
-    void onPhoneNumberSelected(PhoneNumber phoneNumber) {
-      setState(() {
-        this.phoneNumber = phoneNumber.completeNumber;
-      });
-    }
-
-    void onEducationSystemSelected(String? selectedSystem) {
-      setState(() {
-        educationSystem = selectedSystem ?? '';
-      });
-    }
-
-    void onCitySelected(String? selectedCity) {
-      setState(() {
-        city = selectedCity ?? '';
-      });
-    }
-
-    void onSchoolSelected(String? selectedSchool) {
-      setState(() {
-        institution = selectedSchool ?? '';
-      });
-    }
 
     void onSignupPressed() {
       final form = _formKey.currentState!;
@@ -96,42 +34,18 @@ class _SignUpFlowState extends State<SignUpFlow> {
           emailController.text,
           passwordController.text,
           fullNameController.text,
+          true
         );
 
         signupResponse.then((response) {
           if (response['status']) {
-            final Future<Map<String, dynamic>> onboardingResponse =
-            auth.requiredOnboarding(
-              username: emailController.text,
-              lastOnboardingPage: '',
-              selectedExams: [],
-              selectedFeatures: [],
-              city: city,
-              educationSystem: educationSystem,
-              year: year,
-              parentContactNumber: parentContactNumber,
-              approach: knownVia,
-              phoneNumber: phoneNumber,
-              institution: institution,
+            // Navigate to Additional Info Screen after successful sign-up
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AdditionalInfo(),
+              ),
             );
-
-            onboardingResponse.then((onboardingResponse) {
-              if (onboardingResponse['status']) {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChooseSchool(
-                      password: passwordController.text,
-                      city: city,
-                      institution: institution,
-                      phoneNumber: phoneNumber,
-                    ),
-                  ),
-                );
-              } else {
-                showError(context, onboardingResponse);
-              }
-            });
           } else {
             showError(context, response);
           }
@@ -196,12 +110,13 @@ class _SignUpFlowState extends State<SignUpFlow> {
                                     ),
                                     const TextSpan(
                                       text:
-                                      ' family! We\'re delighted to have you here. Let the magic begin!',
+                                      " family! We're delighted to have you here. Let the magic begin!",
                                     ),
                                   ],
                                 ),
                               ),
                               SizedBoxes.verticalGargangua,
+                              SizedBoxes.verticalBig,
                               CustomTextField(
                                 controller: fullNameController,
                                 prefixIcon:
@@ -217,93 +132,6 @@ class _SignUpFlowState extends State<SignUpFlow> {
                                 hintText: 'Enter your email',
                                 labelText: 'Email',
                                 validator: (value) => validateEmail(value),
-                              ),
-                              SizedBoxes.verticalBig,
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Contact Information',
-                                  style: PreMedTextTheme().subtext1,
-                                ),
-                              ),
-                              SizedBoxes.verticalTiny,
-                              PhoneDropdown(
-                                onPhoneNumberSelected: onPhoneNumberSelected,
-                                hintText: "",
-                                initialValue: phoneNumber,
-                              ),
-                              SizedBoxes.verticalBig,
-                              PhoneFieldWithCheckbox(
-                                onWhatsAppNumberSelected: (whatsappNumber) {
-                                  auth.whatsappNumber = whatsappNumber;
-                                },
-                                isPhoneFieldEnabled: auth.whatsappNumber.isEmpty ||
-                                    auth.whatsappNumber == auth.phoneNumber,
-                                initialValue: auth.whatsappNumber,
-                              ),
-                              if (hasErrors)
-                                Text(
-                                  error,
-                                  textAlign: TextAlign.center,
-                                  style: PreMedTextTheme().subtext1.copyWith(
-                                    color: Colors.redAccent,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              SizedBoxes.verticalBig,
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Educational Information',
-                                  textAlign: TextAlign.start,
-                                  style: PreMedTextTheme().subtext1,
-                                ),
-                              ),
-                              SizedBoxes.verticalLarge,
-                              CityDropdownList(
-                                items: cities,
-                                selectedItem: city,
-                                onChanged: onCitySelected,
-                              ),
-                              SizedBoxes.verticalMedium,
-                              SchoolDropdownList(
-                                items: schoolsdata,
-                                selectedItem: institution,
-                                onChanged: onSchoolSelected,
-                              ),
-                              SizedBoxes.verticalMedium,
-                              Material(
-                                borderRadius: BorderRadius.circular(8),
-                                elevation: 3,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: PreMedColorTheme().white,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: DropdownButtonFormField<String>(
-                                    value: educationSystem.isEmpty
-                                        ? null
-                                        : educationSystem,
-                                    items: educationSystems.map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: onEducationSystemSelected,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      contentPadding:
-                                      const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 10),
-                                      hintText: "Education System",
-                                      hintStyle: PreMedTextTheme()
-                                          .subtext
-                                          .copyWith(
-                                          color: PreMedColorTheme().black),
-                                    ),
-                                  ),
-                                ),
                               ),
                               SizedBoxes.verticalBig,
                               CustomTextField(
@@ -329,6 +157,35 @@ class _SignUpFlowState extends State<SignUpFlow> {
                                 onPressed: () {
                                   onSignupPressed();
                                 },
+                              ),
+                              SizedBoxes.verticalBig,
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Already have an account?",
+                                    style: PreMedTextTheme().subtext.copyWith(
+                                        fontWeight: FontWeight.w400, fontSize: 14),
+                                  ),
+                                  TextButton(
+                                    child: Text(
+                                      'Sign In',
+                                      style: PreMedTextTheme().subtext1.copyWith(
+                                          color: PreMedColorTheme().primaryColorRed,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const SignIn(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -361,17 +218,6 @@ class _SignUpFlowState extends State<SignUpFlow> {
       return 'Email is required';
     } else if (!value.contains('@') || !value.contains('com')) {
       return 'Invalid email format';
-    }
-    return null;
-  }
-
-  String? validateConfirmEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Confirm Email is required';
-    } else if (!value.contains('@') || !value.contains('com')) {
-      return 'Invalid email format';
-    } else if (emailController.text != value) {
-      return "Emails don't match";
     }
     return null;
   }

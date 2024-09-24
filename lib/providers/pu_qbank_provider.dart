@@ -55,6 +55,7 @@ class PUQbankProvider extends ChangeNotifier {
                 timedTestMode: deck['timedTestMode'],
                 timesTestminutes: deck['timedTestMinutes'],
               );
+
             }).toList();
             // Print
 

@@ -66,7 +66,7 @@ class _MocksQbankState extends State<MocksQbank>
                     final deckGroup = filteredDeckGroups[index];
                     return DeckTile(
                       deckGroup: deckGroup,
-                      deckGroupName: 'MDCAT MOCKS',
+                      deckGroupName: 'MDCAT Mocks',
                     );
                   },
                 );
@@ -94,7 +94,7 @@ class _MocksQbankState extends State<MocksQbank>
                     final deckGroup = filteredDeckGroups[index];
                     return DeckTile(
                       deckGroup: deckGroup,
-                      deckGroupName: 'NUMS MOCKS',
+                      deckGroupName: 'NUMS Mocks',
                     );
                   },
                 );
@@ -122,7 +122,7 @@ class _MocksQbankState extends State<MocksQbank>
                     final deckGroup = filteredDeckGroups[index];
                     return DeckTile(
                       deckGroup: deckGroup,
-                      deckGroupName: 'PU MOCKS',
+                      deckGroupName: 'Private Universities Mocks',
                     );
                   },
                 );

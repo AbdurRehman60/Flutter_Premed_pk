@@ -57,6 +57,7 @@ class MedTestSessionsPro extends ChangeNotifier {
                 timedTestMode: deck['timedTestMode'],
                 timesTestminutes: deck['timedTestMinutes'],
                 isPublished: deck['isPublished'],
+
               );
             }).toList();
 

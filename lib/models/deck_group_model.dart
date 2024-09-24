@@ -45,6 +45,7 @@ class DeckItem {
   });
 
   factory DeckItem.fromJson(Map<String, dynamic> json) {
+
     return DeckItem(
       deckName: json['deckName'] as String,
       deckLogo: json['deckLogo'] as String,

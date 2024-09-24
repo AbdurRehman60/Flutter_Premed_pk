@@ -1,56 +1,97 @@
-import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/test_mode_page.dart';
-import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/practice_and_past.dart';
+import 'package:premedpk_mobile_app/providers/paper_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../constants/constants_export.dart';
 import '../../../../models/deck_group_model.dart';
 import '../../../../providers/create_deck_attempt_provider.dart';
 import '../../../../providers/deck_info_provider.dart';
 import '../../../../providers/question_provider.dart';
 import '../../../../providers/user_provider.dart';
+import '../../../../providers/vaultProviders/premed_provider.dart';
+import '../../../Widgets/global_widgets/custom_button.dart';
 import '../../Test Interface/test_interface_home.dart';
 import '../../Test Interface/widgets/tutor_mode_test_interface.dart';
 import '../../qbank/widgets/logo_avatar.dart';
+import '../../qbank/widgets/prac_and_past_instruc.dart';
+import '../../qbank/widgets/test_mode_page.dart';
 import 'deck_instructions.dart';
 
-class CustomBottomSheet extends StatefulWidget {
-  const CustomBottomSheet({
+class NewBottomSheet extends StatefulWidget {
+  const NewBottomSheet({
     super.key,
     required this.deckGroup,
     required this.bankOrMock,
     required this.category,
     required this.subject,
   });
+
   final String bankOrMock;
   final DeckGroupModel deckGroup;
   final String? category;
   final String subject;
 
   @override
-  State<CustomBottomSheet> createState() => _CustomBottomSheetState();
+  State<NewBottomSheet> createState() => _NewBottomSheetState();
 }
 
-class _CustomBottomSheetState extends State<CustomBottomSheet> {
-
+class _NewBottomSheetState extends State<NewBottomSheet> {
   late int selectedDeckItemIndex;
   bool isContinuingAttempt = false;
 
+  Future<void> _fetchQuestions(String deckName, BuildContext context) async {
+    await Provider.of<QuestionProvider>(context, listen: false)
+        .fetchQuestions(deckName, 1);
+  }
+
+  String newdeckname(String deckName) {
+    return deckName
+        .replaceAll('Past Paper', '')
+        .replaceAll('Practice', '')
+        .trim();
+  }
+
   Future<void> _fetchDeckInfo(int index, BuildContext context) async {
-    final userId = Provider.of<UserProvider>(context, listen: false).user?.userId;
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final deckName = newdeckname(widget.deckGroup.deckItems[index].deckName);
+
     final category = widget.category ?? '';
     final deckGroup = widget.deckGroup.deckGroupName;
-    final deckName = widget.deckGroup.deckItems[index].deckName;
+    final userId = userProvider.user!.userId;
+
+    // Debugging: print deckItems and index
+    print(
+        'deckItems: ${widget.deckGroup.deckItems}, Type: ${widget.deckGroup.deckItems.runtimeType}');
+    print('index: $index, Type: ${index.runtimeType}');
+
+    // Check if index is within bounds
+    if (index < widget.deckGroup.deckItems.length) {
+      final deckName = newdeckname(widget.deckGroup.deckItems[index].deckName);
+      print('Deck Name: $deckName');
+    } else {
+      print(
+          'Error: Index $index out of bounds for deckItems length ${widget.deckGroup.deckItems.length}');
+      return;
+    }
+
+    print("Fetching deck info for:");
+    print("Category: $category (Type: ${category.runtimeType})");
+    print("Deck Group: $deckGroup (Type: ${deckGroup.runtimeType})");
+    print("Deck Name: $deckName (Type: ${deckName.runtimeType})");
+    print("User ID: $userId (Type: ${userId.runtimeType})");
 
     try {
-      await Provider.of<DeckProvider>(context, listen: false)
-          .fetchDeckInformation(category, deckGroup, deckName, userId!);
+      await Provider.of<PaperProvider>(context, listen: false)
+          .fetchPapers(category, deckGroup, deckName, userId);
 
-      final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+      final deckInfo =
+          Provider.of<PaperProvider>(context, listen: false).deckInformation;
+      print("Fetched deck information: $deckInfo");
 
       if (deckInfo == null) {
         print('Deck information is null');
       } else {
-        print('alreadyAtt: ${deckInfo.alreadyAttempted}');
+        print('alreadyAttempted: ${deckInfo.alreadyAttempted}');
         print('Total questions: ${deckInfo.questions.length}');
       }
     } catch (e) {
@@ -58,16 +99,31 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     }
   }
 
-  Future<void> _fetchQuestions(String deckName, BuildContext context) async {
-    await Provider.of<QuestionProvider>(context, listen: false)
-        .fetchQuestions(deckName, 1);
-  }
-
   @override
   Widget build(BuildContext context) {
-    final accessTags = Provider.of<UserProvider>(context, listen: false).getTags();
-    print("These are the access tags $accessTags");
+    Set<String> uniquedecknames = {};
+    List<DeckItem> uniquedeckitems = [];
+
+    print('Deck items: ${widget.deckGroup.deckItems}');
+
+    for (var item in widget.deckGroup.deckItems) {
+      String newcleandeckname = newdeckname(item.deckName);
+      if (!uniquedecknames.contains(newcleandeckname)) {
+        uniquedecknames.add(newcleandeckname);
+        uniquedeckitems.add(item);
+      }
+    }
+
+    // Debugging for unique deck names and items
+    print('Unique deck names: $uniquedecknames');
+    print('Unique deck items: $uniquedeckitems');
+
+    final accessTags =
+        Provider.of<UserProvider>(context, listen: false).getTags();
+    print("Access Tags: $accessTags");
+
     final preMedPro = context.read<PreMedProvider>();
+
     return SizedBox(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.70,
@@ -90,32 +146,42 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
               padding: const EdgeInsets.only(bottom: 8.0),
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: widget.deckGroup.deckItems.length,
+                itemCount: uniquedeckitems.length,
                 itemBuilder: (context, index) {
-                  final DeckItem item = widget.deckGroup.deckItems[index];
+                  if (index is! int) {
+                    print(
+                        "Error: index is not an int but a ${index.runtimeType}");
+                  }
+
+                  final DeckItem item =
+                      uniquedeckitems[index]; // Accessing deck item by index
+                  final String deckName = newdeckname(item.deckName);
+
+                  print("Deck Item at index $index: $deckName");
+
                   return Container(
                     margin: const EdgeInsets.symmetric(vertical: 4),
                     decoration: const BoxDecoration(
                       color: Colors.white,
                     ),
                     child: ListTile(
-                      leading: GetLogo(url: widget.deckGroup.deckItems[index].deckLogo),
+                      leading: GetLogo(url: item.deckLogo),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            widget.deckGroup.deckItems[index].deckName,
+                            deckName,
                             style: PreMedTextTheme().body.copyWith(
-                              color: PreMedColorTheme().black,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 17,
-                            ),
+                                  color: PreMedColorTheme().black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 17,
+                                ),
                           ),
                           SizedBoxes.verticalTiny,
-                          if (widget.deckGroup.deckItems[index].isTutorModeFree == true ||
-                              widget.deckGroup.deckItems[index].premiumTag == null ||
-                              widget.deckGroup.deckItems[index].premiumTag!.isEmpty)
+                          if (item.isTutorModeFree == true ||
+                              item.premiumTag == null ||
+                              item.premiumTag!.isEmpty)
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
@@ -126,10 +192,10 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                 child: Text(
                                   'Free',
                                   style: PreMedTextTheme().body.copyWith(
-                                    color: PreMedColorTheme().white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14,
-                                  ),
+                                        color: PreMedColorTheme().white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 14,
+                                      ),
                                 ),
                               ),
                             )
@@ -137,19 +203,21 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Provider.of<PreMedProvider>(context, listen: false).isPreMed
+                                color: Provider.of<PreMedProvider>(context,
+                                            listen: false)
+                                        .isPreMed
                                     ? PreMedColorTheme().red
                                     : PreMedColorTheme().blue,
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  widget.deckGroup.deckItems[index].premiumTag!,
+                                  item.premiumTag!,
                                   style: PreMedTextTheme().body.copyWith(
-                                    color: PreMedColorTheme().white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14,
-                                  ),
+                                        color: PreMedColorTheme().white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 14,
+                                      ),
                                 ),
                               ),
                             ),
@@ -158,18 +226,23 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       trailing: IconButton(
                         icon: Icon(
                           Icons.arrow_forward_ios_rounded,
-                          color: preMedPro.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue,
+                          color: preMedPro.isPreMed
+                              ? PreMedColorTheme().primaryColorRed
+                              : PreMedColorTheme().blue,
                           size: 20,
                         ),
                         onPressed: () async {
-                          if (_hasAccess(widget.deckGroup.deckItems[index].premiumTag, accessTags, widget.deckGroup.deckItems[index].isTutorModeFree)) {
+                          if (_hasAccess(item.premiumTag, accessTags,
+                              item.isTutorModeFree)) {
                             setState(() {
                               selectedDeckItemIndex = index;
                             });
                             await _fetchDeckInfo(index, context);
-                            await _fetchQuestions(widget.deckGroup.deckItems[index].deckName, context);
+                            await _fetchQuestions(item.deckName, context);
 
-                            final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+                            final deckInfo = Provider.of<PaperProvider>(context,
+                                    listen: false)
+                                .deckInformation;
                             if (deckInfo?.alreadyAttempted == true) {
                               _showAlreadyAttemptedPopup(context, item);
                             } else {
@@ -180,7 +253,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           }
                         },
                       ),
-                      onTap: () {},
                     ),
                   );
                 },
@@ -192,7 +264,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     );
   }
 
-  bool _hasAccess(String? premiumTag, Object? accessTags, bool? isTutorModeFree) {
+  bool _hasAccess(
+      String? premiumTag, Object? accessTags, bool? isTutorModeFree) {
     if (isTutorModeFree == true || premiumTag == null || premiumTag.isEmpty) {
       return true;
     }
@@ -204,14 +277,18 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     if (accessTags is List<dynamic>) {
       for (final access in accessTags) {
         if (access is Map<String, dynamic>) {
-          print('Comparing premiumTag: $premiumTag with access name: ${access['name']}');
+          print(
+              'Comparing premiumTag: $premiumTag with access name: ${access['name']}');
 
           if (access['name'] == premiumTag) {
             return true;
           }
-          if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
-              (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
-              (premiumTag == 'AKU-QBank' && privTags.contains(access['name'])))  {
+          if ((premiumTag == 'MDCAT-QBank' &&
+                  mdcatTags.contains(access['name'])) ||
+              (premiumTag == 'NUMS-QBank' &&
+                  numsTags.contains(access['name'])) ||
+              (premiumTag == 'AKU-QBank' &&
+                  privTags.contains(access['name']))) {
             print('Match found: Yes');
             return true;
           }
@@ -229,7 +306,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Purchase Required"),
-          content: const Text("You need to purchase the required bundle to access this content."),
+          content: const Text(
+              "You need to purchase the required bundle to access this content."),
           actions: [
             TextButton(
               onPressed: () {
@@ -244,9 +322,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
   }
 
   void _navigateToDeck(BuildContext context, DeckItem item) {
-    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+    final deckInfo =
+        Provider.of<PaperProvider>(context, listen: false).deckInformation;
 
-    print("yeh hy deck ki info $deckInfo");
     if (deckInfo == null) {
       print('Deck information is null, cannot navigate');
       return;
@@ -261,22 +339,27 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     }
 
     if (widget.bankOrMock == 'Bank') {
-      print("iss sey oata chalega ki mock hy ya bank ${widget.bankOrMock}");
-      print("this is the ques ${deckInfo.questions}");
+      print("This is the ques ${deckInfo.questions}");
 
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => TestModeInterface(
+          builder: (context) => PracticeandPast(
             subject: widget.deckGroup.deckGroupName,
             deckDetails: {
-              'deckName': widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
-              'isTutorModeFree': widget.deckGroup.deckItems[selectedDeckItemIndex].isTutorModeFree,
-              'deckInstructions': widget.deckGroup.deckItems[selectedDeckItemIndex].deckInstructions,
+              'deckName':
+                  widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+              'isTutorModeFree': widget
+                  .deckGroup.deckItems[selectedDeckItemIndex].isTutorModeFree,
+              'deckInstructions': widget
+                  .deckGroup.deckItems[selectedDeckItemIndex].deckInstructions,
               'questions': totalQuestions.toString(),
-              'timedTestMinutes': widget.deckGroup.deckItems[selectedDeckItemIndex].timesTestminutes,
+              'timedTestMinutes': widget
+                  .deckGroup.deckItems[selectedDeckItemIndex].timesTestminutes,
             },
-            premiumtag: widget.deckGroup.deckItems[selectedDeckItemIndex].premiumTag ?? '',
+            premiumtag:
+                widget.deckGroup.deckItems[selectedDeckItemIndex].premiumTag ??
+                    '',
             deckGroupName: widget.category ?? '',
             totalquestions: totalQuestions,
             questionlist: deckInfo.questions,
@@ -284,7 +367,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
         ),
       );
     } else {
-      print("this is the ${deckInfo?.questions}");
+      print("This is the ${deckInfo?.questions}");
 
       Navigator.push(
         context,
@@ -296,17 +379,21 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
             selectedIndex: selectedDeckItemIndex,
             totalquestions: totalQuestions,
             questionlist: deckInfo.questions,
-            istimedtestmode: item.timedTestMode,
-          )
+          ),
         ),
       );
     }
   }
 
   void _showAlreadyAttemptedPopup(BuildContext context, DeckItem item) {
-    final userName = Provider.of<UserProvider>(context, listen: false).getUserName();
-    final lastAttempt = Provider.of<DeckProvider>(context, listen: false).deckInformation?.attempts;
-    final lastAttemptId = Provider.of<DeckProvider>(context, listen: false).deckInformation?.lastAttemptId;
+    final userName =
+        Provider.of<UserProvider>(context, listen: false).getUserName();
+    final lastAttempt = Provider.of<PaperProvider>(context, listen: false)
+        .deckInformation
+        ?.attempts;
+    final lastAttemptId = Provider.of<PaperProvider>(context, listen: false)
+        .deckInformation
+        ?.lastAttemptId;
 
     showDialog(
       context: context,
@@ -315,7 +402,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
           title: Center(
             child: Text(
               'Paper already attempted!',
-              style: PreMedTextTheme().body.copyWith(fontWeight: FontWeight.w600, fontSize: 18),
+              style: PreMedTextTheme()
+                  .body
+                  .copyWith(fontWeight: FontWeight.w600, fontSize: 18),
             ),
           ),
           content: Text(
@@ -355,17 +444,26 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           Navigator.pop(context);
                           if (lastAttempt != null && lastAttempt.isNotEmpty) {
                             final latestAttempt = lastAttempt.last;
-                            final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+                            final questionProvider =
+                                Provider.of<QuestionProvider>(context,
+                                    listen: false);
                             final startFromQuestion = questionProvider.questions
-                                ?.indexWhere((question) => question.questionId == latestAttempt['questionId']) ?? 0;
+                                    ?.indexWhere((question) =>
+                                        question.questionId ==
+                                        latestAttempt['questionId']) ??
+                                0;
 
                             if (startFromQuestion >= 0) {
-                              _navigateToNextScreen(context, item, startFromQuestion: startFromQuestion, attemptId: lastAttemptId);
+                              _navigateToNextScreen(context, item,
+                                  startFromQuestion: startFromQuestion,
+                                  attemptId: lastAttemptId);
                             } else {
-                              _navigateToNextScreen(context, item, attemptId: lastAttemptId);
+                              _navigateToNextScreen(context, item,
+                                  attemptId: lastAttemptId);
                             }
                           } else {
-                            _navigateToNextScreen(context, item, attemptId: lastAttemptId);
+                            _navigateToNextScreen(context, item,
+                                attemptId: lastAttemptId);
                           }
                         },
                         color: Colors.blueAccent,
@@ -385,7 +483,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       setState(() {
                         isContinuingAttempt = false;
                       });
-                      _navigateToNextScreen(context, item, isReview: true, startFromQuestion: 0);
+                      _navigateToNextScreen(context, item,
+                          isReview: true, startFromQuestion: 0);
                     },
                     color: Colors.green,
                     fontSize: 13,
@@ -400,12 +499,18 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     );
   }
 
-  void _navigateToNextScreen(BuildContext context, DeckItem item, {int? startFromQuestion, String? attemptId, bool isReview = false}) async {
-    final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
-    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+  void _navigateToNextScreen(BuildContext context, DeckItem item,
+      {int? startFromQuestion,
+      String? attemptId,
+      bool isReview = false}) async {
+    final deckAttemptProvider =
+        Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+    final deckInfo =
+        Provider.of<PaperProvider>(context, listen: false).deckInformation;
 
     final attemptMode = deckInfo?.attemptMode ?? '';
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
     final totalQuestions = questionProvider.questions?.length ?? 0;
 
     int questionIndex = (startFromQuestion ?? 0);
@@ -414,14 +519,18 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     }
 
     if (isReview) {
-      _startReviewMode(context, item, attemptMode, deckAttemptProvider, questionIndex);
+      _startReviewMode(
+          context, item, attemptMode, deckAttemptProvider, questionIndex);
     } else {
-      _continueOrReattempt(context, item, attemptMode, deckAttemptProvider, questionIndex, attemptId);
+      _continueOrReattempt(context, item, attemptMode, deckAttemptProvider,
+          questionIndex, attemptId);
     }
   }
 
-  void _startReviewMode(BuildContext context, DeckItem item, String attemptMode, CreateDeckAttemptProvider deckAttemptProvider, int questionIndex) {
-    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+  void _startReviewMode(BuildContext context, DeckItem item, String attemptMode,
+      CreateDeckAttemptProvider deckAttemptProvider, int questionIndex) {
+    final deckInfo =
+        Provider.of<PaperProvider>(context, listen: false).deckInformation;
     if (attemptMode == 'TUTORMODE') {
       Navigator.push(
         context,
@@ -429,7 +538,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
           builder: (context) => TutorMode(
             isContinuingAttempt: false,
             subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            deckName:
+                widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: deckAttemptProvider.attemptId,
             startFromQuestion: 0,
             isReview: true,
@@ -439,7 +549,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
         ),
       );
     } else if (attemptMode == 'TESTMODE') {
-      print("this is the ques index $questionIndex & and ${deckInfo?.questions}");
+      print(
+          "this is the ques index $questionIndex & and ${deckInfo?.questions}");
 
       Navigator.push(
         context,
@@ -448,7 +559,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
             isRecent: false,
             isContinuingAttempt: false,
             subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            deckName:
+                widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: deckAttemptProvider.attemptId,
             startFromQuestion: 0,
             isReview: true,
@@ -462,8 +574,15 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     }
   }
 
-  void _continueOrReattempt(BuildContext context, DeckItem item, String attemptMode, CreateDeckAttemptProvider deckAttemptProvider, int questionIndex, String? attemptId) {
-    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+  void _continueOrReattempt(
+      BuildContext context,
+      DeckItem item,
+      String attemptMode,
+      CreateDeckAttemptProvider deckAttemptProvider,
+      int questionIndex,
+      String? attemptId) {
+    final deckInfo =
+        Provider.of<PaperProvider>(context, listen: false).deckInformation;
     if (attemptMode == 'TUTORMODE') {
       Navigator.push(
         context,
@@ -471,7 +590,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
           builder: (context) => TutorMode(
             isContinuingAttempt: isContinuingAttempt,
             subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            deckName:
+                widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: attemptId ?? deckAttemptProvider.attemptId,
             startFromQuestion: questionIndex,
             isReview: false,
@@ -481,7 +601,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
         ),
       );
     } else if (attemptMode == 'TESTMODE') {
-      print("this is the ques index $questionIndex & the attempt id is $attemptId and ${deckInfo?.questions}");
+      print(
+          "this is the ques index $questionIndex & the attempt id is $attemptId and ${deckInfo?.questions}");
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -489,7 +610,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
             isRecent: false,
             isContinuingAttempt: isContinuingAttempt,
             subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            deckName:
+                widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: attemptId ?? deckAttemptProvider.attemptId,
             startFromQuestion: questionIndex,
             isReview: false,

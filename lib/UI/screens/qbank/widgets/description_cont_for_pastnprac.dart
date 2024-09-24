@@ -14,8 +14,8 @@ import '../../../../providers/user_provider.dart';
 import '../../../Widgets/global_widgets/custom_button.dart';
 import '../../Test Interface/test_interface_home.dart';
 
-class ModeDescription extends StatefulWidget {
-  const ModeDescription({
+class DescriptionContForPastnprac extends StatefulWidget {
+  const DescriptionContForPastnprac({
     super.key,
     required this.mode,
     required this.deckName,
@@ -36,10 +36,10 @@ class ModeDescription extends StatefulWidget {
   final String? premiumTag;
 
   @override
-  State<ModeDescription> createState() => _ModeDescriptionState();
+  State<DescriptionContForPastnprac> createState() => _DescriptionContForPastnpracState();
 }
 
-class _ModeDescriptionState extends State<ModeDescription> {
+class _DescriptionContForPastnpracState extends State<DescriptionContForPastnprac> {
   @override
   Widget build(BuildContext context) {
     print("this is the premium tag :${widget.premiumTag} for the deck name ${widget.deckName}");
@@ -57,16 +57,20 @@ class _ModeDescriptionState extends State<ModeDescription> {
           children: [
             SizedBoxes.verticalTiny,
             if (widget.mode)
-              _buildTutorMode(context, pro)
+              _buildPastPaperMode(context, pro)
             else
-              _buildTimedTestMode(context, pro),
+              _buildPracticeMode(context, pro),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTutorMode(BuildContext context, PreMedProvider pro) {
+  Widget _buildPastPaperMode(BuildContext context, PreMedProvider pro) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final bool hasFullAccess = _hasAccess(widget.premiumTag, userProvider.getTags(), false);
+    final String buttonText = hasFullAccess ? 'Start Test' : 'Attempt 5 questions for free';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -79,7 +83,7 @@ class _ModeDescriptionState extends State<ModeDescription> {
         SizedBoxes.verticalTiny,
         Center(
           child: Text(
-            'Tutor Mode',
+            'Past Paper',
             style: PreMedTextTheme().heading2.copyWith(
                 color: pro.isPreMed
                     ? PreMedColorTheme().primaryColorRed
@@ -100,14 +104,14 @@ class _ModeDescriptionState extends State<ModeDescription> {
         SizedBoxes.verticalTiny,
         const DescriptionText(
           descriptionText:
-          "Timer and detailed score report are not available in 'Tutor Mode' and can be accessed in 'Time Test Mode'",
+          "Timer and detailed score report are not available in 'Past Paper' and can be accessed in 'Practice'",
         ),
         SizedBoxes.verticalMedium,
         CustomButton(
           color: pro.isPreMed
               ? PreMedColorTheme().red
               : PreMedColorTheme().blue,
-          buttonText: 'Start Test',
+          buttonText: hasFullAccess ? 'Start Test' : 'Attempt 5 questions for free',
           onPressed: () async {
             final userProvider = Provider.of<UserProvider>(context, listen: false);
             final userId = userProvider.user?.userId ?? '';
@@ -135,6 +139,7 @@ class _ModeDescriptionState extends State<ModeDescription> {
                         deckName: widget.deckName,
                         totalquestions: widget.totalquestions,
                         questionlist: widget.questionlist,
+                        buttontext: buttonText ,
                       ),
                     ),
                   );
@@ -152,7 +157,11 @@ class _ModeDescriptionState extends State<ModeDescription> {
     );
   }
 
-  Widget _buildTimedTestMode(BuildContext context, PreMedProvider pro) {
+  Widget _buildPracticeMode(BuildContext context, PreMedProvider pro) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final bool hasFullAccess = _hasAccess(widget.premiumTag, userProvider.getTags(), false);
+    final String buttonText = hasFullAccess ? 'Start Test' : 'Attempt 5 questions for free';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -165,7 +174,7 @@ class _ModeDescriptionState extends State<ModeDescription> {
         SizedBoxes.verticalTiny,
         Center(
           child: Text(
-            'Timed Test Mode',
+            'Practice',
             style: PreMedTextTheme().heading2.copyWith(
                 color: pro.isPreMed
                     ? PreMedColorTheme().primaryColorRed
@@ -191,7 +200,7 @@ class _ModeDescriptionState extends State<ModeDescription> {
         ),
         SizedBoxes.verticalMedium,
         CustomButton(
-          buttonText: 'Start Test',
+          buttonText: hasFullAccess ? 'Start Test' : 'Attempt 5 questions for free',
           color: pro.isPreMed
               ? PreMedColorTheme().primaryColorRed
               : PreMedColorTheme().blue,
@@ -200,7 +209,6 @@ class _ModeDescriptionState extends State<ModeDescription> {
             final userId = userProvider.user?.userId ?? '';
 
             if (userId.isNotEmpty) {
-              // Check access for Timed Test Mode
               if (_hasAccess(widget.premiumTag, userProvider.getTags(), false)) {
                 final attemptModel = CreateDeckAttemptModel(
                   deckName: widget.deckName,
@@ -216,7 +224,7 @@ class _ModeDescriptionState extends State<ModeDescription> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => TestInterface(
+                      builder: (context) => TutorMode(
                         isRecent: false,
                         isContinuingAttempt: false,
                         subject: widget.subject,
@@ -224,6 +232,7 @@ class _ModeDescriptionState extends State<ModeDescription> {
                         deckName: widget.deckName,
                         totalquestions: widget.totalquestions,
                         questionlist: widget.questionlist,
+                        buttontext: buttonText,
                       ),
                     ),
                   );
@@ -241,8 +250,8 @@ class _ModeDescriptionState extends State<ModeDescription> {
     );
   }
 
-  bool _hasAccess(String? premiumTag, Object? accessTags, bool? isTutorModeFree) {
-    if (isTutorModeFree == true || premiumTag == null || premiumTag.isEmpty) {
+  bool _hasAccess(String? premiumTag, Object? accessTags, bool? isPastPaperFree) {
+    if (isPastPaperFree == true || premiumTag == null || premiumTag.isEmpty) {
       return true;
     }
 

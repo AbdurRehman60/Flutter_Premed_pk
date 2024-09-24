@@ -199,7 +199,7 @@ void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup, String qba
     backgroundColor: Colors.white,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return CustomBottomSheet(deckGroup: deckGroup, bankOrMock: 'Mocks', category: qbankText,subject: deckGroup.deckGroupName,);
+      return CustomBottomSheet(deckGroup: deckGroup, bankOrMock: 'Mock', category: qbankText,subject: deckGroup.deckGroupName,);
     },
   );
 }

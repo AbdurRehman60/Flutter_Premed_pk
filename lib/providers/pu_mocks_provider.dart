@@ -48,6 +48,7 @@ class PrivuniMocksProvider extends ChangeNotifier {
                 isTutorModeFree: deck['isTutorModeFree'],
                 timedTestMode: deck['timedTestMode'],
                 timesTestminutes: deck['timedTestMinutes'],
+
               );
             }).toList();
             final int deckNameCount = deckItems.length;

@@ -37,20 +37,41 @@ class NumsMocksProvider extends ChangeNotifier {
           final List<dynamic> deckGroupsData = numsMocksCategory['deckGroups'];
           _deckGroups = deckGroupsData.map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
-            final List<DeckItem> deckItems = decks.map((deck) {
-              return DeckItem.fromJson(deck);
+            final List<DeckItem> deckItems = decks.where((deck) {
+              return deck['isPublished'] == true;
+            }).map((deck) {
+              return DeckItem(
+                deckName: deck['deckName'],
+                deckLogo: deck['deckLogo'],
+                premiumTag: deck['premiumTags'] != null &&
+                    (deck['premiumTags'] as List).isNotEmpty
+                    ? (deck['premiumTags'][0] as String)
+                    : null,
+                deckInstructions: deck['deckInstructions'] ?? '',
+                isTutorModeFree: deck['isTutorModeFree'],
+                timedTestMode: deck['timedTestMode'],
+                timesTestminutes: deck['timedTestMinutes'],
+                isPublished: deck['isPublished'],
+
+              );
             }).toList();
+
+            if (deckItems.isEmpty || !deckGroupData['isPublished']) {
+              return null;
+            }
+
             final int deckNameCount = deckItems.length;
-            final String deckGroupImage = deckGroupData['deckGroupImage'];
+            final String? deckGroupImage = deckGroupData['deckGroupImage'];
+
             return DeckGroupModel(
-              deckType: deckGroupData['deckType'] as String,
+              deckType: deckGroupData['deckType'],
               deckGroupName: deckGroupData['deckGroupName'],
               deckItems: deckItems,
               deckNameCount: deckNameCount,
               deckGroupImage: deckGroupImage,
               isPublished: deckGroupData['isPublished'],
             );
-          }).toList();
+          }).where((deckGroup) => deckGroup != null).cast<DeckGroupModel>().toList();
 
           _fetchStatus = NumsMockFetchStatus.success;
         } else {

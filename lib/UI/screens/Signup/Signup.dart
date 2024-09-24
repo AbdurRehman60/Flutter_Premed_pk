@@ -34,6 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           emailController.text,
           passwordController.text,
           fullNameController.text,
+          true
         );
 
         signupResponse.then((response) {

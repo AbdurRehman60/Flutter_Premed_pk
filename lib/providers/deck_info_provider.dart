@@ -35,7 +35,8 @@ class DeckProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final responseData = response.data;
-        print('Response Data: ${const JsonEncoder.withIndent('  ').convert(response.data)}');        _deckInformation = DeckInformation.fromJson(responseData);
+        print('Response Data: ${const JsonEncoder.withIndent('  ').convert(response.data)}');
+        _deckInformation = DeckInformation.fromJson(responseData);
         _fetchStatus = FetchStatus.success;
       } else {
         _fetchStatus = FetchStatus.error;

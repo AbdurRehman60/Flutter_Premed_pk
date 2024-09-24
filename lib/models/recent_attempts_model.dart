@@ -29,10 +29,8 @@ class RecentAttempt {
   String? deckName;
   int? totalQuestions;
 
-  // Method to get the subject from the first attempt
   String? get subject => attempts?.attempts?.first.subject;
 
-  // Method to get the category from metadata
   String? get category => attempts?.metadata?.category;
 }
 

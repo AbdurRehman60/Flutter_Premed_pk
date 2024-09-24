@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:premedpk_mobile_app/api_manager/dio%20client/dio_client.dart';
@@ -162,6 +163,100 @@ class AuthProvider extends ChangeNotifier {
   GoogleSignInAccount? _googleUser;
   GoogleSignInAccount get googleUser => _googleUser!;
 
+  Future<void> fetchAndSaveFcmToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? fcmToken = prefs.getString('fcmToken');
+
+    if (fcmToken == null || fcmToken.isEmpty) {
+      fcmToken = await FirebaseMessaging.instance.getToken();
+      print("New FCM token generated: $fcmToken");
+
+      if (fcmToken != null) {
+        await prefs.setString('fcmToken', fcmToken);
+      } else {
+        print("Error: Could not retrieve FCM token");
+      }
+    } else {
+      print("FCM token retrieved from SharedPreferences: $fcmToken");
+    }
+  }
+
+
+  //
+  // Future<Map<String, dynamic>> login(String email, String password, bool isApp) async {
+  //   await fetchAndSaveFcmToken(); // Ensure FCM token is available before proceeding
+  //
+  //   Map<String, Object?> result;
+  //   final Map<String, dynamic> loginData = {
+  //     "username": email,
+  //     "password": password,
+  //     "isApp": isApp
+  //   };
+  //   _loggedInStatus = Status.Authenticating;
+  //   notifyListeners();
+  //
+  //   try {
+  //     final Response response = await _client.post(
+  //       Endpoints.login,
+  //       data: loginData,
+  //     );
+  //
+  //     if (response.statusCode == 200) {
+  //       final Map<String, dynamic> responseData =
+  //       Map<String, dynamic>.from(response.data);
+  //
+  //       if (responseData["success"]) {
+  //         final Map<String, dynamic> userResponse = await getLoggedInUser();
+  //         final String? fcmToken = await UserPreferences().getFcmToken();
+  //         print("this is the FCM token while login $fcmToken");
+  //         await _client.post(
+  //           Endpoints.SaveFCMToken,
+  //           data: {'fcmToken': fcmToken},
+  //         );
+  //
+  //         if (userResponse['status']) {
+  //           _loggedInStatus = Status.LoggedIn;
+  //           notifyListeners();
+  //           result = {
+  //             'status': userResponse["status"],
+  //             'message': userResponse["message"],
+  //           };
+  //         } else {
+  //           _loggedInStatus = Status.NotLoggedIn;
+  //           notifyListeners();
+  //           result = {
+  //             'status': userResponse["status"],
+  //             'message': userResponse["message"],
+  //           };
+  //         }
+  //       } else {
+  //         _loggedInStatus = Status.NotLoggedIn;
+  //         notifyListeners();
+  //         result = {
+  //           'status': responseData["success"],
+  //           'message': responseData["status"],
+  //         };
+  //       }
+  //     } else {
+  //       _loggedInStatus = Status.NotLoggedIn;
+  //       notifyListeners();
+  //       result = {
+  //         'status': false,
+  //         'message': json.decode(response.data),
+  //       };
+  //     }
+  //   } on DioException catch (e) {
+  //     _loggedInStatus = Status.NotLoggedIn;
+  //     notifyListeners();
+  //     result = {
+  //       'status': false,
+  //       'message': e.message,
+  //     };
+  //   }
+  //
+  //   return result;
+  // }
+
   Future<Map<String, dynamic>> login(String email, String password, bool isApp) async {
     Map<String, Object?> result;
     final Map<String, dynamic> loginData = {
@@ -180,17 +275,21 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData["success"]) {
           final Map<String, dynamic> userResponse = await getLoggedInUser();
+
           final SharedPreferences prefs = await SharedPreferences.getInstance();
+
           final String? fcmToken = prefs.getString('fcmToken');
-          print("this is the fcmtoken while login $fcmToken");
+
           await _client.post(
             Endpoints.SaveFCMToken,
             data: {'fcmToken': fcmToken},
           );
+
+          //TO-DO SAVE USER LOGIN DETAILS (MOBILE DEVICE ETC.)
 
           if (userResponse['status']) {
             _loggedInStatus = Status.LoggedIn;
@@ -210,6 +309,7 @@ class AuthProvider extends ChangeNotifier {
         } else {
           _loggedInStatus = Status.NotLoggedIn;
           notifyListeners();
+
           result = {
             'status': responseData["success"],
             'message': responseData["status"],
@@ -218,6 +318,9 @@ class AuthProvider extends ChangeNotifier {
       } else {
         _loggedInStatus = Status.NotLoggedIn;
         notifyListeners();
+
+
+        //returning  results
         result = {
           'status': false,
           'message': json.decode(response.data),
@@ -226,11 +329,15 @@ class AuthProvider extends ChangeNotifier {
     } on DioException catch (e) {
       _loggedInStatus = Status.NotLoggedIn;
       notifyListeners();
+
+
       result = {
         'status': false,
         'message': e.message,
       };
     }
+
+    notifyListeners();
 
     return result;
   }
@@ -248,15 +355,9 @@ class AuthProvider extends ChangeNotifier {
         final User user = User.fromJson(responseData);
         await UserPreferences().saveUser(user);
         UserProvider().user = user;
-        //
-        // print('User Info lastOnboardingPage: ${user.info.lastOnboardingPage}');
 
         final String? accountType = user.accountType;
         final String lastOnboardingPage = user.info.lastOnboardingPage;
-        //
-        // print('accountType: $accountType');
-        // print('Pagestatus (user.info): ${lastOnboardingPage.isEmpty}');
-        // print('Pagestatus (responseData): $lastOnboardingPage');
 
         if (accountType == "google" && user.info.lastOnboardingPage.isEmpty) {
           result = {
@@ -316,13 +417,8 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-
-
-
-
-
   Future<Map<String, dynamic>> signup(
-      String email, String password, String fullName, {bool appUser = false}) async {
+      String email, String password, String fullName, bool appUser) async {
     Map<String, Object?> result;
     final Map<String, dynamic> signupData = {
       "fullname": fullName,
@@ -379,7 +475,6 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
-
   Future<Map<String, dynamic>> requiredOnboarding({
     required String username,
     required String lastOnboardingPage,
@@ -427,7 +522,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData.containsKey('info') && responseData['info'] != null) {
           _info = Info.fromJson(responseData['info']);
@@ -464,56 +559,43 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> logout() async {
-    Map<String, Object?> result;
-
-    _loggedInStatus = Status.Authenticating;
-    notifyListeners();
-
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? fcmToken = prefs.getString('fcmToken');
 
-      final String? fcmToken = prefs.getString('fcmToken');
-      print (fcmToken);
-      await _client.post(
-        Endpoints.DeleteFCMToken,
-        data: {'fcmToken': fcmToken},
-      );
-
-      final Response response = await _client.logout(
-        Endpoints.logout,
-      );
-
-      if (response.statusCode == 200) {
-        await UserPreferences().logOut();
-        _loggedInStatus = Status.LoggedOut;
-        notifyListeners();
-
-        result = {
-          'status': true,
-          'message': 'Successful',
-        };
-      } else {
-        _loggedInStatus = Status.LoggedIn;
-        notifyListeners();
-        result = {
-          'status': false,
-          'message': response.data.toString(),
-        };
+      if (fcmToken == null || fcmToken.isEmpty) {
+        print("FCM token is null during logout. Attempting to regenerate...");
+        await fetchAndSaveFcmToken();
+        fcmToken = prefs.getString('fcmToken');
       }
-    } on DioError catch (e) {
-      _loggedInStatus = Status.LoggedIn;
-      notifyListeners();
-      result = {
-        'status': false,
-        'message': e.message,
-      };
+
+      if (fcmToken != null && fcmToken.isNotEmpty) {
+        print("FCM token before deletion: $fcmToken");
+        await _client.post(
+          Endpoints.DeleteFCMToken,
+          data: {'fcmToken': fcmToken},
+        );
+
+        final Response response = await _client.logout(Endpoints.logout);
+        if (response.statusCode == 200) {
+          await UserPreferences().logOut();
+          return {'status': true, 'message': 'Logged out successfully'};
+        } else {
+          print('Server error during logout: ${response.statusCode}');
+          return {'status': false, 'message': 'Logout failed with status code ${response.statusCode}'};
+        }
+      } else {
+        print("Error: Unable to retrieve FCM token during logout");
+        return {'status': false, 'message': 'FCM token missing during logout'};
+      }
+    } catch (e) {
+      print("Exception during logout: $e");
+      return {'status': false, 'message': 'An error occurred during logout'};
     }
-    return result;
   }
 
 
   Future<Map<String, dynamic>> continueWithGoogle() async {
-    //method1
     Map<String, Object?> result;
 
     try {
@@ -535,10 +617,8 @@ class AuthProvider extends ChangeNotifier {
         "fullname": googleUser.displayName.toString(),
         "picture": googleUser.photoUrl.toString(),
         "token": googleAuth.accessToken.toString(),
-        "token": googleAuth.accessToken.toString(),
         "isApp": true,
       };
-
 
       try {
         final Response response = await _client.post(
@@ -547,15 +627,14 @@ class AuthProvider extends ChangeNotifier {
         );
 
         if (response.statusCode == 200) {
-
           print('response statusCode : ${response.statusCode}');
           final Map<String, dynamic> responseData =
-              Map<String, dynamic>.from(response.data);
+          Map<String, dynamic>.from(response.data);
 
           if (responseData["success"]) {
             final Map<String, dynamic> userResponse = await getLoggedInUser();
             final SharedPreferences prefs =
-                await SharedPreferences.getInstance();
+            await SharedPreferences.getInstance();
             final String? fcmToken = prefs.getString('fcmToken');
 
             await _client.post(
@@ -619,7 +698,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData =
-            Map<String, dynamic>.from(response.data);
+        Map<String, dynamic>.from(response.data);
 
         if (responseData["success"] != null) {
           result = {
@@ -668,7 +747,7 @@ class AuthProvider extends ChangeNotifier {
             'message': "EntryTest",
           };
         } else if (lastOnboardingPage ==
-                "/auth/onboarding/entrance-exam/pre-medical" ||
+            "/auth/onboarding/entrance-exam/pre-medical" ||
             lastOnboardingPage ==
                 "/auth/onboarding/entrance-exam/pre-engineering") {
           result = {
@@ -676,7 +755,7 @@ class AuthProvider extends ChangeNotifier {
             'message': "RequiredOnboarding",
           };
         } else if (lastOnboardingPage ==
-                "/auth/onboarding/entrance-exam/pre-medical/features" ||
+            "/auth/onboarding/entrance-exam/pre-medical/features" ||
             lastOnboardingPage ==
                 "/auth/onboarding/entrance-exam/pre-engineering/features") {
           result = {
@@ -710,4 +789,5 @@ class AuthProvider extends ChangeNotifier {
 
     return result;
   }
+
 }
