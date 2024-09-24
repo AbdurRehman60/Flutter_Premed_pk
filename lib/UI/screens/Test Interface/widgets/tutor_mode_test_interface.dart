@@ -736,6 +736,7 @@ class _TutorModeState extends State<TutorMode> {
                   color: PreMedColorTheme().black,
                 ),
               ),
+              const SizedBox(height: 16),
               Row(
                 children: [
                   Consumer2<SaveQuestionProvider,SavedQuestionsProvider>(
@@ -786,64 +787,65 @@ class _TutorModeState extends State<TutorMode> {
                     },
                   ),
                   const SizedBox(width: 16),
-                ],
-              ),
-              Row(
-                children: [
-                  if(!isEliminated)
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                      backgroundColor: Colors.white,
-                      foregroundColor: const Color.fromRGBO(12, 90, 188, 1),
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                    ),
-                    onPressed: () {
-                      final question =
-                      Provider.of<QuestionProvider>(context, listen: false)
-                          .questions![currentQuestionIndex];
-                      _eliminateOptions(question.options);
-                    },
-                    child: Row(
-                      children: [
-                        SvgPicture.asset('assets/icons/elimination.svg'),
-                        const SizedBox(width: 5),
-                        const Text('Elimination Tool'),
-                      ],
-                    ),
-                  )else
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                      backgroundColor: const Color.fromRGBO(12, 90, 188, 1),
-                      foregroundColor: Colors.white,
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                    ),
-                    onPressed: () {
-                      final question =
-                      Provider.of<QuestionProvider>(context, listen: false)
-                          .questions![currentQuestionIndex];
-                      _undoElimination(question.options);
-                    },
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/elimination.svg',
-                          color: Colors.white,
+                  Row(
+                    children: [
+                      if(!isEliminated)
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                            backgroundColor: Colors.white,
+                            foregroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                          ),
+                          onPressed: () {
+                            final question =
+                            Provider.of<QuestionProvider>(context, listen: false)
+                                .questions![currentQuestionIndex];
+                            _eliminateOptions(question.options);
+                          },
+                          child: Row(
+                            children: [
+                              SvgPicture.asset('assets/icons/elimination.svg'),
+                              const SizedBox(width: 5),
+                              const Text('Elimination Tool'),
+                            ],
+                          ),
+                        )else
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                            backgroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                            foregroundColor: Colors.white,
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                          ),
+                          onPressed: () {
+                            final question =
+                            Provider.of<QuestionProvider>(context, listen: false)
+                                .questions![currentQuestionIndex];
+                            _undoElimination(question.options);
+                          },
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/icons/elimination.svg',
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 5),
+                              const Text('Exit Elimination'),
+                            ],
+                          ),
                         ),
-                        const SizedBox(width: 5),
-                        const Text('Exit Elimination'),
-                      ],
-                    ),
+                    ],
                   ),
                 ],
               ),
+
               if (question.questionImage != null &&
                   question.questionImage!.isNotEmpty)
                 if (isBase64(question.questionImage!))

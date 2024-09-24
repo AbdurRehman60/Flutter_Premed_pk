@@ -1276,43 +1276,106 @@ class AuthProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>> logout() async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? fcmToken = prefs.getString('fcmToken');
-      prefs.remove('fcmToken');
+      print("Starting logout process...");
 
+      // Initialize SharedPreferences
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      print("SharedPreferences initialized.");
+
+      // Retrieve FCM token
+      String? fcmToken = prefs.getString('fcmToken');
+      print("Initial FCM token retrieved: $fcmToken");
+
+      // Check if FCM token is null or empty
       if (fcmToken == null || fcmToken.isEmpty) {
-        print("FCM token is null during logout. Attempting to regenerate...");
-        await fetchAndSaveFcmToken();
-        fcmToken = prefs.getString('fcmToken');
+        print("FCM token is null or empty. Attempting to regenerate...");
+        await fetchAndSaveFcmToken();  // Fetch new FCM token
+        fcmToken = prefs.getString('fcmToken');  // Retrieve new token
+        print("New FCM token after regeneration: $fcmToken");
       }
 
+      // Proceed if FCM token is valid
       if (fcmToken != null && fcmToken.isNotEmpty) {
-        print("FCM token before deletion: $fcmToken");
+        print("Proceeding with logout. FCM token before deletion: $fcmToken");
+
+        // Call API to delete FCM token on the server
+        print("Sending FCM token to delete endpoint...");
         await _client.post(
           Endpoints.DeleteFCMToken,
           data: {'fcmToken': fcmToken},
         );
+        print("FCM token deletion request sent.");
 
+        // Call logout API
+        print("Calling logout API...");
         final Response response = await _client.logout(Endpoints.logout);
-        print('duringLog ${response}');
+        print("Logout API response: ${response}");
+
+        // Check the response from the logout API
         if (response.statusCode == 200) {
-          print('myResponse: $response');
-          print('Logged out successfully');
+          print('Logout successful. Clearing preferences...');
+
+          // Remove FCM token from SharedPreferences
+          await prefs.remove('fcmToken');
+          print("FCM token removed from SharedPreferences.");
           await UserPreferences().logOut();
+          print("User preferences cleared.");
+
           return {'status': true, 'message': 'Logged out successfully'};
         } else {
-          print('Server error during logout: ${response.statusCode}');
+          print('Logout failed. Server responded with status code: ${response.statusCode}');
           return {'status': false, 'message': 'Logout failed with status code ${response.statusCode}'};
         }
       } else {
-        print("Error: Unable to retrieve FCM token during logout");
+        print("Error: Unable to retrieve a valid FCM token during logout.");
         return {'status': false, 'message': 'FCM token missing during logout'};
       }
     } catch (e) {
       print("Exception during logout: $e");
-      return {'status': false, 'message': 'An error occurred during logout'};
+      return {'status': false, 'message': 'An error occurred during logout: $e'};
     }
   }
+
+
+  // Future<Map<String, dynamic>> logout() async {
+  //   try {
+  //     final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     String? fcmToken = prefs.getString('fcmToken');
+  //     prefs.remove('fcmToken');
+  //
+  //     if (fcmToken == null || fcmToken.isEmpty) {
+  //       print("FCM token is null during logout. Attempting to regenerate...");
+  //       await fetchAndSaveFcmToken();
+  //       fcmToken = prefs.getString('fcmToken');
+  //     }
+  //
+  //     if (fcmToken != null && fcmToken.isNotEmpty) {
+  //       print("FCM token before deletion: $fcmToken");
+  //       await _client.post(
+  //         Endpoints.DeleteFCMToken,
+  //         data: {'fcmToken': fcmToken},
+  //       );
+  //
+  //       final Response response = await _client.logout(Endpoints.logout);
+  //       print('duringLog ${response}');
+  //       if (response.statusCode == 200) {
+  //         print('myResponse: $response');
+  //         print('Logged out successfully');
+  //         await UserPreferences().logOut();
+  //         return {'status': true, 'message': 'Logged out successfully'};
+  //       } else {
+  //         print('Server error during logout: ${response.statusCode}');
+  //         return {'status': false, 'message': 'Logout failed with status code ${response.statusCode}'};
+  //       }
+  //     } else {
+  //       print("Error: Unable to retrieve FCM token during logout");
+  //       return {'status': false, 'message': 'FCM token missing during logout'};
+  //     }
+  //   } catch (e) {
+  //     print("Exception during logout: $e");
+  //     return {'status': false, 'message': 'An error occurred during logout'};
+  //   }
+  // }
 
 
   Future<Map<String, dynamic>> continueWithGoogle() async {

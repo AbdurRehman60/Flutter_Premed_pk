@@ -7,6 +7,7 @@ import '../../../models/onboarding_model.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/onboarding_provider.dart';
 import '../../../providers/user_provider.dart';
+import '../marketplace/checkout/thankyou.dart';
 
 class ChooseFeatures extends StatefulWidget {
   const ChooseFeatures(

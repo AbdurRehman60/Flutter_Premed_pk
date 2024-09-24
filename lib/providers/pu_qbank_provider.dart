@@ -24,12 +24,12 @@ class PUQbankProvider extends ChangeNotifier {
       final bool success = responseData['success'] ?? false;
       if (success) {
         final List<Map<String, dynamic>> data =
-            List<Map<String, dynamic>>.from(responseData['data']);
+        List<Map<String, dynamic>>.from(responseData['data']);
         Map<String, dynamic>? pu;
         try {
           pu = data.firstWhere(
-            (category) =>
-                category['categoryName'] == 'Private Universities QBank',
+                (category) =>
+            category['categoryName'] == 'Private Universities QBank',
           );
         } catch (e) {
           pu = null;
@@ -55,6 +55,7 @@ class PUQbankProvider extends ChangeNotifier {
                 timedTestMode: deck['timedTestMode'],
                 timesTestminutes: deck['timedTestMinutes'],
               );
+
             }).toList();
             // Print
 

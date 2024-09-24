@@ -36,18 +36,19 @@ class PrivuniMocksProvider extends ChangeNotifier {
             final List<dynamic> decks = deckGroupData['decks'];
             final List<DeckItem> deckItems = decks.map((deck) {
               return DeckItem(
-                  deckName: deck['deckName'] as String,
-                  deckLogo: deck['deckLogo'] as String,
-                  premiumTag: deck['premiumTags'] != null &&
-                      (deck['premiumTags'] as List).isNotEmpty
-                      ? (deck['premiumTags'][0] as String)
-                      : 'Free',
+                deckName: deck['deckName'] as String,
+                deckLogo: deck['deckLogo'] as String,
+                premiumTag: deck['premiumTags'] != null &&
+                    (deck['premiumTags'] as List).isNotEmpty
+                    ? (deck['premiumTags'][0] as String)
+                    : 'Free',
                 isPublished: deck['isPublished'],
 
                 deckInstructions: deck['deckInstructions'] as String,
                 isTutorModeFree: deck['isTutorModeFree'],
                 timedTestMode: deck['timedTestMode'],
                 timesTestminutes: deck['timedTestMinutes'],
+
               );
             }).toList();
             final int deckNameCount = deckItems.length;
