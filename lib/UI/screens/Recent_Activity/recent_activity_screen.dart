@@ -8,7 +8,8 @@ import 'package:premedpk_mobile_app/models/recent_attempts_model.dart';
 import 'package:premedpk_mobile_app/providers/question_provider.dart';
 import 'package:premedpk_mobile_app/providers/recent_atempts_provider.dart';
 import 'package:provider/provider.dart';
-
+import '../../../providers/info_thru_deckname_provider.dart';
+import '../../../providers/user_provider.dart';
 import '../../../providers/vaultProviders/premed_provider.dart';
 import '../Test Interface/test_interface_home.dart';
 import '../The vault/widgets/back_button.dart';
@@ -21,46 +22,97 @@ class RecentActivityScreen extends StatefulWidget {
 }
 
 class _RecentActivityScreenState extends State<RecentActivityScreen> {
+  late QuestionProvider questionProvider;
   bool isContinuingAttempt = false;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+  }
 
-  Future<void> _resumeAttempt(BuildContext context, RecentAttempt recentAttempt,
-      {int startFromQuestion = 0, String? attemptId}) async {
-    final questionProvider =
-    Provider.of<QuestionProvider>(context, listen: false);
+  Future<void> _resumeAttempt(
+      BuildContext context,
+      RecentAttempt recentAttempt,
+      {int startFromQuestion = 0, String? attemptId}
+      ) async {
     final deckName = recentAttempt.deckName;
-    print('resume Called');
+    int totalQuestions = await _fetchDeckQuestions(deckName!);
+
+    print("bhai yeh hein $totalQuestions");
+    print('Resume attempt called with deckName: $deckName');
+
     if (deckName == null) {
       print('Error: Deck name is null');
       return;
     }
 
-    await questionProvider.fetchQuestions(deckName, 1);
-
-    if (!mounted) {
+    final effectiveAttemptId = recentAttempt.attempts?.id;
+    if (effectiveAttemptId == null) {
+      print('Error: Attempt ID is null');
+      print(deckName);
+      print(startFromQuestion);
+      print(recentAttempt.attempts?.attempts?.last.subject);
       return;
     }
 
-    final startFrom = startFromQuestion >= 0 ? startFromQuestion : 0;
-    final attemptIdValue = attemptId ?? recentAttempt.attempts?.id;
+    if (recentAttempt.attempts?.attempts != null &&
+        recentAttempt.attempts!.attempts!.isNotEmpty) {
+      startFromQuestion = recentAttempt.attempts!.attempts!.length - 1;
+    }
 
-    if (attemptIdValue != null) {
-      if (recentAttempt.mode == 'TESTMODE') {
-        _navigateToTestInterface(
-          deckName,
-          startFromQuestion: startFrom,
-          attemptId: attemptIdValue,
-          subject: recentAttempt.attempts?.attempts?.last.subject ?? '',
-        );
-      } else {
-        _navigateToTutorInterface(deckName,
-            startFromQuestion: startFrom,
-            attemptId: attemptIdValue,
-            subject: recentAttempt.attempts?.attempts?.last.subject ?? '');
-      }
+    if (recentAttempt.mode == 'TESTMODE') {
+      print('Navigating to TutorMode with attemptId: $effectiveAttemptId, deck name $deckName, startfromqestion : $startFromQuestion, iscontinue attempot : $isContinuingAttempt');
+      _navigateToTestInterface(
+        totalquestions: totalQuestions,
+        deckName,
+        startFromQuestion: startFromQuestion,
+        attemptId: effectiveAttemptId,
+        subject: recentAttempt.attempts?.attempts?.last.subject ?? '',
+      );
     } else {
-      print('Error: Attempt ID is null');
+      print('Navigating to TutorMode with attemptId: $effectiveAttemptId, deck name $deckName, startfromqestion : $startFromQuestion, iscontinue attempot : $isContinuingAttempt');
+      _navigateToTutorInterface(
+        totalquestions: totalQuestions,
+        deckName,
+        startFromQuestion: startFromQuestion,
+        attemptId: effectiveAttemptId,
+        subject: recentAttempt.attempts?.attempts?.last.subject ?? '',
+      );
     }
+  }
+
+  Future<int> _fetchDeckQuestions(String deckname) async {
+    if (deckname == null || deckname.isEmpty) {
+      print('Error: Deck name is null or empty');
+      return 0;
     }
+
+    try {
+      final deckInfoProvider = Provider.of<DeckInfoProvider>(context, listen: false);
+      print('Fetching deck info for deck: $deckname');
+
+      // Fetching deck info
+      await deckInfoProvider.getDeckInfo(deckname);
+
+      // Print the full deckInfo for debugging
+      print('Full deckInfo response: ${deckInfoProvider.deckInfo}');
+
+      // Access the 'questions' field directly (no 'deck' wrapper)
+      if (deckInfoProvider.deckInfo != null && deckInfoProvider.deckInfo!.containsKey('questions')) {
+        List<dynamic> questions = deckInfoProvider.deckInfo!['questions'] ?? [];
+        print('Total questions fetched: ${questions.length} for deck: $deckname');
+        return questions.length;
+      } else {
+        print('Error: No questions found in deck info');
+        return 0;
+      }
+    } catch (error) {
+      print('Error while fetching deck questions: $error');
+      return 0;
+    }
+  }
+
+
 
   Future<void> _restartAttempt(
       BuildContext context, RecentAttempt recentAttempt) async {
@@ -70,15 +122,18 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
     final questionProvider =
     Provider.of<QuestionProvider>(context, listen: false);
     await questionProvider.fetchQuestions(recentAttempt.deckName!, 1);
+    int totalQuestions = await _fetchDeckQuestions(recentAttempt.deckName!);
 
     if (recentAttempt.mode == 'TESTMODE') {
       _navigateToTestInterface(
+        totalquestions: totalQuestions,
         recentAttempt.deckName!,
         attemptId: 'no ID',
         subject: recentAttempt.attempts?.attempts?.first.subject ?? '',
       );
     } else {
       _navigateToTutorInterface(
+        totalquestions: totalQuestions,
         recentAttempt.deckName!,
         attemptId: 'no ID',
         subject: recentAttempt.attempts?.attempts?.first.subject ?? '',
@@ -88,17 +143,20 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
   void _navigateToTestInterface(
       String deckName, {
         required String attemptId,
+        required int totalquestions,
         String? subject,
         int startFromQuestion = 0,
       }) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => TestInterface(
+          isRecent: true,
           deckName: deckName,
           attemptId: attemptId,
           subject: subject ?? '',
           startFromQuestion: startFromQuestion,
-          isContinuingAttempt: isContinuingAttempt,
+          isContinuingAttempt: true,
+          totalquestions:totalquestions ,
         ),
       ),
     );
@@ -106,6 +164,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
 
   void _navigateToTutorInterface(
       String deckName, {
+        required int totalquestions,
         required String attemptId,
         String? subject,
         int startFromQuestion = 0,
@@ -113,11 +172,13 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => TutorMode(
+          isRecent: true,
           deckName: deckName,
           attemptId: attemptId,
           subject: subject ?? '',
           startFromQuestion: startFromQuestion,
-          isContinuingAttempt: isContinuingAttempt,
+          isContinuingAttempt: true,
+          totalquestions: totalquestions,
         ),
       ),
     );

@@ -19,6 +19,7 @@ import 'package:premedpk_mobile_app/providers/create_deck_attempt_provider.dart'
 import 'package:premedpk_mobile_app/providers/deck_info_provider.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
+import 'package:premedpk_mobile_app/providers/info_thru_deckname_provider.dart';
 import 'package:premedpk_mobile_app/providers/lastest_attempts_provider.dart';
 import 'package:premedpk_mobile_app/providers/mcatqbankprovider.dart';
 import 'package:premedpk_mobile_app/providers/mdcat_mocks_provider.dart';
@@ -27,6 +28,7 @@ import 'package:premedpk_mobile_app/providers/notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/nums_qbank_provider.dart';
 import 'package:premedpk_mobile_app/providers/onboarding_provider.dart';
+import 'package:premedpk_mobile_app/providers/paper_provider.dart';
 import 'package:premedpk_mobile_app/providers/pu_mocks_provider.dart';
 import 'package:premedpk_mobile_app/providers/pu_qbank_provider.dart';
 import 'package:premedpk_mobile_app/providers/question_provider.dart';
@@ -39,7 +41,6 @@ import 'package:premedpk_mobile_app/providers/statistic_provider.dart';
 import 'package:premedpk_mobile_app/providers/update_attempt_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
-import 'package:premedpk_mobile_app/providers/vaultProviders/cheatsheets_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/eng_study_notes_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/engineering_access_providers.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/essen_stuff_pro.dart';
@@ -133,8 +134,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_)=> PreEngAccessProvider()),
         ChangeNotifierProvider(create: (_)=> BoardProvider()),
         ChangeNotifierProvider(create: (_)=> RecQuestionProvider()),
-        ChangeNotifierProvider(create: (_)=> CheatsheetsProvider()),
-
+        ChangeNotifierProvider(create: (_)=> PaperProvider()),
+        ChangeNotifierProvider(create: (_)=> DeckInfoProvider()),
 
       ],
       child: MaterialApp(

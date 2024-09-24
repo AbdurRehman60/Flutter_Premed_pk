@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart' as htmlParser;
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
-import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test Interface/test_interface_home.dart';
-import 'package:provider/provider.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/create_deck_attemot_model.dart';
+import 'package:provider/provider.dart';
 import '../../../../models/deck_group_model.dart';
 import '../../../../providers/create_deck_attempt_provider.dart';
 import '../../../../providers/user_provider.dart';
@@ -15,8 +16,14 @@ class DeckInstructions extends StatefulWidget {
     required this.deckGroup,
     required this.selectedIndex,
     required this.subject,
+    required this.totalquestions,
+    this.questionlist,
+    this.istimedtestmode,
   });
 
+  final List<String>? questionlist;
+  final bool? istimedtestmode;
+  final int totalquestions;
   final String deckInstructions;
   final DeckGroupModel deckGroup;
   final int selectedIndex;
@@ -28,17 +35,13 @@ class DeckInstructions extends StatefulWidget {
 
 class _DeckInstructionsState extends State<DeckInstructions> {
   String cleanInstructions = '';
-  String selectedMode = 'TestMode'; // Default mode
-
-  List<String> getInstructionLines() {
-    return widget.deckInstructions.split('\n');
-  }
+  String selectedMode = 'TestMode';
 
   @override
   void initState() {
     super.initState();
-    final rawInstructions = getInstructionLines().join('\n');
-    cleanInstructions = removeHtmlTags(rawInstructions);
+    final parsedInstructions = parseHtmlInstructions(widget.deckInstructions);
+    cleanInstructions = formatInstructions(parsedInstructions);
   }
 
   @override
@@ -120,7 +123,7 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                             ),
                             SizedBoxes.verticalTiny,
                             Text(
-                              '200 Mcqs',
+                              '${widget.totalquestions} Mcqs',
                               style: PreMedTextTheme().body.copyWith(
                                   color: PreMedColorTheme().black,
                                   fontWeight: FontWeight.w800,
@@ -129,7 +132,7 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                             SizedBoxes.verticalTiny,
                             const BulletedList(
                               items: [
-                                'This paper is NOT timed',
+                                'This paper is timed',
                                 'The correct answer and explanation will be shown instantly once you select any option',
                               ],
                             ),
@@ -141,23 +144,15 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                                 final userId = userProvider.user?.userId ?? '';
 
                                 if (userId.isNotEmpty) {
-                                  if (selectedMode == 'TutorMode') {
-                                    if (selectedDeckItem.isTutorModeFree ?? false) {
-                                      _startTest(context, selectedDeckItem, userId);
-                                    } else if (_hasAccess(selectedDeckItem.premiumTag, userProvider.getTags())) {
-                                      _startTest(context, selectedDeckItem, userId);
-                                    } else {
-                                      _showPurchasePopup(context);
-                                    }
-                                  } else if (selectedMode == 'TestMode') {
-                                    if (selectedDeckItem.premiumTag == null || selectedDeckItem.premiumTag!.isEmpty) {
-                                      _startTest(context, selectedDeckItem, userId);
-                                    } else if (_hasAccess(selectedDeckItem.premiumTag, userProvider.getTags())) {
-                                      _startTest(context, selectedDeckItem, userId);
-                                    } else {
-                                      _showPurchasePopup(context);
-                                    }
+                                  // Check if it is a timed test mode or not
+                                  if (widget.istimedtestmode == true) {
+                                    selectedMode = 'TESTMODE';
+                                  } else {
+                                    selectedMode = 'TUTORMODE';
                                   }
+
+                                  // Start test based on the selected mode
+                                  _handleStartTest(context, selectedDeckItem, userId, selectedMode);
                                 }
                               },
                             ),
@@ -169,6 +164,7 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                   ),
                 ),
                 SizedBoxes.verticalLarge,
+                // Render instructions here
                 Padding(
                   padding: const EdgeInsets.only(left: 16, right: 16),
                   child: Material(
@@ -210,46 +206,43 @@ class _DeckInstructionsState extends State<DeckInstructions> {
     );
   }
 
-  void _startTest(BuildContext context, DeckItem selectedDeckItem, String userId) async {
-    final attemptModel = CreateDeckAttemptModel(
-      deckName: selectedDeckItem.deckName,
-      attemptMode: selectedMode.toLowerCase(),
-      user: userId,
-    );
-    final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
-    await deckAttemptProvider.createDeckAttempt(attemptModel);
+  void _handleStartTest(BuildContext context, DeckItem selectedDeckItem, String userId, String selectedMode) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
-    if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
-      final attemptId = deckAttemptProvider.attemptId;
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => TestInterface(
-            isContinuingAttempt: false,
-            subject: widget.subject,
-            deckName: selectedDeckItem.deckName,
-            attemptId: attemptId,
+    bool isFreeMode = (selectedMode == 'TUTORMODE')
+        ? selectedDeckItem.isTutorModeFree ?? false
+        : selectedDeckItem.premiumTag == null || selectedDeckItem.premiumTag!.isEmpty;
+
+    if (isFreeMode || _hasAccess(selectedDeckItem.premiumTag, userProvider.getTags())) {
+      final attemptModel = CreateDeckAttemptModel(
+        deckName: selectedDeckItem.deckName,
+        attemptMode: selectedMode.toLowerCase(),
+        user: userId,
+      );
+      final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+      await deckAttemptProvider.createDeckAttempt(attemptModel);
+
+      if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
+        final attemptId = deckAttemptProvider.attemptId;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TestInterface(
+              isRecent: false,
+              isContinuingAttempt: false,
+              subject: widget.subject,
+              deckName: selectedDeckItem.deckName,
+              attemptId: attemptId,
+              totalquestions: widget.totalquestions,
+              questionlist: widget.questionlist,
+            ),
           ),
-        ),
-      );
+        );
+      } else {
+        _showErrorPopup(context, deckAttemptProvider.responseMessage);
+      }
     } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Error'),
-            content: Text(deckAttemptProvider.responseMessage ?? 'Unknown error occurred'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
+      _showPurchasePopup(context);
     }
   }
 
@@ -265,22 +258,15 @@ class _DeckInstructionsState extends State<DeckInstructions> {
     if (accessTags is List<dynamic>) {
       for (final access in accessTags) {
         if (access is Map<String, dynamic>) {
-          print('Comparing premiumTag: $premiumTag with access name: ${access['name']}');
-
-          if (access['name'] == premiumTag) {
-            return true;
-          }
-          if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
+          if (access['name'] == premiumTag ||
+              (premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
               (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
-              (premiumTag == 'AKU-QBank' && privTags.contains(access['name'])))  {
-            print('Match found: Yes');
+              (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
             return true;
           }
         }
       }
     }
-
-    print('Match found: No');
     return false;
   }
 
@@ -303,6 +289,39 @@ class _DeckInstructionsState extends State<DeckInstructions> {
       },
     );
   }
+
+  void _showErrorPopup(BuildContext context, String? message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Error"),
+          content: Text(message ?? 'Unknown error occurred'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+// Function to parse and clean the HTML instructions
+String parseHtmlInstructions(String htmlString) {
+  final document = htmlParser.parse(htmlString);
+  return document.body?.text ?? '';
+}
+
+// Function to format the instructions into bullet points
+String formatInstructions(String instructions) {
+  List<String> sections = instructions.split('.');
+  sections = sections.where((section) => section.trim().isNotEmpty).toList();
+  return sections.map((section) => '• ${section.trim()}').join('\n');
 }
 
 class BulletedList extends StatelessWidget {
@@ -331,15 +350,4 @@ class BulletedList extends StatelessWidget {
       ),
     );
   }
-}
-
-String removeHtmlTags(String htmlString) {
-  String result =
-  htmlString.replaceAllMapped(RegExp(r'<\/?ul[^>]*>'), (match) => '');
-  result = result.replaceAllMapped(RegExp(r'<\/?li[^>]*>'), (match) => '');
-  List<String> sections = result.split('.');
-  sections = sections.where((section) => section.trim().isNotEmpty).toList();
-  result = sections.map((section) => '• ${section.trim()}\n').join();
-
-  return result;
 }

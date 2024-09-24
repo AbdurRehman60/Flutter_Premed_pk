@@ -110,14 +110,13 @@ class DioClient {
     }
     return response;
   }
-
   Future<dynamic> logout(
-    String uri, {
-    Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-    ProgressCallback? onReceiveProgress,
-  }) async {
+      String uri, {
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        CancelToken? cancelToken,
+        ProgressCallback? onReceiveProgress,
+      }) async {
     try {
       final List<Cookie> cookies1 = await _loadCookies();
       options ??= Options();
@@ -143,6 +142,7 @@ class DioClient {
       rethrow;
     }
   }
+
 
   Future<dynamic> put(
       String uri, {

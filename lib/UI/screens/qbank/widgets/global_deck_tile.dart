@@ -1,22 +1,23 @@
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../constants/constants_export.dart';
 import '../../../../models/deck_group_model.dart';
-import '../../mocks/widgets/bottom_sheet.dart';
+import '../../mocks/widgets/new_bottom_sheet.dart';
 import 'logo_avatar.dart';
 
-class DeckTile extends StatelessWidget {
-  const DeckTile(
+class GlobalDeckTile extends StatelessWidget {
+  const GlobalDeckTile(
       {super.key, required this.deckGroup, required this.deckGroupName});
   final DeckGroupModel deckGroup;
   final String deckGroupName;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
       child: GestureDetector(
-        onTap: () {
+        onTap:
+            () {
           _openBottomSheet(context, deckGroup, deckGroupName);
         },
         child: Container(
@@ -89,9 +90,7 @@ class DeckTile extends StatelessWidget {
 
 
 void _openBottomSheet(
-    BuildContext context, DeckGroupModel deckGroup, String deckGroupName) {
-  String bankOrMock = deckGroupName.toLowerCase().contains('mocks') ? 'Mock' : 'Bank';
-
+    BuildContext context, DeckGroupModel deckGroup, qbankgroupName) {
   showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
@@ -103,11 +102,11 @@ void _openBottomSheet(
     backgroundColor: Colors.white,
     isScrollControlled: true,
     builder: (BuildContext context) {
-      return CustomBottomSheet(
+      return NewBottomSheet(
         subject: deckGroup.deckGroupName,
         deckGroup: deckGroup,
-        bankOrMock: bankOrMock,
-        category: deckGroupName,
+        bankOrMock: 'Bank',
+        category: qbankgroupName,
       );
     },
   );

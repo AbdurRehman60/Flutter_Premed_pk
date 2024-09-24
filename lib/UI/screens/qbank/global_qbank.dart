@@ -1,6 +1,7 @@
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/topic_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/deck_tile.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/global_deck_tile.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
 import '../../../../providers/mcatqbankprovider.dart';
@@ -9,6 +10,7 @@ import '../../../../providers/pu_qbank_provider.dart';
 
 class GlobalQbank extends StatefulWidget {
   const GlobalQbank({super.key, required this.isTopical});
+
   final bool isTopical;
 
   @override
@@ -70,10 +72,16 @@ class _GlobalQbankState extends State<GlobalQbank>
                   itemCount: filteredDeckGroups.length,
                   itemBuilder: (context, index) {
                     final deckGroup = filteredDeckGroups[index];
-                    return DeckTile(
-                        deckGroup: deckGroup, deckGroupName: 'MDCAT QBank');
+                    if (widget.isTopical) {
+                      return GlobalDeckTile(
+                          deckGroup: deckGroup, deckGroupName: 'MDCAT QBank');
+                    } else {
+                      return DeckTile(
+                          deckGroup: deckGroup, deckGroupName: 'MDCAT QBank');
+                    }
                   },
                 );
+
               case MdcatFetchStatus.error:
                 return const Center(
                   child: Text('Error fetching deck groups'),
@@ -129,7 +137,8 @@ class _GlobalQbankState extends State<GlobalQbank>
                   itemBuilder: (context, index) {
                     final deckGroup = filteredDeckGroups[index];
                     return DeckTile(
-                        deckGroup: deckGroup, deckGroupName: 'Private Universities QBank');
+                        deckGroup: deckGroup,
+                        deckGroupName: 'Private Universities QBank');
                   },
                 );
               case PuFetchStatus.error:

@@ -5,15 +5,21 @@ class DeckInformation {
     required this.alreadyAttempted,
     required this.lastAttempt,
     required this.attemptMode,
+    required this.questions,
   });
 
   factory DeckInformation.fromJson(Map<String, dynamic> json) {
+    final List<String> questions = (json['result']?['questions'] as List<dynamic>?)
+        ?.map((question) => question as String)
+        .toList() ?? [];
+
     return DeckInformation(
-      success: json['success'],
+      success: json['success'] ?? false,
       result: json['result'] ?? <String, dynamic>{},
       alreadyAttempted: json['AlreadyAttempted'] ?? false,
       lastAttempt: json['lastAttempt'] ?? <String, dynamic>{},
       attemptMode: json['lastAttempt']?['attemptMode'] ?? '',
+      questions: questions,
     );
   }
 
@@ -22,10 +28,11 @@ class DeckInformation {
   final bool alreadyAttempted;
   final Map<String, dynamic> lastAttempt;
   final String attemptMode;
+  final List<String> questions;
 
-  List<Map<String, dynamic>> get attempts => (lastAttempt['attempts'] as List)
-      .map((attempt) => attempt as Map<String, dynamic>)
-      .toList();
+  List<Map<String, dynamic>> get attempts => (lastAttempt['attempts'] as List<dynamic>?)
+      ?.map((attempt) => attempt as Map<String, dynamic>)
+      .toList() ?? [];
 
   String get lastAttemptId => lastAttempt['_id'] ?? '';
 
