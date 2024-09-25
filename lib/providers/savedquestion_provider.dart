@@ -18,17 +18,16 @@ class SavedQuestionsProvider extends ChangeNotifier {
 
   Future<void> getSavedQuestions({required String userId}) async {
     try {
-      _fetchStatus = FetchStatus.fetching; // Set status to fetching
-      notifyListeners(); // Notify listeners to update UI
+      _fetchStatus = FetchStatus.fetching;
+      notifyListeners();
 
-      // Make the API call
+
       final Response response = await _client.post(Endpoints.SavedQuestions,
           data: {'userId': userId});
 
       if (response.data['success']) {
         final List responseData = response.data['FindSavedQuestion'];
 
-        // Filter out unpublished questions and map the published ones to models
         final List<SavedQuestionModel> savedQuestionList = responseData
             .where((question) {
           final qDetailsList = question['QDetails'] as List? ?? [];
@@ -37,19 +36,19 @@ class SavedQuestionsProvider extends ChangeNotifier {
             .map((question) => SavedQuestionModel.fromJson(question))
             .toList();
 
-        // Update the provider state
+
         _questionsaved = savedQuestionList;
-        _fetchStatus = FetchStatus.success; // Set status to success
+        _fetchStatus = FetchStatus.success;
       } else {
-        _fetchStatus = FetchStatus.error; // Set status to error if the response is unsuccessful
+        _fetchStatus = FetchStatus.error;
       }
     } on DioException catch (e) {
       if (kDebugMode) {
-        print(e); // Log the error in debug mode
+        print(e);
       }
-      _fetchStatus = FetchStatus.error; // Set status to error in case of exception
+      _fetchStatus = FetchStatus.error;
     } finally {
-      notifyListeners(); // Notify listeners to update UI
+      notifyListeners();
     }
   }
 
@@ -58,7 +57,14 @@ class SavedQuestionsProvider extends ChangeNotifier {
     print('subject Saved: $subject');
     print('savedQuestionLength: ${savedQuestions.length}');
     return savedQuestions.any((savedQuestion) =>
-    savedQuestion.id == questionId &&
-        savedQuestion.subject == subject);
+    savedQuestion.id == questionId);
   }
 }
+// bool isQuestionSaved(String questionId, String subject) {
+//   print('toSave questionId: $questionId');
+//   print('subject Saved: $subject');
+//   print('savedQuestionLength: ${savedQuestions.length}');
+//   return savedQuestions.any((savedQuestion) =>
+//   savedQuestion.id == questionId &&
+//       savedQuestion.subject == subject);
+// }
