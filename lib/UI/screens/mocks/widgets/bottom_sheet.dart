@@ -244,6 +244,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
   }
 
   void _navigateToDeck(BuildContext context, DeckItem item) {
+    print('inquiresubk : ${widget.deckGroup.deckGroupName}');
     final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
     print("yeh hy deck ki info $deckInfo");

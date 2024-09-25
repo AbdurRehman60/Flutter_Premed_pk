@@ -54,6 +54,7 @@ class _TutorModeState extends State<TutorMode> {
   List<Option> _eliminatedOptions = [];
   bool isLoading = false;
 
+
   void _eliminateOptions(List<Option> options) {
     _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
     setState(() {});
@@ -80,11 +81,8 @@ class _TutorModeState extends State<TutorMode> {
   int incorrectAttempts = 0;
   int skippedAttempts = 0;
   int totalTimeTaken = 0;
-
-  List<String?> selectedOptions =
-  List<String?>.filled(200, null, growable: true);
-  List<bool?> isCorrectlyAnswered =
-  List<bool?>.filled(200, null, growable: true);
+  late List<String?> selectedOptions;
+  late List<bool?> isCorrectlyAnswered;
 
   void _startTimer() {
     if (widget.isReview == true) {
@@ -158,7 +156,7 @@ class _TutorModeState extends State<TutorMode> {
   Future<void> _showFinishDialog() async {
     final attemptProvider =
     Provider.of<AttemptProvider>(context, listen: false);
-    final unattemptedQuestions = 200 - correctAttempts - incorrectAttempts;
+    final unattemptedQuestions = widget.totalquestions - correctAttempts - incorrectAttempts;
 
     return showDialog<void>(
       context: context,
@@ -204,12 +202,12 @@ class _TutorModeState extends State<TutorMode> {
                 attemptProvider.updateResult(
                   attemptId: widget.attemptId,
                   attempted: attempted,
-                  avgTimeTaken: totalTimeTaken / 200,
+                  avgTimeTaken: totalTimeTaken / widget.totalquestions,
                   deckName: widget.deckName,
                   negativesDueToWrong: 0,
                   noOfNegativelyMarked: 0,
                   totalMarks: correctAttempts,
-                  totalQuestions: 200,
+                  totalQuestions: widget.totalquestions,
                   totalTimeTaken: totalTimeTaken,
                 );
                 Navigator.push(
@@ -235,11 +233,16 @@ class _TutorModeState extends State<TutorMode> {
   @override
   void initState() {
     super.initState();
-    print("this is the response when nav from recent act ${widget.isContinuingAttempt}");
+    print("Navigating to test interface with attemptId: ${widget.attemptId}, deck name: ${widget.deckName}, startFromQuestion: ${widget.startFromQuestion}, isContinueAttempt: ${widget.isContinuingAttempt}");
 
-    if (widget.isReview == true || widget.isRecent == true) {
-      print("DEBUG: Review or Recent mode detected, starting from question 0");
+    selectedOptions = List<String?>.filled(widget.totalquestions, null, growable: true);
+    isCorrectlyAnswered = List<bool?>.filled(widget.totalquestions, null, growable: true);
+    if (widget.isReview == true) {
+      print("DEBUG: Review mode detected, starting from question 0");
       currentQuestionIndex = 0;
+    } else if (widget.isContinuingAttempt == true) {
+      // Start from the provided question index if isContinuingAttempt is true
+      currentQuestionIndex = widget.startFromQuestion ?? 0; // Use startFromQuestion or default to 0
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -256,6 +259,7 @@ class _TutorModeState extends State<TutorMode> {
       });
     });
   }
+
   Future<void> _fetchInitialQuestions() async {
     setState(() {
       isLoading = true;
@@ -265,11 +269,16 @@ class _TutorModeState extends State<TutorMode> {
     questionProvider.clearQuestions();
     questionProvider.deckName = widget.deckName;
 
-    await questionProvider.fetchQuestions(widget.deckName, 1);
+    int startPage = (widget.startFromQuestion ?? 0) ~/ 10 + 1;
 
+    for (int page = 1; page <= startPage; page++) {
+      if (!questionProvider.isPageLoaded(page)) {
+        await questionProvider.fetchQuestions(widget.deckName, page);
+      }
+    }
     setState(() {
       isLoading = false;
-      currentPage = 1;
+      currentPage = startPage;
     });
   }
 
@@ -481,8 +490,9 @@ class _TutorModeState extends State<TutorMode> {
       selectedOption = selectedOptions[currentQuestionIndex];
       optionSelected = selectedOption != null;
 
+
       // If continuing an attempt or in review mode, load the selected option for the current question
-      if (widget.isContinuingAttempt || widget.isReview == true) {
+      if (widget.isContinuingAttempt || widget.isReview == true || widget.isRecent == true) {
         final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
         final question = questionProvider.questions![currentQuestionIndex];
         selectedOption = deckInfo?.getSelectionForQuestion(question.questionId) ?? selectedOptions[currentQuestionIndex];
@@ -501,42 +511,9 @@ class _TutorModeState extends State<TutorMode> {
 
   void _loadPreviousSelections() {
     if (widget.isRecent == true && !widget.isContinuingAttempt) {
-      final recentAttemptsProvider =
-      Provider.of<RecentAttemptsProvider>(context, listen: false);
-      final List<RecentAttempt> recentAttempts =
-          recentAttemptsProvider.recentAttempts;
-
-      if (recentAttempts.isNotEmpty) {
-        for (final recentAttempt in recentAttempts) {
-          if (recentAttempt.attempts != null &&
-              recentAttempt.attempts!.attempts != null) {
-            final List<AttemptofQuestions> attemptList =
-            recentAttempt.attempts!.attempts!;
-
-            if (attemptList.isNotEmpty) {
-              final AttemptofQuestions lastAttempt = attemptList.last;
-              final int lastQuestionIndex =
-              getIndexForQuestionId(lastAttempt.questionId ?? '');
-
-              if (lastQuestionIndex != -1) {
-                currentQuestionIndex = lastQuestionIndex;
-
-                for (final attempt in attemptList) {
-                  final int questionIndex =
-                  getIndexForQuestionId(attempt.questionId ?? '');
-                  if (questionIndex != -1) {
-                    selectedOptions[questionIndex] = attempt.selection;
-                    isCorrectlyAnswered[questionIndex] = attempt.isCorrect;
-
-                    if (attempt.attempted == true) {}
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+      // Logic for handling recent attempts...
     } else if (widget.isContinuingAttempt) {
+      // Continue attempt logic
       final deckProvider = Provider.of<DeckProvider>(context, listen: false);
       final deckInfo = deckProvider.deckInformation;
 
@@ -545,18 +522,21 @@ class _TutorModeState extends State<TutorMode> {
 
         if (attempts.isNotEmpty) {
           final lastAttempt = attempts.last;
-          final int lastQuestionIndex =
-          getIndexForQuestionId(lastAttempt['questionId']);
+          final int lastQuestionIndex = getIndexForQuestionId(lastAttempt['questionId']);
 
-          if (lastQuestionIndex != -1) {
+          if (widget.startFromQuestion != null) {
+            // Override the current question index with the provided startFromQuestion
+            currentQuestionIndex = widget.startFromQuestion!;
+          } else if (lastQuestionIndex != -1) {
             currentQuestionIndex = lastQuestionIndex;
-            for (final attempt in attempts) {
-              final int questionIndex =
-              getIndexForQuestionId(attempt['questionId']);
-              if (questionIndex != -1) {
-                selectedOptions[questionIndex] = attempt['selection'];
-                isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
-              }
+          }
+
+          // Populate selections for previously answered questions
+          for (final attempt in attempts) {
+            final int questionIndex = getIndexForQuestionId(attempt['questionId']);
+            if (questionIndex != -1) {
+              selectedOptions[questionIndex] = attempt['selection'];
+              isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
             }
           }
         }
@@ -569,8 +549,7 @@ class _TutorModeState extends State<TutorMode> {
 
       if (deckInfo != null) {
         for (final attempt in deckInfo.attempts) {
-          final int questionIndex =
-          getIndexForQuestionId(attempt['questionId']);
+          final int questionIndex = getIndexForQuestionId(attempt['questionId']);
           if (questionIndex != -1) {
             selectedOptions[questionIndex] = attempt['selection'];
             isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
@@ -689,8 +668,8 @@ class _TutorModeState extends State<TutorMode> {
   void restart() {
     setState(() {
       currentQuestionIndex = 0;
-      selectedOptions = List<String?>.filled(200, null, growable: true);
-      isCorrectlyAnswered = List<bool?>.filled(200, null, growable: true);
+      selectedOptions = List<String?>.filled(widget.totalquestions, null, growable: true);
+      isCorrectlyAnswered = List<bool?>.filled(widget.totalquestions, null, growable: true);
       _stopwatch.reset();
       _durationNotifier.value = const Duration(hours: 2);
       _timer?.cancel();
@@ -874,10 +853,10 @@ class _TutorModeState extends State<TutorMode> {
               Row(
                 children: [
                   Consumer2<SaveQuestionProvider,SavedQuestionsProvider>(
-                    builder: (context, saveQuestionProvider,savedQuestionsPro, child) {
+                    builder: (context, saveQuestionProvider,savedQuestionsProvider, child) {
                       final String questionId = question.questionId;
                       final String subject = question.subject;
-                      final bool isSaved = savedQuestionsPro.isQuestionSaved(
+                      final bool isSaved = savedQuestionsProvider.isQuestionSaved(
                           questionId, subject);
                       final buttonText = isSaved ? 'Remove' : 'Save';
                       return ElevatedButton(
@@ -891,19 +870,21 @@ class _TutorModeState extends State<TutorMode> {
                         ),
                         onPressed: () async{
                           if (isSaved) {
+                            print('isSaved');
                             await saveQuestionProvider.removeQuestion(
                               questionId,
-                              subject,
+                              widget.subject,
                               userProvider.user?.userId ?? '',
                             );
-                            savedQuestionsPro.getSavedQuestions(userId: userProvider.user?.userId ?? '');
+                            savedQuestionsProvider.getSavedQuestions(userId: userProvider.user?.userId ?? '');
                           } else {
-                            await  saveQuestionProvider.saveQuestion(
+                            print('Removed');
+                            await saveQuestionProvider.saveQuestion(
                               questionId,
-                              subject,
+                              widget.subject,
                               userProvider.user?.userId ?? '',
                             );
-                            savedQuestionsPro.getSavedQuestions(userId: userProvider.user?.userId ?? '');
+                            savedQuestionsProvider.getSavedQuestions(userId: userProvider.user?.userId ?? '');
                           }
                         },
                         child: Row(
@@ -1249,7 +1230,7 @@ class _TutorModeState extends State<TutorMode> {
                                 );
                                 showSnackBarr();
                               },
-                              questionNumber: "${currentQuestionIndex + 1} of 200",
+                              questionNumber: "${currentQuestionIndex + 1} of ${widget.totalquestions}",
                               timerWidget: const SizedBox(width: 0),
                               submitNow: _showFinishDialog,
                               reportNow: () {

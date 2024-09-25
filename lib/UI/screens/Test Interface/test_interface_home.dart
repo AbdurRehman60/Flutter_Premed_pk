@@ -4,9 +4,7 @@ import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/test_bottom_sheet.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/analytics.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/models/recent_attempts_model.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
-import 'package:premedpk_mobile_app/providers/recent_atempts_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,7 +23,7 @@ class TestInterface extends StatefulWidget {
     required this.deckName,
     required this.attemptId,
     this.startFromQuestion = 0,
-    this.subject,
+   required this.subject,
     required this.isContinuingAttempt,
     this.isReview,
     this.isRecent,
@@ -41,7 +39,7 @@ class TestInterface extends StatefulWidget {
   final String attemptId;
   final String deckName;
   final int startFromQuestion;
-  final String? subject;
+  final String subject;
 
   @override
   State<TestInterface> createState() => _TestInterfaceState();
@@ -50,6 +48,9 @@ class TestInterface extends StatefulWidget {
 class _TestInterfaceState extends State<TestInterface> {
   List<Option> _eliminatedOptions = [];
   bool isLoading = false;
+  bool _isLoading = false;
+
+
 
   void _eliminateOptions(List<Option> options) {
     _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
@@ -110,81 +111,6 @@ class _TestInterfaceState extends State<TestInterface> {
     });
   }
 
-  Future<void> _showFinishDialog() async {
-    final attemptProvider =
-    Provider.of<AttemptProvider>(context, listen: false);
-    final unattemptedQuestions = 200 - correctAttempts - incorrectAttempts;
-
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Center(child: Text('Confirm!')),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                if (unattemptedQuestions > 0)
-                  Text(
-                    'You still have $unattemptedQuestions unattempted questions.',
-                    style: const TextStyle(fontSize: 15),
-                    textAlign: TextAlign.justify,
-                  ),
-                const Text(
-                  'Once you select the ‘Finish’ button, you will receive your score report and will be able to review your attempted answers.',
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(fontSize: 15),
-                ),
-                Text(
-                  'Please note that once you press the ‘Finish’ button, you will not be able to attempt this paper in Mock Mode again. However, you can review your answers and explanations at any time later.',
-                  textAlign: TextAlign.justify,
-                  style: PreMedTextTheme()
-                      .body
-                      .copyWith(fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Finish'),
-              onPressed: () {
-                final attempted = correctAttempts + incorrectAttempts;
-                attemptProvider.updateResult(
-                  attemptId: widget.attemptId,
-                  attempted: attempted,
-                  avgTimeTaken: totalTimeTaken / 200,
-                  deckName: widget.deckName,
-                  negativesDueToWrong: 0,
-                  noOfNegativelyMarked: 0,
-                  totalMarks: correctAttempts,
-                  totalQuestions: 200,
-                  totalTimeTaken: totalTimeTaken,
-                );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Analytics(
-                      attemptId: widget.attemptId,
-                      correct: correctAttempts,
-                      incorrect: incorrectAttempts,
-                      skipped: skippedAttempts,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   void showSnackBarr() {
     final flashcardpro = Provider.of<FlashcardProvider>(context, listen: false);
@@ -243,19 +169,22 @@ class _TestInterfaceState extends State<TestInterface> {
   int skippedAttempts = 0;
   int totalTimeTaken = 0;
 
-  List<String?> selectedOptions =
-      List<String?>.filled(200, null, growable: true);
-  List<bool?> isCorrectlyAnswered =
-      List<bool?>.filled(200, null, growable: true);
+  late List<String?> selectedOptions;
+  late List<bool?> isCorrectlyAnswered;
 
   @override
   void initState() {
     super.initState();
-    print("this is the response when nav from recent act ${widget.isContinuingAttempt}");
+    print("Navigating to test interface with attemptId: ${widget.attemptId}, deck name: ${widget.deckName}, startFromQuestion: ${widget.startFromQuestion}, isContinueAttempt: ${widget.isContinuingAttempt}");
 
-    if (widget.isReview == true || widget.isRecent == true) {
-      print("DEBUG: Review or Recent mode detected, starting from question 0");
+    selectedOptions = List<String?>.filled(widget.totalquestions, null, growable: true);
+    isCorrectlyAnswered = List<bool?>.filled(widget.totalquestions, null, growable: true);
+    if (widget.isReview == true) {
+      print("DEBUG: Review mode detected, starting from question 0");
       currentQuestionIndex = 0;
+    } else if (widget.isContinuingAttempt == true) {
+      // Start from the provided question index if isContinuingAttempt is true
+      currentQuestionIndex = widget.startFromQuestion ?? 0; // Use startFromQuestion or default to 0
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -282,14 +211,18 @@ class _TestInterfaceState extends State<TestInterface> {
     questionProvider.clearQuestions();
     questionProvider.deckName = widget.deckName;
 
-    await questionProvider.fetchQuestions(widget.deckName, 1);
+    int startPage = (widget.startFromQuestion ?? 0) ~/ 10 + 1;
 
+    for (int page = 1; page <= startPage; page++) {
+      if (!questionProvider.isPageLoaded(page)) {
+        await questionProvider.fetchQuestions(widget.deckName, page);
+      }
+    }
     setState(() {
       isLoading = false;
-      currentPage = 1;
+      currentPage = startPage;
     });
   }
-
   bool isPrefetched = false;
 
   Future<void> nextQuestion() async {
@@ -440,8 +373,6 @@ class _TestInterfaceState extends State<TestInterface> {
     // Calculate the start and end pages based on question indices
     int startPage = (startQuestionIndex ~/ 10) + 1;
     int endPage = (endQuestionIndex ~/ 10) + 1;
-
-    // Load each page between startPage and endPage (inclusive)
     for (int page = startPage; page <= endPage; page++) {
       if (!questionProvider.isPageLoaded(page)) {
         await questionProvider.fetchQuestions(widget.deckName, page);
@@ -456,15 +387,10 @@ class _TestInterfaceState extends State<TestInterface> {
   Future<void> _skipToQuestion(int targetIndex) async {
     final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
 
-    // Ensure no fetching if we're already at the target question
     if (currentQuestionIndex == targetIndex) return;
-
-    // If skipping from a lower to a higher question, load all intermediate APIs
     if (currentQuestionIndex < targetIndex) {
       await _loadQuestionsBetween(currentQuestionIndex, targetIndex);
     }
-
-    // Calculate the next page based on the target index
     int targetPage = (targetIndex ~/ 10) + 1;
 
     // Ensure the target set of questions is loaded if not already fetched
@@ -478,8 +404,9 @@ class _TestInterfaceState extends State<TestInterface> {
       selectedOption = selectedOptions[currentQuestionIndex];
       optionSelected = selectedOption != null;
 
-      // If continuing an attempt or in review mode, load the selected option for the current question
-      if (widget.isContinuingAttempt || widget.isReview == true) {
+      // If continuing an attempt or in review mode, load th
+      // e selected option for the current question
+      if (widget.isContinuingAttempt || widget.isReview == true || widget.isRecent == true) {
         final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
         final question = questionProvider.questions![currentQuestionIndex];
         selectedOption = deckInfo?.getSelectionForQuestion(question.questionId) ?? selectedOptions[currentQuestionIndex];
@@ -496,44 +423,148 @@ class _TestInterfaceState extends State<TestInterface> {
     });
   }
 
+  Future<void> _showFinishDialog() async {
+    Navigator.pop(context);
+    final attemptProvider =
+    Provider.of<AttemptProvider>(context, listen: false);
+    final unattemptedQuestions = widget.totalquestions - correctAttempts - incorrectAttempts;
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(child: Text('Confirm!')),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                if (unattemptedQuestions > 0)
+                  Text(
+                    'You still have $unattemptedQuestions unattempted questions.',
+                    style: const TextStyle(fontSize: 15),
+                    textAlign: TextAlign.justify,
+                  ),
+                const Text(
+                  'Once you select the ‘Finish’ button, you will receive your score report and will be able to review your attempted answers.',
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(fontSize: 15),
+                ),
+                Text(
+                  'Please note that once you press the ‘Finish’ button, you will not be able to attempt this paper in Mock Mode again. However, you can review your answers and explanations at any time later.',
+                  textAlign: TextAlign.justify,
+                  style: PreMedTextTheme()
+                      .body
+                      .copyWith(fontWeight: FontWeight.bold, fontSize: 15),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              onPressed: _isLoading ? null : () async {
+                setState(() {
+                  _isLoading = true;
+                });
+
+                final attempted = correctAttempts + incorrectAttempts;
+
+                await attemptProvider.updateResult(
+                  attemptId: widget.attemptId,
+                  attempted: attempted,
+                  avgTimeTaken: totalTimeTaken / widget.totalquestions,
+                  deckName: widget.deckName,
+                  negativesDueToWrong: 0,
+                  noOfNegativelyMarked: 0,
+                  totalMarks: correctAttempts,
+                  totalQuestions: widget.totalquestions,
+                  totalTimeTaken: totalTimeTaken,
+                );
+
+                setState(() {
+                  _isLoading = false;
+                });
+
+                if (attemptProvider.status == AStatus.success) {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Analytics(
+                        attemptId: widget.attemptId,
+                        correct: correctAttempts,
+                        incorrect: incorrectAttempts,
+                        skipped: skippedAttempts,
+                      ),
+                    ),
+                  );
+
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Failed to update the result: ${attemptProvider.message}'),
+                    ),
+                  );
+                }
+              },
+              child: _isLoading
+                  ? const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+                  : const Text('Finish'),
+            ),
+
+
+            // TextButton(
+            //   child: const Text('Finish'),
+            //   onPressed: () {
+            //     final attempted = correctAttempts + incorrectAttempts;
+            //     attemptProvider.updateResult(
+            //       attemptId: widget.attemptId,
+            //       attempted: attempted,
+            //       avgTimeTaken: totalTimeTaken / 200,
+            //       deckName: widget.deckName,
+            //       negativesDueToWrong: 0,
+            //       noOfNegativelyMarked: 0,
+            //       totalMarks: correctAttempts,
+            //       totalQuestions: 200,
+            //       totalTimeTaken: totalTimeTaken,
+            //     );
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => Analytics(
+            //           attemptId: widget.attemptId,
+            //           correct: correctAttempts,
+            //           incorrect: incorrectAttempts,
+            //           skipped: skippedAttempts,
+            //         ),
+            //       ),
+            //     );
+
+            //   },
+            // ),
+          ],
+        );
+      },
+    );
+  }
+
+
+
+
   void _loadPreviousSelections() {
     if (widget.isRecent == true && !widget.isContinuingAttempt) {
-      final recentAttemptsProvider =
-          Provider.of<RecentAttemptsProvider>(context, listen: false);
-      final List<RecentAttempt> recentAttempts =
-          recentAttemptsProvider.recentAttempts;
-
-      if (recentAttempts.isNotEmpty) {
-        for (final recentAttempt in recentAttempts) {
-          if (recentAttempt.attempts != null &&
-              recentAttempt.attempts!.attempts != null) {
-            final List<AttemptofQuestions> attemptList =
-                recentAttempt.attempts!.attempts!;
-
-            if (attemptList.isNotEmpty) {
-              final AttemptofQuestions lastAttempt = attemptList.last;
-              final int lastQuestionIndex =
-                  getIndexForQuestionId(lastAttempt.questionId ?? '');
-
-              if (lastQuestionIndex != -1) {
-                currentQuestionIndex = lastQuestionIndex;
-
-                for (final attempt in attemptList) {
-                  final int questionIndex =
-                      getIndexForQuestionId(attempt.questionId ?? '');
-                  if (questionIndex != -1) {
-                    selectedOptions[questionIndex] = attempt.selection;
-                    isCorrectlyAnswered[questionIndex] = attempt.isCorrect;
-
-                    if (attempt.attempted == true) {}
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+      // Logic for handling recent attempts...
     } else if (widget.isContinuingAttempt) {
+      // Continue attempt logic
       final deckProvider = Provider.of<DeckProvider>(context, listen: false);
       final deckInfo = deckProvider.deckInformation;
 
@@ -542,18 +573,21 @@ class _TestInterfaceState extends State<TestInterface> {
 
         if (attempts.isNotEmpty) {
           final lastAttempt = attempts.last;
-          final int lastQuestionIndex =
-              getIndexForQuestionId(lastAttempt['questionId']);
+          final int lastQuestionIndex = getIndexForQuestionId(lastAttempt['questionId']);
 
-          if (lastQuestionIndex != -1) {
+          if (widget.startFromQuestion != null) {
+            // Override the current question index with the provided startFromQuestion
+            currentQuestionIndex = widget.startFromQuestion!;
+          } else if (lastQuestionIndex != -1) {
             currentQuestionIndex = lastQuestionIndex;
-            for (final attempt in attempts) {
-              final int questionIndex =
-                  getIndexForQuestionId(attempt['questionId']);
-              if (questionIndex != -1) {
-                selectedOptions[questionIndex] = attempt['selection'];
-                isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
-              }
+          }
+
+          // Populate selections for previously answered questions
+          for (final attempt in attempts) {
+            final int questionIndex = getIndexForQuestionId(attempt['questionId']);
+            if (questionIndex != -1) {
+              selectedOptions[questionIndex] = attempt['selection'];
+              isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
             }
           }
         }
@@ -566,8 +600,7 @@ class _TestInterfaceState extends State<TestInterface> {
 
       if (deckInfo != null) {
         for (final attempt in deckInfo.attempts) {
-          final int questionIndex =
-              getIndexForQuestionId(attempt['questionId']);
+          final int questionIndex = getIndexForQuestionId(attempt['questionId']);
           if (questionIndex != -1) {
             selectedOptions[questionIndex] = attempt['selection'];
             isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
@@ -686,8 +719,8 @@ class _TestInterfaceState extends State<TestInterface> {
   void restart() {
     setState(() {
       currentQuestionIndex = 0;
-      selectedOptions = List<String?>.filled(200, null, growable: true);
-      isCorrectlyAnswered = List<bool?>.filled(200, null, growable: true);
+      selectedOptions = List<String?>.filled(widget.totalquestions, null, growable: true);
+      isCorrectlyAnswered = List<bool?>.filled(widget.totalquestions, null, growable: true);
       _stopwatch.reset();
       _durationNotifier.value = const Duration(hours: 2);
       _timer?.cancel();
@@ -891,7 +924,7 @@ class _TestInterfaceState extends State<TestInterface> {
                             print('isSaved');
                             await saveQuestionProvider.removeQuestion(
                               questionId,
-                              subject,
+                              widget.subject,
                               userProvider.user?.userId ?? '',
                             );
                             savedQuestionsProvider.getSavedQuestions(userId: userProvider.user?.userId ?? '');
@@ -899,7 +932,7 @@ class _TestInterfaceState extends State<TestInterface> {
                             print('Removed');
                             await saveQuestionProvider.saveQuestion(
                               questionId,
-                              subject,
+                              widget.subject,
                               userProvider.user?.userId ?? '',
                             );
                             savedQuestionsProvider.getSavedQuestions(userId: userProvider.user?.userId ?? '');
@@ -1163,8 +1196,7 @@ class _TestInterfaceState extends State<TestInterface> {
                             context: context,
                             builder: (context) => TestBottomSheet(
                               addFlasCards: () async {
-                                await Provider.of<FlashcardProvider>(context,
-                                        listen: false)
+                                await Provider.of<FlashcardProvider>(context, listen: false)
                                     .removeFlashcard(
                                   userId: userProvider.user!.userId,
                                   subject: widget.subject ?? '',
@@ -1173,7 +1205,7 @@ class _TestInterfaceState extends State<TestInterface> {
                                 showSnackBarr();
                               },
                               questionNumber:
-                                  "${currentQuestionIndex + 1} of 200",
+                                  "${currentQuestionIndex + 1} of ${widget.totalquestions}",
                               timerWidget: Column(
                                 children: [
                                   ValueListenableBuilder<Duration>(
@@ -1202,6 +1234,7 @@ class _TestInterfaceState extends State<TestInterface> {
                               ),
                               submitNow: _showFinishDialog,
                               reportNow: () {
+                                Navigator.pop(context);
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => ReportQuestion(
@@ -1244,7 +1277,7 @@ class _TestInterfaceState extends State<TestInterface> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "${currentQuestionIndex + 1} of 200",
+                          "${currentQuestionIndex + 1} of ${widget.totalquestions}",
                           style: PreMedTextTheme().body.copyWith(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,
@@ -1302,16 +1335,6 @@ class _TestInterfaceState extends State<TestInterface> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
-                            onTap: () async {
-                              await Provider.of<FlashcardProvider>(context,
-                                      listen: false)
-                                  .removeFlashcard(
-                                userId: userProvider.user!.userId,
-                                subject: widget.subject ?? '',
-                                questionId: question.questionId,
-                              );
-                              showSnackBarr();
-                            },
                             child: Image.asset(PremedAssets.Flask),
                           ),
                         ),

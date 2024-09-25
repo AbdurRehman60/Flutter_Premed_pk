@@ -128,6 +128,8 @@ class SaveQuestionProvider extends ChangeNotifier {
           'userId': userId,
           'questionId': questionId,
           'subject': subject,
+          'add' : true
+
         },
       );
 
@@ -153,6 +155,7 @@ class SaveQuestionProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      print('subjjj: $subject');
       final response = await dioClient.post(
         Endpoints.handleSavedQuestion,
         data: {

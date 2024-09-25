@@ -31,7 +31,6 @@ class TestBottomSheet extends StatefulWidget {
 class _TestBottomSheetState extends State<TestBottomSheet> {
   @override
   Widget build(BuildContext context) {
-
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -90,23 +89,22 @@ class _TestBottomSheetState extends State<TestBottomSheet> {
                   width: 50,
                 ),
                 title: RichText(
-                  text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Add to ',
-                          style: PreMedTextTheme().body.copyWith(
-                              fontSize: 20,
-                              color: PreMedColorTheme().black,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        TextSpan(
-                          text: 'My Saved Facts',
-                          style: PreMedTextTheme().body.copyWith(
-                              fontSize: 20,
-                              color: PreMedColorTheme().red,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ]),
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text: 'Add to ',
+                      style: PreMedTextTheme().body.copyWith(
+                          fontSize: 20,
+                          color: PreMedColorTheme().black,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    TextSpan(
+                      text: 'My Saved Facts',
+                      style: PreMedTextTheme().body.copyWith(
+                          fontSize: 20,
+                          color: PreMedColorTheme().red,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ]),
                 ),
                 subtitle: Column(
                   children: [
@@ -114,14 +112,14 @@ class _TestBottomSheetState extends State<TestBottomSheet> {
                     Text(
                         'Add current question to flashcards for reviewing later.',
                         style: PreMedTextTheme().body.copyWith(
-                          fontSize: 12,
-                          color: PreMedColorTheme().black,
-                        )),
+                              fontSize: 12,
+                              color: PreMedColorTheme().black,
+                            )),
                   ],
                 ),
                 onTap: () {
+                  Navigator.pop(context);
                   widget.addFlasCards();
-
                 },
                 contentPadding: const EdgeInsets.symmetric(
                   vertical: 8.0,
@@ -180,9 +178,9 @@ class _TestBottomSheetState extends State<TestBottomSheet> {
                     Text(
                         'If you don’t understand a particular concept, you can submit a doubt.',
                         style: PreMedTextTheme().body.copyWith(
-                          fontSize: 12,
-                          color: PreMedColorTheme().black,
-                        )),
+                              fontSize: 12,
+                              color: PreMedColorTheme().black,
+                            )),
                     SizedBoxes.vertical5Px,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -191,15 +189,16 @@ class _TestBottomSheetState extends State<TestBottomSheet> {
                           'Note This feature requires coins.',
                           textAlign: TextAlign.end,
                           style: PreMedTextTheme().body.copyWith(
-                            fontSize: 7,
-                            color: PreMedColorTheme().black,
-                          ),
+                                fontSize: 7,
+                                color: PreMedColorTheme().black,
+                              ),
                         ),
                       ],
                     )
                   ],
                 ),
                 onTap: () {
+                  Navigator.pop(context);
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) => const ExpertSolutionHome()));
                 },
@@ -260,9 +259,9 @@ class _TestBottomSheetState extends State<TestBottomSheet> {
                     Text(
                         'If you don’t understand a particular concept, you can submit a doubt.',
                         style: PreMedTextTheme().body.copyWith(
-                          fontSize: 12,
-                          color: PreMedColorTheme().black,
-                        )),
+                              fontSize: 12,
+                              color: PreMedColorTheme().black,
+                            )),
                     SizedBoxes.vertical5Px,
                   ],
                 ),
@@ -302,8 +301,8 @@ class _TestBottomSheetState extends State<TestBottomSheet> {
               ),
             ],
           ),
-          if(widget.showButton) SizedBoxes.vertical10Px,
-          if(widget.showButton)
+          if (widget.showButton) SizedBoxes.vertical10Px,
+          if (widget.showButton)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -331,7 +330,6 @@ class _TestBottomSheetState extends State<TestBottomSheet> {
               ],
             ),
           SizedBoxes.vertical10Px,
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -344,7 +342,7 @@ class _TestBottomSheetState extends State<TestBottomSheet> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    backgroundColor:   PreMedColorTheme().greenL ,
+                    backgroundColor: PreMedColorTheme().greenL,
                     foregroundColor: Colors.white,
                   ),
                   child: Text(
@@ -363,10 +361,10 @@ class _TestBottomSheetState extends State<TestBottomSheet> {
             child: Text(
               'Restart',
               style: PreMedTextTheme().body.copyWith(
-                fontSize: 17,
-                color: PreMedColorTheme().red,
-                fontWeight: FontWeight.w700,
-              ),
+                    fontSize: 17,
+                    color: PreMedColorTheme().red,
+                    fontWeight: FontWeight.w700,
+                  ),
             ),
           ),
         ],

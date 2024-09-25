@@ -14,27 +14,31 @@ class FlashcardModel {
     required this.questionId,
   });
 
-  factory FlashcardModel.fromJson(Map<String, dynamic> json ,String questionId) {
+  factory FlashcardModel.fromJson(Map<String, dynamic> json, String questionId) {
     final questionDetails = json['QDetails'][0];
-    final correctOption = questionDetails['Options']
-        .firstWhere((option) => option['IsCorrect'] == true);
+
+    // Use orElse to handle cases where no option is found
+    final correctOption = questionDetails['Options'].firstWhere(
+          (option) => option['IsCorrect'] == true,
+      orElse: () => null,
+    );
 
     return FlashcardModel(
       id: json['_id'],
       subject: json['subject'],
       questionText: questionDetails['QuestionText'],
-      tags:
-          List<String>.from(questionDetails['Tags'].map((tag) => tag['name'])),
+      tags: List<String>.from(questionDetails['Tags'].map((tag) => tag['name'])),
       topic: questionDetails['meta']['topic'],
       type: questionDetails['meta']['type'],
       year: questionDetails['meta']['year'],
       entity: questionDetails['meta']['entity'],
       category: questionDetails['meta']['category'],
-      explanationText: correctOption['ExplanationText'],
-      optionText: correctOption['OptionText'],
-      questionId: questionId
+      explanationText: correctOption != null ? correctOption['ExplanationText'] : null,
+      optionText: correctOption != null ? correctOption['OptionText'] : '',
+      questionId: questionId,
     );
   }
+
   final String id;
   final String? subject;
   final String questionText;
