@@ -116,23 +116,6 @@ class MocksHome extends StatelessWidget {
                   },
                 ),
               ),
-              // Material(
-              //   elevation: 3,
-              //   borderRadius: BorderRadius.circular(15),
-              //   child: NotesTile(
-              //     heading: "MdCatQbank",
-              //     description:
-              //     "Go to Private MdCatQbank",
-              //     icon: PremedAssets.QuestionBank,
-              //     bgColor: PreMedColorTheme().white,
-              //     onTap: () {
-              //       Navigator.push(
-              //         context,
-              //         MaterialPageRoute(builder: (context) => const MdcatQbankHome()),
-              //       );
-              //     },
-              //   ),
-              // ),
             ],
           ),
         ),

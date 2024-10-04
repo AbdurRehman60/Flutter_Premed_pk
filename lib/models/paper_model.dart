@@ -6,6 +6,7 @@ class PaperResponse {
     required this.lastAttempt,
     required this.attemptMode,
     required this.questions,
+    required this.lastDone
   });
 
   factory PaperResponse.fromJson(Map<String, dynamic> json) {
@@ -22,12 +23,13 @@ class PaperResponse {
     print('Parsed Questions: $questions');
 
     return PaperResponse(
-      success: json['success'] ?? false,
-      result: result,
-      alreadyAttempted: json['AlreadyAttempted'] ?? false,
-      lastAttempt: json['lastAttempt'] ?? <String, dynamic>{},
-      attemptMode: json['lastAttempt']?['attemptMode'] ?? '',
-      questions: questions,
+        success: json['success'] ?? false,
+        result: result,
+        alreadyAttempted: json['AlreadyAttempted'] ?? false,
+        lastAttempt: json['lastAttempt'] ?? <String, dynamic>{},
+        attemptMode: json['lastAttempt']?['attemptMode'] ?? '',
+        questions: questions,
+        lastDone: json['lastDone'] is String ? json['lastDone'] : ''
     );
   }
 
@@ -37,6 +39,7 @@ class PaperResponse {
   final Map<String, dynamic> lastAttempt;
   final String attemptMode;
   final List<String> questions;
+  final String lastDone;
 
   List<Map<String, dynamic>> get attempts => (lastAttempt['attempts'] as List<dynamic>?)
       ?.map((attempt) => (attempt as Map<dynamic, dynamic>).cast<String, dynamic>())

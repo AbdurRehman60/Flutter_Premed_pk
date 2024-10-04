@@ -32,6 +32,8 @@ class RecentAttempt {
   String? get subject => attempts?.attempts?.first.subject;
 
   String? get category => attempts?.metadata?.category;
+
+
 }
 
 

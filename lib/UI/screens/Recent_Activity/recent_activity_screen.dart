@@ -39,7 +39,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
     int totalQuestions = await _fetchDeckQuestions(deckName!);
 
     print("bhai yeh hein $totalQuestions");
-    print('Resume attempt called with deckName: $deckName');
+    print('Resume attempt called with deckName: $deckName ');
 
     if (deckName == null) {
       print('Error: Deck name is null');
@@ -90,14 +90,10 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
     try {
       final deckInfoProvider = Provider.of<DeckInfoProvider>(context, listen: false);
       print('Fetching deck info for deck: $deckname');
-
-      // Fetching deck info
       await deckInfoProvider.getDeckInfo(deckname);
 
-      // Print the full deckInfo for debugging
       print('Full deckInfo response: ${deckInfoProvider.deckInfo}');
 
-      // Access the 'questions' field directly (no 'deck' wrapper)
       if (deckInfoProvider.deckInfo != null && deckInfoProvider.deckInfo!.containsKey('questions')) {
         List<dynamic> questions = deckInfoProvider.deckInfo!['questions'] ?? [];
         print('Total questions fetched: ${questions.length} for deck: $deckname');
@@ -179,6 +175,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
           startFromQuestion: startFromQuestion,
           isContinuingAttempt: true,
           totalquestions: totalquestions,
+          lastdone: '',
         ),
       ),
     );
@@ -441,7 +438,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget>
                             ? PreMedColorTheme().red
                             : PreMedColorTheme().blue,
                         elevation: 10,
-                      ), // Set the color to red
+                      ),
                       onPressed: widget.resume,
                       child: Text(
                         'Resume Test',

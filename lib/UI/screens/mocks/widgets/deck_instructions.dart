@@ -144,14 +144,11 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                                 final userId = userProvider.user?.userId ?? '';
 
                                 if (userId.isNotEmpty) {
-                                  // Check if it is a timed test mode or not
                                   if (widget.istimedtestmode == true) {
                                     selectedMode = 'TESTMODE';
                                   } else {
                                     selectedMode = 'TUTORMODE';
                                   }
-
-                                  // Start test based on the selected mode
                                   _handleStartTest(context, selectedDeckItem, userId, selectedMode);
                                 }
                               },
@@ -164,7 +161,6 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                   ),
                 ),
                 SizedBoxes.verticalLarge,
-                // Render instructions here
                 Padding(
                   padding: const EdgeInsets.only(left: 16, right: 16),
                   child: Material(
@@ -310,14 +306,10 @@ class _DeckInstructionsState extends State<DeckInstructions> {
     );
   }
 }
-
-// Function to parse and clean the HTML instructions
 String parseHtmlInstructions(String htmlString) {
   final document = htmlParser.parse(htmlString);
   return document.body?.text ?? '';
 }
-
-// Function to format the instructions into bullet points
 String formatInstructions(String instructions) {
   List<String> sections = instructions.split('.');
   sections = sections.where((section) => section.trim().isNotEmpty).toList();

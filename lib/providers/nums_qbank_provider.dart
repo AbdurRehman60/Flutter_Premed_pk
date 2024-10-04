@@ -37,7 +37,7 @@ class NUMSQbankProvider extends ChangeNotifier {
         if (nums != null) {
           final List<dynamic> deckGroupsData = nums['deckGroups'];
           _deckGroups = deckGroupsData
-              .where((deckGroupData) => deckGroupData['isPublished'] == true) // Filter out unpublished deck groups
+              .where((deckGroupData) => deckGroupData['isPublished'] == true)
               .map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
             final List<DeckItem> deckItems = decks.map((deck) {

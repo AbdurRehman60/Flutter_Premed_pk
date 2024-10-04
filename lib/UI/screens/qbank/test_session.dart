@@ -89,7 +89,7 @@ class _MedTestSessionHomeState extends State<MedTestSessionHome>
                       itemBuilder: (context, index) {
                         final deckGroup = filteredDeckGroups[index];
                         return DeckTile(
-                            deckGroup: deckGroup, deckGroupName: 'MDCAT QBank');
+                            deckGroup: deckGroup, deckGroupName: 'Test Sessions');
                       },
                     );
                   case DeckFetchStatus.error:

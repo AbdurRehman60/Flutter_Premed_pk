@@ -135,6 +135,7 @@ class _ModeDescriptionState extends State<ModeDescription> {
                         deckName: widget.deckName,
                         totalquestions: widget.totalquestions,
                         questionlist: widget.questionlist,
+                        lastdone: '',
                       ),
                     ),
                   );

@@ -30,9 +30,9 @@ class RecentAttemptsProvider with ChangeNotifier {
       if (kDebugMode) {
         print('Error fetching recent attempts: $e');
       }
-      _recentAttempts = []; // clear the list on error
-      notifyListeners(); // notify listeners of the error
-      rethrow; // rethrow the original exception
+      _recentAttempts = [];
+      notifyListeners();
+      rethrow;
     }
   }
 }

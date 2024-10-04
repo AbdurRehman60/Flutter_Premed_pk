@@ -270,7 +270,7 @@ class _TestModeInterfaceState extends State<TestModeInterface> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
-                                  '\u2022', // Unicode for bullet
+                                  '\u2022',
                                   style: TextStyle(fontSize: 12),
                                 ),
                                 const SizedBox(width: 5),
