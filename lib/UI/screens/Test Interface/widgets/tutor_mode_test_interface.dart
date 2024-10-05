@@ -615,6 +615,7 @@ print("isreview true hy ya nahi ${widget.isReview}");
   }
   void _loadPreviousSelections() async {
     if (widget.isRecent == true) {
+      // Handling recent attempts
       print("Recent attempt mode activated");
       final recentProvider = Provider.of<RecentAttemptsProvider>(context, listen: false);
       final List<RecentAttempt> recentAttempts = recentProvider.recentAttempts;
@@ -632,7 +633,6 @@ print("isreview true hy ya nahi ${widget.isReview}");
         print("Last Attempted Question ID: $lastAttemptedQuestionId");
 
         startQuestionIndex = getIndexForQuestionId(lastAttemptedQuestionId ?? '');
-
         print("startQuestionIndex calculated by getIndexForQuestionId: $startQuestionIndex");
 
         if (startQuestionIndex == -1) {
@@ -640,16 +640,14 @@ print("isreview true hy ya nahi ${widget.isReview}");
           startQuestionIndex = 0;
         }
 
-        final endQuestionIndex = allAttempts.length - 1;
-        await _loadQuestionsBetween(startQuestionIndex, endQuestionIndex);
+        await _loadQuestionsBetween(startQuestionIndex, allAttempts.length - 1);
 
+        // Load previous selections
         for (final attempt in allAttempts) {
           final int questionIndex = getIndexForQuestionId(attempt.questionId ?? '');
           if (questionIndex != -1) {
-            print("Processing question at index: $questionIndex");
             selectedOptions[questionIndex] = attempt.selection;
             isCorrectlyAnswered[questionIndex] = attempt.isCorrect;
-
             if (questionIndex == currentQuestionIndex) {
               selectedOption = attempt.selection;
               optionSelected = selectedOption != null;
@@ -664,163 +662,25 @@ print("isreview true hy ya nahi ${widget.isReview}");
       });
     }
 
-    else if (widget.isContinuingAttempt && (widget.lastdone == 'Past Paper' || widget.lastdone == 'Practice')) {
-      print("yeh hy last done ${widget.lastdone}");
-      print("Continuing attempt from Past Paper or Practice");
-
-      final paperProvider = Provider.of<PaperProvider>(context, listen: false);
-      final deckInfo = paperProvider.deckInformation;
-      if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
-        final lastAttempt = deckInfo.lastAttempt;
-
-        if (lastAttempt['attempts'] != null) {
-          final List<dynamic> attempts = lastAttempt['attempts'];
-
-          // Load all the questions between 0 and the length of attempts
-          await _loadQuestionsBetween(0, attempts.length - 1);
-
-          int lastAttemptedIndex = -1; // Index of the last attempted question
-
-          for (int i = 0; i < attempts.length; i++) {
-            final attempt = attempts[i];
-            final int questionIndex = getIndexForQuestionId(
-                attempt['questionId']);
-            if (questionIndex != -1) {
-              selectedOptions[questionIndex] = attempt['selection'];
-              isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
-            }
-
-            // Track the index of the last attempted question
-            if (attempt['attempted'] == true) {
-              lastAttemptedIndex = i;
-            }
-          }
-
-          // Set currentQuestionIndex to the last attempted question's index or 0 if none attempted
-          setState(() {
-            currentQuestionIndex =
-            (lastAttemptedIndex != -1) ? lastAttemptedIndex : 0;
-            print(
-                "Set currentQuestionIndex to $currentQuestionIndex to continue where user left off");
-          });
-        }
-      }
-    }
+    // Review Mode: Ensure it always starts from question 0
     else if (widget.isReview == true && (widget.lastdone == 'Past Paper' || widget.lastdone == 'Practice')) {
       print("Review mode activated");
 
       final paperProvider = Provider.of<PaperProvider>(context, listen: false);
       final deckInfo = paperProvider.deckInformation;
+
+      // Ensure deckInfo and lastAttempt exist
       if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
         final lastAttempt = deckInfo.lastAttempt;
 
         if (lastAttempt['attempts'] != null) {
           final List<dynamic> attempts = lastAttempt['attempts'];
 
-          // Load all the questions between 0 and the length of attempts
-          await _loadQuestionsBetween(0, attempts.length - 1);
-
-          int lastAttemptedIndex = -1; // Index of the last attempted question
-
-          for (int i = 0; i < attempts.length; i++) {
-            final attempt = attempts[i];
-            final int questionIndex = getIndexForQuestionId(
-                attempt['questionId']);
-            if (questionIndex != -1) {
-              selectedOptions[questionIndex] = attempt['selection'];
-              isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
-            }
-
-            // Track the index of the last attempted question
-            if (attempt['attempted'] == true) {
-              lastAttemptedIndex = i;
-            }
-          }
-
-          // Set currentQuestionIndex to the last attempted question's index or 0 if none attempted
-          setState(() {
-            currentQuestionIndex =
-            (lastAttemptedIndex != -1) ? lastAttemptedIndex : 0;
-            print(
-                "Set currentQuestionIndex to $currentQuestionIndex to continue where user left off");
-          });
-        }
-      }
-    }
-
-    else {
-      final deckProvider = Provider.of<DeckProvider>(context, listen: false);
-      final deckInfo = deckProvider.deckInformation;
-
-      if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
-        final lastAttempt = deckInfo.lastAttempt;
-
-        if (lastAttempt['attempts'] != null) {
-          for (final attempt in lastAttempt['attempts']) {
-            final int questionIndex = getIndexForQuestionId(attempt['questionId']);
-            if (questionIndex != -1) {
-              selectedOptions[questionIndex] = attempt['selection'];
-              isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
-
-              if (questionIndex == currentQuestionIndex) {
-                selectedOption = attempt['selection'];
-                optionSelected = selectedOption != null;
-              }
-            }
-          }
-        }
-
-        setState(() {});
-      }
-
-      else if (widget.isContinuingAttempt) {
-        if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
-          final lastAttempt = deckInfo.lastAttempt;
-
-          if (lastAttempt['attempts'] != null) {
-            final List<dynamic> attempts = lastAttempt['attempts'];
-
-            // Load all the questions between 0 and the length of attempts
+          try {
+            // Load all questions for review
             await _loadQuestionsBetween(0, attempts.length - 1);
 
-            int lastAttemptedIndex = -1; // Index of the last attempted question
-
-            for (int i = 0; i < attempts.length; i++) {
-              final attempt = attempts[i];
-              final int questionIndex = getIndexForQuestionId(attempt['questionId']);
-              if (questionIndex != -1) {
-                selectedOptions[questionIndex] = attempt['selection'];
-                isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
-              }
-
-              // Track the index of the last attempted question
-              if (attempt['attempted'] == true) {
-                lastAttemptedIndex = i;
-              }
-            }
-
-            // Set currentQuestionIndex to the last attempted question's index or 0 if none attempted
-            setState(() {
-              currentQuestionIndex = (lastAttemptedIndex != -1) ? lastAttemptedIndex : 0;
-              print("Set currentQuestionIndex to $currentQuestionIndex to continue where user left off");
-            });
-          }
-        }
-      }
-
-
-      else if (widget.isReview == true) {
-        print("Review mode activated");
-
-        // Load all questions for review
-        if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
-          final lastAttempt = deckInfo.lastAttempt;
-
-          if (lastAttempt['attempts'] != null) {
-            final List<dynamic> attempts = lastAttempt['attempts'];
-
-            await _loadQuestionsBetween(0, attempts.length - 1);
-
+            // Load selections for review mode
             for (final attempt in attempts) {
               final int questionIndex = getIndexForQuestionId(attempt['questionId']);
               if (questionIndex != -1) {
@@ -829,11 +689,57 @@ print("isreview true hy ya nahi ${widget.isReview}");
               }
             }
 
+            // Ensure the state is updated after all data is loaded
             setState(() {
-              currentQuestionIndex = 0;
+              currentQuestionIndex = 0; // Always start from 0 in review mode
               print("Set currentQuestionIndex to 0 for review");
             });
+          } catch (e) {
+            // Handle any error during loading of questions
+            print("Error during review mode loading: $e");
           }
+        } else {
+          print("No attempts found in lastAttempt.");
+        }
+      } else {
+        print("Deck information or lastAttempt is missing.");
+      }
+    }
+
+    // Continue Attempt Mode (Non-review)
+    else if (widget.isContinuingAttempt && (widget.lastdone == 'Past Paper' || widget.lastdone == 'Practice')) {
+      print("Continuing attempt from Past Paper or Practice");
+
+      final paperProvider = Provider.of<PaperProvider>(context, listen: false);
+      final deckInfo = paperProvider.deckInformation;
+
+      if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
+        final lastAttempt = deckInfo.lastAttempt;
+
+        if (lastAttempt['attempts'] != null) {
+          final List<dynamic> attempts = lastAttempt['attempts'];
+          await _loadQuestionsBetween(0, attempts.length - 1);
+
+          int lastAttemptedIndex = -1; // Index of the last attempted question
+
+          // Load previous selections and determine the last attempted question
+          for (int i = 0; i < attempts.length; i++) {
+            final attempt = attempts[i];
+            final int questionIndex = getIndexForQuestionId(attempt['questionId']);
+            if (questionIndex != -1) {
+              selectedOptions[questionIndex] = attempt['selection'];
+              isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
+            }
+            if (attempt['attempted'] == true) {
+              lastAttemptedIndex = i;
+            }
+          }
+
+          // Resume from the last attempted question or 0 if none were attempted
+          setState(() {
+            currentQuestionIndex = (lastAttemptedIndex != -1) ? lastAttemptedIndex : 0;
+            print("Set currentQuestionIndex to $currentQuestionIndex to continue where user left off");
+          });
         }
       }
     }

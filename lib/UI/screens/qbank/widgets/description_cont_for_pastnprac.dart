@@ -215,6 +215,8 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
 
   // Purchase popup logic
   void _showPurchasePopup(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    final String appToken = userProvider.user?.info.appToken?? '';
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -230,7 +232,7 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
             ),
             TextButton(
               onPressed: () {
-                _launchPurchaseUrl();
+                _launchURL(appToken);
               },
               child: const Text("Purchase Plan"),
             ),
@@ -240,9 +242,9 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
     );
   }
 
-  // Method to launch URL for purchasing the plan
-  Future<void> _launchPurchaseUrl() async {
-    const url = 'https://your-purchase-url.com';
+  Future<void> _launchURL(String appToken) async {
+    final url =
+        'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

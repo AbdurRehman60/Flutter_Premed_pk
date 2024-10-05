@@ -26,7 +26,7 @@ class PaperProvider extends ChangeNotifier {
   Future<void> fetchPapers(String category, String deckGroup, String deckName, String userId) async {
     print("this is the category error $category");
     print(deckGroup);
-    print(deckName);
+    print("deckname being passed is $deckName");
     print(userId);
     _fetchStatus = PaperFetchStatus.loading;
     notifyListeners();

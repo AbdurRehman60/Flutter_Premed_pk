@@ -35,7 +35,7 @@ class _PracticeandPastState extends State<PracticeandPast> {
   bool practiceModeButton = false;
   String mode = 'Past Paper';
 
-  // Deck name without "Past Paper" or "Practice"
+  
   late String deckNameWithoutSuffix;
 
   @override
@@ -43,7 +43,7 @@ class _PracticeandPastState extends State<PracticeandPast> {
     super.initState();
     pastPaperModeButton = widget.deckDetails['isTutorModeFree'];
 
-    // Initially, deck name without "Past Paper" or "Practice"
+    
     deckNameWithoutSuffix = widget.deckDetails['deckName']
         .replaceAll('Past Paper', '')
         .replaceAll('Practice', '')
@@ -58,7 +58,6 @@ class _PracticeandPastState extends State<PracticeandPast> {
 
   @override
   Widget build(BuildContext context) {
-    // Append "Past Paper" or "Practice" to the deck name based on the selected mode
     String deckNameWithMode = pastPaperModeButton
         ? '$deckNameWithoutSuffix Past Paper'
         : '$deckNameWithoutSuffix Practice';
@@ -80,7 +79,7 @@ class _PracticeandPastState extends State<PracticeandPast> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(deckNameWithMode, // Use the dynamically generated name
+                Text(deckNameWithMode, 
                     textAlign: TextAlign.start,
                     style: PreMedTextTheme().heading6.copyWith(
                       fontWeight: FontWeight.bold,
@@ -277,7 +276,7 @@ class _PracticeandPastState extends State<PracticeandPast> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Text(
-                                    '\u2022', // Unicode for bullet
+                                    '\u2022', 
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   const SizedBox(width: 5),

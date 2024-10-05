@@ -49,14 +49,19 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
 
   Future<void> _fetchDeckInfo(int index, BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final deckName = newdeckname(widget.deckGroup.deckItems[index].deckName);
+
+    final fullDeckName = widget.deckGroup.deckItems[index].deckName;
+    final cleanedDeckName = newdeckname(fullDeckName);
+    print("Full Deck Name: $fullDeckName");
+    print("Cleaned Deck Name being passed: $cleanedDeckName");
 
     final category = widget.category ?? '';
     final deckGroup = widget.deckGroup.deckGroupName;
     final userId = userProvider.user!.userId;
+
     try {
       await Provider.of<PaperProvider>(context, listen: false)
-          .fetchPapers(category, deckGroup, deckName, userId);
+          .fetchPapers(category, deckGroup, cleanedDeckName, userId);
     } catch (e) {
       print('Error fetching deck information: $e');
     }
@@ -65,6 +70,7 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final Map<String, List<DeckItem>> groupedDeckItems = {};
+    final List<int> originalIndexes = [];
 
     for (final item in widget.deckGroup.deckItems) {
       String baseDeckName = newdeckname(item.deckName);
@@ -88,8 +94,12 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
       }
 
       if (isPracticePublished && isPastPaperPublished) {
-        final deckToDisplay = deckItems.firstWhere((item) => item.deckName.contains('Practice'));
+        final deckToDisplay =
+            deckItems.firstWhere((item) => item.deckName.contains('Practice'));
         uniquedeckitems.add(deckToDisplay);
+
+        final originalIndex = widget.deckGroup.deckItems.indexOf(deckToDisplay);
+        originalIndexes.add(originalIndex);
       }
     });
 
@@ -120,7 +130,9 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                 itemCount: uniquedeckitems.length,
                 itemBuilder: (context, index) {
                   final DeckItem item = uniquedeckitems[index];
-                  final String deckName = newdeckname(item.deckName);
+
+                  // Clean the deck name here
+                  final String cleanedDeckName = newdeckname(item.deckName);
 
                   return Container(
                     margin: const EdgeInsets.symmetric(vertical: 4),
@@ -134,12 +146,12 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            deckName,
+                            cleanedDeckName,
                             style: PreMedTextTheme().body.copyWith(
-                              color: PreMedColorTheme().black,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 17,
-                            ),
+                                  color: PreMedColorTheme().black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 17,
+                                ),
                           ),
                           SizedBoxes.verticalTiny,
                         ],
@@ -153,28 +165,35 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                           size: 20,
                         ),
                         onPressed: () async {
-                          // Move selectedDeckItemIndex update here
                           setState(() {
-                            selectedDeckItemIndex = index;
+                            selectedDeckItemIndex = originalIndexes[index];
                           });
 
                           print("Clicked Deck Index: $index");
                           print("Selected Deck Item: ${item.deckName}");
+                          print(
+                              "Cleaned Deck Name being passed: $cleanedDeckName");
 
-                          // Ensure index is set before async operations
-                          await _fetchDeckInfo(index, context);
-                          await _fetchQuestions(deckName, context);
+                          try {
+                            await _fetchDeckInfo(
+                                selectedDeckItemIndex, context);
+                            await _fetchQuestions(cleanedDeckName, context);
 
-                          final deckInfo = Provider.of<PaperProvider>(context, listen: false)
-                              .deckInformation;
+                            final deckInfo = Provider.of<PaperProvider>(context,
+                                    listen: false)
+                                .deckInformation;
 
-                          print("Already attempted: ${deckInfo?.alreadyAttempted}");
+                            print(
+                                "Already attempted: ${deckInfo?.alreadyAttempted}");
 
-                          // Navigate based on the condition after fetching data
-                          if (deckInfo?.alreadyAttempted == true) {
-                            _showAlreadyAttemptedPopup(context, item);
-                          } else {
-                            _navigateToDeck(context, item);
+                            if (deckInfo?.alreadyAttempted == true) {
+                              _showAlreadyAttemptedPopup(
+                                  context, item, cleanedDeckName);
+                            } else {
+                              _navigateToDeck(context, item);
+                            }
+                          } catch (e) {
+                            print('Error occurred: $e');
                           }
                         },
                       ),
@@ -189,86 +208,18 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
     );
   }
 
-  // void _navigateToDeck(BuildContext context, DeckItem item) {
-  //   final deckInfo =
-  //       Provider
-  //           .of<PaperProvider>(context, listen: false)
-  //           .deckInformation;
-  //
-  //   if (deckInfo == null) {
-  //     print('Deck information is null, cannot navigate');
-  //     return;
-  //   }
-  //   final totalQuestions = deckInfo.questions.length;
-  //
-  //   print("Total questions from DeckInformation: $totalQuestions");
-  //
-  //   if (totalQuestions == 0) {
-  //     print("No questions available");
-  //     return;
-  //   }
-  //
-  //   final deckName = newdeckname(item.deckName);
-  //   print("Navigating to Deck: $deckName");
-  //
-  //   if (widget.bankOrMock == 'Bank') {
-  //     print("This is the ques ${deckInfo.questions}");
-  //
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) =>
-  //             PracticeandPast(
-  //               subject: widget.deckGroup.deckGroupName,
-  //               deckDetails: {
-  //                 'deckName': deckName,
-  //                 'isTutorModeFree': item.isTutorModeFree,
-  //                 'deckInstructions': item.deckInstructions,
-  //                 'questions': totalQuestions.toString(),
-  //                 'timedTestMinutes': item.timesTestminutes,
-  //               },
-  //               premiumtag: item.premiumTag ?? '',
-  //               deckGroupName: widget.category ?? '',
-  //               totalquestions: totalQuestions,
-  //               questionlist: deckInfo.questions,
-  //             ),
-  //       ),
-  //     );
-  //   } else {
-  //     print("This is the ${deckInfo.questions}");
-  //
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) =>
-  //             DeckInstructions(
-  //               subject: widget.subject,
-  //               deckInstructions: item.deckInstructions,
-  //               deckGroup: widget.deckGroup,
-  //               selectedIndex: selectedDeckItemIndex,
-  //               totalquestions: totalQuestions,
-  //               questionlist: deckInfo.questions,
-  //             ),
-  //       ),
-  //     );
-  //   }
-  // }
-
-
-
-  void _showAlreadyAttemptedPopup(BuildContext context, DeckItem item) {
+  void _showAlreadyAttemptedPopup(
+      BuildContext context, DeckItem item, String cleanedDeckName) {
     final userName =
-    Provider.of<UserProvider>(context, listen: false).getUserName();
-    final lastAttempt = Provider
-        .of<PaperProvider>(context, listen: false)
+        Provider.of<UserProvider>(context, listen: false).getUserName();
+    final lastAttempt = Provider.of<PaperProvider>(context, listen: false)
         .deckInformation
         ?.attempts;
-    final lastAttemptId = Provider
-        .of<PaperProvider>(context, listen: false)
+    final lastAttemptId = Provider.of<PaperProvider>(context, listen: false)
         .deckInformation
         ?.lastAttemptId;
 
-    print("Deck Name passed to showAlreadyAttemptedPopup: ${item.deckName}");  // Print the passed deck name
+    print("Deck Name passed to showAlreadyAttemptedPopup: $cleanedDeckName");
 
     showDialog(
       context: context,
@@ -319,21 +270,22 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                           Navigator.pop(context);
                           if (lastAttempt != null && lastAttempt.isNotEmpty) {
                             final latestAttempt = lastAttempt.last;
-                            final questionProvider = Provider.of<
-                                QuestionProvider>(context, listen: false);
+                            final questionProvider =
+                                Provider.of<QuestionProvider>(context,
+                                    listen: false);
                             print(
                                 "DEBUG: Latest Attempt Question ID: ${latestAttempt['questionId']}");
 
                             final startFromQuestion = questionProvider.questions
-                                ?.indexWhere((question) =>
-                            question.questionId == latestAttempt['questionId']) ?? 0;
+                                    ?.indexWhere((question) =>
+                                        question.questionId ==
+                                        latestAttempt['questionId']) ??
+                                0;
 
                             print(
                                 "DEBUG: Start from Question Index: $startFromQuestion");
                             print(
-                                "DEBUG: Available Questions: ${questionProvider
-                                    .questions?.map((q) => q.questionId)
-                                    .toList()}");
+                                "DEBUG: Available Questions: ${questionProvider.questions?.map((q) => q.questionId).toList()}");
 
                             if (startFromQuestion >= 0) {
                               _navigateToNextScreen(context, item,
@@ -342,12 +294,12 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                             } else {
                               print(
                                   "DEBUG: Invalid Question ID in Latest Attempt, starting from the beginning.");
-                              _navigateToNextScreen(
-                                  context, item, attemptId: lastAttemptId);
+                              _navigateToNextScreen(context, item,
+                                  attemptId: lastAttemptId);
                             }
                           } else {
-                            _navigateToNextScreen(
-                                context, item, attemptId: lastAttemptId);
+                            _navigateToNextScreen(context, item,
+                                attemptId: lastAttemptId);
                           }
                         },
                         color: Colors.blueAccent,
@@ -446,28 +398,26 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
 
   void _navigateToNextScreen(BuildContext context, DeckItem item,
       {int? startFromQuestion,
-        String? attemptId,
-        bool isReview = false}) async {
+      String? attemptId,
+      bool isReview = false}) async {
     final deckAttemptProvider =
-    Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+        Provider.of<CreateDeckAttemptProvider>(context, listen: false);
     final deckInfo =
-        Provider
-            .of<PaperProvider>(context, listen: false)
-            .deckInformation;
+        Provider.of<PaperProvider>(context, listen: false).deckInformation;
 
     final attemptMode = deckInfo?.attemptMode ?? '';
     final questionProvider =
-    Provider.of<QuestionProvider>(context, listen: false);
+        Provider.of<QuestionProvider>(context, listen: false);
     final totalQuestions = questionProvider.questions?.length ?? 0;
 
-    int questionIndex = (startFromQuestion ?? 0);
+    int questionIndex = startFromQuestion ?? 0;
     if (questionIndex < 0 || questionIndex >= totalQuestions) {
       questionIndex = 1;
     }
 
     if (isReview) {
-      _startReviewMode(
-          context, item, attemptMode, deckAttemptProvider, questionIndex);
+      _startReviewMode(context, item, attemptMode, deckAttemptProvider,
+          questionIndex, attemptId);
     } else {
       print("when nav $attemptMode, $questionIndex, $attemptId");
       _continueOrReattempt(context, item, attemptMode, deckAttemptProvider,
@@ -475,77 +425,18 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
     }
   }
 
-  void _startReviewMode(BuildContext context, DeckItem item, String attemptMode,
-      CreateDeckAttemptProvider deckAttemptProvider, int questionIndex) {
-    final deckInfo =
-        Provider
-            .of<PaperProvider>(context, listen: false)
-            .deckInformation;
-    if (attemptMode == 'TUTORMODE') {
-      final String lastDone = deckInfo?.lastDone ?? '';
-      print("ye hy last doen mode $lastDone");
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              TutorMode(
-                isContinuingAttempt: false,
-                subject: widget.subject,
-                deckName:
-                widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
-                attemptId: deckAttemptProvider.attemptId,
-                startFromQuestion: 0,
-                isReview: true,
-                totalquestions: deckInfo!.questions.length,
-                questionlist: deckInfo.questions,
-                lastdone: lastDone,
-              ),
-        ),
-      );
-    } else if (attemptMode == 'TESTMODE') {
-      final String lastDone = deckInfo?.lastDone ?? '';
-      print("ye hy last doen mode $lastDone");
-
-      print(
-          "this is the ques index $questionIndex & and ${deckInfo?.questions}");
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              TutorMode(
-                isRecent: false,
-                isContinuingAttempt: false,
-                subject: widget.subject,
-                deckName:
-                widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
-                attemptId: deckAttemptProvider.attemptId,
-                startFromQuestion: 0,
-                isReview: true,
-                totalquestions: deckInfo!.questions.length,
-                questionlist: deckInfo.questions,
-                lastdone: lastDone,
-              ),
-        ),
-      );
-    } else {
-      print("Error: Unknown attempt mode");
-    }
-  }
-
-  void _continueOrReattempt(BuildContext context,
+  void _startReviewMode(
+      BuildContext context,
       DeckItem item,
       String attemptMode,
       CreateDeckAttemptProvider deckAttemptProvider,
       int questionIndex,
       String? attemptId) {
     final deckInfo =
-        Provider
-            .of<PaperProvider>(context, listen: false)
-            .deckInformation;
+        Provider.of<PaperProvider>(context, listen: false).deckInformation;
 
-    String cleanedDeckName = newdeckname(
-        widget.deckGroup.deckItems[selectedDeckItemIndex].deckName);
+    String cleanedDeckName =
+        newdeckname(widget.deckGroup.deckItems[selectedDeckItemIndex].deckName);
 
     if (!item.isPublished) {
       print("Attempting to continue an unpublished deck, operation aborted.");
@@ -565,18 +456,17 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              TutorMode(
-                isContinuingAttempt: isContinuingAttempt,
-                subject: widget.subject,
-                deckName: cleanedDeckName,
-                attemptId: attemptId ?? deckAttemptProvider.attemptId,
-                startFromQuestion: questionIndex,
-                isReview: false,
-                totalquestions: deckInfo!.questions.length,
-                questionlist: deckInfo.questions,
-                lastdone: lastDone,
-              ),
+          builder: (context) => TutorMode(
+            isContinuingAttempt: false,
+            subject: widget.subject,
+            deckName: cleanedDeckName,
+            attemptId: attemptId ?? deckAttemptProvider.attemptId,
+            startFromQuestion: 0,
+            isReview: true,
+            totalquestions: deckInfo!.questions.length,
+            questionlist: deckInfo.questions,
+            lastdone: lastDone,
+          ),
         ),
       );
     } else if (attemptMode == 'TESTMODE') {
@@ -586,19 +476,88 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              TutorMode(
-                isRecent: false,
-                isContinuingAttempt: isContinuingAttempt,
-                subject: widget.subject,
-                deckName: cleanedDeckName,
-                attemptId: attemptId ?? deckAttemptProvider.attemptId,
-                startFromQuestion: questionIndex,
-                isReview: false,
-                totalquestions: deckInfo!.questions.length,
-                questionlist: deckInfo.questions,
-                lastdone: lastDone,
-              ),
+          builder: (context) => TutorMode(
+            isRecent: false,
+            isContinuingAttempt: false,
+            subject: widget.subject,
+            deckName: cleanedDeckName,
+            attemptId: attemptId ?? deckAttemptProvider.attemptId,
+            startFromQuestion: 0,
+            isReview: true,
+            totalquestions: deckInfo!.questions.length,
+            questionlist: deckInfo.questions,
+            lastdone: lastDone,
+          ),
+        ),
+      );
+    } else {
+      print("Error: Unknown attempt mode");
+    }
+  }
+
+  void _continueOrReattempt(
+      BuildContext context,
+      DeckItem item,
+      String attemptMode,
+      CreateDeckAttemptProvider deckAttemptProvider,
+      int questionIndex,
+      String? attemptId) {
+    final deckInfo =
+        Provider.of<PaperProvider>(context, listen: false).deckInformation;
+
+    String cleanedDeckName =
+        newdeckname(widget.deckGroup.deckItems[selectedDeckItemIndex].deckName);
+
+    if (!item.isPublished) {
+      print("Attempting to continue an unpublished deck, operation aborted.");
+      return;
+    }
+    final String lastDone = deckInfo?.lastDone ?? '';
+    if (lastDone == 'Practice') {
+      cleanedDeckName = "$cleanedDeckName Practice";
+    } else {
+      cleanedDeckName = "$cleanedDeckName Past Paper";
+    }
+
+    if (attemptMode == 'TUTORMODE') {
+      print(
+          "This is the deck name when continuing attempt: $cleanedDeckName and $questionIndex");
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TutorMode(
+            isContinuingAttempt: isContinuingAttempt,
+            subject: widget.subject,
+            deckName: cleanedDeckName,
+            attemptId: attemptId ?? deckAttemptProvider.attemptId,
+            startFromQuestion: questionIndex,
+            isReview: false,
+            totalquestions: deckInfo!.questions.length,
+            questionlist: deckInfo.questions,
+            lastdone: lastDone,
+          ),
+        ),
+      );
+    } else if (attemptMode == 'TESTMODE') {
+      print(
+          "This is the deck name when continuing attempt: $cleanedDeckName and $questionIndex");
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TutorMode(
+            isRecent: false,
+            isContinuingAttempt: isContinuingAttempt,
+            subject: widget.subject,
+            deckName: cleanedDeckName,
+            attemptId: attemptId ?? deckAttemptProvider.attemptId,
+            startFromQuestion: questionIndex,
+            isReview: false,
+            totalquestions: deckInfo!.questions.length,
+            questionlist: deckInfo.questions,
+            lastdone: lastDone,
+          ),
         ),
       );
     } else {

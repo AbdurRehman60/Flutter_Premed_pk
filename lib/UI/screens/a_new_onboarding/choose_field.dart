@@ -72,11 +72,11 @@ class _ChooseFieldState extends State<ChooseField> {
             ),
             TextButton(
               onPressed: () async {
-                const url = 'https://premed.pk/'; // Corrected URL
+                const url = 'https://premed.pk/';
                 if (await canLaunchUrl(Uri.parse(url))) {
                   await launchUrl(Uri.parse(url),
                       mode: LaunchMode
-                          .externalApplication); // Opens the URL in the browser
+                          .externalApplication);
                 } else {
                   throw 'Could not launch $url';
                 }

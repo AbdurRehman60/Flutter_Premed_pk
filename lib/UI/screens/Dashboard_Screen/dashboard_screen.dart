@@ -100,7 +100,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   final pro = Provider.of<UserProvider>(context,listen: false);
                                   print('path to page:${pro.user?.info.lastOnboardingPage}');
                                 },
-                                child: Text('Hi, ${userProvider.getUserName()}',
+                                child: Text('Hi, ${userProvider.getUserName().length > 12 ? '${userProvider.getUserName().substring(0, 12)}...' : userProvider.getUserName()}',
                                     maxLines: 2 ,                                                  style: PreMedTextTheme().heading4.copyWith(
                                         fontWeight: FontWeight.w800,
                                         fontSize: 26)),

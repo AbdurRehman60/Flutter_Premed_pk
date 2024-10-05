@@ -60,7 +60,7 @@ class Endpoints {
 
   //update account details
   static const String UpdateAccount = '/UpdateAccountInfo';
-  static const String UpdatePassword = '/UpdateAccountPassword';
+  static const String UpdatePassword = '/update-password';
 
   static const String GetWebNotifications = '/api/notifications/get-notifications';
 

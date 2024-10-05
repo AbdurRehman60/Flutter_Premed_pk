@@ -268,7 +268,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                                               ),
                                               Positioned(
                                                 bottom: 0,
-                                                left: mediaQuery.size.width * 0.106,
+                                                left: mediaQuery.size.width * 0.0956,
                                                 child: Text(
                                                   '${((userStatModel.totalQuestionCorrect / userStatModel.totalQuestionAttempted) * 100).toStringAsFixed(2)}%',
                                                   style: GoogleFonts.rubik(

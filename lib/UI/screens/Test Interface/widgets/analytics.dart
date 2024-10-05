@@ -44,7 +44,7 @@ class _AnalyticsState extends State<Analytics> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final attemptProvider =
-          Provider.of<AttemptProvider>(context, listen: false);
+      Provider.of<AttemptProvider>(context, listen: false);
       attemptProvider.getAttemptInfo(widget.attemptId);
     });
   }
@@ -52,7 +52,7 @@ class _AnalyticsState extends State<Analytics> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: PreMedColorTheme().background,
+        backgroundColor: PreMedColorTheme().background,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60.0),
           child: AppBar(
@@ -91,10 +91,10 @@ class _AnalyticsState extends State<Analytics> {
                 SizedBoxes.vertical2Px,
                 Text('TEST RESULT',
                     style: PreMedTextTheme().subtext.copyWith(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: PreMedColorTheme().black,
-                        ))
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: PreMedColorTheme().black,
+                    ))
               ],
             ),
             automaticallyImplyLeading: false,
@@ -108,188 +108,202 @@ class _AnalyticsState extends State<Analytics> {
               final attemptInfo = attemptProvider.attemptInfo;
               return attemptInfo != null
                   ? SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              attemptInfo['deckName'],
-                              style: PreMedTextTheme().body.copyWith(
-                                  fontSize: 28, fontWeight: FontWeight.w800),
-                            ),
-                            SizedBoxes.verticalLarge,
-                            AttemptPieChart(
-                              correct: widget.correct,
-                              incorrect: widget.incorrect,
-                              skipped: widget.skipped,
-                            ),
-                            SizedBoxes.verticalGargangua,
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: InkWell(
-                                    child: Container(
-                                      height: 187,
-                                      decoration: BoxDecoration(
-                                        boxShadow: CustomBoxShadow.boxShadow40,
-                                        borderRadius:
-                                            BorderRadius.circular(15),
-                                       color:  Colors.white.withOpacity(0.8500000238418579),
-                                      ),
-                                      margin: const EdgeInsets.all(5.0),
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Image.asset(
-                                                  PremedAssets.PieChart),
-                                              SizedBoxes.verticalMedium,
-                                              Text(
-                                                'Total Marks Scored: ${attemptInfo['totalMarks']}s',
-                                                textAlign: TextAlign.center,
-                                                style: PreMedTextTheme()
-                                                    .body
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 17),
-                                              ),
-                                            ],
-                                          ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        attemptInfo['deckName'],
+                        style: PreMedTextTheme().body.copyWith(
+                            fontSize: 28, fontWeight: FontWeight.w800),
+                      ),
+                      SizedBoxes.verticalLarge,
+                      AttemptPieChart(
+                        correct: widget.correct,
+                        incorrect: widget.incorrect,
+                        skipped: widget.skipped,
+                      ),
+                      SizedBoxes.verticalGargangua,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              child: Container(
+                                height: 187,
+                                decoration: BoxDecoration(
+                                  boxShadow: CustomBoxShadow.boxShadow40,
+                                  borderRadius:
+                                  BorderRadius.circular(15),
+                                  color:  Colors.white.withOpacity(0.8500000238418579),
+                                ),
+                                margin: const EdgeInsets.all(5.0),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                            PremedAssets.PieChart),
+                                        SizedBoxes.verticalMedium,
+                                        Text(
+                                          'Total Marks Scored: ${attemptInfo['totalMarks']}',
+                                          textAlign: TextAlign.center,
+                                          style: PreMedTextTheme()
+                                              .body
+                                              .copyWith(
+                                              fontWeight:
+                                              FontWeight.w600,
+                                              fontSize: 17),
                                         ),
-                                      ),
+                                      ],
                                     ),
                                   ),
-                                ),
-                                SizedBoxes.horizontalTiny,
-                                Expanded(
-                                  child: InkWell(
-                                    child: Container(
-                                      height: 187,
-                                      decoration: BoxDecoration(
-                                        boxShadow: CustomBoxShadow.boxShadow40,
-                                        borderRadius:
-                                            BorderRadius.circular(15),
-                                        color: Colors.white.withOpacity(0.8500000238418579),
-                                      ),
-                                      margin: const EdgeInsets.all(5.0),
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Image.asset(PremedAssets.Timer),
-                                              SizedBoxes.verticalMedium,
-                                              Text(
-                                                'Total Time Taken: ${attemptInfo['totalTimeTaken']}s',
-                                                textAlign: TextAlign.center,
-                                                style: PreMedTextTheme()
-                                                    .body
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 17),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBoxes.horizontalTiny,
-                                Expanded(
-                                  child: InkWell(
-                                    child: Container(
-                                      height: 187,
-                                      decoration: BoxDecoration(
-                                        boxShadow: CustomBoxShadow.boxShadow40,
-                                        borderRadius:
-                                            BorderRadius.circular(15),
-                                        color: Colors.white.withOpacity(0.8500000238418579),
-                                      ),
-                                      margin: const EdgeInsets.all(5.0),
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Image.asset(PremedAssets.Graph),
-                                              SizedBoxes.verticalMedium,
-                                              Text(
-                                                'Avg Time Per Question: ${attemptInfo['avgTimeTaken']}s',
-                                                textAlign: TextAlign.center,
-                                                style: PreMedTextTheme()
-                                                    .body
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontSize: 17),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBoxes.verticalBig,
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                boxShadow: CustomBoxShadow.boxShadow40,
-                                color: Colors.white.withOpacity(0.8500000238418579),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    const Center(
-                                        child: Text('Summary',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18))),
-                                    SizedBoxes.verticalGargangua,
-                                    _buildInfoRow('Attempted:',
-                                        attemptInfo['attempted'].toString()),
-                                    _buildInfoRow('Average Time Taken:',
-                                        '${attemptInfo['avgTimeTaken']}s'),
-                                    _buildInfoRow(
-                                        'Negatives Due to Wrong:',
-                                        attemptInfo['negativesDueToWrong']
-                                            .toString()),
-                                    _buildInfoRow(
-                                        'No of Negatively Marked:',
-                                        attemptInfo['noOfNegativelyMarked']
-                                            .toString()),
-                                    _buildInfoRow('Total Marks:',
-                                        attemptInfo['totalMarks'].toString()),
-                                    _buildInfoRow(
-                                        'Total Questions:',
-                                        attemptInfo['totalQuestions']
-                                            .toString()),
-                                    _buildInfoRow('Total Time Taken:',
-                                        '${attemptInfo['totalTimeTaken']}s'),
-                                  ],
                                 ),
                               ),
                             ),
-                          ],
+                          ),
+                          SizedBoxes.horizontalTiny,
+                          Expanded(
+                            child: InkWell(
+                              child: Container(
+                                height: 187,
+                                decoration: BoxDecoration(
+                                  boxShadow: CustomBoxShadow.boxShadow40,
+                                  borderRadius:
+                                  BorderRadius.circular(15),
+                                  color: Colors.white.withOpacity(0.8500000238418579),
+                                ),
+                                margin: const EdgeInsets.all(5.0),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(PremedAssets.Timer),
+                                        SizedBoxes.verticalMedium,
+                                        Text(
+                                          'Total Time Taken: ${attemptInfo['totalTimeTaken']}s',
+                                          textAlign: TextAlign.center,
+                                          style: PreMedTextTheme()
+                                              .body
+                                              .copyWith(
+                                              fontWeight:
+                                              FontWeight.w600,
+                                              fontSize: 17),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBoxes.horizontalTiny,
+                          Expanded(
+                            child: InkWell(
+                              child: Container(
+                                height: 187,
+                                decoration: BoxDecoration(
+                                  boxShadow: CustomBoxShadow.boxShadow40,
+                                  borderRadius:
+                                  BorderRadius.circular(15),
+                                  color: Colors.white.withOpacity(0.8500000238418579),
+                                ),
+                                margin: const EdgeInsets.all(5.0),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(PremedAssets.Graph),
+                                        SizedBoxes.verticalMedium,
+                                        Text(
+                                          'Avg Time Per Question: ${attemptInfo['avgTimeTaken'].toStringAsFixed(2)}s',
+                                          textAlign: TextAlign.center,
+                                          style: PreMedTextTheme()
+                                              .body
+                                              .copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 17),
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBoxes.verticalBig,
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: CustomBoxShadow.boxShadow40,
+                          color: Colors.white.withOpacity(0.8500000238418579),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              const Center(
+                                  child: Text('Summary',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18))),
+                              SizedBoxes.verticalGargangua,
+                              _buildInfoRow('Attempted:',
+                                  attemptInfo['attempted'].toString()),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Average Time Taken', style: PreMedTextTheme().body.copyWith(fontWeight: FontWeight.bold)),
+                                  Text(
+                                    '${attemptInfo['avgTimeTaken'].toStringAsFixed(2)}s',
+                                    textAlign: TextAlign.center,
+                                    style: PreMedTextTheme()
+                                        .body
+                                        .copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 17),
+                                  ),
+
+                                ],
+                              ),
+                              _buildInfoRow(
+                                  'Negatives Due to Wrong:',
+                                  attemptInfo['negativesDueToWrong']
+                                      .toString()),
+                              _buildInfoRow(
+                                  'No of Negatively Marked:',
+                                  attemptInfo['noOfNegativelyMarked']
+                                      .toString()),
+                              _buildInfoRow('Total Marks:',
+                                  attemptInfo['totalMarks'].toString()),
+                              _buildInfoRow(
+                                  'Total Questions:',
+                                  attemptInfo['totalQuestions']
+                                      .toString()),
+                              _buildInfoRow('Total Time Taken:',
+                                  '${attemptInfo['totalTimeTaken']}s'),
+                            ],
+                          ),
                         ),
                       ),
-                    )
+                    ],
+                  ),
+                ),
+              )
                   : const Center(child: Text('No attempt info available'));
             } else {
               return Center(child: Text(attemptProvider.message));

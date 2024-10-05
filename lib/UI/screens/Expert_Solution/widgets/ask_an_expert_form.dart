@@ -5,8 +5,10 @@ import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/expert_solution_provider.dart';
 import 'package:premedpk_mobile_app/providers/upload_image_provider.dart';
+import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:premedpk_mobile_app/utils/validators.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../providers/vaultProviders/premed_provider.dart';
 
@@ -23,6 +25,16 @@ class AskanExpertForm extends StatelessWidget {
     final uplaodImageProvider = Provider.of<UplaodImageProvider>(context);
     final TextEditingController descriptionController = TextEditingController();
 
+    Future<void> _launchURL(String appToken) async {
+      final url =
+          'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
     void onSubmitPressed() {
       final form = _formKey.currentState!;
       if (uplaodImageProvider.uploadedImage == null) {
@@ -30,29 +42,77 @@ class AskanExpertForm extends StatelessWidget {
         return;
       }
       if (form.validate()) {
-        final Future<Map<String, dynamic>> response =
-            askAnExpertProvider.uploadDoubt(
-          description: descriptionController.text,
-          subject: askAnExpertProvider.selectedSubject,
-          topic: askAnExpertProvider.selectedTopic,
-          resource: askAnExpertProvider.selectedResource,
-          testImage: uplaodImageProvider.uploadedImage!,
-        );
+        final userPro = Provider.of<UserProvider>(context, listen: false);
 
-        response.then((response) {
-          if (response['status']) {
-            showSnackbar(
-              context,
-              response['message'],
-              SnackbarType.SUCCESS,
-              navigate: true,
-            );
-            askAnExpertProvider.getDoubts();
-          } else {
-            showError(context, response);
+        // Cast the featuresPurchased to List<Map<String, dynamic>>?
+        final List<dynamic>? featuresPurchasedDynamic = userPro.user?.featuresPurchased;
+        final List<Map<String, dynamic>>? featuresPurchased = featuresPurchasedDynamic?.cast<Map<String, dynamic>>();
+
+        // Check if any plan's 'planName' contains 'ultimate'
+        bool hasUltimatePlan = featuresPurchased?.any((feature) {
+          final String? planName = feature['planName']; // Access the 'planName' field
+          if (planName != null && planName.toLowerCase().contains('ultimate')) {
+            return true; // Ultimate plan is found
           }
-        });
+          return false; // Continue checking other plans
+        }) ?? false;
+
+        if (hasUltimatePlan) {
+          print('Ultimate plan found: ${userPro.user?.featuresPurchased}');
+
+          final Future<Map<String, dynamic>> response = askAnExpertProvider.uploadDoubt(
+            description: descriptionController.text,
+            subject: askAnExpertProvider.selectedSubject,
+            topic: askAnExpertProvider.selectedTopic,
+            resource: askAnExpertProvider.selectedResource,
+            testImage: uplaodImageProvider.uploadedImage!,
+          );
+
+          response.then((response) {
+            if (response['status']) {
+              showSnackbar(
+                context,
+                response['message'],
+                SnackbarType.SUCCESS,
+                navigate: true,
+              );
+              askAnExpertProvider.getDoubts();
+            } else {
+              showError(context, response);
+            }
+          });
+        } else {
+          // Show pop-up to purchase plan
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              final userProvider = Provider.of<UserProvider>(context);
+              final String appToken = userProvider.user?.info.appToken?? '';
+              return AlertDialog(
+                title: const Text('Purchase Plan'),
+                content: const Text('You need to purchase the Ultimate plan to upload doubts.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      _launchURL(appToken);
+                    },
+                    child: const Text('Purchase'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
       }
+
+
+
     }
 
     return Form(
@@ -65,37 +125,37 @@ class AskanExpertForm extends StatelessWidget {
               child: Column(
                 children: [
                   Stack(
-                    children:[ Container(
-                      height: 200,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                        color: PreMedColorTheme().white,
-                        borderRadius: BorderRadius.circular(16),
+                      children:[ Container(
+                        height: 200,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                          color: PreMedColorTheme().white,
+                          borderRadius: BorderRadius.circular(16),
 
-                      ),
-                      child: Consumer<UplaodImageProvider>(
-                        builder: (context, value, child) {
-                          final bool uploadedImage = value.uploadedImage != null;
+                        ),
+                        child: Consumer<UplaodImageProvider>(
+                          builder: (context, value, child) {
+                            final bool uploadedImage = value.uploadedImage != null;
 
-                          return uploadedImage
-                              ? Image.file(
-                                  uplaodImageProvider.uploadedImage!,
-                                  fit: BoxFit.fitHeight,
-                                )
-                              : const LocalImageDisplay();
-                        },
+                            return uploadedImage
+                                ? Image.file(
+                              uplaodImageProvider.uploadedImage!,
+                              fit: BoxFit.fitHeight,
+                            )
+                                : const LocalImageDisplay();
+                          },
+                        ),
+                        // Implement LocalImageDisplay
                       ),
-                // Implement LocalImageDisplay
-                    ),
-              ]
+                      ]
                   ),
                   SizedBoxes.verticalLarge,
                   const Padding(
@@ -134,13 +194,12 @@ class AskanExpertForm extends StatelessWidget {
                   ),
                   SizedBoxes.verticalBig,
                   CustomButton(
-                    color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
                     isActive:
-                        askAnExpertProvider.doubtUploadStatus != Status.Sending,
+                    askAnExpertProvider.doubtUploadStatus != Status.Sending,
                     buttonText:
-                        askAnExpertProvider.doubtUploadStatus == Status.Sending
-                            ? 'Submitting'
-                            : 'Submit for 5 Coins',
+                    askAnExpertProvider.doubtUploadStatus == Status.Sending
+                        ? 'Submitting'
+                        : 'Submit',
                     onPressed: onSubmitPressed,
                   ),
                 ],
