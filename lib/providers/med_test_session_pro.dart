@@ -72,7 +72,7 @@ class MedTestSessionsPro extends ChangeNotifier {
               deckType: deckGroupData['deckType'],
               deckGroupName: deckGroupData['deckGroupName'],
               deckItems: deckItems,
-              deckNameCount: deckNameCount,
+             // deckNameCount: deckNameCount,
               deckGroupImage: deckGroupImage,
               isPublished: deckGroupData['isPublished'],
             );

@@ -51,6 +51,7 @@ class _AnalyticsState extends State<Analytics> {
 
   @override
   Widget build(BuildContext context) {
+    print("these are the correct attempts${widget.correct}, incorrect${widget.incorrect} skipped${widget.skipped} ");
     return Scaffold(
         backgroundColor: PreMedColorTheme().background,
         appBar: PreferredSize(
@@ -119,6 +120,7 @@ class _AnalyticsState extends State<Analytics> {
                             fontSize: 28, fontWeight: FontWeight.w800),
                       ),
                       SizedBoxes.verticalLarge,
+
                       AttemptPieChart(
                         correct: widget.correct,
                         incorrect: widget.incorrect,

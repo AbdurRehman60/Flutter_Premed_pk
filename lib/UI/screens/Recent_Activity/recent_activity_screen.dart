@@ -9,7 +9,6 @@ import 'package:premedpk_mobile_app/providers/question_provider.dart';
 import 'package:premedpk_mobile_app/providers/recent_atempts_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/info_thru_deckname_provider.dart';
-import '../../../providers/user_provider.dart';
 import '../../../providers/vaultProviders/premed_provider.dart';
 import '../Test Interface/test_interface_home.dart';
 import '../The vault/widgets/back_button.dart';
@@ -151,7 +150,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
           attemptId: attemptId,
           subject: subject ?? '',
           startFromQuestion: startFromQuestion,
-          isContinuingAttempt: true,
+          isContinuingAttempt: false,
           totalquestions:totalquestions ,
         ),
       ),
@@ -173,7 +172,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
           attemptId: attemptId,
           subject: subject ?? '',
           startFromQuestion: startFromQuestion,
-          isContinuingAttempt: true,
+          isContinuingAttempt: false,
           totalquestions: totalquestions,
           lastdone: '',
         ),
@@ -196,7 +195,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
           mode: recentAttempt.mode,
           resume: () {
             setState(() {
-              isContinuingAttempt = true;
+              isContinuingAttempt = false;
             });
             Navigator.pop(context);
             _resumeAttempt(context, recentAttempt);

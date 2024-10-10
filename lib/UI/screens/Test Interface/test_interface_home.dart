@@ -7,7 +7,6 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/question_model.dart';
 import '../../../models/recent_attempts_model.dart';
 import '../../../providers/deck_info_provider.dart';
@@ -31,6 +30,7 @@ class TestInterface extends StatefulWidget {
     this.isRecent,
     required this.totalquestions,
     this.questionlist,
+    
   });
 
   final List<String>? questionlist;
@@ -42,6 +42,7 @@ class TestInterface extends StatefulWidget {
   final String deckName;
   final int startFromQuestion;
   final String subject;
+  
 
   @override
   State<TestInterface> createState() => _TestInterfaceState();
@@ -64,16 +65,15 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 
   void _startTimer() {
-    if (widget.isReview == true) {
-      return;
-    }
+    _stopwatch.reset();
+    _stopwatch.start();
 
+    _durationNotifier.value = const Duration(hours: 2);
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (!isPaused && _durationNotifier.value.inSeconds > 0) {
-        _durationNotifier.value =
-            _durationNotifier.value - const Duration(seconds: 1);
-      } else if (_durationNotifier.value.inSeconds == 0) {
-        timer.cancel();
+      _durationNotifier.value =
+          _durationNotifier.value - const Duration(seconds: 1);
+      if (_durationNotifier.value <= Duration.zero) {
+        _timer?.cancel();
       }
     });
   }
@@ -87,12 +87,17 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 
   String? parse(String toParse) {
-    return htmlparser.parse(toParse).body?.text;
+    return htmlparser
+        .parse(toParse)
+        .body
+        ?.text;
   }
 
   bool isBase64(String str) {
     try {
-      base64Decode(str.split(',').last);
+      base64Decode(str
+          .split(',')
+          .last);
       return true;
     } catch (e) {
       return false;
@@ -114,7 +119,7 @@ class _TestInterfaceState extends State<TestInterface> {
   Future<void> _showFinishDialog() async {
     Navigator.pop(context);
     final attemptProvider =
-        Provider.of<AttemptProvider>(context, listen: false);
+    Provider.of<AttemptProvider>(context, listen: false);
     final unattemptedQuestions =
         widget.totalquestions - correctAttempts - incorrectAttempts;
 
@@ -159,56 +164,58 @@ class _TestInterfaceState extends State<TestInterface> {
               onPressed: _isLoading
                   ? null
                   : () async {
-                      setState(() {
-                        _isLoading = true;
-                      });
+                setState(() {
+                  _isLoading = true;
+                });
 
-                      final attempted = correctAttempts + incorrectAttempts;
+                final attempted = correctAttempts + incorrectAttempts;
 
-                      await attemptProvider.updateResult(
-                        attemptId: widget.attemptId,
-                        attempted: attempted,
-                        avgTimeTaken: totalTimeTaken / widget.totalquestions,
-                        deckName: widget.deckName,
-                        negativesDueToWrong: 0,
-                        noOfNegativelyMarked: 0,
-                        totalMarks: correctAttempts,
-                        totalQuestions: widget.totalquestions,
-                        totalTimeTaken: totalTimeTaken,
-                      );
+                await attemptProvider.updateResult(
+                  attemptId: widget.attemptId,
+                  attempted: attempted,
+                  avgTimeTaken: totalTimeTaken / widget.totalquestions,
+                  deckName: widget.deckName,
+                  negativesDueToWrong: 0,
+                  noOfNegativelyMarked: 0,
+                  totalMarks: correctAttempts,
+                  totalQuestions: widget.totalquestions,
+                  totalTimeTaken: totalTimeTaken,
+                );
 
-                      setState(() {
-                        _isLoading = false;
-                      });
+                setState(() {
+                  _isLoading = false;
+                });
 
-                      if (attemptProvider.status == AStatus.success) {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Analytics(
-                              attemptId: widget.attemptId,
-                              correct: correctAttempts,
-                              incorrect: incorrectAttempts,
-                              skipped: skippedAttempts,
-                            ),
+                if (attemptProvider.status == AStatus.success) {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          Analytics(
+                            attemptId: widget.attemptId,
+                            correct: correctAttempts,
+                            incorrect: incorrectAttempts,
+                            skipped: skippedAttempts,
                           ),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                                'Failed to update the result: ${attemptProvider.message}'),
-                          ),
-                        );
-                      }
-                    },
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          'Failed to update the result: ${attemptProvider
+                              .message}'),
+                    ),
+                  );
+                }
+              },
               child: _isLoading
                   ? const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
                   : const Text('Finish'),
             ),
           ],
@@ -224,12 +231,13 @@ class _TestInterfaceState extends State<TestInterface> {
         : 'Removed from FlashCards';
     showDialog(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (context) =>
+            AlertDialog(
               title: Text(
                 message,
                 style: PreMedTextTheme().body.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               actions: [
                 InkWell(
@@ -240,7 +248,9 @@ class _TestInterfaceState extends State<TestInterface> {
                     height: 40,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        color: Provider.of<PreMedProvider>(context).isPreMed
+                        color: Provider
+                            .of<PreMedProvider>(context)
+                            .isPreMed
                             ? PreMedColorTheme().red
                             : PreMedColorTheme().blue,
                         borderRadius: BorderRadius.circular(15)),
@@ -265,7 +275,7 @@ class _TestInterfaceState extends State<TestInterface> {
   final Stopwatch _stopwatch = Stopwatch();
   Timer? _timer;
   final ValueNotifier<Duration> _durationNotifier =
-      ValueNotifier(const Duration(hours: 2));
+  ValueNotifier(const Duration(hours: 2));
   bool showNumberLine = false;
   bool isPaused = false;
 
@@ -276,131 +286,246 @@ class _TestInterfaceState extends State<TestInterface> {
   bool isPrefetched = false;
   late List<String?> selectedOptions;
   late List<bool?> isCorrectlyAnswered;
+  int dotCount = 0;
+  Timer? timer;
+  String loadingText = "Questions are loading";
+  final ValueNotifier<int> _dotCountNotifier = ValueNotifier<int>(0);
 
   @override
   void initState() {
     super.initState();
-    print(
-        "Navigating to test interface with attemptId: ${widget.attemptId}, deck name: ${widget.deckName}, startFromQuestion: ${widget.startFromQuestion}, isContinueAttempt: ${widget.isContinuingAttempt}");
+    startLoadingAnimation();
 
-    selectedOptions = List<String?>.filled(widget.totalquestions, null, growable: true);
-    isCorrectlyAnswered = List<bool?>.filled(widget.totalquestions, null, growable: true);
+    print(
+        "Navigating to test interface with attemptId: ${widget
+            .attemptId}, deck name: ${widget
+            .deckName}, startFromQuestion: ${widget
+            .startFromQuestion}, isContinueAttempt: ${widget
+            .isContinuingAttempt}"
+    );
+
+    selectedOptions =
+    List<String?>.filled(widget.totalquestions, null, growable: true);
+    isCorrectlyAnswered =
+    List<bool?>.filled(widget.totalquestions, null, growable: true);
+
 
     if (widget.isReview == true) {
-      print("DEBUG: Review mode detected, starting from question 0");
-      currentQuestionIndex = 0;
-    } else if (widget.isContinuingAttempt == true) {
-      final deckProvider = Provider.of<DeckProvider>(context, listen: false);
-      final lastAttempt = deckProvider.deckInformation?.lastAttempt;
-
-      if (lastAttempt != null && lastAttempt['attempts'] != null) {
-        final attempts = lastAttempt['attempts'];
-
-        final lastAttemptedQuestion = attempts.lastWhere(
-              (attempt) => attempt['attempted'] == true,
-          orElse: () => attempts.first,
-        );
-
-        _fetchQuestionsUntilFound(lastAttemptedQuestion['questionId']);
-      } else {
-        currentQuestionIndex = 0;
-      }
-    }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchInitialQuestions().then((_) {
-        if (widget.isReview == true || widget.isContinuingAttempt == true || widget.isRecent == true) {
-          _loadPreviousSelections();
-        } else {
-          _clearSelectionsForReattempt();
-        }
-
-        if (widget.isReview != true) {
-          _startTimer();
-        }
+      _fetchAllQuestions().then((_) {
+        _loadReviewData();
       });
-    });
-  }
-  Future<void> _fetchQuestionsUntilFound(String questionId) async {
-    setState(() {
-      isLoading = true;
-    });
-
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
-    questionProvider.clearQuestions();
-
-    int currentPage = 1;
-    bool questionFound = false;
-
-    while (!questionFound) {
-      if (!questionProvider.isPageLoaded(currentPage)) {
-        print("Fetching page $currentPage to load the required question.");
-        await questionProvider.fetchQuestions(widget.deckName, currentPage);
-      }
-
-      final questionIndex = getIndexForQuestionId(questionId);
-
-      if (questionIndex != -1) {
-        currentQuestionIndex = questionIndex;
-        questionFound = true;
-        print("DEBUG: Found question $questionId at index $currentQuestionIndex.");
-      } else {
-        currentPage++;
-        if (currentPage > (widget.totalquestions ~/ 10) + 1) {
-          print("DEBUG: Question ID not found after loading all pages, starting from the first question.");
-          currentQuestionIndex = 0;
-          questionFound = true;
-        }
-      }
+    } else if (widget.isContinuingAttempt == true) {
+      _fetchAllQuestions().then((_) {
+        _loadAttemptData();
+      });
+    }  else if (widget.isRecent == true) {
+      _fetchAllQuestions().then((_) {
+        _loadPreviousSelections(); 
+      });    }  else {
+      _clearSelectionsForReattempt();
     }
 
-    setState(() {
-      isLoading = false;
-    });
-  }
-  int getIndexForQuestionId(String questionId) {
-    final questions = Provider.of<QuestionProvider>(context, listen: false).questions;
 
-    if (questions != null) {
-      for (int i = 0; i < questions.length; i++) {
-        if (questions[i].questionId == questionId) {
-          return i;
-        }
-      }
+    if (widget.isReview != true) {
+      _startTimer();
     }
-    return -1;
   }
+
+
+  void _clearSelectionsForReattempt() {
+    selectedOptions.fillRange(0, widget.totalquestions, null);
+    isCorrectlyAnswered.fillRange(0, widget.totalquestions, null);
+
+    setState(() {
+      _fetchInitialQuestions();
+    });
+
+
+    _startTimer();
+  }
+
   Future<void> _fetchInitialQuestions() async {
     setState(() {
       isLoading = true;
     });
 
-    final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+    final questionProvider = Provider.of<QuestionProvider>(
+        context, listen: false);
     questionProvider.clearQuestions();
-    questionProvider.deckName = widget.deckName;
+
+    Set<String> loadedQuestionIds = {};
+
 
     int startPage = (widget.startFromQuestion) ~/ 10 + 1;
 
     for (int page = 1; page <= startPage; page++) {
       if (!questionProvider.isPageLoaded(page)) {
+        print("DEBUG: Fetching questions from page: $page");
         await questionProvider.fetchQuestions(widget.deckName, page);
+
+
+        questionProvider.questions.removeWhere((q) =>
+            loadedQuestionIds.contains(q.questionId));
+        loadedQuestionIds.addAll(
+            questionProvider.questions.map((q) => q.questionId));
       }
     }
+
     setState(() {
       isLoading = false;
       currentPage = startPage;
     });
   }
+
+  Future<void> _loadAttemptData() async {
+    print("DEBUG: Continuing Attempt Mode");
+
+    final deckProvider = Provider.of<DeckProvider>(context, listen: false);
+    final lastAttempt = deckProvider.deckInformation?.lastAttempt;
+
+    if (lastAttempt != null && lastAttempt['attempts'] != null) {
+      final attempts = lastAttempt['attempts'];
+
+      if (attempts.isEmpty) {
+        setState(() {
+          currentQuestionIndex = 0;
+        });
+        return;
+      }
+
+      Set<String> loadedQuestionIds = {};
+      int lastAttemptedIndex = -1;
+
+      for (int i = 0; i < attempts.length; i++) {
+        final attempt = attempts[i];
+        final questionId = attempt['questionId'];
+        final questionIndex = getIndexForQuestionId(questionId);
+
+        if (questionIndex != -1) {
+          if (loadedQuestionIds.contains(questionId)) {
+            print("DEBUG: Skipping duplicate entry for questionId $questionId");
+            continue;
+          }
+          loadedQuestionIds.add(questionId);
+
+          selectedOptions[questionIndex] = attempt['selection'];
+          isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
+
+          if (attempt['attempted'] == true) {
+            _highlightAttemptedQuestion(questionIndex);
+            lastAttemptedIndex = i;
+          }
+        }
+      }
+
+      if (lastAttemptedIndex != -1) {
+        final lastAttemptedQuestionId = attempts[lastAttemptedIndex]['questionId'];
+        final lastAttemptedIndexValue = getIndexForQuestionId(
+            lastAttemptedQuestionId);
+
+        setState(() {
+          currentQuestionIndex =
+          lastAttemptedIndexValue != -1 ? lastAttemptedIndexValue : 0;
+          print(
+              "DEBUG: Continuing from last attempted question at index: $currentQuestionIndex");
+        });
+      } else {
+        setState(() {
+          currentQuestionIndex = 0;
+          print("DEBUG: No attempted question found, starting from index 0.");
+        });
+      }
+    } else {
+      setState(() {
+        currentQuestionIndex = 0;
+      });
+    }
+  }
+
+  Future<void> _loadReviewData() async {
+    print("DEBUG: Starting Review Mode");
+
+    final deckProvider = Provider.of<DeckProvider>(context, listen: false);
+    final lastAttempt = deckProvider.deckInformation?.lastAttempt;
+
+    if (lastAttempt != null && lastAttempt['attempts'] != null) {
+      final attempts = lastAttempt['attempts'];
+
+
+      Set<String> loadedQuestionIds = {};
+      int attemptedQuestionCount = 0;
+
+      for (final attempt in attempts) {
+        final questionId = attempt['questionId'];
+        final questionIndex = getIndexForQuestionId(questionId);
+
+        if (questionIndex != -1) {
+          if (loadedQuestionIds.contains(questionId)) {
+            print("DEBUG: Skipping duplicate entry for questionId $questionId");
+            continue;
+          }
+          loadedQuestionIds.add(questionId);
+
+          selectedOptions[questionIndex] = attempt['selection'];
+          isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
+
+          if (attempt['attempted'] == true) {
+            _highlightAttemptedQuestion(questionIndex);
+            attemptedQuestionCount++;
+          }
+        }
+      }
+
+
+      print(
+          "DEBUG: Total attempted questions fetched: $attemptedQuestionCount");
+
+
+      setState(() {
+        currentQuestionIndex = 0;
+        print("DEBUG: Starting review from the 0th question.");
+      });
+    } else {
+      setState(() {
+        currentQuestionIndex = 0;
+      });
+    }
+  }
+
+  void _highlightAttemptedQuestion(int questionIndex) {
+    setState(() {
+      isCorrectlyAnswered[questionIndex] = true;
+    });
+  }
+
+  int getIndexForQuestionId(String questionId) {
+    final questions = Provider
+        .of<QuestionProvider>(context, listen: false)
+        .questions;
+
+    if (questions.isNotEmpty) {
+      for (int i = 0; i < questions.length; i++) {
+        if (questions[i].questionId == questionId) {
+          print("DEBUG: Found questionId $questionId at index $i");
+          return i;
+        }
+      }
+    }
+    print("DEBUG: questionId $questionId not found in current questions list");
+    return -1;
+  }
+
   Future<void> nextQuestion() async {
     if (isLoading) return;
 
     updateAttempt();
 
     final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+    Provider.of<QuestionProvider>(context, listen: false);
     final deckInfo =
-        Provider.of<DeckProvider>(context, listen: false).deckInformation;
+        Provider
+            .of<DeckProvider>(context, listen: false)
+            .deckInformation;
 
     if (currentQuestionIndex < widget.totalquestions - 1) {
       setState(() {
@@ -417,14 +542,15 @@ class _TestInterfaceState extends State<TestInterface> {
           isPrefetched = true;
         }
 
-        if (questionProvider.questions!.length > currentQuestionIndex) {
-          final question = questionProvider.questions![currentQuestionIndex];
+        if (questionProvider.questions.length > currentQuestionIndex) {
+          final question = questionProvider.questions[currentQuestionIndex];
           selectedOption = selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
 
           if (widget.isReview == true && selectedOption == null) {
             selectedOption =
-                deckInfo?.getSelectionForQuestion(question.questionId);
+                deckInfo?.getSelectionForQuestion(
+                    question.questionId, widget.attemptId);
             optionSelected = selectedOption != null;
           }
 
@@ -447,12 +573,14 @@ class _TestInterfaceState extends State<TestInterface> {
       print("Error: Attempted to access an invalid question index.");
     }
   }
+
   Future<void> _fetchNextSetOfQuestions(int nextPage) async {
     setState(() {
       isLoading = true;
     });
 
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final questionProvider = Provider.of<QuestionProvider>(
+        context, listen: false);
 
     if (!questionProvider.isPageLoaded(nextPage)) {
       print("Fetching questions from page: $nextPage");
@@ -463,14 +591,59 @@ class _TestInterfaceState extends State<TestInterface> {
       isLoading = false;
     });
   }
+
+  Future<void> _fetchAllQuestions() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final questionProvider = Provider.of<QuestionProvider>(
+        context, listen: false);
+    questionProvider.clearQuestions();
+
+    Set<String> loadedQuestionIds = {};
+    int page = 1;
+    bool hasMoreQuestions = true;
+    int totalQuestions = widget.totalquestions;
+    int questionsPerPage = 10;
+
+    print("DEBUG: Fetching all questions until all are loaded");
+
+
+    while (hasMoreQuestions && (page - 1) * questionsPerPage < totalQuestions) {
+      print("DEBUG: Fetching questions from page: $page");
+      await questionProvider.fetchQuestions(widget.deckName, page);
+
+      questionProvider.questions.removeWhere((q) =>
+          loadedQuestionIds.contains(q.questionId));
+
+      final fetchedQuestionIds = questionProvider.questions.map((q) =>
+      q.questionId) ?? [];
+
+      if (fetchedQuestionIds.isNotEmpty) {
+        loadedQuestionIds.addAll(fetchedQuestionIds);
+        page++;
+      } else {
+        hasMoreQuestions = false;
+      }
+    }
+
+    setState(() {
+      isLoading = false;
+      currentPage = page - 1;
+    });
+  }
+
   Future<void> previousQuestion() async {
     if (isLoading) return;
     updateAttempt();
 
     final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+    Provider.of<QuestionProvider>(context, listen: false);
     final deckInfo =
-        Provider.of<DeckProvider>(context, listen: false).deckInformation;
+        Provider
+            .of<DeckProvider>(context, listen: false)
+            .deckInformation;
 
     if (currentQuestionIndex > 0) {
       setState(() {
@@ -479,15 +652,16 @@ class _TestInterfaceState extends State<TestInterface> {
         if (currentQuestionIndex % 10 == 9 && currentPage > 1) {
           currentPage--;
           _fetchNextSetOfQuestions(currentPage).then((_) {
-            if (questionProvider.questions!.length > currentQuestionIndex) {
+            if (questionProvider.questions.length > currentQuestionIndex) {
               final question =
-                  questionProvider.questions![currentQuestionIndex];
+              questionProvider.questions[currentQuestionIndex];
               selectedOption = selectedOptions[currentQuestionIndex];
               optionSelected = selectedOption != null;
 
               if (widget.isReview == true && selectedOption == null) {
                 selectedOption =
-                    deckInfo?.getSelectionForQuestion(question.questionId);
+                    deckInfo?.getSelectionForQuestion(
+                        question.questionId, widget.attemptId);
                 optionSelected = selectedOption != null;
               }
 
@@ -502,14 +676,15 @@ class _TestInterfaceState extends State<TestInterface> {
                   "Error: Attempted to access a question that hasn't been loaded yet.");
             }
           });
-        } else if (questionProvider.questions!.length > currentQuestionIndex) {
-          final question = questionProvider.questions![currentQuestionIndex];
+        } else if (questionProvider.questions.length > currentQuestionIndex) {
+          final question = questionProvider.questions[currentQuestionIndex];
           selectedOption = selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
 
           if (widget.isReview == true && selectedOption == null) {
             selectedOption =
-                deckInfo?.getSelectionForQuestion(question.questionId);
+                deckInfo?.getSelectionForQuestion(
+                    question.questionId, widget.attemptId);
             optionSelected = selectedOption != null;
           }
 
@@ -531,11 +706,14 @@ class _TestInterfaceState extends State<TestInterface> {
       );
     }
   }
-  Future<void> _loadQuestionsBetween(
-      int startQuestionIndex, int endQuestionIndex) async {setState(() {
+
+  Future<void> _loadQuestionsBetween(int startQuestionIndex,
+      int endQuestionIndex) async {
+    setState(() {
       isLoading = true;
-    });final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+    });
+    final questionProvider =
+    Provider.of<QuestionProvider>(context, listen: false);
 
     int startPage = (startQuestionIndex ~/ 10) + 1;
     int endPage = (endQuestionIndex ~/ 10) + 1;
@@ -551,7 +729,8 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 
   Future<void> _skipToQuestion(int targetIndex) async {
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final questionProvider = Provider.of<QuestionProvider>(
+        context, listen: false);
 
     if (currentQuestionIndex == targetIndex) return;
 
@@ -571,8 +750,10 @@ class _TestInterfaceState extends State<TestInterface> {
       optionSelected = selectedOption != null;
 
       if (widget.isRecent == true) {
-        final recentProvider = Provider.of<RecentAttemptsProvider>(context, listen: false);
-        final List<RecentAttempt> recentAttempts = recentProvider.recentAttempts;
+        final recentProvider = Provider.of<RecentAttemptsProvider>(
+            context, listen: false);
+        final List<RecentAttempt> recentAttempts = recentProvider
+            .recentAttempts;
 
         final recentAttempt = recentAttempts.firstWhere(
               (attempt) => attempt.id == widget.attemptId,
@@ -580,7 +761,7 @@ class _TestInterfaceState extends State<TestInterface> {
         );
 
         if (recentAttempt.attempts != null) {
-          final question = questionProvider.questions![currentQuestionIndex];
+          final question = questionProvider.questions[currentQuestionIndex];
 
           final recentSelection = recentAttempt.attempts!.attempts!
               .firstWhere(
@@ -588,10 +769,10 @@ class _TestInterfaceState extends State<TestInterface> {
             orElse: () => AttemptofQuestions(questionId: question.questionId),
           ).selection;
 
-          selectedOption = recentSelection ?? selectedOptions[currentQuestionIndex];
+          selectedOption =
+              recentSelection ?? selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
         }
-
       } else if (widget.isContinuingAttempt) {
         final deckProvider = Provider.of<DeckProvider>(context, listen: false);
         final deckInfo = deckProvider.deckInformation;
@@ -599,7 +780,7 @@ class _TestInterfaceState extends State<TestInterface> {
         if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
           final lastAttempt = deckInfo.lastAttempt;
 
-          final question = questionProvider.questions![currentQuestionIndex];
+          final question = questionProvider.questions[currentQuestionIndex];
 
           final continuingSelection = lastAttempt['attempts']!
               .firstWhere(
@@ -607,17 +788,17 @@ class _TestInterfaceState extends State<TestInterface> {
             orElse: () => {},
           )['selection'];
 
-          selectedOption = continuingSelection ?? selectedOptions[currentQuestionIndex];
+          selectedOption =
+              continuingSelection ?? selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
         }
-
       } else if (widget.isReview == true) {
         final deckProvider = Provider.of<DeckProvider>(context, listen: false);
         final deckInfo = deckProvider.deckInformation;
         if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
           final lastAttempt = deckInfo.lastAttempt;
 
-          final question = questionProvider.questions![currentQuestionIndex];
+          final question = questionProvider.questions[currentQuestionIndex];
 
           final reviewSelection = lastAttempt['attempts']!
               .firstWhere(
@@ -625,7 +806,8 @@ class _TestInterfaceState extends State<TestInterface> {
             orElse: () => {},
           )['selection'];
 
-          selectedOption = reviewSelection ?? selectedOptions[currentQuestionIndex];
+          selectedOption =
+              reviewSelection ?? selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
         }
       }
@@ -640,46 +822,54 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 
   Future<void> _loadPreviousSelections() async {
-    if (widget.isRecent == true) {
-      print("Recent attempt mode activated");
-      final recentProvider = Provider.of<RecentAttemptsProvider>(context, listen: false);
-      final List<RecentAttempt> recentAttempts = recentProvider.recentAttempts;
+    print("DEBUG: Recent attempt mode activated");
 
-      final recentAttempt = recentAttempts.firstWhere(
-            (attempt) => attempt.id == widget.attemptId,
-        orElse: () => RecentAttempt(attempts: Attempts(attempts: [])),
-      );
+    final recentProvider = Provider.of<RecentAttemptsProvider>(
+        context, listen: false);
+    final List<RecentAttempt> recentAttempts = recentProvider.recentAttempts;
 
-      int startQuestionIndex = 0;
+    
+    final recentAttempt = recentAttempts.firstWhere(
+          (attempt) => attempt.id == widget.attemptId,
+      orElse: () => RecentAttempt(attempts: Attempts(attempts: [])),
+    );
 
-      if (recentAttempt.attempts != null && recentAttempt.attempts!.attempts != null && recentAttempt.attempts!.attempts!.isNotEmpty) {
-        final allAttempts = recentAttempt.attempts!.attempts!;
-        final lastAttemptedQuestionId = allAttempts.last.questionId;
-        print("Last Attempted Question ID: $lastAttemptedQuestionId");
+    if (recentAttempt.attempts != null &&
+        recentAttempt.attempts!.attempts != null &&
+        recentAttempt.attempts!.attempts!.isNotEmpty) {
+      final allAttempts = recentAttempt.attempts!.attempts!;
+      final lastAttemptedQuestionId = allAttempts.last.questionId;
+      print("Last Attempted Question ID: $lastAttemptedQuestionId");
 
-        startQuestionIndex = getIndexForQuestionId(lastAttemptedQuestionId ?? '');
+      int startQuestionIndex = getIndexForQuestionId(
+          lastAttemptedQuestionId ?? '');
 
-        print("startQuestionIndex calculated by getIndexForQuestionId: $startQuestionIndex");
+      print(
+          "startQuestionIndex calculated by getIndexForQuestionId: $startQuestionIndex");
 
-        if (startQuestionIndex == -1) {
-          print("Invalid startQuestionIndex. Fallback to 0.");
-          startQuestionIndex = 0;
-        }
+      if (startQuestionIndex == -1) {
+        print("Invalid startQuestionIndex. Fallback to 0.");
+        startQuestionIndex = 0;
+      }
 
-        final endQuestionIndex = allAttempts.length - 1;
-        await _loadQuestionsBetween(startQuestionIndex, endQuestionIndex);
+      
+      final endQuestionIndex = allAttempts.length - 1;
 
-        for (final attempt in allAttempts) {
-          final int questionIndex = getIndexForQuestionId(attempt.questionId ?? '');
-          if (questionIndex != -1) {
-            print("Processing question at index: $questionIndex");
-            selectedOptions[questionIndex] = attempt.selection;
-            isCorrectlyAnswered[questionIndex] = attempt.isCorrect;
+      
+      await _loadQuestionsBetween(startQuestionIndex, endQuestionIndex);
 
-            if (questionIndex == currentQuestionIndex) {
-              selectedOption = attempt.selection;
-              optionSelected = selectedOption != null;
-            }
+      
+      for (final attempt in allAttempts) {
+        final int questionIndex = getIndexForQuestionId(
+            attempt.questionId ?? '');
+        if (questionIndex != -1) {
+          print("Processing question at index: $questionIndex");
+          selectedOptions[questionIndex] = attempt.selection;
+          isCorrectlyAnswered[questionIndex] = attempt.isCorrect;
+
+          if (questionIndex == currentQuestionIndex) {
+            selectedOption = attempt.selection;
+            optionSelected = selectedOption != null;
           }
         }
       }
@@ -688,137 +878,41 @@ class _TestInterfaceState extends State<TestInterface> {
         currentQuestionIndex = startQuestionIndex;
         print("Set currentQuestionIndex to start from $startQuestionIndex");
       });
-    }
-    else {
-      final deckProvider = Provider.of<DeckProvider>(context, listen: false);
-      final deckInfo = deckProvider.deckInformation;
-
-      if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
-        final lastAttempt = deckInfo.lastAttempt;
-
-        if (lastAttempt['attempts'] != null) {
-          for (final attempt in lastAttempt['attempts']) {
-            final int questionIndex = getIndexForQuestionId(attempt['questionId']);
-            if (questionIndex != -1) {
-              selectedOptions[questionIndex] = attempt['selection'];
-              isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
-
-              if (questionIndex == currentQuestionIndex) {
-                selectedOption = attempt['selection'];
-                optionSelected = selectedOption != null;
-              }
-            }
-          }
-        }
-
-        setState(() {});
-      }
-
-      else if (widget.isContinuingAttempt) {
-        if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
-          final lastAttempt = deckInfo.lastAttempt;
-
-          if (lastAttempt['attempts'] != null) {
-            final List<dynamic> attempts = lastAttempt['attempts'];
-
-            // Load all the questions between 0 and the length of attempts
-            await _loadQuestionsBetween(0, attempts.length - 1);
-
-            int lastAttemptedIndex = -1; // Index of the last attempted question
-
-            for (int i = 0; i < attempts.length; i++) {
-              final attempt = attempts[i];
-              final int questionIndex = getIndexForQuestionId(attempt['questionId']);
-              if (questionIndex != -1) {
-                selectedOptions[questionIndex] = attempt['selection'];
-                isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
-              }
-
-              // Track the index of the last attempted question
-              if (attempt['attempted'] == true) {
-                lastAttemptedIndex = i;
-              }
-            }
-
-            // Set currentQuestionIndex to the last attempted question's index or 0 if none attempted
-            setState(() {
-              currentQuestionIndex = (lastAttemptedIndex != -1) ? lastAttemptedIndex : 0;
-              print("Set currentQuestionIndex to $currentQuestionIndex to continue where user left off");
-            });
-          }
-        }
-      }
-
-
-      else if (widget.isReview == true) {
-        print("Review mode activated");
-
-        // Load all questions for review
-        if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
-          final lastAttempt = deckInfo.lastAttempt;
-
-          if (lastAttempt['attempts'] != null) {
-            final List<dynamic> attempts = lastAttempt['attempts'];
-
-            await _loadQuestionsBetween(0, attempts.length - 1);
-
-            for (final attempt in attempts) {
-              final int questionIndex = getIndexForQuestionId(attempt['questionId']);
-              if (questionIndex != -1) {
-                selectedOptions[questionIndex] = attempt['selection'];
-                isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
-              }
-            }
-
-            setState(() {
-              currentQuestionIndex = 0;
-              print("Set currentQuestionIndex to 0 for review");
-            });
-          }
-        }
-      }
+    } else {
+      print("No previous attempts found for Recent mode");
+      setState(() {
+        currentQuestionIndex = 0;
+      });
     }
   }
 
-
-  void _clearSelectionsForReattempt() {
-    selectedOptions.fillRange(0, widget.totalquestions, null);
-    isCorrectlyAnswered.fillRange(0, widget.totalquestions, null);
-    setState(() {});
-  }
 
   @override
   void dispose() {
-    if (widget.isReview != true) {
-      _saveCurrentQuestionIndex();
-    }
     _timer?.cancel();
     _durationNotifier.dispose();
+    _stopwatch.stop();
+    timer?.cancel();
+    _dotCountNotifier.dispose();
+
     super.dispose();
   }
-
-  Future<void> _saveCurrentQuestionIndex() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setInt(
-        'currentQuestionIndex_${widget.attemptId}', currentQuestionIndex);
-  }
-
   void updateAttempt() {
     if (widget.isReview == true) {
       return;
     }
 
     final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+    Provider.of<QuestionProvider>(context, listen: false);
     final attemptProvider =
-        Provider.of<AttemptProvider>(context, listen: false);
+    Provider.of<AttemptProvider>(context, listen: false);
 
     if (currentQuestionIndex < widget.totalquestions) {
       _stopwatch.stop();
       final timeTaken = _stopwatch.elapsedMilliseconds;
       totalTimeTaken += (timeTaken / 1000).round();
 
-      final question = questionProvider.questions![currentQuestionIndex];
+      final question = questionProvider.questions[currentQuestionIndex];
       if (optionSelected) {
         final selectedOptionObj = question.options
             .singleWhere((option) => option.optionLetter == selectedOption);
@@ -835,7 +929,7 @@ class _TestInterfaceState extends State<TestInterface> {
       }
 
       final correctOption =
-          question.options.singleWhere((option) => option.isCorrect);
+      question.options.singleWhere((option) => option.isCorrect);
 
       final attemptData = {
         'attemptId': widget.attemptId,
@@ -874,9 +968,9 @@ class _TestInterfaceState extends State<TestInterface> {
     setState(() {
       currentQuestionIndex = 0;
       selectedOptions =
-          List<String?>.filled(widget.totalquestions, null, growable: true);
+      List<String?>.filled(widget.totalquestions, null, growable: true);
       isCorrectlyAnswered =
-          List<bool?>.filled(widget.totalquestions, null, growable: true);
+      List<bool?>.filled(widget.totalquestions, null, growable: true);
       _stopwatch.reset();
       _durationNotifier.value = const Duration(hours: 2);
       _timer?.cancel();
@@ -886,11 +980,17 @@ class _TestInterfaceState extends State<TestInterface> {
     });
   }
 
+  void startLoadingAnimation() {
+    _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+      _dotCountNotifier.value = (_dotCountNotifier.value + 1) % 4; 
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final questionProvider =
-        Provider.of<QuestionProvider>(context, listen: false);
+    Provider.of<QuestionProvider>(context, listen: false);
     final questions = questionProvider.questions;
 
     if (isLoading || questions == null || questions.isEmpty) {
@@ -959,7 +1059,24 @@ class _TestInterfaceState extends State<TestInterface> {
             ),
           ),
         ),
-        body: const Center(child: CircularProgressIndicator()),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              const SizedBox(height: 16),
+              ValueListenableBuilder<int>(
+                valueListenable: _dotCountNotifier,
+                builder: (context, dotCount, child) {
+                  return Text(
+                    "Questions are loading${'.' * dotCount}", 
+                    style: const TextStyle(fontSize: 16),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
       );
     }
 
@@ -1005,9 +1122,9 @@ class _TestInterfaceState extends State<TestInterface> {
               child: Text(
                 'QUESTION ${currentQuestionIndex + 1}',
                 style: PreMedTextTheme().heading6.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  color: PreMedColorTheme().black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             actions: [
@@ -1051,10 +1168,10 @@ class _TestInterfaceState extends State<TestInterface> {
               Text(
                 parse(question.questionText) ?? '',
                 style: PreMedTextTheme().body.copyWith(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w400,
-                      color: PreMedColorTheme().black,
-                    ),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w400,
+                  color: PreMedColorTheme().black,
+                ),
               ),
               const SizedBox(height: 16),
               Row(
@@ -1128,8 +1245,8 @@ class _TestInterfaceState extends State<TestInterface> {
                     ),
                     onPressed: () {
                       final question =
-                          Provider.of<QuestionProvider>(context, listen: false)
-                              .questions![currentQuestionIndex];
+                      Provider.of<QuestionProvider>(context, listen: false)
+                          .questions[currentQuestionIndex];
                       _eliminateOptions(question.options);
                     },
                     child: Row(
@@ -1153,8 +1270,8 @@ class _TestInterfaceState extends State<TestInterface> {
                     ),
                     onPressed: () {
                       final question =
-                          Provider.of<QuestionProvider>(context, listen: false)
-                              .questions![currentQuestionIndex];
+                      Provider.of<QuestionProvider>(context, listen: false)
+                          .questions![currentQuestionIndex];
                       _undoElimination(question.options);
                     },
                     child: Row(
@@ -1218,7 +1335,7 @@ class _TestInterfaceState extends State<TestInterface> {
                 final parsedOptionText = parse(option.optionText);
                 final isSelected = option.optionLetter == selectedOption;
                 final borderColor =
-                    isSelected ? Colors.blue : PreMedColorTheme().neutral400;
+                isSelected ? Colors.blue : PreMedColorTheme().neutral400;
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -1247,8 +1364,8 @@ class _TestInterfaceState extends State<TestInterface> {
                               child: Text(
                                 parsedOptionText ?? '',
                                 style: PreMedTextTheme().body.copyWith(
-                                      color: PreMedColorTheme().black,
-                                    ),
+                                  color: PreMedColorTheme().black,
+                                ),
                               ),
                             ),
                           ),
@@ -1345,12 +1462,12 @@ class _TestInterfaceState extends State<TestInterface> {
                             useSafeArea: true,
                             isScrollControlled: true,
                             sheetAnimationStyle:
-                                AnimationStyle(curve: Curves.bounceIn),
+                            AnimationStyle(curve: Curves.bounceIn),
                             context: context,
                             builder: (context) => TestBottomSheet(
                               addFlasCards: () async {
                                 await Provider.of<FlashcardProvider>(context,
-                                        listen: false)
+                                    listen: false)
                                     .removeFlashcard(
                                   userId: userProvider.user!.userId,
                                   subject: widget.subject,
@@ -1359,7 +1476,7 @@ class _TestInterfaceState extends State<TestInterface> {
                                 showSnackBarr();
                               },
                               questionNumber:
-                                  "${currentQuestionIndex + 1} of ${widget.totalquestions}",
+                              "${currentQuestionIndex + 1} of ${widget.totalquestions}",
                               timerWidget: Column(
                                 children: [
                                   ValueListenableBuilder<Duration>(
@@ -1368,11 +1485,11 @@ class _TestInterfaceState extends State<TestInterface> {
                                       return Text(
                                         _formatDuration(duration),
                                         style: PreMedTextTheme().body.copyWith(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w700,
-                                              color:
-                                                  PreMedColorTheme().neutral800,
-                                            ),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                          color:
+                                          PreMedColorTheme().neutral800,
+                                        ),
                                       );
                                     },
                                   ),
@@ -1406,7 +1523,7 @@ class _TestInterfaceState extends State<TestInterface> {
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const MainNavigationScreen(),
+                                    const MainNavigationScreen(),
                                   ),
                                 );
                               },
@@ -1432,19 +1549,19 @@ class _TestInterfaceState extends State<TestInterface> {
                         Text(
                           "${currentQuestionIndex + 1} of ${widget.totalquestions}",
                           style: PreMedTextTheme().body.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                                color: PreMedColorTheme().neutral800,
-                              ),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: PreMedColorTheme().neutral800,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           "ATTEMPTED",
                           style: PreMedTextTheme().body.copyWith(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                                color: PreMedColorTheme().neutral400,
-                              ),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                            color: PreMedColorTheme().neutral400,
+                          ),
                         ),
                       ],
                     ),
@@ -1457,10 +1574,10 @@ class _TestInterfaceState extends State<TestInterface> {
                             return Text(
                               _formatDuration(duration),
                               style: PreMedTextTheme().body.copyWith(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
-                                    color: PreMedColorTheme().neutral800,
-                                  ),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                                color: PreMedColorTheme().neutral800,
+                              ),
                             );
                           },
                         ),
@@ -1468,10 +1585,10 @@ class _TestInterfaceState extends State<TestInterface> {
                         Text(
                           "TIME LEFT",
                           style: PreMedTextTheme().body.copyWith(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                                color: PreMedColorTheme().neutral400,
-                              ),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                            color: PreMedColorTheme().neutral400,
+                          ),
                         ),
                       ],
                     ),
@@ -1503,3 +1620,1591 @@ class _TestInterfaceState extends State<TestInterface> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

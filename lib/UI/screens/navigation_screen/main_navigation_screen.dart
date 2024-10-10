@@ -76,8 +76,22 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   Future<void> _launchURL(String appToken) async {
-    final url =
-        'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
+    // Use listen: false to avoid rebuilds in this context
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final String lastonboarding = userProvider.user!.info.lastOnboardingPage;
+
+    // Check if the lastonboarding URL contains "pre-medical" to decide the bundle path
+    String bundlePath;
+    if (lastonboarding.contains("pre-medical")) {
+      bundlePath = "/bundles/mdcat";
+    } else {
+      bundlePath = "/bundles/all-in-one";
+    }
+
+    // Generate the final URL based on the condition
+    final url = 'https://premed.pk/app-redirect?url=$appToken&&route=$bundlePath';
+
+    // Try to launch the URL
     if (await canLaunch(url)) {
       await launch(url);
     } else {

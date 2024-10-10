@@ -5,7 +5,6 @@ import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../models/question_model.dart';
 import '../../../../models/recent_attempts_model.dart';
 import '../../../../providers/deck_info_provider.dart';
@@ -17,6 +16,7 @@ import '../../../../providers/save_question_provider.dart';
 import '../../../../providers/savedquestion_provider.dart';
 import '../../../../providers/update_attempt_provider.dart';
 import '../../../../providers/user_provider.dart';
+import '../../Dashboard_Screen/dashboard_screen.dart';
 import '../test_bottom_sheet.dart';
 import 'analytics.dart';
 
@@ -25,7 +25,7 @@ class TutorMode extends StatefulWidget {
     super.key,
     required this.deckName,
     required this.attemptId,
-    this.startFromQuestion,
+    this.startFromQuestion = 0,
     required this.subject,
     required this.isContinuingAttempt,
     this.isReview,
@@ -44,7 +44,7 @@ class TutorMode extends StatefulWidget {
   final bool isContinuingAttempt;
   final String attemptId;
   final String deckName;
-  final int? startFromQuestion;
+  final int startFromQuestion;
   final String subject;
   final String lastdone;
 
@@ -55,7 +55,6 @@ class TutorMode extends StatefulWidget {
 class _TutorModeState extends State<TutorMode> {
   List<Option> _eliminatedOptions = [];
   bool isLoading = false;
-
 
   void _eliminateOptions(List<Option> options) {
     _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
@@ -68,23 +67,26 @@ class _TutorModeState extends State<TutorMode> {
     setState(() {});
   }
 
-  int currentQuestionIndex = 0;
-  int currentPage = 1;
-  String? selectedOption;
-  bool optionSelected = false;
-  final Stopwatch _stopwatch = Stopwatch();
-  Timer? _timer;
-  final ValueNotifier<Duration> _durationNotifier =
-  ValueNotifier(const Duration(hours: 2));
-  bool showNumberLine = false;
-  bool isPaused = false;
-
-  int correctAttempts = 0;
-  int incorrectAttempts = 0;
-  int skippedAttempts = 0;
-  int totalTimeTaken = 0;
-  late List<String?> selectedOptions;
-  late List<bool?> isCorrectlyAnswered;
+  Future<void> _showComingSoonPopup(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Coming Soon!"),
+          content: const Text(
+              "We are working on this, come back later for updates."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Close"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void _startTimer() {
     if (widget.isReview == true) {
@@ -113,37 +115,37 @@ class _TutorModeState extends State<TutorMode> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text(
-            message,
-            style: PreMedTextTheme().body.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          actions: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Container(
-                height: 40,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Provider.of<PreMedProvider>(context).isPreMed
-                        ? PreMedColorTheme().red
-                        : PreMedColorTheme().blue,
-                    borderRadius: BorderRadius.circular(15)),
-                child: Center(
-                  child: Text(
-                    'OK',
-                    style: PreMedTextTheme()
-                        .body
-                        .copyWith(color: Colors.white),
-                  ),
-                ),
+              title: Text(
+                message,
+                style: PreMedTextTheme().body.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
               ),
-            )
-          ],
-        ));
+              actions: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    height: 40,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Provider.of<PreMedProvider>(context).isPreMed
+                            ? PreMedColorTheme().red
+                            : PreMedColorTheme().blue,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Center(
+                      child: Text(
+                        'OK',
+                        style: PreMedTextTheme()
+                            .body
+                            .copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ));
   }
 
   bool isBase64(String str) {
@@ -157,8 +159,9 @@ class _TutorModeState extends State<TutorMode> {
 
   Future<void> _showFinishDialog() async {
     final attemptProvider =
-    Provider.of<AttemptProvider>(context, listen: false);
-    final unattemptedQuestions = widget.totalquestions - correctAttempts - incorrectAttempts;
+        Provider.of<AttemptProvider>(context, listen: false);
+    final unattemptedQuestions =
+        widget.totalquestions - correctAttempts - incorrectAttempts;
 
     return showDialog<void>(
       context: context,
@@ -212,17 +215,12 @@ class _TutorModeState extends State<TutorMode> {
                   totalQuestions: widget.totalquestions,
                   totalTimeTaken: totalTimeTaken,
                 );
-                Navigator.push(
+                Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        Analytics(
-                          attemptId: widget.attemptId,
-                          correct: correctAttempts,
-                          incorrect: incorrectAttempts,
-                          skipped: skippedAttempts,
-                        ),
+                    builder: (context) => const DashboardScreen(),
                   ),
+                  (Route<dynamic> route) => false,
                 );
               },
             ),
@@ -231,157 +229,373 @@ class _TutorModeState extends State<TutorMode> {
       },
     );
   }
+
+  int currentQuestionIndex = 0;
+  int currentPage = 1;
+  String? selectedOption;
+  bool optionSelected = false;
+  final Stopwatch _stopwatch = Stopwatch();
+  Timer? _timer;
+  bool showNumberLine = false;
+  bool isPaused = false;
+
+  int correctAttempts = 0;
+  int incorrectAttempts = 0;
+  int skippedAttempts = 0;
+  int totalTimeTaken = 0;
+  bool isPrefetched = false;
+  late List<String?> selectedOptions;
+  late List<bool?> isCorrectlyAnswered;
+  int dotCount = 0;
+  Timer? timer;
+  String loadingText = "Questions are loading";
+  final ValueNotifier<int> _dotCountNotifier = ValueNotifier<int>(0);
+  final ValueNotifier<Duration> _durationNotifier =
+  ValueNotifier(const Duration(hours: 2));
+
   @override
   void initState() {
     super.initState();
+    startLoadingAnimation();
+
     print(
         "Navigating to test interface with attemptId: ${widget.attemptId}, deck name: ${widget.deckName}, startFromQuestion: ${widget.startFromQuestion}, isContinueAttempt: ${widget.isContinuingAttempt}");
-print("isreview true hy ya nahi ${widget.isReview}");
-    selectedOptions = List<String?>.filled(widget.totalquestions, null, growable: true);
-    isCorrectlyAnswered = List<bool?>.filled(widget.totalquestions, null, growable: true);
 
-    if (widget.isReview == true) {
-      print("DEBUG: Review mode detected, starting from question 0");
-      currentQuestionIndex = 0;
-    } else if (widget.isContinuingAttempt == true) {
-      final deckProvider = Provider.of<DeckProvider>(context, listen: false);
-      final lastAttempt = deckProvider.deckInformation?.lastAttempt;
+    selectedOptions =
+        List<String?>.filled(widget.totalquestions, null, growable: true);
+    isCorrectlyAnswered =
+        List<bool?>.filled(widget.totalquestions, null, growable: true);
 
-      if (lastAttempt != null && lastAttempt['attempts'] != null && lastAttempt['attempts'].isNotEmpty) {
-        final attempts = lastAttempt['attempts'];
-
-        // Find the last attempted question
-        final lastAttemptedQuestion = attempts.lastWhere(
-              (attempt) => attempt['attempted'] == true,
-          orElse: () => attempts.first,
-        );
-
-        // Set the current question index to the last attempted question
-        _fetchQuestionsUntilFound(lastAttemptedQuestion['questionId']);
-      } else {
-        // If there are no previous attempts or the list is empty, start from the first question
-        print("DEBUG: No previous attempts found, starting from question 0.");
-        currentQuestionIndex = 0;
-      }
-    }
-
-    // Fetch initial questions and selections based on the mode
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _fetchInitialQuestions().then((_) {
-        if (widget.isReview == true || widget.isContinuingAttempt == true || widget.isRecent == true) {
-          _loadPreviousSelections();
-        } else {
-          _clearSelectionsForReattempt();
-        }
-
-        if (widget.isReview != true) {
-          _startTimer();
-        }
+    if (widget.isReview == true &&
+        (widget.lastdone == 'Past Paper' || widget.lastdone == 'Practice')) {
+      _fetchAllQuestions().then((_) {
+        _loadPastPaperReviewData();
       });
-    });
+    } else if (widget.isContinuingAttempt == true &&
+        (widget.lastdone == 'Past Paper' || widget.lastdone == 'Practice')) {
+      _fetchAllQuestions().then((_) {
+        _loadPastPaperAttemptData();
+      });
+    } else if (widget.isReview == true) {
+      _fetchAllQuestions().then((_) {
+        _loadReviewData();
+      });
+    } else if (widget.isContinuingAttempt == true) {
+      _fetchAllQuestions().then((_) {
+        _loadAttemptData();
+      });
+    } else if (widget.isRecent == true) {
+      _fetchAllQuestions().then((_) {
+        _loadPreviousSelections();
+      });
+    } else {
+      _clearSelectionsForReattempt();
+    }
+
+    if (widget.isReview != true) {
+      _startTimer();
+    }
   }
 
-  Future<void> _fetchQuestionsUntilFound(String questionId) async {
-    setState(() {
-      isLoading = true;
-    });
+  Future<void> _loadPastPaperReviewData() async {
+    print("DEBUG: Starting Past Paper/Practice Review Mode");
 
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
-    questionProvider.clearQuestions();
+    final paperProvider = Provider.of<PaperProvider>(context, listen: false);
+    final deckInfo = paperProvider.deckInformation?.lastAttempt;
 
-    int currentPage = 1;
-    bool questionFound = false;
+    if (deckInfo != null && deckInfo['attempts'] != null) {
+      final attempts = deckInfo['attempts'];
 
-    while (!questionFound) {
-      if (!questionProvider.isPageLoaded(currentPage)) {
-        print("Fetching page $currentPage to load the required question.");
-        await questionProvider.fetchQuestions(widget.deckName, currentPage);
+      Set<String> loadedQuestionIds = {};
+      int attemptedQuestionCount = 0;
+
+      for (final attempt in attempts) {
+        final questionId = attempt['questionId'];
+        final questionIndex = getIndexForQuestionId(questionId);
+
+        if (questionIndex != -1) {
+          if (loadedQuestionIds.contains(questionId)) {
+            print("DEBUG: Skipping duplicate entry for questionId $questionId");
+            continue;
+          }
+          loadedQuestionIds.add(questionId);
+
+          selectedOptions[questionIndex] = attempt['selection'];
+          isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
+
+          if (attempt['attempted'] == true) {
+            _highlightAttemptedQuestion(questionIndex);
+            attemptedQuestionCount++;
+          }
+        }
       }
 
-      final questionIndex = getIndexForQuestionId(questionId);
+      print(
+          "DEBUG: Total attempted questions fetched: $attemptedQuestionCount");
 
-      if (questionIndex != -1) {
-        print("ye raha $questionIndex");
-        currentQuestionIndex = questionIndex;
-        questionFound = true;
-        print("DEBUG: Found question $questionId at index $currentQuestionIndex.");
-      } else {
-        print("ye raha $questionIndex");
+      setState(() {
+        currentQuestionIndex = 0;
+        print("DEBUG: Starting review from the 0th question.");
+      });
+    } else {
+      setState(() {
+        currentQuestionIndex = 0;
+      });
+    }
+  }
 
-        currentPage++;
-        if (currentPage > (widget.totalquestions ~/ 10) + 1) {
-          print("DEBUG: Question ID not found after loading all pages, starting from the first question. $questionId");
+  Future<void> _loadPastPaperAttemptData() async {
+    print("DEBUG: Continuing Past Paper/Practice Attempt Mode");
+
+    final paperProvider = Provider.of<PaperProvider>(context, listen: false);
+    final lastAttempt = paperProvider.deckInformation?.lastAttempt;
+
+    if (lastAttempt != null && lastAttempt['attempts'] != null) {
+      final attempts = lastAttempt['attempts'];
+
+      if (attempts.isEmpty) {
+        setState(() {
           currentQuestionIndex = 0;
-          questionFound = true;  // To break the loop
+        });
+        return;
+      }
+
+      Set<String> loadedQuestionIds = {};
+      int lastAttemptedIndex = -1;
+
+      for (int i = 0; i < attempts.length; i++) {
+        final attempt = attempts[i];
+        final questionId = attempt['questionId'];
+        final questionIndex = getIndexForQuestionId(questionId);
+
+        if (questionIndex != -1) {
+          if (loadedQuestionIds.contains(questionId)) {
+            print("DEBUG: Skipping duplicate entry for questionId $questionId");
+            continue;
+          }
+          loadedQuestionIds.add(questionId);
+
+          selectedOptions[questionIndex] = attempt['selection'];
+          isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
+
+          if (attempt['attempted'] == true) {
+            _highlightAttemptedQuestion(questionIndex);
+            lastAttemptedIndex = i;
+          }
         }
       }
+
+      if (lastAttemptedIndex != -1) {
+        final lastAttemptedQuestionId =
+            attempts[lastAttemptedIndex]['questionId'];
+        final lastAttemptedIndexValue =
+            getIndexForQuestionId(lastAttemptedQuestionId);
+
+        setState(() {
+          currentQuestionIndex =
+              lastAttemptedIndexValue != -1 ? lastAttemptedIndexValue : 0;
+          print(
+              "DEBUG: Continuing from last attempted question at index: $currentQuestionIndex");
+        });
+      } else {
+        setState(() {
+          currentQuestionIndex = 0;
+          print("DEBUG: No attempted question found, starting from index 0.");
+        });
+      }
+    } else {
+      setState(() {
+        currentQuestionIndex = 0;
+      });
     }
+  }
+
+  void _clearSelectionsForReattempt() {
+    selectedOptions.fillRange(0, widget.totalquestions, null);
+    isCorrectlyAnswered.fillRange(0, widget.totalquestions, null);
 
     setState(() {
-      isLoading = false;
+      _fetchInitialQuestions();
     });
+
+    _startTimer();
   }
 
-  int getIndexForQuestionId(String questionId) {
-    final questions = Provider.of<QuestionProvider>(context, listen: false).questions;
-
-    if (questions != null) {
-      for (int i = 0; i < questions.length; i++) {
-        if (questions[i].questionId == questionId) {
-          return i;  // Return the index of the matching questionId
-        }
-      }
-    }
-    return -1; // Return -1 if the questionId was not found
-  }
   Future<void> _fetchInitialQuestions() async {
     setState(() {
       isLoading = true;
     });
 
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
     questionProvider.clearQuestions();
-    questionProvider.deckName = widget.deckName;
 
-    int startPage = (widget.startFromQuestion ?? 0) ~/ 10 + 1;
+    Set<String> loadedQuestionIds = {};
+
+    int startPage = (widget.startFromQuestion) ~/ 10 + 1;
 
     for (int page = 1; page <= startPage; page++) {
       if (!questionProvider.isPageLoaded(page)) {
+        print("DEBUG: Fetching questions from page: $page");
         await questionProvider.fetchQuestions(widget.deckName, page);
+
+        questionProvider.questions
+            ?.removeWhere((q) => loadedQuestionIds.contains(q.questionId));
+        loadedQuestionIds
+            .addAll(questionProvider.questions?.map((q) => q.questionId) ?? []);
       }
     }
+
     setState(() {
       isLoading = false;
       currentPage = startPage;
     });
   }
-  bool isPrefetched = false;
+
+  Future<void> _loadAttemptData() async {
+    print("DEBUG: Continuing Attempt Mode");
+
+    final deckProvider = Provider.of<DeckProvider>(context, listen: false);
+    final lastAttempt = deckProvider.deckInformation?.lastAttempt;
+
+    if (lastAttempt != null && lastAttempt['attempts'] != null) {
+      final attempts = lastAttempt['attempts'];
+
+      if (attempts.isEmpty) {
+        setState(() {
+          currentQuestionIndex = 0;
+        });
+        return;
+      }
+
+      Set<String> loadedQuestionIds = {};
+      int lastAttemptedIndex = -1;
+
+      for (int i = 0; i < attempts.length; i++) {
+        final attempt = attempts[i];
+        final questionId = attempt['questionId'];
+        final questionIndex = getIndexForQuestionId(questionId);
+
+        if (questionIndex != -1) {
+          if (loadedQuestionIds.contains(questionId)) {
+            print("DEBUG: Skipping duplicate entry for questionId $questionId");
+            continue;
+          }
+          loadedQuestionIds.add(questionId);
+
+          selectedOptions[questionIndex] = attempt['selection'];
+          isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
+
+          if (attempt['attempted'] == true) {
+            _highlightAttemptedQuestion(questionIndex);
+            lastAttemptedIndex = i;
+          }
+        }
+      }
+
+      if (lastAttemptedIndex != -1) {
+        final lastAttemptedQuestionId =
+            attempts[lastAttemptedIndex]['questionId'];
+        final lastAttemptedIndexValue =
+            getIndexForQuestionId(lastAttemptedQuestionId);
+
+        setState(() {
+          currentQuestionIndex =
+              lastAttemptedIndexValue != -1 ? lastAttemptedIndexValue : 0;
+          print(
+              "DEBUG: Continuing from last attempted question at index: $currentQuestionIndex");
+        });
+      } else {
+        setState(() {
+          currentQuestionIndex = 0;
+          print("DEBUG: No attempted question found, starting from index 0.");
+        });
+      }
+    } else {
+      setState(() {
+        currentQuestionIndex = 0;
+      });
+    }
+  }
+
+  Future<void> _loadReviewData() async {
+    print("DEBUG: Starting Review Mode");
+
+    final deckProvider = Provider.of<DeckProvider>(context, listen: false);
+    final lastAttempt = deckProvider.deckInformation?.lastAttempt;
+
+    if (lastAttempt != null && lastAttempt['attempts'] != null) {
+      final attempts = lastAttempt['attempts'];
+
+      Set<String> loadedQuestionIds = {};
+      int attemptedQuestionCount = 0;
+
+      for (final attempt in attempts) {
+        final questionId = attempt['questionId'];
+        final questionIndex = getIndexForQuestionId(questionId);
+
+        if (questionIndex != -1) {
+          if (loadedQuestionIds.contains(questionId)) {
+            print("DEBUG: Skipping duplicate entry for questionId $questionId");
+            continue;
+          }
+          loadedQuestionIds.add(questionId);
+
+          selectedOptions[questionIndex] = attempt['selection'];
+          isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
+
+          if (attempt['attempted'] == true) {
+            _highlightAttemptedQuestion(questionIndex);
+            attemptedQuestionCount++;
+          }
+        }
+      }
+
+      print(
+          "DEBUG: Total attempted questions fetched: $attemptedQuestionCount");
+
+      setState(() {
+        currentQuestionIndex = 0;
+        print("DEBUG: Starting review from the 0th question.");
+      });
+    } else {
+      setState(() {
+        currentQuestionIndex = 0;
+      });
+    }
+  }
+
+  void _highlightAttemptedQuestion(int questionIndex) {
+    setState(() {
+      isCorrectlyAnswered[questionIndex] = true;
+    });
+  }
+
+  int getIndexForQuestionId(String questionId) {
+    final questions =
+        Provider.of<QuestionProvider>(context, listen: false).questions;
+
+    if (questions != null && questions.isNotEmpty) {
+      for (int i = 0; i < questions.length; i++) {
+        if (questions[i].questionId == questionId) {
+          print("DEBUG: Found questionId $questionId at index $i");
+          return i;
+        }
+      }
+    }
+    print("DEBUG: questionId $questionId not found in current questions list");
+    return -1;
+  }
 
   Future<void> nextQuestion() async {
     if (isLoading) return;
 
     updateAttempt();
-    if (widget.buttontext == 'Attempt 5 Questions for Free' && currentQuestionIndex >= 4) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Limit Reached'),
-          content: const Text('You can only attempt 5 questions for free.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
-      return;
-    }
 
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
-    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
+    final deckInfo =
+        Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
     if (currentQuestionIndex < widget.totalquestions - 1) {
       setState(() {
@@ -397,13 +611,15 @@ print("isreview true hy ya nahi ${widget.isReview}");
           _fetchNextSetOfQuestions(nextPage);
           isPrefetched = true;
         }
+
         if (questionProvider.questions!.length > currentQuestionIndex) {
           final question = questionProvider.questions![currentQuestionIndex];
           selectedOption = selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
 
           if (widget.isReview == true && selectedOption == null) {
-            selectedOption = deckInfo?.getSelectionForQuestion(question.questionId);
+            selectedOption = deckInfo?.getSelectionForQuestion(
+                question.questionId, widget.attemptId);
             optionSelected = selectedOption != null;
           }
 
@@ -414,7 +630,8 @@ print("isreview true hy ya nahi ${widget.isReview}");
 
           questionProvider.notifyListeners();
         } else {
-          print("Error: Attempted to access a question that hasn't been loaded yet.");
+          print(
+              "Error: Attempted to access a question that hasn't been loaded yet.");
         }
         if (currentQuestionIndex % 10 == 0) {
           isPrefetched = false;
@@ -431,7 +648,8 @@ print("isreview true hy ya nahi ${widget.isReview}");
       isLoading = true;
     });
 
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
 
     if (!questionProvider.isPageLoaded(nextPage)) {
       print("Fetching questions from page: $nextPage");
@@ -442,12 +660,56 @@ print("isreview true hy ya nahi ${widget.isReview}");
       isLoading = false;
     });
   }
+
+  Future<void> _fetchAllQuestions() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
+    questionProvider.clearQuestions();
+
+    Set<String> loadedQuestionIds = {};
+    int page = 1;
+    bool hasMoreQuestions = true;
+    int totalQuestions = widget.totalquestions;
+    int questionsPerPage = 10;
+
+    print("DEBUG: Fetching all questions until all are loaded");
+
+    while (hasMoreQuestions && (page - 1) * questionsPerPage < totalQuestions) {
+      print("DEBUG: Fetching questions from page: $page");
+      await questionProvider.fetchQuestions(widget.deckName, page);
+
+      questionProvider.questions
+          ?.removeWhere((q) => loadedQuestionIds.contains(q.questionId));
+
+      final fetchedQuestionIds =
+          questionProvider.questions?.map((q) => q.questionId) ?? [];
+
+      if (fetchedQuestionIds.isNotEmpty) {
+        loadedQuestionIds.addAll(fetchedQuestionIds);
+        page++;
+      } else {
+        hasMoreQuestions = false;
+      }
+    }
+
+    setState(() {
+      isLoading = false;
+      currentPage = page - 1;
+    });
+  }
+
   Future<void> previousQuestion() async {
     if (isLoading) return;
     updateAttempt();
 
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
-    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
+    final deckInfo =
+        Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
     if (currentQuestionIndex > 0) {
       setState(() {
@@ -457,12 +719,14 @@ print("isreview true hy ya nahi ${widget.isReview}");
           currentPage--;
           _fetchNextSetOfQuestions(currentPage).then((_) {
             if (questionProvider.questions!.length > currentQuestionIndex) {
-              final question = questionProvider.questions![currentQuestionIndex];
+              final question =
+                  questionProvider.questions![currentQuestionIndex];
               selectedOption = selectedOptions[currentQuestionIndex];
               optionSelected = selectedOption != null;
 
               if (widget.isReview == true && selectedOption == null) {
-                selectedOption = deckInfo?.getSelectionForQuestion(question.questionId);
+                selectedOption = deckInfo?.getSelectionForQuestion(
+                    question.questionId, widget.attemptId);
                 optionSelected = selectedOption != null;
               }
 
@@ -473,7 +737,8 @@ print("isreview true hy ya nahi ${widget.isReview}");
 
               questionProvider.notifyListeners();
             } else {
-              print("Error: Attempted to access a question that hasn't been loaded yet.");
+              print(
+                  "Error: Attempted to access a question that hasn't been loaded yet.");
             }
           });
         } else if (questionProvider.questions!.length > currentQuestionIndex) {
@@ -482,7 +747,8 @@ print("isreview true hy ya nahi ${widget.isReview}");
           optionSelected = selectedOption != null;
 
           if (widget.isReview == true && selectedOption == null) {
-            selectedOption = deckInfo?.getSelectionForQuestion(question.questionId);
+            selectedOption = deckInfo?.getSelectionForQuestion(
+                question.questionId, widget.attemptId);
             optionSelected = selectedOption != null;
           }
 
@@ -504,16 +770,17 @@ print("isreview true hy ya nahi ${widget.isReview}");
       );
     }
   }
-  Future<void> _loadQuestionsBetween(int startQuestionIndex, int endQuestionIndex) async {
+
+  Future<void> _loadQuestionsBetween(
+      int startQuestionIndex, int endQuestionIndex) async {
     setState(() {
       isLoading = true;
     });
-
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
 
     int startPage = (startQuestionIndex ~/ 10) + 1;
     int endPage = (endQuestionIndex ~/ 10) + 1;
-
     for (int page = startPage; page <= endPage; page++) {
       if (!questionProvider.isPageLoaded(page)) {
         await questionProvider.fetchQuestions(widget.deckName, page);
@@ -524,8 +791,10 @@ print("isreview true hy ya nahi ${widget.isReview}");
       isLoading = false;
     });
   }
+
   Future<void> _skipToQuestion(int targetIndex) async {
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
 
     if (currentQuestionIndex == targetIndex) return;
 
@@ -545,11 +814,13 @@ print("isreview true hy ya nahi ${widget.isReview}");
       optionSelected = selectedOption != null;
 
       if (widget.isRecent == true) {
-        final recentProvider = Provider.of<RecentAttemptsProvider>(context, listen: false);
-        final List<RecentAttempt> recentAttempts = recentProvider.recentAttempts;
+        final recentProvider =
+            Provider.of<RecentAttemptsProvider>(context, listen: false);
+        final List<RecentAttempt> recentAttempts =
+            recentProvider.recentAttempts;
 
         final recentAttempt = recentAttempts.firstWhere(
-              (attempt) => attempt.id == widget.attemptId,
+          (attempt) => attempt.id == widget.attemptId,
           orElse: () => RecentAttempt(attempts: Attempts(attempts: [])),
         );
 
@@ -559,13 +830,15 @@ print("isreview true hy ya nahi ${widget.isReview}");
           final recentSelection = recentAttempt.attempts!.attempts!
               .firstWhere(
                 (attempt) => attempt.questionId == question.questionId,
-            orElse: () => AttemptofQuestions(questionId: question.questionId),
-          ).selection;
+                orElse: () =>
+                    AttemptofQuestions(questionId: question.questionId),
+              )
+              .selection;
 
-          selectedOption = recentSelection ?? selectedOptions[currentQuestionIndex];
+          selectedOption =
+              recentSelection ?? selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
         }
-
       } else if (widget.isContinuingAttempt) {
         final deckProvider = Provider.of<DeckProvider>(context, listen: false);
         final deckInfo = deckProvider.deckInformation;
@@ -575,16 +848,15 @@ print("isreview true hy ya nahi ${widget.isReview}");
 
           final question = questionProvider.questions![currentQuestionIndex];
 
-          final continuingSelection = lastAttempt['attempts']!
-              .firstWhere(
-                (attempt) => attempt['questionId'] == question.questionId,
+          final continuingSelection = lastAttempt['attempts']!.firstWhere(
+            (attempt) => attempt['questionId'] == question.questionId,
             orElse: () => {},
           )['selection'];
 
-          selectedOption = continuingSelection ?? selectedOptions[currentQuestionIndex];
+          selectedOption =
+              continuingSelection ?? selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
         }
-
       } else if (widget.isReview == true) {
         final deckProvider = Provider.of<DeckProvider>(context, listen: false);
         final deckInfo = deckProvider.deckInformation;
@@ -593,19 +865,18 @@ print("isreview true hy ya nahi ${widget.isReview}");
 
           final question = questionProvider.questions![currentQuestionIndex];
 
-          final reviewSelection = lastAttempt['attempts']!
-              .firstWhere(
-                (attempt) => attempt['questionId'] == question.questionId,
+          final reviewSelection = lastAttempt['attempts']!.firstWhere(
+            (attempt) => attempt['questionId'] == question.questionId,
             orElse: () => {},
           )['selection'];
 
-          selectedOption = reviewSelection ?? selectedOptions[currentQuestionIndex];
+          selectedOption =
+              reviewSelection ?? selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
         }
       }
 
       _stopwatch.reset();
-
       if (widget.isReview != true) {
         _stopwatch.start();
       }
@@ -613,158 +884,83 @@ print("isreview true hy ya nahi ${widget.isReview}");
       questionProvider.notifyListeners();
     });
   }
-  void _loadPreviousSelections() async {
+
+  Future<void> _loadPreviousSelections() async {
     if (widget.isRecent == true) {
-      // Handling recent attempts
-      print("Recent attempt mode activated");
-      final recentProvider = Provider.of<RecentAttemptsProvider>(context, listen: false);
+      print("DEBUG: Recent attempt mode activated");
+
+      final recentProvider =
+          Provider.of<RecentAttemptsProvider>(context, listen: false);
       final List<RecentAttempt> recentAttempts = recentProvider.recentAttempts;
 
       final recentAttempt = recentAttempts.firstWhere(
-            (attempt) => attempt.id == widget.attemptId,
+        (attempt) => attempt.id == widget.attemptId,
         orElse: () => RecentAttempt(attempts: Attempts(attempts: [])),
       );
 
-      int startQuestionIndex = 0;
-
-      if (recentAttempt.attempts != null && recentAttempt.attempts!.attempts != null && recentAttempt.attempts!.attempts!.isNotEmpty) {
+      if (recentAttempt.attempts != null &&
+          recentAttempt.attempts!.attempts != null &&
+          recentAttempt.attempts!.attempts!.isNotEmpty) {
         final allAttempts = recentAttempt.attempts!.attempts!;
         final lastAttemptedQuestionId = allAttempts.last.questionId;
         print("Last Attempted Question ID: $lastAttemptedQuestionId");
 
-        startQuestionIndex = getIndexForQuestionId(lastAttemptedQuestionId ?? '');
-        print("startQuestionIndex calculated by getIndexForQuestionId: $startQuestionIndex");
+        int startQuestionIndex =
+            getIndexForQuestionId(lastAttemptedQuestionId ?? '');
+
+        print(
+            "startQuestionIndex calculated by getIndexForQuestionId: $startQuestionIndex");
 
         if (startQuestionIndex == -1) {
           print("Invalid startQuestionIndex. Fallback to 0.");
           startQuestionIndex = 0;
         }
 
-        await _loadQuestionsBetween(startQuestionIndex, allAttempts.length - 1);
+        final endQuestionIndex = allAttempts.length - 1;
 
-        // Load previous selections
+        await _loadQuestionsBetween(startQuestionIndex, endQuestionIndex);
+
         for (final attempt in allAttempts) {
-          final int questionIndex = getIndexForQuestionId(attempt.questionId ?? '');
+          final int questionIndex =
+              getIndexForQuestionId(attempt.questionId ?? '');
           if (questionIndex != -1) {
+            print("Processing question at index: $questionIndex");
             selectedOptions[questionIndex] = attempt.selection;
             isCorrectlyAnswered[questionIndex] = attempt.isCorrect;
+
             if (questionIndex == currentQuestionIndex) {
               selectedOption = attempt.selection;
               optionSelected = selectedOption != null;
             }
           }
         }
-      }
 
-      setState(() {
-        currentQuestionIndex = startQuestionIndex;
-        print("Set currentQuestionIndex to start from $startQuestionIndex");
-      });
-    }
-
-    // Review Mode: Ensure it always starts from question 0
-    else if (widget.isReview == true && (widget.lastdone == 'Past Paper' || widget.lastdone == 'Practice')) {
-      print("Review mode activated");
-
-      final paperProvider = Provider.of<PaperProvider>(context, listen: false);
-      final deckInfo = paperProvider.deckInformation;
-
-      // Ensure deckInfo and lastAttempt exist
-      if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
-        final lastAttempt = deckInfo.lastAttempt;
-
-        if (lastAttempt['attempts'] != null) {
-          final List<dynamic> attempts = lastAttempt['attempts'];
-
-          try {
-            // Load all questions for review
-            await _loadQuestionsBetween(0, attempts.length - 1);
-
-            // Load selections for review mode
-            for (final attempt in attempts) {
-              final int questionIndex = getIndexForQuestionId(attempt['questionId']);
-              if (questionIndex != -1) {
-                selectedOptions[questionIndex] = attempt['selection'];
-                isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
-              }
-            }
-
-            // Ensure the state is updated after all data is loaded
-            setState(() {
-              currentQuestionIndex = 0; // Always start from 0 in review mode
-              print("Set currentQuestionIndex to 0 for review");
-            });
-          } catch (e) {
-            // Handle any error during loading of questions
-            print("Error during review mode loading: $e");
-          }
-        } else {
-          print("No attempts found in lastAttempt.");
-        }
+        setState(() {
+          currentQuestionIndex = startQuestionIndex;
+          print("Set currentQuestionIndex to start from $startQuestionIndex");
+        });
       } else {
-        print("Deck information or lastAttempt is missing.");
+        print("No previous attempts found for Recent mode");
+        setState(() {
+          currentQuestionIndex = 0;
+        });
       }
+    } else if (widget.isContinuingAttempt) {
+      _loadAttemptData();
+    } else if (widget.isReview == true) {
+      _loadReviewData();
     }
-
-    // Continue Attempt Mode (Non-review)
-    else if (widget.isContinuingAttempt && (widget.lastdone == 'Past Paper' || widget.lastdone == 'Practice')) {
-      print("Continuing attempt from Past Paper or Practice");
-
-      final paperProvider = Provider.of<PaperProvider>(context, listen: false);
-      final deckInfo = paperProvider.deckInformation;
-
-      if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
-        final lastAttempt = deckInfo.lastAttempt;
-
-        if (lastAttempt['attempts'] != null) {
-          final List<dynamic> attempts = lastAttempt['attempts'];
-          await _loadQuestionsBetween(0, attempts.length - 1);
-
-          int lastAttemptedIndex = -1; // Index of the last attempted question
-
-          // Load previous selections and determine the last attempted question
-          for (int i = 0; i < attempts.length; i++) {
-            final attempt = attempts[i];
-            final int questionIndex = getIndexForQuestionId(attempt['questionId']);
-            if (questionIndex != -1) {
-              selectedOptions[questionIndex] = attempt['selection'];
-              isCorrectlyAnswered[questionIndex] = attempt['isCorrect'];
-            }
-            if (attempt['attempted'] == true) {
-              lastAttemptedIndex = i;
-            }
-          }
-
-          // Resume from the last attempted question or 0 if none were attempted
-          setState(() {
-            currentQuestionIndex = (lastAttemptedIndex != -1) ? lastAttemptedIndex : 0;
-            print("Set currentQuestionIndex to $currentQuestionIndex to continue where user left off");
-          });
-        }
-      }
-    }
-  }
-
-  void _clearSelectionsForReattempt() {
-    selectedOptions.fillRange(0, widget.totalquestions, null);
-    isCorrectlyAnswered.fillRange(0, widget.totalquestions, null);
-    setState(() {});
   }
 
   @override
   void dispose() {
-    if (widget.isReview != true) {
-      _saveCurrentQuestionIndex();
-    }
     _timer?.cancel();
     _durationNotifier.dispose();
-    super.dispose();
-  }
+    _stopwatch.stop();
+    timer?.cancel();
+    _dotCountNotifier.dispose();
 
-  Future<void> _saveCurrentQuestionIndex() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setInt(
-        'currentQuestionIndex_${widget.attemptId}', currentQuestionIndex);
+    super.dispose();
   }
 
   void updateAttempt() {
@@ -773,9 +969,9 @@ print("isreview true hy ya nahi ${widget.isReview}");
     }
 
     final questionProvider =
-    Provider.of<QuestionProvider>(context, listen: false);
+        Provider.of<QuestionProvider>(context, listen: false);
     final attemptProvider =
-    Provider.of<AttemptProvider>(context, listen: false);
+        Provider.of<AttemptProvider>(context, listen: false);
 
     if (currentQuestionIndex < widget.totalquestions) {
       _stopwatch.stop();
@@ -799,7 +995,7 @@ print("isreview true hy ya nahi ${widget.isReview}");
       }
 
       final correctOption =
-      question.options.singleWhere((option) => option.isCorrect);
+          question.options.singleWhere((option) => option.isCorrect);
 
       final attemptData = {
         'attemptId': widget.attemptId,
@@ -822,9 +1018,7 @@ print("isreview true hy ya nahi ${widget.isReview}");
     }
   }
 
-
   Set<int> loadedPages = {};
-
 
   void selectOption(String optionLetter) {
     if (widget.isReview != true && !optionSelected) {
@@ -839,8 +1033,10 @@ print("isreview true hy ya nahi ${widget.isReview}");
   void restart() {
     setState(() {
       currentQuestionIndex = 0;
-      selectedOptions = List<String?>.filled(widget.totalquestions, null, growable: true);
-      isCorrectlyAnswered = List<bool?>.filled(widget.totalquestions, null, growable: true);
+      selectedOptions =
+          List<String?>.filled(widget.totalquestions, null, growable: true);
+      isCorrectlyAnswered =
+          List<bool?>.filled(widget.totalquestions, null, growable: true);
       _stopwatch.reset();
       _durationNotifier.value = const Duration(hours: 2);
       _timer?.cancel();
@@ -849,13 +1045,16 @@ print("isreview true hy ya nahi ${widget.isReview}");
       }
     });
   }
-
+  void startLoadingAnimation() {
+    _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
+      _dotCountNotifier.value = (_dotCountNotifier.value + 1) % 4; 
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final questionProvider =
-    Provider.of<QuestionProvider>(context, listen: false);
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
     final questions = questionProvider.questions;
 
     if (isLoading || questions == null || questions.isEmpty) {
@@ -883,10 +1082,12 @@ print("isreview true hy ya nahi ${widget.isReview}");
                 alignment: Alignment.center,
                 child: Center(
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back,
-                        color: Provider.of<PreMedProvider>(context).isPreMed
-                            ? PreMedColorTheme().primaryColorRed
-                            : PreMedColorTheme().blue),
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Provider.of<PreMedProvider>(context).isPreMed
+                          ? PreMedColorTheme().primaryColorRed
+                          : PreMedColorTheme().blue,
+                    ),
                     onPressed: previousQuestion,
                   ),
                 ),
@@ -911,10 +1112,12 @@ print("isreview true hy ya nahi ${widget.isReview}");
                   alignment: Alignment.center,
                   child: Center(
                     child: IconButton(
-                      icon: Icon(Icons.arrow_forward,
-                          color: Provider.of<PreMedProvider>(context).isPreMed
-                              ? PreMedColorTheme().primaryColorRed
-                              : PreMedColorTheme().blue),
+                      icon: Icon(
+                        Icons.arrow_forward,
+                        color: Provider.of<PreMedProvider>(context).isPreMed
+                            ? PreMedColorTheme().primaryColorRed
+                            : PreMedColorTheme().blue,
+                      ),
                       onPressed: nextQuestion,
                     ),
                   ),
@@ -924,7 +1127,24 @@ print("isreview true hy ya nahi ${widget.isReview}");
             ),
           ),
         ),
-        body: const Center(child: CircularProgressIndicator()),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              const SizedBox(height: 16),
+              ValueListenableBuilder<int>(
+                valueListenable: _dotCountNotifier,
+                builder: (context, dotCount, child) {
+                  return Text(
+                    "Questions are loading${'.' * dotCount}", 
+                    style: const TextStyle(fontSize: 16),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
       );
     }
 
@@ -970,9 +1190,9 @@ print("isreview true hy ya nahi ${widget.isReview}");
               child: Text(
                 'QUESTION ${currentQuestionIndex + 1}',
                 style: PreMedTextTheme().heading6.copyWith(
-                  color: PreMedColorTheme().black,
-                  fontWeight: FontWeight.bold,
-                ),
+                      color: PreMedColorTheme().black,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
             actions: [
@@ -1016,19 +1236,20 @@ print("isreview true hy ya nahi ${widget.isReview}");
               Text(
                 parse(question.questionText) ?? '',
                 style: PreMedTextTheme().body.copyWith(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w400,
-                  color: PreMedColorTheme().black,
-                ),
+                      fontSize: 17,
+                      fontWeight: FontWeight.w400,
+                      color: PreMedColorTheme().black,
+                    ),
               ),
               Row(
                 children: [
-                  Consumer2<SaveQuestionProvider,SavedQuestionsProvider>(
-                    builder: (context, saveQuestionProvider,savedQuestionsProvider, child) {
+                  Consumer2<SaveQuestionProvider, SavedQuestionsProvider>(
+                    builder: (context, saveQuestionProvider,
+                        savedQuestionsProvider, child) {
                       final String questionId = question.questionId;
                       final String subject = question.subject;
-                      final bool isSaved = savedQuestionsProvider.isQuestionSaved(
-                          questionId, subject);
+                      final bool isSaved = savedQuestionsProvider
+                          .isQuestionSaved(questionId, subject);
                       final buttonText = isSaved ? 'Remove' : 'Save';
                       return ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -1039,7 +1260,7 @@ print("isreview true hy ya nahi ${widget.isReview}");
                             borderRadius: BorderRadius.circular(24),
                           ),
                         ),
-                        onPressed: () async{
+                        onPressed: () async {
                           if (isSaved) {
                             print('isSaved');
                             await saveQuestionProvider.removeQuestion(
@@ -1047,7 +1268,8 @@ print("isreview true hy ya nahi ${widget.isReview}");
                               widget.subject,
                               userProvider.user?.userId ?? '',
                             );
-                            savedQuestionsProvider.getSavedQuestions(userId: userProvider.user?.userId ?? '');
+                            savedQuestionsProvider.getSavedQuestions(
+                                userId: userProvider.user?.userId ?? '');
                           } else {
                             print('Removed');
                             await saveQuestionProvider.saveQuestion(
@@ -1055,7 +1277,8 @@ print("isreview true hy ya nahi ${widget.isReview}");
                               widget.subject,
                               userProvider.user?.userId ?? '',
                             );
-                            savedQuestionsProvider.getSavedQuestions(userId: userProvider.user?.userId ?? '');
+                            savedQuestionsProvider.getSavedQuestions(
+                                userId: userProvider.user?.userId ?? '');
                           }
                         },
                         child: Row(
@@ -1089,8 +1312,8 @@ print("isreview true hy ya nahi ${widget.isReview}");
                     ),
                     onPressed: () {
                       final question =
-                      Provider.of<QuestionProvider>(context, listen: false)
-                          .questions![currentQuestionIndex];
+                          Provider.of<QuestionProvider>(context, listen: false)
+                              .questions![currentQuestionIndex];
                       _eliminateOptions(question.options);
                     },
                     child: Row(
@@ -1114,8 +1337,8 @@ print("isreview true hy ya nahi ${widget.isReview}");
                     ),
                     onPressed: () {
                       final question =
-                      Provider.of<QuestionProvider>(context, listen: false)
-                          .questions![currentQuestionIndex];
+                          Provider.of<QuestionProvider>(context, listen: false)
+                              .questions![currentQuestionIndex];
                       _undoElimination(question.options);
                     },
                     child: Row(
@@ -1183,15 +1406,15 @@ print("isreview true hy ya nahi ${widget.isReview}");
                 final borderColor = isSelected
                     ? (isCorrect ? Colors.green : Colors.red)
                     : (optionSelected && isCorrect
-                    ? Colors.green
-                    : PreMedColorTheme().neutral400);
+                        ? Colors.green
+                        : PreMedColorTheme().neutral400);
                 final color = isSelected
                     ? (isCorrect
-                    ? Colors.greenAccent
-                    : PreMedColorTheme().primaryColorRed200)
+                        ? Colors.greenAccent
+                        : PreMedColorTheme().primaryColorRed200)
                     : (optionSelected && isCorrect
-                    ? Colors.greenAccent
-                    : PreMedColorTheme().white);
+                        ? Colors.greenAccent
+                        : PreMedColorTheme().white);
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -1215,7 +1438,7 @@ print("isreview true hy ya nahi ${widget.isReview}");
                                       fontWeight: FontWeight.w800,
                                       fontSize: 15,
                                       color:
-                                      PreMedColorTheme().primaryColorRed),
+                                          PreMedColorTheme().primaryColorRed),
                                 ),
                               ),
                               Expanded(
@@ -1223,24 +1446,24 @@ print("isreview true hy ya nahi ${widget.isReview}");
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         parsedOptionText ?? '',
                                         style: PreMedTextTheme().body.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 14,
-                                          color: PreMedColorTheme().black,
-                                        ),
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              color: PreMedColorTheme().black,
+                                            ),
                                       ),
                                       SizedBoxes.verticalTiny,
                                       if (optionSelected)
                                         ExplanationButton(
                                           isCorrect: isCorrectlyAnswered[
-                                          currentQuestionIndex],
+                                              currentQuestionIndex],
                                           explanationText: parse(option
-                                              .explanationText ??
-                                              'Refer to the explanation given at the bottom of the screen') ??
+                                                      .explanationText ??
+                                                  'Refer to the explanation given at the bottom of the screen') ??
                                               '',
                                         ),
                                     ],
@@ -1277,8 +1500,8 @@ print("isreview true hy ya nahi ${widget.isReview}");
                             textAlign: TextAlign.justify,
                             parse(question.explanationText ?? '') ?? '',
                             style: PreMedTextTheme().body.copyWith(
-                              color: PreMedColorTheme().black,
-                            ),
+                                  color: PreMedColorTheme().black,
+                                ),
                           ),
                         ],
                       ),
@@ -1295,79 +1518,83 @@ print("isreview true hy ya nahi ${widget.isReview}");
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SizedBox(
-              height: 55,
-              child:ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: widget.buttontext == 'Attempt 5 Questions for Free' ? 5 : widget.totalquestions,
-                itemBuilder: (context, index) {
-                  final bool isAttempted = selectedOptions[index] != null;
-                  final bool isCurrent = index == currentQuestionIndex;
+                height: 55,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: widget.buttontext == 'Attempt 5 Questions for Free'
+                      ? 5
+                      : widget.totalquestions,
+                  itemBuilder: (context, index) {
+                    final bool isAttempted = selectedOptions[index] != null;
+                    final bool isCurrent = index == currentQuestionIndex;
 
-                  return GestureDetector(
-                    onTap: () async {
-                      if (widget.buttontext == 'Attempt 5 Questions for Free' && index >= 5) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text('Limit Reached'),
-                            content: const Text('You can only attempt 5 questions for free.'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          ),
-                        );
-                        return;
-                      }
-
-                      updateAttempt();
-                      await _skipToQuestion(index);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                      child: Center(
-                        child: Container(
-                          width: 46,
-                          height: 46,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(23),
-                            border: Border.all(
-                              color: isCurrent ? Colors.blue : Colors.white,
-                              width: 3,
+                    return GestureDetector(
+                      onTap: () async {
+                        if (widget.buttontext ==
+                                'Attempt 5 Questions for Free' &&
+                            index >= 5) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text('Limit Reached'),
+                              content: const Text(
+                                  'You can only attempt 5 questions for free.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 3,
-                                offset: const Offset(0, 2),
+                          );
+                          return;
+                        }
+
+                        updateAttempt();
+                        await _skipToQuestion(index);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                        child: Center(
+                          child: Container(
+                            width: 46,
+                            height: 46,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(23),
+                              border: Border.all(
+                                color: isCurrent ? Colors.blue : Colors.white,
+                                width: 3,
                               ),
-                            ],
-                          ),
-                          child: CircleAvatar(
-                            radius: 20,
-                            backgroundColor: isAttempted
-                                ? Colors.blue
-                                : PreMedColorTheme().white,
-                            child: Text(
-                              '${index + 1}',
-                              style: TextStyle(
-                                color: isAttempted ? Colors.white : Colors.black,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  spreadRadius: 1,
+                                  blurRadius: 3,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: CircleAvatar(
+                              radius: 20,
+                              backgroundColor: isAttempted
+                                  ? Colors.blue
+                                  : PreMedColorTheme().white,
+                              child: Text(
+                                '${index + 1}',
+                                style: TextStyle(
+                                  color:
+                                      isAttempted ? Colors.white : Colors.black,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              )
-
-            ),
+                    );
+                  },
+                )),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -1384,7 +1611,8 @@ print("isreview true hy ya nahi ${widget.isReview}");
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 8),
                       child: GestureDetector(
                         onTap: () {
                           showModalBottomSheet(
@@ -1392,14 +1620,17 @@ print("isreview true hy ya nahi ${widget.isReview}");
                             context: context,
                             builder: (context) => TestBottomSheet(
                               addFlasCards: () async {
-                                await Provider.of<FlashcardProvider>(context, listen: false).removeFlashcard(
+                                await Provider.of<FlashcardProvider>(context,
+                                        listen: false)
+                                    .removeFlashcard(
                                   userId: userProvider.user!.userId,
                                   subject: widget.subject,
                                   questionId: question.questionId,
                                 );
                                 showSnackBarr();
                               },
-                              questionNumber: "${currentQuestionIndex + 1} of ${widget.totalquestions}",
+                              questionNumber:
+                                  "${currentQuestionIndex + 1} of ${widget.totalquestions}",
                               timerWidget: const SizedBox(width: 0),
                               submitNow: _showFinishDialog,
                               reportNow: () {
@@ -1410,8 +1641,7 @@ print("isreview true hy ya nahi ${widget.isReview}");
                                   ),
                                 );
                               },
-                              pauseOrContinue: () {
-                              },
+                              pauseOrContinue: () {},
                               restart: () {
                                 Navigator.of(context).pop();
                                 restart();
@@ -1420,13 +1650,15 @@ print("isreview true hy ya nahi ${widget.isReview}");
                               continueLater: () {
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                    builder: (context) => const MainNavigationScreen(),
+                                    builder: (context) =>
+                                        const MainNavigationScreen(),
                                   ),
                                 );
                               },
                             ),
                             shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(25.0)),
                             ),
                           );
                         },
@@ -1448,34 +1680,37 @@ print("isreview true hy ya nahi ${widget.isReview}");
                         Text(
                           "${currentQuestionIndex + 1} of ${widget.totalquestions}",
                           style: PreMedTextTheme().body.copyWith(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: PreMedColorTheme().neutral800,
-                          ),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                                color: PreMedColorTheme().neutral800,
+                              ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           "ATTEMPTED",
                           style: PreMedTextTheme().body.copyWith(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                            color: PreMedColorTheme().neutral400,
-                          ),
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                                color: PreMedColorTheme().neutral400,
+                              ),
                         ),
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 8),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: PreMedColorTheme().primaryColorRed),
+                          border: Border.all(
+                              color: PreMedColorTheme().primaryColorRed),
                           color: PreMedColorTheme().white,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
                             onTap: () async {
+                              _showComingSoonPopup(context);
                             },
                             child: Image.asset(PremedAssets.Flask),
                           ),
@@ -1566,11 +1801,13 @@ class ExplanationButtonState extends State<ExplanationButton> {
             child: Text(
               widget.explanationText!,
               style: PreMedTextTheme().body.copyWith(
-                color: PreMedColorTheme().black,
-              ),
+                    color: PreMedColorTheme().black,
+                  ),
             ),
           ),
       ],
     );
   }
 }
+
+

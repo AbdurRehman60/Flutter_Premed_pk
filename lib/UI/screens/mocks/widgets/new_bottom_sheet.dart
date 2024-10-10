@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../providers/create_deck_attempt_provider.dart';
 import '../../../../providers/paper_provider.dart';
 import '../../../../models/deck_group_model.dart';
@@ -131,7 +132,7 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                 itemBuilder: (context, index) {
                   final DeckItem item = uniquedeckitems[index];
 
-                  // Clean the deck name here
+
                   final String cleanedDeckName = newdeckname(item.deckName);
 
                   return Container(
@@ -208,10 +209,89 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
     );
   }
 
-  void _showAlreadyAttemptedPopup(
-      BuildContext context, DeckItem item, String cleanedDeckName) {
+  void _showPurchasePopup(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final String appToken = userProvider.user?.info.appToken?? '';
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Purchase Required"),
+          content: const Text("Your current plan does not have access to this paper. Purchase our Plan to access this feature!"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Go Back"),
+            ),
+            TextButton(
+              onPressed: () {
+                _launchURL(appToken);
+              },
+              child: const Text("Purchase Plan"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _launchURL(String appToken) async {
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final String lastonboarding = userProvider.user!.info.lastOnboardingPage;
+
+
+    String bundlePath;
+    if (lastonboarding.contains("pre-medical")) {
+      bundlePath = "/bundles/mdcat";
+    } else {
+      bundlePath = "/bundles/all-in-one";
+    }
+
+
+    final url = 'https://premed.pk/app-redirect?url=$appToken&&route=$bundlePath';
+
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  bool _hasAccess(String? premiumTag, Object? accessTags, bool? isPastPaperFree) {
+    if (isPastPaperFree == true || premiumTag == null || premiumTag.isEmpty) {
+      return true;
+    }
+
+    final List<String> mdcatTags = ['MDCAT-Topicals', 'MDCAT-Yearly'];
+    final List<String> numsTags = ['NUMS-Topicals', 'NUMS-Yearly'];
+    final List<String> privTags = ['AKU-Topicals', 'AKU-Yearly'];
+
+    if (accessTags is List<dynamic>) {
+      for (final access in accessTags) {
+        if (access is Map<String, dynamic>) {
+          if (access['name'] == premiumTag) {
+            return true;
+          }
+          if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
+              (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
+              (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+
+  void _showAlreadyAttemptedPopup(BuildContext context, DeckItem item, String cleanedDeckName) {
     final userName =
-        Provider.of<UserProvider>(context, listen: false).getUserName();
+    Provider.of<UserProvider>(context, listen: false).getUserName();
     final lastAttempt = Provider.of<PaperProvider>(context, listen: false)
         .deckInformation
         ?.attempts;
@@ -219,7 +299,8 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
         .deckInformation
         ?.lastAttemptId;
 
-    print("Deck Name passed to showAlreadyAttemptedPopup: $cleanedDeckName");
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final bool hasFullAccess = _hasAccess(item.premiumTag, userProvider.getTags(), item.isTutorModeFree);
 
     showDialog(
       context: context,
@@ -247,11 +328,15 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                       child: CustomButton(
                         buttonText: 'Re-Attempt',
                         onPressed: () {
-                          setState(() {
-                            isContinuingAttempt = false;
-                          });
-                          Navigator.pop(context);
-                          _navigateToDeck(context, item);
+                          if (hasFullAccess) {
+                            setState(() {
+                              isContinuingAttempt = false;
+                            });
+                            Navigator.pop(context);
+                            _navigateToDeck(context, item); // Proceed to re-attempt
+                          } else {
+                            _showPurchasePopup(context);  // Show purchase popup if no access
+                          }
                         },
                         color: Colors.amber[900],
                         fontSize: 13,
@@ -264,42 +349,37 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                       child: CustomButton(
                         buttonText: 'Continue Attempt',
                         onPressed: () async {
-                          setState(() {
-                            isContinuingAttempt = true;
-                          });
-                          Navigator.pop(context);
-                          if (lastAttempt != null && lastAttempt.isNotEmpty) {
-                            final latestAttempt = lastAttempt.last;
-                            final questionProvider =
-                                Provider.of<QuestionProvider>(context,
-                                    listen: false);
-                            print(
-                                "DEBUG: Latest Attempt Question ID: ${latestAttempt['questionId']}");
+                          if (hasFullAccess) {
+                            setState(() {
+                              isContinuingAttempt = true;
+                            });
+                            Navigator.pop(context);
+                            if (lastAttempt != null && lastAttempt.isNotEmpty) {
+                              final latestAttempt = lastAttempt.last;
+                              final questionProvider =
+                              Provider.of<QuestionProvider>(context,
+                                  listen: false);
 
-                            final startFromQuestion = questionProvider.questions
-                                    ?.indexWhere((question) =>
-                                        question.questionId ==
-                                        latestAttempt['questionId']) ??
-                                0;
+                              final startFromQuestion = questionProvider.questions
+                                  ?.indexWhere((question) =>
+                              question.questionId ==
+                                  latestAttempt['questionId']) ??
+                                  0;
 
-                            print(
-                                "DEBUG: Start from Question Index: $startFromQuestion");
-                            print(
-                                "DEBUG: Available Questions: ${questionProvider.questions?.map((q) => q.questionId).toList()}");
-
-                            if (startFromQuestion >= 0) {
-                              _navigateToNextScreen(context, item,
-                                  startFromQuestion: startFromQuestion,
-                                  attemptId: lastAttemptId);
+                              if (startFromQuestion >= 0) {
+                                _navigateToNextScreen(context, item,
+                                    startFromQuestion: startFromQuestion,
+                                    attemptId: lastAttemptId);
+                              } else {
+                                _navigateToNextScreen(context, item,
+                                    attemptId: lastAttemptId);
+                              }
                             } else {
-                              print(
-                                  "DEBUG: Invalid Question ID in Latest Attempt, starting from the beginning.");
                               _navigateToNextScreen(context, item,
                                   attemptId: lastAttemptId);
                             }
                           } else {
-                            _navigateToNextScreen(context, item,
-                                attemptId: lastAttemptId);
+                            _showPurchasePopup(context);  // Show purchase popup if no access
                           }
                         },
                         color: Colors.blueAccent,
@@ -315,18 +395,22 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                   child: CustomButton(
                     buttonText: 'Review Answers',
                     onPressed: () {
-                      Navigator.pop(context);
-                      setState(() {
-                        isContinuingAttempt = false;
-                      });
-                      _navigateToNextScreen(context, item,
-                          isReview: true, startFromQuestion: 0);
+                      if (hasFullAccess) {
+                        Navigator.pop(context);
+                        setState(() {
+                          isContinuingAttempt = false;
+                        });
+                        _navigateToNextScreen(context, item,
+                            isReview: true, startFromQuestion: 0);
+                      } else {
+                        _showPurchasePopup(context);  // Show purchase popup if no access
+                      }
                     },
                     color: Colors.green,
                     fontSize: 13,
                     fontWeight: FontWeight.normal,
                   ),
-                )
+                ),
               ],
             ),
           ],

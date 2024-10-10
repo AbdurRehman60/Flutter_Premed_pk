@@ -10,8 +10,9 @@ class QuestionProvider extends ChangeNotifier {
   static final QuestionProvider _instance = QuestionProvider._internal();
   final DioClient _client = DioClient();
 
-  List<QuestionModel>? _questions = [];
-  List<QuestionModel>? get questions => _questions;
+
+  Map<int, QuestionModel> _questionsMap = {};
+  List<QuestionModel> get questions => _questionsMap.values.toList();
 
   String _deckName = '';
   String get deckName => _deckName;
@@ -29,23 +30,23 @@ class QuestionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Set to track loaded pages
+
   Set<int> _loadedPages = {};
   Set<int> get loadedPages => _loadedPages;
 
-  // Method to clear loaded questions and pages
+
   void clearQuestions() {
-    _questions = [];
+    _questionsMap.clear();
     _loadedPages.clear();
     notifyListeners();
   }
 
-  // New method to check if a page is loaded
+
   bool isPageLoaded(int page) {
     return _loadedPages.contains(page);
   }
 
-  // Fetch questions for a specific page
+
   Future<List<QuestionModel>> fetchQuestions(String deckName, int page) async {
     if (_loadedPages.contains(page)) {
       print('Page $page already loaded');
@@ -54,7 +55,7 @@ class QuestionProvider extends ChangeNotifier {
 
     try {
       _isLoading = true;
-      notifyListeners(); // Notify listeners to show loading
+      notifyListeners();
 
       final response = await _client.post(
         Endpoints.questions(page),
@@ -66,12 +67,15 @@ class QuestionProvider extends ChangeNotifier {
         if (responseData.containsKey('questions') && responseData['questions'] is List) {
           final List<dynamic> questionsJson = responseData['questions'];
           List<QuestionModel> fetchedQuestions = [];
-          for (final json in questionsJson) {
+          int questionIndexOffset = (page - 1) * questionsJson.length;
+
+          for (int i = 0; i < questionsJson.length; i++) {
+            final json = questionsJson[i];
             if (json != null) {
               try {
                 final question = QuestionModel.fromJson(json);
-                _questions?.add(question);
-                fetchedQuestions.add(question); // Collect fetched questions
+                _questionsMap[questionIndexOffset + i] = question;
+                fetchedQuestions.add(question);
               } catch (e) {
                 print('Error parsing question JSON: $e');
               }
@@ -79,8 +83,9 @@ class QuestionProvider extends ChangeNotifier {
               print('Skipping null question object in response');
             }
           }
+
           _loadedPages.add(page);
-          return fetchedQuestions; // Return the list of fetched questions
+          return fetchedQuestions;
         } else {
           throw Exception('Invalid response format');
         }
@@ -96,4 +101,3 @@ class QuestionProvider extends ChangeNotifier {
     }
   }
 }
-

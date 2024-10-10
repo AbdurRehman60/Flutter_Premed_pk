@@ -224,6 +224,7 @@ class _DeckInstructionsState extends State<DeckInstructions> {
           context,
           MaterialPageRoute(
             builder: (context) => TestInterface(
+              isReview: false,
               isRecent: false,
               isContinuingAttempt: false,
               subject: widget.subject,

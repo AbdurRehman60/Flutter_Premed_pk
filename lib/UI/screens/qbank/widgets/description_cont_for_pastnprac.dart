@@ -5,7 +5,7 @@ import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/tutor_mo
 import 'package:premedpk_mobile_app/constants/assets.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart'; // Import this for launching URLs
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../constants/color_theme.dart';
 import '../../../../constants/sized_boxes.dart';
 import '../../../../constants/text_theme.dart';
@@ -28,7 +28,7 @@ class DescriptionContForPastnprac extends StatefulWidget {
 
   final List<String>? questionlist;
   final int totalquestions;
-  final bool mode; // true for Past Paper, false for Practice
+  final bool mode;
   final String deckName;
   final int timedTestMinutes;
   final String subject;
@@ -61,7 +61,7 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
     );
   }
 
-  // Unified build function for both Past Paper and Practice modes
+
   Widget _buildMode(BuildContext context, PreMedProvider pro) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final bool hasFullAccess = _hasAccess(widget.premiumTag, userProvider.getTags(), widget.mode);
@@ -107,7 +107,7 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
         ),
         SizedBoxes.verticalMedium,
 
-        // "Start Test" button
+
         CustomButton(
           color: pro.isPreMed
               ? PreMedColorTheme().red
@@ -138,7 +138,7 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
     );
   }
 
-  // Method to start the test
+
   void _startTest(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final userId = userProvider.user?.userId ?? '';
@@ -159,6 +159,8 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
           context,
           MaterialPageRoute(
             builder: (context) => TutorMode(
+              isRecent: false,
+              isReview: false,
               isContinuingAttempt: false,
               subject: widget.subject,
               attemptId: attemptId,
@@ -213,9 +215,9 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
     }
   }
 
-  // Purchase popup logic
+
   void _showPurchasePopup(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     final String appToken = userProvider.user?.info.appToken?? '';
     showDialog(
       context: context,
@@ -243,14 +245,29 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
   }
 
   Future<void> _launchURL(String appToken) async {
-    final url =
-        'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final String lastonboarding = userProvider.user!.info.lastOnboardingPage;
+
+
+    String bundlePath;
+    if (lastonboarding.contains("pre-medical")) {
+      bundlePath = "/bundles/mdcat";
+    } else {
+      bundlePath = "/bundles/all-in-one";
+    }
+
+
+    final url = 'https://premed.pk/app-redirect?url=$appToken&&route=$bundlePath';
+
+
     if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';
     }
   }
+
 
   void _showErrorPopup(BuildContext context, String? message) {
     showDialog(

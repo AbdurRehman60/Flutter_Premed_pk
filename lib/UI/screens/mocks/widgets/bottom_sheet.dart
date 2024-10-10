@@ -44,7 +44,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
       await Provider.of<DeckProvider>(context, listen: false)
           .fetchDeckInformation(category, deckGroup, deckName, userId!);
 
-      final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
     } catch (e) {
       print('Error fetching deck information: $e');
     }
@@ -197,52 +196,52 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     );
   }
 
-  bool _hasAccess(String? premiumTag, Object? accessTags, bool? isTutorModeFree) {
-    if (isTutorModeFree == true || premiumTag == null || premiumTag.isEmpty) {
-      return true;
-    }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-    final List<String> mdcatTags = ['MDCAT-Topicals', 'MDCAT-Yearly'];
-    final List<String> numsTags = ['NUMS-Topicals', 'NUMS-Yearly'];
-    final List<String> privTags = ['AKU-Topicals', 'AKU-Yearly'];
-
-    if (accessTags is List<dynamic>) {
-      for (final access in accessTags) {
-        if (access is Map<String, dynamic>) {
-
-          if (access['name'] == premiumTag) {
-            return true;
-          }
-          if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
-              (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
-              (premiumTag == 'AKU-QBank' && privTags.contains(access['name'])))  {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-
-  void _showPurchasePopup(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Purchase Required"),
-          content: const Text("You need to purchase the required bundle to access this content."),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 void _navigateToDeck(BuildContext context, DeckItem item) {
     final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
@@ -294,7 +293,11 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
   }
 
   void _showAlreadyAttemptedPopup(BuildContext context, DeckItem item) {
-    final userName = Provider.of<UserProvider>(context, listen: false).getUserName();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final accessTags = userProvider.getTags();
+    final bool hasFullAccess = _hasAccess(item.premiumTag, accessTags, item.isTutorModeFree);
+
+    final userName = userProvider.getUserName();
     final lastAttempt = Provider.of<DeckProvider>(context, listen: false).deckInformation?.attempts;
     final lastAttemptId = Provider.of<DeckProvider>(context, listen: false).deckInformation?.lastAttemptId;
 
@@ -317,16 +320,21 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    
                     SizedBox(
                       width: 120,
                       child: CustomButton(
                         buttonText: 'Re-Attempt',
                         onPressed: () {
-                          setState(() {
-                            isContinuingAttempt = false;
-                          });
-                          Navigator.pop(context);
-                          _navigateToDeck(context, item);
+                          if (hasFullAccess) {
+                            setState(() {
+                              isContinuingAttempt = false;
+                            });
+                            Navigator.pop(context);
+                            _navigateToDeck(context, item); 
+                          } else {
+                            _showPurchasePopup(context);  
+                          }
                         },
                         color: Colors.amber[900],
                         fontSize: 13,
@@ -334,29 +342,37 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
                       ),
                     ),
                     SizedBoxes.horizontalMicro,
+
+                    
                     SizedBox(
                       width: 100,
                       child: CustomButton(
                         buttonText: 'Continue Attempt',
                         onPressed: () async {
-                          setState(() {
-                            isContinuingAttempt = true;
-                          });
-                          Navigator.pop(context);
-                          if (lastAttempt != null && lastAttempt.isNotEmpty) {
-                            final latestAttempt = lastAttempt.last;
-                            final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+                          if (hasFullAccess) {
+                            setState(() {
+                              isContinuingAttempt = true;
+                            });
+                            Navigator.pop(context);
+                            if (lastAttempt != null && lastAttempt.isNotEmpty) {
+                              final latestAttempt = lastAttempt.last;
+                              final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
 
+                              final startFromQuestion = questionProvider.questions
+                                  ?.indexWhere((question) =>
+                              question.questionId == latestAttempt['questionId']) ??
+                                  0;
 
-                            final startFromQuestion = questionProvider.questions
-                                ?.indexWhere((question) => question.questionId == latestAttempt['questionId']) ?? 0;
-                            if (startFromQuestion >= 0) {
-                              _navigateToNextScreen(context, item, startFromQuestion: startFromQuestion, attemptId: lastAttemptId);
+                              if (startFromQuestion >= 0) {
+                                _navigateToNextScreen(context, item, startFromQuestion: startFromQuestion, attemptId: lastAttemptId);
+                              } else {
+                                _navigateToNextScreen(context, item, attemptId: lastAttemptId);
+                              }
                             } else {
                               _navigateToNextScreen(context, item, attemptId: lastAttemptId);
                             }
                           } else {
-                            _navigateToNextScreen(context, item, attemptId: lastAttemptId);
+                            _showPurchasePopup(context);  
                           }
                         },
                         color: Colors.blueAccent,
@@ -367,23 +383,78 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
                   ],
                 ),
                 SizedBoxes.verticalMedium,
+
+                
                 SizedBox(
                   width: 100,
                   child: CustomButton(
                     buttonText: 'Review Answers',
                     onPressed: () {
-                      Navigator.pop(context);
-                      setState(() {
-                        isContinuingAttempt = false;
-                      });
-                      _navigateToNextScreen(context, item, isReview: true, startFromQuestion: 0);
+                      if (hasFullAccess) {
+                        Navigator.pop(context);
+                        setState(() {
+                          isContinuingAttempt = false;
+                        });
+                        _navigateToNextScreen(context, item, isReview: true, startFromQuestion: 0);
+                      } else {
+                        _showPurchasePopup(context);  
+                      }
                     },
                     color: Colors.green,
                     fontSize: 13,
                     fontWeight: FontWeight.normal,
                   ),
-                )
+                ),
               ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  bool _hasAccess(String? premiumTag, Object? accessTags, bool? isTutorModeFree) {
+    
+    if (isTutorModeFree == true || premiumTag == null || premiumTag.isEmpty) {
+      return true;
+    }
+
+    
+    final List<String> mdcatTags = ['MDCAT-Topicals', 'MDCAT-Yearly'];
+    final List<String> numsTags = ['NUMS-Topicals', 'NUMS-Yearly'];
+    final List<String> privTags = ['AKU-Topicals', 'AKU-Yearly'];
+
+    if (accessTags is List<dynamic>) {
+      for (final access in accessTags) {
+        if (access is Map<String, dynamic>) {
+          if (access['name'] == premiumTag) {
+            return true;
+          }
+          if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
+              (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
+              (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
+            return true;
+          }
+        }
+      }
+    }
+
+    return false;
+  }
+
+  void _showPurchasePopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Purchase Required"),
+          content: const Text("You need to purchase the required bundle to access this content."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("OK"),
             ),
           ],
         );

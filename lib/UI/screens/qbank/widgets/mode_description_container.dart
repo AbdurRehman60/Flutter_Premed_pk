@@ -129,6 +129,8 @@ class _ModeDescriptionState extends State<ModeDescription> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => TutorMode(
+                        isRecent: false,
+                        isReview: false,
                         isContinuingAttempt: false,
                         subject: widget.subject,
                         attemptId: attemptId,
@@ -218,6 +220,7 @@ class _ModeDescriptionState extends State<ModeDescription> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => TestInterface(
+                        isReview: false,
                         isRecent: false,
                         isContinuingAttempt: false,
                         subject: widget.subject,

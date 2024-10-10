@@ -1,24 +1,21 @@
 class DeckGroupModel {
   DeckGroupModel({
     required this.deckGroupName,
-    required this.deckNameCount,
     required this.deckItems,
-    this.deckGroupImage,
     required this.deckType,
     required this.isPublished,
-  });
+    this.deckGroupImage,
+  }) : deckNameCount = deckItems.where((deck) => deck.isPublished).length;
 
   factory DeckGroupModel.fromJson(Map<String, dynamic> json) {
     final List<dynamic> deckData = json['decks'];
     final List<DeckItem> deckItems = deckData.map((deck) => DeckItem.fromJson(deck as Map<String, dynamic>)).toList();
-    final int deckNameCount = deckItems.length;
     final String? deckGroupImage = json['deckGroupImage'];
 
     return DeckGroupModel(
       deckType: json['deckType'],
       deckGroupName: json['deckGroupName'],
       deckItems: deckItems,
-      deckNameCount: deckNameCount,
       deckGroupImage: deckGroupImage,
       isPublished: json['isPublished'] as bool,
     );
@@ -45,7 +42,6 @@ class DeckItem {
   });
 
   factory DeckItem.fromJson(Map<String, dynamic> json) {
-
     return DeckItem(
       deckName: json['deckName'] as String,
       deckLogo: json['deckLogo'] as String,

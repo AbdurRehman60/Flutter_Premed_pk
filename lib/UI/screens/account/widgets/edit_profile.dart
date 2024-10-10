@@ -126,6 +126,7 @@ class _EditProfileState extends State<EditProfile> {
                       hintText: 'Enter your full name',
                       labelText: 'Full Name',
                       validator: validateFullname,
+                      enabled: false,
                     ),
                     SizedBoxes.verticalMedium,
                     CustomTextField(
@@ -134,6 +135,7 @@ class _EditProfileState extends State<EditProfile> {
                       hintText: 'Enter your email',
                       labelText: 'Email',
                       validator: (value) => validateEmail(value),
+                      enabled: false,
                     ),
                     SizedBoxes.verticalLarge,
                     Align(

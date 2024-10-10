@@ -13,11 +13,13 @@ class GlobalDeckTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    final uniquePublishedDecks = _getDecksWithBothPracticeAndPastPaper(deckGroup.deckItems);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
       child: GestureDetector(
-        onTap:
-            () {
+        onTap: () {
           _openBottomSheet(context, deckGroup, deckGroupName);
         },
         child: Container(
@@ -55,7 +57,7 @@ class GlobalDeckTile extends StatelessWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: '${deckGroup.deckNameCount} ',
+                        text: '${uniquePublishedDecks.length} ',  
                         style: PreMedTextTheme()
                             .heading5
                             .copyWith(fontSize: 15, fontWeight: FontWeight.w700),
@@ -85,12 +87,56 @@ class GlobalDeckTile extends StatelessWidget {
       ),
     );
   }
+
+  
+  List<DeckItem> _getDecksWithBothPracticeAndPastPaper(List<DeckItem> deckItems) {
+    final Map<String, List<DeckItem>> groupedDeckItems = {};
+
+    
+    for (final item in deckItems) {
+      String baseDeckName = _cleanDeckName(item.deckName);
+      if (!groupedDeckItems.containsKey(baseDeckName)) {
+        groupedDeckItems[baseDeckName] = [];
+      }
+      groupedDeckItems[baseDeckName]!.add(item);
+    }
+
+    final List<DeckItem> uniqueDeckItems = [];
+    groupedDeckItems.forEach((baseName, deckItems) {
+      bool hasPractice = false;
+      bool hasPastPaper = false;
+
+      for (var item in deckItems) {
+        if (item.deckName.contains('Practice') && item.isPublished) {
+          hasPractice = true;
+        } else if (item.deckName.contains('Past Paper') && item.isPublished) {
+          hasPastPaper = true;
+        }
+      }
+
+      
+      if (hasPractice && hasPastPaper) {
+        
+        final deckToDisplay =
+        deckItems.firstWhere((item) => item.deckName.contains('Practice'));
+        uniqueDeckItems.add(deckToDisplay);
+      }
+    });
+
+    return uniqueDeckItems;
+  }
+
+  
+  String _cleanDeckName(String deckName) {
+    return deckName
+        .replaceAll('Past Paper', '')
+        .replaceAll('Practice', '')
+        .trim();
+  }
 }
 
-
-
 void _openBottomSheet(
-    BuildContext context, DeckGroupModel deckGroup, qbankgroupName) {
+    BuildContext context, DeckGroupModel deckGroup, String qbankgroupName) {
   showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
