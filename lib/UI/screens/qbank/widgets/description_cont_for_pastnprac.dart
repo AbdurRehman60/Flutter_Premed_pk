@@ -41,6 +41,7 @@ class DescriptionContForPastnprac extends StatefulWidget {
 class _DescriptionContForPastnpracState extends State<DescriptionContForPastnprac> {
   @override
   Widget build(BuildContext context) {
+    print("yeh hy mode in mdcar ${widget.mode}");
     final pro = Provider.of<PreMedProvider>(context);
     return Material(
       borderRadius: BorderRadius.circular(24),
@@ -146,7 +147,7 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
     if (userId.isNotEmpty) {
       final attemptModel = CreateDeckAttemptModel(
         deckName: widget.deckName,
-        attemptMode: widget.mode ? 'tutormode' : 'testmode',
+        attemptMode: widget.mode ? 'tutormode' : 'tutormode',
         user: userId,
       );
       final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);

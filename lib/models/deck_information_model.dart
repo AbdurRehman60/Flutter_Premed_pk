@@ -6,6 +6,9 @@ class DeckInformation {
     required this.lastAttempt,
     required this.attemptMode,
     required this.questions,
+    this.correctAttempts,
+    this.incorrectAttempts,
+    this.skippedAttempts,
   });
 
   factory DeckInformation.fromJson(Map<String, dynamic> json) {
@@ -20,6 +23,9 @@ class DeckInformation {
       lastAttempt: json['lastAttempt'] ?? <String, dynamic>{},
       attemptMode: json['lastAttempt']?['attemptMode'] ?? '',
       questions: questions,
+      correctAttempts: json['correctAttempts'],
+      incorrectAttempts: json['incorrectAttempts'],
+      skippedAttempts: json['skippedAttempts'],
     );
   }
 
@@ -29,6 +35,9 @@ class DeckInformation {
   final Map<String, dynamic> lastAttempt;
   final String attemptMode;
   final List<String> questions;
+  int? correctAttempts;
+  int? incorrectAttempts;
+  int? skippedAttempts;
 
 
   // Helper method to extract attempts from the last attempt

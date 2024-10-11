@@ -24,294 +24,263 @@ class Analytics extends StatefulWidget {
   State<Analytics> createState() => _AnalyticsState();
 }
 
-void navigateToHomeScreen(BuildContext context) {
-  Navigator.of(context).pushReplacement(
-    MaterialPageRoute(
-      // ignore: deprecated_member_use
-      builder: (context) => WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
-        child: const MainNavigationScreen(),
-      ),
-    ),
-  );
-}
-
 class _AnalyticsState extends State<Analytics> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final attemptProvider =
-      Provider.of<AttemptProvider>(context, listen: false);
+      final attemptProvider = Provider.of<AttemptProvider>(context, listen: false);
       attemptProvider.getAttemptInfo(widget.attemptId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print("these are the correct attempts${widget.correct}, incorrect${widget.incorrect} skipped${widget.skipped} ");
     return Scaffold(
-        backgroundColor: PreMedColorTheme().background,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
-          child: AppBar(
-            backgroundColor: PreMedColorTheme().background,
-            leading: Container(
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x19000000),
-                    blurRadius: 5,
-                    offset: Offset(1, 7),
-                  )
-                ],
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              alignment: Alignment.center,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back_ios_new_rounded,
-                    color: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue),
-                onPressed: () {
-                  navigateToHomeScreen(context);
-                },
-              ),
-            ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Analytics',
-                  style: PreMedTextTheme().heading6.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBoxes.vertical2Px,
-                Text('TEST RESULT',
-                    style: PreMedTextTheme().subtext.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: PreMedColorTheme().black,
-                    ))
+      backgroundColor: PreMedColorTheme().background,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60.0),
+        child: AppBar(
+          backgroundColor: PreMedColorTheme().background,
+          leading: Container(
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x19000000),
+                  blurRadius: 5,
+                  offset: Offset(1, 7),
+                )
               ],
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
             ),
-            automaticallyImplyLeading: false,
+            alignment: Alignment.center,
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios_new_rounded,
+                  color: Provider.of<PreMedProvider>(context, listen: false).isPreMed
+                      ? PreMedColorTheme().red
+                      : PreMedColorTheme().blue),
+              onPressed: () {
+                navigateToHomeScreen(context);
+              },
+            ),
           ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Analytics',
+                style: PreMedTextTheme().heading6.copyWith(
+                    color: PreMedColorTheme().black, fontWeight: FontWeight.bold),
+              ),
+              SizedBoxes.vertical2Px,
+              Text('TEST RESULT',
+                  style: PreMedTextTheme().subtext.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: PreMedColorTheme().black,
+                  ))
+            ],
+          ),
+          automaticallyImplyLeading: false,
         ),
-        body: Consumer<AttemptProvider>(
-          builder: (context, attemptProvider, child) {
-            if (attemptProvider.status == AStatus.fetching) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (attemptProvider.status == AStatus.success) {
-              final attemptInfo = attemptProvider.attemptInfo;
-              return attemptInfo != null
-                  ? SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        attemptInfo['deckName'],
-                        style: PreMedTextTheme().body.copyWith(
-                            fontSize: 28, fontWeight: FontWeight.w800),
-                      ),
-                      SizedBoxes.verticalLarge,
+      ),
+      body: Consumer<AttemptProvider>(
+        builder: (context, attemptProvider, child) {
+          if (attemptProvider.status == AStatus.fetching) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (attemptProvider.status == AStatus.success) {
+            final attemptInfo = attemptProvider.attemptInfo;
+            final resultMeta = attemptProvider.resultMeta;  // Access resultMeta
 
-                      AttemptPieChart(
-                        correct: widget.correct,
-                        incorrect: widget.incorrect,
-                        skipped: widget.skipped,
-                      ),
-                      SizedBoxes.verticalGargangua,
-                      Row(
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              child: Container(
-                                height: 187,
-                                decoration: BoxDecoration(
-                                  boxShadow: CustomBoxShadow.boxShadow40,
-                                  borderRadius:
-                                  BorderRadius.circular(15),
-                                  color:  Colors.white.withOpacity(0.8500000238418579),
-                                ),
-                                margin: const EdgeInsets.all(5.0),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                            PremedAssets.PieChart),
-                                        SizedBoxes.verticalMedium,
-                                        Text(
-                                          'Total Marks Scored: ${attemptInfo['totalMarks']}',
-                                          textAlign: TextAlign.center,
-                                          style: PreMedTextTheme()
-                                              .body
-                                              .copyWith(
-                                              fontWeight:
-                                              FontWeight.w600,
-                                              fontSize: 17),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBoxes.horizontalTiny,
-                          Expanded(
-                            child: InkWell(
-                              child: Container(
-                                height: 187,
-                                decoration: BoxDecoration(
-                                  boxShadow: CustomBoxShadow.boxShadow40,
-                                  borderRadius:
-                                  BorderRadius.circular(15),
-                                  color: Colors.white.withOpacity(0.8500000238418579),
-                                ),
-                                margin: const EdgeInsets.all(5.0),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(PremedAssets.Timer),
-                                        SizedBoxes.verticalMedium,
-                                        Text(
-                                          'Total Time Taken: ${attemptInfo['totalTimeTaken']}s',
-                                          textAlign: TextAlign.center,
-                                          style: PreMedTextTheme()
-                                              .body
-                                              .copyWith(
-                                              fontWeight:
-                                              FontWeight.w600,
-                                              fontSize: 17),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBoxes.horizontalTiny,
-                          Expanded(
-                            child: InkWell(
-                              child: Container(
-                                height: 187,
-                                decoration: BoxDecoration(
-                                  boxShadow: CustomBoxShadow.boxShadow40,
-                                  borderRadius:
-                                  BorderRadius.circular(15),
-                                  color: Colors.white.withOpacity(0.8500000238418579),
-                                ),
-                                margin: const EdgeInsets.all(5.0),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(PremedAssets.Graph),
-                                        SizedBoxes.verticalMedium,
-                                        Text(
-                                          'Avg Time Per Question: ${attemptInfo['avgTimeTaken'].toStringAsFixed(2)}s',
-                                          textAlign: TextAlign.center,
-                                          style: PreMedTextTheme()
-                                              .body
-                                              .copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 17),
-                                        ),
+            // Ensure resultMeta is not null
+            return resultMeta != null
+                ? SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      resultMeta.deckName, // Access deckName from resultMeta
+                      style: PreMedTextTheme()
+                          .body
+                          .copyWith(fontSize: 28, fontWeight: FontWeight.w800),
+                    ),
+                    SizedBoxes.verticalLarge,
 
-                                      ],
-                                    ),
+                    AttemptPieChart(
+                      correct: widget.correct,
+                      incorrect: widget.incorrect,
+                      skipped: widget.skipped,
+                    ),
+                    SizedBoxes.verticalGargangua,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            child: Container(
+                              height: 187,
+                              decoration: BoxDecoration(
+                                boxShadow: CustomBoxShadow.boxShadow40,
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.white.withOpacity(0.85),
+                              ),
+                              margin: const EdgeInsets.all(5.0),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(PremedAssets.PieChart),
+                                      SizedBoxes.verticalMedium,
+                                      Text(
+                                        'Total Marks Scored: ${resultMeta.totalMarks}', // Access totalMarks from resultMeta
+                                        textAlign: TextAlign.center,
+                                        style: PreMedTextTheme()
+                                            .body
+                                            .copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 17),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      SizedBoxes.verticalBig,
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: CustomBoxShadow.boxShadow40,
-                          color: Colors.white.withOpacity(0.8500000238418579),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            children: [
-                              const Center(
-                                  child: Text('Summary',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18))),
-                              SizedBoxes.verticalGargangua,
-                              _buildInfoRow('Attempted:',
-                                  attemptInfo['attempted'].toString()),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Average Time Taken', style: PreMedTextTheme().body.copyWith(fontWeight: FontWeight.bold)),
-                                  Text(
-                                    '${attemptInfo['avgTimeTaken'].toStringAsFixed(2)}s',
-                                    textAlign: TextAlign.center,
+                        SizedBoxes.horizontalTiny,
+                        Expanded(
+                          child: InkWell(
+                            child: Container(
+                              height: 187,
+                              decoration: BoxDecoration(
+                                boxShadow: CustomBoxShadow.boxShadow40,
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.white.withOpacity(0.85),
+                              ),
+                              margin: const EdgeInsets.all(5.0),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(PremedAssets.Timer),
+                                      SizedBoxes.verticalMedium,
+                                      Text(
+                                        'Total Time Taken: ${resultMeta.totalTimeTaken}s', // Access totalTimeTaken from resultMeta
+                                        textAlign: TextAlign.center,
+                                        style: PreMedTextTheme()
+                                            .body
+                                            .copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 17),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBoxes.horizontalTiny,
+                        Expanded(
+                          child: InkWell(
+                            child: Container(
+                              height: 187,
+                              decoration: BoxDecoration(
+                                boxShadow: CustomBoxShadow.boxShadow40,
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.white.withOpacity(0.85),
+                              ),
+                              margin: const EdgeInsets.all(5.0),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(PremedAssets.Graph),
+                                      SizedBoxes.verticalMedium,
+                                      Text(
+                                        'Avg Time Per Question: ${resultMeta.avgTimeTaken.toStringAsFixed(2)}s', // Access avgTimeTaken from resultMeta
+                                        textAlign: TextAlign.center,
+                                        style: PreMedTextTheme()
+                                            .body
+                                            .copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 17),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBoxes.verticalBig,
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: CustomBoxShadow.boxShadow40,
+                        color: Colors.white.withOpacity(0.85),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Center(
+                                child: Text('Summary',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18))),
+                            SizedBoxes.verticalGargangua,
+                            _buildInfoRow('Attempted:', resultMeta.attempted.toString()),  // Access attempted from resultMeta
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Average Time Taken',
                                     style: PreMedTextTheme()
                                         .body
-                                        .copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 17),
-                                  ),
-
-                                ],
-                              ),
-                              _buildInfoRow(
-                                  'Negatives Due to Wrong:',
-                                  attemptInfo['negativesDueToWrong']
-                                      .toString()),
-                              _buildInfoRow(
-                                  'No of Negatively Marked:',
-                                  attemptInfo['noOfNegativelyMarked']
-                                      .toString()),
-                              _buildInfoRow('Total Marks:',
-                                  attemptInfo['totalMarks'].toString()),
-                              _buildInfoRow(
-                                  'Total Questions:',
-                                  attemptInfo['totalQuestions']
-                                      .toString()),
-                              _buildInfoRow('Total Time Taken:',
-                                  '${attemptInfo['totalTimeTaken']}s'),
-                            ],
-                          ),
+                                        .copyWith(fontWeight: FontWeight.bold)),
+                                Text(
+                                  '${resultMeta.avgTimeTaken.toStringAsFixed(2)}s', // Access avgTimeTaken directly from resultMeta
+                                  textAlign: TextAlign.center,
+                                  style: PreMedTextTheme()
+                                      .body
+                                      .copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 17),
+                                ),
+                              ],
+                            ),
+                            _buildInfoRow('Negatives Due to Wrong:', resultMeta.negativesDueToWrong.toString()),
+                            _buildInfoRow('No of Negatively Marked:', resultMeta.noOfNegativelyMarked.toString()),
+                            _buildInfoRow('Total Marks:', resultMeta.totalMarks.toString()),
+                            _buildInfoRow('Total Questions:', resultMeta.totalQuestions.toString()),
+                            _buildInfoRow('Total Time Taken:', '${resultMeta.totalTimeTaken}s'),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              )
-                  : const Center(child: Text('No attempt info available'));
-            } else {
-              return Center(child: Text(attemptProvider.message));
-            }
-          },
-        ));
+              ),
+            )
+                : const Center(child: Text('No attempt info available'));
+          } else {
+            return Center(child: Text(attemptProvider.message));
+          }
+        },
+      ),
+    );
   }
 
   Widget _buildInfoRow(String label, String value) {
@@ -323,6 +292,19 @@ class _AnalyticsState extends State<Analytics> {
           Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
           Text(value),
         ],
+      ),
+    );
+  }
+
+  void navigateToHomeScreen(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => WillPopScope(
+          onWillPop: () async {
+            return false;
+          },
+          child: const MainNavigationScreen(),
+        ),
       ),
     );
   }

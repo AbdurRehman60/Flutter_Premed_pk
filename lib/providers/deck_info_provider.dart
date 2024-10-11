@@ -17,6 +17,10 @@ class DeckProvider extends ChangeNotifier {
 
   FetchStatus _fetchStatus = FetchStatus.idle;
   FetchStatus get fetchStatus => _fetchStatus;
+  Attempts? attempts;
+
+  Attempts? get resultMeta => attempts;
+
 
   Future<void> fetchDeckInformation(String category, String deckGroup, String deckName, String userId) async {
     _fetchStatus = FetchStatus.loading;

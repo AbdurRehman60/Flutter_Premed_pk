@@ -117,12 +117,51 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 
   Future<void> _showFinishDialog() async {
-    Navigator.pop(context);
-    final attemptProvider =
-    Provider.of<AttemptProvider>(context, listen: false);
-    final unattemptedQuestions =
-        widget.totalquestions - correctAttempts - incorrectAttempts;
+    // Fetch the attempt details from the API
+    final attemptProvider = Provider.of<AttemptProvider>(context, listen: false);
+    await attemptProvider.getAttemptInfo(widget.attemptId);
+    final deckProvider = Provider.of<DeckProvider>(context, listen: false);
 
+    // Fetch previous attempts if available
+    final previousCorrectAttempts = deckProvider.deckInformation?.correctAttempts ?? 0;
+    final previousIncorrectAttempts = deckProvider.deckInformation?.incorrectAttempts ?? 0;
+    final previousSkippedAttempts = deckProvider.deckInformation?.skippedAttempts ?? 0;
+
+    // Ensure the data is fetched successfully
+    if (attemptProvider.status != AStatus.success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load attempt details: ${attemptProvider.message}')),
+      );
+      return;
+    }
+
+    final attemptInfo = attemptProvider.attemptInfo;
+
+    // Check if attemptInfo is null (safeguard in case API response fails)
+    if (attemptInfo == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load attempt info. Please try again.')),
+      );
+      return;
+    }
+
+    // Current attempt values
+    int correctAttempts = attemptInfo.correctAttempts;
+    int incorrectAttempts = attemptInfo.incorrectAttempts;
+    int skippedAttempts = attemptInfo.skippedAttempts;
+    final totalTimeTaken = attemptInfo.totalTimeTaken;
+    final unattemptedQuestions = attemptInfo.totalQuestions - correctAttempts - incorrectAttempts;
+
+    // Add the previous attempts if 'isContinuing' or 'isRecent' is true
+    if (widget.isContinuingAttempt == true || widget.isRecent == true) {
+      correctAttempts += previousCorrectAttempts;
+      incorrectAttempts += previousIncorrectAttempts;
+      skippedAttempts += previousSkippedAttempts;
+    }
+
+    print("Total attempted questions: ${correctAttempts + incorrectAttempts}");
+
+    // Proceed to show the dialog with the updated data
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -170,6 +209,7 @@ class _TestInterfaceState extends State<TestInterface> {
 
                 final attempted = correctAttempts + incorrectAttempts;
 
+                // Update the result with combined values (previous + current)
                 await attemptProvider.updateResult(
                   attemptId: widget.attemptId,
                   attempted: attempted,
@@ -191,21 +231,19 @@ class _TestInterfaceState extends State<TestInterface> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          Analytics(
-                            attemptId: widget.attemptId,
-                            correct: correctAttempts,
-                            incorrect: incorrectAttempts,
-                            skipped: skippedAttempts,
-                          ),
+                      builder: (context) => Analytics(
+                        attemptId: widget.attemptId,
+                        correct: correctAttempts,
+                        incorrect: incorrectAttempts,
+                        skipped: skippedAttempts,
+                      ),
                     ),
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                          'Failed to update the result: ${attemptProvider
-                              .message}'),
+                          'Failed to update the result: ${attemptProvider.message}'),
                     ),
                   );
                 }
@@ -364,10 +402,10 @@ class _TestInterfaceState extends State<TestInterface> {
         await questionProvider.fetchQuestions(widget.deckName, page);
 
 
-        questionProvider.questions.removeWhere((q) =>
+        questionProvider.questions?.removeWhere((q) =>
             loadedQuestionIds.contains(q.questionId));
         loadedQuestionIds.addAll(
-            questionProvider.questions.map((q) => q.questionId));
+            questionProvider.questions?.map((q) => q.questionId) ?? []);
       }
     }
 
@@ -382,7 +420,6 @@ class _TestInterfaceState extends State<TestInterface> {
 
     final deckProvider = Provider.of<DeckProvider>(context, listen: false);
     final lastAttempt = deckProvider.deckInformation?.lastAttempt;
-
     if (lastAttempt != null && lastAttempt['attempts'] != null) {
       final attempts = lastAttempt['attempts'];
 
@@ -503,7 +540,7 @@ class _TestInterfaceState extends State<TestInterface> {
         .of<QuestionProvider>(context, listen: false)
         .questions;
 
-    if (questions.isNotEmpty) {
+    if (questions != null && questions.isNotEmpty) {
       for (int i = 0; i < questions.length; i++) {
         if (questions[i].questionId == questionId) {
           print("DEBUG: Found questionId $questionId at index $i");
@@ -542,8 +579,8 @@ class _TestInterfaceState extends State<TestInterface> {
           isPrefetched = true;
         }
 
-        if (questionProvider.questions.length > currentQuestionIndex) {
-          final question = questionProvider.questions[currentQuestionIndex];
+        if (questionProvider.questions!.length > currentQuestionIndex) {
+          final question = questionProvider.questions![currentQuestionIndex];
           selectedOption = selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
 
@@ -614,10 +651,10 @@ class _TestInterfaceState extends State<TestInterface> {
       print("DEBUG: Fetching questions from page: $page");
       await questionProvider.fetchQuestions(widget.deckName, page);
 
-      questionProvider.questions.removeWhere((q) =>
+      questionProvider.questions?.removeWhere((q) =>
           loadedQuestionIds.contains(q.questionId));
 
-      final fetchedQuestionIds = questionProvider.questions.map((q) =>
+      final fetchedQuestionIds = questionProvider.questions?.map((q) =>
       q.questionId) ?? [];
 
       if (fetchedQuestionIds.isNotEmpty) {
@@ -652,9 +689,9 @@ class _TestInterfaceState extends State<TestInterface> {
         if (currentQuestionIndex % 10 == 9 && currentPage > 1) {
           currentPage--;
           _fetchNextSetOfQuestions(currentPage).then((_) {
-            if (questionProvider.questions.length > currentQuestionIndex) {
+            if (questionProvider.questions!.length > currentQuestionIndex) {
               final question =
-              questionProvider.questions[currentQuestionIndex];
+              questionProvider.questions![currentQuestionIndex];
               selectedOption = selectedOptions[currentQuestionIndex];
               optionSelected = selectedOption != null;
 
@@ -676,8 +713,8 @@ class _TestInterfaceState extends State<TestInterface> {
                   "Error: Attempted to access a question that hasn't been loaded yet.");
             }
           });
-        } else if (questionProvider.questions.length > currentQuestionIndex) {
-          final question = questionProvider.questions[currentQuestionIndex];
+        } else if (questionProvider.questions!.length > currentQuestionIndex) {
+          final question = questionProvider.questions![currentQuestionIndex];
           selectedOption = selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
 
@@ -761,7 +798,7 @@ class _TestInterfaceState extends State<TestInterface> {
         );
 
         if (recentAttempt.attempts != null) {
-          final question = questionProvider.questions[currentQuestionIndex];
+          final question = questionProvider.questions![currentQuestionIndex];
 
           final recentSelection = recentAttempt.attempts!.attempts!
               .firstWhere(
@@ -780,7 +817,7 @@ class _TestInterfaceState extends State<TestInterface> {
         if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
           final lastAttempt = deckInfo.lastAttempt;
 
-          final question = questionProvider.questions[currentQuestionIndex];
+          final question = questionProvider.questions![currentQuestionIndex];
 
           final continuingSelection = lastAttempt['attempts']!
               .firstWhere(
@@ -798,7 +835,7 @@ class _TestInterfaceState extends State<TestInterface> {
         if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
           final lastAttempt = deckInfo.lastAttempt;
 
-          final question = questionProvider.questions[currentQuestionIndex];
+          final question = questionProvider.questions![currentQuestionIndex];
 
           final reviewSelection = lastAttempt['attempts']!
               .firstWhere(
@@ -912,7 +949,7 @@ class _TestInterfaceState extends State<TestInterface> {
       final timeTaken = _stopwatch.elapsedMilliseconds;
       totalTimeTaken += (timeTaken / 1000).round();
 
-      final question = questionProvider.questions[currentQuestionIndex];
+      final question = questionProvider.questions![currentQuestionIndex];
       if (optionSelected) {
         final selectedOptionObj = question.options
             .singleWhere((option) => option.optionLetter == selectedOption);
@@ -982,7 +1019,7 @@ class _TestInterfaceState extends State<TestInterface> {
 
   void startLoadingAnimation() {
     _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      _dotCountNotifier.value = (_dotCountNotifier.value + 1) % 4; 
+      _dotCountNotifier.value = (_dotCountNotifier.value + 1) % 4; // Update dot count
     });
   }
 
@@ -1069,7 +1106,7 @@ class _TestInterfaceState extends State<TestInterface> {
                 valueListenable: _dotCountNotifier,
                 builder: (context, dotCount, child) {
                   return Text(
-                    "Questions are loading${'.' * dotCount}", 
+                    "Questions are loading${'.' * dotCount}", // Update dots based on the notifier
                     style: const TextStyle(fontSize: 16),
                   );
                 },
@@ -1246,7 +1283,7 @@ class _TestInterfaceState extends State<TestInterface> {
                     onPressed: () {
                       final question =
                       Provider.of<QuestionProvider>(context, listen: false)
-                          .questions[currentQuestionIndex];
+                          .questions![currentQuestionIndex];
                       _eliminateOptions(question.options);
                     },
                     child: Row(

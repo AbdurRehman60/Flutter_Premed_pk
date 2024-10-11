@@ -1,6 +1,7 @@
 import 'package:premedpk_mobile_app/api_manager/dio%20client/endpoints.dart';
 import '../api_manager/dio client/dio_client.dart';
 import '../constants/constants_export.dart';
+import '../models/attemot_info_model.dart';
 
 enum AStatus { init, fetching, success, error }
 
@@ -9,11 +10,21 @@ class AttemptProvider extends ChangeNotifier {
   AStatus status = AStatus.init;
   String message = '';
 
+  ResultMeta? _resultMeta;
+
   final List<Map<String, dynamic>> _attemptsBody = [];
-  Map<String, dynamic>? _attemptInfo;
+
+  AttemptInfo? _attemptInfo;
+
+  AttemptInfo? get attemptInfo => _attemptInfo;
 
   List<Map<String, dynamic>> get attemptsBody => _attemptsBody;
-  Map<String, dynamic>? get attemptInfo => _attemptInfo;
+
+  // Define the resultMeta getter to expose _resultMeta
+  ResultMeta? get resultMeta => _resultMeta;
+
+
+
 
   Future<void> updateAttempt({
     required String attemptId,
@@ -138,7 +149,19 @@ class AttemptProvider extends ChangeNotifier {
       final response = await _client.get(Endpoints.getAttemptInfo(attemptId));
 
       if (response != null && response['success'] == true) {
-        _attemptInfo = response['data']['resultMeta'];
+        // Parse the AttemptInfo from the API response
+        _attemptInfo = AttemptInfo.fromJson(response['data']);
+
+        // Parse resultMeta separately if necessary
+        final resultMetaJson = response['data']['resultMeta']; // Extract resultMeta JSON
+        _resultMeta = ResultMeta.fromJson(resultMetaJson);     // Parse into ResultMeta object
+
+        // Now, access the attempted value from resultMeta
+        final attempted = _resultMeta?.attempted ?? 0; // Use the attempted value from resultMeta
+
+        // You can now use `attempted` wherever you need it
+        print('Attempted: $attempted'); // Example usage of attempted
+
         status = AStatus.success;
         message = 'Attempt info fetched successfully';
       } else {
@@ -153,4 +176,3 @@ class AttemptProvider extends ChangeNotifier {
     }
   }
 }
-

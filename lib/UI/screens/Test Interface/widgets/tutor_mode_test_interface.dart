@@ -218,7 +218,7 @@ class _TutorModeState extends State<TutorMode> {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const DashboardScreen(),
+                    builder: (context) => const MainNavigationScreen(),
                   ),
                   (Route<dynamic> route) => false,
                 );
