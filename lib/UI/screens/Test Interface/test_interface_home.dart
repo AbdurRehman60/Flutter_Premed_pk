@@ -117,51 +117,52 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 
   Future<void> _showFinishDialog() async {
-    // Fetch the attempt details from the API
+    
     final attemptProvider = Provider.of<AttemptProvider>(context, listen: false);
     await attemptProvider.getAttemptInfo(widget.attemptId);
-    final deckProvider = Provider.of<DeckProvider>(context, listen: false);
 
-    // Fetch previous attempts if available
-    final previousCorrectAttempts = deckProvider.deckInformation?.correctAttempts ?? 0;
-    final previousIncorrectAttempts = deckProvider.deckInformation?.incorrectAttempts ?? 0;
-    final previousSkippedAttempts = deckProvider.deckInformation?.skippedAttempts ?? 0;
+    
+    print("Attempt Info: ${attemptProvider.attemptInfo}");
 
-    // Ensure the data is fetched successfully
-    if (attemptProvider.status != AStatus.success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load attempt details: ${attemptProvider.message}')),
-      );
-      return;
-    }
-
+    
     final attemptInfo = attemptProvider.attemptInfo;
 
-    // Check if attemptInfo is null (safeguard in case API response fails)
     if (attemptInfo == null) {
+      print('Error: attemptInfo is null');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load attempt info. Please try again.')),
+        SnackBar(content: Text('Failed to load valid attempt info. Please try again.')),
       );
       return;
     }
 
-    // Current attempt values
-    int correctAttempts = attemptInfo.correctAttempts;
-    int incorrectAttempts = attemptInfo.incorrectAttempts;
-    int skippedAttempts = attemptInfo.skippedAttempts;
-    final totalTimeTaken = attemptInfo.totalTimeTaken;
-    final unattemptedQuestions = attemptInfo.totalQuestions - correctAttempts - incorrectAttempts;
+    
+    print("correctAttempts: ${attemptInfo.correctAttempts}");
+    print("incorrectAttempts: ${attemptInfo.incorrectAttempts}");
+    print("totalTimeTaken: ${attemptInfo.totalTimeTaken}");
+    print("totalQuestions: ${attemptInfo.totalQuestions}");
 
-    // Add the previous attempts if 'isContinuing' or 'isRecent' is true
-    if (widget.isContinuingAttempt == true || widget.isRecent == true) {
-      correctAttempts += previousCorrectAttempts;
-      incorrectAttempts += previousIncorrectAttempts;
-      skippedAttempts += previousSkippedAttempts;
+    
+    if (attemptInfo.correctAttempts == null ||
+        attemptInfo.incorrectAttempts == null ||
+        attemptInfo.totalTimeTaken == null ||
+        attemptInfo.totalQuestions == null) {
+      print('Error: One or more fields in attemptInfo are null');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Invalid attempt data. Please try again.')),
+      );
+      return;
     }
+
+    
+    int correctAttempts = attemptInfo.correctAttempts!;
+    int incorrectAttempts = attemptInfo.incorrectAttempts!;
+    int skippedAttempts = attemptInfo.skippedAttempts ?? 0;
+    final totalTimeTaken = attemptInfo.totalTimeTaken!;
+    final unattemptedQuestions = attemptInfo.totalQuestions! - correctAttempts - incorrectAttempts;
 
     print("Total attempted questions: ${correctAttempts + incorrectAttempts}");
 
-    // Proceed to show the dialog with the updated data
+    
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -209,7 +210,7 @@ class _TestInterfaceState extends State<TestInterface> {
 
                 final attempted = correctAttempts + incorrectAttempts;
 
-                // Update the result with combined values (previous + current)
+                
                 await attemptProvider.updateResult(
                   attemptId: widget.attemptId,
                   attempted: attempted,
@@ -979,11 +980,13 @@ class _TestInterfaceState extends State<TestInterface> {
         'attempted': optionSelected,
       };
 
+      print("YEH HY TIME TAKEN $timeTaken and $totalTimeTaken");
       attemptProvider.updateAttempt(
         attemptId: widget.attemptId,
         attemptData: attemptData,
         totalTimeTaken: totalTimeTaken,
       );
+
 
       selectedOptions[currentQuestionIndex] = selectedOption;
     }
@@ -1019,7 +1022,7 @@ class _TestInterfaceState extends State<TestInterface> {
 
   void startLoadingAnimation() {
     _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      _dotCountNotifier.value = (_dotCountNotifier.value + 1) % 4; // Update dot count
+      _dotCountNotifier.value = (_dotCountNotifier.value + 1) % 4; 
     });
   }
 
@@ -1106,7 +1109,7 @@ class _TestInterfaceState extends State<TestInterface> {
                 valueListenable: _dotCountNotifier,
                 builder: (context, dotCount, child) {
                   return Text(
-                    "Questions are loading${'.' * dotCount}", // Update dots based on the notifier
+                    "Questions are loading${'.' * dotCount}", 
                     style: const TextStyle(fontSize: 16),
                   );
                 },
