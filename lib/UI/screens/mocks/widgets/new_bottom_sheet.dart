@@ -73,6 +73,7 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
     final Map<String, List<DeckItem>> groupedDeckItems = {};
     final List<int> originalIndexes = [];
 
+
     for (final item in widget.deckGroup.deckItems) {
       String baseDeckName = newdeckname(item.deckName);
       if (!groupedDeckItems.containsKey(baseDeckName)) {
@@ -81,22 +82,21 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
       groupedDeckItems[baseDeckName]!.add(item);
     }
 
+
     final List<DeckItem> uniquedeckitems = [];
     groupedDeckItems.forEach((baseName, deckItems) {
-      bool isPracticePublished = false;
       bool isPastPaperPublished = false;
 
+
       for (var item in deckItems) {
-        if (item.deckName.contains('Practice') && item.isPublished) {
-          isPracticePublished = true;
-        } else if (item.deckName.contains('Past Paper') && item.isPublished) {
+        if (item.deckName.contains('Past Paper') && item.isPublished) {
           isPastPaperPublished = true;
         }
       }
 
-      if (isPracticePublished && isPastPaperPublished) {
+      if (isPastPaperPublished) {
         final deckToDisplay =
-            deckItems.firstWhere((item) => item.deckName.contains('Practice'));
+        deckItems.firstWhere((item) => item.deckName.contains('Past Paper'));
         uniquedeckitems.add(deckToDisplay);
 
         final originalIndex = widget.deckGroup.deckItems.indexOf(deckToDisplay);
@@ -131,9 +131,12 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                 itemCount: uniquedeckitems.length,
                 itemBuilder: (context, index) {
                   final DeckItem item = uniquedeckitems[index];
-
-
                   final String cleanedDeckName = newdeckname(item.deckName);
+
+
+                  print('Deck Name: ${item.deckName}');
+                  print('Deck Logo URL: ${item.deckLogo}');
+                  print('Is Past Paper: ${item.deckName.contains('Past Paper')}');
 
                   return Container(
                     margin: const EdgeInsets.symmetric(vertical: 4),
@@ -141,7 +144,9 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                       color: Colors.white,
                     ),
                     child: ListTile(
-                      leading: GetLogo(url: item.deckLogo),
+                      leading: item.deckName.contains('Past Paper')
+                          ? GetLogo(url: item.deckLogo)
+                          : const Text('No Logo'),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -149,10 +154,10 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                           Text(
                             cleanedDeckName,
                             style: PreMedTextTheme().body.copyWith(
-                                  color: PreMedColorTheme().black,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 17,
-                                ),
+                              color: PreMedColorTheme().black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 17,
+                            ),
                           ),
                           SizedBoxes.verticalTiny,
                         ],
@@ -181,7 +186,7 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                             await _fetchQuestions(cleanedDeckName, context);
 
                             final deckInfo = Provider.of<PaperProvider>(context,
-                                    listen: false)
+                                listen: false)
                                 .deckInformation;
 
                             print(
@@ -209,7 +214,8 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
     );
   }
 
-  void _showPurchasePopup(BuildContext context) {
+
+void _showPurchasePopup(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final String appToken = userProvider.user?.info.appToken?? '';
     showDialog(
@@ -333,9 +339,9 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                               isContinuingAttempt = false;
                             });
                             Navigator.pop(context);
-                            _navigateToDeck(context, item); // Proceed to re-attempt
+                            _navigateToDeck(context, item);
                           } else {
-                            _showPurchasePopup(context);  // Show purchase popup if no access
+                            _showPurchasePopup(context);
                           }
                         },
                         color: Colors.amber[900],
@@ -379,7 +385,7 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                                   attemptId: lastAttemptId);
                             }
                           } else {
-                            _showPurchasePopup(context);  // Show purchase popup if no access
+                            _showPurchasePopup(context);
                           }
                         },
                         color: Colors.blueAccent,
@@ -403,7 +409,7 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                         _navigateToNextScreen(context, item,
                             isReview: true, startFromQuestion: 0);
                       } else {
-                        _showPurchasePopup(context);  // Show purchase popup if no access
+                        _showPurchasePopup(context);
                       }
                     },
                     color: Colors.green,

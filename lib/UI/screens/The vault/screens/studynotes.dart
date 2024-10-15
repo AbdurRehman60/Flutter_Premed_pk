@@ -5,7 +5,6 @@ import '../../../../providers/vaultProviders/premed_access_provider.dart';
 import '../../../../providers/vaultProviders/study_notes_proivders.dart';
 import '../display_pdf.dart';
 import '../widgets/back_button.dart';
-import '../widgets/custom_dropdown.dart';
 import '../widgets/topic_button.dart';
 
 class StudyNotesHome extends StatefulWidget {
@@ -18,7 +17,7 @@ class StudyNotesHome extends StatefulWidget {
 class _StudyNotesHomeState extends State<StudyNotesHome> {
   final TextEditingController _searchController = TextEditingController();
   String _activeTopic = 'Chemistry';
-  String _selectedProvince = 'All';
+  final String _selectedProvince = 'All';
   List<VaultNotesModel> _filteredNotes = [];
 
   @override
@@ -52,13 +51,6 @@ class _StudyNotesHomeState extends State<StudyNotesHome> {
     _filterNotes();
   }
 
-  void _handleProvinceSelected(String province) {
-    setState(() {
-      _selectedProvince = province;
-    });
-    _filterNotes();
-  }
-
   void _filterNotes() {
     final vaultStudyNotesProvider = Provider.of<VaultStudyNotesProvider>(context, listen: false);
     final allNotes = vaultStudyNotesProvider.vaultNotesList;
@@ -69,8 +61,7 @@ class _StudyNotesHomeState extends State<StudyNotesHome> {
         final matchesSearchQuery = note.topicName
             .toLowerCase()
             .contains(_searchController.text.toLowerCase());
-        final matchesProvince =
-            _selectedProvince == 'All' || note.province == _selectedProvince;
+        final matchesProvince = _selectedProvince == 'All';  
 
         return matchesTopic && matchesSearchQuery && matchesProvince;
       }).toList();
@@ -82,7 +73,8 @@ class _StudyNotesHomeState extends State<StudyNotesHome> {
     return Consumer<VaultStudyNotesProvider>(
       builder: (context, vaultStudyNotesProvider, _) {
         final bool isLoading = vaultStudyNotesProvider.vaultnotesLoadingstatus == Status.fetching;
-        final preMedAccess = Provider.of<PreMedAccessProvider>(context,listen: false);
+        final preMedAccess = Provider.of<PreMedAccessProvider>(context, listen: false);
+
         return Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: const Color(0xFFFBF0F3),
@@ -91,9 +83,6 @@ class _StudyNotesHomeState extends State<StudyNotesHome> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 13),
               child: AppBar(
-                actions: [
-                  CustomDropdownbtn(onProvinceSelected: _handleProvinceSelected),
-                ],
                 title: Text(
                   'The Vault',
                   style: PreMedTextTheme()

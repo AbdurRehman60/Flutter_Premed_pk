@@ -1,25 +1,24 @@
-import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/a_new_onboarding/thankyou_screen.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:premedpk_mobile_app/constants/constants_export.dart';
+
 import '../../../models/onboarding_model.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/onboarding_provider.dart';
 import '../../../providers/user_provider.dart';
-import '../marketplace/checkout/thankyou.dart';
 
 class ChooseFeatures extends StatefulWidget {
   const ChooseFeatures(
       {super.key,
-      this.password,
-      required this.selectedExam,
-      required this.category,
-      required this.city,
-      required this.phoneNumber,
-      required this.institution,
-      required this.lastOnboarding,
-      required this.educationSystem});
+        this.password,
+        required this.selectedExam,
+        required this.category,
+        required this.city,
+        required this.phoneNumber,
+        required this.institution,
+        required this.lastOnboarding,
+        required this.educationSystem});
 
   final String? password;
   final String lastOnboarding;
@@ -73,24 +72,30 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
   }
 
   Future<void> submitOnboardingData() async {
-    final AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
-    final UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-    final String? username = userProvider.user?.userName;
     final boardProvider = Provider.of<BoardProvider>(context, listen: false);
     final boards = boardProvider.boards;
     final selectedBoard = boards.firstWhere(
-      (board) => board.boardName == widget.selectedExam,
+          (board) => board.boardName == widget.selectedExam,
       orElse: () => Board(id: '', boardName: '', position: 0, tags: []),
     );
 
     final List<String> features = getSelectedFeatures(selectedBoard);
 
+    
+    if (features.isEmpty) {
+      _showFeatureSelectionWarning();
+      return;
+    }
+
+    final AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
+    final UserProvider userProvider =
+    Provider.of<UserProvider>(context, listen: false);
+    final String? username = userProvider.user?.userName;
+
     try {
       final result = await auth.requiredOnboarding(
         username: username!,
-        lastOnboardingPage: widget.lastOnboarding +
-            "/additional-info/features/recommended-bundles",
+        lastOnboardingPage: "${widget.lastOnboarding}/additional-info/features/recommended-bundles",
         selectedExams: [widget.selectedExam],
         selectedFeatures: features,
         city: widget.city,
@@ -103,14 +108,13 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
       );
 
       if (result['status']) {
-        print(" after all of the apis${widget.lastOnboarding}");
         await saveUserTrack();
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => const ThankyouScreen(),
           ),
-          (route) => false,
+              (route) => false,
         );
       } else {
         setState(() {
@@ -126,6 +130,26 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
       });
       showErrorDialog(error);
     }
+  }
+
+  void _showFeatureSelectionWarning() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("No Features Selected"),
+          content: const Text("Please select at least one feature to continue."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void showErrorDialog(String errorMessage) {
@@ -168,7 +192,7 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
 
     final boards = boardProvider.boards;
     final selectedBoard = boards.firstWhere(
-      (board) => board.boardName == widget.selectedExam,
+          (board) => board.boardName == widget.selectedExam,
       orElse: () => Board(id: '', boardName: '', position: 0, tags: []),
     );
 
@@ -183,27 +207,27 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
             RichText(
               text: TextSpan(
                 style: PreMedTextTheme().subtext.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  color: PreMedColorTheme().black,
+                  fontSize: 25,
+                  fontWeight: FontWeight.w700,
+                ),
                 children: [
                   const TextSpan(text: 'What '),
                   TextSpan(
                     text: 'features ',
                     style: PreMedTextTheme().heading3.copyWith(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 25,
-                          color: PreMedColorTheme().highschoolblue,
-                        ),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 25,
+                      color: PreMedColorTheme().highschoolblue,
+                    ),
                   ),
                   TextSpan(
                     text: 'do you want?',
                     style: PreMedTextTheme().subtext1.copyWith(
-                          color: PreMedColorTheme().black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 25,
-                        ),
+                      color: PreMedColorTheme().black,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 25,
+                    ),
                   ),
                 ],
               ),
@@ -212,9 +236,9 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
             Text(
               'You can select more than one',
               style: PreMedTextTheme().body.copyWith(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                  ),
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             SizedBoxes.verticalLarge,
             Expanded(
@@ -250,10 +274,10 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
                           Text(
                             feature.featureName,
                             style: PreMedTextTheme().heading3.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 15,
-                                  color: PreMedColorTheme().black,
-                                ),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                              color: PreMedColorTheme().black,
+                            ),
                           ),
                         ],
                       ),
@@ -294,7 +318,7 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
               ),
             ),
             IconButton(
-              onPressed: submitOnboardingData,
+              onPressed: submitOnboardingData, 
               icon: Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,

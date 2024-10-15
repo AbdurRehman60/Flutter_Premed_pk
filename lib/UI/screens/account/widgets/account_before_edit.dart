@@ -45,10 +45,10 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                   SizedBoxes.vertical2Px,
                   Text('Overview',
                       style: PreMedTextTheme().subtext.copyWith(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: PreMedColorTheme().black,
-                          ))
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: PreMedColorTheme().black,
+                      )),
                 ],
               ),
             ),
@@ -59,8 +59,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
         padding: EdgeInsets.zero,
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.06,
-              vertical: 5),
+              horizontal: MediaQuery.of(context).size.width * 0.06, vertical: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -77,18 +76,20 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                               TextSpan(
                                 text: '@',
                                 style: PreMedTextTheme().body1.copyWith(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w900,
-                                      color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
-                                    ),
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w900,
+                                  color: preMedProvider.isPreMed
+                                      ? PreMedColorTheme().red
+                                      : PreMedColorTheme().blue,
+                                ),
                               ),
                               TextSpan(
                                 text: userProvider.user!.fullName,
                                 style: PreMedTextTheme().body1.copyWith(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w900,
-                                      color: PreMedColorTheme().black,
-                                    ),
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w900,
+                                  color: PreMedColorTheme().black,
+                                ),
                               ),
                             ],
                           ),
@@ -114,10 +115,12 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                     child: Text(
                       'EDIT',
                       style: PreMedTextTheme().body1.copyWith(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                            color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
-                          ),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        color: preMedProvider.isPreMed
+                            ? PreMedColorTheme().red
+                            : PreMedColorTheme().blue,
+                      ),
                     ),
                   ),
                 ],
@@ -128,12 +131,12 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
               Text(
                 'Dashboard Settings',
                 style: PreMedTextTheme().body1.copyWith(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontFamily: 'Rubik',
-                      fontWeight: FontWeight.w700,
-                      height: 0.12,
-                    ),
+                  color: Colors.black,
+                  fontSize: 12,
+                  fontFamily: 'Rubik',
+                  fontWeight: FontWeight.w700,
+                  height: 0.12,
+                ),
               ),
               SizedBoxes.vertical22Px,
               Container(
@@ -148,6 +151,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                 ),
                 child: Row(
                   children: [
+                    // Entrance Exam dropdown (kept in the code)
                     Container(
                       width: MediaQuery.of(context).size.width * 0.43,
                       padding: EdgeInsets.symmetric(
@@ -167,8 +171,9 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                                 horizontal:
                                 MediaQuery.of(context).size.width * 0.01),
                             child: Image.asset(
-                              Provider.of<PreMedProvider>(context)
-                                  .isPreMed ? PremedAssets.ArrowDownRed : PremedAssets.arrowDownBlue,
+                              Provider.of<PreMedProvider>(context).isPreMed
+                                  ? PremedAssets.ArrowDownRed
+                                  : PremedAssets.arrowDownBlue,
                               width: 15,
                               height: 15,
                             ),
@@ -176,10 +181,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                           underline: const SizedBox(),
                           onChanged: (String? newValue) {
                             if (newValue != null) {
-                              // Update selectedValue
-                              setState(() {
-                                // selectedValue = newValue;
-                              });
+                              // Handle the new value if needed
                             }
                           },
                           selectedItemBuilder: (BuildContext context) {
@@ -221,82 +223,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                       ),
                     ),
                     SizedBoxes.horizontal10Px,
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.02,
-                            vertical: 2.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8500000238418579),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Center(
-                          child: DropdownButton<String>(
-                            borderRadius: BorderRadius.circular(12),
-                            isExpanded: true,
-                            value: preMedProvider.isPreMed
-                                ? 'Pre-Medical'
-                                : 'Pre-Engineering',
-                            icon: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      MediaQuery.of(context).size.width * 0.01),
-                              child: Image.asset(
-                                Provider.of<PreMedProvider>(context)
-                                    .isPreMed ? PremedAssets.ArrowDownRed : PremedAssets.arrowDownBlue,
-                                width: 15,
-                                height: 15,
-                              ),
-                            ),
-                            underline: const SizedBox(),
-                            onChanged: (String? newValue) {
-                              if (newValue != null) {
-                                preMedProvider
-                                    .setPreMed(newValue == 'Pre-Medical');
-                              }
-                            },
-                            selectedItemBuilder: (BuildContext context) {
-                              return <String>['Pre-Medical', 'Pre-Engineering']
-                                  .map<Widget>((String value) {
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Image.asset(
-                                      'assets/icons/premed log.png',
-                                      width: 30,
-                                    ),
-                                    Text(
-                                      value,
-                                      style: PreMedTextTheme().body1.copyWith(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                    ),
-                                  ],
-                                );
-                              }).toList();
-                            },
-                            items: <String>['Pre-Medical', 'Pre-Engineering']
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: PreMedTextTheme().body1.copyWith(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                     // Space between the dropdowns
+                    // Removed the Pre-Medical and Pre-Engineering dropdown here
                   ],
                 ),
               ),
@@ -304,144 +231,90 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
               Text(
                 'Contact Information',
                 style: PreMedTextTheme().body1.copyWith(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontFamily: 'Rubik',
-                      fontWeight: FontWeight.w700,
-                      height: 0.12,
-                    ),
+                  color: Colors.black,
+                  fontSize: 12,
+                  fontFamily: 'Rubik',
+                  fontWeight: FontWeight.w700,
+                  height: 0.12,
+                ),
               ),
               SizedBoxes.verticalGargangua,
               Text(
                 'Your Phone Number',
                 style: PreMedTextTheme().body1.copyWith(
-                      color: PreMedColorTheme().black.withOpacity(0.5),
-                      fontSize: 10,
-                      fontFamily: 'Rubik',
-                      fontWeight: FontWeight.w700,
-                      height: 0.09,
-                    ),
+                  color: PreMedColorTheme()
+                      .black
+                      .withOpacity(0.5),
+                  fontSize: 10,
+                  fontFamily: 'Rubik',
+                  fontWeight: FontWeight.w700,
+                  height: 0.09,
+                ),
               ),
               SizedBoxes.verticalBig,
               Text(
                 userProvider.user!.phoneNumber,
                 style: PreMedTextTheme().body1.copyWith(
-                      color: PreMedColorTheme().blue,
-                      fontSize: 15,
-                      fontFamily: 'Rubik',
-                      fontWeight: FontWeight.w500,
-                      height: 0.09,
-                    ),
+                  color: PreMedColorTheme().blue,
+                  fontSize: 15,
+                  fontFamily: 'Rubik',
+                  fontWeight: FontWeight.w500,
+                  height: 0.09,
+                ),
               ),
               SizedBoxes.vertical26Px,
               Text(
                 'Educational Information',
                 style: PreMedTextTheme().body1.copyWith(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontFamily: 'Rubik',
-                      fontWeight: FontWeight.w700,
-                      height: 0.12,
-                    ),
+                  color: Colors.black,
+                  fontSize: 12,
+                  fontFamily: 'Rubik',
+                  fontWeight: FontWeight.w700,
+                  height: 0.12,
+                ),
               ),
               SizedBoxes.verticalGargangua,
               Text(
                 'City',
                 style: PreMedTextTheme().body1.copyWith(
-                      color: PreMedColorTheme().black.withOpacity(0.5),
-                      fontSize: 10,
-                      fontFamily: 'Rubik',
-                      fontWeight: FontWeight.w700,
-                      height: 0.09,
-                    ),
+                  color: PreMedColorTheme().black.withOpacity(0.5),
+                  fontSize: 10,
+                  fontFamily: 'Rubik',
+                  fontWeight: FontWeight.w700,
+                  height: 0.09,
+                ),
               ),
               SizedBoxes.verticalBig,
               Text(
                 userProvider.user!.city,
                 style: PreMedTextTheme().body1.copyWith(
-                      color: PreMedColorTheme().blue,
-                      fontSize: 15,
-                      fontFamily: 'Rubik',
-                      fontWeight: FontWeight.w500,
-                      height: 0.09,
-                    ),
+                  color: PreMedColorTheme().blue,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  height: 0.09,
+                ),
               ),
               SizedBoxes.verticalGargangua,
               Text(
                 'University/College',
                 style: PreMedTextTheme().body1.copyWith(
-                      color: PreMedColorTheme().black.withOpacity(0.5),
-                      fontSize: 10,
-                      fontFamily: 'Rubik',
-                      fontWeight: FontWeight.w700,
-                      height: 0.09,
-                    ),
+                  color: PreMedColorTheme().black.withOpacity(0.5),
+                  fontSize: 10,
+                  fontFamily: 'Rubik',
+                  fontWeight: FontWeight.w700,
+                  height: 0.09,
+                ),
               ),
               SizedBoxes.verticalBig,
               Text(
-                userProvider.user?.info.institution ??  'N/A',
+                userProvider.user?.info.institution ?? 'N/A',
                 style: PreMedTextTheme().body1.copyWith(
-                      color: PreMedColorTheme().blue,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      height: 0.09,
-                    ),
+                  color: PreMedColorTheme().blue,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  height: 0.09,
+                ),
               ),
-              // SizedBoxes.verticalGargangua,
-              // Text(
-              //   "Parent's Information",
-              //   style: PreMedTextTheme().body1.copyWith(
-              //         color: Colors.black,
-              //         fontSize: 12,
-              //         fontFamily: 'Rubik',
-              //         fontWeight: FontWeight.w700,
-              //         height: 0.12,
-              //       ),
-              // ),
-              // SizedBoxes.verticalGargangua,
-              // Text(
-              //   "Parent's Name",
-              //   style: PreMedTextTheme().body1.copyWith(
-              //         color: PreMedColorTheme().black.withOpacity(0.5),
-              //         fontSize: 10,
-              //         fontFamily: 'Rubik',
-              //         fontWeight: FontWeight.w700,
-              //         height: 0.09,
-              //       ),
-              // ),
-              // SizedBoxes.verticalBig,
-              // Text(
-              //   userProvider.user?.parentFullName ?? 'N/A',
-              //   style: PreMedTextTheme().body1.copyWith(
-              //         color: PreMedColorTheme().blue,
-              //         fontSize: 15,
-              //         fontFamily: 'Rubik',
-              //         fontWeight: FontWeight.w500,
-              //         height: 0.09,
-              //       ),
-              // ),
-              // SizedBoxes.verticalGargangua,
-              // Text(
-              //   "Parent's Phone Number",
-              //   style: PreMedTextTheme().body1.copyWith(
-              //         color: PreMedColorTheme().black.withOpacity(0.5),
-              //         fontSize: 10,
-              //         fontFamily: 'Rubik',
-              //         fontWeight: FontWeight.w700,
-              //         height: 0.09,
-              //       ),
-              // ),
-              // SizedBoxes.verticalBig,
-              // Text(
-              //   userProvider.user?.parentContactNumber ?? 'N/A',
-              //   style: PreMedTextTheme().body1.copyWith(
-              //         color: PreMedColorTheme().blue,
-              //         fontSize: 15,
-              //         fontFamily: 'Rubik',
-              //         fontWeight: FontWeight.w500,
-              //         height: 0.09,
-              //       ),
-              // ),
             ],
           ),
         ),

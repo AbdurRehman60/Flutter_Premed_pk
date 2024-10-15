@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../providers/user_provider.dart';
+import '../../Widgets/or_divider.dart';
 
 class ThankyouScreen extends StatefulWidget {
   const ThankyouScreen({super.key});
@@ -15,11 +16,9 @@ class ThankyouScreen extends StatefulWidget {
 
 class _ThankyouScreenState extends State<ThankyouScreen> {
   Future<void> _launchURL(String appToken) async {
-    // Use listen: false to avoid rebuilds in this context
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final String lastonboarding = userProvider.user!.info.lastOnboardingPage;
 
-    // Check if the lastonboarding URL contains "pre-medical" to decide the bundle path
     String bundlePath;
     if (lastonboarding.contains("pre-medical")) {
       bundlePath = "/bundles/mdcat";
@@ -27,10 +26,8 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
       bundlePath = "/bundles/all-in-one";
     }
 
-    // Generate the final URL based on the condition
     final url = 'https://premed.pk/app-redirect?url=$appToken&&route=$bundlePath';
 
-    // Try to launch the URL
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -41,7 +38,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
-    final String appToken = userProvider.user?.info.appToken?? '';
+    final String appToken = userProvider.user?.info.appToken ?? '';
 
     return WillPopScope(
       onWillPop: () async {
@@ -86,21 +83,42 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-              child: SizedBox(
-                width: double.infinity,
-                height: 40,
-                child: CustomButton(
-                  buttonText: 'Home ->',
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MainNavigationScreen(),
-                      ),
-                    );
-                    _launchURL(appToken);
-                  },
-                ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: CustomButton(
+                      buttonText: 'Avail New User Discount',
+                      onPressed: () {
+                        _launchURL(appToken);
+                      },
+                    ),
+                  ),
+
+                  SizedBoxes.verticalMicro,
+                  const Padding(
+                    padding:  EdgeInsets.only(left: 36,right: 36),
+                    child: OrDivider(),
+                  ),
+                  SizedBoxes.verticalMicro,
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: CustomButton(
+                      buttonText: 'Explore App First',
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MainNavigationScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
