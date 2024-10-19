@@ -51,7 +51,9 @@ class Endpoints {
   //bundles endpoints
   static const String GetBundles = '/api/bundle/';
   static const String PurchaseBundles = '/api/purchase/Bundle';
-  static const String CouponCode = '/VerifyCouponCode';
+  static String CouponCode(String couponcode) => '/api/coupons/verify-coupon-code/$couponcode';
+
+
 
   //FCMTokens
 
@@ -167,6 +169,8 @@ class Endpoints {
 
   static const String getPapers =
       '/api/decks/get-mdcat-deck-information';
+
+  static const String boardsandfeatures = 'https://production-server.premed.pk/api/packages/get-boards-and-features';
 
   static  String getdeckinfothrudeckname (String deckname)  =>'/api/decks/get-deck-information/$deckname';
 }

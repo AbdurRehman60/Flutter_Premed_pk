@@ -14,37 +14,55 @@ class CouponCodeTF extends StatefulWidget {
 
 class _CouponCodeTFState extends State<CouponCodeTF> {
   @override
+  void initState() {
+    super.initState();
+    final CartProvider cartProvider =
+    Provider.of<CartProvider>(context, listen: false);
+    cartProvider.couponCode = "";
+    cartProvider.couponAmount = 0;
+  }
+
+  final formKey = GlobalKey<FormState>();
+
+  @override
   Widget build(BuildContext context) {
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
+    final TextEditingController referralText = TextEditingController();
 
-    final TextEditingController couponText = TextEditingController();
-
-    void handleRemovePromoCode() {
+    void handleRemoveReferralCode() {
       cartProvider.clearCoupon();
     }
-    final formKey = GlobalKey<FormState>();
 
-    void onApplyCouponPressed(String couponCode) {
+    void onApplyReferralPressed() {
       final form = formKey.currentState!;
       if (form.validate()) {
-        handleRemovePromoCode();
+        handleRemoveReferralCode();
         final Future<Map<String, dynamic>> response =
-        cartProvider.verifyCouponCode(
-          couponText.text,
-        );
-        response.then(
-              (response) {
-            if (response['status']) {
-              // Coupon code verified successfully
-            } else {
-              showError(context, response);
-            }
-          },
-        );
+        cartProvider.verifyCouponCode(referralText.text);
+        response.then((response) {
+          if (response['status']) {
+            // Show success popup
+            showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text("Success"),
+                content: const Text("Referral code applied successfully!"),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("OK"),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            showError(context, response);
+          }
+        });
       }
     }
-
-
 
     return Form(
       key: formKey,
@@ -52,9 +70,9 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Coupon Code',
+            'Referral Code',
             style: PreMedTextTheme().heading6.copyWith(
-              color: PreMedColorTheme().black,
+              color: PreMedColorTheme().primaryColorRed,
             ),
           ),
           SizedBoxes.verticalTiny,
@@ -63,34 +81,12 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
             children: [
               Expanded(
                 flex: 4,
-                child: Material(
-                  elevation: 3,
-                  borderRadius: BorderRadius.circular(15),
-                  child: TextFormField(
-                    inputFormatters: [UpperCaseTextFormatter()],
-                    controller: couponText,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon: Icon(
-                        Icons.percent,
-                        color: PreMedColorTheme().primaryColorRed,
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          Icons.clear,
-                          color: PreMedColorTheme().primaryColorRed,
-                        ),
-                        onPressed: () {
-                          couponText.clear();
-                        },
-                      ),
-                    ),
-                    onChanged: (text) {
-                    },
-                    validator: (value) =>
-                        validateIsNotEmpty(value, "Coupon Code"),
-                    onFieldSubmitted: onApplyCouponPressed,
-                  ),
+                child: CustomTextField(
+                  inputFormatters: [UpperCaseTextFormatter()],
+                  hintText: 'Enter Referral Code',
+                  controller: referralText,
+                  validator: (value) =>
+                      validateIsNotEmpty(value, "Referral Code"),
                 ),
               ),
               SizedBoxes.horizontalTiny,
@@ -106,6 +102,14 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
                     ),
                   ),
                 )
+              else
+                Expanded(
+                  child: CustomButton(
+                    buttonText: '→',
+                    onPressed: onApplyReferralPressed,
+                   color: PreMedColorTheme().primaryColorRed,
+                  ),
+                ),
             ],
           ),
           SizedBoxes.verticalMicro,
@@ -115,7 +119,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
               children: [
                 Flexible(
                   child: Text(
-                    "Promo Code: ${cartProvider.couponCode} is applied",
+                    "Referral Code: ${cartProvider.couponCode} is applied",
                     style: PreMedTextTheme().subtext.copyWith(
                       color: PreMedColorTheme().neutral400,
                     ),
@@ -124,7 +128,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
                 IconButton(
                   visualDensity: VisualDensity.compact,
                   splashRadius: 16,
-                  onPressed: handleRemovePromoCode,
+                  onPressed: handleRemoveReferralCode,
                   icon: Icon(
                     Icons.close,
                     color: PreMedColorTheme().neutral400,
@@ -140,6 +144,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
     );
   }
 }
+
 
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override

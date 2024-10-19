@@ -39,7 +39,6 @@ class _SignUpFlowState extends State<SignUpFlow> {
 
         signupResponse.then((response) {
           if (response['status']) {
-            // Navigate to Additional Info Screen after successful sign-up
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(

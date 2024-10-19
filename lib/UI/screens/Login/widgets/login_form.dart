@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/widgets/welcome_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/a_new_signup_flow/additional_info.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
@@ -42,7 +43,7 @@ class _LoginFormState extends State<LoginForm> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => response['message'] == 'onboarding'
-                      ? const RequiredOnboarding()
+                      ? const AdditionalInfo()
                       : const MainNavigationScreen(),
                 ),
               );

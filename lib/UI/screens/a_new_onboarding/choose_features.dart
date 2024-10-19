@@ -1,33 +1,17 @@
-import 'package:premedpk_mobile_app/UI/screens/a_new_onboarding/thankyou_screen.dart';
-import 'package:premedpk_mobile_app/constants/constants_export.dart';
-import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
+import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../models/onboarding_model.dart';
+import '../../../constants/color_theme.dart';
+import '../../../constants/sized_boxes.dart';
+import '../../../constants/text_theme.dart';
+import '../../../models/boards_and_features_model.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/onboarding_provider.dart';
 import '../../../providers/user_provider.dart';
+import 'thankyou_screen.dart';
 
 class ChooseFeatures extends StatefulWidget {
-  const ChooseFeatures(
-      {super.key,
-        this.password,
-        required this.selectedExam,
-        required this.category,
-        required this.city,
-        required this.phoneNumber,
-        required this.institution,
-        required this.lastOnboarding,
-        required this.educationSystem});
-
-  final String? password;
-  final String lastOnboarding;
-  final String educationSystem;
-  final String city;
-  final String phoneNumber;
-  final String institution;
-  final String selectedExam;
-  final String category;
+  const ChooseFeatures({super.key});
 
   @override
   State<ChooseFeatures> createState() => _ChooseFeaturesState();
@@ -37,13 +21,14 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
   final Set<int> _selectedIndexes = {};
   bool hasErrors = false;
   String error = "";
+  Board? _selectedBoard;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final boardProvider = Provider.of<BoardProvider>(context, listen: false);
-      boardProvider.fetchBoards(widget.category);
+      boardProvider.fetchBoards(); 
     });
   }
 
@@ -57,58 +42,58 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
     });
   }
 
-  List<String> getSelectedFeatures(Board selectedBoard) {
+  List<Map<String, dynamic>> getSelectedFeatures(Board selectedBoard) {
     return _selectedIndexes
-        .map((index) => selectedBoard.tags[index].featureName)
+        .map((index) => selectedBoard.tags[index].toJson())
         .toList();
   }
 
-  Future<void> saveUserTrack() async {
-    if (widget.lastOnboarding
-        .contains('auth/onboarding/flow/entrance-exam/pre-engineering')) {
-      final preMedPro = Provider.of<PreMedProvider>(context, listen: false);
-      preMedPro.setPreMed(false);
-    }
-  }
-
   Future<void> submitOnboardingData() async {
-    final boardProvider = Provider.of<BoardProvider>(context, listen: false);
-    final boards = boardProvider.boards;
-    final selectedBoard = boards.firstWhere(
-          (board) => board.boardName == widget.selectedExam,
-      orElse: () => Board(id: '', boardName: '', position: 0, tags: []),
-    );
+    if (_selectedBoard == null) {
+      setState(() {
+        error = 'Please select a board.';
+        hasErrors = true;
+      });
+      showErrorDialog(error);
+      return;
+    }
 
-    final List<String> features = getSelectedFeatures(selectedBoard);
-
-    
+    final List<Map<String, dynamic>> features = getSelectedFeatures(_selectedBoard!);
     if (features.isEmpty) {
       _showFeatureSelectionWarning();
       return;
     }
 
     final AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
-    final UserProvider userProvider =
-    Provider.of<UserProvider>(context, listen: false);
+    final UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+
     final String? username = userProvider.user?.userName;
+    if (username == null) {
+      setState(() {
+        error = 'Username not found. Please log in again.';
+        hasErrors = true;
+      });
+      showErrorDialog(error);
+      return;
+    }
+
+    final String boardName = _selectedBoard?.boardName ?? 'Unknown Board';
+
+    
+    final String featuresJson = jsonEncode(features);
+
+    
+    print('Selected Features JSON: $featuresJson');
 
     try {
       final result = await auth.requiredOnboarding(
-        username: username!,
-        lastOnboardingPage: "${widget.lastOnboarding}/additional-info/features/recommended-bundles",
-        selectedExams: [widget.selectedExam],
-        selectedFeatures: features,
-        city: widget.city,
-        educationSystem: widget.educationSystem,
-        year: '',
-        parentContactNumber: '',
-        approach: '',
-        phoneNumber: widget.phoneNumber,
-        institution: widget.institution,
+        username: username,
+        lastOnboardingPage: "/auth/onboarding/entrance-exam/pre-medical/additional-info/features",
+        selectedExams: [boardName],
+        selectedFeatures: features.map((e) => e['featureName'] as String).toList(),
       );
 
       if (result['status']) {
-        await saveUserTrack();
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -138,7 +123,8 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
       builder: (context) {
         return AlertDialog(
           title: const Text("No Features Selected"),
-          content: const Text("Please select at least one feature to continue."),
+          content: const Text(
+              "Please select at least one feature to continue."),
           actions: [
             TextButton(
               onPressed: () {
@@ -191,67 +177,92 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
     }
 
     final boards = boardProvider.boards;
-    final selectedBoard = boards.firstWhere(
-          (board) => board.boardName == widget.selectedExam,
-      orElse: () => Board(id: '', boardName: '', position: 0, tags: []),
-    );
-
+    final username = UserProvider().user?.fullName;
     return Scaffold(
       backgroundColor: PreMedColorTheme().neutral60,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBoxes.verticalExtraGargangua,
-            RichText(
-              text: TextSpan(
-                style: PreMedTextTheme().subtext.copyWith(
-                  color: PreMedColorTheme().black,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
-                ),
-                children: [
-                  const TextSpan(text: 'What '),
-                  TextSpan(
-                    text: 'features ',
-                    style: PreMedTextTheme().heading3.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 25,
-                      color: PreMedColorTheme().highschoolblue,
-                    ),
-                  ),
-                  TextSpan(
-                    text: 'do you want?',
-                    style: PreMedTextTheme().subtext1.copyWith(
+      body: Stack(children: [Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBoxes.verticalExtraGargangua, 
+              RichText(
+                text: TextSpan(
+                  style: PreMedTextTheme().subtext.copyWith(
                       color: PreMedColorTheme().black,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 25,
+                      fontSize: 35,
+                      fontWeight: FontWeight.w700),
+                  children: [
+                    const TextSpan(text: 'Hi, '),
+                    WidgetSpan(
+                      child: GradientText(
+                        text: username ?? '',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 35,
+                        ),
+                        gradient: LinearGradient(
+                          colors: <Color>[
+                            Colors.purple,
+                            PreMedColorTheme().primaryColorRed,
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    TextSpan(
+                      text: '!',
+                      style: PreMedTextTheme().subtext1.copyWith(
+                          color: PreMedColorTheme().black,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 35),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBoxes.verticalGargangua,
-            Text(
-              'You can select more than one',
-              style: PreMedTextTheme().body.copyWith(
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
+              SizedBoxes.verticalMicro, 
+              RichText(
+                text: TextSpan(
+                  style: PreMedTextTheme().subtext.copyWith(
+                      color: PreMedColorTheme().black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700),
+                  children: [
+                    const TextSpan(text: 'What '),
+                    TextSpan(
+                      text: 'exam ',
+                      style: PreMedTextTheme().heading3.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 25,
+                          color: PreMedColorTheme().primaryColorRed),
+                    ),
+                    TextSpan(
+                      text: 'are you preparing for?',
+                      style: PreMedTextTheme().subtext1.copyWith(
+                        color: PreMedColorTheme().black,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 25,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBoxes.verticalLarge,
-            Expanded(
-              child: ListView.builder(
-                itemCount: selectedBoard.tags.length,
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: boards.length,
                 itemBuilder: (context, index) {
-                  final feature = selectedBoard.tags[index];
-                  final isSelected = _selectedIndexes.contains(index);
+                  final board = boards[index];
+                  final isSelected = _selectedBoard == board;
 
                   return GestureDetector(
-                    onTap: () => _toggleSelection(index),
+                    onTap: () {
+                      setState(() {
+                        _selectedBoard = board;
+                        _selectedIndexes.clear(); 
+                      });
+                    },
                     child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 8.0),
+                      margin: const EdgeInsets.symmetric(vertical: 4.0), 
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.white,
@@ -259,41 +270,91 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
                           color: isSelected
                               ? PreMedColorTheme().primaryColorRed
                               : const Color(0x80FFFFFF),
-                          width: 5,
+                          width: 4,
                         ),
                       ),
-                      padding: const EdgeInsets.all(15),
-                      child: Row(
-                        children: [
-                          Image.network(
-                            feature.iconLink,
-                            width: 24,
-                            height: 24,
-                          ),
-                          SizedBoxes.horizontal10Px,
-                          Text(
-                            feature.featureName,
-                            style: PreMedTextTheme().heading3.copyWith(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 15,
-                              color: PreMedColorTheme().black,
-                            ),
-                          ),
-                        ],
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        board.boardName,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: isSelected
+                              ? Colors.redAccent
+                              : Colors.black87,
+                        ),
                       ),
                     ),
                   );
                 },
               ),
-            ),
-          ],
+              SizedBoxes.verticalMedium,
+              if (_selectedBoard != null) ...[
+                Text(
+                  'Select features for ${_selectedBoard!.boardName}:',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBoxes.verticalMicro, 
+               Expanded(
+                 child: ListView.builder(
+                   
+                   
+                   itemCount: _selectedBoard!.tags.length,
+                   itemBuilder: (context, index) {
+                     final feature = _selectedBoard!.tags[index];
+                     final isSelected = _selectedIndexes.contains(index);
+
+                     return GestureDetector(
+                       onTap: () => _toggleSelection(index),
+                       child: Container(
+                         margin: const EdgeInsets.symmetric(vertical: 4.0), 
+                         decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(10),
+                           color: Colors.white,
+                           border: Border.all(
+                             color: isSelected
+                                 ? PreMedColorTheme().primaryColorRed
+                                 : const Color(0x80FFFFFF),
+                             width: 4,
+                           ),
+                         ),
+                         padding: const EdgeInsets.all(15),
+                         child: Row(
+                           children: [
+                             Image.network(
+                               feature.iconLink,
+                               width: 24,
+                               height: 24,
+                             ),
+                             const SizedBox(width: 10),
+                             Text(
+                               feature.featureName,
+                               style: const TextStyle(
+                                 fontWeight: FontWeight.w700,
+                                 fontSize: 15,
+                                 color: Colors.black87,
+                               ),
+                             ),
+                           ],
+                         ),
+                       ),
+                     );
+                   },
+                 ),
+               ),
+              ],
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+      Positioned(
+        bottom: 20, 
+        right: 16,  
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            
             IconButton(
               onPressed: () {
                 Navigator.of(context).pop();
@@ -303,37 +364,39 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: PreMedColorTheme().primaryColorRed200,
-                    width: 6,
+                    width: 6, 
                   ),
                 ),
                 child: CircleAvatar(
                   backgroundColor: PreMedColorTheme().neutral60,
-                  radius: 20,
+                  radius: 20, 
                   child: Icon(
                     Icons.arrow_back_rounded,
-                    size: 28,
-                    color: PreMedColorTheme().primaryColorRed,
+                    size: 28, 
+                    color: PreMedColorTheme().primaryColorRed, 
                   ),
                 ),
               ),
             ),
+            const SizedBox(width: 10), 
+            
             IconButton(
-              onPressed: submitOnboardingData, 
+              onPressed: submitOnboardingData,
               icon: Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: PreMedColorTheme().bordercolor,
-                    width: 6,
+                    width: 6, 
                   ),
                 ),
                 child: CircleAvatar(
                   backgroundColor: PreMedColorTheme().primaryColorRed,
-                  radius: 28,
+                  radius: 28, 
                   child: const Icon(
                     Icons.arrow_forward_rounded,
-                    size: 34,
-                    color: Colors.white,
+                    size: 34, 
+                    color: Colors.white, 
                   ),
                 ),
               ),
@@ -341,6 +404,36 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
           ],
         ),
       ),
+      ],
+    ),
     );
   }
 }
+class GradientText extends StatelessWidget {
+  const GradientText({
+    super.key,
+    required this.text,
+    required this.style,
+    required this.gradient,
+  });
+
+  final String text;
+  final TextStyle style;
+  final Gradient gradient;
+
+  @override
+  Widget build(BuildContext context) {
+    return ShaderMask(
+      shaderCallback: (bounds) {
+        return gradient
+            .createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height));
+      },
+      child: Text(
+        text,
+        style: style.copyWith(color: Colors.white),
+      ),
+    );
+  }
+}
+
+

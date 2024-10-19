@@ -476,17 +476,19 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> requiredOnboarding({
-    required String username,
-    required String lastOnboardingPage,
+    required String? username,
+    required String? lastOnboardingPage,
     required List<String> selectedExams,
     required List<String> selectedFeatures,
-    required String city,
-    required String educationSystem,
-    required String year,
-    required String parentContactNumber,
-    required String approach,
-    required String phoneNumber,
-    required String institution,
+     String? city,
+     String? educationSystem,
+     String? year,
+     String? parentContactNumber,
+     String? approach,
+     String? phoneNumber,
+     String? institution,
+     bool? isAvailableOnWhatsApp,
+    String? province
   }) async {
     Map<String, Object?> result;
 
@@ -500,6 +502,7 @@ class AuthProvider extends ChangeNotifier {
         "educationSystem": educationSystem,
         "institution": institution,
         "approach": approach,
+        "isAvailableOnWhatsApp": isAvailableOnWhatsApp
       },
       "city": city,
       "educationSystem": educationSystem,
@@ -509,6 +512,7 @@ class AuthProvider extends ChangeNotifier {
       "phonenumber": phoneNumber,
       "institution": institution,
       "approach": approach,
+      "province": province,
     };
 
     _loggedInStatus = Status.Authenticating;

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/ask_an_expert.dart';
 import 'package:premedpk_mobile_app/UI/screens/Splash_Screen/splash_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/a_new_onboarding/choose_features.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/widgets/forgot_success.dart';
 import 'package:premedpk_mobile_app/UI/screens/marketplace/checkout/checkout.dart';

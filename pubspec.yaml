@@ -75,7 +75,7 @@ dependencies:
   encryptor: ^0.0.1
   crypto: ^3.0.5
   webview_flutter: ^4.8.0
-  
+  geocoding: ^3.0.0
 
 dev_dependencies:
   flutter_test:

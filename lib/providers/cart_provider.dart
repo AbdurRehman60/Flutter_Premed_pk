@@ -201,35 +201,40 @@ class CartProvider extends ChangeNotifier {
 
     validatingStatus = CouponValidateStatus.validating;
     notify();
-    try {
-      final response = await _client.get('${Endpoints.CouponCode}/$coupon');
 
-      if (response['Error'] == false) {
-        _couponCode = response['Code'];
-        _couponAmount = response['Amount'];
+    try {
+      // Pass the coupon code correctly into the URL
+      final response = await _client.get('${Endpoints.CouponCode(coupon)}');
+
+      // Response is already a parsed map, so access directly
+      final data = response as Map<String, dynamic>;
+
+      // Check the 'Error' field in the data map
+      if (data['Error'] == false) {
+        _couponCode = data['Code'];
+        _couponAmount = data['Amount'];
 
         validatingStatus = CouponValidateStatus.success;
         result = {
           'status': true,
           'message': 'Promo code applied!',
         };
-        notify();
       } else {
         validatingStatus = CouponValidateStatus.init;
-        notify();
         result = {
           'status': false,
-          'message': response['ErrorType'],
+          'message': data['ErrorType'], // Handle error message
         };
       }
     } on DioError catch (e) {
       validatingStatus = CouponValidateStatus.init;
-      notify();
       result = {
         'status': false,
-        'message': e.message,
+        'message': e.message, // Use DioError's message
       };
     }
+
+    notify();
     return result;
   }
 }

@@ -745,8 +745,7 @@ class _TestInterfaceState extends State<TestInterface> {
     }
   }
 
-  Future<void> _loadQuestionsBetween(int startQuestionIndex,
-      int endQuestionIndex) async {
+  Future<void> _loadQuestionsBetween(int startQuestionIndex, int endQuestionIndex) async {
     setState(() {
       isLoading = true;
     });

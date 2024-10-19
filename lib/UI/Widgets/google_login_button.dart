@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/a_new_onboarding/choose_school.dart';
+import 'package:premedpk_mobile_app/UI/screens/a_new_signup_flow/additional_info.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -21,7 +22,7 @@ class GoogleLogin extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => response['message'] == 'OnboardingOne'
-                    ? const ChooseSchool()
+                    ? const AdditionalInfo()
                     : const MainNavigationScreen(),
               ),
             );

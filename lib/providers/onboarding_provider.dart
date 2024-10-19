@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-
-import '../models/onboarding_model.dart';
+import '../constants/constants_export.dart';
+import '../models/boards_and_features_model.dart';
 
 class BoardProvider with ChangeNotifier {
   List<Board> _boards = [];
@@ -13,23 +12,24 @@ class BoardProvider with ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   final Dio _dio = Dio();
+  final String _url = "https://app.premed.pk/api/packages/get-boards-and-features";
 
-  Future<void> fetchBoards(String category) async {
+  Future<void> fetchBoards() async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      final response = await _dio.get('https://prodapi.premed.pk/api/plans/get-boards-and-features/$category');
+      final response = await _dio.get(_url);
 
       if (response.statusCode == 200) {
-        final List boardsData = response.data['boards'];
-        _boards = boardsData.map((json) => Board.fromJson(json)).toList();
+        final boardsResponse = BoardsResponse.fromJson(response.data);
+        _boards = boardsResponse.boards;
       } else {
-        _errorMessage = 'Failed to load boards';
+        _errorMessage = 'Failed to load boards: ${response.statusCode}';
       }
     } catch (error) {
-      _errorMessage = error.toString();
+      _errorMessage = 'An error occurred: $error';
     } finally {
       _isLoading = false;
       notifyListeners();
