@@ -182,171 +182,173 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
       backgroundColor: PreMedColorTheme().neutral60,
       body: Stack(children: [Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBoxes.verticalExtraGargangua, 
-              RichText(
-                text: TextSpan(
-                  style: PreMedTextTheme().subtext.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontSize: 35,
-                      fontWeight: FontWeight.w700),
-                  children: [
-                    const TextSpan(text: 'Hi, '),
-                    WidgetSpan(
-                      child: GradientText(
-                        text: username ?? '',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 35,
-                        ),
-                        gradient: LinearGradient(
-                          colors: <Color>[
-                            Colors.purple,
-                            PreMedColorTheme().primaryColorRed,
-                          ],
-                        ),
-                      ),
-                    ),
-                    TextSpan(
-                      text: '!',
-                      style: PreMedTextTheme().subtext1.copyWith(
-                          color: PreMedColorTheme().black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 35),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBoxes.verticalMicro, 
-              RichText(
-                text: TextSpan(
-                  style: PreMedTextTheme().subtext.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700),
-                  children: [
-                    const TextSpan(text: 'What '),
-                    TextSpan(
-                      text: 'exam ',
-                      style: PreMedTextTheme().heading3.copyWith(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 25,
-                          color: PreMedColorTheme().primaryColorRed),
-                    ),
-                    TextSpan(
-                      text: 'are you preparing for?',
-                      style: PreMedTextTheme().subtext1.copyWith(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBoxes.verticalExtraGargangua, 
+                RichText(
+                  text: TextSpan(
+                    style: PreMedTextTheme().subtext.copyWith(
                         color: PreMedColorTheme().black,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: boards.length,
-                itemBuilder: (context, index) {
-                  final board = boards[index];
-                  final isSelected = _selectedBoard == board;
-
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedBoard = board;
-                        _selectedIndexes.clear(); 
-                      });
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 4.0), 
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        border: Border.all(
-                          color: isSelected
-                              ? PreMedColorTheme().primaryColorRed
-                              : const Color(0x80FFFFFF),
-                          width: 4,
+                        fontSize: 35,
+                        fontWeight: FontWeight.w700),
+                    children: [
+                      const TextSpan(text: 'Hi, '),
+                      WidgetSpan(
+                        child: GradientText(
+                          text: username ?? '',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 35,
+                          ),
+                          gradient: LinearGradient(
+                            colors: <Color>[
+                              Colors.purple,
+                              PreMedColorTheme().primaryColorRed,
+                            ],
+                          ),
                         ),
                       ),
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text(
-                        board.boardName,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: isSelected
-                              ? Colors.redAccent
-                              : Colors.black87,
-                        ),
+                      TextSpan(
+                        text: '!',
+                        style: PreMedTextTheme().subtext1.copyWith(
+                            color: PreMedColorTheme().black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 35),
                       ),
-                    ),
-                  );
-                },
-              ),
-              SizedBoxes.verticalMedium,
-              if (_selectedBoard != null) ...[
-                Text(
-                  'Select features for ${_selectedBoard!.boardName}:',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    ],
                   ),
                 ),
                 SizedBoxes.verticalMicro, 
-               Expanded(
-                 child: ListView.builder(
-                   
-                   
-                   itemCount: _selectedBoard!.tags.length,
-                   itemBuilder: (context, index) {
-                     final feature = _selectedBoard!.tags[index];
-                     final isSelected = _selectedIndexes.contains(index);
-
-                     return GestureDetector(
-                       onTap: () => _toggleSelection(index),
-                       child: Container(
-                         margin: const EdgeInsets.symmetric(vertical: 4.0), 
-                         decoration: BoxDecoration(
-                           borderRadius: BorderRadius.circular(10),
-                           color: Colors.white,
-                           border: Border.all(
-                             color: isSelected
-                                 ? PreMedColorTheme().primaryColorRed
-                                 : const Color(0x80FFFFFF),
-                             width: 4,
+                RichText(
+                  text: TextSpan(
+                    style: PreMedTextTheme().subtext.copyWith(
+                        color: PreMedColorTheme().black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700),
+                    children: [
+                      const TextSpan(text: 'What '),
+                      TextSpan(
+                        text: 'exam ',
+                        style: PreMedTextTheme().heading3.copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 25,
+                            color: PreMedColorTheme().primaryColorRed),
+                      ),
+                      TextSpan(
+                        text: 'are you preparing for?',
+                        style: PreMedTextTheme().subtext1.copyWith(
+                          color: PreMedColorTheme().black,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 25,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: boards.length,
+                  itemBuilder: (context, index) {
+                    final board = boards[index];
+                    final isSelected = _selectedBoard == board;
+            
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedBoard = board;
+                          _selectedIndexes.clear(); 
+                        });
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 4.0), 
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: isSelected
+                                ? PreMedColorTheme().primaryColorRed
+                                : const Color(0x80FFFFFF),
+                            width: 4,
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(
+                          board.boardName,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: isSelected
+                                ? Colors.redAccent
+                                : Colors.black87,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                SizedBoxes.verticalMedium,
+                if (_selectedBoard != null) ...[
+                  Text(
+                    'Select features for ${_selectedBoard!.boardName}:',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBoxes.verticalMicro, 
+                 Expanded(
+                   child: ListView.builder(
+                     
+                     
+                     itemCount: _selectedBoard!.tags.length,
+                     itemBuilder: (context, index) {
+                       final feature = _selectedBoard!.tags[index];
+                       final isSelected = _selectedIndexes.contains(index);
+            
+                       return GestureDetector(
+                         onTap: () => _toggleSelection(index),
+                         child: Container(
+                           margin: const EdgeInsets.symmetric(vertical: 4.0), 
+                           decoration: BoxDecoration(
+                             borderRadius: BorderRadius.circular(10),
+                             color: Colors.white,
+                             border: Border.all(
+                               color: isSelected
+                                   ? PreMedColorTheme().primaryColorRed
+                                   : const Color(0x80FFFFFF),
+                               width: 4,
+                             ),
+                           ),
+                           padding: const EdgeInsets.all(15),
+                           child: Row(
+                             children: [
+                               Image.network(
+                                 feature.iconLink,
+                                 width: 24,
+                                 height: 24,
+                               ),
+                               const SizedBox(width: 10),
+                               Text(
+                                 feature.featureName,
+                                 style: const TextStyle(
+                                   fontWeight: FontWeight.w700,
+                                   fontSize: 15,
+                                   color: Colors.black87,
+                                 ),
+                               ),
+                             ],
                            ),
                          ),
-                         padding: const EdgeInsets.all(15),
-                         child: Row(
-                           children: [
-                             Image.network(
-                               feature.iconLink,
-                               width: 24,
-                               height: 24,
-                             ),
-                             const SizedBox(width: 10),
-                             Text(
-                               feature.featureName,
-                               style: const TextStyle(
-                                 fontWeight: FontWeight.w700,
-                                 fontSize: 15,
-                                 color: Colors.black87,
-                               ),
-                             ),
-                           ],
-                         ),
-                       ),
-                     );
-                   },
+                       );
+                     },
+                   ),
                  ),
-               ),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       Positioned(

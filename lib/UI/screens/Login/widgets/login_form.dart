@@ -34,20 +34,20 @@ class _LoginFormState extends State<LoginForm> {
         final Future<Map<String, dynamic>> response = auth.login(
           emailController.text,
           passwordController.text,
-          true
+          true,
         );
         response.then(
               (response) {
             if (response['status']) {
-              Navigator.pushReplacement(
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
                   builder: (context) => response['message'] == 'onboarding'
                       ? const AdditionalInfo()
                       : const MainNavigationScreen(),
                 ),
+                    (Route<dynamic> route) => false,
               );
-
             } else {
               showError(
                 context,

@@ -109,11 +109,12 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
                     child: CustomButton(
                       buttonText: 'Explore App First',
                       onPressed: () {
-                        Navigator.pushReplacement(
+                        Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => MainNavigationScreen(),
+                            builder: (context) => const MainNavigationScreen(),
                           ),
+                              (Route<dynamic> route) => false,  // Clears all previous routes
                         );
                       },
                     ),

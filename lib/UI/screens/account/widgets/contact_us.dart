@@ -1,3 +1,4 @@
+import 'package:installed_apps/installed_apps.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
@@ -9,10 +10,57 @@ class ContactUs extends StatelessWidget {
     super.key,
   });
 
+  Future<void> _chooseWhatsAppApp(BuildContext context, Uri whatsAppMessenger, Uri whatsAppBusiness) async {
+
+    final installedApps = await InstalledApps.getInstalledApps();
+
+    final bool isWhatsAppInstalled = installedApps.any((app) => app.packageName == 'com.whatsapp');
+    final bool isWhatsAppBusinessInstalled = installedApps.any((app) => app.packageName == 'com.whatsapp.w4b');
+
+    if (isWhatsAppInstalled && isWhatsAppBusinessInstalled) {
+
+      await showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.message),
+                title: const Text('WhatsApp Messenger'),
+                onTap: () {
+                  launchUrl(whatsAppMessenger);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.business),
+                title: const Text('WhatsApp Business'),
+                onTap: () {
+                  launchUrl(whatsAppBusiness);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else if (isWhatsAppInstalled) {
+
+      launchUrl(whatsAppMessenger);
+    } else if (isWhatsAppBusinessInstalled) {
+
+      launchUrl(whatsAppBusiness);
+    } else {
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Neither WhatsApp Messenger nor WhatsApp Business is installed')));
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final PreMedProvider preMedProvider = Provider.of<PreMedProvider>(context);
-    final Uri whatsApp = Uri.parse('https://wa.me/923061289229');
+    final Uri whatsAppMessenger = Uri.parse('https://wa.me/923061289229');
+    final Uri whatsAppBusiness = Uri.parse('https://wa.me/923061289229');
     final Uri messenger = Uri.parse('https://m.me/PreMed.PK');
     final Uri gmail = Uri.parse('mailto:contact@premed.pk');
     final Uri hubspot = Uri.parse('https://premed.pk/about/contact');
@@ -95,7 +143,7 @@ class ContactUs extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () async {
-                        launchUrl(whatsApp);
+                        await _chooseWhatsAppApp(context, whatsAppMessenger, whatsAppBusiness);
                       },
                         icon: Icon(
                           Icons.arrow_forward_ios_rounded,
@@ -188,7 +236,7 @@ class ContactUs extends StatelessWidget {
                     Row(
                       children: [
                         Image.asset(
-                          PremedAssets.Email, // Replace with Gmail icon asset
+                          PremedAssets.Email,
                           width: 42,
                           height: 42,
                         ),
@@ -248,7 +296,7 @@ class ContactUs extends StatelessWidget {
                     Row(
                       children: [
                         Image.asset(
-                          PremedAssets.Chat, // Replace with Gmail icon asset
+                          PremedAssets.Chat,
                           width: 42,
                           height: 42,
                         ),

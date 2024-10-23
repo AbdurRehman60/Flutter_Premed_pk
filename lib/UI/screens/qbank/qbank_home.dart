@@ -135,22 +135,29 @@ class _QBankHomeState extends State<QBankHome> {
                 },
                 imageAddress: PremedAssets.TestSession,
               ),
-              SizedBoxes.vertical22Px,
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    Expanded(child: BankTilesLast(upperText: 'Video', lowerText: 'Solutions', onTap: () {
-                      Navigator.of(context,).push(MaterialPageRoute(builder: (context)=> const ExpertSolutionHome()));
-                    }, imageAddress: PremedAssets.videoSolution,)),
-                    SizedBoxes.horizontal15Px,
-                    Expanded(child: BankTilesLast(upperText: 'Saved', lowerText: 'Questions', onTap: () {
-                      Navigator.of(context,).push(MaterialPageRoute(builder: (context)=> Provider.of<PreMedProvider>(context).isPreMed ? const SavedQuestionScreen() : const SavedQuestionScreenEng()));
-                    }, imageAddress: PremedAssets.SavedQuestin,)),
-                  ],
-                ),
+              SizedBoxes.vertical22Px,HomeTile(
+                title: 'Saved Questions',
+                onTap: () {
+                  Navigator.of(context,).push(MaterialPageRoute(builder: (context)=> Provider.of<PreMedProvider>(context).isPreMed ? const SavedQuestionScreen() : const SavedQuestionScreenEng()));
+                },
+                  imageAddress: PremedAssets.SavedQuestin
               ),
               SizedBoxes.vertical22Px,
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 20),
+              //   child: Row(
+              //     children: [
+              //       Expanded(child: BankTilesLast(upperText: 'Video', lowerText: 'Solutions', onTap: () {
+              //         Navigator.of(context,).push(MaterialPageRoute(builder: (context)=> const ExpertSolutionHome()));
+              //       }, imageAddress: PremedAssets.videoSolution,)),
+              //       SizedBoxes.horizontal15Px,
+              //       Expanded(child: BankTilesLast(upperText: 'Saved', lowerText: 'Questions', onTap: () {
+              //         Navigator.of(context,).push(MaterialPageRoute(builder: (context)=> Provider.of<PreMedProvider>(context).isPreMed ? const SavedQuestionScreen() : const SavedQuestionScreenEng()));
+              //       }, imageAddress: PremedAssets.SavedQuestin,)),
+              //     ],
+              //   ),
+              // ),
+              // SizedBoxes.vertical22Px,
             ],
           ),
         ),
