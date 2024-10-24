@@ -255,7 +255,7 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
     if (lastonboarding.contains("pre-medical")) {
       bundlePath = "/bundles/mdcat";
     } else {
-      bundlePath = "/bundles/all-in-one";
+      bundlePath = "/bundles/all in one";
     }
 
 

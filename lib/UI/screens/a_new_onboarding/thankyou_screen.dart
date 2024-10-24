@@ -23,7 +23,7 @@ class _ThankyouScreenState extends State<ThankyouScreen> {
     if (lastonboarding.contains("pre-medical")) {
       bundlePath = "/bundles/mdcat";
     } else {
-      bundlePath = "/bundles/all-in-one";
+      bundlePath = "/bundles/all in one";
     }
 
     final url = 'https://premed.pk/app-redirect?url=$appToken&&route=$bundlePath';

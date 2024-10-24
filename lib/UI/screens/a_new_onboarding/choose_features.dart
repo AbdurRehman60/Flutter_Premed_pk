@@ -88,7 +88,7 @@ class _ChooseFeaturesState extends State<ChooseFeatures> {
     try {
       final result = await auth.requiredOnboarding(
         username: username,
-        lastOnboardingPage: "/auth/onboarding/entrance-exam/pre-medical/additional-info/features",
+        lastOnboardingPage: "/auth/onboarding/entrance-exam/pre-medical/additional-info/features/thankyou",
         selectedExams: [boardName],
         selectedFeatures: features.map((e) => e['featureName'] as String).toList(),
       );

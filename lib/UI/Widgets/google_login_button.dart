@@ -1,4 +1,5 @@
 import 'package:premedpk_mobile_app/UI/screens/a_new_onboarding/choose_school.dart';
+import 'package:premedpk_mobile_app/UI/screens/a_new_onboarding/thankyou_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/a_new_signup_flow/additional_info.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
@@ -8,24 +9,41 @@ import 'package:provider/provider.dart';
 
 class GoogleLogin extends StatelessWidget {
   const GoogleLogin({super.key});
+
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
     final buttonSize = MediaQuery.of(context).size.width * 0.7;
+
     void onLoginPressed() {
       final Future<Map<String, dynamic>> response1 = auth.continueWithGoogle();
       response1.then(
             (response) {
           if (response['status']) {
             print('google result : ${response['message']}');
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => response['message'] == 'OnboardingOne'
-                    ? const AdditionalInfo()
-                    : const MainNavigationScreen(),
-              ),
-            );
+            final String lastOnboardingPage = response['user']['info']['lastOnboardingPage'];
+            print("this si the last onbaording url when ggllogin $lastOnboardingPage");
+            if (lastOnboardingPage == "/auth/onboarding") {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const AdditionalInfo()),
+              );
+            } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical/additional-info/features") {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const ThankyouScreen()),
+              );
+            } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical/features/thankyou") {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
+              );
+            } else {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const AdditionalInfo()),
+              );
+            }
           } else {
             showError(context, response);
           }
@@ -55,7 +73,6 @@ class GoogleLogin extends StatelessWidget {
                 width: 24.0,
                 fit: BoxFit.contain,
               ),
-              // SizedBoxes.horizontalMedium,
               Expanded(
                 child: Text(
                   'Continue with Google',

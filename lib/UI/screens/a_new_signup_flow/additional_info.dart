@@ -136,7 +136,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
 
       final Future<Map<String, dynamic>> onboardingResponse = auth.requiredOnboarding(
         username: user.user!.userName,
-        lastOnboardingPage: '',
+        lastOnboardingPage: "/auth/onboarding/entrance-exam/pre-medical/additional-info/features",
         selectedExams: [],
         selectedFeatures: [],
         city: city,

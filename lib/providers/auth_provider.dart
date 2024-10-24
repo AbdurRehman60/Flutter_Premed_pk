@@ -477,7 +477,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>> requiredOnboarding({
     required String? username,
-    required String? lastOnboardingPage,
+    String? lastOnboardingPage,
     required List<String> selectedExams,
     required List<String> selectedFeatures,
      String? city,

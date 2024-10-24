@@ -85,7 +85,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     if (lastonboarding.contains("pre-medical")) {
       bundlePath = "/bundles/mdcat";
     } else {
-      bundlePath = "/bundles/all-in-one";
+      bundlePath = "/bundles/all in one";
     }
 
     // Generate the final URL based on the condition

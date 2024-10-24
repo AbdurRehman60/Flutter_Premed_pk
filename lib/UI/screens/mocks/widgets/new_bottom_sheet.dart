@@ -253,7 +253,7 @@ void _showPurchasePopup(BuildContext context) {
     if (lastonboarding.contains("pre-medical")) {
       bundlePath = "/bundles/mdcat";
     } else {
-      bundlePath = "/bundles/all-in-one";
+      bundlePath = "/bundles/all in one";
     }
 
 
