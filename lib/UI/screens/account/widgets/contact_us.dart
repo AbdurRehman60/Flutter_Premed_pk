@@ -276,68 +276,68 @@ class ContactUs extends StatelessWidget {
               ),
             ),
             SizedBoxes.verticalMedium,
-            Container(
-              decoration: BoxDecoration(
-                color: PreMedColorTheme().white,
-                borderRadius: BorderRadius.circular(12.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(
-                          PremedAssets.Chat,
-                          width: 42,
-                          height: 42,
-                        ),
-                        SizedBoxes.horizontalMedium,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Live Chat',
-                              style: PreMedTextTheme().heading6.copyWith(
-                                    color: const Color(0xFF4E5DA7),
-                                  ),
-                            ),
-                            Text(
-                              'Click here to start a chat',
-                              style: PreMedTextTheme().headline.copyWith(
-                                    fontWeight: FontWeights.medium,
-                                    color: const Color(0xFF757FB2),
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        launchUrl(
-                          mode: LaunchMode.inAppBrowserView,
-                          hubspot,
-                        );
-                      },
-                      icon: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
-                        size: 20,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     color: PreMedColorTheme().white,
+            //     borderRadius: BorderRadius.circular(12.0),
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Colors.black.withOpacity(0.1),
+            //         spreadRadius: 1,
+            //         blurRadius: 5,
+            //       ),
+            //     ],
+            //   ),
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(16.0),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         Row(
+            //           children: [
+            //             Image.asset(
+            //               PremedAssets.Chat,
+            //               width: 42,
+            //               height: 42,
+            //             ),
+            //             SizedBoxes.horizontalMedium,
+            //             Column(
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               children: [
+            //                 Text(
+            //                   'Live Chat',
+            //                   style: PreMedTextTheme().heading6.copyWith(
+            //                         color: const Color(0xFF4E5DA7),
+            //                       ),
+            //                 ),
+            //                 Text(
+            //                   'Click here to start a chat',
+            //                   style: PreMedTextTheme().headline.copyWith(
+            //                         fontWeight: FontWeights.medium,
+            //                         color: const Color(0xFF757FB2),
+            //                       ),
+            //                 ),
+            //               ],
+            //             ),
+            //           ],
+            //         ),
+            //         IconButton(
+            //           onPressed: () async {
+            //             launchUrl(
+            //               mode: LaunchMode.inAppBrowserView,
+            //               hubspot,
+            //             );
+            //           },
+            //           icon: Icon(
+            //             Icons.arrow_forward_ios_rounded,
+            //             color: preMedProvider.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+            //             size: 20,
+            //           ),
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
