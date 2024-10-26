@@ -64,25 +64,29 @@ class NotesCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  Text(
-                    text1,
-                    style: GoogleFonts.rubik(
-                      fontWeight: FontWeight.w900,
-                      fontSize: MediaQuery.of(context).size.width *
-                          0.035, // Responsive font size
+                  Flexible(
+                    child: Text(
+                      text1,
+                      style: GoogleFonts.rubik(
+                        fontWeight: FontWeight.w900,
+                        fontSize: MediaQuery.of(context).size.width *
+                            0.035, // Responsive font size
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  Text(
-                    text2,
-                    style: GoogleFonts.rubik(
-                      fontWeight: FontWeight.w400,
-                      fontSize: MediaQuery.of(context).size.width *
-                          0.030, // Responsive font size
+                  Flexible(
+                    child: Text(
+                      text2,
+                      style: GoogleFonts.rubik(
+                        fontWeight: FontWeight.w400,
+                        fontSize: MediaQuery.of(context).size.width *
+                            0.030, // Responsive font size
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),

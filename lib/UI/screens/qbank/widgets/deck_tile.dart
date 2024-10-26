@@ -11,6 +11,7 @@ class DeckTile extends StatelessWidget {
       {super.key, required this.deckGroup, required this.deckGroupName});
   final DeckGroupModel deckGroup;
   final String deckGroupName;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,74 +20,84 @@ class DeckTile extends StatelessWidget {
         onTap: () {
           _openBottomSheet(context, deckGroup, deckGroupName);
         },
-        child: Container(
-          height: 108,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.85),
-            border: Border.all(color: Colors.white.withOpacity(0.5)),
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0xff26000000),
-                blurRadius: 40,
-                offset: Offset(0, 20),
-              ),
-            ],
-          ),
-          child: ListTile(
-            contentPadding:
-            const EdgeInsets.symmetric(horizontal: 25).copyWith(bottom: 12),
-            leading: GetLogo(url: deckGroup.deckGroupImage ?? ''),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  deckGroup.deckGroupName,
-                  style: PreMedTextTheme()
-                      .heading3
-                      .copyWith(fontWeight: FontWeight.w800, fontSize: 20),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 3,
-                ),
-                SizedBoxes.vertical2Px,
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: '${deckGroup.deckNameCount} ',
-                        style: PreMedTextTheme()
-                            .heading5
-                            .copyWith(fontSize: 15, fontWeight: FontWeight.w700),
-                      ),
-                      TextSpan(
-                        text: 'Papers',
-                        style: PreMedTextTheme().heading5.copyWith(fontSize: 15),
-                      ),
-                    ],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            double height = constraints.maxWidth < 360 ? 130 : 108;
+
+            return Container(
+              height: height,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.85),
+                border: Border.all(color: Colors.white.withOpacity(0.5)),
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0xff26000000),
+                    blurRadius: 40,
+                    offset: Offset(0, 20),
                   ),
-                ),
-              ],
-            ),
-            trailing: IconButton(
-              icon: Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Provider.of<PreMedProvider>(context).isPreMed
-                    ? PreMedColorTheme().primaryColorRed
-                    : PreMedColorTheme().blue,
+                ],
               ),
-              onPressed: () {
-                _openBottomSheet(context, deckGroup, deckGroupName);
-              },
-            ),
-          ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      leading: GetLogo(url: deckGroup.deckGroupImage ?? ''),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            deckGroup.deckGroupName,
+                            style: PreMedTextTheme()
+                                .heading3
+                                .copyWith(fontWeight: FontWeight.w800, fontSize: 18),
+
+                          ),
+                          SizedBoxes.vertical5Px, // Slightly larger spacing
+                          Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: '${deckGroup.deckNameCount} ',
+                                  style: PreMedTextTheme()
+                                      .heading5
+                                      .copyWith(fontSize: 14, fontWeight: FontWeight.w700),
+                                ),
+                                TextSpan(
+                                  text: 'Papers',
+                                  style: PreMedTextTheme().heading5.copyWith(fontSize: 14),
+                                ),
+                              ],
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ],
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          color: Provider.of<PreMedProvider>(context).isPreMed
+                              ? PreMedColorTheme().primaryColorRed
+                              : PreMedColorTheme().blue,
+                        ),
+                        onPressed: () {
+                          _openBottomSheet(context, deckGroup, deckGroupName);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
   }
 }
-
-
 
 void _openBottomSheet(
     BuildContext context, DeckGroupModel deckGroup, String deckGroupName) {
