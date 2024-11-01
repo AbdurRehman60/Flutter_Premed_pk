@@ -266,8 +266,8 @@ class _TestInterfaceState extends State<TestInterface> {
   void showSnackBarr() {
     final flashcardpro = Provider.of<FlashcardProvider>(context, listen: false);
     final message = flashcardpro.additionStatus == 'Added'
-        ? 'Added To FlashCards'
-        : 'Removed from FlashCards';
+        ? 'Added To Saved Facts'
+        : 'Removed from Saved Facts';
     showDialog(
         context: context,
         builder: (context) =>

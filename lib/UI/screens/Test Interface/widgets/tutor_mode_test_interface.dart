@@ -110,8 +110,8 @@ class _TutorModeState extends State<TutorMode> {
   void showSnackBarr() {
     final flashcardpro = Provider.of<FlashcardProvider>(context, listen: false);
     final message = flashcardpro.additionStatus == 'Added'
-        ? 'Added To FlashCards'
-        : 'Removed from FlashCards';
+        ? 'Added To Saved Facts'
+        : 'Removed from Saved Facts';
     showDialog(
         context: context,
         builder: (context) => AlertDialog(

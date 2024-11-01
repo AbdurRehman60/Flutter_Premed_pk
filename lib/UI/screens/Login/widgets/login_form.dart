@@ -5,7 +5,6 @@ import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.da
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
 import 'package:premedpk_mobile_app/UI/screens/forgot_password/forgot_password.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
-import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
@@ -22,6 +21,7 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final AuthProvider auth = Provider.of<AuthProvider>(context);
@@ -36,26 +36,23 @@ class _LoginFormState extends State<LoginForm> {
           passwordController.text,
           true,
         );
-        response.then(
-              (response) {
-            if (response['status']) {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => response['message'] == 'onboarding'
-                      ? const AdditionalInfo()
-                      : const MainNavigationScreen(),
-                ),
-                    (Route<dynamic> route) => false,
-              );
-            } else {
-              showError(
-                context,
-                {"message": "You are already logged in on another device."},
-              );
-            }
-          },
-        );
+
+        response.then((response) {
+          if (response['status']) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => response['message'] == 'onboarding'
+                    ? const AdditionalInfo()
+                    : const MainNavigationScreen(),
+              ),
+                  (Route<dynamic> route) => false,
+            );
+          } else {
+            // Directly show the message from the API response
+            showError(context, {"message": response['message']});
+          }
+        });
       }
     }
 
