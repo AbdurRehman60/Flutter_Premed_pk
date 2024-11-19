@@ -296,17 +296,14 @@ void _showPurchasePopup(BuildContext context) {
 
 
   void _showAlreadyAttemptedPopup(BuildContext context, DeckItem item, String cleanedDeckName) {
-    final userName =
-    Provider.of<UserProvider>(context, listen: false).getUserName();
-    final lastAttempt = Provider.of<PaperProvider>(context, listen: false)
-        .deckInformation
-        ?.attempts;
-    final lastAttemptId = Provider.of<PaperProvider>(context, listen: false)
-        .deckInformation
-        ?.lastAttemptId;
+    final userName = Provider.of<UserProvider>(context, listen: false).getUserName();
+    final lastAttempt = Provider.of<PaperProvider>(context, listen: false).deckInformation?.attempts;
+    final lastAttemptId = Provider.of<PaperProvider>(context, listen: false).deckInformation?.lastAttemptId;
 
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final bool hasFullAccess = _hasAccess(item.premiumTag, userProvider.getTags(), item.isTutorModeFree);
+    print("hell nooo${item.premiumTag}");
+    print("my tags ${userProvider.getTags()}");
 
     showDialog(
       context: context,
@@ -315,9 +312,7 @@ void _showPurchasePopup(BuildContext context) {
           title: Center(
             child: Text(
               'Paper already attempted!',
-              style: PreMedTextTheme()
-                  .body
-                  .copyWith(fontWeight: FontWeight.w600, fontSize: 18),
+              style: PreMedTextTheme().body.copyWith(fontWeight: FontWeight.w600, fontSize: 18),
             ),
           ),
           content: Text(
@@ -329,18 +324,21 @@ void _showPurchasePopup(BuildContext context) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    // Re-Attempt Button
                     SizedBox(
                       width: 120,
                       child: CustomButton(
                         buttonText: 'Re-Attempt',
                         onPressed: () {
                           if (hasFullAccess) {
+                            print('User has full access for Re-Attempt');
                             setState(() {
                               isContinuingAttempt = false;
                             });
                             Navigator.pop(context);
                             _navigateToDeck(context, item);
                           } else {
+                            print('User does not have full access for Re-Attempt');
                             _showPurchasePopup(context);
                           }
                         },
@@ -350,41 +348,43 @@ void _showPurchasePopup(BuildContext context) {
                       ),
                     ),
                     SizedBoxes.horizontalMicro,
+
+                    // Continue Attempt Button
                     SizedBox(
                       width: 100,
                       child: CustomButton(
                         buttonText: 'Continue Attempt',
                         onPressed: () async {
                           if (hasFullAccess) {
+                            print('User has full access for Continue Attempt');
                             setState(() {
                               isContinuingAttempt = true;
                             });
                             Navigator.pop(context);
                             if (lastAttempt != null && lastAttempt.isNotEmpty) {
                               final latestAttempt = lastAttempt.last;
-                              final questionProvider =
-                              Provider.of<QuestionProvider>(context,
-                                  listen: false);
+                              final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
 
-                              final startFromQuestion = questionProvider.questions
-                                  ?.indexWhere((question) =>
-                              question.questionId ==
-                                  latestAttempt['questionId']) ??
+                              final startFromQuestion = questionProvider.questions?.indexWhere(
+                                    (question) => question.questionId == latestAttempt['questionId'],
+                              ) ??
                                   0;
 
                               if (startFromQuestion >= 0) {
-                                _navigateToNextScreen(context, item,
-                                    startFromQuestion: startFromQuestion,
-                                    attemptId: lastAttemptId);
+                                _navigateToNextScreen(
+                                  context,
+                                  item,
+                                  startFromQuestion: startFromQuestion,
+                                  attemptId: lastAttemptId,
+                                );
                               } else {
-                                _navigateToNextScreen(context, item,
-                                    attemptId: lastAttemptId);
+                                _navigateToNextScreen(context, item, attemptId: lastAttemptId);
                               }
                             } else {
-                              _navigateToNextScreen(context, item,
-                                  attemptId: lastAttemptId);
+                              _navigateToNextScreen(context, item, attemptId: lastAttemptId);
                             }
                           } else {
+                            print('User does not have full access for Continue Attempt');
                             _showPurchasePopup(context);
                           }
                         },
@@ -396,19 +396,22 @@ void _showPurchasePopup(BuildContext context) {
                   ],
                 ),
                 SizedBoxes.verticalMedium,
+
+                // Review Answers Button
                 SizedBox(
                   width: 100,
                   child: CustomButton(
                     buttonText: 'Review Answers',
                     onPressed: () {
                       if (hasFullAccess) {
+                        print('User has full access for Review Answers');
                         Navigator.pop(context);
                         setState(() {
                           isContinuingAttempt = false;
                         });
-                        _navigateToNextScreen(context, item,
-                            isReview: true, startFromQuestion: 0);
+                        _navigateToNextScreen(context, item, isReview: true, startFromQuestion: 0);
                       } else {
+                        print('User does not have full access for Review Answers');
                         _showPurchasePopup(context);
                       }
                     },

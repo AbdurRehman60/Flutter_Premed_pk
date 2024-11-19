@@ -122,18 +122,18 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
             }
           },
         ),
-        SizedBoxes.verticalTiny,
-        const Center(child: Text("or")),
-
-        CustomButton(
-          color: pro.isPreMed
-              ? PreMedColorTheme().red
-              : PreMedColorTheme().blue,
-          buttonText: 'Attempt 5 Questions for Free',
-          onPressed: () async {
-            await _attempt5Questions(context);
-          },
-        ),
+        // SizedBoxes.verticalTiny,
+        // const Center(child: Text("or")),
+        //
+        // CustomButton(
+        //   color: pro.isPreMed
+        //       ? PreMedColorTheme().red
+        //       : PreMedColorTheme().blue,
+        //   buttonText: 'Attempt 5 Questions for Free',
+        //   onPressed: () async {
+        //     await _attempt5Questions(context);
+        //   },
+        // ),
         SizedBoxes.verticalMedium,
       ],
     );
