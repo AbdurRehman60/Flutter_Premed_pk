@@ -118,8 +118,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           ),
                           SizedBoxes.verticalTiny,
                           if (item.isTutorModeFree == true ||
-                              item.premiumTag == null ||
-                              item.premiumTag!.isEmpty)
+                              item.premiumTags == null ||
+                              item.premiumTags!.isEmpty)
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
@@ -148,8 +148,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  item.premiumTag!,
-                                  style: PreMedTextTheme().body.copyWith(
+                                  item.premiumTags!.join(', '),                                   style: PreMedTextTheme().body.copyWith(
                                     color: PreMedColorTheme().white,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 14,
@@ -166,7 +165,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           size: 20,
                         ),
                         onPressed: () async {
-                          if (_hasAccess(item.premiumTag, accessTags, item.isTutorModeFree)) {
+                          if (_hasAccess(item.premiumTags, accessTags, item.isTutorModeFree)) {
                             setState(() {
                               selectedDeckItemIndex = originalIndex;
                             });
@@ -267,8 +266,7 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
               'questions': totalQuestions.toString(),
               'timedTestMinutes': widget.deckGroup.deckItems[selectedDeckItemIndex].timesTestminutes,
             },
-            premiumtag: widget.deckGroup.deckItems[selectedDeckItemIndex].premiumTag ?? '',
-            deckGroupName: widget.category ?? '',
+            premiumtag: (item.premiumTags ?? []).join(', '),             deckGroupName: widget.category ?? '',
             totalquestions: totalQuestions,
             questionlist: deckInfo.questions,
           ),
@@ -295,7 +293,7 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
   void _showAlreadyAttemptedPopup(BuildContext context, DeckItem item) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final accessTags = userProvider.getTags();
-    final bool hasFullAccess = _hasAccess(item.premiumTag, accessTags, item.isTutorModeFree);
+    final bool hasFullAccess = _hasAccess(item.premiumTags, accessTags, item.isTutorModeFree);
 
     final userName = userProvider.getUserName();
     final lastAttempt = Provider.of<DeckProvider>(context, listen: false).deckInformation?.attempts;
@@ -413,32 +411,39 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
     );
   }
 
-  bool _hasAccess(String? premiumTag, Object? accessTags, bool? isTutorModeFree) {
-    
-    if (isTutorModeFree == true || premiumTag == null || premiumTag.isEmpty) {
+  bool _hasAccess(List<String>? premiumTags, Object? accessTags, bool? isPastPaperFree) {
+    // Grant access if the paper is free, or if there are no premium tags
+    if (isPastPaperFree == true || premiumTags == null || premiumTags.isEmpty) {
       return true;
     }
 
-    
+    // Define access mappings for different tag groups
     final List<String> mdcatTags = ['MDCAT-Topicals', 'MDCAT-Yearly'];
     final List<String> numsTags = ['NUMS-Topicals', 'NUMS-Yearly'];
     final List<String> privTags = ['AKU-Topicals', 'AKU-Yearly'];
 
+    // Ensure accessTags is a list of dynamic objects
     if (accessTags is List<dynamic>) {
-      for (final access in accessTags) {
-        if (access is Map<String, dynamic>) {
-          if (access['name'] == premiumTag) {
-            return true;
-          }
-          if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
-              (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
-              (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
-            return true;
+      for (final premiumTag in premiumTags) {
+        for (final access in accessTags) {
+          if (access is Map<String, dynamic>) {
+            // Direct match
+            if (access['name'] == premiumTag) {
+              return true;
+            }
+
+            // Group match for predefined tags
+            if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
+                (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
+                (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
+              return true;
+            }
           }
         }
       }
     }
 
+    // Access denied if no match is found
     return false;
   }
 

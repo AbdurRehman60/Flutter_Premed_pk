@@ -267,30 +267,39 @@ void _showPurchasePopup(BuildContext context) {
     }
   }
 
-  bool _hasAccess(String? premiumTag, Object? accessTags, bool? isPastPaperFree) {
-    if (isPastPaperFree == true || premiumTag == null || premiumTag.isEmpty) {
+  bool _hasAccess(List<String>? premiumTags, Object? accessTags, bool? isPastPaperFree) {
+    // Grant access if the paper is free, or if there are no premium tags
+    if (isPastPaperFree == true || premiumTags == null || premiumTags.isEmpty) {
       return true;
     }
 
+    // Define access mappings for different tag groups
     final List<String> mdcatTags = ['MDCAT-Topicals', 'MDCAT-Yearly'];
     final List<String> numsTags = ['NUMS-Topicals', 'NUMS-Yearly'];
     final List<String> privTags = ['AKU-Topicals', 'AKU-Yearly'];
 
+    // Ensure accessTags is a list of dynamic objects
     if (accessTags is List<dynamic>) {
-      for (final access in accessTags) {
-        if (access is Map<String, dynamic>) {
-          if (access['name'] == premiumTag) {
-            return true;
-          }
-          if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
-              (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
-              (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
-            return true;
+      for (final premiumTag in premiumTags) {
+        for (final access in accessTags) {
+          if (access is Map<String, dynamic>) {
+            // Direct match
+            if (access['name'] == premiumTag) {
+              return true;
+            }
+
+            // Group match for predefined tags
+            if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
+                (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
+                (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
+              return true;
+            }
           }
         }
       }
     }
 
+    // Access denied if no match is found
     return false;
   }
 
@@ -301,8 +310,8 @@ void _showPurchasePopup(BuildContext context) {
     final lastAttemptId = Provider.of<PaperProvider>(context, listen: false).deckInformation?.lastAttemptId;
 
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final bool hasFullAccess = _hasAccess(item.premiumTag, userProvider.getTags(), item.isTutorModeFree);
-    print("hell nooo${item.premiumTag}");
+    final bool hasFullAccess = _hasAccess(item.premiumTags, userProvider.getTags(), item.isTutorModeFree);
+    print("hell nooo${item.premiumTags}");
     print("my tags ${userProvider.getTags()}");
 
     showDialog(
@@ -429,16 +438,14 @@ void _showPurchasePopup(BuildContext context) {
   }
 
   void _navigateToDeck(BuildContext context, DeckItem item) {
-    final deckInfo =
-        Provider.of<PaperProvider>(context, listen: false).deckInformation;
+    final deckInfo = Provider.of<PaperProvider>(context, listen: false).deckInformation;
 
     if (deckInfo == null) {
       print('Deck information is null, cannot navigate');
       return;
     }
-    final totalQuestions = deckInfo.questions.length;
 
-    print("Total questions from DeckInformation: $totalQuestions");
+    final totalQuestions = deckInfo.questions.length;
 
     if (totalQuestions == 0) {
       print("No questions available");
@@ -446,47 +453,26 @@ void _showPurchasePopup(BuildContext context) {
     }
 
     final deckName = newdeckname(item.deckName);
-    print("Navigating to Deck: $deckName");
 
-    if (widget.bankOrMock == 'Bank') {
-      print("This is the ques ${deckInfo.questions}");
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PracticeandPast(
-            subject: widget.deckGroup.deckGroupName,
-            deckDetails: {
-              'deckName': deckName,
-              'isTutorModeFree': item.isTutorModeFree,
-              'deckInstructions': item.deckInstructions,
-              'questions': totalQuestions.toString(),
-              'timedTestMinutes': item.timesTestminutes,
-            },
-            premiumtag: item.premiumTag ?? '',
-            deckGroupName: widget.category ?? '',
-            totalquestions: totalQuestions,
-            questionlist: deckInfo.questions,
-          ),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PracticeandPast(
+          subject: widget.deckGroup.deckGroupName,
+          deckDetails: {
+            'deckName': deckName,
+            'isTutorModeFree': item.isTutorModeFree,
+            'deckInstructions': item.deckInstructions,
+            'questions': totalQuestions.toString(),
+            'timedTestMinutes': item.timesTestminutes,
+          },
+          premiumtag: (item.premiumTags ?? []).join(', '), // Use premiumTags list
+          deckGroupName: widget.category ?? '',
+          totalquestions: totalQuestions,
+          questionlist: deckInfo.questions,
         ),
-      );
-    } else {
-      print("This is the ${deckInfo.questions}");
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DeckInstructions(
-            subject: widget.subject,
-            deckInstructions: item.deckInstructions,
-            deckGroup: widget.deckGroup,
-            selectedIndex: selectedDeckItemIndex,
-            totalquestions: totalQuestions,
-            questionlist: deckInfo.questions,
-          ),
-        ),
-      );
-    }
+      ),
+    );
   }
 
   void _navigateToNextScreen(BuildContext context, DeckItem item,

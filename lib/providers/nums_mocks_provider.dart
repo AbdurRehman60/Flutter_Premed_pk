@@ -40,19 +40,23 @@ class NumsMocksProvider extends ChangeNotifier {
             final List<DeckItem> deckItems = decks.where((deck) {
               return deck['isPublished'] == true;
             }).map((deck) {
+              final List<dynamic>? premiumTagsJson = deck['premiumTags'] as List<dynamic>?;
+
+              // Join for display/logging, but keep as a list for actual use
+              final List<String> premiumTags = premiumTagsJson != null
+                  ? premiumTagsJson.map((tag) => tag.toString()).toList()
+                  : [];
+              print('Raw Premium Tags: $premiumTags');
+
               return DeckItem(
                 deckName: deck['deckName'],
                 deckLogo: deck['deckLogo'],
-                premiumTag: deck['premiumTags'] != null &&
-                    (deck['premiumTags'] as List).isNotEmpty
-                    ? (deck['premiumTags'][0] as String)
-                    : null,
+                premiumTags: premiumTags,
                 deckInstructions: deck['deckInstructions'] ?? '',
-                isTutorModeFree: deck['isTutorModeFree'],
-                timedTestMode: deck['timedTestMode'],
-                timesTestminutes: deck['timedTestMinutes'],
+                isTutorModeFree: deck['isTutorModeFree'] ?? false,
+                timedTestMode: deck['timedTestMode'] ?? false,
+                timesTestminutes: deck['timedTestMinutes'] ?? 0,
                 isPublished: deck['isPublished'],
-
               );
             }).toList();
 

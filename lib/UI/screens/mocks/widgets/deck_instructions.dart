@@ -207,9 +207,9 @@ class _DeckInstructionsState extends State<DeckInstructions> {
 
     bool isFreeMode = (selectedMode == 'TUTORMODE')
         ? selectedDeckItem.isTutorModeFree ?? false
-        : selectedDeckItem.premiumTag == null || selectedDeckItem.premiumTag!.isEmpty;
+        : selectedDeckItem.premiumTags == null || selectedDeckItem.premiumTags!.isEmpty;
 
-    if (isFreeMode || _hasAccess(selectedDeckItem.premiumTag, userProvider.getTags())) {
+    if (isFreeMode || _hasAccess(selectedDeckItem.premiumTags, userProvider.getTags())) {
       final attemptModel = CreateDeckAttemptModel(
         deckName: selectedDeckItem.deckName,
         attemptMode: selectedMode.toLowerCase(),
@@ -243,7 +243,7 @@ class _DeckInstructionsState extends State<DeckInstructions> {
     }
   }
 
-  bool _hasAccess(String? premiumTag, Object? accessTags) {
+  bool _hasAccess(List<String>? premiumTag, Object? accessTags) {
     if (premiumTag == null || premiumTag.isEmpty) {
       return true;
     }

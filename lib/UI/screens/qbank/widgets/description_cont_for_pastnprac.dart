@@ -291,6 +291,7 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
   }
 
   bool _hasAccess(String? premiumTag, Object? accessTags, bool? isPastPaperFree) {
+    print("hellll ${premiumTag}");
     if (isPastPaperFree == true || premiumTag == null || premiumTag.isEmpty) {
       return true;
     }

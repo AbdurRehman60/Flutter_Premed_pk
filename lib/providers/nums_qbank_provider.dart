@@ -41,19 +41,23 @@ class NUMSQbankProvider extends ChangeNotifier {
               .map((deckGroupData) {
             final List<dynamic> decks = deckGroupData['decks'];
             final List<DeckItem> deckItems = decks.map((deck) {
+              final List<dynamic>? premiumTagsJson = deck['premiumTags'] as List<dynamic>?;
+
+              // Join for display/logging, but keep as a list for actual use
+              final List<String> premiumTags = premiumTagsJson != null
+                  ? premiumTagsJson.map((tag) => tag.toString()).toList()
+                  : [];
+              print('Raw Premium Tags: $premiumTags');
+
               return DeckItem(
                 deckName: deck['deckName'],
                 deckLogo: deck['deckLogo'],
-                premiumTag: deck['premiumTags'] != null &&
-                    (deck['premiumTags'] as List).isNotEmpty
-                    ? (deck['premiumTags'][0] as String)
-                    : '',
-                isPublished: deck['isPublished'],
-
+                premiumTags: premiumTags,
                 deckInstructions: deck['deckInstructions'] ?? '',
-                isTutorModeFree: deck['isTutorModeFree'],
-                timedTestMode: deck['timedTestMode'],
-                timesTestminutes: deck['timedTestMinutes'],
+                isTutorModeFree: deck['isTutorModeFree'] ?? false,
+                timedTestMode: deck['timedTestMode'] ?? false,
+                timesTestminutes: deck['timedTestMinutes'] ?? 0,
+                isPublished: deck['isPublished'],
               );
             }).toList();
 
