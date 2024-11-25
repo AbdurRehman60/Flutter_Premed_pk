@@ -281,10 +281,13 @@ void _showPurchasePopup(BuildContext context) {
     // Ensure accessTags is a list of dynamic objects
     if (accessTags is List<dynamic>) {
       for (final premiumTag in premiumTags) {
+        bool foundMatch = false; // Flag to track if a match was found
+
         for (final access in accessTags) {
           if (access is Map<String, dynamic>) {
             // Direct match
             if (access['name'] == premiumTag) {
+              print('Match found: premiumTag "$premiumTag" matches with accessTag "${access['name']}"');
               return true;
             }
 
@@ -292,14 +295,21 @@ void _showPurchasePopup(BuildContext context) {
             if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
                 (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
                 (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
+              print('Match found: premiumTag "$premiumTag" matches with group tag "${access['name']}"');
               return true;
             }
           }
+        }
+
+        // If no match was found for the current premiumTag
+        if (!foundMatch) {
+          print('No match found for premiumTag "$premiumTag" in accessTags.');
         }
       }
     }
 
     // Access denied if no match is found
+    print('Access denied: No matches found for premiumTags.');
     return false;
   }
 
@@ -466,7 +476,7 @@ void _showPurchasePopup(BuildContext context) {
             'questions': totalQuestions.toString(),
             'timedTestMinutes': item.timesTestminutes,
           },
-          premiumtag: (item.premiumTags ?? []).join(', '), // Use premiumTags list
+          premiumtag: item.premiumTags ?? [],
           deckGroupName: widget.category ?? '',
           totalquestions: totalQuestions,
           questionlist: deckInfo.questions,

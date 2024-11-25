@@ -33,7 +33,7 @@ class ModeDescription extends StatefulWidget {
   final String deckName;
   final int timedTestMinutes;
   final String subject;
-  final String? premiumTag;
+  final List<String>? premiumTag;
 
   @override
   State<ModeDescription> createState() => _ModeDescriptionState();
@@ -42,7 +42,8 @@ class ModeDescription extends StatefulWidget {
 class _ModeDescriptionState extends State<ModeDescription> {
   @override
   Widget build(BuildContext context) {
-    print("this is the premium tag :${widget.premiumTag} for the deck name ${widget.deckName}");
+    print("this is the premium tag :${widget
+        .premiumTag} for the deck name ${widget.deckName}");
     final pro = Provider.of<PreMedProvider>(context);
     return Material(
       borderRadius: BorderRadius.circular(24),
@@ -72,7 +73,9 @@ class _ModeDescriptionState extends State<ModeDescription> {
       children: [
         SvgPicture.asset(
           height: 45,
-          Provider.of<PreMedProvider>(context).isPreMed
+          Provider
+              .of<PreMedProvider>(context)
+              .isPreMed
               ? PremedAssets.RedDocument
               : PremedAssets.BlueDocument,
         ),
@@ -109,36 +112,41 @@ class _ModeDescriptionState extends State<ModeDescription> {
               : PreMedColorTheme().blue,
           buttonText: 'Start Test',
           onPressed: () async {
-            final userProvider = Provider.of<UserProvider>(context, listen: false);
+            final userProvider = Provider.of<UserProvider>(
+                context, listen: false);
             final userId = userProvider.user?.userId ?? '';
 
             if (userId.isNotEmpty) {
-              if (_hasAccess(widget.premiumTag, userProvider.getTags(), widget.mode)) {
+              if (_hasAccess(
+                  widget.premiumTag, userProvider.getTags(), widget.mode)) {
                 final attemptModel = CreateDeckAttemptModel(
                   deckName: widget.deckName,
                   attemptMode: 'tutormode',
                   user: userId,
                 );
-                final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+                final deckAttemptProvider = Provider.of<
+                    CreateDeckAttemptProvider>(context, listen: false);
                 await deckAttemptProvider.createDeckAttempt(attemptModel);
 
-                if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
+                if (deckAttemptProvider.responseMessage ==
+                    'Attempt created successfully') {
                   final attemptId = deckAttemptProvider.attemptId;
 
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => TutorMode(
-                        isRecent: false,
-                        isReview: false,
-                        isContinuingAttempt: false,
-                        subject: widget.subject,
-                        attemptId: attemptId,
-                        deckName: widget.deckName,
-                        totalquestions: widget.totalquestions,
-                        questionlist: widget.questionlist,
-                        lastdone: '',
-                      ),
+                      builder: (context) =>
+                          TutorMode(
+                            isRecent: false,
+                            isReview: false,
+                            isContinuingAttempt: false,
+                            subject: widget.subject,
+                            attemptId: attemptId,
+                            deckName: widget.deckName,
+                            totalquestions: widget.totalquestions,
+                            questionlist: widget.questionlist,
+                            lastdone: '',
+                          ),
                     ),
                   );
                 } else {
@@ -161,7 +169,9 @@ class _ModeDescriptionState extends State<ModeDescription> {
       children: [
         SvgPicture.asset(
           height: 45,
-          Provider.of<PreMedProvider>(context).isPreMed
+          Provider
+              .of<PreMedProvider>(context)
+              .isPreMed
               ? PremedAssets.RedDocument
               : PremedAssets.BlueDocument,
         ),
@@ -199,36 +209,41 @@ class _ModeDescriptionState extends State<ModeDescription> {
               ? PreMedColorTheme().primaryColorRed
               : PreMedColorTheme().blue,
           onPressed: () async {
-            final userProvider = Provider.of<UserProvider>(context, listen: false);
+            final userProvider = Provider.of<UserProvider>(
+                context, listen: false);
             final userId = userProvider.user?.userId ?? '';
 
             if (userId.isNotEmpty) {
               // Check access for Timed Test Mode
-              if (_hasAccess(widget.premiumTag, userProvider.getTags(), false)) {
+              if (_hasAccess(
+                  widget.premiumTag, userProvider.getTags(), false)) {
                 final attemptModel = CreateDeckAttemptModel(
                   deckName: widget.deckName,
                   attemptMode: 'testmode',
                   user: userId,
                 );
-                final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+                final deckAttemptProvider = Provider.of<
+                    CreateDeckAttemptProvider>(context, listen: false);
                 await deckAttemptProvider.createDeckAttempt(attemptModel);
 
-                if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
+                if (deckAttemptProvider.responseMessage ==
+                    'Attempt created successfully') {
                   final attemptId = deckAttemptProvider.attemptId;
 
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => TestInterface(
-                        isReview: false,
-                        isRecent: false,
-                        isContinuingAttempt: false,
-                        subject: widget.subject,
-                        attemptId: attemptId,
-                        deckName: widget.deckName,
-                        totalquestions: widget.totalquestions,
-                        questionlist: widget.questionlist,
-                      ),
+                      builder: (context) =>
+                          TestInterface(
+                            isReview: false,
+                            isRecent: false,
+                            isContinuingAttempt: false,
+                            subject: widget.subject,
+                            attemptId: attemptId,
+                            deckName: widget.deckName,
+                            totalquestions: widget.totalquestions,
+                            questionlist: widget.questionlist,
+                          ),
                     ),
                   );
                 } else {
@@ -245,8 +260,8 @@ class _ModeDescriptionState extends State<ModeDescription> {
     );
   }
 
-  bool _hasAccess(String? premiumTag, Object? accessTags, bool? isTutorModeFree) {
-    if (isTutorModeFree == true || premiumTag == null || premiumTag.isEmpty) {
+  bool _hasAccess(List<String>? premiumTags, Object? accessTags, bool? isTutorModeFree) {
+    if (isTutorModeFree == true || premiumTags == null || premiumTags.isEmpty) {
       return true;
     }
 
@@ -254,28 +269,46 @@ class _ModeDescriptionState extends State<ModeDescription> {
     final List<String> numsTags = ['NUMS-Topicals', 'NUMS-Yearly'];
     final List<String> privTags = ['AKU-Topicals', 'AKU-Yearly'];
 
+    // Ensure accessTags is a list of dynamic objects
     if (accessTags is List<dynamic>) {
-      for (final access in accessTags) {
-        if (access is Map<String, dynamic>) {
-          print('Comparing premiumTag: $premiumTag with access name: ${access['name']}');
+      for (final premiumTag in premiumTags) {
+        bool foundMatch = false; // Flag to track if a match was found
 
-          if (access['name'] == premiumTag) {
-            return true;
+        for (final access in accessTags) {
+          if (access is Map<String, dynamic>) {
+            // Direct match
+            if (access['name'] == premiumTag) {
+              print(
+                  'Match found: premiumTag "$premiumTag" matches with accessTag "${access['name']}"');
+              return true;
+            }
+
+            // Group match for predefined tags
+            if ((premiumTag == 'MDCAT-QBank' &&
+                mdcatTags.contains(access['name'])) ||
+                (premiumTag == 'NUMS-QBank' &&
+                    numsTags.contains(access['name'])) ||
+                (premiumTag == 'AKU-QBank' &&
+                    privTags.contains(access['name']))) {
+              print(
+                  'Match found: premiumTag "$premiumTag" matches with group tag "${access['name']}"');
+              return true;
+            }
           }
-          if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
-              (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
-              (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
-            print('Match found: Yes');
-            return true;
-          }
+        }
+
+        // If no match was found for the current premiumTag
+        if (!foundMatch) {
+          print('No match found for premiumTag "$premiumTag" in accessTags.');
         }
       }
     }
 
-    print('Match found: No');
+    // Access denied if no match is found
+    print('Access denied: No matches found for premiumTags.');
     return false;
   }
-
+}
   void _showPurchasePopup(BuildContext context) {
     showDialog(
       context: context,
@@ -315,7 +348,6 @@ class _ModeDescriptionState extends State<ModeDescription> {
       },
     );
   }
-}
 
 class DescriptionText extends StatelessWidget {
   const DescriptionText({super.key, required this.descriptionText});

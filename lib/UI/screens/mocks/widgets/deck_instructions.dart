@@ -243,27 +243,48 @@ class _DeckInstructionsState extends State<DeckInstructions> {
     }
   }
 
-  bool _hasAccess(List<String>? premiumTag, Object? accessTags) {
-    if (premiumTag == null || premiumTag.isEmpty) {
+  bool _hasAccess(List<String>? premiumTags, Object? accessTags) {
+    // Grant access if the paper is free, or if there are no premium tags
+    if (premiumTags == null || premiumTags.isEmpty) {
       return true;
     }
 
+    // Define access mappings for different tag groups
     final List<String> mdcatTags = ['MDCAT-Topicals', 'MDCAT-Yearly'];
     final List<String> numsTags = ['NUMS-Topicals', 'NUMS-Yearly'];
     final List<String> privTags = ['AKU-Topicals', 'AKU-Yearly'];
 
+    // Ensure accessTags is a list of dynamic objects
     if (accessTags is List<dynamic>) {
-      for (final access in accessTags) {
-        if (access is Map<String, dynamic>) {
-          if (access['name'] == premiumTag ||
-              (premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
-              (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
-              (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
-            return true;
+      for (final premiumTag in premiumTags) {
+        bool foundMatch = false;
+
+        for (final access in accessTags) {
+          if (access is Map<String, dynamic>) {
+            if (access['name'] == premiumTag) {
+              print('Match found: premiumTag "$premiumTag" matches with accessTag "${access['name']}"');
+              return true;
+            }
+
+            // Group match for predefined tags
+            if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
+                (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
+                (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
+              print('Match found: premiumTag "$premiumTag" matches with group tag "${access['name']}"');
+              return true;
+            }
           }
+        }
+
+        // If no match was found for the current premiumTag
+        if (!foundMatch) {
+          print('No match found for premiumTag "$premiumTag" in accessTags.');
         }
       }
     }
+
+    // Access denied if no match is found
+    print('Access denied: No matches found for premiumTags.');
     return false;
   }
 

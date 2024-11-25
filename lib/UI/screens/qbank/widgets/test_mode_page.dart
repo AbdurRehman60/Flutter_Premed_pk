@@ -23,7 +23,7 @@ class TestModeInterface extends StatefulWidget {
   final Map<String, dynamic> deckDetails;
   final String deckGroupName;
   final String subject;
-  final String premiumtag;
+  final List<String> premiumtag;
 
   @override
   State<TestModeInterface> createState() => _TestModeInterfaceState();
