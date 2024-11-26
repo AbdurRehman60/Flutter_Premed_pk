@@ -6,6 +6,7 @@ import 'package:premedpk_mobile_app/UI/screens/account/widgets/credits.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/menu_tile.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/terms_conditions.dart';
+import 'package:premedpk_mobile_app/UI/screens/notifications/notifications.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/error_dialogue.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -240,7 +241,7 @@ class Account extends StatelessWidget {
                   Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
-                      itemCount: 6,
+                      itemCount: 7,
                       itemBuilder: (context, index) {
                         String heading = '';
                         String imagePath = '';
@@ -301,15 +302,19 @@ class Account extends StatelessWidget {
                             );
                           case 3:
                             padding = 10;
+                            imagePath = PremedAssets.NotificationIcon;
+                            heading = 'Notifications';
+                          case 4:
+                            padding = 10;
                             imagePath = PremedAssets.Credits;
                             heading = 'Credits';
 
-                          case 4:
+                          case 5:
                             heading = 'Privacy Policy';
                             imagePath = 'assets/icons/Privacy Shield Tick.png';
                             padding = 10;
 
-                          case 5:
+                          case 6:
                             heading = 'Terms of Use';
                             imagePath = PremedAssets.Terms;
                             padding = 10;
@@ -353,17 +358,23 @@ class Account extends StatelessWidget {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
+                                          const NotificationsScreen(),
+                                    ),
+                                  ); case 4:
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
                                           const CreditsScreen(),
                                     ),
                                   );
-                                case 4:
+                                case 5:
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           const PrivacyPolicy(),
                                     ),
                                   );
-                                case 5:
+                                case 6:
                                   // Handle Terms & Condition tap
                                   Navigator.of(context).push(
                                     MaterialPageRoute(

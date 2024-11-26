@@ -4,6 +4,7 @@ import 'package:premedpk_mobile_app/UI/screens/a_new_onboarding/choose_features.
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../utils/Data/citites_data.dart';
 import '../../../utils/Data/school_data.dart';
@@ -13,7 +14,6 @@ import '../../Widgets/global_widgets/error_dialogue.dart';
 import '../../Widgets/phone_dropdown.dart';
 import '../../Widgets/school_data_widget.dart';
 import '../Onboarding/widgets/check_box.dart';
-import '../marketplace/widgets/coupon_code.dart';
 class AdditionalInfo extends StatefulWidget {
   const AdditionalInfo({super.key});
 
@@ -71,10 +71,10 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
 
       
       if (locations.isNotEmpty) {
-        Location cityLocation = locations.first;
+        final Location cityLocation = locations.first;
 
         
-        List<Placemark> placemarks = await placemarkFromCoordinates(
+        final List<Placemark> placemarks = await placemarkFromCoordinates(
           cityLocation.latitude,
           cityLocation.longitude,
         );
@@ -98,7 +98,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     } catch (e) {
       setState(() {
         hasErrors = true;
-        error = "Error identifying province: ${e.toString()}";
+        error = "Error identifying province: $e";
       });
     }
   }
@@ -116,7 +116,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     });
   }
 
-  void onSubmitAdditionalInfo() async {
+  Future<void> onSubmitAdditionalInfo() async {
     final form = _formKey.currentState!;
     if (form.validate()) {
       
@@ -165,6 +165,37 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     }
   }
 
+  void showAssociatePopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Notice'),
+          content: const Text(
+              'Please signup using the website to add a referral code. This feature will be available in the app soon.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+            TextButton(
+              onPressed: () async {
+                const url = 'https://www.premed.pk/auth/onboarding';
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
+              child: const Text('Go to Website'),
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -400,24 +431,26 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                               onChanged: (selectedOption) {
                                 setState(() {
                                   knownVia = selectedOption ?? '';
+                                  if (knownVia == 'Associate') {
+                                    showAssociatePopup();
+                                  }
                                 });
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 10),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                                 hintText: "How did you get to know us?",
-                                hintStyle: PreMedTextTheme().subtext.copyWith(
-                                    color: PreMedColorTheme().black),
+                                hintStyle: TextStyle(color: Colors.black),
                               ),
                             ),
+
                           ),
                         ),
                         SizedBoxes.verticalBig,
 
 
-                        if (knownVia == 'Associate')
-                          const CouponCodeTF(),
+                        // if (knownVia == 'Associate')
+                          // const CouponCodeTF(),
 
 
                         CustomButton(
