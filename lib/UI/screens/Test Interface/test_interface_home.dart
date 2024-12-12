@@ -117,16 +117,15 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 
   Future<void> _showFinishDialog() async {
-    
     final attemptProvider = Provider.of<AttemptProvider>(context, listen: false);
+
+    // Fetch and filter attempt info
     await attemptProvider.getAttemptInfo(widget.attemptId);
 
-    
-    print("Attempt Info: ${attemptProvider.attemptInfo}");
-
-    
+    // Extract filtered attempt info
     final attemptInfo = attemptProvider.attemptInfo;
 
+    // Validate filtered attempt info
     if (attemptInfo == null) {
       print('Error: attemptInfo is null');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -135,13 +134,7 @@ class _TestInterfaceState extends State<TestInterface> {
       return;
     }
 
-    
-    print("correctAttempts: ${attemptInfo.correctAttempts}");
-    print("incorrectAttempts: ${attemptInfo.incorrectAttempts}");
-    print("totalTimeTaken: ${attemptInfo.totalTimeTaken}");
-    print("totalQuestions: ${attemptInfo.totalQuestions}");
-
-    
+    // Check for required fields
     if (attemptInfo.correctAttempts == null ||
         attemptInfo.incorrectAttempts == null ||
         attemptInfo.totalTimeTaken == null ||
@@ -153,7 +146,7 @@ class _TestInterfaceState extends State<TestInterface> {
       return;
     }
 
-    
+    // Extract values
     int correctAttempts = attemptInfo.correctAttempts!;
     int incorrectAttempts = attemptInfo.incorrectAttempts!;
     int skippedAttempts = attemptInfo.skippedAttempts ?? 0;
@@ -162,7 +155,7 @@ class _TestInterfaceState extends State<TestInterface> {
 
     print("Total attempted questions: ${correctAttempts + incorrectAttempts}");
 
-    
+    // Show the dialog
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -210,7 +203,7 @@ class _TestInterfaceState extends State<TestInterface> {
 
                 final attempted = correctAttempts + incorrectAttempts;
 
-                
+                // Update result with filtered attempt data
                 await attemptProvider.updateResult(
                   attemptId: widget.attemptId,
                   attempted: attempted,
@@ -229,6 +222,8 @@ class _TestInterfaceState extends State<TestInterface> {
 
                 if (attemptProvider.status == AStatus.success) {
                   Navigator.pop(context);
+
+                  // Navigate to Analytics screen with filtered data
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -949,7 +944,7 @@ class _TestInterfaceState extends State<TestInterface> {
       final timeTaken = _stopwatch.elapsedMilliseconds;
       totalTimeTaken += (timeTaken / 1000).round();
 
-      final question = questionProvider.questions![currentQuestionIndex];
+      final question = questionProvider.questions[currentQuestionIndex];
       if (optionSelected) {
         final selectedOptionObj = question.options
             .singleWhere((option) => option.optionLetter == selectedOption);
@@ -980,6 +975,7 @@ class _TestInterfaceState extends State<TestInterface> {
       };
 
       print("YEH HY TIME TAKEN $timeTaken and $totalTimeTaken");
+      print("YEH HY TIME TAKEN $timeTaken and $optionSelected and $attemptData");
       attemptProvider.updateAttempt(
         attemptId: widget.attemptId,
         attemptData: attemptData,

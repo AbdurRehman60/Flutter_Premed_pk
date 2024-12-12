@@ -4,7 +4,6 @@ import 'package:premedpk_mobile_app/UI/screens/a_new_onboarding/choose_features.
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/user_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../utils/Data/citites_data.dart';
 import '../../../utils/Data/school_data.dart';
@@ -14,6 +13,8 @@ import '../../Widgets/global_widgets/error_dialogue.dart';
 import '../../Widgets/phone_dropdown.dart';
 import '../../Widgets/school_data_widget.dart';
 import '../Onboarding/widgets/check_box.dart';
+import '../marketplace/widgets/coupon_code.dart';
+
 class AdditionalInfo extends StatefulWidget {
   const AdditionalInfo({super.key});
 
@@ -33,8 +34,8 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   bool hasErrors = false;
   String error = "";
   bool isAvailableOnWhatsApp = false;
-  String province='';
-
+  String province = '';
+  String referral = '';
 
   final List<String> years = [
     '1st year FSc/AS levels',
@@ -43,14 +44,12 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     'Other'
   ];
 
-
   final List<String> knownViaOptions = [
     'Facebook',
     'WhatsApp',
     'Instagram',
     'Associate'
   ];
-
 
   final List<String> educationOptions = [
     'Cambridge O/A levels',
@@ -61,20 +60,13 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
 
   Future<void> identifyProvinceFromCity(String selectedCity) async {
     try {
-      
       List<Location> locations = await locationFromAddress(selectedCity);
-
-      
       if (locations.isEmpty) {
         locations = await locationFromAddress("$selectedCity, Pakistan");
       }
-
-      
       if (locations.isNotEmpty) {
-        final Location cityLocation = locations.first;
-
-        
-        final List<Placemark> placemarks = await placemarkFromCoordinates(
+        Location cityLocation = locations.first;
+        List<Placemark> placemarks = await placemarkFromCoordinates(
           cityLocation.latitude,
           cityLocation.longitude,
         );
@@ -98,7 +90,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     } catch (e) {
       setState(() {
         hasErrors = true;
-        error = "Error identifying province: $e";
+        error = "Error identifying province: ${e.toString()}";
       });
     }
   }
@@ -116,13 +108,11 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     });
   }
 
-  Future<void> onSubmitAdditionalInfo() async {
+  void onSubmitAdditionalInfo() async {
     final form = _formKey.currentState!;
     if (form.validate()) {
-      
       await identifyProvinceFromCity(city);
 
-      
       if (province.isEmpty) {
         setState(() {
           hasErrors = true;
@@ -131,12 +121,16 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
         return;
       }
 
-      final AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
-      final UserProvider user = Provider.of<UserProvider>(context, listen: false);
+      final AuthProvider auth =
+      Provider.of<AuthProvider>(context, listen: false);
+      final UserProvider user =
+      Provider.of<UserProvider>(context, listen: false);
 
-      final Future<Map<String, dynamic>> onboardingResponse = auth.requiredOnboarding(
+      final Future<Map<String, dynamic>> onboardingResponse = auth
+          .requiredOnboarding(
         username: user.user!.userName,
-        lastOnboardingPage: "/auth/onboarding/entrance-exam/pre-medical/additional-info/features",
+        lastOnboardingPage:
+        "/auth/onboarding/entrance-exam/pre-medical/additional-info/features",
         selectedExams: [],
         selectedFeatures: [],
         city: city,
@@ -147,7 +141,8 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
         phoneNumber: phoneNumber,
         institution: institution,
         isAvailableOnWhatsApp: isAvailableOnWhatsApp,
-        province: province, 
+        province: province,
+        referral: referral,
       );
 
       onboardingResponse.then((response) {
@@ -165,37 +160,6 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     }
   }
 
-  void showAssociatePopup() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Notice'),
-          content: const Text(
-              'Please signup using the website to add a referral code. This feature will be available in the app soon.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-            TextButton(
-              onPressed: () async {
-                const url = 'https://www.premed.pk/auth/onboarding';
-                if (await canLaunch(url)) {
-                  await launch(url);
-                } else {
-                  throw 'Could not launch $url';
-                }
-              },
-              child: const Text('Go to Website'),
-            ),
-          ],
-        );
-      },
-    );
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -213,7 +177,6 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBoxes.verticalLarge,
-
                         RichText(
                           text: TextSpan(
                             style: PreMedTextTheme().heading1.copyWith(
@@ -243,8 +206,6 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                               color: PreMedColorTheme().primaryColorRed),
                         ),
                         SizedBoxes.verticalBig,
-
-
                         Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -263,13 +224,11 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                           label: 'Available on WhatsApp?',
                           initialValue: isAvailableOnWhatsApp,
                           onChanged: (checked) {
-
                             setState(() {
                               isAvailableOnWhatsApp = checked;
                             });
                           },
                         ),
-
                         if (hasErrors)
                           Text(
                             error,
@@ -280,8 +239,6 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                             ),
                           ),
                         SizedBoxes.verticalBig,
-
-
                         Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -291,12 +248,11 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                         ),
                         SizedBoxes.verticalTiny,
                         PhoneDropdown(
-                                onPhoneNumberSelected:
-                                    onParentPhoneNumberSelected,
-                                hintText: "",
-                                initialValue: parentContactNumber,
-                              ),                        SizedBoxes.verticalBig,
-
+                          onPhoneNumberSelected: onParentPhoneNumberSelected,
+                          hintText: "",
+                          initialValue: parentContactNumber,
+                        ),
+                        SizedBoxes.verticalBig,
                         CityDropdownList(
                           items: cities,
                           selectedItem: city,
@@ -307,8 +263,6 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                           },
                         ),
                         SizedBoxes.verticalMedium,
-
-
                         SchoolDropdownList(
                           items: schoolsdata,
                           selectedItem: institution,
@@ -319,8 +273,6 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                           },
                         ),
                         SizedBoxes.verticalBig,
-
-
                         Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -337,7 +289,9 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: DropdownButtonFormField<String>(
-                              value: educationSystem.isEmpty ? null : educationSystem,
+                              value: educationSystem.isEmpty
+                                  ? null
+                                  : educationSystem,
                               items: educationOptions.map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
@@ -346,7 +300,8 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                               }).toList(),
                               onChanged: (selectedEducationSystem) {
                                 setState(() {
-                                  educationSystem = selectedEducationSystem ?? '';
+                                  educationSystem =
+                                      selectedEducationSystem ?? '';
                                 });
                               },
                               decoration: InputDecoration(
@@ -361,8 +316,6 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                           ),
                         ),
                         SizedBoxes.verticalBig,
-
-
                         Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -403,8 +356,6 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                           ),
                         ),
                         SizedBoxes.verticalBig,
-
-
                         Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -432,27 +383,23 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                                 setState(() {
                                   knownVia = selectedOption ?? '';
                                   if (knownVia == 'Associate') {
-                                    showAssociatePopup();
+                                    referral = '';
                                   }
                                 });
                               },
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 10),
                                 hintText: "How did you get to know us?",
-                                hintStyle: TextStyle(color: Colors.black),
+                                hintStyle: PreMedTextTheme().subtext.copyWith(
+                                    color: PreMedColorTheme().black),
                               ),
                             ),
-
                           ),
                         ),
                         SizedBoxes.verticalBig,
-
-
-                        // if (knownVia == 'Associate')
-                          // const CouponCodeTF(),
-
-
+                        if (knownVia == 'Associate') const CouponCodeTF(),
                         CustomButton(
                           buttonText: 'Submit',
                           onPressed: onSubmitAdditionalInfo,

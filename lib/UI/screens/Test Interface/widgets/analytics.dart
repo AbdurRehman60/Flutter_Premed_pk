@@ -111,9 +111,9 @@ class _AnalyticsState extends State<Analytics> {
                     SizedBoxes.verticalLarge,
 
                     AttemptPieChart(
-                      correct: widget.correct,
-                      incorrect: widget.incorrect,
-                      skipped: widget.skipped,
+                      correct: attemptProvider.attemptInfo!.correctAttempts,
+                      incorrect: attemptProvider.attemptInfo!.incorrectAttempts,
+                      skipped: attemptProvider.attemptInfo!.skippedAttempts,
                     ),
                     SizedBoxes.verticalGargangua,
                     Row(
@@ -172,7 +172,7 @@ class _AnalyticsState extends State<Analytics> {
                                       Image.asset(PremedAssets.Timer),
                                       SizedBoxes.verticalMedium,
                                       Text(
-                                        'Total Time Taken: ${resultMeta.totalTimeTaken}s', // Access totalTimeTaken from resultMeta
+                                        'Total Time Taken: ${attemptProvider.attemptInfo!.totalTimeTaken}s', // Access totalTimeTaken from resultMeta
                                         textAlign: TextAlign.center,
                                         style: PreMedTextTheme()
                                             .body
@@ -243,29 +243,30 @@ class _AnalyticsState extends State<Analytics> {
                                         fontSize: 18))),
                             SizedBoxes.verticalGargangua,
                             _buildInfoRow('Attempted:', resultMeta.attempted.toString()),  // Access attempted from resultMeta
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Average Time Taken',
-                                    style: PreMedTextTheme()
-                                        .body
-                                        .copyWith(fontWeight: FontWeight.bold)),
-                                Text(
-                                  '${resultMeta.avgTimeTaken.toStringAsFixed(2)}s', // Access avgTimeTaken directly from resultMeta
-                                  textAlign: TextAlign.center,
-                                  style: PreMedTextTheme()
-                                      .body
-                                      .copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 17),
-                                ),
-                              ],
-                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Text('Average Time Taken',
+                            //         style: PreMedTextTheme()
+                            //             .body
+                            //             .copyWith(fontWeight: FontWeight.bold)),
+                            //     Text(
+                            //       '${attemptProvider.attemptInfo!.avgTimeTaken}s',
+                            //       textAlign: TextAlign.center,
+                            //       style: PreMedTextTheme()
+                            //           .body
+                            //           .copyWith(
+                            //           fontWeight: FontWeight.w600,
+                            //           fontSize: 17),
+                            //     ),
+                            //   ],
+                            // ),
+                            _buildInfoRow('Average Time Taken', resultMeta.avgTimeTaken.toStringAsFixed(2)),
                             _buildInfoRow('Negatives Due to Wrong:', resultMeta.negativesDueToWrong.toString()),
                             _buildInfoRow('No of Negatively Marked:', resultMeta.noOfNegativelyMarked.toString()),
                             _buildInfoRow('Total Marks:', resultMeta.totalMarks.toString()),
                             _buildInfoRow('Total Questions:', resultMeta.totalQuestions.toString()),
-                            _buildInfoRow('Total Time Taken:', '${resultMeta.totalTimeTaken}s'),
+                            _buildInfoRow('Total Time Taken:', '${attemptProvider.attemptInfo!.totalTimeTaken}s'),
                           ],
                         ),
                       ),

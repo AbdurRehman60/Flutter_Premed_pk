@@ -488,7 +488,8 @@ class AuthProvider extends ChangeNotifier {
      String? phoneNumber,
      String? institution,
      bool? isAvailableOnWhatsApp,
-    String? province
+    String? province,
+    String? referral,
   }) async {
     Map<String, Object?> result;
 
@@ -502,6 +503,7 @@ class AuthProvider extends ChangeNotifier {
         "educationSystem": educationSystem,
         "institution": institution,
         "approach": approach,
+        "referral": referral,
         "isAvailableOnWhatsApp": isAvailableOnWhatsApp
       },
       "city": city,

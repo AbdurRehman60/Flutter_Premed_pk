@@ -20,10 +20,7 @@ class AttemptProvider extends ChangeNotifier {
 
   List<Map<String, dynamic>> get attemptsBody => _attemptsBody;
 
-  // Define the resultMeta getter to expose _resultMeta
   ResultMeta? get resultMeta => _resultMeta;
-
-
 
 
   Future<void> updateAttempt({
@@ -48,7 +45,6 @@ class AttemptProvider extends ChangeNotifier {
         status = AStatus.success;
         message = 'Attempt updated successfully';
 
-        // Fetch attempt info after successful update
         await getAttemptInfo(attemptId);
       } else {
         status = AStatus.error;
@@ -61,41 +57,6 @@ class AttemptProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-
-  // Future<void> updateAttempt({
-  //   required String attemptId,
-  //   required Map<String, dynamic> attemptData,
-  //   required int totalTimeTaken,
-  // }) async {
-  //   status = Status.fetching;
-  //   notifyListeners();
-  //
-  //   _attemptsBody.add(attemptData);
-  //
-  //   try {
-  //     final response = await _client.patch(
-  //       Endpoints.updateAttempt(attemptId),
-  //       data: {
-  //         'attemptsBody': _attemptsBody,
-  //         'totalTimeTaken': totalTimeTaken,
-  //       },
-  //     );
-  //
-  //     if (response.statusCode == 200) {
-  //       status = Status.success;
-  //       message = 'Attempt updated successfully';
-  //     } else {
-  //       status = Status.error;
-  //       message = 'Failed to update attempt';
-  //     }
-  //   } catch (error) {
-  //     status = Status.error;
-  //     message = 'Error: $error';
-  //   } finally {
-  //     notifyListeners();
-  //   }
-  // }
 
   Future<void> updateResult({
     required String attemptId,
@@ -149,18 +110,48 @@ class AttemptProvider extends ChangeNotifier {
       final response = await _client.get(Endpoints.getAttemptInfo(attemptId));
 
       if (response != null && response['success'] == true) {
-        // Parse the AttemptInfo from the API response
-        _attemptInfo = AttemptInfo.fromJson(response['data']);
+        // Filter attempts for the specific attemptId
+        final allAttempts = response['data']['attempts'] as List<dynamic>;
+        final filteredAttempts = allAttempts.where((attempt) {
+          return attempt['attemptId'] == attemptId;
+        }).toList();
 
-        // Parse resultMeta separately if necessary
-        final resultMetaJson = response['data']['resultMeta']; // Extract resultMeta JSON
-        _resultMeta = ResultMeta.fromJson(resultMetaJson);     // Parse into ResultMeta object
+        if (filteredAttempts.isEmpty) {
+          status = AStatus.error;
+          message = 'No data available for attemptId $attemptId';
+          notifyListeners();
+          return;
+        }
 
-        // Now, access the attempted value from resultMeta
-        final attempted = _resultMeta?.attempted ?? 0; // Use the attempted value from resultMeta
+        // Calculate specific metrics for this attemptId
+        final correctAttempts = filteredAttempts
+            .where((attempt) => attempt['isCorrect'] == true)
+            .length;
+        final incorrectAttempts = filteredAttempts.where((attempt) =>
+        attempt['isCorrect'] == false && attempt['attempted'] == true).length;
+        final skippedAttempts = filteredAttempts.where((attempt) =>
+        attempt['attempted'] == false || attempt['selection'] == null).length;
 
-        // You can now use `attempted` wherever you need it
-        print('Attempted: $attempted'); // Example usage of attempted
+        // Calculate total and average time taken
+        final totalTimeTaken = filteredAttempts.fold(0, (sum, attempt) => attempt['timeTaken'] ?? 0);
+        final averageTimeTaken = filteredAttempts.isNotEmpty
+            ? totalTimeTaken / filteredAttempts.length
+            : 0;
+
+        // Create attempt info with filtered data and calculated metrics
+        _attemptInfo = AttemptInfo.fromJson({
+          ...response['data'],
+          'attempts': filteredAttempts,
+          'correctAttempts': correctAttempts,
+          'incorrectAttempts': incorrectAttempts,
+          'skippedAttempts': skippedAttempts,
+          'totalTimeTaken': totalTimeTaken,
+          'averageTimeTaken': averageTimeTaken,
+        });
+
+        // Parse resultMeta
+        final resultMetaJson = response['data']['resultMeta'];
+        _resultMeta = ResultMeta.fromJson(resultMetaJson);
 
         status = AStatus.success;
         message = 'Attempt info fetched successfully';

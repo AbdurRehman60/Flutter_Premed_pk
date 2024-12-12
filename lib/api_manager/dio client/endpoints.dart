@@ -11,7 +11,16 @@ class Endpoints {
 
   //specific URLs
   // static const String serverURL = "${baseUrl}:${serverPort}";
+
+  //current
   static const String serverURL = "https://app.premed.pk";
+
+  //adminportal
+  // static const String serverURL = "https://premed-server.parho.io";
+
+  //web
+  // static const String serverURL = "https://production-server.premed.pk";
+
 
   // receiveTimeout
   static const Duration receiveTimeout = Duration(milliseconds: 15000);

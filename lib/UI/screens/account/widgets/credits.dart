@@ -70,18 +70,16 @@ class CreditsScreen extends StatelessWidget {
               names: [
                 'Usama Umar',
                 'Saneha Gill',
-                'Abdu R Rehman',
-                'Bilal Tariq'
+                'Abdur Rehman',
               ],
             ),
             Section(
               title: 'The Developers (WEB)',
               names: [
                 'Salis Salman',
-                'Hasan Muarad',
                 'Abrar Ahmed',
                 'Kishore Kumar',
-                'Izhan Ahmed',
+                'Izaan Ahmed',
               ],
             ),
 

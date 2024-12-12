@@ -13,56 +13,60 @@ class CouponCodeTF extends StatefulWidget {
 }
 
 class _CouponCodeTFState extends State<CouponCodeTF> {
+  final formKey = GlobalKey<FormState>();
+  final TextEditingController referralText = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    final CartProvider cartProvider =
-    Provider.of<CartProvider>(context, listen: false);
+    final CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
     cartProvider.couponCode = "";
     cartProvider.couponAmount = 0;
   }
 
-  final formKey = GlobalKey<FormState>();
+  void handleRemoveReferralCode() {
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+    cartProvider.clearCoupon();
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    final CartProvider cartProvider = Provider.of<CartProvider>(context);
-    final TextEditingController referralText = TextEditingController();
+  Future<void> onApplyReferralPressed(BuildContext parentContext) async {
+    final form = formKey.currentState!;
+    if (form.validate()) {
+      handleRemoveReferralCode();
+      final CartProvider cartProvider = Provider.of<CartProvider>(context, listen: false);
 
-    void handleRemoveReferralCode() {
-      cartProvider.clearCoupon();
-    }
+      try {
+        final response = await cartProvider.verifyCouponCode(referralText.text);
 
-    void onApplyReferralPressed() {
-      final form = formKey.currentState!;
-      if (form.validate()) {
-        handleRemoveReferralCode();
-        final Future<Map<String, dynamic>> response =
-        cartProvider.verifyCouponCode(referralText.text);
-        response.then((response) {
-          if (response['status']) {
-            // Show success popup
+        if (response['status']) {
+          // Use the parent context to show the dialog
+          if (mounted) {
             showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
+              context: parentContext,
+              builder: (_) => AlertDialog(
                 title: const Text("Success"),
                 content: const Text("Referral code applied successfully!"),
                 actions: [
                   TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+                    onPressed: () => Navigator.of(parentContext).pop(),
                     child: const Text("OK"),
                   ),
                 ],
               ),
             );
-          } else {
-            showError(context, response);
           }
-        });
+        } else {
+          showError(parentContext, response);
+        }
+      } catch (e) {
+        showError(parentContext, {'error': e.toString()});
       }
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
 
     return Form(
       key: formKey,
@@ -85,29 +89,25 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
                   inputFormatters: [UpperCaseTextFormatter()],
                   hintText: 'Enter Referral Code',
                   controller: referralText,
-                  validator: (value) =>
-                      validateIsNotEmpty(value, "Referral Code"),
+                  validator: (value) => validateIsNotEmpty(value, "Referral Code"),
                 ),
               ),
               SizedBoxes.horizontalTiny,
-              if (cartProvider.validatingStatus ==
-                  CouponValidateStatus.validating)
+              if (cartProvider.validatingStatus == CouponValidateStatus.validating)
                 const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: SizedBox(
                     width: 20,
                     height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.5,
-                    ),
+                    child: CircularProgressIndicator(strokeWidth: 2.5),
                   ),
                 )
               else
                 Expanded(
                   child: CustomButton(
                     buttonText: '→',
-                    onPressed: onApplyReferralPressed,
-                   color: PreMedColorTheme().primaryColorRed,
+                    onPressed: () => onApplyReferralPressed(context),
+                    color: PreMedColorTheme().primaryColorRed,
                   ),
                 ),
             ],
@@ -144,6 +144,7 @@ class _CouponCodeTFState extends State<CouponCodeTF> {
     );
   }
 }
+
 
 
 class UpperCaseTextFormatter extends TextInputFormatter {

@@ -98,7 +98,7 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
                       top: 80,
                       child: Row(
                         children: [
-                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Real-time Satistics', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Real-time Statistics', textColor: PreMedColorTheme().tickcolor),
                           Tile(color: PreMedColorTheme().primaryColorRed, text: 'AKU', textColor: PreMedColorTheme().white),
                           Tile(color: PreMedColorTheme().neutral100, text: 'Solution', textColor: PreMedColorTheme().primaryColorRed),
                           Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Flashcards', textColor: PreMedColorTheme().tickcolor),
@@ -123,7 +123,7 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
                       top: 120,
                       child: Row(
                         children: [
-                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Real-time Satistics', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Real-time Statistics', textColor: PreMedColorTheme().tickcolor),
                           Tile(color: PreMedColorTheme().primaryColorRed, text: 'AKU', textColor: PreMedColorTheme().white),
                           Tile(color: PreMedColorTheme().neutral100, text: 'Solution', textColor: PreMedColorTheme().primaryColorRed),
                           Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Flashcards', textColor: PreMedColorTheme().tickcolor),
@@ -174,7 +174,7 @@ class _MovingRowAnimationState extends State<MovingRowAnimation>
                       top: 200,
                       child: Row(
                         children: [
-                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Real-time Satistics', textColor: PreMedColorTheme().tickcolor),
+                          Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Real-time Statistics', textColor: PreMedColorTheme().tickcolor),
                           Tile(color: PreMedColorTheme().primaryColorRed, text: 'AKU', textColor: PreMedColorTheme().white),
                           Tile(color: PreMedColorTheme().neutral100, text: 'Solution', textColor: PreMedColorTheme().primaryColorRed),
                           Tile(color: PreMedColorTheme().customCheckboxColor, text: 'Flashcards', textColor: PreMedColorTheme().tickcolor),
