@@ -4,7 +4,9 @@ import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/vaultpdfview.
 import 'package:premedpk_mobile_app/models/cheatsheetModel.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../../constants/constants_export.dart';
+import '../../../../../providers/user_provider.dart';
 class GuidesOrNotesDisplay extends StatelessWidget {
   const GuidesOrNotesDisplay({
     super.key,
@@ -56,8 +58,18 @@ class GuideOrNotesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> _launchURL(String appToken) async {
+      final Uri url = Uri.parse('https://www.premed.pk/?token=$appToken');
+
+      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $url');
+      }
+    }
+
     return InkWell(
-      onTap: !hasAccess && vaultNotesModel.access == 'Paid' ? null : onTap,
+      onTap: !hasAccess && vaultNotesModel.access == 'Paid'
+          ? null // Disable default onTap for locked content
+          : onTap,
       child: Stack(
         children: [
           Container(
@@ -76,12 +88,14 @@ class GuideOrNotesCard extends StatelessWidget {
                     imageUrl: vaultNotesModel.thumbnailImageUrl ?? '',
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Center(
-                        child: CircularProgressIndicator(
-                            color: Provider.of<PreMedProvider>(context).isPreMed
-                                ? PreMedColorTheme().red
-                                : PreMedColorTheme().blue)),
+                      child: CircularProgressIndicator(
+                        color: Provider.of<PreMedProvider>(context).isPreMed
+                            ? PreMedColorTheme().red
+                            : PreMedColorTheme().blue,
+                      ),
+                    ),
                     errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
+                    const Icon(Icons.error),
                     imageBuilder: (context, imageProvider) => Container(
                       height: 63,
                       width: 44,
@@ -115,19 +129,19 @@ class GuideOrNotesCard extends StatelessWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: PreMedTextTheme().heading1.copyWith(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                ),
+                              fontSize: 10,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                         Text(
                           '${vaultNotesModel.subject.toUpperCase()} - ${vaultNotesModel.board.toUpperCase()}',
                           style: PreMedTextTheme().heading1.copyWith(
-                                fontSize: 8,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black.withOpacity(0.7),
-                              ),
+                            fontSize: 8,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black.withOpacity(0.7),
+                          ),
                         ),
                       ],
                     ),
@@ -142,16 +156,49 @@ class GuideOrNotesCard extends StatelessWidget {
               width: 240,
               height: 93,
               child: Center(
-                child: GlassContainer(
-                  border: Border.all(color: Colors.white, width: 2),
-                  height: 32,
-                  width: 80,
-                  child: Center(
-                    child: Text(
-                      'Unlock',
-                      style: PreMedTextTheme()
-                          .heading1
-                          .copyWith(fontWeight: FontWeight.w500, fontSize: 15),
+                child: GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        final userProvider =
+                        Provider.of<UserProvider>(context, listen: false);
+                        final String appToken =
+                            userProvider.user?.info.appToken ?? '';
+                        return AlertDialog(
+                          title: const Text('Purchase Plan'),
+                          content: const Text(
+                              'You need to purchase the Ultimate plan to upload doubts.'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                _launchURL(appToken);
+                              },
+                              child: const Text('Purchase'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: GlassContainer(
+                    border: Border.all(color: Colors.white, width: 2),
+                    height: 32,
+                    width: 80,
+                    child: Center(
+                      child: Text(
+                        'Unlock',
+                        style: PreMedTextTheme().heading1.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                        ),
+                      ),
                     ),
                   ),
                 ),

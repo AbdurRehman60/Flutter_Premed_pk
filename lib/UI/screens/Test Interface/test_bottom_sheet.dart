@@ -128,87 +128,87 @@ class _TestBottomSheetState extends State<TestBottomSheet> {
               ),
             ),
           ),
-          SizedBoxes.verticalBig,
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Colors.white,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x26000000),
-                    blurRadius: 40,
-                    offset: Offset(0, 20),
-                  )
-                ]),
-            child: Card(
-              margin: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              child: ListTile(
-                tileColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                leading: Image.asset(
-                  PremedAssets.DoubtSolution,
-                  height: 50,
-                  width: 50,
-                ),
-                title: RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                      text: 'Doubt',
-                      style: PreMedTextTheme().body.copyWith(
-                          fontSize: 20,
-                          color: PreMedColorTheme().red,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    TextSpan(
-                      text: ' Solve',
-                      style: PreMedTextTheme().body.copyWith(
-                          fontSize: 20,
-                          color: PreMedColorTheme().black,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ]),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBoxes.vertical5Px,
-                    Text(
-                        'If you don’t understand a particular concept, you can submit a doubt.',
-                        style: PreMedTextTheme().body.copyWith(
-                              fontSize: 12,
-                              color: PreMedColorTheme().black,
-                            )),
-                    SizedBoxes.vertical5Px,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          'Note This feature requires coins.',
-                          textAlign: TextAlign.end,
-                          style: PreMedTextTheme().body.copyWith(
-                                fontSize: 7,
-                                color: PreMedColorTheme().black,
-                              ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => const ExpertSolutionHome()));
-                },
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 16.0,
-                ),
-              ),
-            ),
-          ),
+          // SizedBoxes.verticalBig,
+          // Container(
+          //   decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(12),
+          //       color: Colors.white,
+          //       boxShadow: const [
+          //         BoxShadow(
+          //           color: Color(0x26000000),
+          //           blurRadius: 40,
+          //           offset: Offset(0, 20),
+          //         )
+          //       ]),
+          //   child: Card(
+          //     margin: EdgeInsets.zero,
+          //     shape: RoundedRectangleBorder(
+          //         borderRadius: BorderRadius.circular(12)),
+          //     child: ListTile(
+          //       tileColor: Colors.white,
+          //       shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(12)),
+          //       leading: Image.asset(
+          //         PremedAssets.DoubtSolution,
+          //         height: 50,
+          //         width: 50,
+          //       ),
+          //       title: RichText(
+          //         text: TextSpan(children: [
+          //           TextSpan(
+          //             text: 'Doubt',
+          //             style: PreMedTextTheme().body.copyWith(
+          //                 fontSize: 20,
+          //                 color: PreMedColorTheme().red,
+          //                 fontWeight: FontWeight.w700),
+          //           ),
+          //           TextSpan(
+          //             text: ' Solve',
+          //             style: PreMedTextTheme().body.copyWith(
+          //                 fontSize: 20,
+          //                 color: PreMedColorTheme().black,
+          //                 fontWeight: FontWeight.w700),
+          //           ),
+          //         ]),
+          //       ),
+          //       subtitle: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           SizedBoxes.vertical5Px,
+          //           Text(
+          //               'If you don’t understand a particular concept, you can submit a doubt.',
+          //               style: PreMedTextTheme().body.copyWith(
+          //                     fontSize: 12,
+          //                     color: PreMedColorTheme().black,
+          //                   )),
+          //           SizedBoxes.vertical5Px,
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.end,
+          //             children: [
+          //               Text(
+          //                 'Note This feature requires coins.',
+          //                 textAlign: TextAlign.end,
+          //                 style: PreMedTextTheme().body.copyWith(
+          //                       fontSize: 7,
+          //                       color: PreMedColorTheme().black,
+          //                     ),
+          //               ),
+          //             ],
+          //           )
+          //         ],
+          //       ),
+          //       onTap: () {
+          //         Navigator.pop(context);
+          //         Navigator.of(context).push(MaterialPageRoute(
+          //             builder: (_) => const ExpertSolutionHome()));
+          //       },
+          //       contentPadding: const EdgeInsets.symmetric(
+          //         vertical: 8.0,
+          //         horizontal: 16.0,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           SizedBoxes.verticalBig,
           Container(
             decoration: BoxDecoration(

@@ -2,7 +2,6 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class SchoolDropdownList extends StatefulWidget {
-
   const SchoolDropdownList({
     super.key,
     required this.items,
@@ -23,7 +22,6 @@ class _SchoolDropdownListState extends State<SchoolDropdownList> {
   @override
   void initState() {
     super.initState();
-
     _typeAheadController.text = widget.selectedItem;
   }
 
@@ -34,6 +32,11 @@ class _SchoolDropdownListState extends State<SchoolDropdownList> {
       borderRadius: BorderRadius.circular(8),
       child: TypeAheadField<String>(
         getImmediateSuggestions: true,
+        direction: AxisDirection.up,  // Make suggestions appear above
+        suggestionsBoxDecoration: SuggestionsBoxDecoration(
+          constraints: BoxConstraints(maxHeight: 200),  // Control max height
+          borderRadius: BorderRadius.circular(8),
+        ),
         textFieldConfiguration: TextFieldConfiguration(
           controller: _typeAheadController,
           decoration: InputDecoration(
@@ -65,7 +68,8 @@ class _SchoolDropdownListState extends State<SchoolDropdownList> {
         ),
         suggestionsCallback: (pattern) {
           return widget.items.where(
-                  (item) => item.toLowerCase().contains(pattern.toLowerCase()));
+                (item) => item.toLowerCase().contains(pattern.toLowerCase()),
+          );
         },
         itemBuilder: (context, itemData) {
           return ListTile(
@@ -88,8 +92,13 @@ class _SchoolDropdownListState extends State<SchoolDropdownList> {
           );
         },
         hideOnLoading: true,
-        //suggestionsBoxVerticalOffset: 10,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _typeAheadController.dispose();
+    super.dispose();
   }
 }

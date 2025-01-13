@@ -148,7 +148,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  item.premiumTags!.join(', '),                                   style: PreMedTextTheme().body.copyWith(
+                                  item.premiumTags!.join(', '),
+                                  style: PreMedTextTheme().body.copyWith(
                                     color: PreMedColorTheme().white,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 14,
@@ -158,32 +159,31 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                             ),
                         ],
                       ),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: preMedPro.isPreMed ? PreMedColorTheme().primaryColorRed : PreMedColorTheme().blue,
-                          size: 20,
-                        ),
-                        onPressed: () async {
-                          if (_hasAccess(item.premiumTags, accessTags, item.isTutorModeFree)) {
-                            setState(() {
-                              selectedDeckItemIndex = originalIndex;
-                            });
-                            await _fetchDeckInfo(originalIndex, context);
-                            await _fetchQuestions(item.deckName, context);
-
-                            final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
-                            if (deckInfo?.alreadyAttempted == true) {
-                              _showAlreadyAttemptedPopup(context, item);
-                            } else {
-                              _navigateToDeck(context, item);
-                            }
-                          } else {
-                            _showPurchasePopup(context);
-                          }
-                        },
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: preMedPro.isPreMed
+                            ? PreMedColorTheme().primaryColorRed
+                            : PreMedColorTheme().blue,
+                        size: 20,
                       ),
-                      onTap: () {},
+                      onTap: () async {
+                        if (_hasAccess(item.premiumTags, accessTags, item.isTutorModeFree)) {
+                          setState(() {
+                            selectedDeckItemIndex = originalIndex;
+                          });
+                          await _fetchDeckInfo(originalIndex, context);
+                          await _fetchQuestions(item.deckName, context);
+
+                          final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+                          if (deckInfo?.alreadyAttempted == true) {
+                            _showAlreadyAttemptedPopup(context, item);
+                          } else {
+                            _navigateToDeck(context, item);
+                          }
+                        } else {
+                          _showPurchasePopup(context);
+                        }
+                      },
                     ),
                   );
                 },

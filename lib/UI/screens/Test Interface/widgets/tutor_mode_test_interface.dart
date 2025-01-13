@@ -1637,7 +1637,7 @@ class _TutorModeState extends State<TutorMode> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => ReportQuestion(
-                                        questionId: '$currentQuestionIndex'),
+                                        questionId: question.questionId),
                                   ),
                                 );
                               },

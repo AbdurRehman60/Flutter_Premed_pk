@@ -770,162 +770,6 @@ class _TimerClassState extends State<TimerClass> {
       showDateSelectionDialog(context);
     }
   }
-  // Future<void> showExamTypeSelectionDialog(BuildContext context) async {
-  //   final result = await showDialog<String>(
-  //     context: context,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         title: const Text('Select Exam Type'),
-  //         content: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: <Widget>[
-  //             Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 const Text(
-  //                   'Select The Exams You are \n Appearing for',
-  //                   style: TextStyle(fontSize: 14),
-  //                 ),
-  //                 IconButton(
-  //                   icon: const Icon(Icons.close, color: Colors.grey),
-  //                   onPressed: () {
-  //                     Navigator.of(context).pop();
-  //                   },
-  //                 ),
-  //               ],
-  //             ),
-  //             const SizedBox(height: 20),
-  //             ListTile(
-  //               title: Container(
-  //                 decoration: BoxDecoration(
-  //                   border: Border.all(color: Colors.grey),
-  //                   borderRadius: BorderRadius.circular(5),
-  //                 ),
-  //                 padding: const EdgeInsets.all(5),
-  //                 child: Row(
-  //                   children: [
-  //                     if (_provincialMDCAT)
-  //                       const Icon(Icons.check, color: Colors.blue, size: 18)
-  //                     else
-  //                       const SizedBox(width: 24),
-  //                     const SizedBox(width: 10),
-  //                     const Text('Provincial MDCAT'),
-  //                   ],
-  //                 ),
-  //               ),
-  //               onTap: () {
-  //                 setState(() {
-  //                   _provincialMDCAT = !_provincialMDCAT;
-  //                 });
-  //               },
-  //             ),
-  //             ListTile(
-  //               title: Container(
-  //                 decoration: BoxDecoration(
-  //                   border: Border.all(color: Colors.grey),
-  //                   borderRadius: BorderRadius.circular(5),
-  //                 ),
-  //                 padding: const EdgeInsets.all(5),
-  //                 child: Row(
-  //                   children: [
-  //                     if (_akuTest)
-  //                       const Icon(Icons.check, color: Colors.blue, size: 18)
-  //                     else
-  //                       const SizedBox(width: 24),
-  //                     const SizedBox(width: 10),
-  //                     const Text('AKU Test'),
-  //                   ],
-  //                 ),
-  //               ),
-  //               onTap: () {
-  //                 setState(() {
-  //                   _akuTest = !_akuTest;
-  //                 });
-  //               },
-  //             ),
-  //             ListTile(
-  //               title: Container(
-  //                 decoration: BoxDecoration(
-  //                   border: Border.all(color: Colors.grey),
-  //                   borderRadius: BorderRadius.circular(5),
-  //                 ),
-  //                 padding: const EdgeInsets.all(5),
-  //                 child: Row(
-  //                   children: [
-  //                     if (_numsTest)
-  //                       const Icon(Icons.check, color: Colors.blue, size: 18)
-  //                     else
-  //                       const SizedBox(width: 24),
-  //                     const SizedBox(width: 10),
-  //                     const Text('NUMS Test'),
-  //                   ],
-  //                 ),
-  //               ),
-  //               onTap: () {
-  //                 setState(() {
-  //                   _numsTest = !_numsTest;
-  //                 });
-  //               },
-  //             ),
-  //             ListTile(
-  //               title: Container(
-  //                 decoration: BoxDecoration(
-  //                   border: Border.all(color: Colors.grey),
-  //                   borderRadius: BorderRadius.circular(5),
-  //                 ),
-  //                 padding: const EdgeInsets.all(5),
-  //                 child: Row(
-  //                   children: [
-  //                     if (_other)
-  //                       const Icon(Icons.check, color: Colors.blue, size: 18)
-  //                     else
-  //                       const SizedBox(width: 24),
-  //                     const SizedBox(width: 10),
-  //                     const Text('Other'),
-  //                   ],
-  //                 ),
-  //               ),
-  //               onTap: () {
-  //                 setState(() {
-  //                   _other = !_other;
-  //                 });
-  //               },
-  //             ),
-  //             const SizedBox(height: 20),
-  //             SizedBox(
-  //               width: 270,
-  //               child: ElevatedButton(
-  //                 style: ElevatedButton.styleFrom(
-  //                   foregroundColor: Colors.white,
-  //                   backgroundColor: Colors.red,
-  //                 ),
-  //                 onPressed: () {
-  //                   if (_provincialMDCAT) {
-  //                     Navigator.of(context).pop('Provincial MDCAT');
-  //                   } else if (_akuTest) {
-  //                     Navigator.of(context).pop('AKU Test');
-  //                   } else if (_numsTest) {
-  //                     Navigator.of(context).pop('NUMS Test');
-  //                   } else if (_other) {
-  //                     Navigator.of(context).pop('Other');
-  //                   }
-  //                 },
-  //                 child: const Text('Save'),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  //   if (result != null) {
-  //     setState(() {
-  //       _selectedExamType = result;
-  //     });
-  //     _saveData();
-  //     showDateSelectionDialog(context);
-  //   }
-  // }
 
   Future<void> showDateSelectionDialog(BuildContext context) async {
     final DateTime now = DateTime.now();
@@ -966,9 +810,9 @@ class _TimerClassState extends State<TimerClass> {
   }
   @override
   Widget build(BuildContext context) {
-
     final List<String> timeParts =
     _timeLeft.isNotEmpty ? _timeLeft.split(':') : [];
+
     return Center(
       child: Container(
         width: 400,
@@ -1032,49 +876,30 @@ class _TimerClassState extends State<TimerClass> {
                       )
                     ],
                   ),
-                  height: 72,
+                  height: 80,
                   width: 312,
                   child: Card(
                     child: Center(
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            timeParts[0],
-                            style: const TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red),
-                          ),
-                          SizedBoxes.horizontalMedium,
-                          buildColon(),
-                          SizedBoxes.horizontalMedium,
-                          Text(
-                            timeParts[1],
-                            style: const TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red),
-                          ),
-                          SizedBoxes.horizontalMedium,
-                          buildColon(),
-                          SizedBoxes.horizontalMedium,
-                          Text(
-                            timeParts[2],
-                            style: const TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red),
-                          ),
-                          SizedBoxes.horizontalMedium,
-                          buildColon(),
-                          SizedBoxes.horizontalMedium,
-                          Text(
-                            timeParts[3],
-                            style: const TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              buildTimePart(timeParts[0], "DAYS"),
+                              SizedBoxes.horizontalMedium,
+                              buildColon(),
+                              SizedBoxes.horizontalMedium,
+                              buildTimePart(timeParts[1], "HOURS"),
+                              SizedBoxes.horizontalMedium,
+                              buildColon(),
+                              SizedBoxes.horizontalMedium,
+                              buildTimePart(timeParts[2], "MINUTES"),
+                              SizedBoxes.horizontalMedium,
+                              buildColon(),
+                              SizedBoxes.horizontalMedium,
+                              buildTimePart(timeParts[3], "SECONDS"),
+                            ],
                           ),
                         ],
                       ),
@@ -1083,7 +908,7 @@ class _TimerClassState extends State<TimerClass> {
                 )
               else
                 Container(
-                  height: 72,
+                  height: 80,
                   width: 312,
                   decoration: const BoxDecoration(
                     boxShadow: [
@@ -1096,45 +921,26 @@ class _TimerClassState extends State<TimerClass> {
                   ),
                   child: Card(
                     child: Center(
-                      child: Row(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
-                            "00",
-                            style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red),
-                          ),
-                          SizedBoxes.horizontalMedium,
-                          buildColon(),
-                          SizedBoxes.horizontalMedium,
-                          const Text(
-                            "00",
-                            style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red),
-                          ),
-                          SizedBoxes.horizontalMedium,
-                          buildColon(),
-                          SizedBoxes.horizontalMedium,
-                          const Text(
-                            "00",
-                            style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red),
-                          ),
-                          SizedBoxes.horizontalMedium,
-                          buildColon(),
-                          SizedBoxes.horizontalMedium,
-                          const Text(
-                            "00",
-                            style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              buildTimePart("00", "DAYS"),
+                              SizedBoxes.horizontalMedium,
+                              buildColon(),
+                              SizedBoxes.horizontalMedium,
+                              buildTimePart("00", "HOURS"),
+                              SizedBoxes.horizontalMedium,
+                              buildColon(),
+                              SizedBoxes.horizontalMedium,
+                              buildTimePart("00", "MINUTES"),
+                              SizedBoxes.horizontalMedium,
+                              buildColon(),
+                              SizedBoxes.horizontalMedium,
+                              buildTimePart("00", "SECONDS"),
+                            ],
                           ),
                         ],
                       ),
@@ -1159,14 +965,13 @@ class _TimerClassState extends State<TimerClass> {
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(9),
-                      )
-                  ),
+                      )),
                   onPressed: () async {
                     await showUniversitySelectionDialog(context);
                   },
                   child: const Text(
                     'Set/Change Goal',
-                    style: TextStyle(fontSize: 16,fontFamily: 'Rubik'),
+                    style: TextStyle(fontSize: 16, fontFamily: 'Rubik'),
                   ),
                 ),
               ),
@@ -1176,4 +981,28 @@ class _TimerClassState extends State<TimerClass> {
       ),
     );
   }
+
+  Widget buildTimePart(String value, String label) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: Colors.red,
+          ),
+        ),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: Colors.black54,
+          ),
+        ),
+      ],
+    );
+  }
+
 }

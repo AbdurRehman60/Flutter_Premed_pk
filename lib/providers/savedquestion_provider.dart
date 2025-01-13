@@ -60,11 +60,3 @@ class SavedQuestionsProvider extends ChangeNotifier {
     savedQuestion.id == questionId);
   }
 }
-// bool isQuestionSaved(String questionId, String subject) {
-//   print('toSave questionId: $questionId');
-//   print('subject Saved: $subject');
-//   print('savedQuestionLength: ${savedQuestions.length}');
-//   return savedQuestions.any((savedQuestion) =>
-//   savedQuestion.id == questionId &&
-//       savedQuestion.subject == subject);
-// }

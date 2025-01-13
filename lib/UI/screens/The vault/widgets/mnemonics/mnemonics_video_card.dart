@@ -5,6 +5,9 @@ import 'package:premedpk_mobile_app/constants/text_theme.dart'; // Assuming this
 import 'package:premedpk_mobile_app/models/mnemonics_model.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_access_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../../providers/user_provider.dart'; // Required for _launchURL
 
 class MnemonicsCard extends StatelessWidget {
   const MnemonicsCard({
@@ -18,6 +21,40 @@ class MnemonicsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Function to show the unlock dialog
+    void showUnlockDialog() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          final userProvider = Provider.of<PreMedAccessProvider>(
+              context,
+              listen: false);
+          final userProviderr = Provider.of<UserProvider>(context, listen: false);
+
+          final String appToken = userProviderr.user?.info.appToken ?? '';
+          return AlertDialog(
+            title: const Text('Purchase Plan'),
+            content: const Text(
+                'You need to purchase the Ultimate plan to access this mnemonic.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  _launchURL(appToken);
+                },
+                child: const Text('Purchase'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Container(
       decoration: BoxDecoration(
         boxShadow: const [
@@ -49,9 +86,9 @@ class MnemonicsCard extends StatelessWidget {
                       imageUrl: mnemonics.thumbnailUrl,
                       fit: BoxFit.cover,
                       placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
+                      const Center(child: CircularProgressIndicator()),
                       errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      const Icon(Icons.error),
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -59,14 +96,24 @@ class MnemonicsCard extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(3.0)),
+                          const BorderRadius.all(Radius.circular(3.0)),
                         ),
                         child: Align(
                           alignment: Alignment.bottomLeft,
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: GestureDetector(
-                              onTap: onPlay,
+                              onTap: () {
+                                final hasAccess = Provider.of<PreMedAccessProvider>(
+                                    context,
+                                    listen: false)
+                                    .hasMnemonics;
+                                if (hasAccess) {
+                                  onPlay();
+                                } else {
+                                  showUnlockDialog();
+                                }
+                              },
                               child: Container(
                                 width: 40,
                                 height: 40,
@@ -119,10 +166,10 @@ class MnemonicsCard extends StatelessWidget {
                       child: Text(
                         'Unlock',
                         style: PreMedTextTheme().heading1.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                              color: Colors.black,
-                            ),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
@@ -132,5 +179,14 @@ class MnemonicsCard extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+// Utility function to launch URL
+Future<void> _launchURL(String appToken) async {
+  final Uri url = Uri.parse('https://www.premed.pk/?token=$appToken');
+
+  if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+    throw Exception('Could not launch $url');
   }
 }

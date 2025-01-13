@@ -119,7 +119,7 @@ class UserProvider extends ChangeNotifier {
 
     try {
       final Response response = await _client.post(
-        Endpoints.UpdateAccount,
+        "https://app.premed.pk/UpdateAccountInfo",
         data: updateData,
       );
 
@@ -146,6 +146,7 @@ class UserProvider extends ChangeNotifier {
         };
       }
     } on DioException catch (e) {
+      print(e);
       result = {
         'status': false,
         'message': 'Network error updating user details: ${e.message}',

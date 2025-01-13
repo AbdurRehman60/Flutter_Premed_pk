@@ -143,7 +143,7 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                     decoration: const BoxDecoration(
                       color: Colors.white,
                     ),
-                    child: ListTile(
+                    child:ListTile(
                       leading: item.deckName.contains('Past Paper')
                           ? GetLogo(url: item.deckLogo)
                           : const Text('No Logo'),
@@ -162,47 +162,40 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
                           SizedBoxes.verticalTiny,
                         ],
                       ),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: preMedPro.isPreMed
-                              ? PreMedColorTheme().primaryColorRed
-                              : PreMedColorTheme().blue,
-                          size: 20,
-                        ),
-                        onPressed: () async {
-                          setState(() {
-                            selectedDeckItemIndex = originalIndexes[index];
-                          });
-
-                          print("Clicked Deck Index: $index");
-                          print("Selected Deck Item: ${item.deckName}");
-                          print(
-                              "Cleaned Deck Name being passed: $cleanedDeckName");
-
-                          try {
-                            await _fetchDeckInfo(
-                                selectedDeckItemIndex, context);
-                            await _fetchQuestions(cleanedDeckName, context);
-
-                            final deckInfo = Provider.of<PaperProvider>(context,
-                                listen: false)
-                                .deckInformation;
-
-                            print(
-                                "Already attempted: ${deckInfo?.alreadyAttempted}");
-
-                            if (deckInfo?.alreadyAttempted == true) {
-                              _showAlreadyAttemptedPopup(
-                                  context, item, cleanedDeckName);
-                            } else {
-                              _navigateToDeck(context, item);
-                            }
-                          } catch (e) {
-                            print('Error occurred: $e');
-                          }
-                        },
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: preMedPro.isPreMed
+                            ? PreMedColorTheme().primaryColorRed
+                            : PreMedColorTheme().blue,
+                        size: 20,
                       ),
+                      onTap: () async {
+                        setState(() {
+                          selectedDeckItemIndex = originalIndexes[index];
+                        });
+
+                        print("Clicked Deck Index: $index");
+                        print("Selected Deck Item: ${item.deckName}");
+                        print("Cleaned Deck Name being passed: $cleanedDeckName");
+
+                        try {
+                          await _fetchDeckInfo(selectedDeckItemIndex, context);
+                          await _fetchQuestions(cleanedDeckName, context);
+
+                          final deckInfo =
+                              Provider.of<PaperProvider>(context, listen: false).deckInformation;
+
+                          print("Already attempted: ${deckInfo?.alreadyAttempted}");
+
+                          if (deckInfo?.alreadyAttempted == true) {
+                            _showAlreadyAttemptedPopup(context, item, cleanedDeckName);
+                          } else {
+                            _navigateToDeck(context, item);
+                          }
+                        } catch (e) {
+                          print('Error occurred: $e');
+                        }
+                      },
                     ),
                   );
                 },

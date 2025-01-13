@@ -1,5 +1,7 @@
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
+import '../../The vault/widgets/back_button.dart';
+
 class ForgotPasswordError extends StatelessWidget {
   const ForgotPasswordError({super.key, required this.errorText});
   final String errorText;
@@ -7,6 +9,16 @@ class ForgotPasswordError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: PreMedColorTheme().background ,
+         // PreMedColorTheme().background
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60.0),
+        child: AppBar(
+          backgroundColor: PreMedColorTheme().background,
+          leading: const PopButton(),
+          automaticallyImplyLeading: false,
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

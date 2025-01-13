@@ -44,15 +44,33 @@ class _EditProfileState extends State<EditProfile> {
     final formKey = GlobalKey<FormState>();
 
     Future<void> onEditDetailsPressed() async {
+      final String phoneNumber = userProvider.phoneNumber;
+      final List<String> selectedExams =
+      userProvider.user!.info.exam
+          .map((e) => e.toString().trim())
+          .toList();
+
+      final List<String> selectedFeatures =
+      userProvider.user!.info.features
+          .map((e) => e.toString().trim())
+          .toList();
+
+
+      final String cityy = city;
+      final String instituiton = university;
+
+
+
       final form = formKey.currentState!;
       if (form.validate()) {
         final Future<Map<String, dynamic>> response =
-            userProvider.updateUserDetails(
-                fullNameController.text,
-                emailController.text,
-                userProvider.phoneNumber,
-                city,
-                university);
+            auth.requiredOnboarding(
+              selectedExams: selectedExams,
+              selectedFeatures: selectedFeatures,
+              phoneNumber: phoneNumber,
+              city: cityy,
+              institution: instituiton,
+               );
         response.then(
           (response) {
             if (response['status']) {

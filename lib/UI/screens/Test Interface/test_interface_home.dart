@@ -1544,7 +1544,7 @@ class _TestInterfaceState extends State<TestInterface> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => ReportQuestion(
-                                        questionId: '$currentQuestionIndex'),
+                                        questionId: question.questionId),
                                   ),
                                 );
                               },

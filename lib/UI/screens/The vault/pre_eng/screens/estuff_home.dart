@@ -6,8 +6,10 @@ import 'package:premedpk_mobile_app/models/essence_stuff_model.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/engineering_access_providers.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/essen_stuff_pro.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../constants/constants_export.dart';
+import '../../../../../providers/user_provider.dart';
 import '../../../../Widgets/global_widgets/empty_state.dart';
 import '../../screens/estuff_home.dart';
 import '../../widgets/custom_dropdown.dart';
@@ -273,7 +275,37 @@ class PDFTileVault extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //essenceStuff
+    // Function to handle dialog display
+    void showUnlockDialog() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          final userProvider = Provider.of<UserProvider>(context, listen: false);
+          final String appToken = userProvider.user?.info.appToken ?? '';
+          return AlertDialog(
+            title: const Text('Purchase Plan'),
+            content: const Text(
+                'You need to purchase the Ultimate plan to access this note.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  _launchURL(appToken);
+                },
+                child: const Text('Purchase'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    // Function to handle tile click
     void onTileClick() {
       Navigator.push(
         context,
@@ -287,26 +319,29 @@ class PDFTileVault extends StatelessWidget {
     }
 
     return InkWell(
-      onTap: !hasAccess && note.access == 'Paid' ? null : onTileClick,
+      onTap: !hasAccess && note.access == 'Paid'
+          ? showUnlockDialog // Show dialog if locked
+          : onTileClick, // Navigate if accessible
       child: Stack(
-        children: [ Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white.withOpacity(0.85),
-            border: Border.all(color: Colors.white.withOpacity(0.50)),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x26000000),
-                blurRadius: 40,
-                offset: Offset(0, 20),
-              )
-            ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                Container(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white.withOpacity(0.85),
+              border: Border.all(color: Colors.white.withOpacity(0.50)),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x26000000),
+                  blurRadius: 40,
+                  offset: Offset(0, 20),
+                )
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  Container(
                     decoration: const BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -316,39 +351,40 @@ class PDFTileVault extends StatelessWidget {
                         )
                       ],
                     ),
-                    child: buildPdfIcon(note.thumbnailImageUrl ?? '')),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                  child: Text(
-                    'Essential Stuff'.toUpperCase(),
-                    style: PreMedTextTheme().heading1.copyWith(
-                          fontSize: 8,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black26,
-                        ),
+                    child: buildPdfIcon(note.thumbnailImageUrl ?? ''),
                   ),
-                ),
-                SizedBoxes.vertical5Px,
-                Text(
-                  note.topicName,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: PreMedTextTheme()
-                      .headline
-                      .copyWith(fontWeight: FontWeight.w800),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBoxes.vertical5Px,
-                Text(
-                  note.board,
-                  style: PreMedTextTheme()
-                      .heading1
-                      .copyWith(fontWeight: FontWeight.w400, fontSize: 10),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                    child: Text(
+                      'Essential Stuff'.toUpperCase(),
+                      style: PreMedTextTheme().heading1.copyWith(
+                        fontSize: 8,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black26,
+                      ),
+                    ),
+                  ),
+                  SizedBoxes.vertical5Px,
+                  Text(
+                    note.topicName,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: PreMedTextTheme()
+                        .headline
+                        .copyWith(fontWeight: FontWeight.w800),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBoxes.vertical5Px,
+                  Text(
+                    note.board,
+                    style: PreMedTextTheme()
+                        .heading1
+                        .copyWith(fontWeight: FontWeight.w400, fontSize: 10),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
           if (!hasAccess && note.access == 'Paid')
             Positioned.fill(
               child: GlassContainer(
@@ -361,18 +397,29 @@ class PDFTileVault extends StatelessWidget {
                     width: 80,
                     border: Border.all(color: Colors.white, width: 2),
                     child: Center(
-                      child: Text('Unlock',
-                          style: PreMedTextTheme().heading1.copyWith(
-                              fontWeight: FontWeight.w500, fontSize: 15)),
+                      child: Text(
+                        'Unlock',
+                        style: PreMedTextTheme().heading1.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-
-        ]
+        ],
       ),
     );
+  }
+}
+
+Future<void> _launchURL(String appToken) async {
+  final Uri url = Uri.parse('https://www.premed.pk/?token=$appToken');
+
+  if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+    throw Exception('Could not launch $url');
   }
 }
 
