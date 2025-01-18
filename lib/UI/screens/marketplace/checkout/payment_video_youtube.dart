@@ -1,4 +1,3 @@
-import 'package:premedpk_mobile_app/UI/widgets/youtube_player/youtube_player.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class PaymentVideo extends StatelessWidget {
@@ -18,7 +17,7 @@ class PaymentVideo extends StatelessWidget {
               style: PreMedTextTheme().heading5,
             ),
             SizedBoxes.verticalMedium,
-            const MyYoutubePlayer(),
+            // const MyYoutubePlayer(),
             SizedBoxes.verticalMedium,
           ],
         ),

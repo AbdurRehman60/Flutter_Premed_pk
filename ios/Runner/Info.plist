@@ -72,5 +72,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<!-- Firebase-specific keys -->
+	<key>FirebaseMessagingAutoInitEnabled</key>
+	<true/>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This app uses your data to provide personalized notifications and services.</string>
 </dict>
 </plist>

@@ -16,7 +16,7 @@ class SubscriptionDetailsScreen extends StatefulWidget {
 class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
   Future<void> _launchURL(String appToken) async {
     final url =
-        'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
+        'https://premed.pk/app-redirect?url=$appToken&&route="/"';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
