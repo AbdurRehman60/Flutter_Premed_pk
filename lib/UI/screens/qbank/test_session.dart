@@ -30,7 +30,7 @@ class _MedTestSessionHomeState extends State<MedTestSessionHome>
         preferredSize: const Size.fromHeight(60.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 13),
-          child: AppBar(
+              child: AppBar( centerTitle: false,
             backgroundColor: PreMedColorTheme().background,
             leading: const PopButton(),
             automaticallyImplyLeading: false,

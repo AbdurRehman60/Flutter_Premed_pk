@@ -90,7 +90,7 @@ class _StudyNotesHomeState extends State<EngineeringStudyNotesHome> {
               preferredSize: const Size.fromHeight(60.0),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 13),
-                child: AppBar(
+                    child: AppBar( centerTitle: false,
                   actions: [
                     CustomDropdownbtn(onProvinceSelected: _handleProvinceSelected),
                   ],

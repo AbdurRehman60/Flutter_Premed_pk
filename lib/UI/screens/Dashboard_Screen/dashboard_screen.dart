@@ -159,7 +159,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                     SeriesCard(
                       bgColor: PreMedColorTheme().white85,
-                      text: "NEWEST RELEAST",
+                      text: "NEWEST RELEASE",
                       text1: "The Ultimate Resource Bank",
                       onTap: () {
                         Navigator.push(

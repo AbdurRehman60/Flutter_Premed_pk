@@ -60,7 +60,7 @@ class _SavedQuestionScreenEngState extends State<SavedQuestionScreenEng> {
         preferredSize: const Size.fromHeight(60.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: AppBar(
+          child: AppBar( centerTitle: false,
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 15),

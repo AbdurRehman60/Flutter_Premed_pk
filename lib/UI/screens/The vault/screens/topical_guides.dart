@@ -21,7 +21,6 @@ class _TopicalGuidesState extends State<TopicalGuides> {
   String _selectedProvince = 'All';
   List<VaultNotesModel> _filteredNotes = [];
 
-
   @override
   void initState() {
     super.initState();
@@ -31,7 +30,6 @@ class _TopicalGuidesState extends State<TopicalGuides> {
           .then((_) {
         _filterNotes();
       });
-
     });
   }
 
@@ -79,7 +77,8 @@ class _TopicalGuidesState extends State<TopicalGuides> {
 
   @override
   Widget build(BuildContext context) {
-    final preMedAccess = Provider.of<PreMedAccessProvider>(context,listen: false);
+    final preMedAccess =
+        Provider.of<PreMedAccessProvider>(context, listen: false);
     return Consumer<VaultTopicalGuidesProvider>(
         builder: (context, vaultTopicalGuides, _) {
       final bool isLoading =
@@ -91,7 +90,7 @@ class _TopicalGuidesState extends State<TopicalGuides> {
           preferredSize: const Size.fromHeight(60.0),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 13),
-            child: AppBar(
+               child: AppBar( centerTitle: false,
               actions: [
                 CustomDropdownbtn(onProvinceSelected: _handleProvinceSelected),
               ],

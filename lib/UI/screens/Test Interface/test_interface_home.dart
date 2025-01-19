@@ -1034,7 +1034,7 @@ class _TestInterfaceState extends State<TestInterface> {
           preferredSize: const Size.fromHeight(70.0),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: AppBar(
+                child: AppBar( centerTitle: false,
               backgroundColor: PreMedColorTheme().white,
               leading: Container(
                 margin: const EdgeInsets.all(10),
@@ -1122,7 +1122,7 @@ class _TestInterfaceState extends State<TestInterface> {
         preferredSize: const Size.fromHeight(70.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: AppBar(
+              child: AppBar( centerTitle: false,
             backgroundColor: PreMedColorTheme().white,
             leading: Container(
               margin: const EdgeInsets.all(10),

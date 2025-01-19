@@ -10,8 +10,9 @@ import '../widgets/custom_dropdown.dart';
 import '../widgets/topic_button.dart';
 
 class ShortlistingsHome extends StatefulWidget {
-  const ShortlistingsHome({super.key,});
-
+  const ShortlistingsHome({
+    super.key,
+  });
 
   @override
   State<ShortlistingsHome> createState() => _ShortlistingsHomeState();
@@ -91,6 +92,8 @@ class _ShortlistingsHomeState extends State<ShortlistingsHome> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 13),
             child: AppBar(
+              // child:\s?AppBar\s?\(
+              centerTitle: false,
               actions: [
                 CustomDropdownbtn(onProvinceSelected: _handleProvinceSelected),
               ],
@@ -192,7 +195,8 @@ class _ShortlistingsHomeState extends State<ShortlistingsHome> {
                     suffixIcon: IconButton(
                       onPressed: () {
                         _searchController.clear();
-                        _handleSearch(''); // Fetch notes without any search query
+                        _handleSearch(
+                            ''); // Fetch notes without any search query
                       },
                       icon: const Icon(Icons.clear),
                       color: PreMedColorTheme().primaryColorRed,
@@ -227,7 +231,9 @@ class _ShortlistingsHomeState extends State<ShortlistingsHome> {
             SizedBoxes.vertical15Px,
             Expanded(
               child: PdfDisplayer(
-                hasAccess: Provider.of<PreMedAccessProvider>(context,listen: false).hasShortListings,
+                hasAccess:
+                    Provider.of<PreMedAccessProvider>(context, listen: false)
+                        .hasShortListings,
                 notes: _filteredNotes,
                 isLoading: isLoading,
                 categoryName: 'ShortListings',

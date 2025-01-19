@@ -10,7 +10,6 @@ import '../../../../providers/vaultProviders/premed_provider.dart';
 import '../../saved_question_test_interface/test_interface_basic.dart';
 import 'activity_cell.dart';
 
-
 class SavedQuestionScreen extends StatefulWidget {
   const SavedQuestionScreen({super.key});
 
@@ -27,7 +26,8 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final userPro = Provider.of<UserProvider>(context, listen: false);
-      final provider = Provider.of<SavedQuestionsProvider>(context, listen: false);
+      final provider =
+          Provider.of<SavedQuestionsProvider>(context, listen: false);
       provider.getSavedQuestions(userId: userPro.user!.userId);
     });
   }
@@ -41,17 +41,19 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
 
   // When "All Questions" is tapped, navigate to TestInterfaceScreen with the filtered questions
   void _navigateToTestInterface() {
-    if(_filteredQuestions.isNotEmpty)
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => TestInterfaceScreen(questions: _filteredQuestions),
-      ),
-    );
+    if (_filteredQuestions.isNotEmpty)
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) =>
+              TestInterfaceScreen(questions: _filteredQuestions),
+        ),
+      );
   }
 
   // Filter questions based on the selected topic or "All Questions"
   void _filterQuestions() {
-    final provider = Provider.of<SavedQuestionsProvider>(context, listen: false);
+    final provider =
+        Provider.of<SavedQuestionsProvider>(context, listen: false);
     if (_activeTopic == 'All Questions') {
       _filteredQuestions = provider.savedQuestions;
     } else {
@@ -71,6 +73,7 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: AppBar(
+            centerTitle: false,
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 15),
@@ -82,9 +85,10 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
                   child: InkWell(
                     onTap: _navigateToTestInterface, // Navigate to Test Screen
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 9),
                       child: Text(
-                        'All Questions',
+                        'Attempt Questions',
                         style: PreMedTextTheme().heading1.copyWith(
                             color: Colors.white,
                             fontSize: 12,
@@ -108,20 +112,27 @@ class _SavedQuestionScreenState extends State<SavedQuestionScreen> {
             children: [
               Text(
                 'Saved Question',
-                style: PreMedTextTheme().body.copyWith(
-                    fontSize: 34, fontWeight: FontWeight.w800),
+                style: PreMedTextTheme()
+                    .body
+                    .copyWith(fontSize: 34, fontWeight: FontWeight.w800),
               ),
               SizedBoxes.vertical3Px,
               Text(
                 "Easily access questions you've marked for later study.",
-                style: PreMedTextTheme().body.copyWith(
-                    fontSize: 17, fontWeight: FontWeight.w400),
+                style: PreMedTextTheme()
+                    .body
+                    .copyWith(fontSize: 17, fontWeight: FontWeight.w400),
               ),
               SizedBoxes.vertical15Px,
               Wrap(
                 spacing: 12.0, // Space between buttons
                 runSpacing: 2.0, // Space between lines
                 children: [
+                  SavedQuestionTopicButton(
+                    topicName: 'All',
+                    isActive: _activeTopic == 'All Questions',
+                    onTap: () => _handleTopicTap('All Questions'),
+                  ),
                   SavedQuestionTopicButton(
                     topicName: 'Biology',
                     isActive: _activeTopic == 'Biology',

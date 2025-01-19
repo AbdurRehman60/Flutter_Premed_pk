@@ -1,11 +1,13 @@
-
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:lottie/lottie.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/models/cheatsheetModel.dart';
 import '../../../../constants/constants_export.dart';
 import '../../../Widgets/global_widgets/empty_state.dart';
+
 class VaultPdfViewer extends StatefulWidget {
-  const VaultPdfViewer({super.key, required this.vaultNotesModel, required this.notesCategory});
+  const VaultPdfViewer(
+      {super.key, required this.vaultNotesModel, required this.notesCategory});
   final VaultNotesModel vaultNotesModel;
   final String notesCategory;
 
@@ -20,16 +22,14 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
   bool isDownloaded = false;
 
   final Completer<PDFViewController> _pdfViewController =
-  Completer<PDFViewController>();
+      Completer<PDFViewController>();
   final StreamController<String> _pageCountController =
-  StreamController<String>();
+      StreamController<String>();
   @override
   void dispose() {
     _pageCountController.close();
     super.dispose();
   }
-
-
 
   void openDemarcationBottomSheet() {
     showModalBottomSheet(
@@ -79,9 +79,9 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                         Navigator.of(context).pop();
 
                         _pdfViewController.future.then(
-                              (controller) {
-                            final int pageNumber =
-                                widget.vaultNotesModel.pagination![index].startPageNo;
+                          (controller) {
+                            final int pageNumber = widget
+                                .vaultNotesModel.pagination![index].startPageNo;
 
                             if (pageNumber >= 0 && pageNumber < maxPage) {
                               controller.setPage(pageNumber - 1);
@@ -105,11 +105,13 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                                 style: PreMedTextTheme().body.copyWith(
                                     fontSize: 16,
                                     fontWeight: currentPage ==
-                                        widget.vaultNotesModel.pagination![index].startPageNo
+                                            widget.vaultNotesModel
+                                                .pagination![index].startPageNo
                                         ? FontWeight.w700
                                         : FontWeight.w700,
                                     color: currentPage ==
-                                        widget.vaultNotesModel.pagination![index].startPageNo
+                                            widget.vaultNotesModel
+                                                .pagination![index].startPageNo
                                         ? PreMedColorTheme().primaryColorRed
                                         : PreMedColorTheme().neutral900),
                               ),
@@ -128,13 +130,23 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
     );
   }
 
-  void _showAlertDialog(BuildContext context,String title) {
+  void _showAlertDialog(BuildContext context, String title) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Alert',style: PreMedTextTheme().body.copyWith(fontSize: 16,fontWeight: FontWeight.bold),),
-          content: Text(title,style: PreMedTextTheme().body.copyWith(fontSize: 13,),),
+          title: Text(
+            'Alert',
+            style: PreMedTextTheme()
+                .body
+                .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          content: Text(
+            title,
+            style: PreMedTextTheme().body.copyWith(
+                  fontSize: 13,
+                ),
+          ),
           actions: <Widget>[
             TextButton(
               child: const Text('OK'),
@@ -148,8 +160,6 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<String>(
@@ -161,6 +171,7 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: AppBar(
+                centerTitle: false,
                 backgroundColor: PreMedColorTheme().white,
                 leading: const PopButton(),
                 title: Row(
@@ -174,10 +185,10 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                             child: Text(
                               widget.vaultNotesModel.topicName,
                               style: PreMedTextTheme().subtext.copyWith(
-                                color: PreMedColorTheme().black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700,
-                              ),
+                                    color: PreMedColorTheme().black,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -186,10 +197,10 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                             alignment: Alignment.centerLeft,
                             child: Text(widget.notesCategory,
                                 style: PreMedTextTheme().subtext.copyWith(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: PreMedColorTheme().black,
-                                )),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      color: PreMedColorTheme().black,
+                                    )),
                           ),
                         ],
                       ),
@@ -228,7 +239,18 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
             ).cachedFromUrl(
               widget.vaultNotesModel.pdfUrl,
               placeholder: (double progress) => Center(
-                child: Text('$progress %'),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      'animations/1.json',
+                      height: 200,
+                      fit: BoxFit.cover,
+                      repeat: true,
+                    ),
+                    Text('$progress %'),
+                  ],
+                ),
               ),
               errorWidget: (dynamic error) => Center(
                 child: Center(
@@ -236,13 +258,13 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                       displayImage: PremedAssets.Notfoundemptystate,
                       title: 'Oops! Something Went Wrong',
                       body:
-                      "We're having trouble fetching the PDF right now. Please try again later, and we hope to have it ready for you soon."),
+                          "We're having trouble fetching the PDF right now. Please try again later, and we hope to have it ready for you soon."),
                 ),
               ),
             ),
           ),
           floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked,
+              FloatingActionButtonLocation.centerDocked,
           floatingActionButton: Padding(
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
             child: Container(
@@ -270,17 +292,18 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                           borderRadius: BorderRadius.circular(15)),
                       child: GestureDetector(
                         onTap: () {
-                          if(widget.vaultNotesModel.pagination != null && widget.vaultNotesModel.pagination!.isNotEmpty){
+                          if (widget.vaultNotesModel.pagination != null &&
+                              widget.vaultNotesModel.pagination!.isNotEmpty) {
                             openDemarcationBottomSheet();
-                          }else{
-                            _showAlertDialog(context, 'No Demarcations Available');
+                          } else {
+                            _showAlertDialog(
+                                context, 'No Demarcations Available');
                           }
                         },
                         child: Image.asset(
                           'assets/images/Menu.png',
                         ),
-                      )
-                  ),
+                      )),
                   Row(
                     children: [
                       Padding(

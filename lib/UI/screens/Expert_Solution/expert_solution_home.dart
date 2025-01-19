@@ -24,7 +24,7 @@ class ExpertSolutionHome extends StatelessWidget {
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60.0),
-          child: AppBar(
+         child: AppBar( centerTitle: false,
             backgroundColor: PreMedColorTheme().background,
             leading: const PopButton(),
             automaticallyImplyLeading: false,

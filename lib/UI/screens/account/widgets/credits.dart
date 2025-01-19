@@ -14,7 +14,7 @@ class CreditsScreen extends StatelessWidget {
           padding: const EdgeInsets.only(
             top: 3,
           ),
-          child: AppBar(
+          child: AppBar( centerTitle: false,
             backgroundColor: PreMedColorTheme().background,
             title: Row(
               crossAxisAlignment: CrossAxisAlignment.start,

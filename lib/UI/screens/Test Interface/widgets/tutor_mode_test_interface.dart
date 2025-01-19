@@ -1063,7 +1063,7 @@ class _TutorModeState extends State<TutorMode> {
           preferredSize: const Size.fromHeight(70.0),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: AppBar(
+                child: AppBar( centerTitle: false,
               backgroundColor: PreMedColorTheme().white,
               leading: Container(
                 margin: const EdgeInsets.all(10),
@@ -1155,7 +1155,7 @@ class _TutorModeState extends State<TutorMode> {
         preferredSize: const Size.fromHeight(70.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: AppBar(
+              child: AppBar( centerTitle: false,
             backgroundColor: PreMedColorTheme().white,
             leading: Container(
               margin: const EdgeInsets.all(10),

@@ -227,7 +227,7 @@ class _RecentActivityScreenState extends State<RecentActivityScreen> {
         preferredSize: const Size.fromHeight(60.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: AppBar(
+              child: AppBar( centerTitle: false,
             backgroundColor: Colors.transparent,
             leading: const PopButton(),
           ),

@@ -37,9 +37,8 @@ class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
     final allNotes = eStuff.essentialStuffList;
     setState(() {
       _filteredNotes = allNotes.where((note) {
-        final matchesSearchQuery = note.board
-            .toLowerCase()
-            .contains(board.toLowerCase());
+        final matchesSearchQuery =
+            note.board.toLowerCase().contains(board.toLowerCase());
 
         return matchesSearchQuery;
       }).toList();
@@ -57,8 +56,8 @@ class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<EssentialStuffProvider,PreEngAccessProvider>(
-        builder: (context, vaultTopicalGuides,preEngaccessPro, _) {
+    return Consumer2<EssentialStuffProvider, PreEngAccessProvider>(
+        builder: (context, vaultTopicalGuides, preEngaccessPro, _) {
       final bool isLoading =
           vaultTopicalGuides.fetchStatus == FetchStatus.fetching;
       return Scaffold(
@@ -69,6 +68,7 @@ class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 13),
             child: AppBar(
+              centerTitle: false,
               title: Text(
                 'The Vault',
                 style: PreMedTextTheme()
@@ -131,7 +131,8 @@ class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
                       TopicButton(
                         topicName: 'Government Notifications',
                         isActive: _activeTopic == 'Government Notifications',
-                        onTap: () => _handleTopicTap('Government Notifications'),
+                        onTap: () =>
+                            _handleTopicTap('Government Notifications'),
                       ),
                     ],
                   ),
@@ -156,7 +157,6 @@ class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
 
 class EstuffPdfDisplayer extends StatelessWidget {
   const EstuffPdfDisplayer({
-
     super.key,
     required this.hasAccess,
     required this.notes,
@@ -273,14 +273,14 @@ class PDFTileVault extends StatelessWidget {
                       child: buildPdfIcon(note.thumbnailImageUrl ?? '')),
                   Padding(
                     padding:
-                    const EdgeInsets.only(top: 12, left: 10, right: 10),
+                        const EdgeInsets.only(top: 12, left: 10, right: 10),
                     child: Text(
                       categoryName.toUpperCase(),
                       style: PreMedTextTheme().heading1.copyWith(
-                        fontSize: 8,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black26,
-                      ),
+                            fontSize: 8,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black26,
+                          ),
                     ),
                   ),
                   SizedBoxes.vertical5Px,
@@ -324,7 +324,6 @@ class PDFTileVault extends StatelessWidget {
     );
   }
 }
-
 
 class GradientText1 extends StatelessWidget {
   const GradientText1({super.key, required this.text, required this.fontSize});

@@ -13,7 +13,6 @@ class EngTestSessionHome extends StatefulWidget {
 
 class _EngTestSessionHomeState extends State<EngTestSessionHome>
     with SingleTickerProviderStateMixin {
-
   @override
   void initState() {
     super.initState();
@@ -45,10 +44,10 @@ class _EngTestSessionHomeState extends State<EngTestSessionHome>
             child: Text(
               'Pre-Engineering Test Sessions',
               style: PreMedTextTheme().heading6.copyWith(
-                color: PreMedColorTheme().black,
-                fontSize: 34,
-                fontWeight: FontWeight.w800,
-              ),
+                    color: PreMedColorTheme().black,
+                    fontSize: 34,
+                    fontWeight: FontWeight.w800,
+                  ),
             ),
           ),
           SizedBoxes.vertical22Px,
@@ -57,10 +56,10 @@ class _EngTestSessionHomeState extends State<EngTestSessionHome>
             child: Text(
               'Attempt these Test Sessions to prepare for your Engineering Entrance Exams',
               style: PreMedTextTheme().heading6.copyWith(
-                color: PreMedColorTheme().black,
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-              ),
+                    color: PreMedColorTheme().black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
             ),
           ),
           SizedBoxes.verticalMedium,

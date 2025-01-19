@@ -35,7 +35,8 @@ class _StudyNotesHomeState extends State<StudyNotesHome> {
   }
 
   Future<void> _fetchAndFilterNotes() async {
-    final vaultStudyNotesProvider = Provider.of<VaultStudyNotesProvider>(context, listen: false);
+    final vaultStudyNotesProvider =
+        Provider.of<VaultStudyNotesProvider>(context, listen: false);
     await vaultStudyNotesProvider.fetchNotess();
     _filterNotes();
   }
@@ -52,7 +53,8 @@ class _StudyNotesHomeState extends State<StudyNotesHome> {
   }
 
   void _filterNotes() {
-    final vaultStudyNotesProvider = Provider.of<VaultStudyNotesProvider>(context, listen: false);
+    final vaultStudyNotesProvider =
+        Provider.of<VaultStudyNotesProvider>(context, listen: false);
     final allNotes = vaultStudyNotesProvider.vaultNotesList;
 
     setState(() {
@@ -61,7 +63,7 @@ class _StudyNotesHomeState extends State<StudyNotesHome> {
         final matchesSearchQuery = note.topicName
             .toLowerCase()
             .contains(_searchController.text.toLowerCase());
-        final matchesProvince = _selectedProvince == 'All';  
+        final matchesProvince = _selectedProvince == 'All';
 
         return matchesTopic && matchesSearchQuery && matchesProvince;
       }).toList();
@@ -72,8 +74,10 @@ class _StudyNotesHomeState extends State<StudyNotesHome> {
   Widget build(BuildContext context) {
     return Consumer<VaultStudyNotesProvider>(
       builder: (context, vaultStudyNotesProvider, _) {
-        final bool isLoading = vaultStudyNotesProvider.vaultnotesLoadingstatus == Status.fetching;
-        final preMedAccess = Provider.of<PreMedAccessProvider>(context, listen: false);
+        final bool isLoading =
+            vaultStudyNotesProvider.vaultnotesLoadingstatus == Status.fetching;
+        final preMedAccess =
+            Provider.of<PreMedAccessProvider>(context, listen: false);
 
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -82,7 +86,7 @@ class _StudyNotesHomeState extends State<StudyNotesHome> {
             preferredSize: const Size.fromHeight(60.0),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 13),
-              child: AppBar(
+                  child: AppBar( centerTitle: false,
                 title: Text(
                   'The Vault',
                   style: PreMedTextTheme()
@@ -171,13 +175,14 @@ class _StudyNotesHomeState extends State<StudyNotesHome> {
                   child: TextField(
                     controller: _searchController,
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.search, color: Color(0xFF5898FF)),
+                      prefixIcon:
+                          const Icon(Icons.search, color: Color(0xFF5898FF)),
                       hintText: 'Search',
                       hintStyle: PreMedTextTheme().heading1.copyWith(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Colors.black,
-                      ),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
                       suffixIcon: IconButton(
                         onPressed: () {
                           _searchController.clear();

@@ -40,7 +40,7 @@ class _AnalyticsState extends State<Analytics> {
       backgroundColor: PreMedColorTheme().background,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-        child: AppBar(
+            child: AppBar( centerTitle: false,
           backgroundColor: PreMedColorTheme().background,
           leading: Container(
             margin: const EdgeInsets.all(10),

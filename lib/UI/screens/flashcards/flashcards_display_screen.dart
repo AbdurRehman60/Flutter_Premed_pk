@@ -56,7 +56,7 @@ class _FlashcardDisplayScreenState extends State<FlashcardDisplayScreen> {
           preferredSize: const Size.fromHeight(60.0),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: AppBar(
+            child: AppBar( centerTitle: false,
               backgroundColor: PreMedColorTheme().background,
               leading: const PopButton(),
               title: Column(
@@ -109,7 +109,7 @@ class _FlashcardDisplayScreenState extends State<FlashcardDisplayScreen> {
         preferredSize: const Size.fromHeight(60.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 13),
-          child: AppBar(
+          child: AppBar( centerTitle: false,
             backgroundColor: PreMedColorTheme().background,
             leading: const PopButton(),
             title: Column(

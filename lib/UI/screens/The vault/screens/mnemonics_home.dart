@@ -1,6 +1,7 @@
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/mnemonics/mnemonics_grid_builder.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
+
 class MnemonicsHome extends StatefulWidget {
   const MnemonicsHome({super.key});
 
@@ -18,6 +19,7 @@ class _MnemonicsHomeState extends State<MnemonicsHome> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 13),
           child: AppBar(
+            centerTitle: false,
             title: Text(
               'The Vault',
               style: PreMedTextTheme()

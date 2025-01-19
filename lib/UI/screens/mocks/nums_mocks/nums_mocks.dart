@@ -26,7 +26,7 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-        child: AppBar(
+            child: AppBar( centerTitle: false,
           backgroundColor: PreMedColorTheme().white,
           leading: Container(
             margin: const EdgeInsets.all(10),

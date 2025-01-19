@@ -79,7 +79,6 @@ dependencies:
   flutter_inappwebview: ^6.1.0
   share_plus: ^10.1.4
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -142,7 +141,7 @@ flutter:
     - assets/images/Settings.png
     - assets/images/Shop.png
     - assets/images/youtube.png
-    -  assets/images/premedanimation.png
+    - assets/images/premedanimation.png
     - assets/images/firework.png
     - assets/images/Subtract.png
     - assets/images/gradient.png
@@ -158,9 +157,7 @@ flutter:
     - assets/images/studynotes.png
     - assets/images/Chart.png
     - assets/images/
-    - assets/images/vault/ 
-
-
+    - assets/images/vault/
 
     #icons
     - assets/icons/editprofile.png
@@ -209,4 +206,3 @@ flutter:
         - asset: assets/fonts/Rubik-Regular.ttf
         - asset: assets/fonts/Rubik-SemiBold.ttf
         - asset: assets/fonts/Rubik-ExtraBold.ttf
-

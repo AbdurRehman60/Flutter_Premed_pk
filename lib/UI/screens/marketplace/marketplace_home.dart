@@ -18,7 +18,6 @@ class MarketPlace extends StatelessWidget {
     scaffoldKey.currentState?.openEndDrawer();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final BundleProvider bundleProvider =
@@ -32,6 +31,7 @@ class MarketPlace extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.only(top: 20),
           child: AppBar(
+              centerTitle: false,
               automaticallyImplyLeading: false,
               title: Padding(
                 padding: const EdgeInsets.only(left: 6.0, top: 28, bottom: 28),
@@ -66,7 +66,6 @@ class MarketPlace extends StatelessWidget {
                   ),
                 ),
               ],
-              centerTitle: false,
               backgroundColor: Colors.transparent,
               systemOverlayStyle: const SystemUiOverlayStyle(
                 statusBarColor: Color.fromARGB(14, 0, 0, 0),

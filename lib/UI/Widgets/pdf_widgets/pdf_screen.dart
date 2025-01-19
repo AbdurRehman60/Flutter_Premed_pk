@@ -1,4 +1,5 @@
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:lottie/lottie.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets_export.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/models/notes_model.dart';
@@ -93,35 +94,33 @@ class _PdfViewState extends State<PdfScreen> {
                             },
                           );
                         },
-
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
+                          child: Row(children: [
                             Image.asset(
-                            'assets/images/content.png',
-                            width: 24,
-                            height: 24,
-                          ),
-                          SizedBoxes.horizontalLarge,
-
-                          Expanded(
-                            child: Text(
-                              widget.note.demarcations![index].name,
-                              style: PreMedTextTheme().body.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: currentPage ==
-                                          widget.note.demarcations![index].page
-                                      ? FontWeight.w700
-                                      : FontWeight.w700,
-                                  color: currentPage ==
-                                          widget.note.demarcations![index].page
-                                      ? PreMedColorTheme().primaryColorRed
-                                      : PreMedColorTheme().neutral900),
+                              'assets/images/content.png',
+                              width: 24,
+                              height: 24,
                             ),
-                          ),
-                          ]
-                          ),
+                            SizedBoxes.horizontalLarge,
+                            Expanded(
+                              child: Text(
+                                widget.note.demarcations![index].name,
+                                style: PreMedTextTheme().body.copyWith(
+                                    fontSize: 16,
+                                    fontWeight: currentPage ==
+                                            widget
+                                                .note.demarcations![index].page
+                                        ? FontWeight.w700
+                                        : FontWeight.w700,
+                                    color: currentPage ==
+                                            widget
+                                                .note.demarcations![index].page
+                                        ? PreMedColorTheme().primaryColorRed
+                                        : PreMedColorTheme().neutral900),
+                              ),
+                            ),
+                          ]),
                         ),
                       );
                     },
@@ -159,7 +158,7 @@ class _PdfViewState extends State<PdfScreen> {
                 icon: Icon(Icons.arrow_back_ios_new_rounded,
                     color: PreMedColorTheme().primaryColorRed),
                 onPressed: () {
-                      Navigator.of(context).pop();
+                  Navigator.of(context).pop();
                 },
               ),
             ),
@@ -285,8 +284,17 @@ class _PdfViewState extends State<PdfScreen> {
               },
             ).cachedFromUrl(
               widget.note.notesURL,
-              placeholder: (double progress) => Center(
-                child: Text('$progress %'),
+              placeholder: (double progress) => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    'animations/1.json',
+                    height: 200,
+                    fit: BoxFit.cover,
+                    repeat: true,
+                  ),
+                  Text('$progress %'),
+                ],
               ),
               errorWidget: (dynamic error) => Center(
                 child: Center(
@@ -374,8 +382,7 @@ class _PdfViewState extends State<PdfScreen> {
                         border: Border.all(
                             color: PreMedColorTheme().primaryColorRed)),
                     child: GestureDetector(
-                      onTap: () {
-                      },
+                      onTap: () {},
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Image.asset(

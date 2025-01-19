@@ -1,4 +1,5 @@
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:lottie/lottie.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
 import 'package:premedpk_mobile_app/models/essence_stuff_model.dart';
@@ -164,7 +165,7 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
             preferredSize: const Size.fromHeight(60.0),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: AppBar(
+                child: AppBar( centerTitle: false,
                 backgroundColor: PreMedColorTheme().white,
                 leading: const PopButton(),
                 title: Row(
@@ -232,7 +233,18 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
             ).cachedFromUrl(
               widget.essenceStuffModel.pdfUrl,
               placeholder: (double progress) => Center(
-                child: Text('$progress %'),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Lottie.asset(
+                        'animations/1.json',
+                        height: 200,
+                        fit: BoxFit.cover,
+                        repeat: true,
+                      ),
+                      Text('$progress %'),
+                    ],
+                  ),
               ),
               errorWidget: (dynamic error) => Center(
                 child: Center(

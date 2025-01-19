@@ -52,6 +52,7 @@ class _DeckInstructionsState extends State<DeckInstructions> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: AppBar(
+          centerTitle: false,
           backgroundColor: PreMedColorTheme().white,
           leading: Container(
             margin: const EdgeInsets.all(10),
@@ -89,10 +90,10 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                 Text(
                   selectedDeckItem.deckName,
                   style: PreMedTextTheme().heading6.copyWith(
-                    color: PreMedColorTheme().black,
-                    fontSize: 34,
-                    fontWeight: FontWeight.w800,
-                  ),
+                        color: PreMedColorTheme().black,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                      ),
                 ),
                 SizedBoxes.verticalMedium,
                 Padding(
@@ -101,7 +102,8 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                     elevation: 3,
                     borderRadius: BorderRadius.circular(10),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 4),
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10)),
@@ -140,7 +142,9 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                             CustomButton(
                               buttonText: 'Start Test',
                               onPressed: () async {
-                                final userProvider = Provider.of<UserProvider>(context, listen: false);
+                                final userProvider = Provider.of<UserProvider>(
+                                    context,
+                                    listen: false);
                                 final userId = userProvider.user?.userId ?? '';
 
                                 if (userId.isNotEmpty) {
@@ -149,7 +153,8 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                                   } else {
                                     selectedMode = 'TUTORMODE';
                                   }
-                                  _handleStartTest(context, selectedDeckItem, userId, selectedMode);
+                                  _handleStartTest(context, selectedDeckItem,
+                                      userId, selectedMode);
                                 }
                               },
                             ),
@@ -167,7 +172,8 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                     elevation: 3,
                     borderRadius: BorderRadius.circular(10),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 4),
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10)),
@@ -181,7 +187,8 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                                 Text(
                                   'INSTRUCTIONS',
                                   style: PreMedTextTheme().body.copyWith(
-                                      fontWeight: FontWeight.w800, fontSize: 17),
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 17),
                                 ),
                                 BulletedList(
                                   items: cleanInstructions.split('\n'),
@@ -202,23 +209,28 @@ class _DeckInstructionsState extends State<DeckInstructions> {
     );
   }
 
-  void _handleStartTest(BuildContext context, DeckItem selectedDeckItem, String userId, String selectedMode) async {
+  void _handleStartTest(BuildContext context, DeckItem selectedDeckItem,
+      String userId, String selectedMode) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     bool isFreeMode = (selectedMode == 'TUTORMODE')
         ? selectedDeckItem.isTutorModeFree ?? false
-        : selectedDeckItem.premiumTags == null || selectedDeckItem.premiumTags!.isEmpty;
+        : selectedDeckItem.premiumTags == null ||
+            selectedDeckItem.premiumTags!.isEmpty;
 
-    if (isFreeMode || _hasAccess(selectedDeckItem.premiumTags, userProvider.getTags())) {
+    if (isFreeMode ||
+        _hasAccess(selectedDeckItem.premiumTags, userProvider.getTags())) {
       final attemptModel = CreateDeckAttemptModel(
         deckName: selectedDeckItem.deckName,
         attemptMode: selectedMode.toLowerCase(),
         user: userId,
       );
-      final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+      final deckAttemptProvider =
+          Provider.of<CreateDeckAttemptProvider>(context, listen: false);
       await deckAttemptProvider.createDeckAttempt(attemptModel);
 
-      if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
+      if (deckAttemptProvider.responseMessage ==
+          'Attempt created successfully') {
         final attemptId = deckAttemptProvider.attemptId;
         Navigator.push(
           context,
@@ -262,15 +274,20 @@ class _DeckInstructionsState extends State<DeckInstructions> {
         for (final access in accessTags) {
           if (access is Map<String, dynamic>) {
             if (access['name'] == premiumTag) {
-              print('Match found: premiumTag "$premiumTag" matches with accessTag "${access['name']}"');
+              print(
+                  'Match found: premiumTag "$premiumTag" matches with accessTag "${access['name']}"');
               return true;
             }
 
             // Group match for predefined tags
-            if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
-                (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
-                (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
-              print('Match found: premiumTag "$premiumTag" matches with group tag "${access['name']}"');
+            if ((premiumTag == 'MDCAT-QBank' &&
+                    mdcatTags.contains(access['name'])) ||
+                (premiumTag == 'NUMS-QBank' &&
+                    numsTags.contains(access['name'])) ||
+                (premiumTag == 'AKU-QBank' &&
+                    privTags.contains(access['name']))) {
+              print(
+                  'Match found: premiumTag "$premiumTag" matches with group tag "${access['name']}"');
               return true;
             }
           }
@@ -294,7 +311,8 @@ class _DeckInstructionsState extends State<DeckInstructions> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Purchase Required"),
-          content: const Text("You need to purchase the required bundle to access this content."),
+          content: const Text(
+              "You need to purchase the required bundle to access this content."),
           actions: [
             TextButton(
               onPressed: () {
@@ -328,10 +346,12 @@ class _DeckInstructionsState extends State<DeckInstructions> {
     );
   }
 }
+
 String parseHtmlInstructions(String htmlString) {
   final document = htmlParser.parse(htmlString);
   return document.body?.text ?? '';
 }
+
 String formatInstructions(String instructions) {
   List<String> sections = instructions.split('.');
   sections = sections.where((section) => section.trim().isNotEmpty).toList();

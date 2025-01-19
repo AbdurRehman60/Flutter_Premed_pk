@@ -1,4 +1,3 @@
-
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
 import '../../../../providers/mcatqbankprovider.dart';
@@ -37,6 +36,7 @@ class _MDCATQbankHomeState extends State<MDCATQbankHome>
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: AppBar(
+          centerTitle: false,
           backgroundColor: PreMedColorTheme().white,
           leading: Container(
             margin: const EdgeInsets.all(10),
@@ -196,6 +196,7 @@ class _ChapterWiseHomeState extends State<ChapterWiseHome> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: AppBar(
+          centerTitle: false,
           backgroundColor: PreMedColorTheme().white,
           leading: Container(
             margin: const EdgeInsets.all(10),
@@ -228,15 +229,15 @@ class _ChapterWiseHomeState extends State<ChapterWiseHome> {
         child: Column(
           children: [
             SizedBox(
-              height: screenHeight*0.015,
+              height: screenHeight * 0.015,
             ),
             Text(
               'Chapter-Wise',
               style: PreMedTextTheme().heading6.copyWith(
-                color: PreMedColorTheme().black,
-                fontSize: 34,
-                fontWeight: FontWeight.w800,
-              ),
+                    color: PreMedColorTheme().black,
+                    fontSize: 34,
+                    fontWeight: FontWeight.w800,
+                  ),
             ),
             SizedBoxes.vertical10Px,
             SingleChildScrollView(
@@ -246,7 +247,7 @@ class _ChapterWiseHomeState extends State<ChapterWiseHome> {
                   TopicButton(
                     topicName: 'MDCAT',
                     isActive: _activeUniversity == 'MDCAT',
-                    onTap: (){},
+                    onTap: () {},
                   ),
                   SizedBoxes.horizontal12Px,
                   TopicButton(
@@ -268,19 +269,14 @@ class _ChapterWiseHomeState extends State<ChapterWiseHome> {
               'Attempt a Topical Paper today and gain the confidence you need for the actual test day!',
               textAlign: TextAlign.center,
               style: PreMedTextTheme().subtext.copyWith(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: PreMedColorTheme().black,
-              ),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: PreMedColorTheme().black,
+                  ),
             ),
-
-
           ],
         ),
       ),
     );
   }
 }
-
-
-

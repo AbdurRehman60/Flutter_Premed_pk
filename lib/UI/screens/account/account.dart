@@ -61,7 +61,7 @@ class Account extends StatelessWidget {
         preferredSize: const Size.fromHeight(90.0),
         child: Container(
           padding: const EdgeInsets.only(top: 20, left: 3),
-          child: AppBar(
+          child: AppBar( centerTitle: false,
             backgroundColor: PreMedColorTheme().background,
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
