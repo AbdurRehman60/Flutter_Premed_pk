@@ -25,10 +25,11 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
     return Scaffold(
       backgroundColor: PreMedColorTheme().background,
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60.0),
+        preferredSize: const Size.fromHeight(70.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 13),
-          child: AppBar( centerTitle: false,
+          child: AppBar(
+            centerTitle: false,
             backgroundColor: PreMedColorTheme().background,
             leading: const PopButton(),
             title: Padding(
@@ -45,10 +46,10 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                   SizedBoxes.vertical2Px,
                   Text('Overview',
                       style: PreMedTextTheme().subtext.copyWith(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: PreMedColorTheme().black,
-                      )),
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: PreMedColorTheme().black,
+                          )),
                 ],
               ),
             ),
@@ -59,7 +60,8 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
         padding: EdgeInsets.zero,
         child: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.06, vertical: 5),
+              horizontal: MediaQuery.of(context).size.width * 0.06,
+              vertical: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -76,20 +78,20 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                               TextSpan(
                                 text: '@',
                                 style: PreMedTextTheme().body1.copyWith(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w900,
-                                  color: preMedProvider.isPreMed
-                                      ? PreMedColorTheme().red
-                                      : PreMedColorTheme().blue,
-                                ),
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w900,
+                                      color: preMedProvider.isPreMed
+                                          ? PreMedColorTheme().red
+                                          : PreMedColorTheme().blue,
+                                    ),
                               ),
                               TextSpan(
                                 text: userProvider.user!.fullName,
                                 style: PreMedTextTheme().body1.copyWith(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w900,
-                                  color: PreMedColorTheme().black,
-                                ),
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w900,
+                                      color: PreMedColorTheme().black,
+                                    ),
                               ),
                             ],
                           ),
@@ -115,28 +117,28 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                     child: Text(
                       'EDIT',
                       style: PreMedTextTheme().body1.copyWith(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w900,
-                        color: preMedProvider.isPreMed
-                            ? PreMedColorTheme().red
-                            : PreMedColorTheme().blue,
-                      ),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w900,
+                            color: preMedProvider.isPreMed
+                                ? PreMedColorTheme().red
+                                : PreMedColorTheme().blue,
+                          ),
                     ),
                   ),
                 ],
               ),
               SizedBoxes.vertical15Px,
-              const BundleCard(),
+              // const BundleCard(),
               SizedBoxes.vertical25Px,
               Text(
                 'Dashboard Settings',
                 style: PreMedTextTheme().body1.copyWith(
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontFamily: 'Rubik',
-                  fontWeight: FontWeight.w700,
-                  height: 0.12,
-                ),
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontFamily: 'Rubik',
+                      fontWeight: FontWeight.w700,
+                      height: 0.12,
+                    ),
               ),
               SizedBoxes.vertical22Px,
               Container(
@@ -169,7 +171,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                           icon: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal:
-                                MediaQuery.of(context).size.width * 0.01),
+                                    MediaQuery.of(context).size.width * 0.01),
                             child: Image.asset(
                               Provider.of<PreMedProvider>(context).isPreMed
                                   ? PremedAssets.ArrowDownRed
@@ -189,7 +191,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                                 .map<Widget>((String value) {
                               return Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Image.asset(
                                     'assets/icons/premed log.png',
@@ -213,9 +215,9 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                               child: Text(
                                 value,
                                 style: PreMedTextTheme().body1.copyWith(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                               ),
                             );
                           }).toList(),
@@ -231,89 +233,87 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
               Text(
                 'Contact Information',
                 style: PreMedTextTheme().body1.copyWith(
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontFamily: 'Rubik',
-                  fontWeight: FontWeight.w700,
-                  height: 0.12,
-                ),
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontFamily: 'Rubik',
+                      fontWeight: FontWeight.w700,
+                      height: 0.12,
+                    ),
               ),
               SizedBoxes.verticalGargangua,
               Text(
                 'Your Phone Number',
                 style: PreMedTextTheme().body1.copyWith(
-                  color: PreMedColorTheme()
-                      .black
-                      .withOpacity(0.5),
-                  fontSize: 10,
-                  fontFamily: 'Rubik',
-                  fontWeight: FontWeight.w700,
-                  height: 0.09,
-                ),
+                      color: PreMedColorTheme().black.withOpacity(0.5),
+                      fontSize: 10,
+                      fontFamily: 'Rubik',
+                      fontWeight: FontWeight.w700,
+                      height: 0.09,
+                    ),
               ),
               SizedBoxes.verticalBig,
               Text(
                 userProvider.user!.phoneNumber,
                 style: PreMedTextTheme().body1.copyWith(
-                  color: PreMedColorTheme().blue,
-                  fontSize: 15,
-                  fontFamily: 'Rubik',
-                  fontWeight: FontWeight.w500,
-                  height: 0.09,
-                ),
+                      color: PreMedColorTheme().blue,
+                      fontSize: 15,
+                      fontFamily: 'Rubik',
+                      fontWeight: FontWeight.w500,
+                      height: 0.09,
+                    ),
               ),
               SizedBoxes.vertical26Px,
               Text(
                 'Educational Information',
                 style: PreMedTextTheme().body1.copyWith(
-                  color: Colors.black,
-                  fontSize: 12,
-                  fontFamily: 'Rubik',
-                  fontWeight: FontWeight.w700,
-                  height: 0.12,
-                ),
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontFamily: 'Rubik',
+                      fontWeight: FontWeight.w700,
+                      height: 0.12,
+                    ),
               ),
               SizedBoxes.verticalGargangua,
               Text(
                 'City',
                 style: PreMedTextTheme().body1.copyWith(
-                  color: PreMedColorTheme().black.withOpacity(0.5),
-                  fontSize: 10,
-                  fontFamily: 'Rubik',
-                  fontWeight: FontWeight.w700,
-                  height: 0.09,
-                ),
+                      color: PreMedColorTheme().black.withOpacity(0.5),
+                      fontSize: 10,
+                      fontFamily: 'Rubik',
+                      fontWeight: FontWeight.w700,
+                      height: 0.09,
+                    ),
               ),
               SizedBoxes.verticalBig,
               Text(
                 userProvider.user!.city,
                 style: PreMedTextTheme().body1.copyWith(
-                  color: PreMedColorTheme().blue,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  height: 0.09,
-                ),
+                      color: PreMedColorTheme().blue,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      height: 0.09,
+                    ),
               ),
               SizedBoxes.verticalGargangua,
               Text(
                 'University/College',
                 style: PreMedTextTheme().body1.copyWith(
-                  color: PreMedColorTheme().black.withOpacity(0.5),
-                  fontSize: 10,
-                  fontFamily: 'Rubik',
-                  fontWeight: FontWeight.w700,
-                  height: 0.09,
-                ),
+                      color: PreMedColorTheme().black.withOpacity(0.5),
+                      fontSize: 10,
+                      fontFamily: 'Rubik',
+                      fontWeight: FontWeight.w700,
+                      height: 0.09,
+                    ),
               ),
               SizedBoxes.verticalBig,
               Text(
                 userProvider.user?.info.institution ?? 'N/A',
                 style: PreMedTextTheme().body1.copyWith(
-                  color: PreMedColorTheme().blue,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  height: 0.09,
-                ),
+                      color: PreMedColorTheme().blue,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      height: 0.09,
+                    ),
               ),
             ],
           ),
@@ -345,8 +345,10 @@ class _BundleCardState extends State<BundleCard> {
           .setSubscriptions(userPurchases);
     }
   }
+
   Future<void> _launchURL(String appToken) async {
-    final url = 'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
+    final url =
+        'https://premed.pk/app-redirect?url=$appToken&&route="pricing/all"';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -356,7 +358,6 @@ class _BundleCardState extends State<BundleCard> {
 
   @override
   Widget build(BuildContext context) {
-
     final userProvider = Provider.of<UserProvider>(context);
     final String appToken = userProvider.user?.info.appToken ?? '';
     return Consumer<UserProvider>(
@@ -388,7 +389,7 @@ class _BundleCardState extends State<BundleCard> {
               children: [
                 Container(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   decoration: ShapeDecoration(
                     color: Colors.white.withOpacity(0.85),
                     shape: RoundedRectangleBorder(
@@ -402,8 +403,7 @@ class _BundleCardState extends State<BundleCard> {
                     ],
                   ),
                   child: const Padding(
-                    padding:
-                    EdgeInsets.symmetric(vertical: 8, horizontal: 1),
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 1),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -417,7 +417,6 @@ class _BundleCardState extends State<BundleCard> {
                             height: 0.10,
                           ),
                         ),
-
                       ],
                     ),
                   ),
@@ -427,7 +426,7 @@ class _BundleCardState extends State<BundleCard> {
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       _launchURL(appToken);
                     },
                     child: Row(
@@ -437,18 +436,23 @@ class _BundleCardState extends State<BundleCard> {
                         Text(
                           'Shop Now',
                           style: PreMedTextTheme().body1.copyWith(
-                            color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
-                            fontSize: 13,
-                            fontFamily: 'Rubik',
-                            fontWeight: FontWeight.w700,
-                            height: 0.10,
-                          ),
+                                color: Provider.of<PreMedProvider>(context)
+                                        .isPreMed
+                                    ? PreMedColorTheme().red
+                                    : PreMedColorTheme().blue,
+                                fontSize: 13,
+                                fontFamily: 'Rubik',
+                                fontWeight: FontWeight.w700,
+                                height: 0.10,
+                              ),
                         ),
                         const Spacer(),
                         Icon(
                           size: 16,
                           Icons.arrow_forward_ios_outlined,
-                          color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                          color: Provider.of<PreMedProvider>(context).isPreMed
+                              ? PreMedColorTheme().red
+                              : PreMedColorTheme().blue,
                         ),
                       ],
                     ),
@@ -488,7 +492,7 @@ class _BundleCardState extends State<BundleCard> {
             children: [
               Container(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 decoration: ShapeDecoration(
                   color: Colors.white.withOpacity(0.85),
                   shape: RoundedRectangleBorder(
@@ -503,7 +507,7 @@ class _BundleCardState extends State<BundleCard> {
                 ),
                 child: Padding(
                   padding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 1),
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 1),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -524,19 +528,22 @@ class _BundleCardState extends State<BundleCard> {
                             TextSpan(
                                 text: 'ENDS IN',
                                 style: PreMedTextTheme().body1.copyWith(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w600,
-                                  height: 0.13,
-                                )),
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                      height: 0.13,
+                                    )),
                             TextSpan(
                               text: ' $remainingDays DAYS',
                               style: PreMedTextTheme().body1.copyWith(
-                                color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
-                                fontSize: 10,
-                                fontFamily: 'Rubik',
-                                fontWeight: FontWeight.w600,
-                                height: 0.13,
-                              ),
+                                    color: Provider.of<PreMedProvider>(context)
+                                            .isPreMed
+                                        ? PreMedColorTheme().red
+                                        : PreMedColorTheme().blue,
+                                    fontSize: 10,
+                                    fontFamily: 'Rubik',
+                                    fontWeight: FontWeight.w600,
+                                    height: 0.13,
+                                  ),
                             ),
                           ],
                         ),
@@ -550,7 +557,7 @@ class _BundleCardState extends State<BundleCard> {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -565,18 +572,23 @@ class _BundleCardState extends State<BundleCard> {
                       Text(
                         'View Details',
                         style: PreMedTextTheme().body1.copyWith(
-                          color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
-                          fontSize: 13,
-                          fontFamily: 'Rubik',
-                          fontWeight: FontWeight.w700,
-                          height: 0.10,
-                        ),
+                              color:
+                                  Provider.of<PreMedProvider>(context).isPreMed
+                                      ? PreMedColorTheme().red
+                                      : PreMedColorTheme().blue,
+                              fontSize: 13,
+                              fontFamily: 'Rubik',
+                              fontWeight: FontWeight.w700,
+                              height: 0.10,
+                            ),
                       ),
                       const Spacer(),
                       Icon(
                         size: 16,
                         Icons.arrow_forward_ios_outlined,
-                        color: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                        color: Provider.of<PreMedProvider>(context).isPreMed
+                            ? PreMedColorTheme().red
+                            : PreMedColorTheme().blue,
                       ),
                     ],
                   ),
