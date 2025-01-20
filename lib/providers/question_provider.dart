@@ -11,7 +11,7 @@ class QuestionProvider extends ChangeNotifier {
   final DioClient _client = DioClient();
 
 
-  Map<int, QuestionModel> _questionsMap = {};
+  final Map<int, QuestionModel> _questionsMap = {};
   List<QuestionModel> get questions => _questionsMap.values.toList();
 
   String _deckName = '';
@@ -31,7 +31,7 @@ class QuestionProvider extends ChangeNotifier {
   }
 
 
-  Set<int> _loadedPages = {};
+  final Set<int> _loadedPages = {};
   Set<int> get loadedPages => _loadedPages;
 
 
@@ -66,8 +66,8 @@ class QuestionProvider extends ChangeNotifier {
         final Map<String, dynamic> responseData = response.data;
         if (responseData.containsKey('questions') && responseData['questions'] is List) {
           final List<dynamic> questionsJson = responseData['questions'];
-          List<QuestionModel> fetchedQuestions = [];
-          int questionIndexOffset = (page - 1) * questionsJson.length;
+          final List<QuestionModel> fetchedQuestions = [];
+          final int questionIndexOffset = (page - 1) * questionsJson.length;
 
           for (int i = 0; i < questionsJson.length; i++) {
             final json = questionsJson[i];

@@ -62,25 +62,18 @@ class PreMedAccessProvider with ChangeNotifier {
         switch (featureName) {
           case 'Notes':
             _hasNotes = true;
-            break;
           case 'Guides':
             _hasGuides = true;
-            break;
           case 'Cheatsheets':
             _hasCheatsheets = true;
-            break;
           case 'Shortlistings':
             _hasShortListings = true;
-            break;
           case 'Mnemonics':
             _hasMnemonics = true;
-            break;
           case 'SnapCourses':
             _hasSnapCourses = true;
-            break;
           case 'Essentials':
             _hasEssentials = true;
-            break;
         }
       } else {
         print('Access denied for feature: $featureName');

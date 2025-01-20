@@ -10,7 +10,6 @@ class GetLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return url.endsWith('.svg')
         ? Stack(
-            clipBehavior: Clip.hardEdge,
             alignment: Alignment.center,
             children: [
               const CircleAvatar(

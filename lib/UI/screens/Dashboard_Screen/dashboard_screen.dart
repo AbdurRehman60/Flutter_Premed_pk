@@ -130,7 +130,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         decoration: const BoxDecoration(
                             boxShadow: CustomBoxShadow.boxShadow40),
                         child: SvgPicture.asset(
-                             PremedAssets.Profile),
+                            PremedAssets.Profile),
                       ),
                     )
                   ],

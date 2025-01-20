@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/camera_widget.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/local_image_display.dart';
 import 'package:premedpk_mobile_app/UI/screens/expert_solution/widgets/dropdown_form.dart';
@@ -25,7 +26,7 @@ class AskanExpertForm extends StatelessWidget {
     final uplaodImageProvider = Provider.of<UplaodImageProvider>(context);
     final TextEditingController descriptionController = TextEditingController();
 
-    Future<void> _launchURL(String appToken) async {
+    Future<void> launchURL(String appToken) async {
       // Use listen: false to avoid rebuilds in this context
       final userProvider = Provider.of<UserProvider>(context, listen: false);
       final String lastonboarding = userProvider.user!.info.lastOnboardingPage;
@@ -63,7 +64,7 @@ class AskanExpertForm extends StatelessWidget {
         final List<Map<String, dynamic>>? featuresPurchased = featuresPurchasedDynamic?.cast<Map<String, dynamic>>();
 
         // Check if any plan's 'planName' contains 'ultimate'
-        bool hasUltimatePlan = featuresPurchased?.any((feature) {
+        final bool hasUltimatePlan = featuresPurchased?.any((feature) {
           final String? planName = feature['planName']; // Access the 'planName' field
           if (planName != null && planName.toLowerCase().contains('ultimate')) {
             return true; // Ultimate plan is found
@@ -103,20 +104,57 @@ class AskanExpertForm extends StatelessWidget {
               final userProvider = Provider.of<UserProvider>(context);
               final String appToken = userProvider.user?.info.appToken?? '';
               return AlertDialog(
-                title: const Text('Purchase Plan'),
-                content: const Text('You need to purchase the Ultimate plan to upload doubts.'),
+                title: Column(
+                  children: [
+                    SvgPicture.asset('assets/icons/lock.svg'),
+                    SizedBox(height: 10),
+                    const Center(
+                      child: Text(
+                        'Oh No! It’s Locked',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 25,
+                          color: Color(0xFFFE63C49),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Text(
+                      'Looks like this feature is not included in your plan. Upgrade to a higher plan or purchase this feature separately to continue.',
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Visit PreMed.PK for more details.',
+                    ),
+                  ],
+                ),
                 actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Cancel'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      _launchURL(appToken);
-                    },
-                    child: const Text('Purchase'),
+                  Center(
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFE6E6E6),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          'Return',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Color(0xFFFE63C49),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               );

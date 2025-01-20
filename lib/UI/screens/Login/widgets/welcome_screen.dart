@@ -125,7 +125,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EmailorGoogle(),
+                          builder: (context) => const EmailorGoogle(),
                         ),
                       );
                     },

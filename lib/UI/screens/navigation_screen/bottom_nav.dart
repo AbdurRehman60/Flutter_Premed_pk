@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 class PremedBottomNav extends StatelessWidget {
   const PremedBottomNav(
       {super.key,
-      required this.currentIndex,
-      required this.onTapHome,
-      required this.onTapMarketplace,
-      required this.onTapQbank,
-      required this.ontapVault,
-      required this.onTapProfile});
+        required this.currentIndex,
+        required this.onTapHome,
+        required this.onTapMarketplace,
+        required this.onTapQbank,
+        required this.ontapVault,
+        required this.onTapProfile});
 
   final int currentIndex;
   final VoidCallback onTapHome;
@@ -62,14 +62,14 @@ class PremedBottomNav extends StatelessWidget {
             onTap: ontapVault,
             activeicon: PremedAssets.ColoredVault,
           ),
-          _BottomNavBarItem(
-            icon: 'assets/images/Shop.png',
-            width: 24,
-            height: 24,
-            isSelected: 3 == currentIndex,
-            label: 'Shop',
-            onTap: onTapMarketplace,
-          ),
+          // _BottomNavBarItem(
+          //   icon: 'assets/images/Shop.png',
+          //   width: 24,
+          //   height: 24,
+          //   isSelected: 3 == currentIndex,
+          //   label: 'Shop',
+          //   onTap: onTapMarketplace,
+          // ),
           _BottomNavBarItem(
             icon: 'assets/images/Settings.png',
             width: 24,
@@ -118,8 +118,8 @@ class _BottomNavBarItem extends StatelessWidget {
                 height: height,
                 color: isSelected
                     ? (Provider.of<PreMedProvider>(context).isPreMed
-                        ? PreMedColorTheme().primaryColorRed
-                        : PreMedColorTheme().blue)
+                    ? PreMedColorTheme().primaryColorRed
+                    : PreMedColorTheme().blue)
                     : PreMedColorTheme().neutral300,
               ),
               const SizedBox(height: 4),
@@ -177,10 +177,10 @@ class _MainBottomNavBarItem extends StatelessWidget {
                 Text(
                   label,
                   style: PreMedTextTheme().small.copyWith(
-                        fontSize: screenWidth * 0.025,
-                        fontWeight:
-                            isSelected ? FontWeight.w600 : FontWeight.w400,
-                      ),
+                    fontSize: screenWidth * 0.025,
+                    fontWeight:
+                    isSelected ? FontWeight.w600 : FontWeight.w400,
+                  ),
                 )
               ],
             ),

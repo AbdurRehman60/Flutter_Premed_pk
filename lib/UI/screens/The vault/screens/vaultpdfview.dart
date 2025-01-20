@@ -1,3 +1,4 @@
+
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:lottie/lottie.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
@@ -22,9 +23,9 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
   bool isDownloaded = false;
 
   final Completer<PDFViewController> _pdfViewController =
-      Completer<PDFViewController>();
+  Completer<PDFViewController>();
   final StreamController<String> _pageCountController =
-      StreamController<String>();
+  StreamController<String>();
   @override
   void dispose() {
     _pageCountController.close();
@@ -79,7 +80,7 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                         Navigator.of(context).pop();
 
                         _pdfViewController.future.then(
-                          (controller) {
+                              (controller) {
                             final int pageNumber = widget
                                 .vaultNotesModel.pagination![index].startPageNo;
 
@@ -105,13 +106,13 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                                 style: PreMedTextTheme().body.copyWith(
                                     fontSize: 16,
                                     fontWeight: currentPage ==
-                                            widget.vaultNotesModel
-                                                .pagination![index].startPageNo
+                                        widget.vaultNotesModel
+                                            .pagination![index].startPageNo
                                         ? FontWeight.w700
                                         : FontWeight.w700,
                                     color: currentPage ==
-                                            widget.vaultNotesModel
-                                                .pagination![index].startPageNo
+                                        widget.vaultNotesModel
+                                            .pagination![index].startPageNo
                                         ? PreMedColorTheme().primaryColorRed
                                         : PreMedColorTheme().neutral900),
                               ),
@@ -144,8 +145,8 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
           content: Text(
             title,
             style: PreMedTextTheme().body.copyWith(
-                  fontSize: 13,
-                ),
+              fontSize: 13,
+            ),
           ),
           actions: <Widget>[
             TextButton(
@@ -185,10 +186,10 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                             child: Text(
                               widget.vaultNotesModel.topicName,
                               style: PreMedTextTheme().subtext.copyWith(
-                                    color: PreMedColorTheme().black,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                                color: PreMedColorTheme().black,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                              ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -197,10 +198,10 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                             alignment: Alignment.centerLeft,
                             child: Text(widget.notesCategory,
                                 style: PreMedTextTheme().subtext.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                      color: PreMedColorTheme().black,
-                                    )),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: PreMedColorTheme().black,
+                                )),
                           ),
                         ],
                       ),
@@ -258,13 +259,13 @@ class _VaultPdfViewerState extends State<VaultPdfViewer> {
                       displayImage: PremedAssets.Notfoundemptystate,
                       title: 'Oops! Something Went Wrong',
                       body:
-                          "We're having trouble fetching the PDF right now. Please try again later, and we hope to have it ready for you soon."),
+                      "We're having trouble fetching the PDF right now. Please try again later, and we hope to have it ready for you soon."),
                 ),
               ),
             ),
           ),
           floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          FloatingActionButtonLocation.centerDocked,
           floatingActionButton: Padding(
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
             child: Container(

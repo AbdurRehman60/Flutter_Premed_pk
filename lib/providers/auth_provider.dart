@@ -356,7 +356,7 @@ class AuthProvider extends ChangeNotifier {
         await UserPreferences().saveUser(user);
         UserProvider().user = user;
 
-        final String? accountType = user.accountType;
+        final String accountType = user.accountType;
         final String lastOnboardingPage = user.info.lastOnboardingPage;
 
         if (accountType == "google" && user.info.lastOnboardingPage.isEmpty) {
@@ -789,7 +789,7 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       result = {
         'status': false,
-        'message': "Error in fetching Onboarding Details: ${e.toString()}",
+        'message': "Error in fetching Onboarding Details: ${e}",
       };
     }
 

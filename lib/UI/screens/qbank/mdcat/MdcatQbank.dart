@@ -1,3 +1,4 @@
+
 import 'package:provider/provider.dart';
 import '../../../../constants/constants_export.dart';
 import '../../../../providers/mcatqbankprovider.dart';
@@ -77,10 +78,10 @@ class _MDCATQbankHomeState extends State<MDCATQbankHome>
                     child: Text(
                       'MDCAT QBank',
                       style: PreMedTextTheme().heading6.copyWith(
-                            color: PreMedColorTheme().black,
-                            fontSize: 34,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        color: PreMedColorTheme().black,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -124,10 +125,10 @@ class _MDCATQbankHomeState extends State<MDCATQbankHome>
             'Attempt a Full-Length Yearly Paper today and experience the feeling of giving the exam on the actual test day!',
             textAlign: TextAlign.center,
             style: PreMedTextTheme().subtext.copyWith(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: PreMedColorTheme().black,
-                ),
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: PreMedColorTheme().black,
+            ),
           ),
           Expanded(
             child: Consumer<MDCATQbankpro>(
@@ -152,7 +153,7 @@ class _MDCATQbankHomeState extends State<MDCATQbankHome>
                         DeckGroupList(
                           deckGroups: qbankProvider.deckGroups
                               .where((deckGroup) =>
-                                  deckGroup.deckType == 'Topical')
+                          deckGroup.deckType == 'Topical')
                               .toList(),
                           qbankGroupname: 'MDCAT QBank',
                         ),
@@ -234,10 +235,10 @@ class _ChapterWiseHomeState extends State<ChapterWiseHome> {
             Text(
               'Chapter-Wise',
               style: PreMedTextTheme().heading6.copyWith(
-                    color: PreMedColorTheme().black,
-                    fontSize: 34,
-                    fontWeight: FontWeight.w800,
-                  ),
+                color: PreMedColorTheme().black,
+                fontSize: 34,
+                fontWeight: FontWeight.w800,
+              ),
             ),
             SizedBoxes.vertical10Px,
             SingleChildScrollView(
@@ -269,10 +270,10 @@ class _ChapterWiseHomeState extends State<ChapterWiseHome> {
               'Attempt a Topical Paper today and gain the confidence you need for the actual test day!',
               textAlign: TextAlign.center,
               style: PreMedTextTheme().subtext.copyWith(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: PreMedColorTheme().black,
-                  ),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: PreMedColorTheme().black,
+              ),
             ),
           ],
         ),

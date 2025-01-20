@@ -16,12 +16,12 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final AuthProvider auth = Provider.of<AuthProvider>(context);
     final TextEditingController emailController = TextEditingController();
 
     void onResetPasswordPressed() {
-      final form = _formKey.currentState!;
+      final form = formKey.currentState!;
       if (form.validate()) {
         final Future<Map<String, dynamic>> response =
         auth.forgotPassword(emailController.text);
@@ -52,7 +52,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
     return Scaffold(
       body: Form(
-        key: _formKey,
+        key: formKey,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(

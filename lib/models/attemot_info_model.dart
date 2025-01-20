@@ -1,12 +1,4 @@
 class ResultMeta {
-  final int attempted;
-  final double avgTimeTaken;
-  final String deckName;
-  final int negativesDueToWrong;
-  final int noOfNegativelyMarked;
-  final int totalMarks;
-  final int totalQuestions;
-  final int totalTimeTaken;
 
   ResultMeta({
     required this.attempted,
@@ -31,6 +23,14 @@ class ResultMeta {
       totalTimeTaken: json['totalTimeTaken'] ?? 0,
     );
   }
+  final int attempted;
+  final double avgTimeTaken;
+  final String deckName;
+  final int negativesDueToWrong;
+  final int noOfNegativelyMarked;
+  final int totalMarks;
+  final int totalQuestions;
+  final int totalTimeTaken;
 
   Map<String, dynamic> toJson() {
     return {
@@ -47,17 +47,6 @@ class ResultMeta {
 }
 
 class AttemptInfo {
-  final String deckName;
-  final int totalMarks;
-  final int totalTimeTaken;
-  final double avgTimeTaken;
-  final int attempted;
-  final int negativesDueToWrong;
-  final int noOfNegativelyMarked;
-  final int totalQuestions;
-  final int correctAttempts;
-  final int incorrectAttempts;
-  final int skippedAttempts;
 
   AttemptInfo({
     required this.deckName,
@@ -88,4 +77,15 @@ class AttemptInfo {
       skippedAttempts: json['skippedAttempts'] ?? 0,
     );
   }
+  final String deckName;
+  final int totalMarks;
+  final int totalTimeTaken;
+  final double avgTimeTaken;
+  final int attempted;
+  final int negativesDueToWrong;
+  final int noOfNegativelyMarked;
+  final int totalQuestions;
+  final int correctAttempts;
+  final int incorrectAttempts;
+  final int skippedAttempts;
 }

@@ -23,7 +23,7 @@ class ReportQuestion extends StatelessWidget {
         preferredSize: const Size.fromHeight(70.0),
         child: Container(
           padding: const EdgeInsets.only(top: 20),
-              child: AppBar( centerTitle: false,
+          child: AppBar( centerTitle: false,
               title: Padding(
                 padding: const EdgeInsets.only(top: 28, bottom: 28),
                 child: Column(
@@ -54,7 +54,7 @@ class ReportQuestion extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               backgroundColor: Colors.transparent,
               automaticallyImplyLeading: false,
               systemOverlayStyle: const SystemUiOverlayStyle(

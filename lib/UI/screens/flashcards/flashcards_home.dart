@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/flashcards/flashcard_screen_data.dart';
@@ -200,8 +201,8 @@ class FlashcardItem extends StatelessWidget {
                 child: Text(
                   page,
                   style: PreMedTextTheme().subtext.copyWith(
-                        fontWeight: FontWeights.regular,
-                      ),
+                    fontWeight: FontWeights.regular,
+                  ),
                 ),
               ),
             ],

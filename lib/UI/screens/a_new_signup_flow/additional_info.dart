@@ -65,8 +65,8 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
         locations = await locationFromAddress("$selectedCity, Pakistan");
       }
       if (locations.isNotEmpty) {
-        Location cityLocation = locations.first;
-        List<Placemark> placemarks = await placemarkFromCoordinates(
+        final Location cityLocation = locations.first;
+        final List<Placemark> placemarks = await placemarkFromCoordinates(
           cityLocation.latitude,
           cityLocation.longitude,
         );
@@ -90,7 +90,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     } catch (e) {
       setState(() {
         hasErrors = true;
-        error = "Error identifying province: ${e.toString()}";
+        error = "Error identifying province: ${e}";
       });
     }
   }
@@ -108,7 +108,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     });
   }
 
-  void onSubmitAdditionalInfo() async {
+  Future<void> onSubmitAdditionalInfo() async {
     final form = _formKey.currentState!;
     if (form.validate()) {
       await identifyProvinceFromCity(city);

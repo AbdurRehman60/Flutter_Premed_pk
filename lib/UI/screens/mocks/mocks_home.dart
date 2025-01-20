@@ -13,7 +13,7 @@ class MocksHome extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-            child: AppBar( centerTitle: false,
+        child: AppBar(
           backgroundColor: PreMedColorTheme().white,
           leading: Container(
             margin: const EdgeInsets.all(10),

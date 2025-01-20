@@ -1,3 +1,4 @@
+
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/nums_mocks_provider.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-            child: AppBar( centerTitle: false,
+        child: AppBar( centerTitle: false,
           backgroundColor: PreMedColorTheme().white,
           leading: Container(
             margin: const EdgeInsets.all(10),
@@ -67,10 +68,10 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
                     child: Text(
                       'NUMS Mocks',
                       style: PreMedTextTheme().heading6.copyWith(
-                            color: PreMedColorTheme().black,
-                            fontSize: 34,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        color: PreMedColorTheme().black,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -80,10 +81,10 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
                     'Attempt a Full-Length Yearly Paper today and experience the feeling of giving the exam on the actual test day!',
                     textAlign: TextAlign.center,
                     style: PreMedTextTheme().subtext.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: PreMedColorTheme().black,
-                        ),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: PreMedColorTheme().black,
+                    ),
                   ),
                 ],
               ),
@@ -125,7 +126,7 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
                                 backgroundColor: Colors.white,
                                 radius: 30,
                                 backgroundImage: NetworkImage(deckGroup
-                                        .deckGroupImage ??
+                                    .deckGroupImage ??
                                     'https://premedpk-cdn.sgp1.cdn.digitaloceanspaces.com/Logos/logo512.png'),
                               ),
                               title: Column(
@@ -147,8 +148,8 @@ class _NumsMocksHomeState extends State<NumsMocksHome> {
                                           style: PreMedTextTheme()
                                               .heading5
                                               .copyWith(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w700),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700),
                                         ),
                                         TextSpan(
                                           text: 'Papers',

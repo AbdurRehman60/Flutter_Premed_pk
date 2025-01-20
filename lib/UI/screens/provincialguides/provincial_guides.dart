@@ -22,7 +22,7 @@ class ProvincialGuides extends StatelessWidget {
           child: Scaffold(
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(60.0),
-                  child: AppBar( centerTitle: false,
+              child: AppBar( centerTitle: false,
                 backgroundColor: PreMedColorTheme().white,
                 leading: IconButton(
                   onPressed: () {
@@ -131,19 +131,19 @@ class ProvincialGuides extends StatelessWidget {
                           child: Text(
                             'Chapter Guides',
                             style: PreMedTextTheme().heading6.copyWith(
-                                  color: PreMedColorTheme().black,
-                                  fontSize: 34,
-                                  fontWeight: FontWeight.w800,
-                                ),
+                              color: PreMedColorTheme().black,
+                              fontSize: 34,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         ),
                         Text(
                             'Your performance, facts and figures, all at a glance!',
                             style: PreMedTextTheme().subtext.copyWith(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w400,
-                                  color: PreMedColorTheme().black,
-                                )),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w400,
+                              color: PreMedColorTheme().black,
+                            )),
                       ],
                     ),
                   ),

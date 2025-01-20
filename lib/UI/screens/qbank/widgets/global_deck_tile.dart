@@ -94,7 +94,7 @@ class GlobalDeckTile extends StatelessWidget {
 
     
     for (final item in deckItems) {
-      String baseDeckName = _cleanDeckName(item.deckName);
+      final String baseDeckName = _cleanDeckName(item.deckName);
       if (!groupedDeckItems.containsKey(baseDeckName)) {
         groupedDeckItems[baseDeckName] = [];
       }
@@ -106,7 +106,7 @@ class GlobalDeckTile extends StatelessWidget {
       bool hasPractice = false;
       bool hasPastPaper = false;
 
-      for (var item in deckItems) {
+      for (final item in deckItems) {
         if (item.deckName.contains('Practice') && item.isPublished) {
           hasPractice = true;
         } else if (item.deckName.contains('Past Paper') && item.isPublished) {

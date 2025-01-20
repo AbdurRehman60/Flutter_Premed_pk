@@ -58,7 +58,7 @@ class _PracticeandPastState extends State<PracticeandPast> {
 
   @override
   Widget build(BuildContext context) {
-    String deckNameWithMode = pastPaperModeButton
+    final String deckNameWithMode = pastPaperModeButton
         ? '$deckNameWithoutSuffix Past Paper'
         : '$deckNameWithoutSuffix Practice';
 

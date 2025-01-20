@@ -22,7 +22,6 @@ class DiscountRow extends StatelessWidget {
         Flexible(
           child: RichText(
             maxLines: 3,
-            softWrap: true,
             overflow: TextOverflow.ellipsis,
             text: TextSpan(
               text: '$title ',

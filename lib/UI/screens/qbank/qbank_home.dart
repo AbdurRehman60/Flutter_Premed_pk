@@ -1,4 +1,3 @@
-import 'package:premedpk_mobile_app/UI/screens/Expert_Solution/expert_solution_home.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/saved_question/saved_question_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/mocks_bank.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/test_session.dart';

@@ -41,7 +41,7 @@ class RecQuestionProvider extends ChangeNotifier {
 
           _questionsMap[deckName] = [];
 
-          for (var json in questionsJson) {
+          for (final json in questionsJson) {
             if (json != null) {
               try {
                 final question = QuestionModel.fromJson(json);

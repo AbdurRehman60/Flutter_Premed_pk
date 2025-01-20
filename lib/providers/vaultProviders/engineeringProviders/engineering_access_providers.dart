@@ -71,8 +71,8 @@ class PreEngAccessProvider with ChangeNotifier {
     _hasEngEssentials = false;
 
     for (final feature in featuresAccess) {
-      final featureName = feature['name'] as String;
-      final accessTags = feature['accessTags'] as List<String>;
+      final featureName = feature['name']! as String;
+      final accessTags = feature['accessTags']! as List<String>;
 
       print('Checking feature: $featureName');
       print('Access tags: $accessTags');
@@ -80,7 +80,7 @@ class PreEngAccessProvider with ChangeNotifier {
       bool accessGranted = false;
 
       // Check if any subscription's name matches the access tags
-      for (var subscription in _subscriptions) {
+      for (final subscription in _subscriptions) {
         print('Checking subscription: ${subscription.name}');
         if (accessTags.any((tag) => tag == subscription.name)) {
           accessGranted = true;
@@ -92,25 +92,18 @@ class PreEngAccessProvider with ChangeNotifier {
       switch (featureName) {
         case 'Notes':
           _hasEngNotes = accessGranted;
-          break;
         case 'Guides':
           _hasEngGuides = accessGranted;
-          break;
         case 'Cheatsheets':
           _hasEngCheatsheets = accessGranted;
-          break;
         case 'Shortlistings':
           _hasEngShortListings = accessGranted;
-          break;
         case 'Mnemonics':
           _hasEngMnemonics = accessGranted;
-          break;
         case 'SnapCourses':
           _hasEngSnapCourses = accessGranted;
-          break;
         case 'Essentials':
           _hasEngEssentials = accessGranted;
-          break;
       }
 
       if (!accessGranted) {

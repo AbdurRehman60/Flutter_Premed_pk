@@ -1,3 +1,4 @@
+
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/engineeringProviders/engineering_access_providers.dart';
 import 'package:provider/provider.dart';
@@ -90,7 +91,7 @@ class _StudyNotesHomeState extends State<EngineeringStudyNotesHome> {
               preferredSize: const Size.fromHeight(60.0),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 13),
-                    child: AppBar( centerTitle: false,
+                child: AppBar( centerTitle: false,
                   actions: [
                     CustomDropdownbtn(onProvinceSelected: _handleProvinceSelected),
                   ],

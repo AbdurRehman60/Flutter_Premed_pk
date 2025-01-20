@@ -3,7 +3,7 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class CustomTextField extends StatefulWidget {
   const CustomTextField({
-    Key? key,
+    super.key,
     TextEditingController? controller,
     this.initialValue,
     this.obscureText = false,
@@ -39,8 +39,7 @@ class CustomTextField extends StatefulWidget {
     this.validator,
     this.cursorColor,
     this.inputFormatters,
-  })  : _controller = controller,
-        super(key: key);
+  })  : _controller = controller;
 
   final TextEditingController? _controller;
   final String? initialValue;

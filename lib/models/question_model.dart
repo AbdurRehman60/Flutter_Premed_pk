@@ -10,7 +10,7 @@ class QuestionModel {
     required this.tags,
     required this.timedTestMinutes,
   }) {
-    if (tags.length >= 1) {
+    if (tags.isNotEmpty) {
       deckName = tags[0].name;
     }
 

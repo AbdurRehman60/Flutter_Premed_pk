@@ -272,7 +272,7 @@ class _ModeDescriptionState extends State<ModeDescription> {
     // Ensure accessTags is a list of dynamic objects
     if (accessTags is List<dynamic>) {
       for (final premiumTag in premiumTags) {
-        bool foundMatch = false; // Flag to track if a match was found
+        final bool foundMatch = false; // Flag to track if a match was found
 
         for (final access in accessTags) {
           if (access is Map<String, dynamic>) {
@@ -309,25 +309,71 @@ class _ModeDescriptionState extends State<ModeDescription> {
     return false;
   }
 }
-  void _showPurchasePopup(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Purchase Required"),
-          content: const Text("You need to purchase the required bundle to access this content."),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("OK"),
+void _showPurchasePopup(BuildContext context) {
+  final userProvider = Provider.of<UserProvider>(context, listen: false);
+  final String appToken = userProvider.user?.info.appToken ?? '';
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Column(
+          children: [
+            SvgPicture.asset('assets/icons/lock.svg'),
+            SizedBox(height: 10),
+            const Center(
+              child: Text(
+                'Oh No! It’s Locked',
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 25,
+                  color: Color(0xFFFE63C49),
+                ),
+              ),
             ),
           ],
-        );
-      },
-    );
-  }
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Text(
+              'Looks like this feature is not included in your plan. Upgrade to a higher plan or purchase this feature separately to continue.',
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Visit PreMed.PK for more details.',
+            ),
+          ],
+        ),
+        actions: [
+          Center(
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Color(0xFFE6E6E6),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  'Return',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Color(0xFFFE63C49),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
 
   void _showErrorPopup(BuildContext context, String? message) {
     showDialog(

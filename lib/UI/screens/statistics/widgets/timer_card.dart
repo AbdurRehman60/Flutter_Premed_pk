@@ -4,12 +4,12 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class StatDetailHolder1 extends StatelessWidget {
   const StatDetailHolder1({
-    Key? key,
+    super.key,
     required this.count,
     required this.details,
     this.preDetails,
     required this.textColor,
-  }) : super(key: key);
+  });
 
   final dynamic count;
   final String? preDetails;

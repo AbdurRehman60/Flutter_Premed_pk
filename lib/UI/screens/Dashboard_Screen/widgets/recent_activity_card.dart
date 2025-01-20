@@ -32,7 +32,7 @@ class RecentActivityCard extends StatefulWidget {
 class _RecentActivityCardState extends State<RecentActivityCard> {
   @override
   Widget build(BuildContext context) {
-    String formattedDate = _formatDate(widget.date);
+    final String formattedDate = _formatDate(widget.date);
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -182,7 +182,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
 
   String _formatDate(String date) {
     try {
-      DateTime dateTime = DateFormat("yyyy-MM-dd").parse(date);
+      final DateTime dateTime = DateFormat("yyyy-MM-dd").parse(date);
       return DateFormat("d MMMM yyyy").format(dateTime);
     } catch (e) {
       return date;

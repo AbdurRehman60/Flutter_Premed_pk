@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../../constants/text_theme.dart';
 import '../../../../../models/mnemonics_model.dart';
-import 'package:provider/provider.dart';
-
 import '../../../../../providers/user_provider.dart';
 
 class MnemonicsBuilderCard extends StatelessWidget {
@@ -31,21 +31,57 @@ class MnemonicsBuilderCard extends StatelessWidget {
           final userProvider = Provider.of<UserProvider>(context, listen: false);
           final String appToken = userProvider.user?.info.appToken ?? '';
           return AlertDialog(
-            title: const Text('Purchase Plan'),
-            content: const Text(
-                'You need to purchase the Ultimate plan to access this mnemonic.'),
+            title: Column(
+              children: [
+                SvgPicture.asset('assets/icons/lock.svg'),
+                SizedBox(height: 10),
+                const Center(
+                  child: Text(
+                    'Oh No! It’s Locked',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 25,
+                      color: Color(0xFFFE63C49),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Text(
+                  'Looks like this feature is not included in your plan. Upgrade to a higher plan or purchase this feature separately to continue.',
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Visit PreMed.PK for more details.',
+                ),
+              ],
+            ),
             actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  _launchURL(appToken);
-                },
-                child: const Text('Purchase'),
+              Center(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE6E6E6),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      'Return',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Color(0xFFFE63C49),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           );

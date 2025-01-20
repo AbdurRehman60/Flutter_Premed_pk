@@ -34,7 +34,7 @@ class _SchoolDropdownListState extends State<SchoolDropdownList> {
         getImmediateSuggestions: true,
         direction: AxisDirection.up,  // Make suggestions appear above
         suggestionsBoxDecoration: SuggestionsBoxDecoration(
-          constraints: BoxConstraints(maxHeight: 200),  // Control max height
+          constraints: const BoxConstraints(maxHeight: 200),  // Control max height
           borderRadius: BorderRadius.circular(8),
         ),
         textFieldConfiguration: TextFieldConfiguration(

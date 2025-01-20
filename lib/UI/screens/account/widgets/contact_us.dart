@@ -26,7 +26,7 @@ class ContactUs extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: Icon(Icons.message),
+                leading: const Icon(Icons.message),
                 title: const Text('WhatsApp Messenger'),
                 onTap: () {
                   launchUrl(whatsAppMessenger);
@@ -34,7 +34,7 @@ class ContactUs extends StatelessWidget {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.business),
+                leading: const Icon(Icons.business),
                 title: const Text('WhatsApp Business'),
                 onTap: () {
                   launchUrl(whatsAppBusiness);

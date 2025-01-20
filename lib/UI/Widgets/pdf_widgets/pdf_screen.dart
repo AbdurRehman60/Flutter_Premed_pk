@@ -22,9 +22,9 @@ class _PdfViewState extends State<PdfScreen> {
   bool isDownloading = false;
 
   final Completer<PDFViewController> _pdfViewController =
-      Completer<PDFViewController>();
+  Completer<PDFViewController>();
   final StreamController<String> _pageCountController =
-      StreamController<String>();
+  StreamController<String>();
 
   @override
   void dispose() {
@@ -84,7 +84,7 @@ class _PdfViewState extends State<PdfScreen> {
                           Navigator.of(context).pop();
 
                           _pdfViewController.future.then(
-                            (controller) {
+                                (controller) {
                               final int pageNumber =
                                   widget.note.demarcations![index].page;
 
@@ -109,13 +109,13 @@ class _PdfViewState extends State<PdfScreen> {
                                 style: PreMedTextTheme().body.copyWith(
                                     fontSize: 16,
                                     fontWeight: currentPage ==
-                                            widget
-                                                .note.demarcations![index].page
+                                        widget
+                                            .note.demarcations![index].page
                                         ? FontWeight.w700
                                         : FontWeight.w700,
                                     color: currentPage ==
-                                            widget
-                                                .note.demarcations![index].page
+                                        widget
+                                            .note.demarcations![index].page
                                         ? PreMedColorTheme().primaryColorRed
                                         : PreMedColorTheme().neutral900),
                               ),
@@ -173,10 +173,10 @@ class _PdfViewState extends State<PdfScreen> {
                         child: Text(
                           widget.note.title,
                           style: PreMedTextTheme().subtext.copyWith(
-                                color: PreMedColorTheme().black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700,
-                              ),
+                            color: PreMedColorTheme().black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                          ),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
@@ -185,10 +185,10 @@ class _PdfViewState extends State<PdfScreen> {
                         alignment: Alignment.centerLeft,
                         child: Text('REVISION NOTES',
                             style: PreMedTextTheme().subtext.copyWith(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: PreMedColorTheme().black,
-                                )),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: PreMedColorTheme().black,
+                            )),
                       ),
                     ],
                   ),
@@ -302,13 +302,13 @@ class _PdfViewState extends State<PdfScreen> {
                       displayImage: PremedAssets.Notfoundemptystate,
                       title: 'Oops! Something Went Wrong',
                       body:
-                          "We're having trouble fetching the PDF right now. Please try again later, and we hope to have it ready for you soon."),
+                      "We're having trouble fetching the PDF right now. Please try again later, and we hope to have it ready for you soon."),
                 ),
               ),
             ),
           ),
           floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          FloatingActionButtonLocation.centerDocked,
           floatingActionButton: Padding(
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
             child: Container(

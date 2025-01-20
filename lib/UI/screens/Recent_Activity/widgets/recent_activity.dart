@@ -50,8 +50,10 @@ class _RecentActivityCard1State extends State<RecentActivityCard1> {
           ),
           Row(
             children: [
-              SvgPicture.asset( Provider.of<PreMedProvider>(context)
-                  .isPreMed ? PremedAssets.RedDocument : PremedAssets.BlueDocument,
+              SvgPicture.asset(
+                Provider.of<PreMedProvider>(context).isPreMed
+                    ? PremedAssets.RedDocument
+                    : PremedAssets.BlueDocument,
                 height: 50,
                 width: 50,
               ),
@@ -62,8 +64,8 @@ class _RecentActivityCard1State extends State<RecentActivityCard1> {
                     borderRadius: const BorderRadius.all(Radius.circular(25)),
                     backgroundColor: Colors.grey[300],
                     value: widget.progressValue.clamp(0.0, 1.0),
-                    valueColor:
-                        AlwaysStoppedAnimation(_getColor(widget.progressValue,widget.isPreMed)),
+                    valueColor: AlwaysStoppedAnimation(
+                        _getColor(widget.progressValue, widget.isPreMed)),
                     minHeight: 8,
                   ),
                 ),
@@ -120,17 +122,19 @@ class _RecentActivityCard1State extends State<RecentActivityCard1> {
   }
 
   String _formatDate(String dateString) {
-    DateTime date = DateTime.parse(dateString);
+    final DateTime date = DateTime.parse(dateString);
     return DateFormat('d MMMM yyyy').format(date);
   }
 
   Color _getColor(double progressValue, bool isPreMed) {
     if (progressValue < 0.3) {
-      return Provider.of<PreMedProvider>(context)
-          .isPreMed ? PreMedColorTheme().red : PreMedColorTheme().coolBlue;
+      return Provider.of<PreMedProvider>(context).isPreMed
+          ? PreMedColorTheme().red
+          : PreMedColorTheme().coolBlue;
     } else if (progressValue < 0.6) {
-      return Provider.of<PreMedProvider>(context)
-          .isPreMed ? PreMedColorTheme().red : PreMedColorTheme().coolBlue;
+      return Provider.of<PreMedProvider>(context).isPreMed
+          ? PreMedColorTheme().red
+          : PreMedColorTheme().coolBlue;
     } else {
       return Colors.green;
     }

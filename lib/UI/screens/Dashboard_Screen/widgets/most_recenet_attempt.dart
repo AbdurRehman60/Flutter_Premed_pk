@@ -1,7 +1,6 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/UI/screens/Dashboard_Screen/widgets/recent_activity_card.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/lastest_attempts_provider.dart';

@@ -181,7 +181,7 @@ class _VaultHomeState extends State<PreEngVaultHome> {
                         ],
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 83,
                       child: const EngEstuffPage(),
                     ),
@@ -248,7 +248,7 @@ class _VaultHomeState extends State<PreEngVaultHome> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 15, top: 7),
-                child: Container(
+                child: SizedBox(
                     height: 83,
                     child: const PreEngStudyNotesPage()),
               ),

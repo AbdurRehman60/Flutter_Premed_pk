@@ -65,7 +65,7 @@ class BundleProvider extends ChangeNotifier {
           'status': true,
           'message': 'Data fetched successfully',
         };
-        for (var bundle in bundleList) {
+        for (final bundle in bundleList) {
           print('Bundle Name: ${bundle.bundleName}');
           print('PurchaseLink URL: ${bundle.purchaseFormLink}');
         }

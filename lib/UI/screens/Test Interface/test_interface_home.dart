@@ -3,6 +3,7 @@ import 'package:html/parser.dart' as htmlparser;
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/test_bottom_sheet.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/analytics.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/qbank_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
@@ -17,7 +18,6 @@ import '../../../providers/savedquestion_provider.dart';
 import '../../../providers/update_attempt_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../navigation_screen/main_navigation_screen.dart';
-
 class TestInterface extends StatefulWidget {
   const TestInterface({
     super.key,
@@ -53,14 +53,20 @@ class _TestInterfaceState extends State<TestInterface> {
   bool isLoading = false;
   bool _isLoading = false;
 
+
   void _eliminateOptions(List<Option> options) {
-    _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
+    // Add up to two options to the eliminated list if they aren't already eliminated
+    for (int i = 0; i < 2 && i < options.length; i++) {
+      if (!_eliminatedOptions.contains(options[i])) {
+        _eliminatedOptions.add(options[i]);
+      }
+    }
     setState(() {});
   }
 
-  void _undoElimination(List<Option> options) {
-    options.addAll(_eliminatedOptions);
-    _eliminatedOptions = [];
+  void _undoElimination() {
+    // Clear all eliminated options
+    _eliminatedOptions.clear();
     setState(() {});
   }
 
@@ -129,29 +135,26 @@ class _TestInterfaceState extends State<TestInterface> {
     if (attemptInfo == null) {
       print('Error: attemptInfo is null');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load valid attempt info. Please try again.')),
+        const SnackBar(content: Text('Failed to load valid attempt info. Please try again.')),
       );
       return;
     }
 
     // Check for required fields
-    if (attemptInfo.correctAttempts == null ||
-        attemptInfo.incorrectAttempts == null ||
-        attemptInfo.totalTimeTaken == null ||
-        attemptInfo.totalQuestions == null) {
+    if (attemptInfo.incorrectAttempts == null) {
       print('Error: One or more fields in attemptInfo are null');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Invalid attempt data. Please try again.')),
+        const SnackBar(content: Text('Invalid attempt data. Please try again.')),
       );
       return;
     }
 
     // Extract values
-    int correctAttempts = attemptInfo.correctAttempts!;
-    int incorrectAttempts = attemptInfo.incorrectAttempts!;
-    int skippedAttempts = attemptInfo.skippedAttempts ?? 0;
-    final totalTimeTaken = attemptInfo.totalTimeTaken!;
-    final unattemptedQuestions = attemptInfo.totalQuestions! - correctAttempts - incorrectAttempts;
+    final int correctAttempts = attemptInfo.correctAttempts;
+    final int incorrectAttempts = attemptInfo.incorrectAttempts;
+    final int skippedAttempts = attemptInfo.skippedAttempts ?? 0;
+    final totalTimeTaken = attemptInfo.totalTimeTaken;
+    final unattemptedQuestions = attemptInfo.totalQuestions - correctAttempts - incorrectAttempts;
 
     print("Total attempted questions: ${correctAttempts + incorrectAttempts}");
 
@@ -312,6 +315,7 @@ class _TestInterfaceState extends State<TestInterface> {
   ValueNotifier(const Duration(hours: 2));
   bool showNumberLine = false;
   bool isPaused = false;
+  bool _isEliminationActive = false;
 
   int correctAttempts = 0;
   int incorrectAttempts = 0;
@@ -348,7 +352,7 @@ class _TestInterfaceState extends State<TestInterface> {
       _fetchAllQuestions().then((_) {
         _loadReviewData();
       });
-    } else if (widget.isContinuingAttempt == true) {
+    } else if (widget.isContinuingAttempt) {
       _fetchAllQuestions().then((_) {
         _loadAttemptData();
       });
@@ -387,10 +391,10 @@ class _TestInterfaceState extends State<TestInterface> {
         context, listen: false);
     questionProvider.clearQuestions();
 
-    Set<String> loadedQuestionIds = {};
+    final Set<String> loadedQuestionIds = {};
 
 
-    int startPage = (widget.startFromQuestion) ~/ 10 + 1;
+    final int startPage = (widget.startFromQuestion) ~/ 10 + 1;
 
     for (int page = 1; page <= startPage; page++) {
       if (!questionProvider.isPageLoaded(page)) {
@@ -398,10 +402,10 @@ class _TestInterfaceState extends State<TestInterface> {
         await questionProvider.fetchQuestions(widget.deckName, page);
 
 
-        questionProvider.questions?.removeWhere((q) =>
+        questionProvider.questions.removeWhere((q) =>
             loadedQuestionIds.contains(q.questionId));
         loadedQuestionIds.addAll(
-            questionProvider.questions?.map((q) => q.questionId) ?? []);
+            questionProvider.questions.map((q) => q.questionId) ?? []);
       }
     }
 
@@ -426,7 +430,7 @@ class _TestInterfaceState extends State<TestInterface> {
         return;
       }
 
-      Set<String> loadedQuestionIds = {};
+      final Set<String> loadedQuestionIds = {};
       int lastAttemptedIndex = -1;
 
       for (int i = 0; i < attempts.length; i++) {
@@ -485,7 +489,7 @@ class _TestInterfaceState extends State<TestInterface> {
       final attempts = lastAttempt['attempts'];
 
 
-      Set<String> loadedQuestionIds = {};
+      final Set<String> loadedQuestionIds = {};
       int attemptedQuestionCount = 0;
 
       for (final attempt in attempts) {
@@ -536,7 +540,7 @@ class _TestInterfaceState extends State<TestInterface> {
         .of<QuestionProvider>(context, listen: false)
         .questions;
 
-    if (questions != null && questions.isNotEmpty) {
+    if (questions.isNotEmpty) {
       for (int i = 0; i < questions.length; i++) {
         if (questions[i].questionId == questionId) {
           print("DEBUG: Found questionId $questionId at index $i");
@@ -569,14 +573,14 @@ class _TestInterfaceState extends State<TestInterface> {
         print("isPrefetched: $isPrefetched");
 
         if (currentQuestionIndex % 10 >= 8 && !isPrefetched) {
-          int nextPage = (currentQuestionIndex ~/ 10) + 2;
+          final int nextPage = (currentQuestionIndex ~/ 10) + 2;
           print("Prefetching next set of questions from page: $nextPage");
           _fetchNextSetOfQuestions(nextPage);
           isPrefetched = true;
         }
 
-        if (questionProvider.questions!.length > currentQuestionIndex) {
-          final question = questionProvider.questions![currentQuestionIndex];
+        if (questionProvider.questions.length > currentQuestionIndex) {
+          final question = questionProvider.questions[currentQuestionIndex];
           selectedOption = selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
 
@@ -603,7 +607,7 @@ class _TestInterfaceState extends State<TestInterface> {
         }
       });
     } else {
-      print("Error: Attempted to access an invalid question index.");
+      _showFinishDialog();
     }
   }
 
@@ -634,11 +638,11 @@ class _TestInterfaceState extends State<TestInterface> {
         context, listen: false);
     questionProvider.clearQuestions();
 
-    Set<String> loadedQuestionIds = {};
+    final Set<String> loadedQuestionIds = {};
     int page = 1;
     bool hasMoreQuestions = true;
-    int totalQuestions = widget.totalquestions;
-    int questionsPerPage = 10;
+    final int totalQuestions = widget.totalquestions;
+    final int questionsPerPage = 10;
 
     print("DEBUG: Fetching all questions until all are loaded");
 
@@ -647,10 +651,10 @@ class _TestInterfaceState extends State<TestInterface> {
       print("DEBUG: Fetching questions from page: $page");
       await questionProvider.fetchQuestions(widget.deckName, page);
 
-      questionProvider.questions?.removeWhere((q) =>
+      questionProvider.questions.removeWhere((q) =>
           loadedQuestionIds.contains(q.questionId));
 
-      final fetchedQuestionIds = questionProvider.questions?.map((q) =>
+      final fetchedQuestionIds = questionProvider.questions.map((q) =>
       q.questionId) ?? [];
 
       if (fetchedQuestionIds.isNotEmpty) {
@@ -685,9 +689,9 @@ class _TestInterfaceState extends State<TestInterface> {
         if (currentQuestionIndex % 10 == 9 && currentPage > 1) {
           currentPage--;
           _fetchNextSetOfQuestions(currentPage).then((_) {
-            if (questionProvider.questions!.length > currentQuestionIndex) {
+            if (questionProvider.questions.length > currentQuestionIndex) {
               final question =
-              questionProvider.questions![currentQuestionIndex];
+              questionProvider.questions[currentQuestionIndex];
               selectedOption = selectedOptions[currentQuestionIndex];
               optionSelected = selectedOption != null;
 
@@ -709,8 +713,8 @@ class _TestInterfaceState extends State<TestInterface> {
                   "Error: Attempted to access a question that hasn't been loaded yet.");
             }
           });
-        } else if (questionProvider.questions!.length > currentQuestionIndex) {
-          final question = questionProvider.questions![currentQuestionIndex];
+        } else if (questionProvider.questions.length > currentQuestionIndex) {
+          final question = questionProvider.questions[currentQuestionIndex];
           selectedOption = selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
 
@@ -732,12 +736,8 @@ class _TestInterfaceState extends State<TestInterface> {
         }
       });
     } else if (currentQuestionIndex == 0) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const MainNavigationScreen(),
-        ),
-      );
-    }
+          Navigator.pop(context);
+      }
   }
 
   Future<void> _loadQuestionsBetween(int startQuestionIndex, int endQuestionIndex) async {
@@ -747,8 +747,8 @@ class _TestInterfaceState extends State<TestInterface> {
     final questionProvider =
     Provider.of<QuestionProvider>(context, listen: false);
 
-    int startPage = (startQuestionIndex ~/ 10) + 1;
-    int endPage = (endQuestionIndex ~/ 10) + 1;
+    final int startPage = (startQuestionIndex ~/ 10) + 1;
+    final int endPage = (endQuestionIndex ~/ 10) + 1;
     for (int page = startPage; page <= endPage; page++) {
       if (!questionProvider.isPageLoaded(page)) {
         await questionProvider.fetchQuestions(widget.deckName, page);
@@ -770,7 +770,7 @@ class _TestInterfaceState extends State<TestInterface> {
       await _loadQuestionsBetween(currentQuestionIndex, targetIndex);
     }
 
-    int targetPage = (targetIndex ~/ 10) + 1;
+    final int targetPage = (targetIndex ~/ 10) + 1;
 
     if (!questionProvider.isPageLoaded(targetPage)) {
       await _fetchNextSetOfQuestions(targetPage);
@@ -793,7 +793,7 @@ class _TestInterfaceState extends State<TestInterface> {
         );
 
         if (recentAttempt.attempts != null) {
-          final question = questionProvider.questions![currentQuestionIndex];
+          final question = questionProvider.questions[currentQuestionIndex];
 
           final recentSelection = recentAttempt.attempts!.attempts!
               .firstWhere(
@@ -812,7 +812,7 @@ class _TestInterfaceState extends State<TestInterface> {
         if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
           final lastAttempt = deckInfo.lastAttempt;
 
-          final question = questionProvider.questions![currentQuestionIndex];
+          final question = questionProvider.questions[currentQuestionIndex];
 
           final continuingSelection = lastAttempt['attempts']!
               .firstWhere(
@@ -830,7 +830,7 @@ class _TestInterfaceState extends State<TestInterface> {
         if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
           final lastAttempt = deckInfo.lastAttempt;
 
-          final question = questionProvider.questions![currentQuestionIndex];
+          final question = questionProvider.questions[currentQuestionIndex];
 
           final reviewSelection = lastAttempt['attempts']!
               .firstWhere(
@@ -1028,13 +1028,13 @@ class _TestInterfaceState extends State<TestInterface> {
     Provider.of<QuestionProvider>(context, listen: false);
     final questions = questionProvider.questions;
 
-    if (isLoading || questions == null || questions.isEmpty) {
+    if (isLoading || questions.isEmpty) {
       return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(70.0),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: AppBar( centerTitle: false,
+            child: AppBar(
               backgroundColor: PreMedColorTheme().white,
               leading: Container(
                 margin: const EdgeInsets.all(10),
@@ -1098,7 +1098,7 @@ class _TestInterfaceState extends State<TestInterface> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(),
+              const CircularProgressIndicator(),
               const SizedBox(height: 16),
               ValueListenableBuilder<int>(
                 valueListenable: _dotCountNotifier,
@@ -1122,7 +1122,7 @@ class _TestInterfaceState extends State<TestInterface> {
         preferredSize: const Size.fromHeight(70.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: AppBar( centerTitle: false,
+          child: AppBar(
             backgroundColor: PreMedColorTheme().white,
             leading: Container(
               margin: const EdgeInsets.all(10),
@@ -1266,61 +1266,64 @@ class _TestInterfaceState extends State<TestInterface> {
                   const SizedBox(width: 16),
                 ],
               ),
-              Row(
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                      backgroundColor: Colors.white,
-                      foregroundColor: const Color.fromRGBO(12, 90, 188, 1),
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                    ),
-                    onPressed: () {
-                      final question =
-                      Provider.of<QuestionProvider>(context, listen: false)
-                          .questions![currentQuestionIndex];
-                      _eliminateOptions(question.options);
-                    },
-                    child: Row(
-                      children: [
-                        SvgPicture.asset('assets/icons/elimination.svg'),
-                        const SizedBox(width: 5),
-                        const Text('Elimination Tool'),
-                      ],
-                    ),
+          Row(
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                  backgroundColor: Colors.white,
+                  foregroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24),
                   ),
-                  const SizedBox(width: 8),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                      backgroundColor: const Color.fromRGBO(12, 90, 188, 1),
-                      foregroundColor: Colors.white,
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                    ),
-                    onPressed: () {
-                      final question =
-                      Provider.of<QuestionProvider>(context, listen: false)
-                          .questions![currentQuestionIndex];
-                      _undoElimination(question.options);
-                    },
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/elimination.svg',
-                        ),
-                        const SizedBox(width: 5),
-                        const Text('Exit Elimination'),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
+                onPressed: () {
+                  final question = Provider.of<QuestionProvider>(context, listen: false)
+                      .questions[currentQuestionIndex];
+                  _eliminateOptions(question.options);
+                  setState(() {
+                    _isEliminationActive = true;  // Set the flag to true when elimination tool is activated
+                  });
+                },
+                child: Row(
+                  children: [
+                    SvgPicture.asset('assets/icons/elimination.svg'),
+                    const SizedBox(width: 5),
+                    const Text('Elimination Tool'),
+                  ],
+                ),
               ),
+              const SizedBox(width: 8),
+              if (_isEliminationActive)  // Show the Exit Elimination button only if the flag is true
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                    backgroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                    foregroundColor: Colors.white,
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                  ),
+                  onPressed: () {
+                    final question = Provider.of<QuestionProvider>(context, listen: false)
+                        .questions[currentQuestionIndex];
+                    _undoElimination();
+                    setState(() {
+                      _isEliminationActive = false;  // Set the flag to false when exiting elimination
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      SvgPicture.asset('assets/icons/elimination.svg'),
+                      const SizedBox(width: 5),
+                      const Text('Exit Elimination'),
+                    ],
+                  ),
+                ),
+            ],
+          ),
               if (question.questionImage != null &&
                   question.questionImage!.isNotEmpty)
                 if (isBase64(question.questionImage!))
@@ -1367,18 +1370,16 @@ class _TestInterfaceState extends State<TestInterface> {
                   ),
               const SizedBox(height: 16),
               ...question.options.map((option) {
-                final parsedOptionText = parse(option.optionText);
-                final isSelected = option.optionLetter == selectedOption;
-                final borderColor =
-                isSelected ? Colors.blue : PreMedColorTheme().neutral400;
-
+                final isEliminated = _eliminatedOptions.contains(option);
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: GestureDetector(
                     onTap: () => selectOption(option.optionLetter),
                     child: Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: borderColor),
+                        border: Border.all(
+                          color: isEliminated ? Colors.grey : Colors.black,
+                        ),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
@@ -1386,20 +1387,23 @@ class _TestInterfaceState extends State<TestInterface> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              '${option.optionLetter}. ',
-                              style: PreMedTextTheme().body.copyWith(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 15,
-                                  color: PreMedColorTheme().primaryColorRed),
+                              '${option.optionLetter}.',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: isEliminated ? Colors.grey : Colors.black,
+                              ),
                             ),
                           ),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                parsedOptionText ?? '',
-                                style: PreMedTextTheme().body.copyWith(
-                                  color: PreMedColorTheme().black,
+                                parse(option.optionText) ?? '',
+                                style: TextStyle(
+                                  decoration: isEliminated
+                                      ? TextDecoration.lineThrough
+                                      : null,
+                                  color: isEliminated ? Colors.grey : Colors.black,
                                 ),
                               ),
                             ),

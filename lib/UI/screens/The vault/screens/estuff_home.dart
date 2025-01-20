@@ -38,7 +38,7 @@ class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
     setState(() {
       _filteredNotes = allNotes.where((note) {
         final matchesSearchQuery =
-            note.board.toLowerCase().contains(board.toLowerCase());
+        note.board.toLowerCase().contains(board.toLowerCase());
 
         return matchesSearchQuery;
       }).toList();
@@ -58,100 +58,100 @@ class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
   Widget build(BuildContext context) {
     return Consumer2<EssentialStuffProvider, PreEngAccessProvider>(
         builder: (context, vaultTopicalGuides, preEngaccessPro, _) {
-      final bool isLoading =
-          vaultTopicalGuides.fetchStatus == FetchStatus.fetching;
-      return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: const Color(0xFFFBF0F3),
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 13),
-            child: AppBar(
-              centerTitle: false,
-              title: Text(
-                'The Vault',
-                style: PreMedTextTheme()
-                    .heading1
-                    .copyWith(fontSize: 17, fontWeight: FontWeight.w700),
-              ),
-              backgroundColor: const Color(0xFFFBF0F3),
-              leading: const PopButton(),
-              automaticallyImplyLeading: false,
-            ),
-          ),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBoxes.vertical10Px,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 23),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const GradientText1(
-                        text: 'Essential',
-                        fontSize: 35,
-                      ),
-                      Text(' Stuff',
-                          style: PreMedTextTheme().heading1.copyWith(
-                              fontSize: 35, fontWeight: FontWeight.w700)),
-                    ],
-                  ),
-                  SizedBoxes.vertical10Px,
-                  Text(
-                    'One Chapter. One Page. Instant Revisions!',
+          final bool isLoading =
+              vaultTopicalGuides.fetchStatus == FetchStatus.fetching;
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: const Color(0xFFFBF0F3),
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(60.0),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 13),
+                child: AppBar(
+                  centerTitle: false,
+                  title: Text(
+                    'The Vault',
                     style: PreMedTextTheme()
                         .heading1
-                        .copyWith(fontSize: 13, fontWeight: FontWeight.w400),
+                        .copyWith(fontSize: 17, fontWeight: FontWeight.w700),
                   ),
-                  SizedBoxes.vertical10Px,
-                  Wrap(
-                    spacing: 12.0,
-                    runSpacing: 5,
+                  backgroundColor: const Color(0xFFFBF0F3),
+                  leading: const PopButton(),
+                  automaticallyImplyLeading: false,
+                ),
+              ),
+            ),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBoxes.vertical10Px,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 23),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TopicButton(
-                        topicName: 'MDCAT',
-                        isActive: _activeTopic == 'MDCAT',
-                        onTap: () => _handleTopicTap('MDCAT'),
+                      Row(
+                        children: [
+                          const GradientText1(
+                            text: 'Essential',
+                            fontSize: 35,
+                          ),
+                          Text(' Stuff',
+                              style: PreMedTextTheme().heading1.copyWith(
+                                  fontSize: 35, fontWeight: FontWeight.w700)),
+                        ],
                       ),
-                      TopicButton(
-                        topicName: 'Private Universities',
-                        isActive: _activeTopic == 'PRIVATE UNIVERSITIES',
-                        onTap: () => _handleTopicTap('PRIVATE UNIVERSITIES'),
+                      SizedBoxes.vertical10Px,
+                      Text(
+                        'One Chapter. One Page. Instant Revisions!',
+                        style: PreMedTextTheme()
+                            .heading1
+                            .copyWith(fontSize: 13, fontWeight: FontWeight.w400),
                       ),
-                      TopicButton(
-                        topicName: 'FSc',
-                        isActive: _activeTopic == 'FSC',
-                        onTap: () => _handleTopicTap('FSC'),
-                      ),
-                      TopicButton(
-                        topicName: 'Government Notifications',
-                        isActive: _activeTopic == 'Government Notifications',
-                        onTap: () =>
-                            _handleTopicTap('Government Notifications'),
+                      SizedBoxes.vertical10Px,
+                      Wrap(
+                        spacing: 12.0,
+                        runSpacing: 5,
+                        children: [
+                          TopicButton(
+                            topicName: 'MDCAT',
+                            isActive: _activeTopic == 'MDCAT',
+                            onTap: () => _handleTopicTap('MDCAT'),
+                          ),
+                          TopicButton(
+                            topicName: 'Private Universities',
+                            isActive: _activeTopic == 'PRIVATE UNIVERSITIES',
+                            onTap: () => _handleTopicTap('PRIVATE UNIVERSITIES'),
+                          ),
+                          TopicButton(
+                            topicName: 'FSc',
+                            isActive: _activeTopic == 'FSC',
+                            onTap: () => _handleTopicTap('FSC'),
+                          ),
+                          TopicButton(
+                            topicName: 'Government Notifications',
+                            isActive: _activeTopic == 'Government Notifications',
+                            onTap: () =>
+                                _handleTopicTap('Government Notifications'),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+                SizedBoxes.vertical10Px,
+                Expanded(
+                  child: EstuffPdfDisplayer(
+                    hasAccess: preEngaccessPro.hasEngEssentials,
+                    notes: _filteredNotes,
+                    isLoading: isLoading,
+                    categoryName: 'Essential Stuff',
+                  ),
+                ),
+              ],
             ),
-            SizedBoxes.vertical10Px,
-            Expanded(
-              child: EstuffPdfDisplayer(
-                hasAccess: preEngaccessPro.hasEngEssentials,
-                notes: _filteredNotes,
-                isLoading: isLoading,
-                categoryName: 'Essential Stuff',
-              ),
-            ),
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
 }
 
@@ -273,14 +273,14 @@ class PDFTileVault extends StatelessWidget {
                       child: buildPdfIcon(note.thumbnailImageUrl ?? '')),
                   Padding(
                     padding:
-                        const EdgeInsets.only(top: 12, left: 10, right: 10),
+                    const EdgeInsets.only(top: 12, left: 10, right: 10),
                     child: Text(
                       categoryName.toUpperCase(),
                       style: PreMedTextTheme().heading1.copyWith(
-                            fontSize: 8,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black26,
-                          ),
+                        fontSize: 8,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.black26,
+                      ),
                     ),
                   ),
                   SizedBoxes.vertical5Px,

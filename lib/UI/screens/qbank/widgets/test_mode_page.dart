@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:html/parser.dart' as htmlParser;
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';

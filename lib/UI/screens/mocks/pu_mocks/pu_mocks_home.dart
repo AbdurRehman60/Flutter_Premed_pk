@@ -28,7 +28,7 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-            child: AppBar( centerTitle: false,
+        child: AppBar( centerTitle: false,
           backgroundColor: PreMedColorTheme().white,
           leading: Container(
             margin: const EdgeInsets.all(10),
@@ -69,10 +69,10 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
                     child: Text(
                       'Private Universities Mocks',
                       style: PreMedTextTheme().heading6.copyWith(
-                            color: PreMedColorTheme().black,
-                            fontSize: 34,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        color: PreMedColorTheme().black,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -82,10 +82,10 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
                     'Attempt a Full-Length Yearly Paper today and experience the feeling of giving the exam on the actual test day!',
                     textAlign: TextAlign.center,
                     style: PreMedTextTheme().subtext.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: PreMedColorTheme().black,
-                        ),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: PreMedColorTheme().black,
+                    ),
                   ),
                 ],
               ),
@@ -105,7 +105,7 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
                       itemCount: privunimocksProvider.deckGroups.length,
                       itemBuilder: (context, index) {
                         final deckGroup =
-                            privunimocksProvider.deckGroups[index];
+                        privunimocksProvider.deckGroups[index];
                         return Container(
                           height: 110,
                           margin: const EdgeInsets.symmetric(
@@ -154,8 +154,8 @@ class _PrivuniMocksHomeState extends State<PrivuniMocksHome> {
                                           style: PreMedTextTheme()
                                               .heading5
                                               .copyWith(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w700),
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700),
                                         ),
                                         TextSpan(
                                           text: 'Papers',

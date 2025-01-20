@@ -6,13 +6,13 @@ import '../dashboard_screen.dart';
 
 class FlashCard extends StatelessWidget {
   const FlashCard({
-    Key? key,
+    super.key,
     required this.icon,
     required this.text1,
     this.bgColor = Colors.blue, // default background color
     required this.onTap,
     required this.text2,
-  }) : super(key: key);
+  });
 
   final String icon;
   final String text1;

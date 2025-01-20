@@ -5,14 +5,14 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 
 class NotesCard extends StatelessWidget {
   const NotesCard({
-    Key? key,
+    super.key,
     required this.icon,
     required this.text,
     required this.text1,
     required this.onTap,
     required this.text2,
     this.bgColor = Colors.blue, // default background color
-  }) : super(key: key);
+  });
 
   final String icon;
   final String text;

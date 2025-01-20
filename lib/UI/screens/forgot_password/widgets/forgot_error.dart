@@ -10,7 +10,7 @@ class ForgotPasswordError extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: PreMedColorTheme().background ,
-         // PreMedColorTheme().background
+      // PreMedColorTheme().background
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: AppBar( centerTitle: false,

@@ -46,7 +46,7 @@ class _VaultHomeState extends State<VaultHome> {
   void checkSubscription() {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final accessProvider =
-        Provider.of<PreMedAccessProvider>(context, listen: false);
+    Provider.of<PreMedAccessProvider>(context, listen: false);
     accessProvider.setSubscriptions(userProvider.user!.access);
     accessProvider.checkAccess();
   }
@@ -206,12 +206,12 @@ class _VaultHomeState extends State<VaultHome> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const EstuffHomeScreen()));
+                                          const EstuffHomeScreen()));
                                 },
                                 child: Text('View All',
                                     style: PreMedTextTheme().heading1.copyWith(
                                         color:
-                                            PreMedColorTheme().primaryColorRed,
+                                        PreMedColorTheme().primaryColorRed,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700)),
                               ),
@@ -220,10 +220,10 @@ class _VaultHomeState extends State<VaultHome> {
                           Text(
                             'Syllabi, Schemes, etc., and everything a student just needs.',
                             style: PreMedTextTheme().heading1.copyWith(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
                           ),
                           SizedBoxes.vertical10Px,
                         ],
@@ -255,7 +255,7 @@ class _VaultHomeState extends State<VaultHome> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const TopicalGuides()));
+                                            const TopicalGuides()));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 12),
@@ -264,7 +264,7 @@ class _VaultHomeState extends State<VaultHome> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color:
-                                            PreMedColorTheme().primaryColorRed,
+                                        PreMedColorTheme().primaryColorRed,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700,
                                       ),
@@ -320,7 +320,7 @@ class _VaultHomeState extends State<VaultHome> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const StudyNotesHome()));
+                                            const StudyNotesHome()));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.only(
@@ -375,18 +375,18 @@ class _VaultHomeState extends State<VaultHome> {
                               TextSpan(
                                 text: 'Short',
                                 style: PreMedTextTheme().heading1.copyWith(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                      color: PreMedColorTheme().primaryColorRed,
-                                    ),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: PreMedColorTheme().primaryColorRed,
+                                ),
                               ),
                               TextSpan(
                                 text: 'Listings',
                                 style: PreMedTextTheme().heading1.copyWith(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black,
-                                    ),
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
                               ),
                             ],
                           ),
@@ -398,7 +398,7 @@ class _VaultHomeState extends State<VaultHome> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const ShortlistingsHome()));
+                                    const ShortlistingsHome()));
                             //To Navigate
                           },
                           child: Text('View All',
@@ -510,7 +510,7 @@ class _VaultHomeState extends State<VaultHome> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const MnemonicsHome(),
+                                          const MnemonicsHome(),
                                         ),
                                       );
                                     },
@@ -518,7 +518,7 @@ class _VaultHomeState extends State<VaultHome> {
                                       'View All',
                                       style: TextStyle(
                                         color:
-                                            PreMedColorTheme().primaryColorRed,
+                                        PreMedColorTheme().primaryColorRed,
                                         fontSize: 12,
                                         fontWeight: FontWeight.w700,
                                       ),
@@ -535,10 +535,10 @@ class _VaultHomeState extends State<VaultHome> {
                           child: Text(
                             'All the mnemonics you need. No more mindless repetition!',
                             style: PreMedTextTheme().heading1.copyWith(
-                                  color: PreMedColorTheme().black,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                              color: PreMedColorTheme().black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ),
                             softWrap: true,
                             maxLines: 2,
                           ),
@@ -612,7 +612,7 @@ class GradientButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        boxShadow: CustomBoxShadow.boxShadow40
+          boxShadow: CustomBoxShadow.boxShadow40
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(

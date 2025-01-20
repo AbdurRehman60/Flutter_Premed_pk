@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../providers/create_deck_attempt_provider.dart';
@@ -75,7 +76,7 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
 
 
     for (final item in widget.deckGroup.deckItems) {
-      String baseDeckName = newdeckname(item.deckName);
+      final String baseDeckName = newdeckname(item.deckName);
       if (!groupedDeckItems.containsKey(baseDeckName)) {
         groupedDeckItems[baseDeckName] = [];
       }
@@ -88,7 +89,7 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
       bool isPastPaperPublished = false;
 
 
-      for (var item in deckItems) {
+      for (final item in deckItems) {
         if (item.deckName.contains('Past Paper') && item.isPublished) {
           isPastPaperPublished = true;
         }
@@ -208,27 +209,65 @@ class _NewBottomSheetState extends State<NewBottomSheet> {
   }
 
 
-void _showPurchasePopup(BuildContext context) {
+  void _showPurchasePopup(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final String appToken = userProvider.user?.info.appToken?? '';
+    final String appToken = userProvider.user?.info.appToken ?? '';
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Purchase Required"),
-          content: const Text("Your current plan does not have access to this paper. Purchase our Plan to access this feature!"),
+          title: Column(
+            children: [
+              SvgPicture.asset('assets/icons/lock.svg'),
+              SizedBox(height: 10),
+              const Center(
+                child: Text(
+                  'Oh No! It’s Locked',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 25,
+                    color: Color(0xFFFE63C49),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text(
+                'Looks like this feature is not included in your plan. Upgrade to a higher plan or purchase this feature separately to continue.',
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Visit PreMed.PK for more details.',
+              ),
+            ],
+          ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("Go Back"),
-            ),
-            TextButton(
-              onPressed: () {
-                _launchURL(appToken);
-              },
-              child: const Text("Purchase Plan"),
+            Center(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Color(0xFFE6E6E6),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'Return',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Color(0xFFFE63C49),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         );
@@ -274,7 +313,7 @@ void _showPurchasePopup(BuildContext context) {
     // Ensure accessTags is a list of dynamic objects
     if (accessTags is List<dynamic>) {
       for (final premiumTag in premiumTags) {
-        bool foundMatch = false; // Flag to track if a match was found
+        final bool foundMatch = false; // Flag to track if a match was found
 
         for (final access in accessTags) {
           if (access is Map<String, dynamic>) {
@@ -377,7 +416,7 @@ void _showPurchasePopup(BuildContext context) {
                               final latestAttempt = lastAttempt.last;
                               final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
 
-                              final startFromQuestion = questionProvider.questions?.indexWhere(
+                              final startFromQuestion = questionProvider.questions.indexWhere(
                                     (question) => question.questionId == latestAttempt['questionId'],
                               ) ??
                                   0;
@@ -478,7 +517,7 @@ void _showPurchasePopup(BuildContext context) {
     );
   }
 
-  void _navigateToNextScreen(BuildContext context, DeckItem item,
+  Future<void> _navigateToNextScreen(BuildContext context, DeckItem item,
       {int? startFromQuestion,
       String? attemptId,
       bool isReview = false}) async {
@@ -490,7 +529,7 @@ void _showPurchasePopup(BuildContext context) {
     final attemptMode = deckInfo?.attemptMode ?? '';
     final questionProvider =
         Provider.of<QuestionProvider>(context, listen: false);
-    final totalQuestions = questionProvider.questions?.length ?? 0;
+    final totalQuestions = questionProvider.questions.length ?? 0;
 
     int questionIndex = startFromQuestion ?? 0;
     if (questionIndex < 0 || questionIndex >= totalQuestions) {
@@ -543,7 +582,6 @@ void _showPurchasePopup(BuildContext context) {
             subject: widget.subject,
             deckName: cleanedDeckName,
             attemptId: attemptId ?? deckAttemptProvider.attemptId,
-            startFromQuestion: 0,
             isReview: true,
             totalquestions: deckInfo!.questions.length,
             questionlist: deckInfo.questions,
@@ -564,7 +602,6 @@ void _showPurchasePopup(BuildContext context) {
             subject: widget.subject,
             deckName: cleanedDeckName,
             attemptId: attemptId ?? deckAttemptProvider.attemptId,
-            startFromQuestion: 0,
             isReview: true,
             totalquestions: deckInfo!.questions.length,
             questionlist: deckInfo.questions,

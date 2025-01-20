@@ -45,7 +45,7 @@ class SaveQuestionProvider extends ChangeNotifier {
         message = 'Failed to save question';
       }
     } catch (error) {
-      message = 'Error: ${error.toString()}';
+      message = 'Error: ${error}';
       status = Status.init;
     } finally {
       notifyListeners();
@@ -80,7 +80,7 @@ class SaveQuestionProvider extends ChangeNotifier {
         message = 'Failed to remove question';
       }
     } catch (error) {
-      message = 'Error: ${error.toString()}';
+      message = 'Error: ${error}';
       status = Status.init;
     } finally {
       notifyListeners();

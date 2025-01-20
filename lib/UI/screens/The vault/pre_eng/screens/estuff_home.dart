@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/essentialStuff/estuff_pdf_view.dart';
@@ -57,7 +58,7 @@ class _StudyNotesHomeState extends State<EstuffNotesHome> {
 
   void _filterNotes() {
     final vaultStudyNotesProvider =
-        Provider.of<EngineeringEssentialStuffProvider>(context, listen: false);
+    Provider.of<EngineeringEssentialStuffProvider>(context, listen: false);
     final allNotes = vaultStudyNotesProvider.essentialStuffList;
 
     setState(() {
@@ -77,133 +78,133 @@ class _StudyNotesHomeState extends State<EstuffNotesHome> {
   Widget build(BuildContext context) {
     return Consumer<EngineeringEssentialStuffProvider>(
         builder: (context, vaultstudtNotesProvider, _) {
-      final bool isLoading =
-          vaultstudtNotesProvider.fetchStatus == FetchStatus.fetching;
-      return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: const Color(0xFFFBF0F3),
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 13),
+          final bool isLoading =
+              vaultstudtNotesProvider.fetchStatus == FetchStatus.fetching;
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: const Color(0xFFFBF0F3),
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(60.0),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 13),
                 child: AppBar( centerTitle: false,
-              actions: [
-                CustomDropdownbtn(onProvinceSelected: _handleProvinceSelected),
-              ],
-              title: Text(
-                'The Vault',
-                style: PreMedTextTheme()
-                    .heading1
-                    .copyWith(fontSize: 17, fontWeight: FontWeight.w700),
-              ),
-              backgroundColor: const Color(0xFFFBF0F3),
-              leading: const PopButton(),
-              automaticallyImplyLeading: false,
-            ),
-          ),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBoxes.verticalBig,
-            Padding(
-              padding: const EdgeInsets.only(left: 23),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      const GradientText1(
-                        text: 'Essential',
-                        fontSize: 35,
-                      ),
-                      Text(' Stuff',
-                          style: PreMedTextTheme().heading1.copyWith(
-                              fontSize: 35, fontWeight: FontWeight.w700)),
-                    ],
-                  ),
-                  SizedBoxes.vertical10Px,
-                  Text(
-                    'Studying and revising have never been easier. We have most comprehensive notes in town.',
+                  actions: [
+                    CustomDropdownbtn(onProvinceSelected: _handleProvinceSelected),
+                  ],
+                  title: Text(
+                    'The Vault',
                     style: PreMedTextTheme()
                         .heading1
-                        .copyWith(fontSize: 13, fontWeight: FontWeight.w400),
+                        .copyWith(fontSize: 17, fontWeight: FontWeight.w700),
                   ),
-                ],
+                  backgroundColor: const Color(0xFFFBF0F3),
+                  leading: const PopButton(),
+                  automaticallyImplyLeading: false,
+                ),
               ),
             ),
-            SizedBoxes.vertical10Px,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22),
-              child: Container(
-                height: 40,
-                decoration: BoxDecoration(
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x26000000),
-                      blurRadius: 40,
-                      offset: Offset(0, 20),
-                    )
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBoxes.verticalBig,
+                Padding(
+                  padding: const EdgeInsets.only(left: 23),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const GradientText1(
+                            text: 'Essential',
+                            fontSize: 35,
+                          ),
+                          Text(' Stuff',
+                              style: PreMedTextTheme().heading1.copyWith(
+                                  fontSize: 35, fontWeight: FontWeight.w700)),
+                        ],
+                      ),
+                      SizedBoxes.vertical10Px,
+                      Text(
+                        'Studying and revising have never been easier. We have most comprehensive notes in town.',
+                        style: PreMedTextTheme()
+                            .heading1
+                            .copyWith(fontSize: 13, fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
                 ),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    prefixIcon:
+                SizedBoxes.vertical10Px,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 22),
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x26000000),
+                          blurRadius: 40,
+                          offset: Offset(0, 20),
+                        )
+                      ],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        prefixIcon:
                         const Icon(Icons.search, color: Color(0xFF5898FF)),
-                    hintText: 'Search',
-                    hintStyle: PreMedTextTheme().heading1.copyWith(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Colors.black),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        _searchController.clear();
-                        _handleSearch('');
+                        hintText: 'Search',
+                        hintStyle: PreMedTextTheme().heading1.copyWith(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: Colors.black),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            _searchController.clear();
+                            _handleSearch('');
+                          },
+                          icon: const Icon(Icons.clear),
+                          color: PreMedColorTheme().blue,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                            color: Colors.white,
+                          ),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      onChanged: (text) {
+                        _handleSearch(text);
                       },
-                      icon: const Icon(Icons.clear),
-                      color: PreMedColorTheme().blue,
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(
-                        color: Colors.white,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(
-                        color: Colors.white,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: const BorderSide(
-                        color: Colors.white,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
                   ),
-                  onChanged: (text) {
-                    _handleSearch(text);
-                  },
                 ),
-              ),
+                SizedBoxes.vertical15Px,
+                Expanded(
+                  child: EngineeringPdfDisplayer(
+                    notes: _filteredNotes,
+                    isLoading: isLoading,
+                    categoryName: 'Essential Stuff',
+                  ),
+                ),
+              ],
             ),
-            SizedBoxes.vertical15Px,
-            Expanded(
-              child: EngineeringPdfDisplayer(
-                notes: _filteredNotes,
-                isLoading: isLoading,
-                categoryName: 'Essential Stuff',
-              ),
-            ),
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
 }
 
@@ -283,21 +284,57 @@ class PDFTileVault extends StatelessWidget {
           final userProvider = Provider.of<UserProvider>(context, listen: false);
           final String appToken = userProvider.user?.info.appToken ?? '';
           return AlertDialog(
-            title: const Text('Purchase Plan'),
-            content: const Text(
-                'You need to purchase the Ultimate plan to access this note.'),
+            title: Column(
+              children: [
+                SvgPicture.asset('assets/icons/lock.svg'),
+                SizedBox(height: 10),
+                const Center(
+                  child: Text(
+                    'Oh No! It’s Locked',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 25,
+                      color: Color(0xFFFE63C49),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Text(
+                  'Looks like this feature is not included in your plan. Upgrade to a higher plan or purchase this feature separately to continue.',
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Visit PreMed.PK for more details.',
+                ),
+              ],
+            ),
             actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  _launchURL(appToken);
-                },
-                child: const Text('Purchase'),
+              Center(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFE6E6E6),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      'Return',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Color(0xFFFE63C49),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           );
@@ -441,8 +478,8 @@ Widget buildPdfIcon(String imageUrl) {
           child: Text(
             'Loading',
             style: PreMedTextTheme().heading1.copyWith(
-                  color: PreMedColorTheme().primaryColorRed,
-                ),
+              color: PreMedColorTheme().primaryColorRed,
+            ),
           ),
         ),
       );

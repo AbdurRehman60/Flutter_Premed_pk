@@ -107,6 +107,8 @@ class PremedAssets {
   static String chevron5 = 'assets/icons/Icon.png';
   static String blueAerrow = 'assets/icons/blue arrow.png';
   static String computerScience = 'assets/images/computer science.png';
+  static String lockk = 'assets/icons/lock.svg';
+
 
 
   ///QbankHome

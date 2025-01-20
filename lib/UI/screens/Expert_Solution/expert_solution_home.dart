@@ -13,7 +13,7 @@ class ExpertSolutionHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final askAnExpertProvider =
-        Provider.of<AskAnExpertProvider>(context, listen: false);
+    Provider.of<AskAnExpertProvider>(context, listen: false);
 
     askAnExpertProvider.getDoubts();
 
@@ -24,7 +24,7 @@ class ExpertSolutionHome extends StatelessWidget {
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60.0),
-         child: AppBar( centerTitle: false,
+          child: AppBar( centerTitle: false,
             backgroundColor: PreMedColorTheme().background,
             leading: const PopButton(),
             automaticallyImplyLeading: false,
@@ -44,20 +44,20 @@ class ExpertSolutionHome extends StatelessWidget {
                     child: Text(
                       'Expert Solutions',
                       style: PreMedTextTheme().heading6.copyWith(
-                            color: PreMedColorTheme().black,
-                            fontSize: 34,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        color: PreMedColorTheme().black,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text('Get answers to brain-teasing questions',
                         style: PreMedTextTheme().subtext.copyWith(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w400,
-                              color: PreMedColorTheme().black,
-                            )),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                          color: PreMedColorTheme().black,
+                        )),
                   ),
                 ],
               ),
@@ -118,9 +118,9 @@ class ExpertSolutionHome extends StatelessWidget {
             backgroundColor: Provider.of<PreMedProvider>(context).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
             onPressed: () {
               final askAnExpertProvider =
-                  Provider.of<AskAnExpertProvider>(context, listen: false);
+              Provider.of<AskAnExpertProvider>(context, listen: false);
               final uplaodImageProvider =
-                  Provider.of<UplaodImageProvider>(context, listen: false);
+              Provider.of<UplaodImageProvider>(context, listen: false);
               askAnExpertProvider.resetState(uplaodImageProvider);
               Navigator.pushNamed(context, '/ExpertSolution');
             },

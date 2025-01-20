@@ -25,7 +25,7 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-       child: AppBar( centerTitle: false,
+        child: AppBar( centerTitle: false,
           backgroundColor: PreMedColorTheme().white,
           leading: Container(
             margin: const EdgeInsets.all(10),
@@ -98,7 +98,7 @@ class _MdcatMocksHomeState extends State<MdcatMocksHome> {
                       child: CircularProgressIndicator(),
                     );
                   case FetchhStatus.success:
-                print('length : ${mdcatmocksProvider.deckGroups.length}');
+                    print('length : ${mdcatmocksProvider.deckGroups.length}');
                     return ListView.builder(
                       itemCount: mdcatmocksProvider.deckGroups.length,
                       itemBuilder: (context, index) {
@@ -203,4 +203,3 @@ void _openBottomSheet(BuildContext context, DeckGroupModel deckGroup, String qba
     },
   );
 }
-

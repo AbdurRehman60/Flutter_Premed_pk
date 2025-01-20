@@ -5,7 +5,7 @@ import '../../../../constants/constants_export.dart';
 import '../../../../providers/vaultProviders/premed_provider.dart';
 
 class CustomDropdownbtn extends StatefulWidget {
-  CustomDropdownbtn({super.key, required this.onProvinceSelected});
+  const CustomDropdownbtn({super.key, required this.onProvinceSelected});
   final Function(String) onProvinceSelected;
 
   @override

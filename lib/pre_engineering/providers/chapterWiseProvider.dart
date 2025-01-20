@@ -84,8 +84,8 @@ class EngChapterWisePro extends ChangeNotifier {
               isPublished: deckGroupData['isPublished'],
             );
           }).where((deckGroup) => deckGroup != null).cast<DeckGroupModel>().toList();
-          for (var deckGroup in _deckGroups) {
-            for (var deckItem in deckGroup.deckItems) {
+          for (final deckGroup in _deckGroups) {
+            for (final deckItem in deckGroup.deckItems) {
               print('Deck Name: ${deckItem.deckName}');
             }
           }

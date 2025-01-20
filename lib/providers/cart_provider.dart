@@ -204,7 +204,7 @@ class CartProvider extends ChangeNotifier {
 
     try {
       // Pass the coupon code correctly into the URL
-      final response = await _client.get('${Endpoints.CouponCode(coupon)}');
+      final response = await _client.get(Endpoints.CouponCode(coupon));
 
       // Response is already a parsed map, so access directly
       final data = response as Map<String, dynamic>;

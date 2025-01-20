@@ -3,7 +3,7 @@ import 'package:premedpk_mobile_app/UI/screens/Login/login.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
 import 'package:premedpk_mobile_app/constants/text_theme.dart';
 class EmailLogin extends StatelessWidget {
-  const EmailLogin({Key? key});
+  const EmailLogin({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class EmailLogin extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LoginScreen(),
+                builder: (context) => const LoginScreen(),
               ),
             );
           },
@@ -50,7 +50,7 @@ class EmailLogin extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
             ],
           ),
         ),

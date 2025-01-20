@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:html/parser.dart' as htmlParser;
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test Interface/test_interface_home.dart';
@@ -90,10 +91,10 @@ class _DeckInstructionsState extends State<DeckInstructions> {
                 Text(
                   selectedDeckItem.deckName,
                   style: PreMedTextTheme().heading6.copyWith(
-                        color: PreMedColorTheme().black,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                      ),
+                    color: PreMedColorTheme().black,
+                    fontSize: 34,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
                 SizedBoxes.verticalMedium,
                 Padding(
@@ -216,7 +217,7 @@ class _DeckInstructionsState extends State<DeckInstructions> {
     bool isFreeMode = (selectedMode == 'TUTORMODE')
         ? selectedDeckItem.isTutorModeFree ?? false
         : selectedDeckItem.premiumTags == null ||
-            selectedDeckItem.premiumTags!.isEmpty;
+        selectedDeckItem.premiumTags!.isEmpty;
 
     if (isFreeMode ||
         _hasAccess(selectedDeckItem.premiumTags, userProvider.getTags())) {
@@ -226,7 +227,7 @@ class _DeckInstructionsState extends State<DeckInstructions> {
         user: userId,
       );
       final deckAttemptProvider =
-          Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+      Provider.of<CreateDeckAttemptProvider>(context, listen: false);
       await deckAttemptProvider.createDeckAttempt(attemptModel);
 
       if (deckAttemptProvider.responseMessage ==
@@ -251,7 +252,8 @@ class _DeckInstructionsState extends State<DeckInstructions> {
         _showErrorPopup(context, deckAttemptProvider.responseMessage);
       }
     } else {
-      _showPurchasePopup(context);
+
+      (context);
     }
   }
 
@@ -281,7 +283,7 @@ class _DeckInstructionsState extends State<DeckInstructions> {
 
             // Group match for predefined tags
             if ((premiumTag == 'MDCAT-QBank' &&
-                    mdcatTags.contains(access['name'])) ||
+                mdcatTags.contains(access['name'])) ||
                 (premiumTag == 'NUMS-QBank' &&
                     numsTags.contains(access['name'])) ||
                 (premiumTag == 'AKU-QBank' &&
@@ -306,19 +308,64 @@ class _DeckInstructionsState extends State<DeckInstructions> {
   }
 
   void _showPurchasePopup(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final String appToken = userProvider.user?.info.appToken ?? '';
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Purchase Required"),
-          content: const Text(
-              "You need to purchase the required bundle to access this content."),
+          title: Column(
+            children: [
+              SvgPicture.asset('assets/icons/lock.svg'),
+              SizedBox(height: 10),
+              const Center(
+                child: Text(
+                  'Oh No! It’s Locked',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 25,
+                    color: Color(0xFFFE63C49),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text(
+                'Looks like this feature is not included in your plan. Upgrade to a higher plan or purchase this feature separately to continue.',
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Visit PreMed.PK for more details.',
+              ),
+            ],
+          ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("OK"),
+            Center(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Color(0xFFE6E6E6),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'Return',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Color(0xFFFE63C49),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         );

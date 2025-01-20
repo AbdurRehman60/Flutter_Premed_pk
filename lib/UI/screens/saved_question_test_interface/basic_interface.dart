@@ -1,3 +1,4 @@
+
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
@@ -166,7 +167,7 @@ class _TestInterfaceScreenState extends State<TestInterfaceScreen> {
         preferredSize: const Size.fromHeight(70.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: AppBar( centerTitle: false,
+          child: AppBar( centerTitle: false,
             backgroundColor: PreMedColorTheme().background,
             leading: Container(
               margin: const EdgeInsets.all(10),

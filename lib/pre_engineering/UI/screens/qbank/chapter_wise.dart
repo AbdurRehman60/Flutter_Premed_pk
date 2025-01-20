@@ -52,16 +52,15 @@ class _EngChapterWiseHomeState extends State<EngChapterWiseHome>
             child: Padding(
               padding: const EdgeInsets.only(left: 24),
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start, // Ensure alignment for children
+                crossAxisAlignment: CrossAxisAlignment.start, // Ensure alignment for children
                 children: [
                   Text(
                     'Pre-Engineering Topicals',
                     style: PreMedTextTheme().heading6.copyWith(
-                          color: PreMedColorTheme().black,
-                          fontSize: 34,
-                          fontWeight: FontWeight.w800,
-                        ),
+                      color: PreMedColorTheme().black,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ],
               ),
@@ -73,10 +72,10 @@ class _EngChapterWiseHomeState extends State<EngChapterWiseHome>
             child: Text(
               'Attempt these Topicals to prepare for your Engineering Entrance Exams',
               style: PreMedTextTheme().heading6.copyWith(
-                    color: PreMedColorTheme().black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                  ),
+                color: PreMedColorTheme().black,
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
           SizedBoxes.verticalMedium,
@@ -100,8 +99,7 @@ class _EngChapterWiseHomeState extends State<EngChapterWiseHome>
                       itemBuilder: (context, index) {
                         final deckGroup = filteredDeckGroups[index];
                         return DeckTile(
-                            deckGroup: deckGroup,
-                            deckGroupName: 'Engineering QBank');
+                            deckGroup: deckGroup, deckGroupName: 'Engineering QBank');
                       },
                     );
                   case ChapterWiseFetchStatus.error:

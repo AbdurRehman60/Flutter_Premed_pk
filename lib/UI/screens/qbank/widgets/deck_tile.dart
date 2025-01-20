@@ -22,7 +22,7 @@ class DeckTile extends StatelessWidget {
         },
         child: LayoutBuilder(
           builder: (context, constraints) {
-            double height = constraints.maxWidth < 360 ? 130 : 108;
+            final double height = constraints.maxWidth < 360 ? 130 : 108;
 
             return Container(
               height: height,
@@ -101,7 +101,7 @@ class DeckTile extends StatelessWidget {
 
 void _openBottomSheet(
     BuildContext context, DeckGroupModel deckGroup, String deckGroupName) {
-  String bankOrMock = deckGroupName.toLowerCase().contains('mocks') ? 'Mock' : 'Bank';
+  final String bankOrMock = deckGroupName.toLowerCase().contains('mocks') ? 'Mock' : 'Bank';
 
   showModalBottomSheet(
     context: context,

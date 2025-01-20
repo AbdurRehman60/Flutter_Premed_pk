@@ -69,19 +69,19 @@ class Account extends StatelessWidget {
                 Text(
                   'Settings',
                   style: PreMedTextTheme().heading6.copyWith(
-                        color: PreMedColorTheme().black,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w800,
-                      ),
+                    color: PreMedColorTheme().black,
+                    fontSize: 34,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
                 SizedBoxes.vertical2Px,
                 Text(
                   'Your App and Account Preferences',
                   style: PreMedTextTheme().subtext.copyWith(
-                        fontSize: 15.5,
-                        fontWeight: FontWeight.w400,
-                        color: PreMedColorTheme().black,
-                      ),
+                    fontSize: 15.5,
+                    fontWeight: FontWeight.w400,
+                    color: PreMedColorTheme().black,
+                  ),
                 )
               ],
             ),
@@ -222,14 +222,14 @@ class Account extends StatelessWidget {
                   // SizedBoxes.vert[]icalMedium,
                   Padding(
                     padding:
-                        const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
                     child: UserTile(
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const AccountBeforeEdit()));
+                                  const AccountBeforeEdit()));
                           // Navigator.of(context).push(
                           //   MaterialPageRoute(
                           //     builder: (context) => const EditProfile(),
@@ -268,36 +268,36 @@ class Account extends StatelessWidget {
                                 width: double.infinity,
                                 height: 50,
                                 child: auth.loggedInStatus ==
-                                        Status.Authenticating
+                                    Status.Authenticating
                                     ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                           SizedBox(
-                                            width: 16,
-                                            height: 16,
-                                            child: CircularProgressIndicator(
-                                              color: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
-                                              strokeWidth: 2.0,
-                                            ),
-                                          ),
-                                          SizedBoxes.horizontalMedium,
-                                          Text(
-                                            'Signing Out',
-                                            style: PreMedTextTheme().subtext,
-                                          ),
-                                        ],
-                                      )
-                                    : Material(
-                                        elevation: 3,
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: CustomButton(
-
-                                          color: isPremed ? PreMedColorTheme().red : PreMedColorTheme().blue,
-                                          buttonText: 'Sign out',
-                                          onPressed: onLogoutPressed,
-                                        ),
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: CircularProgressIndicator(
+                                        color: Provider.of<PreMedProvider>(context,listen: false).isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                                        strokeWidth: 2.0,
                                       ),
+                                    ),
+                                    SizedBoxes.horizontalMedium,
+                                    Text(
+                                      'Signing Out',
+                                      style: PreMedTextTheme().subtext,
+                                    ),
+                                  ],
+                                )
+                                    : Material(
+                                  elevation: 3,
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: CustomButton(
+
+                                    color: isPremed ? PreMedColorTheme().red : PreMedColorTheme().blue,
+                                    buttonText: 'Sign out',
+                                    onPressed: onLogoutPressed,
+                                  ),
+                                ),
                               ),
                             );
                           case 3:
@@ -345,7 +345,7 @@ class Account extends StatelessWidget {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const ChangePassword(),
+                                      const ChangePassword(),
                                     ),
                                   );
                                 case 1:
@@ -358,38 +358,38 @@ class Account extends StatelessWidget {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const NotificationsScreen(),
+                                      const NotificationsScreen(),
                                     ),
                                   ); case 4:
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CreditsScreen(),
-                                    ),
-                                  );
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                    const CreditsScreen(),
+                                  ),
+                                );
                                 case 5:
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const PrivacyPolicy(),
+                                      const PrivacyPolicy(),
                                     ),
                                   );
                                 case 6:
-                                  // Handle Terms & Condition tap
+                                // Handle Terms & Condition tap
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const TermsCondition(),
+                                      const TermsCondition(),
                                     ),
                                   );
-                                // case 6:
-                                //   //for deletion of acc
-                                //   Navigator.of(context).push(
-                                //     MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           const DeleteAccount(),
-                                //     ),
-                                //   );
+                              // case 6:
+                              //   //for deletion of acc
+                              //   Navigator.of(context).push(
+                              //     MaterialPageRoute(
+                              //       builder: (context) =>
+                              //           const DeleteAccount(),
+                              //     ),
+                              //   );
                               }
                             },
                           ),

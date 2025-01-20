@@ -28,7 +28,7 @@ class _PdfSearchState extends State<PdfSearch> {
     setState(() {
       filteredList = widget.notesList!
           .where((element) =>
-              element.title.toLowerCase().contains(value.toLowerCase()))
+          element.title.toLowerCase().contains(value.toLowerCase()))
           .toList();
     });
   }
@@ -51,7 +51,7 @@ class _PdfSearchState extends State<PdfSearch> {
           child: Scaffold(
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(60.0),
-    child: AppBar( centerTitle: false,
+              child: AppBar( centerTitle: false,
                 backgroundColor: PreMedColorTheme().white,
                 leading: Container(
                   margin: const EdgeInsets.all(10),
@@ -224,13 +224,13 @@ class _PdfSearchState extends State<PdfSearch> {
                   Expanded(
                     child: Consumer<NotesProvider>(
                         builder: (context, notesProvider, _) {
-                      return PdfDisplay(
-                        notes: filteredList!,
-                        isSearch: true,
-                        isLoading: notesProvider.guidesloadingStatus ==
-                            Status.Fetching,
-                      );
-                    }),
+                          return PdfDisplay(
+                            notes: filteredList!,
+                            isSearch: true,
+                            isLoading: notesProvider.guidesloadingStatus ==
+                                Status.Fetching,
+                          );
+                        }),
                   ),
                 ],
               ),

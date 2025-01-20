@@ -1,3 +1,4 @@
+
 import 'package:premedpk_mobile_app/UI/screens/notifications/widgets/notification_card.dart';
 import 'package:premedpk_mobile_app/UI/widgets/global_widgets/empty_state.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -13,7 +14,7 @@ class NotificationsScreen extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-            child: AppBar( centerTitle: false,
+        child: AppBar( centerTitle: false,
           backgroundColor: PreMedColorTheme().white,
           leading: Container(
             margin: const EdgeInsets.all(10),
@@ -31,9 +32,9 @@ class NotificationsScreen extends StatelessWidget {
             ),
             alignment: Alignment.center,
             child: IconButton(
-              icon: Icon(Icons.arrow_back_ios_new_rounded,
-                  color: PreMedColorTheme().primaryColorRed),
-              onPressed: () {Navigator.of(context).pop();}
+                icon: Icon(Icons.arrow_back_ios_new_rounded,
+                    color: PreMedColorTheme().primaryColorRed),
+                onPressed: () {Navigator.of(context).pop();}
             ),
           ),
           automaticallyImplyLeading: false,
@@ -89,42 +90,42 @@ class NotificationsScreen extends StatelessWidget {
                     webNotificationsProvider.notificationStatus == Status.Fetching;
 
                 final List<WebNotificationModel> a =
-                    webNotificationsProvider.webNotificationList.reversed.toList();
+                webNotificationsProvider.webNotificationList.reversed.toList();
                 return isLoading
                     ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
+                  child: CircularProgressIndicator(),
+                )
                     : webNotificationsProvider.webNotificationList.isEmpty
-                        ? EmptyState(
-                            displayImage: PremedAssets.Notfoundemptystate,
-                            title: "You Don't Have any notifications",
-                            body: "")
-                        : ListView.builder(
-                            itemCount:
-                                webNotificationsProvider.webNotificationList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                                    child: NotificationCard(
-                                      notification: a[index],
-                                    ),
-                                  ),
-                                  if (index < webNotificationsProvider.webNotificationList.length - 1)
-                                    const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 24),
-                                      child: Divider(
-                                        height: 0.5,
-                                        color: Colors.grey, // Adjust color as needed
-                                      ),
-                                    ),
-                                ],
+                    ? EmptyState(
+                    displayImage: PremedAssets.Notfoundemptystate,
+                    title: "You Don't Have any notifications",
+                    body: "")
+                    : ListView.builder(
+                  itemCount:
+                  webNotificationsProvider.webNotificationList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                          child: NotificationCard(
+                            notification: a[index],
+                          ),
+                        ),
+                        if (index < webNotificationsProvider.webNotificationList.length - 1)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 24),
+                            child: Divider(
+                              height: 0.5,
+                              color: Colors.grey, // Adjust color as needed
+                            ),
+                          ),
+                      ],
 
-                              );
+                    );
 
-                            },
-                          );
+                  },
+                );
               },
             ),
           ),

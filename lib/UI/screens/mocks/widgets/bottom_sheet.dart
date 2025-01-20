@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/Widgets/global_widgets/custom_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/test_mode_page.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
@@ -35,7 +36,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
   bool isContinuingAttempt = false;
 
   Future<void> _fetchDeckInfo(int originalIndex, BuildContext context) async {
-    final userId = Provider.of<UserProvider>(context, listen: false).user?.userId;
+    final userId =
+        Provider.of<UserProvider>(context, listen: false).user?.userId;
     final category = widget.category ?? '';
     final deckGroup = widget.deckGroup.deckGroupName;
     final deckName = widget.deckGroup.deckItems[originalIndex].deckName;
@@ -43,7 +45,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     try {
       await Provider.of<DeckProvider>(context, listen: false)
           .fetchDeckInformation(category, deckGroup, deckName, userId!);
-
     } catch (e) {
       print('Error fetching deck information: $e');
     }
@@ -56,17 +57,15 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final accessTags = Provider.of<UserProvider>(context, listen: false).getTags();
+    final accessTags =
+        Provider.of<UserProvider>(context, listen: false).getTags();
     final preMedPro = context.read<PreMedProvider>();
 
     final List<Map<String, dynamic>> publishedDecks = widget.deckGroup.deckItems
         .asMap()
         .entries
-        .where((entry) => entry.value.isPublished == true)
-        .map((entry) => {
-      'deck': entry.value,
-      'originalIndex': entry.key
-    })
+        .where((entry) => entry.value.isPublished)
+        .map((entry) => {'deck': entry.value, 'originalIndex': entry.key})
         .toList();
 
     return SizedBox(
@@ -111,15 +110,13 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                           Text(
                             item.deckName,
                             style: PreMedTextTheme().body.copyWith(
-                              color: PreMedColorTheme().black,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 17,
-                            ),
+                                  color: PreMedColorTheme().black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 17,
+                                ),
                           ),
                           SizedBoxes.verticalTiny,
-                          if (item.isTutorModeFree == true ||
-                              item.premiumTags == null ||
-                              item.premiumTags!.isEmpty)
+                          if (item.isTutorModeFree || item.premiumTags.isEmpty)
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
@@ -130,10 +127,10 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                 child: Text(
                                   'Free',
                                   style: PreMedTextTheme().body.copyWith(
-                                    color: PreMedColorTheme().white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14,
-                                  ),
+                                        color: PreMedColorTheme().white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 14,
+                                      ),
                                 ),
                               ),
                             )
@@ -141,19 +138,21 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Provider.of<PreMedProvider>(context, listen: false).isPreMed
+                                color: Provider.of<PreMedProvider>(context,
+                                            listen: false)
+                                        .isPreMed
                                     ? PreMedColorTheme().red
                                     : PreMedColorTheme().blue,
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  item.premiumTags!.join(', '),
+                                  item.premiumTags.join(', '),
                                   style: PreMedTextTheme().body.copyWith(
-                                    color: PreMedColorTheme().white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 14,
-                                  ),
+                                        color: PreMedColorTheme().white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 14,
+                                      ),
                                 ),
                               ),
                             ),
@@ -167,14 +166,17 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                         size: 20,
                       ),
                       onTap: () async {
-                        if (_hasAccess(item.premiumTags, accessTags, item.isTutorModeFree)) {
+                        if (_hasAccess(item.premiumTags, accessTags,
+                            item.isTutorModeFree)) {
                           setState(() {
                             selectedDeckItemIndex = originalIndex;
                           });
                           await _fetchDeckInfo(originalIndex, context);
                           await _fetchQuestions(item.deckName, context);
 
-                          final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+                          final deckInfo =
+                              Provider.of<DeckProvider>(context, listen: false)
+                                  .deckInformation;
                           if (deckInfo?.alreadyAttempted == true) {
                             _showAlreadyAttemptedPopup(context, item);
                           } else {
@@ -195,55 +197,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     );
   }
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-void _navigateToDeck(BuildContext context, DeckItem item) {
-    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+  void _navigateToDeck(BuildContext context, DeckItem item) {
+    final deckInfo =
+        Provider.of<DeckProvider>(context, listen: false).deckInformation;
     if (deckInfo == null) {
       return;
     }
@@ -260,11 +216,15 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
           builder: (context) => TestModeInterface(
             subject: widget.deckGroup.deckGroupName,
             deckDetails: {
-              'deckName': widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
-              'isTutorModeFree': widget.deckGroup.deckItems[selectedDeckItemIndex].isTutorModeFree,
-              'deckInstructions': widget.deckGroup.deckItems[selectedDeckItemIndex].deckInstructions,
+              'deckName':
+                  widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+              'isTutorModeFree': widget
+                  .deckGroup.deckItems[selectedDeckItemIndex].isTutorModeFree,
+              'deckInstructions': widget
+                  .deckGroup.deckItems[selectedDeckItemIndex].deckInstructions,
               'questions': totalQuestions.toString(),
-              'timedTestMinutes': widget.deckGroup.deckItems[selectedDeckItemIndex].timesTestminutes,
+              'timedTestMinutes': widget
+                  .deckGroup.deckItems[selectedDeckItemIndex].timesTestminutes,
             },
             premiumtag: item.premiumTags ?? [],
             deckGroupName: widget.category ?? '',
@@ -277,16 +237,15 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DeckInstructions(
-            subject: widget.subject,
-            deckInstructions: item.deckInstructions,
-            deckGroup: widget.deckGroup,
-            selectedIndex: selectedDeckItemIndex,
-            totalquestions: totalQuestions,
-            questionlist: deckInfo.questions,
-            istimedtestmode: item.timedTestMode,
-          )
-        ),
+            builder: (context) => DeckInstructions(
+                  subject: widget.subject,
+                  deckInstructions: item.deckInstructions,
+                  deckGroup: widget.deckGroup,
+                  selectedIndex: selectedDeckItemIndex,
+                  totalquestions: totalQuestions,
+                  questionlist: deckInfo.questions,
+                  istimedtestmode: item.timedTestMode,
+                )),
       );
     }
   }
@@ -294,11 +253,16 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
   void _showAlreadyAttemptedPopup(BuildContext context, DeckItem item) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final accessTags = userProvider.getTags();
-    final bool hasFullAccess = _hasAccess(item.premiumTags, accessTags, item.isTutorModeFree);
+    final bool hasFullAccess =
+        _hasAccess(item.premiumTags, accessTags, item.isTutorModeFree);
 
     final userName = userProvider.getUserName();
-    final lastAttempt = Provider.of<DeckProvider>(context, listen: false).deckInformation?.attempts;
-    final lastAttemptId = Provider.of<DeckProvider>(context, listen: false).deckInformation?.lastAttemptId;
+    final lastAttempt = Provider.of<DeckProvider>(context, listen: false)
+        .deckInformation
+        ?.attempts;
+    final lastAttemptId = Provider.of<DeckProvider>(context, listen: false)
+        .deckInformation
+        ?.lastAttemptId;
 
     showDialog(
       context: context,
@@ -307,7 +271,9 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
           title: Center(
             child: Text(
               'Paper already attempted!',
-              style: PreMedTextTheme().body.copyWith(fontWeight: FontWeight.w600, fontSize: 18),
+              style: PreMedTextTheme()
+                  .body
+                  .copyWith(fontWeight: FontWeight.w600, fontSize: 18),
             ),
           ),
           content: Text(
@@ -319,7 +285,6 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    
                     SizedBox(
                       width: 120,
                       child: CustomButton(
@@ -330,9 +295,9 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
                               isContinuingAttempt = false;
                             });
                             Navigator.pop(context);
-                            _navigateToDeck(context, item); 
+                            _navigateToDeck(context, item);
                           } else {
-                            _showPurchasePopup(context);  
+                            _showPurchasePopup(context);
                           }
                         },
                         color: Colors.amber[900],
@@ -341,8 +306,6 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
                       ),
                     ),
                     SizedBoxes.horizontalMicro,
-
-                    
                     SizedBox(
                       width: 100,
                       child: CustomButton(
@@ -355,23 +318,31 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
                             Navigator.pop(context);
                             if (lastAttempt != null && lastAttempt.isNotEmpty) {
                               final latestAttempt = lastAttempt.last;
-                              final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+                              final questionProvider =
+                                  Provider.of<QuestionProvider>(context,
+                                      listen: false);
 
-                              final startFromQuestion = questionProvider.questions
-                                  ?.indexWhere((question) =>
-                              question.questionId == latestAttempt['questionId']) ??
+                              final startFromQuestion = questionProvider
+                                      .questions
+                                      .indexWhere((question) =>
+                                          question.questionId ==
+                                          latestAttempt['questionId']) ??
                                   0;
 
                               if (startFromQuestion >= 0) {
-                                _navigateToNextScreen(context, item, startFromQuestion: startFromQuestion, attemptId: lastAttemptId);
+                                _navigateToNextScreen(context, item,
+                                    startFromQuestion: startFromQuestion,
+                                    attemptId: lastAttemptId);
                               } else {
-                                _navigateToNextScreen(context, item, attemptId: lastAttemptId);
+                                _navigateToNextScreen(context, item,
+                                    attemptId: lastAttemptId);
                               }
                             } else {
-                              _navigateToNextScreen(context, item, attemptId: lastAttemptId);
+                              _navigateToNextScreen(context, item,
+                                  attemptId: lastAttemptId);
                             }
                           } else {
-                            _showPurchasePopup(context);  
+                            _showPurchasePopup(context);
                           }
                         },
                         color: Colors.blueAccent,
@@ -382,8 +353,6 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
                   ],
                 ),
                 SizedBoxes.verticalMedium,
-
-                
                 SizedBox(
                   width: 100,
                   child: CustomButton(
@@ -394,9 +363,10 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
                         setState(() {
                           isContinuingAttempt = false;
                         });
-                        _navigateToNextScreen(context, item, isReview: true, startFromQuestion: 0);
+                        _navigateToNextScreen(context, item,
+                            isReview: true, startFromQuestion: 0);
                       } else {
-                        _showPurchasePopup(context);  
+                        _showPurchasePopup(context);
                       }
                     },
                     color: Colors.green,
@@ -412,7 +382,8 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
     );
   }
 
-  bool _hasAccess(List<String>? premiumTags, Object? accessTags, bool? isPastPaperFree) {
+  bool _hasAccess(
+      List<String>? premiumTags, Object? accessTags, bool? isPastPaperFree) {
     // Grant access if the paper is free, or if there are no premium tags
     if (isPastPaperFree == true || premiumTags == null || premiumTags.isEmpty) {
       return true;
@@ -434,9 +405,12 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
             }
 
             // Group match for predefined tags
-            if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
-                (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
-                (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
+            if ((premiumTag == 'MDCAT-QBank' &&
+                    mdcatTags.contains(access['name'])) ||
+                (premiumTag == 'NUMS-QBank' &&
+                    numsTags.contains(access['name'])) ||
+                (premiumTag == 'AKU-QBank' &&
+                    privTags.contains(access['name']))) {
               return true;
             }
           }
@@ -449,18 +423,64 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
   }
 
   void _showPurchasePopup(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final String appToken = userProvider.user?.info.appToken ?? '';
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Purchase Required"),
-          content: const Text("You need to purchase the required bundle to access this content."),
+          title: Column(
+            children: [
+              SvgPicture.asset('assets/icons/lock.svg'),
+              SizedBox(height: 10),
+              const Center(
+                child: Text(
+                  'Oh No! It’s Locked',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 25,
+                    color: Color(0xFFFE63C49),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text(
+                'Looks like this feature is not included in your plan. Upgrade to a higher plan or purchase this feature separately to continue.',
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Visit PreMed.PK for more details.',
+              ),
+            ],
+          ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("OK"),
+            Center(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Color(0xFFE6E6E6),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'Return',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Color(0xFFFE63C49),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         );
@@ -468,14 +488,19 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
     );
   }
 
-
-  void _navigateToNextScreen(BuildContext context, DeckItem item, {int? startFromQuestion, String? attemptId, bool isReview = false}) async {
-    final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
-    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+  Future<void> _navigateToNextScreen(BuildContext context, DeckItem item,
+      {int? startFromQuestion,
+      String? attemptId,
+      bool isReview = false}) async {
+    final deckAttemptProvider =
+        Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+    final deckInfo =
+        Provider.of<DeckProvider>(context, listen: false).deckInformation;
 
     final attemptMode = deckInfo?.attemptMode ?? '';
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
-    final totalQuestions = questionProvider.questions?.length ?? 0;
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
+    final totalQuestions = questionProvider.questions.length ?? 0;
 
     int questionIndex = startFromQuestion ?? 0;
     if (questionIndex < 0 || questionIndex >= totalQuestions) {
@@ -483,15 +508,18 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
     }
 
     if (isReview) {
-      _startReviewMode(context, item, attemptMode, deckAttemptProvider, questionIndex);
+      _startReviewMode(
+          context, item, attemptMode, deckAttemptProvider, questionIndex);
     } else {
-      _continueOrReattempt(context, item, attemptMode, deckAttemptProvider, questionIndex, attemptId);
+      _continueOrReattempt(context, item, attemptMode, deckAttemptProvider,
+          questionIndex, attemptId);
     }
   }
 
-
-  void _startReviewMode(BuildContext context, DeckItem item, String attemptMode, CreateDeckAttemptProvider deckAttemptProvider, int questionIndex) {
-    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+  void _startReviewMode(BuildContext context, DeckItem item, String attemptMode,
+      CreateDeckAttemptProvider deckAttemptProvider, int questionIndex) {
+    final deckInfo =
+        Provider.of<DeckProvider>(context, listen: false).deckInformation;
     if (attemptMode == 'TUTORMODE') {
       Navigator.push(
         context,
@@ -499,9 +527,9 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
           builder: (context) => TutorMode(
             isContinuingAttempt: false,
             subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            deckName:
+                widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: deckAttemptProvider.attemptId,
-            startFromQuestion: 0,
             isReview: true,
             totalquestions: deckInfo!.questions.length,
             questionlist: deckInfo.questions,
@@ -517,9 +545,9 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
             isRecent: false,
             isContinuingAttempt: false,
             subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            deckName:
+                widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: deckAttemptProvider.attemptId,
-            startFromQuestion: 0,
             isReview: true,
             totalquestions: deckInfo!.questions.length,
             questionlist: deckInfo.questions,
@@ -529,8 +557,15 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
     }
   }
 
-  void _continueOrReattempt(BuildContext context, DeckItem item, String attemptMode, CreateDeckAttemptProvider deckAttemptProvider, int questionIndex, String? attemptId) {
-    final deckInfo = Provider.of<DeckProvider>(context, listen: false).deckInformation;
+  void _continueOrReattempt(
+      BuildContext context,
+      DeckItem item,
+      String attemptMode,
+      CreateDeckAttemptProvider deckAttemptProvider,
+      int questionIndex,
+      String? attemptId) {
+    final deckInfo =
+        Provider.of<DeckProvider>(context, listen: false).deckInformation;
     if (attemptMode == 'TUTORMODE') {
       Navigator.push(
         context,
@@ -538,7 +573,8 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
           builder: (context) => TutorMode(
             isContinuingAttempt: isContinuingAttempt,
             subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            deckName:
+                widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: attemptId ?? deckAttemptProvider.attemptId,
             startFromQuestion: questionIndex,
             isReview: false,
@@ -556,7 +592,8 @@ void _navigateToDeck(BuildContext context, DeckItem item) {
             isRecent: false,
             isContinuingAttempt: isContinuingAttempt,
             subject: widget.subject,
-            deckName: widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
+            deckName:
+                widget.deckGroup.deckItems[selectedDeckItemIndex].deckName,
             attemptId: attemptId ?? deckAttemptProvider.attemptId,
             startFromQuestion: questionIndex,
             isReview: false,

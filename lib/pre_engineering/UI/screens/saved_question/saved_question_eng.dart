@@ -46,9 +46,9 @@ class _SavedQuestionScreenEngState extends State<SavedQuestionScreenEng> {
       _filteredQuestions = provider.savedQuestions
           .where((question) => question.subject == _activeTopic)
           .toList();
-      _filteredQuestions.forEach((question) {
+      for (var question in _filteredQuestions) {
         print('Matching Question: ${question.subject}');
-      });
+      }
     }
   }
 
@@ -60,7 +60,7 @@ class _SavedQuestionScreenEngState extends State<SavedQuestionScreenEng> {
         preferredSize: const Size.fromHeight(60.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: AppBar( centerTitle: false,
+          child: AppBar(
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 15),

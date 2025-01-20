@@ -12,7 +12,7 @@ class MarketPlace extends StatelessWidget {
   const MarketPlace({super.key});
 
   static final GlobalKey<ScaffoldState> scaffoldKey =
-      GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState>();
 
   static void openDrawer() {
     scaffoldKey.currentState?.openEndDrawer();
@@ -21,7 +21,7 @@ class MarketPlace extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final BundleProvider bundleProvider =
-        Provider.of<BundleProvider>(context, listen: false);
+    Provider.of<BundleProvider>(context, listen: false);
     bundleProvider.fetchBundles();
     bundleProvider.fetchDiscount();
     return Scaffold(
@@ -48,9 +48,9 @@ class MarketPlace extends StatelessWidget {
                         Text(
                           'Explore and Buy PreMed Bundles!',
                           style: PreMedTextTheme().body.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                              ),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ],
                     ),

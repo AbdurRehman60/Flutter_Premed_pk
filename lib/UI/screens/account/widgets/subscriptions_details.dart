@@ -50,10 +50,10 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
                 Text(
                   'OVERVIEW',
                   style: PreMedTextTheme().subtext.copyWith(
-                        fontSize: 9,
-                        fontWeight: FontWeight.bold,
-                        color: PreMedColorTheme().black,
-                      ),
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                    color: PreMedColorTheme().black,
+                  ),
                 ),
               ],
             ),
@@ -103,9 +103,9 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
               Text(
                 'Details',
                 style: PreMedTextTheme().heading6.copyWith(
-                      color: PreMedColorTheme().black,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  color: PreMedColorTheme().black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               SizedBoxes.vertical15Px,
               SubscriptionDetailSection(
@@ -252,7 +252,7 @@ class SubscriptionCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
                       color: const Color(0xFF77D9A5),
                       borderRadius: BorderRadius.circular(8.0),
@@ -272,7 +272,7 @@ class SubscriptionCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
                       color: const Color(0xFF77D9A5),
                       borderRadius: BorderRadius.circular(8.0),
@@ -291,12 +291,12 @@ class SubscriptionCard extends StatelessWidget {
               Text(
                 "ACCESS ENDS IN $remainingDays DAYS",
                 style: PreMedTextTheme().subtext.copyWith(
-                      fontSize: 8,
-                      fontWeight: FontWeight.bold,
-                      color: Provider.of<PreMedProvider>(context).isPreMed
-                          ? PreMedColorTheme().red
-                          : PreMedColorTheme().blue,
-                    ),
+                  fontSize: 8,
+                  fontWeight: FontWeight.bold,
+                  color: Provider.of<PreMedProvider>(context).isPreMed
+                      ? PreMedColorTheme().red
+                      : PreMedColorTheme().blue,
+                ),
               ),
             ],
           ),
@@ -354,9 +354,9 @@ class SubscriptionDetailSection extends StatelessWidget {
 class DetailItem extends StatelessWidget {
   const DetailItem(
       {super.key,
-      required this.isAvailable,
-      required this.label,
-      required this.onTap});
+        required this.isAvailable,
+        required this.label,
+        required this.onTap});
   final bool isAvailable;
   final String label;
   final void Function() onTap;

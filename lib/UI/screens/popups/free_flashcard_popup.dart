@@ -124,14 +124,14 @@ class FreeFlashcardPopUp extends StatelessWidget {
                         fontSize: 18,
                         color: Colors.blueAccent),
                     children: [
-                      TextSpan(text: 'The '),
+                      const TextSpan(text: 'The '),
                       TextSpan(
                           text: 'Offer ',
                           style: PreMedTextTheme().body.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: 18,
                               color: Colors.blueAccent)),
-                      TextSpan(text: 'Ends In')
+                      const TextSpan(text: 'Ends In')
                     ])),
             SizedBoxes.verticalMedium,
             const TimerWidget(),

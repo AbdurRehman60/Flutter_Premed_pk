@@ -40,7 +40,7 @@ class _AnalyticsState extends State<Analytics> {
       backgroundColor: PreMedColorTheme().background,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-            child: AppBar( centerTitle: false,
+        child: AppBar(
           backgroundColor: PreMedColorTheme().background,
           leading: Container(
             margin: const EdgeInsets.all(10),
@@ -92,9 +92,8 @@ class _AnalyticsState extends State<Analytics> {
             return const Center(child: CircularProgressIndicator());
           } else if (attemptProvider.status == AStatus.success) {
             final attemptInfo = attemptProvider.attemptInfo;
-            final resultMeta = attemptProvider.resultMeta;  // Access resultMeta
+            final resultMeta = attemptProvider.resultMeta;
 
-            // Ensure resultMeta is not null
             return resultMeta != null
                 ? SingleChildScrollView(
               child: Padding(
@@ -103,7 +102,7 @@ class _AnalyticsState extends State<Analytics> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      resultMeta.deckName, // Access deckName from resultMeta
+                      resultMeta.deckName,
                       style: PreMedTextTheme()
                           .body
                           .copyWith(fontSize: 28, fontWeight: FontWeight.w800),
@@ -111,9 +110,9 @@ class _AnalyticsState extends State<Analytics> {
                     SizedBoxes.verticalLarge,
 
                     AttemptPieChart(
-                      correct: attemptProvider.attemptInfo!.correctAttempts,
-                      incorrect: attemptProvider.attemptInfo!.incorrectAttempts,
-                      skipped: attemptProvider.attemptInfo!.skippedAttempts,
+                      correct: attemptInfo!.correctAttempts,
+                      incorrect: attemptInfo.incorrectAttempts,
+                      skipped: attemptInfo.skippedAttempts,
                     ),
                     SizedBoxes.verticalGargangua,
                     Row(
@@ -137,7 +136,7 @@ class _AnalyticsState extends State<Analytics> {
                                       Image.asset(PremedAssets.PieChart),
                                       SizedBoxes.verticalMedium,
                                       Text(
-                                        'Total Marks Scored: ${resultMeta.totalMarks}', // Access totalMarks from resultMeta
+                                        'Total Marks Scored: ${resultMeta.totalMarks}',
                                         textAlign: TextAlign.center,
                                         style: PreMedTextTheme()
                                             .body
@@ -172,7 +171,7 @@ class _AnalyticsState extends State<Analytics> {
                                       Image.asset(PremedAssets.Timer),
                                       SizedBoxes.verticalMedium,
                                       Text(
-                                        'Total Time Taken: ${attemptProvider.attemptInfo!.totalTimeTaken}s', // Access totalTimeTaken from resultMeta
+                                        'Total Time Taken: ${(attemptInfo.totalTimeTaken / 1000).toStringAsFixed(2)}s',
                                         textAlign: TextAlign.center,
                                         style: PreMedTextTheme()
                                             .body
@@ -207,7 +206,7 @@ class _AnalyticsState extends State<Analytics> {
                                       Image.asset(PremedAssets.Graph),
                                       SizedBoxes.verticalMedium,
                                       Text(
-                                        'Avg Time Per Question: ${resultMeta.avgTimeTaken.toStringAsFixed(2)}s', // Access avgTimeTaken from resultMeta
+                                        'Avg Time Per Question: ${(resultMeta.avgTimeTaken / 1000).toStringAsFixed(2)}s',
                                         textAlign: TextAlign.center,
                                         style: PreMedTextTheme()
                                             .body
@@ -242,31 +241,13 @@ class _AnalyticsState extends State<Analytics> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18))),
                             SizedBoxes.verticalGargangua,
-                            _buildInfoRow('Attempted:', resultMeta.attempted.toString()),  // Access attempted from resultMeta
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   children: [
-                            //     Text('Average Time Taken',
-                            //         style: PreMedTextTheme()
-                            //             .body
-                            //             .copyWith(fontWeight: FontWeight.bold)),
-                            //     Text(
-                            //       '${attemptProvider.attemptInfo!.avgTimeTaken}s',
-                            //       textAlign: TextAlign.center,
-                            //       style: PreMedTextTheme()
-                            //           .body
-                            //           .copyWith(
-                            //           fontWeight: FontWeight.w600,
-                            //           fontSize: 17),
-                            //     ),
-                            //   ],
-                            // ),
-                            _buildInfoRow('Average Time Taken', resultMeta.avgTimeTaken.toStringAsFixed(2)),
+                            _buildInfoRow('Attempted:', resultMeta.attempted.toString()),
+                            _buildInfoRow('Average Time Taken:', (resultMeta.avgTimeTaken / 1000).toStringAsFixed(2)),
                             _buildInfoRow('Negatives Due to Wrong:', resultMeta.negativesDueToWrong.toString()),
                             _buildInfoRow('No of Negatively Marked:', resultMeta.noOfNegativelyMarked.toString()),
                             _buildInfoRow('Total Marks:', resultMeta.totalMarks.toString()),
                             _buildInfoRow('Total Questions:', resultMeta.totalQuestions.toString()),
-                            _buildInfoRow('Total Time Taken:', '${attemptProvider.attemptInfo!.totalTimeTaken}s'),
+                            _buildInfoRow('Total Time Taken:', '${(attemptInfo.totalTimeTaken / 1000).toStringAsFixed(2)}s'),
                           ],
                         ),
                       ),

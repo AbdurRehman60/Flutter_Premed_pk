@@ -1,5 +1,4 @@
 
-import 'package:premedpk_mobile_app/providers/user_provider.dart';
 
 import '../api_manager/dio client/dio_client.dart';
 import '../api_manager/dio client/endpoints.dart';

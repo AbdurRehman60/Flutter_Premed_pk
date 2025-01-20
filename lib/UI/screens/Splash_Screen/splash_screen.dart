@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/widgets/welcome_screen.dart';
-import 'package:premedpk_mobile_app/UI/screens/a_new_onboarding/choose_school.dart';
 import 'package:premedpk_mobile_app/UI/screens/a_new_signup_flow/additional_info.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
-import 'package:premedpk_mobile_app/UI/screens/onboarding/required_onboarding.dart';
-import 'package:premedpk_mobile_app/UI/screens/onboarding/widgets/onboarding_screen_one.dart';
 import 'package:premedpk_mobile_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

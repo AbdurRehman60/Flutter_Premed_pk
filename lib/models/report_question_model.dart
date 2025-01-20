@@ -1,8 +1,4 @@
 class ReportedQuestion {
-  final String userId;
-  final String questionId;
-  final String problemText;
-  final List<String> issues;
 
   ReportedQuestion({
     required this.userId,
@@ -18,6 +14,10 @@ class ReportedQuestion {
       issues: List<String>.from(json['issues']),
     );
   }
+  final String userId;
+  final String questionId;
+  final String problemText;
+  final List<String> issues;
   Map<String, dynamic> toJson() {
     return {
       'userId': userId,

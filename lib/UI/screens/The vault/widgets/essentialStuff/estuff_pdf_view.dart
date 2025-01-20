@@ -23,9 +23,9 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
   bool isDownloaded = false;
 
   final Completer<PDFViewController> _pdfViewController =
-      Completer<PDFViewController>();
+  Completer<PDFViewController>();
   final StreamController<String> _pageCountController =
-      StreamController<String>();
+  StreamController<String>();
 
   @override
   void dispose() {
@@ -82,7 +82,7 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
                         Navigator.of(context).pop();
 
                         _pdfViewController.future.then(
-                          (controller) {
+                              (controller) {
                             final int pageNumber = widget.essenceStuffModel
                                 .pagination![index].startPageNo;
 
@@ -109,13 +109,13 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
                                 style: PreMedTextTheme().body.copyWith(
                                     fontSize: 16,
                                     fontWeight: currentPage ==
-                                            widget.essenceStuffModel
-                                                .pagination![index].startPageNo
+                                        widget.essenceStuffModel
+                                            .pagination![index].startPageNo
                                         ? FontWeight.w700
                                         : FontWeight.w700,
                                     color: currentPage ==
-                                            widget.essenceStuffModel
-                                                .pagination![index].startPageNo
+                                        widget.essenceStuffModel
+                                            .pagination![index].startPageNo
                                         ? PreMedColorTheme().primaryColorRed
                                         : PreMedColorTheme().neutral900),
                               ),
@@ -165,7 +165,7 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
             preferredSize: const Size.fromHeight(60.0),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
-                child: AppBar( centerTitle: false,
+              child: AppBar( centerTitle: false,
                 backgroundColor: PreMedColorTheme().white,
                 leading: const PopButton(),
                 title: Row(
@@ -179,10 +179,10 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
                             child: Text(
                               widget.essenceStuffModel.topicName,
                               style: PreMedTextTheme().subtext.copyWith(
-                                    color: PreMedColorTheme().black,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                                color: PreMedColorTheme().black,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                              ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -191,10 +191,10 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
                             alignment: Alignment.centerLeft,
                             child: Text(widget.categoryName,
                                 style: PreMedTextTheme().subtext.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                      color: PreMedColorTheme().black,
-                                    )),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: PreMedColorTheme().black,
+                                )),
                           ),
                         ],
                       ),
@@ -234,17 +234,17 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
               widget.essenceStuffModel.pdfUrl,
               placeholder: (double progress) => Center(
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Lottie.asset(
-                        'animations/1.json',
-                        height: 200,
-                        fit: BoxFit.cover,
-                        repeat: true,
-                      ),
-                      Text('$progress %'),
-                    ],
-                  ),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      'animations/1.json',
+                      height: 200,
+                      fit: BoxFit.cover,
+                      repeat: true,
+                    ),
+                    Text('$progress %'),
+                  ],
+                ),
               ),
               errorWidget: (dynamic error) => Center(
                 child: Center(
@@ -252,13 +252,13 @@ class _EstuffPdfViewState extends State<EstuffPdfView> {
                       displayImage: PremedAssets.Notfoundemptystate,
                       title: 'Oops! Something Went Wrong',
                       body:
-                          "We're having trouble fetching the PDF right now. Please try again later, and we hope to have it ready for you soon."),
+                      "We're having trouble fetching the PDF right now. Please try again later, and we hope to have it ready for you soon."),
                 ),
               ),
             ),
           ),
           floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          FloatingActionButtonLocation.centerDocked,
           floatingActionButton: Padding(
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
             child: Container(

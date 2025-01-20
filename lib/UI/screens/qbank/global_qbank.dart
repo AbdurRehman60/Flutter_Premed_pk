@@ -1,3 +1,4 @@
+
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/topic_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/qbank/widgets/deck_tile.dart';
@@ -65,8 +66,8 @@ class _GlobalQbankState extends State<GlobalQbank>
               case MdcatFetchStatus.success:
                 final filteredDeckGroups = qbankProvider.deckGroups
                     .where((deckGroup) =>
-                        deckGroup.deckType ==
-                        (widget.isTopical ? 'Topical' : 'Yearly'))
+                deckGroup.deckType ==
+                    (widget.isTopical ? 'Topical' : 'Yearly'))
                     .toList();
                 return ListView.builder(
                   itemCount: filteredDeckGroups.length,
@@ -101,8 +102,8 @@ class _GlobalQbankState extends State<GlobalQbank>
               case NumsFetchStatus.success:
                 final filteredDeckGroups = qbankProvider.deckGroups
                     .where((deckGroup) =>
-                        deckGroup.deckType ==
-                        (widget.isTopical ? 'Topical' : 'Yearly'))
+                deckGroup.deckType ==
+                    (widget.isTopical ? 'Topical' : 'Yearly'))
                     .toList();
                 return ListView.builder(
                   itemCount: filteredDeckGroups.length,
@@ -161,7 +162,7 @@ class _GlobalQbankState extends State<GlobalQbank>
         preferredSize: const Size.fromHeight(60.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 13),
-              child: AppBar( centerTitle: false,
+          child: AppBar( centerTitle: false,
             backgroundColor: PreMedColorTheme().background,
             leading: const PopButton(),
             automaticallyImplyLeading: false,
@@ -181,10 +182,10 @@ class _GlobalQbankState extends State<GlobalQbank>
                     child: Text(
                       widget.isTopical ? 'Chapter-Wise' : 'Yearly-Past Papers',
                       style: PreMedTextTheme().heading6.copyWith(
-                            color: PreMedColorTheme().black,
-                            fontSize: 34,
-                            fontWeight: FontWeight.w800,
-                          ),
+                        color: PreMedColorTheme().black,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   SizedBoxes.vertical5Px,
@@ -229,10 +230,10 @@ class _GlobalQbankState extends State<GlobalQbank>
                   ? 'Attempt a Topical Paper today and gain the confidence you need for the actual test day!'
                   : 'Attempt a Yearly Paper today and gain the confidence you need for the actual test day!',
               style: PreMedTextTheme().heading6.copyWith(
-                    color: PreMedColorTheme().black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                  ),
+                color: PreMedColorTheme().black,
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+              ),
             ),
           ),
           SizedBoxes.vertical10Px,

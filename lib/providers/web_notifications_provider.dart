@@ -56,7 +56,7 @@ class WebNotificationsProvider extends ChangeNotifier {
         'status': true,
         'message': 'Data fetched successfully',
       };
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       result = {
         'status': false,
         'message': e.message,

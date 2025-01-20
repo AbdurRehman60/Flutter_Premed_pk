@@ -2,6 +2,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:html/parser.dart' as htmlparser;
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.dart';
 import 'package:premedpk_mobile_app/UI/screens/navigation_screen/main_navigation_screen.dart';
+import 'package:premedpk_mobile_app/UI/screens/qbank/qbank_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
@@ -57,13 +58,18 @@ class _TutorModeState extends State<TutorMode> {
   bool isLoading = false;
 
   void _eliminateOptions(List<Option> options) {
-    _eliminatedOptions = [options.removeAt(0), options.removeAt(0)];
+    // Add up to two options to the eliminated list if they aren't already eliminated
+    for (int i = 0; i < 2 && i < options.length; i++) {
+      if (!_eliminatedOptions.contains(options[i])) {
+        _eliminatedOptions.add(options[i]);
+      }
+    }
     setState(() {});
   }
 
-  void _undoElimination(List<Option> options) {
-    options.addAll(_eliminatedOptions);
-    _eliminatedOptions = [];
+  void _undoElimination() {
+    // Clear all eliminated options
+    _eliminatedOptions.clear();
     setState(() {});
   }
 
@@ -238,6 +244,7 @@ class _TutorModeState extends State<TutorMode> {
   Timer? _timer;
   bool showNumberLine = false;
   bool isPaused = false;
+  bool _isEliminationActive = false;
 
   int correctAttempts = 0;
   int incorrectAttempts = 0;
@@ -271,7 +278,7 @@ class _TutorModeState extends State<TutorMode> {
       _fetchAllQuestions().then((_) {
         _loadPastPaperReviewData();
       });
-    } else if (widget.isContinuingAttempt == true &&
+    } else if (widget.isContinuingAttempt &&
         (widget.lastdone == 'Past Paper' || widget.lastdone == 'Practice')) {
       _fetchAllQuestions().then((_) {
         _loadPastPaperAttemptData();
@@ -280,7 +287,7 @@ class _TutorModeState extends State<TutorMode> {
       _fetchAllQuestions().then((_) {
         _loadReviewData();
       });
-    } else if (widget.isContinuingAttempt == true) {
+    } else if (widget.isContinuingAttempt) {
       _fetchAllQuestions().then((_) {
         _loadAttemptData();
       });
@@ -306,7 +313,7 @@ class _TutorModeState extends State<TutorMode> {
     if (deckInfo != null && deckInfo['attempts'] != null) {
       final attempts = deckInfo['attempts'];
 
-      Set<String> loadedQuestionIds = {};
+      final Set<String> loadedQuestionIds = {};
       int attemptedQuestionCount = 0;
 
       for (final attempt in attempts) {
@@ -360,7 +367,7 @@ class _TutorModeState extends State<TutorMode> {
         return;
       }
 
-      Set<String> loadedQuestionIds = {};
+      final Set<String> loadedQuestionIds = {};
       int lastAttemptedIndex = -1;
 
       for (int i = 0; i < attempts.length; i++) {
@@ -430,9 +437,9 @@ class _TutorModeState extends State<TutorMode> {
         Provider.of<QuestionProvider>(context, listen: false);
     questionProvider.clearQuestions();
 
-    Set<String> loadedQuestionIds = {};
+    final Set<String> loadedQuestionIds = {};
 
-    int startPage = (widget.startFromQuestion) ~/ 10 + 1;
+    final int startPage = (widget.startFromQuestion) ~/ 10 + 1;
 
     for (int page = 1; page <= startPage; page++) {
       if (!questionProvider.isPageLoaded(page)) {
@@ -440,9 +447,9 @@ class _TutorModeState extends State<TutorMode> {
         await questionProvider.fetchQuestions(widget.deckName, page);
 
         questionProvider.questions
-            ?.removeWhere((q) => loadedQuestionIds.contains(q.questionId));
+            .removeWhere((q) => loadedQuestionIds.contains(q.questionId));
         loadedQuestionIds
-            .addAll(questionProvider.questions?.map((q) => q.questionId) ?? []);
+            .addAll(questionProvider.questions.map((q) => q.questionId) ?? []);
       }
     }
 
@@ -468,7 +475,7 @@ class _TutorModeState extends State<TutorMode> {
         return;
       }
 
-      Set<String> loadedQuestionIds = {};
+      final Set<String> loadedQuestionIds = {};
       int lastAttemptedIndex = -1;
 
       for (int i = 0; i < attempts.length; i++) {
@@ -527,7 +534,7 @@ class _TutorModeState extends State<TutorMode> {
     if (lastAttempt != null && lastAttempt['attempts'] != null) {
       final attempts = lastAttempt['attempts'];
 
-      Set<String> loadedQuestionIds = {};
+      final Set<String> loadedQuestionIds = {};
       int attemptedQuestionCount = 0;
 
       for (final attempt in attempts) {
@@ -575,7 +582,7 @@ class _TutorModeState extends State<TutorMode> {
     final questions =
         Provider.of<QuestionProvider>(context, listen: false).questions;
 
-    if (questions != null && questions.isNotEmpty) {
+    if (questions.isNotEmpty) {
       for (int i = 0; i < questions.length; i++) {
         if (questions[i].questionId == questionId) {
           print("DEBUG: Found questionId $questionId at index $i");
@@ -606,14 +613,14 @@ class _TutorModeState extends State<TutorMode> {
         print("isPrefetched: $isPrefetched");
 
         if (currentQuestionIndex % 10 >= 8 && !isPrefetched) {
-          int nextPage = (currentQuestionIndex ~/ 10) + 2;
+          final int nextPage = (currentQuestionIndex ~/ 10) + 2;
           print("Prefetching next set of questions from page: $nextPage");
           _fetchNextSetOfQuestions(nextPage);
           isPrefetched = true;
         }
 
-        if (questionProvider.questions!.length > currentQuestionIndex) {
-          final question = questionProvider.questions![currentQuestionIndex];
+        if (questionProvider.questions.length > currentQuestionIndex) {
+          final question = questionProvider.questions[currentQuestionIndex];
           selectedOption = selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
 
@@ -639,7 +646,7 @@ class _TutorModeState extends State<TutorMode> {
         }
       });
     } else {
-      print("Error: Attempted to access an invalid question index.");
+      _showFinishDialog();
     }
   }
 
@@ -670,11 +677,11 @@ class _TutorModeState extends State<TutorMode> {
         Provider.of<QuestionProvider>(context, listen: false);
     questionProvider.clearQuestions();
 
-    Set<String> loadedQuestionIds = {};
+    final Set<String> loadedQuestionIds = {};
     int page = 1;
     bool hasMoreQuestions = true;
-    int totalQuestions = widget.totalquestions;
-    int questionsPerPage = 10;
+    final int totalQuestions = widget.totalquestions;
+    final int questionsPerPage = 10;
 
     print("DEBUG: Fetching all questions until all are loaded");
 
@@ -683,10 +690,10 @@ class _TutorModeState extends State<TutorMode> {
       await questionProvider.fetchQuestions(widget.deckName, page);
 
       questionProvider.questions
-          ?.removeWhere((q) => loadedQuestionIds.contains(q.questionId));
+          .removeWhere((q) => loadedQuestionIds.contains(q.questionId));
 
       final fetchedQuestionIds =
-          questionProvider.questions?.map((q) => q.questionId) ?? [];
+          questionProvider.questions.map((q) => q.questionId) ?? [];
 
       if (fetchedQuestionIds.isNotEmpty) {
         loadedQuestionIds.addAll(fetchedQuestionIds);
@@ -718,9 +725,9 @@ class _TutorModeState extends State<TutorMode> {
         if (currentQuestionIndex % 10 == 9 && currentPage > 1) {
           currentPage--;
           _fetchNextSetOfQuestions(currentPage).then((_) {
-            if (questionProvider.questions!.length > currentQuestionIndex) {
+            if (questionProvider.questions.length > currentQuestionIndex) {
               final question =
-                  questionProvider.questions![currentQuestionIndex];
+                  questionProvider.questions[currentQuestionIndex];
               selectedOption = selectedOptions[currentQuestionIndex];
               optionSelected = selectedOption != null;
 
@@ -741,8 +748,8 @@ class _TutorModeState extends State<TutorMode> {
                   "Error: Attempted to access a question that hasn't been loaded yet.");
             }
           });
-        } else if (questionProvider.questions!.length > currentQuestionIndex) {
-          final question = questionProvider.questions![currentQuestionIndex];
+        } else if (questionProvider.questions.length > currentQuestionIndex) {
+          final question = questionProvider.questions[currentQuestionIndex];
           selectedOption = selectedOptions[currentQuestionIndex];
           optionSelected = selectedOption != null;
 
@@ -763,11 +770,8 @@ class _TutorModeState extends State<TutorMode> {
         }
       });
     } else if (currentQuestionIndex == 0) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const MainNavigationScreen(),
-        ),
-      );
+      Navigator.pop(context);
+
     }
   }
 
@@ -779,8 +783,8 @@ class _TutorModeState extends State<TutorMode> {
     final questionProvider =
         Provider.of<QuestionProvider>(context, listen: false);
 
-    int startPage = (startQuestionIndex ~/ 10) + 1;
-    int endPage = (endQuestionIndex ~/ 10) + 1;
+    final int startPage = (startQuestionIndex ~/ 10) + 1;
+    final int endPage = (endQuestionIndex ~/ 10) + 1;
     for (int page = startPage; page <= endPage; page++) {
       if (!questionProvider.isPageLoaded(page)) {
         await questionProvider.fetchQuestions(widget.deckName, page);
@@ -802,7 +806,7 @@ class _TutorModeState extends State<TutorMode> {
       await _loadQuestionsBetween(currentQuestionIndex, targetIndex);
     }
 
-    int targetPage = (targetIndex ~/ 10) + 1;
+    final int targetPage = (targetIndex ~/ 10) + 1;
 
     if (!questionProvider.isPageLoaded(targetPage)) {
       await _fetchNextSetOfQuestions(targetPage);
@@ -825,7 +829,7 @@ class _TutorModeState extends State<TutorMode> {
         );
 
         if (recentAttempt.attempts != null) {
-          final question = questionProvider.questions![currentQuestionIndex];
+          final question = questionProvider.questions[currentQuestionIndex];
 
           final recentSelection = recentAttempt.attempts!.attempts!
               .firstWhere(
@@ -846,7 +850,7 @@ class _TutorModeState extends State<TutorMode> {
         if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
           final lastAttempt = deckInfo.lastAttempt;
 
-          final question = questionProvider.questions![currentQuestionIndex];
+          final question = questionProvider.questions[currentQuestionIndex];
 
           final continuingSelection = lastAttempt['attempts']!.firstWhere(
             (attempt) => attempt['questionId'] == question.questionId,
@@ -863,7 +867,7 @@ class _TutorModeState extends State<TutorMode> {
         if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
           final lastAttempt = deckInfo.lastAttempt;
 
-          final question = questionProvider.questions![currentQuestionIndex];
+          final question = questionProvider.questions[currentQuestionIndex];
 
           final reviewSelection = lastAttempt['attempts']!.firstWhere(
             (attempt) => attempt['questionId'] == question.questionId,
@@ -978,7 +982,7 @@ class _TutorModeState extends State<TutorMode> {
       final timeTaken = _stopwatch.elapsedMilliseconds;
       totalTimeTaken += (timeTaken / 1000).round();
 
-      final question = questionProvider.questions![currentQuestionIndex];
+      final question = questionProvider.questions[currentQuestionIndex];
       if (optionSelected) {
         final selectedOptionObj = question.options
             .singleWhere((option) => option.optionLetter == selectedOption);
@@ -1057,13 +1061,13 @@ class _TutorModeState extends State<TutorMode> {
     final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
     final questions = questionProvider.questions;
 
-    if (isLoading || questions == null || questions.isEmpty) {
+    if (isLoading || questions.isEmpty) {
       return Scaffold(
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(70.0),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: AppBar( centerTitle: false,
+            child: AppBar(
               backgroundColor: PreMedColorTheme().white,
               leading: Container(
                 margin: const EdgeInsets.all(10),
@@ -1131,7 +1135,7 @@ class _TutorModeState extends State<TutorMode> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(),
+              const CircularProgressIndicator(),
               const SizedBox(height: 16),
               ValueListenableBuilder<int>(
                 valueListenable: _dotCountNotifier,
@@ -1155,7 +1159,7 @@ class _TutorModeState extends State<TutorMode> {
         preferredSize: const Size.fromHeight(70.0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: AppBar( centerTitle: false,
+          child: AppBar(
             backgroundColor: PreMedColorTheme().white,
             leading: Container(
               margin: const EdgeInsets.all(10),
@@ -1311,10 +1315,12 @@ class _TutorModeState extends State<TutorMode> {
                       ),
                     ),
                     onPressed: () {
-                      final question =
-                          Provider.of<QuestionProvider>(context, listen: false)
-                              .questions![currentQuestionIndex];
+                      final question = Provider.of<QuestionProvider>(context, listen: false)
+                          .questions[currentQuestionIndex];
                       _eliminateOptions(question.options);
+                      setState(() {
+                        _isEliminationActive = true;  // Activate elimination
+                      });
                     },
                     child: Row(
                       children: [
@@ -1325,33 +1331,36 @@ class _TutorModeState extends State<TutorMode> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                      backgroundColor: const Color.fromRGBO(12, 90, 188, 1),
-                      foregroundColor: Colors.white,
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
+                  if (_isEliminationActive)  // Show only if elimination tool is active
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                        backgroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                        foregroundColor: Colors.white,
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ),
+                      onPressed: () {
+                        final question = Provider.of<QuestionProvider>(context, listen: false)
+                            .questions[currentQuestionIndex];
+                        _undoElimination();
+                        setState(() {
+                          _isEliminationActive = false;  // Deactivate elimination
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/icons/elimination.svg',
+                            color: Colors.white,
+                          ),
+                          const SizedBox(width: 5),
+                          const Text('Exit Elimination'),
+                        ],
                       ),
                     ),
-                    onPressed: () {
-                      final question =
-                          Provider.of<QuestionProvider>(context, listen: false)
-                              .questions![currentQuestionIndex];
-                      _undoElimination(question.options);
-                    },
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/icons/elimination.svg',
-                          color: Colors.white,
-                        ),
-                        const SizedBox(width: 5),
-                        const Text('Exit Elimination'),
-                      ],
-                    ),
-                  ),
                 ],
               ),
               if (question.questionImage != null &&
@@ -1403,18 +1412,23 @@ class _TutorModeState extends State<TutorMode> {
                 final parsedOptionText = parse(option.optionText);
                 final isSelected = option.optionLetter == selectedOption;
                 final isCorrect = option.isCorrect;
+                final isEliminated = _eliminatedOptions.contains(option);
                 final borderColor = isSelected
-                    ? (isCorrect ? Colors.green : Colors.red)
+                    ? (isCorrect ? Color(0xFF77D9A5) : Color(0xFFEC5863))
                     : (optionSelected && isCorrect
-                        ? Colors.green
-                        : PreMedColorTheme().neutral400);
+                    ? Color(0xFF77D9A5)
+                    : isEliminated
+                    ? Colors.grey
+                    : PreMedColorTheme().neutral400);
                 final color = isSelected
                     ? (isCorrect
-                        ? Colors.greenAccent
-                        : PreMedColorTheme().primaryColorRed200)
+                    ? Color(0xFF77D9A5).withOpacity(0.2)
+                    : Color(0xFFEC5863).withOpacity(0.2))
                     : (optionSelected && isCorrect
-                        ? Colors.greenAccent
-                        : PreMedColorTheme().white);
+                    ? Color(0xFF77D9A5).withOpacity(0.2)
+                    : isEliminated
+                    ? PreMedColorTheme().neutral300
+                    : PreMedColorTheme().white);
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -1425,9 +1439,10 @@ class _TutorModeState extends State<TutorMode> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                              border: Border.all(color: borderColor),
-                              borderRadius: BorderRadius.circular(8),
-                              color: color),
+                            border: Border.all(color: borderColor),
+                            borderRadius: BorderRadius.circular(8),
+                            color: color,
+                          ),
                           child: Row(
                             children: [
                               Padding(
@@ -1435,35 +1450,39 @@ class _TutorModeState extends State<TutorMode> {
                                 child: Text(
                                   '${option.optionLetter}. ',
                                   style: PreMedTextTheme().body.copyWith(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 15,
-                                      color:
-                                          PreMedColorTheme().primaryColorRed),
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 15,
+                                    color: isEliminated
+                                        ? Colors.grey
+                                        : PreMedColorTheme().primaryColorRed,
+                                  ),
                                 ),
                               ),
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         parsedOptionText ?? '',
                                         style: PreMedTextTheme().body.copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14,
-                                              color: PreMedColorTheme().black,
-                                            ),
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          color: isEliminated
+                                              ? Colors.grey
+                                              : PreMedColorTheme().black,
+                                          decoration: isEliminated
+                                              ? TextDecoration.lineThrough
+                                              : null,
+                                        ),
                                       ),
                                       SizedBoxes.verticalTiny,
                                       if (optionSelected)
                                         ExplanationButton(
-                                          isCorrect: isCorrectlyAnswered[
-                                              currentQuestionIndex],
-                                          explanationText: parse(option
-                                                      .explanationText ??
-                                                  'Refer to the explanation given at the bottom of the screen') ??
+                                          isCorrect: isCorrectlyAnswered[currentQuestionIndex],
+                                          explanationText: parse(option.explanationText ??
+                                              'Refer to the explanation given at the bottom of the screen') ??
                                               '',
                                         ),
                                     ],
@@ -1478,7 +1497,6 @@ class _TutorModeState extends State<TutorMode> {
                   ),
                 );
               }),
-              if (optionSelected)
                 Container(
                   margin: const EdgeInsets.only(top: 8.0),
                   padding: const EdgeInsets.all(8.0),

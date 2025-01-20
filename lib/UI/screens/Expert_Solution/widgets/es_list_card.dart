@@ -126,14 +126,14 @@ class DoubtCard extends StatelessWidget {
                             : PreMedColorTheme().blue,
                         buttonText: 'Watch Explanation',
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ViewSolution(
-                                doubt: doubt,
-                              ),
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => ViewSolution(
+                          //       doubt: doubt,
+                          //     ),
+                          //   ),
+                          // );
                         },
                       )
                     else

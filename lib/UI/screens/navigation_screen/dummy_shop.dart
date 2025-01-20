@@ -3,10 +3,10 @@ import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DetailsViewScreen extends StatefulWidget {
-  final String url;
-  final String title;
 
   const DetailsViewScreen({super.key, required this.url, required this.title});
+  final String url;
+  final String title;
 
   @override
   State<DetailsViewScreen> createState() => _DetailsViewScreenState();

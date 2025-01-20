@@ -35,10 +35,12 @@ class DescriptionContForPastnprac extends StatefulWidget {
   final List<String>? premiumTag;
 
   @override
-  State<DescriptionContForPastnprac> createState() => _DescriptionContForPastnpracState();
+  State<DescriptionContForPastnprac> createState() =>
+      _DescriptionContForPastnpracState();
 }
 
-class _DescriptionContForPastnpracState extends State<DescriptionContForPastnprac> {
+class _DescriptionContForPastnpracState
+    extends State<DescriptionContForPastnprac> {
   @override
   Widget build(BuildContext context) {
     print("yeh hy mode in mdcar ${widget.mode}");
@@ -62,10 +64,10 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
     );
   }
 
-
   Widget _buildMode(BuildContext context, PreMedProvider pro) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final bool hasFullAccess = _hasAccess(widget.premiumTag, userProvider.getTags(), widget.mode);
+    final bool hasFullAccess =
+        _hasAccess(widget.premiumTag, userProvider.getTags(), widget.mode);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -108,11 +110,9 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
         ),
         SizedBoxes.verticalMedium,
 
-
         CustomButton(
-          color: pro.isPreMed
-              ? PreMedColorTheme().red
-              : PreMedColorTheme().blue,
+          color:
+              pro.isPreMed ? PreMedColorTheme().red : PreMedColorTheme().blue,
           buttonText: 'Start Test',
           onPressed: () {
             if (hasFullAccess) {
@@ -139,8 +139,7 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
     );
   }
 
-
-  void _startTest(BuildContext context) async {
+  Future<void> _startTest(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final userId = userProvider.user?.userId ?? '';
 
@@ -150,10 +149,12 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
         attemptMode: widget.mode ? 'tutormode' : 'tutormode',
         user: userId,
       );
-      final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+      final deckAttemptProvider =
+          Provider.of<CreateDeckAttemptProvider>(context, listen: false);
       await deckAttemptProvider.createDeckAttempt(attemptModel);
 
-      if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
+      if (deckAttemptProvider.responseMessage ==
+          'Attempt created successfully') {
         final attemptId = deckAttemptProvider.attemptId;
 
         Navigator.push(
@@ -189,10 +190,12 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
         attemptMode: 'tutormode',
         user: userId,
       );
-      final deckAttemptProvider = Provider.of<CreateDeckAttemptProvider>(context, listen: false);
+      final deckAttemptProvider =
+          Provider.of<CreateDeckAttemptProvider>(context, listen: false);
       await deckAttemptProvider.createDeckAttempt(attemptModel);
 
-      if (deckAttemptProvider.responseMessage == 'Attempt created successfully') {
+      if (deckAttemptProvider.responseMessage ==
+          'Attempt created successfully') {
         final attemptId = deckAttemptProvider.attemptId;
 
         Navigator.push(
@@ -216,40 +219,74 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
     }
   }
 
-
   void _showPurchasePopup(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final String appToken = userProvider.user?.info.appToken?? '';
+    final String appToken = userProvider.user?.info.appToken ?? '';
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Purchase Required"),
-          content: const Text("Your current plan does not have access to this paper. Purchase our Plan to access this feature!"),
+          title: Column(
+            children: [
+              SvgPicture.asset('assets/icons/lock.svg'),
+              SizedBox(height: 10),
+              const Center(
+                child: Text(
+                  'Oh No! It’s Locked',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 25,
+                    color: Color(0xFFFE63C49),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: const [
+              Text(
+                'Looks like this feature is not included in your plan. Upgrade to a higher plan or purchase this feature separately to continue.',
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Visit PreMed.PK for more details.',
+              ),
+            ],
+          ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("Go Back"),
-            ),
-            TextButton(
-              onPressed: () {
-                _launchURL(appToken);
-              },
-              child: const Text("Purchase Plan"),
+            Center(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Color(0xFFE6E6E6),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'Return',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Color(0xFFFE63C49),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         );
       },
     );
   }
-
   Future<void> _launchURL(String appToken) async {
-
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final String lastonboarding = userProvider.user!.info.lastOnboardingPage;
-
 
     String bundlePath;
     if (lastonboarding.contains("pre-medical")) {
@@ -258,9 +295,8 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
       bundlePath = "/bundles/all in one";
     }
 
-
-    final url = 'https://premed.pk/app-redirect?url=$appToken&&route=$bundlePath';
-
+    final url =
+        'https://premed.pk/app-redirect?url=$appToken&&route=$bundlePath';
 
     if (await canLaunch(url)) {
       await launch(url);
@@ -268,7 +304,6 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
       throw 'Could not launch $url';
     }
   }
-
 
   void _showErrorPopup(BuildContext context, String? message) {
     showDialog(
@@ -290,7 +325,8 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
     );
   }
 
-  bool _hasAccess(List<String>? premiumTags, Object? accessTags, bool? isPastPaperFree) {
+  bool _hasAccess(
+      List<String>? premiumTags, Object? accessTags, bool? isPastPaperFree) {
     // Grant access if the paper is free, or if there are no premium tags
     if (isPastPaperFree == true || premiumTags == null || premiumTags.isEmpty) {
       return true;
@@ -304,21 +340,26 @@ class _DescriptionContForPastnpracState extends State<DescriptionContForPastnpra
     // Ensure accessTags is a list of dynamic objects
     if (accessTags is List<dynamic>) {
       for (final premiumTag in premiumTags) {
-        bool foundMatch = false; // Flag to track if a match was found
+        final bool foundMatch = false; // Flag to track if a match was found
 
         for (final access in accessTags) {
           if (access is Map<String, dynamic>) {
             // Direct match
             if (access['name'] == premiumTag) {
-              print('Match found: premiumTag "$premiumTag" matches with accessTag "${access['name']}"');
+              print(
+                  'Match found: premiumTag "$premiumTag" matches with accessTag "${access['name']}"');
               return true;
             }
 
             // Group match for predefined tags
-            if ((premiumTag == 'MDCAT-QBank' && mdcatTags.contains(access['name'])) ||
-                (premiumTag == 'NUMS-QBank' && numsTags.contains(access['name'])) ||
-                (premiumTag == 'AKU-QBank' && privTags.contains(access['name']))) {
-              print('Match found: premiumTag "$premiumTag" matches with group tag "${access['name']}"');
+            if ((premiumTag == 'MDCAT-QBank' &&
+                    mdcatTags.contains(access['name'])) ||
+                (premiumTag == 'NUMS-QBank' &&
+                    numsTags.contains(access['name'])) ||
+                (premiumTag == 'AKU-QBank' &&
+                    privTags.contains(access['name']))) {
+              print(
+                  'Match found: premiumTag "$premiumTag" matches with group tag "${access['name']}"');
               return true;
             }
           }
