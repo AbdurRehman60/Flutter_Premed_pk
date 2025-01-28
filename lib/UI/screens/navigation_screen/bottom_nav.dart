@@ -62,14 +62,14 @@ class PremedBottomNav extends StatelessWidget {
             onTap: ontapVault,
             activeicon: PremedAssets.ColoredVault,
           ),
-          // _BottomNavBarItem(
-          //   icon: 'assets/images/Shop.png',
-          //   width: 24,
-          //   height: 24,
-          //   isSelected: 3 == currentIndex,
-          //   label: 'Shop',
-          //   onTap: onTapMarketplace,
-          // ),
+          _BottomNavBarItem(
+            icon: 'assets/images/Shop.png',
+            width: 24,
+            height: 24,
+            isSelected: 3 == currentIndex,
+            label: 'Shop',
+            onTap: onTapMarketplace,
+          ),
           _BottomNavBarItem(
             icon: 'assets/images/Settings.png',
             width: 24,

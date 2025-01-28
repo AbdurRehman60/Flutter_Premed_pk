@@ -210,6 +210,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     }
 
     if (widget.bankOrMock == 'Bank') {
+      print("yeh hei tot ques transfered to testint ${totalQuestions}");
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -228,7 +229,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
             },
             premiumtag: item.premiumTags ?? [],
             deckGroupName: widget.category ?? '',
-            totalquestions: totalQuestions,
+            totalquestions: totalQuestions ,
             questionlist: deckInfo.questions,
           ),
         ),

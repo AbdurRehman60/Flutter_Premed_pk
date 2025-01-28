@@ -108,6 +108,7 @@ class PremedAssets {
   static String blueAerrow = 'assets/icons/blue arrow.png';
   static String computerScience = 'assets/images/computer science.png';
   static String lockk = 'assets/icons/lock.svg';
+  static String mnemonicsnew = 'assets/icons/mnemonicnew.svg';
 
 
 

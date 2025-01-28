@@ -3,7 +3,6 @@ import 'package:html/parser.dart' as htmlparser;
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/report_question.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/test_bottom_sheet.dart';
 import 'package:premedpk_mobile_app/UI/screens/Test%20Interface/widgets/analytics.dart';
-import 'package:premedpk_mobile_app/UI/screens/qbank/qbank_home.dart';
 import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:premedpk_mobile_app/providers/flashcard_provider.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
@@ -30,7 +29,7 @@ class TestInterface extends StatefulWidget {
     this.isRecent,
     required this.totalquestions,
     this.questionlist,
-    
+
   });
 
   final List<String>? questionlist;
@@ -42,33 +41,18 @@ class TestInterface extends StatefulWidget {
   final String deckName;
   final int startFromQuestion;
   final String subject;
-  
+
 
   @override
   State<TestInterface> createState() => _TestInterfaceState();
 }
 
 class _TestInterfaceState extends State<TestInterface> {
-  List<Option> _eliminatedOptions = [];
+  Set<String> _eliminatedOptions = {};
   bool isLoading = false;
   bool _isLoading = false;
 
 
-  void _eliminateOptions(List<Option> options) {
-    // Add up to two options to the eliminated list if they aren't already eliminated
-    for (int i = 0; i < 2 && i < options.length; i++) {
-      if (!_eliminatedOptions.contains(options[i])) {
-        _eliminatedOptions.add(options[i]);
-      }
-    }
-    setState(() {});
-  }
-
-  void _undoElimination() {
-    // Clear all eliminated options
-    _eliminatedOptions.clear();
-    setState(() {});
-  }
 
   void _startTimer() {
     _stopwatch.reset();
@@ -125,13 +109,10 @@ class _TestInterfaceState extends State<TestInterface> {
   Future<void> _showFinishDialog() async {
     final attemptProvider = Provider.of<AttemptProvider>(context, listen: false);
 
-    // Fetch and filter attempt info
     await attemptProvider.getAttemptInfo(widget.attemptId);
 
-    // Extract filtered attempt info
     final attemptInfo = attemptProvider.attemptInfo;
 
-    // Validate filtered attempt info
     if (attemptInfo == null) {
       print('Error: attemptInfo is null');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -140,7 +121,6 @@ class _TestInterfaceState extends State<TestInterface> {
       return;
     }
 
-    // Check for required fields
     if (attemptInfo.incorrectAttempts == null) {
       print('Error: One or more fields in attemptInfo are null');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -149,7 +129,6 @@ class _TestInterfaceState extends State<TestInterface> {
       return;
     }
 
-    // Extract values
     final int correctAttempts = attemptInfo.correctAttempts;
     final int incorrectAttempts = attemptInfo.incorrectAttempts;
     final int skippedAttempts = attemptInfo.skippedAttempts ?? 0;
@@ -206,7 +185,6 @@ class _TestInterfaceState extends State<TestInterface> {
 
                 final attempted = correctAttempts + incorrectAttempts;
 
-                // Update result with filtered attempt data
                 await attemptProvider.updateResult(
                   attemptId: widget.attemptId,
                   attempted: attempted,
@@ -342,10 +320,10 @@ class _TestInterfaceState extends State<TestInterface> {
             .isContinuingAttempt}"
     );
 
-    selectedOptions =
-    List<String?>.filled(widget.totalquestions, null, growable: true);
-    isCorrectlyAnswered =
-    List<bool?>.filled(widget.totalquestions, null, growable: true);
+    print('yeh hy iss point py ${widget.totalquestions}');
+    selectedOptions = List<String?>.filled(widget.totalquestions, null);
+    isCorrectlyAnswered = List<bool?>.filled(widget.totalquestions, null);
+
 
 
     if (widget.isReview == true) {
@@ -358,7 +336,7 @@ class _TestInterfaceState extends State<TestInterface> {
       });
     }  else if (widget.isRecent == true) {
       _fetchAllQuestions().then((_) {
-        _loadPreviousSelections(); 
+        _loadPreviousSelections();
       });    }  else {
       _clearSelectionsForReattempt();
     }
@@ -371,10 +349,16 @@ class _TestInterfaceState extends State<TestInterface> {
 
 
   void _clearSelectionsForReattempt() {
-    selectedOptions.fillRange(0, widget.totalquestions, null);
-    isCorrectlyAnswered.fillRange(0, widget.totalquestions, null);
+    print('yeh hy iss point py ${widget.totalquestions}');
 
-    setState(() {
+    selectedOptions = List<String?>.filled(widget.totalquestions, null);
+
+
+
+  isCorrectlyAnswered = List<bool?>.filled(widget.totalquestions, null);
+
+
+  setState(() {
       _fetchInitialQuestions();
     });
 
@@ -552,125 +536,69 @@ class _TestInterfaceState extends State<TestInterface> {
     return -1;
   }
 
-  Future<void> nextQuestion() async {
-    if (isLoading) return;
-
-    updateAttempt();
-
-    final questionProvider =
-    Provider.of<QuestionProvider>(context, listen: false);
-    final deckInfo =
-        Provider
-            .of<DeckProvider>(context, listen: false)
-            .deckInformation;
-
-    if (currentQuestionIndex < widget.totalquestions - 1) {
-      setState(() {
-        currentQuestionIndex++;
-
-        print("Current Question Index: $currentQuestionIndex");
-        print("Current Page: $currentPage");
-        print("isPrefetched: $isPrefetched");
-
-        if (currentQuestionIndex % 10 >= 8 && !isPrefetched) {
-          final int nextPage = (currentQuestionIndex ~/ 10) + 2;
-          print("Prefetching next set of questions from page: $nextPage");
-          _fetchNextSetOfQuestions(nextPage);
-          isPrefetched = true;
-        }
-
-        if (questionProvider.questions.length > currentQuestionIndex) {
-          final question = questionProvider.questions[currentQuestionIndex];
-          selectedOption = selectedOptions[currentQuestionIndex];
-          optionSelected = selectedOption != null;
-
-          if (widget.isReview == true && selectedOption == null) {
-            selectedOption =
-                deckInfo?.getSelectionForQuestion(
-                    question.questionId, widget.attemptId);
-            optionSelected = selectedOption != null;
-          }
-
-          _stopwatch.reset();
-          if (widget.isReview != true) {
-            _stopwatch.start();
-          }
-
-          questionProvider.notifyListeners();
-        } else {
-          print(
-              "Error: Attempted to access a question that hasn't been loaded yet.");
-        }
-        if (currentQuestionIndex % 10 == 0) {
-          isPrefetched = false;
-          print("Resetting isPrefetched flag after the 10th question.");
-        }
-      });
-    } else {
-      _showFinishDialog();
-    }
-  }
-
-  Future<void> _fetchNextSetOfQuestions(int nextPage) async {
-    setState(() {
-      isLoading = true;
-    });
-
-    final questionProvider = Provider.of<QuestionProvider>(
-        context, listen: false);
-
-    if (!questionProvider.isPageLoaded(nextPage)) {
-      print("Fetching questions from page: $nextPage");
-      await questionProvider.fetchQuestions(widget.deckName, nextPage);
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  Future<void> _fetchAllQuestions() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    final questionProvider = Provider.of<QuestionProvider>(
-        context, listen: false);
-    questionProvider.clearQuestions();
-
-    final Set<String> loadedQuestionIds = {};
-    int page = 1;
-    bool hasMoreQuestions = true;
-    final int totalQuestions = widget.totalquestions;
-    final int questionsPerPage = 10;
-
-    print("DEBUG: Fetching all questions until all are loaded");
-
-
-    while (hasMoreQuestions && (page - 1) * questionsPerPage < totalQuestions) {
-      print("DEBUG: Fetching questions from page: $page");
-      await questionProvider.fetchQuestions(widget.deckName, page);
-
-      questionProvider.questions.removeWhere((q) =>
-          loadedQuestionIds.contains(q.questionId));
-
-      final fetchedQuestionIds = questionProvider.questions.map((q) =>
-      q.questionId) ?? [];
-
-      if (fetchedQuestionIds.isNotEmpty) {
-        loadedQuestionIds.addAll(fetchedQuestionIds);
-        page++;
-      } else {
-        hasMoreQuestions = false;
-      }
-    }
-
-    setState(() {
-      isLoading = false;
-      currentPage = page - 1;
-    });
-  }
-
+  // Future<void> nextQuestion() async {
+  //   print('yeh hy iss point py ${widget.totalquestions}');
+  //
+  //   if (isLoading) return;
+  //
+  //   updateAttempt();
+  //
+  //   final questionProvider =
+  //   Provider.of<QuestionProvider>(context, listen: false);
+  //   final deckInfo =
+  //       Provider
+  //           .of<DeckProvider>(context, listen: false)
+  //           .deckInformation;
+  //
+  //   if (currentQuestionIndex < widget.totalquestions - 1) {
+  //     setState(() {
+  //       currentQuestionIndex++;
+  //
+  //       print("Current Question Index: $currentQuestionIndex");
+  //       print("Current Page: $currentPage");
+  //       print("isPrefetched: $isPrefetched");
+  //
+  //       _eliminatedOptions.clear();
+  //       _isEliminationActive = false;
+  //
+  //       if (currentQuestionIndex % 10 >= 8 && !isPrefetched) {
+  //         final int nextPage = (currentQuestionIndex ~/ 10) + 2;
+  //         print("Prefetching next set of questions from page: $nextPage");
+  //         _fetchNextSetOfQuestions(nextPage);
+  //         isPrefetched = true;
+  //       }
+  //
+  //       if (questionProvider.questions.length > currentQuestionIndex) {
+  //         final question = questionProvider.questions[currentQuestionIndex];
+  //         selectedOption = selectedOptions[currentQuestionIndex];
+  //         optionSelected = selectedOption != null;
+  //
+  //         if (widget.isReview == true && selectedOption == null) {
+  //           selectedOption =
+  //               deckInfo?.getSelectionForQuestion(
+  //                   question.questionId, widget.attemptId);
+  //           optionSelected = selectedOption != null;
+  //         }
+  //
+  //         _stopwatch.reset();
+  //         if (widget.isReview != true) {
+  //           _stopwatch.start();
+  //         }
+  //
+  //         questionProvider.notifyListeners();
+  //       } else {
+  //         print(
+  //             "Error: Attempted to access a question that hasn't been loaded yet.");
+  //       }
+  //       if (currentQuestionIndex % 10 == 0) {
+  //         isPrefetched = false;
+  //         print("Resetting isPrefetched flag after the 10th question.");
+  //       }
+  //     });
+  //   } else {
+  //     _showFinishDialog();
+  //   }
+  // }
   Future<void> previousQuestion() async {
     if (isLoading) return;
     updateAttempt();
@@ -685,7 +613,8 @@ class _TestInterfaceState extends State<TestInterface> {
     if (currentQuestionIndex > 0) {
       setState(() {
         currentQuestionIndex--;
-
+        _eliminatedOptions.clear();
+        _isEliminationActive = false;
         if (currentQuestionIndex % 10 == 9 && currentPage > 1) {
           currentPage--;
           _fetchNextSetOfQuestions(currentPage).then((_) {
@@ -736,112 +665,135 @@ class _TestInterfaceState extends State<TestInterface> {
         }
       });
     } else if (currentQuestionIndex == 0) {
-          Navigator.pop(context);
-      }
+      Navigator.pop(context);
+    }
   }
 
-  Future<void> _loadQuestionsBetween(int startQuestionIndex, int endQuestionIndex) async {
-    setState(() {
-      isLoading = true;
-    });
-    final questionProvider =
-    Provider.of<QuestionProvider>(context, listen: false);
+  // Future<void> nextQuestion() async {
+  //   if (isLoading) return;
+  //
+  //   updateAttempt();
+  //
+  //   final questionProvider =
+  //   Provider.of<QuestionProvider>(context, listen: false);
+  //   final deckInfo =
+  //       Provider
+  //           .of<DeckProvider>(context, listen: false)
+  //           .deckInformation;
+  //
+  //   if (currentQuestionIndex < widget.totalquestions - 1) {
+  //     setState(() {
+  //       currentQuestionIndex++;
+  //
+  //       print("Current Question Index: $currentQuestionIndex");
+  //       print("Current Page: $currentPage");
+  //       print("isPrefetched: $isPrefetched");
+  //
+  //       if (currentQuestionIndex % 10 >= 8 && !isPrefetched) {
+  //         int nextPage = (currentQuestionIndex ~/ 10) + 2;
+  //         print("Prefetching next set of questions from page: $nextPage");
+  //         _fetchNextSetOfQuestions(nextPage);
+  //         isPrefetched = true;
+  //       }
+  //
+  //       if (questionProvider.questions!.length > currentQuestionIndex) {
+  //         final question = questionProvider.questions![currentQuestionIndex];
+  //         selectedOption = selectedOptions[currentQuestionIndex];
+  //         optionSelected = selectedOption != null;
+  //
+  //         if (widget.isReview == true && selectedOption == null) {
+  //           selectedOption =
+  //               deckInfo?.getSelectionForQuestion(
+  //                   question.questionId, widget.attemptId);
+  //           optionSelected = selectedOption != null;
+  //         }
+  //
+  //         _stopwatch.reset();
+  //         if (widget.isReview != true) {
+  //           _stopwatch.start();
+  //         }
+  //
+  //         questionProvider.notifyListeners();
+  //       } else {
+  //         print(
+  //             "Error: Attempted to access a question that hasn't been loaded yet.");
+  //       }
+  //       if (currentQuestionIndex % 10 == 0) {
+  //         isPrefetched = false;
+  //         print("Resetting isPrefetched flag after the 10th question.");
+  //       }
+  //     });
+  //   } else {
+  //     print("Error: Attempted to access an invalid question index.");
+  //   }
+  // }
+  Future<void> nextQuestion() async {
+    if (isLoading) return;
 
-    final int startPage = (startQuestionIndex ~/ 10) + 1;
-    final int endPage = (endQuestionIndex ~/ 10) + 1;
-    for (int page = startPage; page <= endPage; page++) {
-      if (!questionProvider.isPageLoaded(page)) {
-        await questionProvider.fetchQuestions(widget.deckName, page);
+    // Update current attempt progress
+    updateAttempt();
+
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final deckProvider = Provider.of<DeckProvider>(context, listen: false);
+
+    // Calculate potential next index and required page
+    final potentialNewIndex = currentQuestionIndex + 1;
+    final requiredPage = (potentialNewIndex ~/ 10) + 1;
+
+    // Only proceed if within total question bounds
+    if (potentialNewIndex >= widget.totalquestions) {
+      print("Reached end of questions");
+      return;
+    }
+
+    // Check if we need to load more questions
+    if (!questionProvider.isPageLoaded(requiredPage)) {
+      setState(() => isLoading = true);
+
+      try {
+        await questionProvider.fetchQuestions(widget.deckName, requiredPage);
+
+        // Verify questions were actually loaded
+        if (questionProvider.questions == null ||
+            questionProvider.questions!.length <= potentialNewIndex) {
+          print("Failed to load next questions");
+          setState(() => isLoading = false);
+          return;
+        }
+      } catch (e) {
+        print("Error fetching next questions: $e");
+        setState(() => isLoading = false);
+        return;
       }
+
+      setState(() => isLoading = false);
     }
 
+    // Safety check after loading
+    if (potentialNewIndex >= questionProvider.questions!.length) {
+      print("Question index out of bounds after loading");
+      return;
+    }
+
+    // Update state for new question
     setState(() {
-      isLoading = false;
-    });
-  }
+      currentQuestionIndex = potentialNewIndex;
+      print("Moved to question index: $currentQuestionIndex");
 
-  Future<void> _skipToQuestion(int targetIndex) async {
-    final questionProvider = Provider.of<QuestionProvider>(
-        context, listen: false);
-
-    if (currentQuestionIndex == targetIndex) return;
-
-    if (currentQuestionIndex < targetIndex) {
-      await _loadQuestionsBetween(currentQuestionIndex, targetIndex);
-    }
-
-    final int targetPage = (targetIndex ~/ 10) + 1;
-
-    if (!questionProvider.isPageLoaded(targetPage)) {
-      await _fetchNextSetOfQuestions(targetPage);
-    }
-
-    setState(() {
-      currentQuestionIndex = targetIndex;
+      // Handle selection state
+      final question = questionProvider.questions![currentQuestionIndex];
       selectedOption = selectedOptions[currentQuestionIndex];
       optionSelected = selectedOption != null;
+      if (widget.isReview == true && selectedOption == null) {
+        final deckInfo =
+            Provider
+                .of<DeckProvider>(context, listen: false)
+                .deckInformation;
 
-      if (widget.isRecent == true) {
-        final recentProvider = Provider.of<RecentAttemptsProvider>(
-            context, listen: false);
-        final List<RecentAttempt> recentAttempts = recentProvider
-            .recentAttempts;
-
-        final recentAttempt = recentAttempts.firstWhere(
-              (attempt) => attempt.id == widget.attemptId,
-          orElse: () => RecentAttempt(attempts: Attempts(attempts: [])),
-        );
-
-        if (recentAttempt.attempts != null) {
-          final question = questionProvider.questions[currentQuestionIndex];
-
-          final recentSelection = recentAttempt.attempts!.attempts!
-              .firstWhere(
-                (attempt) => attempt.questionId == question.questionId,
-            orElse: () => AttemptofQuestions(questionId: question.questionId),
-          ).selection;
-
-          selectedOption =
-              recentSelection ?? selectedOptions[currentQuestionIndex];
-          optionSelected = selectedOption != null;
-        }
-      } else if (widget.isContinuingAttempt) {
-        final deckProvider = Provider.of<DeckProvider>(context, listen: false);
-        final deckInfo = deckProvider.deckInformation;
-
-        if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
-          final lastAttempt = deckInfo.lastAttempt;
-
-          final question = questionProvider.questions[currentQuestionIndex];
-
-          final continuingSelection = lastAttempt['attempts']!
-              .firstWhere(
-                (attempt) => attempt['questionId'] == question.questionId,
-            orElse: () => {},
-          )['selection'];
-
-          selectedOption =
-              continuingSelection ?? selectedOptions[currentQuestionIndex];
-          optionSelected = selectedOption != null;
-        }
-      } else if (widget.isReview == true) {
-        final deckProvider = Provider.of<DeckProvider>(context, listen: false);
-        final deckInfo = deckProvider.deckInformation;
-        if (deckInfo != null && deckInfo.lastAttempt.isNotEmpty) {
-          final lastAttempt = deckInfo.lastAttempt;
-
-          final question = questionProvider.questions[currentQuestionIndex];
-
-          final reviewSelection = lastAttempt['attempts']!
-              .firstWhere(
-                (attempt) => attempt['questionId'] == question.questionId,
-            orElse: () => {},
-          )['selection'];
-
-          selectedOption =
-              reviewSelection ?? selectedOptions[currentQuestionIndex];
-          optionSelected = selectedOption != null;
-        }
+        selectedOption =
+            deckInfo?.getSelectionForQuestion(
+                question.questionId, widget.attemptId);
+        optionSelected = selectedOption != null;
       }
 
       _stopwatch.reset();
@@ -849,10 +801,191 @@ class _TestInterfaceState extends State<TestInterface> {
         _stopwatch.start();
       }
 
-      questionProvider.notifyListeners();
+      // Prefetch next page when approaching end of current page
+      if ((currentQuestionIndex + 2) % 10 == 0) { // Prefetch at 8th question (0-based index 7)
+        final nextPage = requiredPage + 1;
+        if (!questionProvider.isPageLoaded(nextPage)) {
+          print("Prefetching page $nextPage");
+          unawaited(questionProvider.fetchQuestions(widget.deckName, nextPage));
+        }
+      }
+    });
+
+    // Notify listeners after state update
+    questionProvider.notifyListeners();
+  }
+  Future<void> _fetchNextSetOfQuestions(int nextPage) async {
+    if (isLoading) return;
+
+    setState(() => isLoading = true);
+
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+
+    if (!questionProvider.isPageLoaded(nextPage)) {
+      print("Fetching questions from page: $nextPage");
+      await questionProvider.fetchQuestions(widget.deckName, nextPage);
+    }
+
+    setState(() => isLoading = false);
+  }  Future<void> _fetchAllQuestions() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final questionProvider = Provider.of<QuestionProvider>(
+        context, listen: false);
+    questionProvider.clearQuestions();
+
+    Set<String> loadedQuestionIds = {};
+    int page = 1;
+    bool hasMoreQuestions = true;
+    int totalQuestions = widget.totalquestions;
+    int questionsPerPage = 10;
+
+    print("DEBUG: Fetching all questions until all are loaded");
+
+
+    while (hasMoreQuestions && (page - 1) * questionsPerPage < totalQuestions) {
+      print("DEBUG: Fetching questions from page: $page");
+      await questionProvider.fetchQuestions(widget.deckName, page);
+
+      questionProvider.questions?.removeWhere((q) =>
+          loadedQuestionIds.contains(q.questionId));
+
+      final fetchedQuestionIds = questionProvider.questions?.map((q) =>
+      q.questionId) ?? [];
+
+      if (fetchedQuestionIds.isNotEmpty) {
+        loadedQuestionIds.addAll(fetchedQuestionIds);
+        page++;
+      } else {
+        hasMoreQuestions = false;
+      }
+    }
+
+    setState(() {
+      isLoading = false;
+      currentPage = page - 1;
     });
   }
 
+  // Future<void> _fetchAllQuestions() async {
+  //   print('yeh hy iss point py ${widget.totalquestions}');
+  //
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //
+  //   final questionProvider = Provider.of<QuestionProvider>(
+  //       context, listen: false);
+  //   questionProvider.clearQuestions();
+  //
+  //   final Set<String> loadedQuestionIds = {};
+  //   int page = 1;
+  //   bool hasMoreQuestions = true;
+  //   final int totalQuestions = widget.totalquestions;
+  //   final int questionsPerPage = 10;
+  //
+  //   print("DEBUG: Fetching all questions until all are loaded");
+  //
+  //
+  //   while (hasMoreQuestions && (page - 1) * questionsPerPage < totalQuestions) {
+  //     print("DEBUG: Fetching questions from page: $page");
+  //     await questionProvider.fetchQuestions(widget.deckName, page);
+  //
+  //     questionProvider.questions.removeWhere((q) =>
+  //         loadedQuestionIds.contains(q.questionId));
+  //
+  //     final fetchedQuestionIds = questionProvider.questions.map((q) =>
+  //     q.questionId) ?? [];
+  //
+  //     if (fetchedQuestionIds.isNotEmpty) {
+  //       loadedQuestionIds.addAll(fetchedQuestionIds);
+  //       page++;
+  //     } else {
+  //       hasMoreQuestions = false;
+  //     }
+  //   }
+  //
+  //   setState(() {
+  //     isLoading = false;
+  //     currentPage = page - 1;
+  //   });
+  // }
+
+
+  Future<void> _loadQuestionsBetween(int startIndex, int endIndex) async {
+    setState(() => isLoading = true);
+
+    // Validate and clamp indices
+    final total = widget.totalquestions;
+    final clampedStart = startIndex.clamp(0, total - 1);
+    final clampedEnd = endIndex.clamp(0, total - 1);
+
+    // Exit if invalid range
+    if (clampedStart > clampedEnd) {
+      print('Invalid range: $clampedStart-$clampedEnd');
+      setState(() => isLoading = false);
+      return;
+    }
+
+    // Convert indices to 1-based pages
+    final startPage = (clampedStart ~/ 10) + 1;
+    final endPage = (clampedEnd ~/ 10) + 1;
+
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+
+    // Load all required pages
+    for (int page = startPage; page <= endPage; page++) {
+      if (!questionProvider.isPageLoaded(page)) {
+        print('Fetching page $page (questions ${(page-1)*10}-${page*10})');
+        await questionProvider.fetchQuestions(widget.deckName, page);
+      }
+    }
+
+    // Final validation
+    if (questionProvider.questions.isEmpty) {
+      print('Failed loading questions $clampedStart-$clampedEnd');
+    } else {
+      print('Loaded ${questionProvider.questions.length} questions');
+    }
+
+    setState(() => isLoading = false);
+  }
+  Future<void> _skipToQuestion(int targetIndex) async {
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+
+    // 1. Validate against maximum allowed index
+    if (targetIndex >= widget.totalquestions) {
+      print('Invalid index: $targetIndex');
+      return;
+    }
+
+    // 2. Calculate required page range
+    final startPage = (currentQuestionIndex ~/ 10) + 1;
+    final endPage = (targetIndex ~/ 10) + 1;
+
+    // 3. Load missing pages sequentially
+    for (int page = startPage; page <= endPage; page++) {
+      if (!questionProvider.isPageLoaded(page)) {
+        await questionProvider.fetchQuestions(widget.deckName, page);
+
+        // Critical: Verify after each fetch
+        if (questionProvider.questions.length <= targetIndex) {
+          print('Failed to load sufficient questions after page $page');
+          return;
+        }
+      }
+    }
+
+    // 4. Final safety check before navigation
+    if (targetIndex < questionProvider.questions.length) {
+      setState(() => currentQuestionIndex = targetIndex);
+    } else {
+      print('Target index $targetIndex out of bounds after loading');
+      // Implement retry logic or error UI here
+    }
+  }
   Future<void> _loadPreviousSelections() async {
     print("DEBUG: Recent attempt mode activated");
 
@@ -860,7 +993,7 @@ class _TestInterfaceState extends State<TestInterface> {
         context, listen: false);
     final List<RecentAttempt> recentAttempts = recentProvider.recentAttempts;
 
-    
+
     final recentAttempt = recentAttempts.firstWhere(
           (attempt) => attempt.id == widget.attemptId,
       orElse: () => RecentAttempt(attempts: Attempts(attempts: [])),
@@ -884,13 +1017,13 @@ class _TestInterfaceState extends State<TestInterface> {
         startQuestionIndex = 0;
       }
 
-      
+
       final endQuestionIndex = allAttempts.length - 1;
 
-      
+
       await _loadQuestionsBetween(startQuestionIndex, endQuestionIndex);
 
-      
+
       for (final attempt in allAttempts) {
         final int questionIndex = getIndexForQuestionId(
             attempt.questionId ?? '');
@@ -938,6 +1071,7 @@ class _TestInterfaceState extends State<TestInterface> {
     Provider.of<QuestionProvider>(context, listen: false);
     final attemptProvider =
     Provider.of<AttemptProvider>(context, listen: false);
+    print('yeh hy iss point py ${widget.totalquestions}');
 
     if (currentQuestionIndex < widget.totalquestions) {
       _stopwatch.stop();
@@ -1001,6 +1135,8 @@ class _TestInterfaceState extends State<TestInterface> {
 
   void restart() {
     setState(() {
+      print('yeh hy iss point py ${widget.totalquestions}');
+
       currentQuestionIndex = 0;
       selectedOptions =
       List<String?>.filled(widget.totalquestions, null, growable: true);
@@ -1017,7 +1153,7 @@ class _TestInterfaceState extends State<TestInterface> {
 
   void startLoadingAnimation() {
     _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      _dotCountNotifier.value = (_dotCountNotifier.value + 1) % 4; 
+      _dotCountNotifier.value = (_dotCountNotifier.value + 1) % 4;
     });
   }
 
@@ -1104,7 +1240,7 @@ class _TestInterfaceState extends State<TestInterface> {
                 valueListenable: _dotCountNotifier,
                 builder: (context, dotCount, child) {
                   return Text(
-                    "Questions are loading${'.' * dotCount}", 
+                    "Questions are loading${'.' * dotCount}",
                     style: const TextStyle(fontSize: 16),
                   );
                 },
@@ -1266,64 +1402,59 @@ class _TestInterfaceState extends State<TestInterface> {
                   const SizedBox(width: 16),
                 ],
               ),
-          Row(
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                  backgroundColor: Colors.white,
-                  foregroundColor: const Color.fromRGBO(12, 90, 188, 1),
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                ),
-                onPressed: () {
-                  final question = Provider.of<QuestionProvider>(context, listen: false)
-                      .questions[currentQuestionIndex];
-                  _eliminateOptions(question.options);
-                  setState(() {
-                    _isEliminationActive = true;  // Set the flag to true when elimination tool is activated
-                  });
-                },
-                child: Row(
-                  children: [
-                    SvgPicture.asset('assets/icons/elimination.svg'),
-                    const SizedBox(width: 5),
-                    const Text('Elimination Tool'),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              if (_isEliminationActive)  // Show the Exit Elimination button only if the flag is true
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
-                    backgroundColor: const Color.fromRGBO(12, 90, 188, 1),
-                    foregroundColor: Colors.white,
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
+              Row(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                      backgroundColor: Colors.white,
+                      foregroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isEliminationActive = true;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        SvgPicture.asset('assets/icons/elimination.svg'),
+                        const SizedBox(width: 5),
+                        const Text('Elimination Tool'),
+                      ],
                     ),
                   ),
-                  onPressed: () {
-                    final question = Provider.of<QuestionProvider>(context, listen: false)
-                        .questions[currentQuestionIndex];
-                    _undoElimination();
-                    setState(() {
-                      _isEliminationActive = false;  // Set the flag to false when exiting elimination
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      SvgPicture.asset('assets/icons/elimination.svg'),
-                      const SizedBox(width: 5),
-                      const Text('Exit Elimination'),
-                    ],
-                  ),
-                ),
-            ],
-          ),
+                  const SizedBox(width: 8),
+                  if (_isEliminationActive)
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                        backgroundColor: const Color.fromRGBO(12, 90, 188, 1),
+                        foregroundColor: Colors.white,
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isEliminationActive = false;
+                          _eliminatedOptions.clear(); // Reset eliminated options
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          SvgPicture.asset('assets/icons/elimination.svg'),
+                          const SizedBox(width: 5),
+                          const Text('Exit Elimination'),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
               if (question.questionImage != null &&
                   question.questionImage!.isNotEmpty)
                 if (isBase64(question.questionImage!))
@@ -1370,51 +1501,33 @@ class _TestInterfaceState extends State<TestInterface> {
                   ),
               const SizedBox(height: 16),
               ...question.options.map((option) {
-                final isEliminated = _eliminatedOptions.contains(option);
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: GestureDetector(
-                    onTap: () => selectOption(option.optionLetter),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: isEliminated ? Colors.grey : Colors.black,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '${option.optionLetter}.',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: isEliminated ? Colors.grey : Colors.black,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                parse(option.optionText) ?? '',
-                                style: TextStyle(
-                                  decoration: isEliminated
-                                      ? TextDecoration.lineThrough
-                                      : null,
-                                  color: isEliminated ? Colors.grey : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                final parsedOptionText = parse(option.optionText.toString());
+                final isEliminated = _eliminatedOptions.contains(option.optionLetter);
+
+                return QuizOption(
+                  optionLetter: option.optionLetter,
+                  parsedOptionText: parsedOptionText ?? '',
+                  isSelected: option.optionLetter == selectedOption,
+                  isEliminated: isEliminated,
+                  isEliminationActive: _isEliminationActive,
+                  onTap: () {
+                    if (!isEliminated) {
+                      selectOption(option.optionLetter);
+                    } else {
+                      print("Eliminated option cannot be selected.");
+                    }
+                  },
+                  onEliminate: () {
+                    setState(() {
+                      if (isEliminated) {
+                        _eliminatedOptions.remove(option.optionLetter);
+                      } else {
+                        _eliminatedOptions.add(option.optionLetter);
+                      }
+                    });
+                  },
                 );
-              }),
-            ],
+              }),            ],
           ),
         ),
       ),
@@ -1514,6 +1627,7 @@ class _TestInterfaceState extends State<TestInterface> {
                                 );
                                 showSnackBarr();
                               },
+
                               questionNumber:
                               "${currentQuestionIndex + 1} of ${widget.totalquestions}",
                               timerWidget: Column(
@@ -1660,1590 +1774,87 @@ class _TestInterfaceState extends State<TestInterface> {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class QuizOption extends StatelessWidget {
+
+  const QuizOption({
+    super.key,
+    required this.optionLetter,
+    required this.parsedOptionText,
+    required this.isSelected,
+    required this.isEliminated,
+    required this.isEliminationActive,
+    required this.onTap,
+    this.onEliminate,
+  });
+  final Object optionLetter;
+  final String parsedOptionText;
+  final bool isSelected;
+  final bool isEliminated;
+  final bool isEliminationActive;
+  final VoidCallback onTap;
+  final VoidCallback? onEliminate;
+
+  @override
+  Widget build(BuildContext context) {
+    final borderColor = isSelected
+        ? Colors.blue
+        : PreMedColorTheme().neutral400;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: borderColor),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 28,
+                child: Center(
+                  child: Text(
+                    '${optionLetter.toString()}. ',
+                    style: PreMedTextTheme().body.copyWith(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 15,
+                      color: PreMedColorTheme().primaryColorRed,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 14.0),
+                    child: Text(
+                      parsedOptionText,
+                      style: PreMedTextTheme().body.copyWith(
+                        color: isEliminated
+                            ? PreMedColorTheme().neutral400
+                            : PreMedColorTheme().black,
+                        decoration: isEliminated
+                            ? TextDecoration.lineThrough
+                            : null,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              if (isEliminationActive)
+                IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.red,
+                  ),
+                  onPressed: onEliminate,
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

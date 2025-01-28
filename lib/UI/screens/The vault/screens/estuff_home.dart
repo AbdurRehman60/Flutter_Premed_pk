@@ -103,7 +103,7 @@ class _EstuffHomeScreenState extends State<EstuffHomeScreen> {
                       ),
                       SizedBoxes.vertical10Px,
                       Text(
-                        'One Chapter. One Page. Instant Revisions!',
+                        'Syllabi, Schemes, etc., and everything a student just needs.',
                         style: PreMedTextTheme()
                             .heading1
                             .copyWith(fontSize: 13, fontWeight: FontWeight.w400),

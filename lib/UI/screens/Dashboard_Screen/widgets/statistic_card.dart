@@ -161,18 +161,15 @@ class _StatisticCardState extends State<StatisticCard> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
-                          child: Image.asset(
-                            Provider.of<PreMedProvider>(context,listen: false)
-                                .isPreMed
-                                ? PremedAssets.graph
-                                : PremedAssets.BlueGraph,
-                            width: 50,
-                            height: 50,
+                          child: Image.network(
+                            'https://premedpk-cdn.sgp1.cdn.digitaloceanspaces.com/CDN/Chart.png',
+                            width: 40,
+                            height: 40,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(
-                              top: 10, left: 2, bottom: 7),
+                              top: 10, left: 14, bottom: 7),
                           child: Column(
                             crossAxisAlignment:
                             CrossAxisAlignment.start,
@@ -204,13 +201,16 @@ class _StatisticCardState extends State<StatisticCard> {
                               ),
                             );
                           },
-                          child: Image.asset(
-                            Provider.of<PreMedProvider>(context,listen: false)
-                                .isPreMed
-                                ? PremedAssets.arrow
-                                : PremedAssets.blueAerrow,
-                            width: 15,
-                            height: 15,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 28),
+                            child: Image.asset(
+                              Provider.of<PreMedProvider>(context,listen: false)
+                                  .isPreMed
+                                  ? PremedAssets.arrow
+                                  : PremedAssets.blueAerrow,
+                              width: 15,
+                              height: 15,
+                            ),
                           ),
                         ),
                       ],
@@ -372,3 +372,4 @@ class _StatisticCardState extends State<StatisticCard> {
     );
   }
 }
+

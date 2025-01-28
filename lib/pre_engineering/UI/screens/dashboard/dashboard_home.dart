@@ -186,6 +186,7 @@ class _EngineeringDashboardScreenState
                                 builder: (context) => const PreEngVaultHome()));
                       },
                       icon: PremedAssets.Valut,
+                      isNetworkImage: true,
                     )
                   ],
                 ),

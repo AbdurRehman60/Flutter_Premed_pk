@@ -88,6 +88,8 @@ class VaultNotesModel {
   });
 
   factory VaultNotesModel.fromJson(Map<String, dynamic> json) {
+    print('cagfyageu : ${json['category']}');
+
     List<NotePagination> paginations = [];
 
     if (json['paginations'] != null) {

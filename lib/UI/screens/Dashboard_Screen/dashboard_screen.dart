@@ -167,7 +167,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             MaterialPageRoute(
                                 builder: (context) => const VaultHome()));
                       },
-                      icon: PremedAssets.Valut,
+                      icon: 'https://premedpk-cdn.sgp1.digitaloceanspaces.com/ManulaUpload/05ffa5c0-ea93-4151-9db1-ff72c65711c0.png',
+                      isNetworkImage: true,
+
+
                     )
                   ],
                 ),

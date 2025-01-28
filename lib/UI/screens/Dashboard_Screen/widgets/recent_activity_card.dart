@@ -32,7 +32,7 @@ class RecentActivityCard extends StatefulWidget {
 class _RecentActivityCardState extends State<RecentActivityCard> {
   @override
   Widget build(BuildContext context) {
-    final String formattedDate = _formatDate(widget.date);
+    String formattedDate = _formatDate(widget.date);
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -63,12 +63,14 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => RecentActivityScreen(
-                                  isPreMed: widget.isPreMed,
-                                )));
+                              isPreMed: widget.isPreMed,
+                            )));
                       },
                       child: Text(
                         'View All',
                         style: TextStyle(
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w700,
                           color: Provider.of<PreMedProvider>(context).isPreMed
                               ? PreMedColorTheme().red
                               : PreMedColorTheme().blue,
@@ -114,7 +116,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
                                   value: widget.progressValue.clamp(0.0, 1.0),
                                   valueColor: AlwaysStoppedAnimation(
                                     _getColor(
-                                      widget.progressValue, widget.isPreMed),
+                                        widget.progressValue, widget.isPreMed),
                                   ),
                                   minHeight: 8,
                                 ),
@@ -182,7 +184,7 @@ class _RecentActivityCardState extends State<RecentActivityCard> {
 
   String _formatDate(String date) {
     try {
-      final DateTime dateTime = DateFormat("yyyy-MM-dd").parse(date);
+      DateTime dateTime = DateFormat("yyyy-MM-dd").parse(date);
       return DateFormat("d MMMM yyyy").format(dateTime);
     } catch (e) {
       return date;

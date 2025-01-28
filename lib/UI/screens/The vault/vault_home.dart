@@ -381,7 +381,7 @@ class _VaultHomeState extends State<VaultHome> {
                                 ),
                               ),
                               TextSpan(
-                                text: 'Listings',
+                                text: 'listings',
                                 style: PreMedTextTheme().heading1.copyWith(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w700,
@@ -441,7 +441,7 @@ class _VaultHomeState extends State<VaultHome> {
                                 text: 'Cheat',
                                 fontSize: 18,
                               ),
-                              Text('Sheets',
+                              Text('sheets',
                                   style: PreMedTextTheme().heading1.copyWith(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700)),
@@ -495,8 +495,8 @@ class _VaultHomeState extends State<VaultHome> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SvgPicture.asset(
-                                'assets/images/vault/mnemonics logo.svg'),
+                            Image.network(
+                                'https://premedpk-cdn.sgp1.digitaloceanspaces.com/ManulaUpload/6c9a6a97-c6eb-4a92-939b-426d25dee827.png', width: 120, height: 40,),
                             const Spacer(),
                             Padding(
                               padding: const EdgeInsets.only(
@@ -529,20 +529,20 @@ class _VaultHomeState extends State<VaultHome> {
                             ),
                           ],
                         ),
-                        Positioned(
-                          top: 50,
-                          left: 8,
-                          child: Text(
-                            'All the mnemonics you need. No more mindless repetition!',
-                            style: PreMedTextTheme().heading1.copyWith(
-                              color: PreMedColorTheme().black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            softWrap: true,
-                            maxLines: 2,
-                          ),
-                        ),
+                        // Positioned(
+                        //   top: 50,
+                        //   left: 8,
+                        //   child: Text(
+                        //     'All the mnemonics you need. No more mindless repetition!',
+                        //     style: PreMedTextTheme().heading1.copyWith(
+                        //       color: PreMedColorTheme().black,
+                        //       fontSize: 12,
+                        //       fontWeight: FontWeight.w400,
+                        //     ),
+                        //     softWrap: true,
+                        //     maxLines: 2,
+                        //   ),
+                        // ),
                       ],
                     ),
 

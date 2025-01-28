@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:premedpk_mobile_app/constants/color_theme.dart';
+import 'package:premedpk_mobile_app/constants/constants_export.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../constants/assets.dart';
 import '../../../../constants/sized_boxes.dart';
@@ -517,7 +518,7 @@ class _TimerClassState extends State<TimerClass> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Select Your Dream Medical University'),
+              title: Text('Select Your Dream Medical University', style: TextStyle(fontFamily: PreMedTextTheme().fontFamily, color: PreMedColorTheme().primaryColorRed, fontWeight: FontWeight.w700),),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -570,8 +571,8 @@ class _TimerClassState extends State<TimerClass> {
                           return ListTile(
                             title: Text(
                               school,
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w500),
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w400, fontFamily: PreMedTextTheme().fontFamily),
                             ),
                             onTap: () {
                               Navigator.of(context).pop(school);
@@ -886,18 +887,21 @@ class _TimerClassState extends State<TimerClass> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              buildTimePart(timeParts[0], "DAYS"),
-                              SizedBoxes.horizontalMedium,
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4.0),
+                                child: buildTimePart(timeParts[0], "DAYS"),
+                              ),
+                              SizedBoxes.horizontal10Px,
                               buildColon(),
-                              SizedBoxes.horizontalMedium,
+                              SizedBoxes.horizontal10Px,
                               buildTimePart(timeParts[1], "HOURS"),
-                              SizedBoxes.horizontalMedium,
+                              SizedBoxes.horizontal10Px,
                               buildColon(),
-                              SizedBoxes.horizontalMedium,
+                              SizedBoxes.horizontal10Px,
                               buildTimePart(timeParts[2], "MINUTES"),
-                              SizedBoxes.horizontalMedium,
+                              SizedBoxes.horizontal10Px,
                               buildColon(),
-                              SizedBoxes.horizontalMedium,
+                              SizedBoxes.horizontal10Px,
                               buildTimePart(timeParts[3], "SECONDS"),
                             ],
                           ),
@@ -927,18 +931,21 @@ class _TimerClassState extends State<TimerClass> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              buildTimePart("00", "DAYS"),
-                              SizedBoxes.horizontalMedium,
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4.0),
+                                child: buildTimePart("00", "DAYS"),
+                              ),
+                              SizedBoxes.horizontal10Px,
                               buildColon(),
-                              SizedBoxes.horizontalMedium,
+                              SizedBoxes.horizontal10Px,
                               buildTimePart("00", "HOURS"),
-                              SizedBoxes.horizontalMedium,
+                              SizedBoxes.horizontal10Px,
                               buildColon(),
-                              SizedBoxes.horizontalMedium,
+                              SizedBoxes.horizontal10Px,
                               buildTimePart("00", "MINUTES"),
-                              SizedBoxes.horizontalMedium,
+                              SizedBoxes.horizontal10Px,
                               buildColon(),
-                              SizedBoxes.horizontalMedium,
+                              SizedBoxes.horizontal10Px,
                               buildTimePart("00", "SECONDS"),
                             ],
                           ),
@@ -985,12 +992,15 @@ class _TimerClassState extends State<TimerClass> {
   Widget buildTimePart(String value, String label) {
     return Column(
       children: [
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.red,
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(
+            value,
+            style: const TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: Colors.red,
+            ),
           ),
         ),
         Text(

@@ -35,6 +35,17 @@ class _TestBottomSheetState extends State<TestBottomSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 8,
+              width: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: PreMedColorTheme().primaryColorRed,
+              ),
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -302,32 +313,32 @@ class _TestBottomSheetState extends State<TestBottomSheet> {
           ),
           if (widget.showButton) SizedBoxes.vertical10Px,
           if (widget.showButton)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 300,
-                  height: 42,
-                  child: ElevatedButton(
-                    onPressed: widget.pauseOrContinue,
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      backgroundColor: PreMedColorTheme().red,
-                      foregroundColor: Colors.white,
-                    ),
-                    child: Text(
-                      'Pause/Resume',
-                      style: PreMedTextTheme().body.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 17),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     SizedBox(
+            //       width: 300,
+            //       height: 42,
+            //       child: ElevatedButton(
+            //         onPressed: widget.pauseOrContinue,
+            //         style: ElevatedButton.styleFrom(
+            //           shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(10),
+            //           ),
+            //           backgroundColor: PreMedColorTheme().red,
+            //           foregroundColor: Colors.white,
+            //         ),
+            //         child: Text(
+            //           'Pause/Resume',
+            //           style: PreMedTextTheme().body.copyWith(
+            //               color: Colors.white,
+            //               fontWeight: FontWeight.w600,
+            //               fontSize: 17),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
           SizedBoxes.vertical10Px,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

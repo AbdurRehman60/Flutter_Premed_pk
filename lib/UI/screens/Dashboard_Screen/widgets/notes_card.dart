@@ -53,17 +53,17 @@ class NotesCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    text,
-                    style: GoogleFonts.rubik(
-                      fontWeight: FontWeight.w800,
-                      fontSize: MediaQuery.of(context).size.width *
-                          0.02, // Responsive font size
-                      color: const Color.fromARGB(255, 74, 74, 74),
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  // Text(
+                  //   text,
+                  //   style: GoogleFonts.rubik(
+                  //     fontWeight: FontWeight.w800,
+                  //     fontSize: MediaQuery.of(context).size.width *
+                  //         0.02, // Responsive font size
+                  //     color: const Color.fromARGB(255, 74, 74, 74),
+                  //   ),
+                  //   maxLines: 1,
+                  //   overflow: TextOverflow.ellipsis,
+                  // ),
                   Flexible(
                     child: Text(
                       text1,

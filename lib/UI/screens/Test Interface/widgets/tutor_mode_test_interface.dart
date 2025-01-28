@@ -54,24 +54,24 @@ class TutorMode extends StatefulWidget {
 }
 
 class _TutorModeState extends State<TutorMode> {
-  List<Option> _eliminatedOptions = [];
+  Set<String> _eliminatedOptions = {};
   bool isLoading = false;
 
-  void _eliminateOptions(List<Option> options) {
-    // Add up to two options to the eliminated list if they aren't already eliminated
-    for (int i = 0; i < 2 && i < options.length; i++) {
-      if (!_eliminatedOptions.contains(options[i])) {
-        _eliminatedOptions.add(options[i]);
-      }
-    }
-    setState(() {});
-  }
-
-  void _undoElimination() {
-    // Clear all eliminated options
-    _eliminatedOptions.clear();
-    setState(() {});
-  }
+  // void _eliminateOptions(List<Option> options) {
+  //   // Add up to two options to the eliminated list if they aren't already eliminated
+  //   for (int i = 0; i < 2 && i < options.length; i++) {
+  //     if (!_eliminatedOptions.contains(options[i])) {
+  //       _eliminatedOptions.add(options[i]);
+  //     }
+  //   }
+  //   setState(() {});
+  // }
+  //
+  // void _undoElimination() {
+  //   // Clear all eliminated options
+  //   _eliminatedOptions.clear();
+  //   setState(() {});
+  // }
 
   Future<void> _showComingSoonPopup(BuildContext context) async {
     showDialog(
@@ -258,7 +258,8 @@ class _TutorModeState extends State<TutorMode> {
   String loadingText = "Questions are loading";
   final ValueNotifier<int> _dotCountNotifier = ValueNotifier<int>(0);
   final ValueNotifier<Duration> _durationNotifier =
-  ValueNotifier(const Duration(hours: 2));
+      ValueNotifier(const Duration(hours: 2));
+  bool questionAttempted = false;
 
   @override
   void initState() {
@@ -693,7 +694,7 @@ class _TutorModeState extends State<TutorMode> {
           .removeWhere((q) => loadedQuestionIds.contains(q.questionId));
 
       final fetchedQuestionIds =
-          questionProvider.questions.map((q) => q.questionId) ?? [];
+          questionProvider.questions.map((q) => q.questionId);
 
       if (fetchedQuestionIds.isNotEmpty) {
         loadedQuestionIds.addAll(fetchedQuestionIds);
@@ -726,8 +727,7 @@ class _TutorModeState extends State<TutorMode> {
           currentPage--;
           _fetchNextSetOfQuestions(currentPage).then((_) {
             if (questionProvider.questions.length > currentQuestionIndex) {
-              final question =
-                  questionProvider.questions[currentQuestionIndex];
+              final question = questionProvider.questions[currentQuestionIndex];
               selectedOption = selectedOptions[currentQuestionIndex];
               optionSelected = selectedOption != null;
 
@@ -771,7 +771,6 @@ class _TutorModeState extends State<TutorMode> {
       });
     } else if (currentQuestionIndex == 0) {
       Navigator.pop(context);
-
     }
   }
 
@@ -806,7 +805,7 @@ class _TutorModeState extends State<TutorMode> {
       await _loadQuestionsBetween(currentQuestionIndex, targetIndex);
     }
 
-    final int targetPage = (targetIndex ~/ 10) + 1;
+    final int targetPage = (targetIndex ~/ 20) + 1;
 
     if (!questionProvider.isPageLoaded(targetPage)) {
       await _fetchNextSetOfQuestions(targetPage);
@@ -1049,16 +1048,18 @@ class _TutorModeState extends State<TutorMode> {
       }
     });
   }
+
   void startLoadingAnimation() {
     _timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      _dotCountNotifier.value = (_dotCountNotifier.value + 1) % 4; 
+      _dotCountNotifier.value = (_dotCountNotifier.value + 1) % 4;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+    final questionProvider =
+        Provider.of<QuestionProvider>(context, listen: false);
     final questions = questionProvider.questions;
 
     if (isLoading || questions.isEmpty) {
@@ -1141,7 +1142,7 @@ class _TutorModeState extends State<TutorMode> {
                 valueListenable: _dotCountNotifier,
                 builder: (context, dotCount, child) {
                   return Text(
-                    "Questions are loading${'.' * dotCount}", 
+                    "Questions are loading${'.' * dotCount}",
                     style: const TextStyle(fontSize: 16),
                   );
                 },
@@ -1315,11 +1316,8 @@ class _TutorModeState extends State<TutorMode> {
                       ),
                     ),
                     onPressed: () {
-                      final question = Provider.of<QuestionProvider>(context, listen: false)
-                          .questions[currentQuestionIndex];
-                      _eliminateOptions(question.options);
                       setState(() {
-                        _isEliminationActive = true;  // Activate elimination
+                        _isEliminationActive = true;
                       });
                     },
                     child: Row(
@@ -1331,7 +1329,7 @@ class _TutorModeState extends State<TutorMode> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  if (_isEliminationActive)  // Show only if elimination tool is active
+                  if (_isEliminationActive)
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
@@ -1343,19 +1341,15 @@ class _TutorModeState extends State<TutorMode> {
                         ),
                       ),
                       onPressed: () {
-                        final question = Provider.of<QuestionProvider>(context, listen: false)
-                            .questions[currentQuestionIndex];
-                        _undoElimination();
                         setState(() {
-                          _isEliminationActive = false;  // Deactivate elimination
+                          _isEliminationActive = false;
+                          _eliminatedOptions
+                              .clear(); // Reset eliminated options
                         });
                       },
                       child: Row(
                         children: [
-                          SvgPicture.asset(
-                            'assets/icons/elimination.svg',
-                            color: Colors.white,
-                          ),
+                          SvgPicture.asset('assets/icons/elimination.svg'),
                           const SizedBox(width: 5),
                           const Text('Exit Elimination'),
                         ],
@@ -1409,31 +1403,38 @@ class _TutorModeState extends State<TutorMode> {
                   ),
               const SizedBox(height: 16),
               ...question.options.map((option) {
-                final parsedOptionText = parse(option.optionText);
+                final parsedOptionText = parse(option.optionText.toString());
                 final isSelected = option.optionLetter == selectedOption;
                 final isCorrect = option.isCorrect;
-                final isEliminated = _eliminatedOptions.contains(option);
+                final isEliminated =
+                    _eliminatedOptions.contains(option.optionLetter);
                 final borderColor = isSelected
-                    ? (isCorrect ? Color(0xFF77D9A5) : Color(0xFFEC5863))
+                    ? (isCorrect ? Colors.green : Colors.red)
                     : (optionSelected && isCorrect
-                    ? Color(0xFF77D9A5)
-                    : isEliminated
-                    ? Colors.grey
-                    : PreMedColorTheme().neutral400);
+                        ? Colors.green
+                        : isEliminated
+                            ? Colors.grey
+                            : PreMedColorTheme().neutral400);
                 final color = isSelected
                     ? (isCorrect
-                    ? Color(0xFF77D9A5).withOpacity(0.2)
-                    : Color(0xFFEC5863).withOpacity(0.2))
+                        ? Colors.greenAccent
+                        : PreMedColorTheme().primaryColorRed200)
                     : (optionSelected && isCorrect
-                    ? Color(0xFF77D9A5).withOpacity(0.2)
-                    : isEliminated
-                    ? PreMedColorTheme().neutral300
-                    : PreMedColorTheme().white);
+                        ? Colors.greenAccent
+                        : isEliminated
+                            ? PreMedColorTheme().neutral300
+                            : PreMedColorTheme().white);
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: GestureDetector(
-                    onTap: () => selectOption(option.optionLetter),
+                    onTap: () {
+                      if (!isEliminated) {
+                        selectOption(option.optionLetter);
+                      } else {
+                        print("Eliminated option cannot be selected.");
+                      }
+                    },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -1450,45 +1451,68 @@ class _TutorModeState extends State<TutorMode> {
                                 child: Text(
                                   '${option.optionLetter}. ',
                                   style: PreMedTextTheme().body.copyWith(
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 15,
-                                    color: isEliminated
-                                        ? Colors.grey
-                                        : PreMedColorTheme().primaryColorRed,
-                                  ),
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 15,
+                                        color: isEliminated
+                                            ? Colors.grey
+                                            : PreMedColorTheme()
+                                                .primaryColorRed,
+                                      ),
                                 ),
                               ),
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         parsedOptionText ?? '',
                                         style: PreMedTextTheme().body.copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 14,
-                                          color: isEliminated
-                                              ? Colors.grey
-                                              : PreMedColorTheme().black,
-                                          decoration: isEliminated
-                                              ? TextDecoration.lineThrough
-                                              : null,
-                                        ),
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              color: isEliminated
+                                                  ? Colors.grey
+                                                  : PreMedColorTheme().black,
+                                              decoration: isEliminated
+                                                  ? TextDecoration.lineThrough
+                                                  : null,
+                                            ),
                                       ),
                                       SizedBoxes.verticalTiny,
                                       if (optionSelected)
                                         ExplanationButton(
-                                          isCorrect: isCorrectlyAnswered[currentQuestionIndex],
-                                          explanationText: parse(option.explanationText ??
-                                              'Refer to the explanation given at the bottom of the screen') ??
+                                          isCorrect: isCorrectlyAnswered[
+                                              currentQuestionIndex],
+                                          explanationText: parse(option
+                                                      .explanationText ??
+                                                  'Refer to the explanation given at the bottom of the screen') ??
                                               '',
                                         ),
                                     ],
                                   ),
                                 ),
                               ),
+                              // Elimination Icon
+                              if (_isEliminationActive)
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      if (isEliminated) {
+                                        _eliminatedOptions
+                                            .remove(option.optionLetter);
+                                      } else {
+                                        _eliminatedOptions
+                                            .add(option.optionLetter);
+                                      }
+                                    });
+                                  },
+                                ),
                             ],
                           ),
                         ),
@@ -1497,6 +1521,7 @@ class _TutorModeState extends State<TutorMode> {
                   ),
                 );
               }),
+              if (optionSelected)
                 Container(
                   margin: const EdgeInsets.only(top: 8.0),
                   padding: const EdgeInsets.all(8.0),
@@ -1509,23 +1534,35 @@ class _TutorModeState extends State<TutorMode> {
                       Text(
                         'Explanation',
                         style: PreMedTextTheme().body.copyWith(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
                       SizedBoxes.verticalMedium,
-                      Column(
-                        children: [
-                          Text(
-                            textAlign: TextAlign.justify,
-                            parse(question.explanationText ?? '') ?? '',
-                            style: PreMedTextTheme().body.copyWith(
-                                  color: PreMedColorTheme().black,
-                                ),
-                          ),
-                        ],
+                      Text(
+                        parse(question.explanationText ?? '') ?? '',
+                        textAlign: TextAlign.justify,
+                        style: PreMedTextTheme().body.copyWith(
+                              color: PreMedColorTheme().black,
+                            ),
                       ),
+                      if (question.explanationImage != null &&
+                          question.explanationImage!.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Material(
+                            elevation: 4,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 16.0),
+                                child: _buildImage(question.explanationImage!),
+                              ),
+                            ),
+                          ),
+                        ),
                     ],
                   ),
-                ),
+                )
             ],
           ),
         ),
@@ -1828,4 +1865,23 @@ class ExplanationButtonState extends State<ExplanationButton> {
   }
 }
 
+Widget _buildImage(String imageSource) {
+  bool isBase64(String input) {
+    final base64Regex = RegExp(r'^[A-Za-z0-9+/]+={0,2}$');
+    return input.length % 4 == 0 && base64Regex.hasMatch(input);
+  }
 
+  if (isBase64(imageSource)) {
+    try {
+      final base64Str = imageSource.split(',').last; // Handle prefix
+      final decodedBytes = base64Decode(base64Str);
+      return Image.memory(decodedBytes);
+    } catch (_) {
+      return const Text('Invalid base64 image data');
+    }
+  } else if (imageSource.startsWith('http')) {
+    return Image.network(imageSource);
+  } else {
+    return const Text('Invalid image format');
+  }
+}

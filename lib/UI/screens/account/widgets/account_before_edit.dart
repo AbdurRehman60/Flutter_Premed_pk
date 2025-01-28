@@ -128,7 +128,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                 ],
               ),
               SizedBoxes.vertical15Px,
-              // const BundleCard(),
+              const BundleCard(),
               SizedBoxes.vertical25Px,
               Text(
                 'Dashboard Settings',

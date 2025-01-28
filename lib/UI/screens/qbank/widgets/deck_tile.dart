@@ -15,14 +15,14 @@ class DeckTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
       child: GestureDetector(
         onTap: () {
           _openBottomSheet(context, deckGroup, deckGroupName);
         },
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final double height = constraints.maxWidth < 360 ? 130 : 108;
+            double height = constraints.maxWidth < 360 ? 115 : 108;
 
             return Container(
               height: height,
@@ -42,39 +42,45 @@ class DeckTile extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                      leading: GetLogo(url: deckGroup.deckGroupImage ?? ''),
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            deckGroup.deckGroupName,
-                            style: PreMedTextTheme()
-                                .heading3
-                                .copyWith(fontWeight: FontWeight.w800, fontSize: 18),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                      leading: Padding(
+                        padding: const EdgeInsets.only(bottom: 14.0),
+                        child: GetLogo(url: deckGroup.deckGroupImage ?? ''),
+                      ),
+                      title: Padding(
+                        padding: const EdgeInsets.only(top: 18.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              deckGroup.deckGroupName,
+                              style: PreMedTextTheme()
+                                  .heading3
+                                  .copyWith(fontWeight: FontWeight.w800, fontSize: 18),
 
-                          ),
-                          SizedBoxes.vertical5Px, // Slightly larger spacing
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: '${deckGroup.deckNameCount} ',
-                                  style: PreMedTextTheme()
-                                      .heading5
-                                      .copyWith(fontSize: 14, fontWeight: FontWeight.w700),
-                                ),
-                                TextSpan(
-                                  text: 'Papers',
-                                  style: PreMedTextTheme().heading5.copyWith(fontSize: 14),
-                                ),
-                              ],
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                        ],
+                            SizedBoxes.vertical5Px, // Slightly larger spacing
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: '${deckGroup.deckNameCount} ',
+                                    style: PreMedTextTheme()
+                                        .heading5
+                                        .copyWith(fontSize: 14, fontWeight: FontWeight.w700),
+                                  ),
+                                  TextSpan(
+                                    text: 'Papers',
+                                    style: PreMedTextTheme().heading5.copyWith(fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ],
+                        ),
                       ),
                       trailing: IconButton(
                         icon: Icon(
@@ -101,7 +107,7 @@ class DeckTile extends StatelessWidget {
 
 void _openBottomSheet(
     BuildContext context, DeckGroupModel deckGroup, String deckGroupName) {
-  final String bankOrMock = deckGroupName.toLowerCase().contains('mocks') ? 'Mock' : 'Bank';
+  String bankOrMock = deckGroupName.toLowerCase().contains('mocks') ? 'Mock' : 'Bank';
 
   showModalBottomSheet(
     context: context,

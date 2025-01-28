@@ -12,7 +12,9 @@ class QuestionProvider extends ChangeNotifier {
 
 
   final Map<int, QuestionModel> _questionsMap = {};
+
   List<QuestionModel> get questions => _questionsMap.values.toList();
+  Map<int, QuestionModel> get questionsMap => _questionsMap;
 
   String _deckName = '';
   String get deckName => _deckName;

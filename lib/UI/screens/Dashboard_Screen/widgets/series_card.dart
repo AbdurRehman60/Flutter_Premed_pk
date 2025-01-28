@@ -10,6 +10,7 @@ class SeriesCard extends StatelessWidget {
     required this.onTap,
     this.bgColor = Colors.blue,
     required this.icon,
+    required this.isNetworkImage
   });
 
   final String text;
@@ -17,6 +18,8 @@ class SeriesCard extends StatelessWidget {
   final Color bgColor;
   final VoidCallback onTap;
   final String icon;
+  final bool isNetworkImage;
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,24 +46,25 @@ class SeriesCard extends StatelessWidget {
               ),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      text,
-                      style: GoogleFonts.rubik(
-                        fontWeight: FontWeight.w800,
-                        fontSize: MediaQuery.of(context).size.width *
-                            0.020, // Responsive font size
-                        color: const Color.fromARGB(255, 74, 74, 74),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 3.0,),
+                      child: Text(
+                        text,
+                        style: GoogleFonts.rubik(
+                          fontWeight: FontWeight.w800,
+                          fontSize: MediaQuery.of(context).size.width *
+                              0.020, // Responsive font size
+                          color: const Color.fromARGB(255, 74, 74, 74),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                    // Responsive height
-                    Image.asset(
-                      icon,
-                    ),
-
+                    isNetworkImage
+                        ? Image.network(icon, width: 120, height: 30,)
+                        : Image.asset(icon),
                     SizedBox(
                         height: MediaQuery.of(context).size.height *
                             0.002), // Responsive height

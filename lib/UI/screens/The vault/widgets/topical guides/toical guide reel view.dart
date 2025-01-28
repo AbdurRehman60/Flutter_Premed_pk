@@ -1,13 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/screens/vaultpdfview.dart';
 import 'package:premedpk_mobile_app/models/cheatsheetModel.dart';
 import 'package:premedpk_mobile_app/providers/vaultProviders/premed_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../../../constants/constants_export.dart';
-import '../../../../../providers/user_provider.dart';
 class GuidesOrNotesDisplay extends StatelessWidget {
   const GuidesOrNotesDisplay({
     super.key,
@@ -35,9 +32,9 @@ class GuidesOrNotesDisplay extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => VaultPdfViewer(
-                          vaultNotesModel: notes[index],
-                          notesCategory: notesCategory,
-                        )));
+                      vaultNotesModel: notes[index],
+                      notesCategory: notesCategory,
+                    )));
           },
         ),
       ),
@@ -59,18 +56,8 @@ class GuideOrNotesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> launchURL(String appToken) async {
-      final Uri url = Uri.parse('https://www.premed.pk/?token=$appToken');
-
-      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-        throw Exception('Could not launch $url');
-      }
-    }
-
     return InkWell(
-      onTap: !hasAccess && vaultNotesModel.access == 'Paid'
-          ? null // Disable default onTap for locked content
-          : onTap,
+      onTap: !hasAccess && vaultNotesModel.access == 'Paid' ? null : onTap,
       child: Stack(
         children: [
           Container(
@@ -89,12 +76,10 @@ class GuideOrNotesCard extends StatelessWidget {
                     imageUrl: vaultNotesModel.thumbnailImageUrl ?? '',
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Center(
-                      child: CircularProgressIndicator(
-                        color: Provider.of<PreMedProvider>(context).isPreMed
-                            ? PreMedColorTheme().red
-                            : PreMedColorTheme().blue,
-                      ),
-                    ),
+                        child: CircularProgressIndicator(
+                            color: Provider.of<PreMedProvider>(context).isPreMed
+                                ? PreMedColorTheme().red
+                                : PreMedColorTheme().blue)),
                     errorWidget: (context, url, error) =>
                     const Icon(Icons.error),
                     imageBuilder: (context, imageProvider) => Container(
@@ -125,7 +110,8 @@ class GuideOrNotesCard extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4.0),
                           child: Text(
-                            vaultNotesModel.topicName,
+                            vaultNotesModel.topicName.toUpperCase(),
+                            // vaultNotesModel.topicName,
                             softWrap: true,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -157,85 +143,16 @@ class GuideOrNotesCard extends StatelessWidget {
               width: 240,
               height: 93,
               child: Center(
-                child: GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        final userProvider =
-                        Provider.of<UserProvider>(context, listen: false);
-                        final String appToken =
-                            userProvider.user?.info.appToken ?? '';
-                        return AlertDialog(
-                          title: Column(
-                            children: [
-                              SvgPicture.asset('assets/icons/lock.svg'),
-                              const SizedBox(height: 10),
-                              const Center(
-                                child: Text(
-                                  'Oh No! It’s Locked',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 25,
-                                    color: Color(0xFFFE63C49),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              Text(
-                                'Looks like this feature is not included in your plan. Upgrade to a higher plan or purchase this feature separately to continue.',
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                'Visit PreMed.PK for more details.',
-                              ),
-                            ],
-                          ),
-                          actions: [
-                            Center(
-                              child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFE6E6E6),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                                child: TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text(
-                                    'Return',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: Color(0xFFFE63C49),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  child: GlassContainer(
-                    border: Border.all(color: Colors.white, width: 2),
-                    height: 32,
-                    width: 80,
-                    child: Center(
-                      child: Text(
-                        'Unlock',
-                        style: PreMedTextTheme().heading1.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                        ),
-                      ),
+                child: GlassContainer(
+                  border: Border.all(color: Colors.white, width: 2),
+                  height: 32,
+                  width: 80,
+                  child: Center(
+                    child: Text(
+                      'Unlock',
+                      style: PreMedTextTheme()
+                          .heading1
+                          .copyWith(fontWeight: FontWeight.w500, fontSize: 15),
                     ),
                   ),
                 ),
