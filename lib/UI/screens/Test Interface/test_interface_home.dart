@@ -536,69 +536,6 @@ class _TestInterfaceState extends State<TestInterface> {
     return -1;
   }
 
-  // Future<void> nextQuestion() async {
-  //   print('yeh hy iss point py ${widget.totalquestions}');
-  //
-  //   if (isLoading) return;
-  //
-  //   updateAttempt();
-  //
-  //   final questionProvider =
-  //   Provider.of<QuestionProvider>(context, listen: false);
-  //   final deckInfo =
-  //       Provider
-  //           .of<DeckProvider>(context, listen: false)
-  //           .deckInformation;
-  //
-  //   if (currentQuestionIndex < widget.totalquestions - 1) {
-  //     setState(() {
-  //       currentQuestionIndex++;
-  //
-  //       print("Current Question Index: $currentQuestionIndex");
-  //       print("Current Page: $currentPage");
-  //       print("isPrefetched: $isPrefetched");
-  //
-  //       _eliminatedOptions.clear();
-  //       _isEliminationActive = false;
-  //
-  //       if (currentQuestionIndex % 10 >= 8 && !isPrefetched) {
-  //         final int nextPage = (currentQuestionIndex ~/ 10) + 2;
-  //         print("Prefetching next set of questions from page: $nextPage");
-  //         _fetchNextSetOfQuestions(nextPage);
-  //         isPrefetched = true;
-  //       }
-  //
-  //       if (questionProvider.questions.length > currentQuestionIndex) {
-  //         final question = questionProvider.questions[currentQuestionIndex];
-  //         selectedOption = selectedOptions[currentQuestionIndex];
-  //         optionSelected = selectedOption != null;
-  //
-  //         if (widget.isReview == true && selectedOption == null) {
-  //           selectedOption =
-  //               deckInfo?.getSelectionForQuestion(
-  //                   question.questionId, widget.attemptId);
-  //           optionSelected = selectedOption != null;
-  //         }
-  //
-  //         _stopwatch.reset();
-  //         if (widget.isReview != true) {
-  //           _stopwatch.start();
-  //         }
-  //
-  //         questionProvider.notifyListeners();
-  //       } else {
-  //         print(
-  //             "Error: Attempted to access a question that hasn't been loaded yet.");
-  //       }
-  //       if (currentQuestionIndex % 10 == 0) {
-  //         isPrefetched = false;
-  //         print("Resetting isPrefetched flag after the 10th question.");
-  //       }
-  //     });
-  //   } else {
-  //     _showFinishDialog();
-  //   }
-  // }
   Future<void> previousQuestion() async {
     if (isLoading) return;
     updateAttempt();
@@ -668,100 +605,58 @@ class _TestInterfaceState extends State<TestInterface> {
       Navigator.pop(context);
     }
   }
-
-  // Future<void> nextQuestion() async {
-  //   if (isLoading) return;
-  //
-  //   updateAttempt();
-  //
-  //   final questionProvider =
-  //   Provider.of<QuestionProvider>(context, listen: false);
-  //   final deckInfo =
-  //       Provider
-  //           .of<DeckProvider>(context, listen: false)
-  //           .deckInformation;
-  //
-  //   if (currentQuestionIndex < widget.totalquestions - 1) {
-  //     setState(() {
-  //       currentQuestionIndex++;
-  //
-  //       print("Current Question Index: $currentQuestionIndex");
-  //       print("Current Page: $currentPage");
-  //       print("isPrefetched: $isPrefetched");
-  //
-  //       if (currentQuestionIndex % 10 >= 8 && !isPrefetched) {
-  //         int nextPage = (currentQuestionIndex ~/ 10) + 2;
-  //         print("Prefetching next set of questions from page: $nextPage");
-  //         _fetchNextSetOfQuestions(nextPage);
-  //         isPrefetched = true;
-  //       }
-  //
-  //       if (questionProvider.questions!.length > currentQuestionIndex) {
-  //         final question = questionProvider.questions![currentQuestionIndex];
-  //         selectedOption = selectedOptions[currentQuestionIndex];
-  //         optionSelected = selectedOption != null;
-  //
-  //         if (widget.isReview == true && selectedOption == null) {
-  //           selectedOption =
-  //               deckInfo?.getSelectionForQuestion(
-  //                   question.questionId, widget.attemptId);
-  //           optionSelected = selectedOption != null;
-  //         }
-  //
-  //         _stopwatch.reset();
-  //         if (widget.isReview != true) {
-  //           _stopwatch.start();
-  //         }
-  //
-  //         questionProvider.notifyListeners();
-  //       } else {
-  //         print(
-  //             "Error: Attempted to access a question that hasn't been loaded yet.");
-  //       }
-  //       if (currentQuestionIndex % 10 == 0) {
-  //         isPrefetched = false;
-  //         print("Resetting isPrefetched flag after the 10th question.");
-  //       }
-  //     });
-  //   } else {
-  //     print("Error: Attempted to access an invalid question index.");
-  //   }
-  // }
   Future<void> nextQuestion() async {
-    if (isLoading) return;
+    if (isLoading) {
+      print("nextQuestion() called but already loading");
+      return;
+    }
+
+    // Debug: Current state before proceeding
+    print("nextQuestion() called. Current index: $currentQuestionIndex, Total questions: ${widget.totalquestions}");
 
     // Update current attempt progress
     updateAttempt();
 
     final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
-    final deckProvider = Provider.of<DeckProvider>(context, listen: false);
 
     // Calculate potential next index and required page
     final potentialNewIndex = currentQuestionIndex + 1;
     final requiredPage = (potentialNewIndex ~/ 10) + 1;
 
+    // Debug: Next index and page
+    print("Potential new index: $potentialNewIndex, Required page: $requiredPage");
+
     // Only proceed if within total question bounds
     if (potentialNewIndex >= widget.totalquestions) {
-      print("Reached end of questions");
+      print("Reached end of questions at index: $currentQuestionIndex");
       return;
     }
 
     // Check if we need to load more questions
     if (!questionProvider.isPageLoaded(requiredPage)) {
+      print("Page $requiredPage not loaded. Fetching...");
       setState(() => isLoading = true);
 
       try {
         await questionProvider.fetchQuestions(widget.deckName, requiredPage);
 
-        // Verify questions were actually loaded
-        if (questionProvider.questions == null ||
-            questionProvider.questions!.length <= potentialNewIndex) {
-          print("Failed to load next questions");
+        // Validate that questions are loaded
+        final totalLoaded = questionProvider.questions?.length ?? 0;
+        print("Questions after fetching page $requiredPage: $totalLoaded");
+
+        // Ensure the last questions are loaded
+        if (totalLoaded < widget.totalquestions) {
+          print("Warning: Only $totalLoaded questions loaded, expected ${widget.totalquestions}.");
+        }
+
+        // Exit if the target index is still out of bounds
+        if (totalLoaded <= potentialNewIndex) {
+          print("Error: Attempting to access index $potentialNewIndex but only $totalLoaded questions loaded.");
           setState(() => isLoading = false);
           return;
         }
       } catch (e) {
-        print("Error fetching next questions: $e");
+        print("Error fetching page $requiredPage: $e");
         setState(() => isLoading = false);
         return;
       }
@@ -771,41 +666,27 @@ class _TestInterfaceState extends State<TestInterface> {
 
     // Safety check after loading
     if (potentialNewIndex >= questionProvider.questions!.length) {
-      print("Question index out of bounds after loading");
+      print("Out-of-bounds after loading. Current questions: ${questionProvider.questions!.length}, Attempted index: $potentialNewIndex");
       return;
     }
 
     // Update state for new question
     setState(() {
       currentQuestionIndex = potentialNewIndex;
+
+      // Debug: New index and related info
       print("Moved to question index: $currentQuestionIndex");
+      print("Current question details: ${questionProvider.questions![currentQuestionIndex]}");
 
       // Handle selection state
-      final question = questionProvider.questions![currentQuestionIndex];
       selectedOption = selectedOptions[currentQuestionIndex];
       optionSelected = selectedOption != null;
-      if (widget.isReview == true && selectedOption == null) {
-        final deckInfo =
-            Provider
-                .of<DeckProvider>(context, listen: false)
-                .deckInformation;
 
-        selectedOption =
-            deckInfo?.getSelectionForQuestion(
-                question.questionId, widget.attemptId);
-        optionSelected = selectedOption != null;
-      }
-
-      _stopwatch.reset();
-      if (widget.isReview != true) {
-        _stopwatch.start();
-      }
-
-      // Prefetch next page when approaching end of current page
+      // Prefetch next page when approaching end of the current page
       if ((currentQuestionIndex + 2) % 10 == 0) { // Prefetch at 8th question (0-based index 7)
         final nextPage = requiredPage + 1;
         if (!questionProvider.isPageLoaded(nextPage)) {
-          print("Prefetching page $nextPage");
+          print("Prefetching next page: $nextPage");
           unawaited(questionProvider.fetchQuestions(widget.deckName, nextPage));
         }
       }
@@ -813,6 +694,9 @@ class _TestInterfaceState extends State<TestInterface> {
 
     // Notify listeners after state update
     questionProvider.notifyListeners();
+
+    // Debug: Final state after question transition
+    print("Final state: Current index: $currentQuestionIndex, Total loaded questions: ${questionProvider.questions?.length}");
   }
   Future<void> _fetchNextSetOfQuestions(int nextPage) async {
     if (isLoading) return;
@@ -823,11 +707,95 @@ class _TestInterfaceState extends State<TestInterface> {
 
     if (!questionProvider.isPageLoaded(nextPage)) {
       print("Fetching questions from page: $nextPage");
-      await questionProvider.fetchQuestions(widget.deckName, nextPage);
+      try {
+        await questionProvider.fetchQuestions(widget.deckName, nextPage);
+      } catch (e) {
+        print('Error fetching page $nextPage: $e');
+      }
     }
 
     setState(() => isLoading = false);
-  }  Future<void> _fetchAllQuestions() async {
+  }
+  Future<void> _loadQuestionsBetween(int startIndex, int endIndex) async {
+    if (isLoading) return;
+
+    setState(() => isLoading = true);
+
+    // Validate and clamp indices
+    final total = widget.totalquestions;
+    final clampedStart = startIndex.clamp(0, total - 1);
+    final clampedEnd = endIndex.clamp(0, total - 1);
+
+    if (clampedStart > clampedEnd) {
+      print('Invalid range: $clampedStart-$clampedEnd');
+      setState(() => isLoading = false);
+      return;
+    }
+
+    // Convert indices to 1-based pages
+    final startPage = (clampedStart ~/ 10) + 1;
+    final endPage = (clampedEnd ~/ 10) + 1;
+
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+
+    for (int page = startPage; page <= endPage; page++) {
+      if (!questionProvider.isPageLoaded(page)) {
+        try {
+          print('Fetching page $page (questions ${(page - 1) * 10}-${page * 10})');
+          await questionProvider.fetchQuestions(widget.deckName, page);
+        } catch (e) {
+          print('Error fetching page $page: $e');
+        }
+      }
+    }
+
+    // Final validation for loaded questions
+    final loadedCount = questionProvider.questions.length;
+    if (loadedCount < total) {
+      print('Warning: Only $loadedCount questions loaded, expected $total.');
+    } else {
+      print('Loaded $loadedCount questions (range $clampedStart-$clampedEnd).');
+    }
+
+    setState(() => isLoading = false);
+  }
+  Future<void> _skipToQuestion(int targetIndex) async {
+    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
+
+    if (currentQuestionIndex == targetIndex) return;
+
+    print('Attempting to skip to question $targetIndex out of ${widget.totalquestions}.');
+
+    // Clamp the target index to valid range
+    int adjustedIndex = targetIndex.clamp(0, widget.totalquestions - 1);
+
+    // Load questions in between if needed
+    if (currentQuestionIndex < adjustedIndex) {
+      await _loadQuestionsBetween(currentQuestionIndex, adjustedIndex);
+    }
+
+    // Calculate the page for the target index
+    final int targetPage = (adjustedIndex ~/ 10) + 1;
+
+    // Load the target page if not loaded
+    if (!questionProvider.isPageLoaded(targetPage)) {
+      await _fetchNextSetOfQuestions(targetPage);
+    }
+
+    // Final validation for out-of-range issues
+    if (adjustedIndex >= questionProvider.questions.length) {
+      print('Error: Attempting to access index $adjustedIndex but only ${questionProvider.questions.length} questions loaded.');
+      return;
+    }
+
+    // Update the state to reflect the skipped question
+    setState(() {
+      currentQuestionIndex = adjustedIndex;
+      selectedOption = selectedOptions[currentQuestionIndex];
+      optionSelected = selectedOption != null;
+    });
+  }
+  Future<void> _fetchAllQuestions() async {
     setState(() {
       isLoading = true;
     });
@@ -869,123 +837,6 @@ class _TestInterfaceState extends State<TestInterface> {
     });
   }
 
-  // Future<void> _fetchAllQuestions() async {
-  //   print('yeh hy iss point py ${widget.totalquestions}');
-  //
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //
-  //   final questionProvider = Provider.of<QuestionProvider>(
-  //       context, listen: false);
-  //   questionProvider.clearQuestions();
-  //
-  //   final Set<String> loadedQuestionIds = {};
-  //   int page = 1;
-  //   bool hasMoreQuestions = true;
-  //   final int totalQuestions = widget.totalquestions;
-  //   final int questionsPerPage = 10;
-  //
-  //   print("DEBUG: Fetching all questions until all are loaded");
-  //
-  //
-  //   while (hasMoreQuestions && (page - 1) * questionsPerPage < totalQuestions) {
-  //     print("DEBUG: Fetching questions from page: $page");
-  //     await questionProvider.fetchQuestions(widget.deckName, page);
-  //
-  //     questionProvider.questions.removeWhere((q) =>
-  //         loadedQuestionIds.contains(q.questionId));
-  //
-  //     final fetchedQuestionIds = questionProvider.questions.map((q) =>
-  //     q.questionId) ?? [];
-  //
-  //     if (fetchedQuestionIds.isNotEmpty) {
-  //       loadedQuestionIds.addAll(fetchedQuestionIds);
-  //       page++;
-  //     } else {
-  //       hasMoreQuestions = false;
-  //     }
-  //   }
-  //
-  //   setState(() {
-  //     isLoading = false;
-  //     currentPage = page - 1;
-  //   });
-  // }
-
-
-  Future<void> _loadQuestionsBetween(int startIndex, int endIndex) async {
-    setState(() => isLoading = true);
-
-    // Validate and clamp indices
-    final total = widget.totalquestions;
-    final clampedStart = startIndex.clamp(0, total - 1);
-    final clampedEnd = endIndex.clamp(0, total - 1);
-
-    // Exit if invalid range
-    if (clampedStart > clampedEnd) {
-      print('Invalid range: $clampedStart-$clampedEnd');
-      setState(() => isLoading = false);
-      return;
-    }
-
-    // Convert indices to 1-based pages
-    final startPage = (clampedStart ~/ 10) + 1;
-    final endPage = (clampedEnd ~/ 10) + 1;
-
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
-
-    // Load all required pages
-    for (int page = startPage; page <= endPage; page++) {
-      if (!questionProvider.isPageLoaded(page)) {
-        print('Fetching page $page (questions ${(page-1)*10}-${page*10})');
-        await questionProvider.fetchQuestions(widget.deckName, page);
-      }
-    }
-
-    // Final validation
-    if (questionProvider.questions.isEmpty) {
-      print('Failed loading questions $clampedStart-$clampedEnd');
-    } else {
-      print('Loaded ${questionProvider.questions.length} questions');
-    }
-
-    setState(() => isLoading = false);
-  }
-  Future<void> _skipToQuestion(int targetIndex) async {
-    final questionProvider = Provider.of<QuestionProvider>(context, listen: false);
-
-    // 1. Validate against maximum allowed index
-    if (targetIndex >= widget.totalquestions) {
-      print('Invalid index: $targetIndex');
-      return;
-    }
-
-    // 2. Calculate required page range
-    final startPage = (currentQuestionIndex ~/ 10) + 1;
-    final endPage = (targetIndex ~/ 10) + 1;
-
-    // 3. Load missing pages sequentially
-    for (int page = startPage; page <= endPage; page++) {
-      if (!questionProvider.isPageLoaded(page)) {
-        await questionProvider.fetchQuestions(widget.deckName, page);
-
-        // Critical: Verify after each fetch
-        if (questionProvider.questions.length <= targetIndex) {
-          print('Failed to load sufficient questions after page $page');
-          return;
-        }
-      }
-    }
-
-    // 4. Final safety check before navigation
-    if (targetIndex < questionProvider.questions.length) {
-      setState(() => currentQuestionIndex = targetIndex);
-    } else {
-      print('Target index $targetIndex out of bounds after loading');
-      // Implement retry logic or error UI here
-    }
-  }
   Future<void> _loadPreviousSelections() async {
     print("DEBUG: Recent attempt mode activated");
 

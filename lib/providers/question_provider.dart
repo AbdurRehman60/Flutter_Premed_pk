@@ -56,8 +56,7 @@ class QuestionProvider extends ChangeNotifier {
     }
 
     try {
-      _isLoading = true;
-      notifyListeners();
+      setLoading(true);
 
       final response = await _client.post(
         Endpoints.questions(page),
@@ -66,10 +65,12 @@ class QuestionProvider extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = response.data;
+
+        // Validate response structure
         if (responseData.containsKey('questions') && responseData['questions'] is List) {
           final List<dynamic> questionsJson = responseData['questions'];
           final List<QuestionModel> fetchedQuestions = [];
-          final int questionIndexOffset = (page - 1) * questionsJson.length;
+          final int questionIndexOffset = (page - 1) * 10; // Assuming 10 questions per page
 
           for (int i = 0; i < questionsJson.length; i++) {
             final json = questionsJson[i];
@@ -79,27 +80,32 @@ class QuestionProvider extends ChangeNotifier {
                 _questionsMap[questionIndexOffset + i] = question;
                 fetchedQuestions.add(question);
               } catch (e) {
-                print('Error parsing question JSON: $e');
+                print('Error parsing question JSON at index $i on page $page: $e');
               }
             } else {
-              print('Skipping null question object in response');
+              print('Null question object at index $i on page $page');
             }
           }
 
-          _loadedPages.add(page);
+          if (fetchedQuestions.isNotEmpty) {
+            _loadedPages.add(page); // Mark page as loaded only after successfully parsing
+            notifyListeners();
+          } else {
+            print('No valid questions fetched from page $page');
+          }
+
           return fetchedQuestions;
         } else {
-          throw Exception('Invalid response format');
+          throw Exception('Invalid response format: Missing or invalid "questions" key');
         }
       } else {
-        throw Exception('Failed to load questions: ${response.statusCode}');
+        throw Exception('Failed to load questions: HTTP ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching questions: $e');
+      print('Error fetching questions from page $page: $e');
       return [];
     } finally {
-      _isLoading = false;
-      notifyListeners();
+      setLoading(false);
     }
   }
 }
