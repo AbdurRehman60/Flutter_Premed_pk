@@ -28,8 +28,9 @@ class Account extends StatelessWidget {
       try {
         showDialog(
           context: context,
-          builder: (BuildContext context) {
-            final userProvider = Provider.of<UserProvider>(context);
+          builder: (BuildContext dialogContext) {
+            final userProvider =
+                Provider.of<UserProvider>(context, listen: false);
             final String appToken = userProvider.user?.info.appToken ?? '';
 
             return AlertDialog(
@@ -37,14 +38,13 @@ class Account extends StatelessWidget {
                 children: [
                   SvgPicture.asset('assets/icons/logout.svg'),
                   const SizedBox(height: 10),
-                  const Center(
-                    child: Text(
-                      'Sign Out', // Updated title
-                      style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 25,
-                        color: Color(0xFFFE63C49),
-                      ),
+                  const Text(
+                    'Sign Out',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 25,
+                      color: Color(0xFFFE63C49),
                     ),
                   ),
                 ],
@@ -52,92 +52,62 @@ class Account extends StatelessWidget {
               content: const Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'Are you sure you want to sign out?', // Updated content
-                  ),
+                  Text('Are you sure you want to sign out?'),
                   SizedBox(height: 10),
-                  Text(
-                    'You can always log back in later.', // Additional message
-                  ),
+                  Text('You can always log back in later.'),
                 ],
               ),
               actions: [
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween, // Space buttons evenly
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE6E6E6),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                          child: const Text(
-                            'Cancel', // Cancel button
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Color(0xFFFE63C49),
-                            ),
-                          ),
-                        ),
-                      ),
+                    _buildDialogButton(
+                      text: 'Cancel',
+                      color: const Color(0xFFE6E6E6),
+                      textColor: const Color(0xFFFE63C49),
+                      onPressed: () => Navigator.of(dialogContext).pop(),
                     ),
-                    const SizedBox(width: 10), // Add spacing between buttons
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFE6E6E6),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
-                        child: TextButton(
-                          onPressed: () async {
-                            // Start the logout process and wait for its completion
-                            print('Initiating logout process...');
-                            final Map<String, dynamic> response =
-                                await auth.logout();
-                            print('Logout response: $response');
-                            if (response['status'] == true) {
-                              print(
-                                  'Logout successful. Navigating to SignIn screen...');
+                    const SizedBox(width: 10),
+                    _buildDialogButton(
+                      text: 'Sign Out',
+                      color: const Color(0xFFE6E6E6),
+                      textColor: Colors.red,
+                      onPressed: () async {
+                        print('Initiating logout process...');
+                        final response = await auth.logout();
+                        print('Logout response: $response');
 
-                              // Navigate to the SignIn screen after successful logout
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SignIn(),
-                                ),
-                              );
+                        if (response['status'] == true) {
+                          if (context.mounted) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (_) => const SignIn()),
+                            );
+                          }
+                          await Future.delayed(
+                              const Duration(milliseconds: 500));
+                          print('Logout successful. Clearing preferences...');
 
-                              final SharedPreferences sharedPreferences =
-                                  await SharedPreferences.getInstance();
-                              await sharedPreferences.clear();
-                              print('SharedPreferences cleared successfully.');
-                            } else {
-                              print('Logout failed with response: $response');
-                              showError(context, response);
-                            }
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                          child: const Text(
-                            'Sign Out', // Sign-out button
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Colors
-                                  .red, // You can change the color to indicate a destructive action
-                            ),
-                          ),
-                        ),
-                      ),
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await prefs.clear();
+                          print('SharedPreferences cleared.');
+
+                          // if (context.mounted) {
+                          //   Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(builder: (_) => const SignIn()),
+                          //   );
+                          // }
+                        } else {
+                          print('Logout failed with response: $response');
+                          showError(dialogContext, response);
+                        }
+
+                        if (dialogContext.mounted) {
+                          Navigator.of(dialogContext).pop();
+                        }
+                      },
                     ),
                   ],
                 ),
@@ -536,6 +506,35 @@ class Account extends StatelessWidget {
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  /// Reusable button for the dialog
+  Widget _buildDialogButton({
+    required String text,
+    required Color color,
+    required Color textColor,
+    required VoidCallback onPressed,
+  }) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        child: TextButton(
+          onPressed: onPressed,
+          child: Text(
+            text,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: textColor,
+            ),
+          ),
         ),
       ),
     );
