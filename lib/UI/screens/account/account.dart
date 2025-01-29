@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/login_screen_one.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/account_before_edit.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/change_password.dart';
@@ -25,34 +26,161 @@ class Account extends StatelessWidget {
     final isPremed = Provider.of<PreMedProvider>(context).isPreMed;
     Future<void> onLogoutPressed() async {
       try {
-        // Start the logout process and wait for its completion
-        print('Initiating logout process...');
-        final Map<String, dynamic> response = await auth.logout();
-        print('Logout response: $response');
-        if (response['status'] == true) {
-          print('Logout successful. Navigating to SignIn screen...');
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            final userProvider = Provider.of<UserProvider>(context);
+            final String appToken = userProvider.user?.info.appToken ?? '';
 
-          // Navigate to the SignIn screen after successful logout
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const SignIn(),
-            ),
-          );
+            return AlertDialog(
+              title: Column(
+                children: [
+                  SvgPicture.asset('assets/icons/logout.svg'),
+                  const SizedBox(height: 10),
+                  const Center(
+                    child: Text(
+                      'Sign Out', // Updated title
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 25,
+                        color: Color(0xFFFE63C49),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              content: const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Are you sure you want to sign out?', // Updated content
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'You can always log back in later.', // Additional message
+                  ),
+                ],
+              ),
+              actions: [
+                Row(
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween, // Space buttons evenly
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE6E6E6),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: const Text(
+                            'Cancel', // Cancel button
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Color(0xFFFE63C49),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10), // Add spacing between buttons
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE6E6E6),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
+                        child: TextButton(
+                          onPressed: () async {
+                            // Start the logout process and wait for its completion
+                            print('Initiating logout process...');
+                            final Map<String, dynamic> response =
+                                await auth.logout();
+                            print('Logout response: $response');
+                            if (response['status'] == true) {
+                              print(
+                                  'Logout successful. Navigating to SignIn screen...');
 
-          final SharedPreferences sharedPreferences =
-              await SharedPreferences.getInstance();
-          await sharedPreferences.clear();
-          print('SharedPreferences cleared successfully.');
-        } else {
-          print('Logout failed with response: $response');
-          showError(context, response);
-        }
+                              // Navigate to the SignIn screen after successful logout
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SignIn(),
+                                ),
+                              );
+
+                              final SharedPreferences sharedPreferences =
+                                  await SharedPreferences.getInstance();
+                              await sharedPreferences.clear();
+                              print('SharedPreferences cleared successfully.');
+                            } else {
+                              print('Logout failed with response: $response');
+                              showError(context, response);
+                            }
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: const Text(
+                            'Sign Out', // Sign-out button
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors
+                                  .red, // You can change the color to indicate a destructive action
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        );
       } catch (e) {
         print('Exception during logout: $e');
         showError(context, {'message': 'An error occurred during logout'});
       }
     }
+
+    // Future<void> onLogoutPressed() async {
+    //   try {
+    //     // Start the logout process and wait for its completion
+    //     print('Initiating logout process...');
+    //     final Map<String, dynamic> response = await auth.logout();
+    //     print('Logout response: $response');
+    //     if (response['status'] == true) {
+    //       print('Logout successful. Navigating to SignIn screen...');
+
+    //       // Navigate to the SignIn screen after successful logout
+    //       Navigator.pushReplacement(
+    //         context,
+    //         MaterialPageRoute(
+    //           builder: (context) => const SignIn(),
+    //         ),
+    //       );
+
+    //       final SharedPreferences sharedPreferences =
+    //           await SharedPreferences.getInstance();
+    //       await sharedPreferences.clear();
+    //       print('SharedPreferences cleared successfully.');
+    //     } else {
+    //       print('Logout failed with response: $response');
+    //       showError(context, response);
+    //     }
+    //   } catch (e) {
+    //     print('Exception during logout: $e');
+    //     showError(context, {'message': 'An error occurred during logout'});
+    //   }
+    // }
 
     return Scaffold(
       backgroundColor: PreMedColorTheme().background,
