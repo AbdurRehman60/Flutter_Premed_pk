@@ -22,7 +22,7 @@ class GoogleLogin extends StatelessWidget {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => response['message'] == 'onboarding'
+                builder: (context) => response['message'] == 'OnboardingOne'
                     ? const AdditionalInfo()
                     : const MainNavigationScreen(),
               ),
@@ -42,14 +42,14 @@ class GoogleLogin extends StatelessWidget {
                 "/auth/onboarding/entrance-exam/pre-medical/additional-info/features") {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const ThankyouScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const MainNavigationScreen()),
               );
             } else if (lastOnboardingPage ==
                 "/auth/onboarding/entrance-exam/pre-medical/features/thankyou") {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => const MainNavigationScreen()),
+                MaterialPageRoute(builder: (context) => const ThankyouScreen()),
               );
             } else {
               Navigator.pushReplacement(

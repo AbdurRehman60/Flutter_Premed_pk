@@ -29,97 +29,6 @@ class _LoginFormState extends State<LoginForm> {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
-    void onLoginPressed() {
-      final form = _formKey.currentState!;
-      if (form.validate()) {
-        final Future<Map<String, dynamic>> response = auth.login(
-          emailController.text,
-          passwordController.text,
-          true,
-        );
-
-        response.then((response) {
-          if (response['status']) {
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => response['message'] == 'onboarding'
-                    ? const AdditionalInfo()
-                    : const MainNavigationScreen(),
-              ),
-              (Route<dynamic> route) => false,
-            );
-          } else {
-            // Directly show the message from the API response
-            // showError(context, {"message": response['message']});
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Column(
-                    children: [
-                      SvgPicture.asset(
-                          'assets/icons/lock.svg'), // Use an error icon
-                      SizedBox(height: 10),
-                      const Center(
-                        child: Text(
-                          'Login Failed', // Updated title
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 25,
-                            color: Colors.red, // Use red to indicate an error
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Text(
-                        'The email or password you entered is incorrect. Please try again.', // Updated content
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                  actions: [
-                    Center(
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFE6E6E6),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 16),
-                        child: Column(
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(); // Close the dialog
-                              },
-                              child: const Text(
-                                'Try Again', // Retry button
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: Color(0xFFFE63C49),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            );
-          }
-        });
-      }
-    }
-
     // void onLoginPressed() {
     //   final form = _formKey.currentState!;
     //   if (form.validate()) {
@@ -137,15 +46,105 @@ class _LoginFormState extends State<LoginForm> {
     //                 ? const AdditionalInfo()
     //                 : const MainNavigationScreen(),
     //           ),
-    //               (Route<dynamic> route) => false,
+    //           (Route<dynamic> route) => false,
     //         );
     //       } else {
     //         // Directly show the message from the API response
-    //         showError(context, {"message": response['message']});
+    //         // showError(context, {"message": response['message']});
+    //         showDialog(
+    //           context: context,
+    //           builder: (BuildContext context) {
+    //             return AlertDialog(
+    //               title: Column(
+    //                 children: [
+    //                   SvgPicture.asset(
+    //                       'assets/icons/lock.svg'), // Use an error icon
+    //                   SizedBox(height: 10),
+    //                   const Center(
+    //                     child: Text(
+    //                       'Login Failed', // Updated title
+    //                       style: TextStyle(
+    //                         fontWeight: FontWeight.w800,
+    //                         fontSize: 25,
+    //                         color: Colors.red, // Use red to indicate an error
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 ],
+    //               ),
+    //               content: Column(
+    //                 mainAxisSize: MainAxisSize.min,
+    //                 children: const [
+    //                   Text(
+    //                     'The email or password you entered is incorrect. Please try again.', // Updated content
+    //                     textAlign: TextAlign.center,
+    //                   ),
+    //                 ],
+    //               ),
+    //               actions: [
+    //                 Center(
+    //                   child: Container(
+    //                     width: double.infinity,
+    //                     decoration: BoxDecoration(
+    //                       color: Color(0xFFE6E6E6),
+    //                       borderRadius: BorderRadius.circular(10),
+    //                     ),
+    //                     padding: const EdgeInsets.symmetric(
+    //                         vertical: 8, horizontal: 16),
+    //                     child: Column(
+    //                       children: [
+    //                         TextButton(
+    //                           onPressed: () {
+    //                             Navigator.of(context).pop(); // Close the dialog
+    //                           },
+    //                           child: const Text(
+    //                             'Try Again', // Retry button
+    //                             style: TextStyle(
+    //                               fontWeight: FontWeight.bold,
+    //                               fontSize: 16,
+    //                               color: Color(0xFFFE63C49),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ],
+    //             );
+    //           },
+    //         );
     //       }
     //     });
     //   }
     // }
+
+    void onLoginPressed() {
+      final form = _formKey.currentState!;
+      if (form.validate()) {
+        final Future<Map<String, dynamic>> response = auth.login(
+          emailController.text,
+          passwordController.text,
+          true,
+        );
+        response.then((response) {
+          if (response['status']) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => response['message'] == 'onboarding'
+                    ? const AdditionalInfo()
+                    : const MainNavigationScreen(),
+              ),
+              (Route<dynamic> route) => false,
+            );
+          } else {
+            // Directly show the message from the API response
+            showError(context, {"message": response['message']});
+          }
+        });
+      }
+    }
 
     return Form(
       key: _formKey,

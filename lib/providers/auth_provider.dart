@@ -392,6 +392,11 @@ class AuthProvider extends ChangeNotifier {
               'status': true,
               'message': "home",
             };
+          } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical/additional-info/features") {
+            result = {
+              'status': true,
+              'message': "/auth/onboarding/entrance-exam/pre-medical/additional-info/features",
+            };
           } else {
             result = {
               'status': true,
