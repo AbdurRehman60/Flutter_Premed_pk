@@ -49,7 +49,7 @@ class SeriesCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 3.0,),
+                      padding: const EdgeInsets.only(top: 0.0,),
                       child: Text(
                         text,
                         style: GoogleFonts.rubik(
@@ -63,7 +63,7 @@ class SeriesCard extends StatelessWidget {
                       ),
                     ),
                     isNetworkImage
-                        ? Image.network(icon, width: 120, height: 30,)
+                        ? Image.network(icon, width: 120, height: 20,)
                         : Image.asset(icon),
                     SizedBox(
                         height: MediaQuery.of(context).size.height *
