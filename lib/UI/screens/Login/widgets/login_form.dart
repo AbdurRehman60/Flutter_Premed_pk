@@ -1,4 +1,5 @@
 import 'package:flutter/gestures.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/widgets/welcome_screen.dart';
 import 'package:premedpk_mobile_app/UI/screens/a_new_signup_flow/additional_info.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/privacy_policy.dart';
@@ -28,6 +29,96 @@ class _LoginFormState extends State<LoginForm> {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
+    // void onLoginPressed() {
+    //   final form = _formKey.currentState!;
+    //   if (form.validate()) {
+    //     final Future<Map<String, dynamic>> response = auth.login(
+    //       emailController.text,
+    //       passwordController.text,
+    //       true,
+    //     );
+    //     response.then((response) {
+    //       if (response['status']) {
+    //         Navigator.pushAndRemoveUntil(
+    //           context,
+    //           MaterialPageRoute(
+    //             builder: (context) => response['message'] == 'onboarding'
+    //                 ? const AdditionalInfo()
+    //                 : const MainNavigationScreen(),
+    //           ),
+    //           (Route<dynamic> route) => false,
+    //         );
+    //       } else {
+    //         // Directly show the message from the API response
+    //         // showError(context, {"message": response['message']});
+    //         showDialog(
+    //           context: context,
+    //           builder: (BuildContext context) {
+    //             return AlertDialog(
+    //               title: Column(
+    //                 children: [
+    //                   SvgPicture.asset(
+    //                       'assets/icons/lock.svg'), // Use an error icon
+    //                   SizedBox(height: 10),
+    //                   const Center(
+    //                     child: Text(
+    //                       'Login Failed', // Updated title
+    //                       style: TextStyle(
+    //                         fontWeight: FontWeight.w800,
+    //                         fontSize: 25,
+    //                         color: Colors.red, // Use red to indicate an error
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 ],
+    //               ),
+    //               content: Column(
+    //                 mainAxisSize: MainAxisSize.min,
+    //                 children: const [
+    //                   Text(
+    //                     'The email or password you entered is incorrect. Please try again.', // Updated content
+    //                     textAlign: TextAlign.center,
+    //                   ),
+    //                 ],
+    //               ),
+    //               actions: [
+    //                 Center(
+    //                   child: Container(
+    //                     width: double.infinity,
+    //                     decoration: BoxDecoration(
+    //                       color: Color(0xFFE6E6E6),
+    //                       borderRadius: BorderRadius.circular(10),
+    //                     ),
+    //                     padding: const EdgeInsets.symmetric(
+    //                         vertical: 8, horizontal: 16),
+    //                     child: Column(
+    //                       children: [
+    //                         TextButton(
+    //                           onPressed: () {
+    //                             Navigator.of(context).pop(); // Close the dialog
+    //                           },
+    //                           child: const Text(
+    //                             'Try Again', // Retry button
+    //                             style: TextStyle(
+    //                               fontWeight: FontWeight.bold,
+    //                               fontSize: 16,
+    //                               color: Color(0xFFFE63C49),
+    //                             ),
+    //                           ),
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ],
+    //             );
+    //           },
+    //         );
+    //       }
+    //     });
+    //   }
+    // }
+
     void onLoginPressed() {
       final form = _formKey.currentState!;
       if (form.validate()) {
@@ -36,7 +127,6 @@ class _LoginFormState extends State<LoginForm> {
           passwordController.text,
           true,
         );
-
         response.then((response) {
           if (response['status']) {
             Navigator.pushAndRemoveUntil(
@@ -46,7 +136,7 @@ class _LoginFormState extends State<LoginForm> {
                     ? const AdditionalInfo()
                     : const MainNavigationScreen(),
               ),
-                  (Route<dynamic> route) => false,
+              (Route<dynamic> route) => false,
             );
           } else {
             // Directly show the message from the API response
@@ -129,10 +219,10 @@ class _LoginFormState extends State<LoginForm> {
                       child: Text(
                         'Forgot Password?',
                         style: PreMedTextTheme().subtext.copyWith(
-                          color: PreMedColorTheme().primaryColorRed,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14.5,
-                        ),
+                              color: PreMedColorTheme().primaryColorRed,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14.5,
+                            ),
                       ),
                       onPressed: () {
                         Navigator.push(
@@ -205,8 +295,8 @@ class _LoginFormState extends State<LoginForm> {
                     textAlign: TextAlign.center,
                     text: TextSpan(
                       style: PreMedTextTheme().body.copyWith(
-                        color: PreMedColorTheme().neutral500,
-                      ),
+                            color: PreMedColorTheme().neutral500,
+                          ),
                       children: [
                         TextSpan(
                           text: "By signing in, you agree to our ",
@@ -227,7 +317,7 @@ class _LoginFormState extends State<LoginForm> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                      const PrivacyPolicy()));
+                                          const PrivacyPolicy()));
                             },
                         ),
                         TextSpan(
@@ -249,7 +339,7 @@ class _LoginFormState extends State<LoginForm> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                      const TermsCondition()));
+                                          const TermsCondition()));
                             },
                         ),
                       ],

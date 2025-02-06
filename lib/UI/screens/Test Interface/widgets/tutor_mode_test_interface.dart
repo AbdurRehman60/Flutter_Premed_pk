@@ -1089,7 +1089,7 @@ class _TutorModeState extends State<TutorMode> {
                   child: IconButton(
                     icon: Icon(
                       Icons.arrow_back,
-                      color: Provider.of<PreMedProvider>(context).isPreMed
+                      color: Provider.of<PreMedProvider>( context).isPreMed
                           ? PreMedColorTheme().primaryColorRed
                           : PreMedColorTheme().blue,
                     ),

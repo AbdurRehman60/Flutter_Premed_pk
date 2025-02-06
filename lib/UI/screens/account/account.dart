@@ -1,3 +1,4 @@
+import 'package:flutter_svg/svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/Login/login_screen_one.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/account_before_edit.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/change_password.dart';
@@ -25,34 +26,131 @@ class Account extends StatelessWidget {
     final isPremed = Provider.of<PreMedProvider>(context).isPreMed;
     Future<void> onLogoutPressed() async {
       try {
-        // Start the logout process and wait for its completion
-        print('Initiating logout process...');
-        final Map<String, dynamic> response = await auth.logout();
-        print('Logout response: $response');
-        if (response['status'] == true) {
-          print('Logout successful. Navigating to SignIn screen...');
+        showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            final userProvider =
+                Provider.of<UserProvider>(context, listen: false);
+            final String appToken = userProvider.user?.info.appToken ?? '';
 
-          // Navigate to the SignIn screen after successful logout
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const SignIn(),
-            ),
-          );
+            return AlertDialog(
+              title: Column(
+                children: [
+                  SvgPicture.asset('assets/icons/logout.svg'),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Sign Out',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 25,
+                      color: Color(0xFFFE63C49),
+                    ),
+                  ),
+                ],
+              ),
+              content: const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Are you sure you want to sign out?'),
+                  SizedBox(height: 10),
+                  Text('You can always log back in later.'),
+                ],
+              ),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildDialogButton(
+                      text: 'Cancel',
+                      color: const Color(0xFFE6E6E6),
+                      textColor: const Color(0xFFFE63C49),
+                      onPressed: () => Navigator.of(dialogContext).pop(),
+                    ),
+                    const SizedBox(width: 10),
+                    _buildDialogButton(
+                      text: 'Sign Out',
+                      color: const Color(0xFFE6E6E6),
+                      textColor: Colors.red,
+                      onPressed: () async {
+                        print('Initiating logout process...');
+                        final response = await auth.logout();
+                        print('Logout response: $response');
 
-          final SharedPreferences sharedPreferences =
-              await SharedPreferences.getInstance();
-          await sharedPreferences.clear();
-          print('SharedPreferences cleared successfully.');
-        } else {
-          print('Logout failed with response: $response');
-          showError(context, response);
-        }
+                        if (response['status'] == true) {
+                          if (context.mounted) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (_) => const SignIn()),
+                            );
+                          }
+                          await Future.delayed(
+                              const Duration(milliseconds: 500));
+                          print('Logout successful. Clearing preferences...');
+
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          await prefs.clear();
+                          print('SharedPreferences cleared.');
+
+                          // if (context.mounted) {
+                          //   Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(builder: (_) => const SignIn()),
+                          //   );
+                          // }
+                        } else {
+                          print('Logout failed with response: $response');
+                          showError(dialogContext, response);
+                        }
+
+                        if (dialogContext.mounted) {
+                          Navigator.of(dialogContext).pop();
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        );
       } catch (e) {
         print('Exception during logout: $e');
         showError(context, {'message': 'An error occurred during logout'});
       }
     }
+
+    // Future<void> onLogoutPressed() async {
+    //   try {
+    //     // Start the logout process and wait for its completion
+    //     print('Initiating logout process...');
+    //     final Map<String, dynamic> response = await auth.logout();
+    //     print('Logout response: $response');
+    //     if (response['status'] == true) {
+    //       print('Logout successful. Navigating to SignIn screen...');
+
+    //       // Navigate to the SignIn screen after successful logout
+    //       Navigator.pushReplacement(
+    //         context,
+    //         MaterialPageRoute(
+    //           builder: (context) => const SignIn(),
+    //         ),
+    //       );
+
+    //       final SharedPreferences sharedPreferences =
+    //           await SharedPreferences.getInstance();
+    //       await sharedPreferences.clear();
+    //       print('SharedPreferences cleared successfully.');
+    //     } else {
+    //       print('Logout failed with response: $response');
+    //       showError(context, response);
+    //     }
+    //   } catch (e) {
+    //     print('Exception during logout: $e');
+    //     showError(context, {'message': 'An error occurred during logout'});
+    //   }
+    // }
 
     return Scaffold(
       backgroundColor: PreMedColorTheme().background,
@@ -408,6 +506,35 @@ class Account extends StatelessWidget {
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  /// Reusable button for the dialog
+  Widget _buildDialogButton({
+    required String text,
+    required Color color,
+    required Color textColor,
+    required VoidCallback onPressed,
+  }) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        child: TextButton(
+          onPressed: onPressed,
+          child: Text(
+            text,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              color: textColor,
+            ),
+          ),
         ),
       ),
     );

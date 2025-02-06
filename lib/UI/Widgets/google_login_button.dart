@@ -17,25 +17,39 @@ class GoogleLogin extends StatelessWidget {
     void onLoginPressed() {
       final Future<Map<String, dynamic>> response1 = auth.continueWithGoogle();
       response1.then(
-            (response) {
+        (response) {
           if (response['status']) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => response['message'] == 'OnboardingOne'
+                    ? const AdditionalInfo()
+                    : const MainNavigationScreen(),
+              ),
+              (Route<dynamic> route) => false,
+            );
             print('google result : ${response['message']}');
-            final String lastOnboardingPage = response['user']['info']['lastOnboardingPage'];
-            print("this si the last onbaording url when ggllogin $lastOnboardingPage");
+            final String lastOnboardingPage =
+                response['user']['info']['lastOnboardingPage'];
+            print(
+                "this si the last onbaording url when ggllogin $lastOnboardingPage");
             if (lastOnboardingPage == "/auth/onboarding") {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const AdditionalInfo()),
               );
-            } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical/additional-info/features") {
+            } else if (lastOnboardingPage ==
+                "/auth/onboarding/entrance-exam/pre-medical/additional-info/features") {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MainNavigationScreen()),
+              );
+            } else if (lastOnboardingPage ==
+                "/auth/onboarding/entrance-exam/pre-medical/features/thankyou") {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const ThankyouScreen()),
-              );
-            } else if (lastOnboardingPage == "/auth/onboarding/entrance-exam/pre-medical/features/thankyou") {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
               );
             } else {
               Navigator.pushReplacement(
