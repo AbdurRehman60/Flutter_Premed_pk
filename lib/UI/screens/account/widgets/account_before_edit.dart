@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use, duplicate_ignore
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:premedpk_mobile_app/UI/screens/The%20vault/widgets/back_button.dart';
 import 'package:premedpk_mobile_app/UI/screens/account/widgets/edit_profile.dart';
@@ -160,6 +162,7 @@ class _AccountBeforeEditState extends State<AccountBeforeEdit> {
                           horizontal: MediaQuery.of(context).size.width * 0.02,
                           vertical: 2.0),
                       decoration: BoxDecoration(
+                        // ignore: deprecated_member_use
                         color: Colors.white.withOpacity(0.8500000238418579),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
@@ -352,6 +355,7 @@ class _BundleCardState extends State<BundleCard> {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
+      // ignore: only_throw_errors
       throw 'Could not launch $url';
     }
   }

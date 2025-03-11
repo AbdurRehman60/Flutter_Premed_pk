@@ -1,4 +1,3 @@
-
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -127,20 +126,21 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => EssentialStuffProvider()),
         ChangeNotifierProvider(create: (_) => MnemonicsProvider()),
         ChangeNotifierProvider(create: (_) => SavedQuestionsProvider()),
-        ChangeNotifierProvider(create: (_) => EngineeringEssentialStuffProvider()),
-        ChangeNotifierProvider(create: (_)=> EngineeringStudyNotesProvider()),
-        ChangeNotifierProvider(create: (_)=> PreMedProvider()..loadFromPreferences()),
-        ChangeNotifierProvider(create: (_)=> EngChapterWisePro()),
-        ChangeNotifierProvider(create: (_)=> EngTestSessionsPro()),
-        ChangeNotifierProvider(create: (_)=> MedTestSessionsPro()),
-        ChangeNotifierProvider(create: (_)=> PreMedAccessProvider()),
-        ChangeNotifierProvider(create: (_)=> PreEngAccessProvider()),
-        ChangeNotifierProvider(create: (_)=> BoardProvider()),
-        ChangeNotifierProvider(create: (_)=> RecQuestionProvider()),
-        ChangeNotifierProvider(create: (_)=> PaperProvider()),
-        ChangeNotifierProvider(create: (_)=> DeckInfoProvider()),
-        ChangeNotifierProvider(create: (_)=> CheatsheetsProvider()),
-
+        ChangeNotifierProvider(
+            create: (_) => EngineeringEssentialStuffProvider()),
+        ChangeNotifierProvider(create: (_) => EngineeringStudyNotesProvider()),
+        ChangeNotifierProvider(
+            create: (_) => PreMedProvider()..loadFromPreferences()),
+        ChangeNotifierProvider(create: (_) => EngChapterWisePro()),
+        ChangeNotifierProvider(create: (_) => EngTestSessionsPro()),
+        ChangeNotifierProvider(create: (_) => MedTestSessionsPro()),
+        ChangeNotifierProvider(create: (_) => PreMedAccessProvider()),
+        ChangeNotifierProvider(create: (_) => PreEngAccessProvider()),
+        ChangeNotifierProvider(create: (_) => BoardProvider()),
+        ChangeNotifierProvider(create: (_) => RecQuestionProvider()),
+        ChangeNotifierProvider(create: (_) => PaperProvider()),
+        ChangeNotifierProvider(create: (_) => DeckInfoProvider()),
+        ChangeNotifierProvider(create: (_) => CheatsheetsProvider()),
       ],
       child: MaterialApp(
         routes: {
